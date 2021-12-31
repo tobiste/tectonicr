@@ -8,7 +8,7 @@ Based on Wdowinski (1998).
 You must have R installed on your system (see http://r-project.org). Additionally, to install rotationR from Github, you also need the devtools package. This can be installed by typing the following code at the R command line prompt:
 
 ```
-install.packages('devtools')
+install.packages("remotes")
 ```
 
 ## Installation
@@ -16,8 +16,7 @@ install.packages('devtools')
 The most recent development version  of PlateTectonicStressR is available from Github and can be installed on your system as follows:
 
 ```
-library(devtools)
-install.packages('tobiste/PlateTectonicStressR')
+remotes::install_github('tobiste/PlateTectonicStressR')
 ```
 
 ## Documentation
