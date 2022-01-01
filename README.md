@@ -17,6 +17,7 @@ The most recent development version  of PlateTectonicStressR is available from G
 
 ```
 remotes::install_github('tobiste/PlateTectonicStressR')
+library('PlateTectonicStressR')
 ```
 
 ## Documentation
