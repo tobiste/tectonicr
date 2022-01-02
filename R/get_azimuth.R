@@ -5,8 +5,8 @@
 #' point
 #'
 #' @author Copyright (C) 2021 Tobias Stephan
-#' @param p two-column vector containing latitudes and longitudes of start point
-#' @param q two-column vector containing latitudes and longitudes of end point
+#' @param p two-column numeric vector containing latitude and longitude of start point
+#' @param q two-column numeric vector containing latitude and longitude of end point
 #' @references http://www.movable-type.co.uk/scripts/latlong.html
 #' @return azimuth between two points at start point p
 #' @export

@@ -7,15 +7,21 @@
 model_shmax(df, euler)
 }
 \arguments{
-\item{df}{data.frame containing the coordinates of the points (lat, lon)}
+\item{df}{\code{"data.frame"} containing the coordinates of the points (lat,
+lon)}
 
-\item{euler}{data.frame containing the coordinates of the Euler pole for the
-responsible plate boundary (lat, lon)}
+\item{euler}{\code{"data.frame"} containing the coordinates of the Euler pole
+for the plate boundary (lat, lon)}
 }
 \value{
-data.frame containing the azimuth of the modeled maximum horizontal
-stress great circles (gc), small circles (sc), and loxodromes (ld.cw, ld.ccw)
-at the given point
+An object of class \code{"data.frame"}
+\describe{
+\item{gc} {azimuth of the modeled maximum horizontal following stress
+great circles}
+\item{sc}{small circles}
+\item{ld.cw}{clockwise loxodromes}
+\item{ld.ccw}{counter-clockwise loxodromes}
+}
 }
 \description{
 Calculate the direction of maximum horizontal stress along great circles,
@@ -23,9 +29,11 @@ small circles, and loxodromes around the relative plate motion´s Euler pole
 at a given point or points
 }
 \examples{
+data("nuvel1")
+euler <- subset(nuvel1, nuvel1$ID=='na') #North America relative to Pacific plate
 point <- data.frame(lat = 45, lon = 20)
-euler <- data.frame(lat = 90, lon = 0)
-plate_vector(point, euler)
+model_shmax(point, euler)
+
 }
 \references{
 Wdowinski, S., 1998, A theory of intraplate

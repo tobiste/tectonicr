@@ -7,21 +7,34 @@
 misfit_shmax(prd, obs)
 }
 \arguments{
-\item{prd}{data.frame containing the modeled azimuths of SHmax, i.e. the
-return object from model_shmax()}
+\item{prd}{\code{"data.frame"} containing the modeled azimuths of SHmax, i.e. the
+return object from \code{"model_shmax()"}}
 
 \item{obs}{numeric vector containing the observed azimuth of SHmax,
 same length as prd}
 }
 \value{
-data.frame containing the deviation angles between the  observed and
-the modeled maximum horizontal stresses along great circles (dev.gc),
-small circles (dev.sc), and loxodromes (dev.ld.cw, dev.ld.ccw)
+An object of class \code{"data.frame"}
+\describe{
+\item{dev.gc} {deviation of observed stress from modeled stress following
+great circles}
+\item{dev.sc}{small circles}
+\item{dev.ld.cw}{clockwise loxodromes}
+\item{dev.ld.ccw}{counter-clockwise loxodromes}
+}
 }
 \description{
 Calculate the angular difference between the observed and modeled direction
 of maximum horizontal stresses along great circles, small circles, and
 loxodromes of the relative plate motion´s Euler pole
+}
+\examples{
+data("nuvel1")
+euler <- subset(nuvel1, nuvel1$ID=='na') #North America relative to Pacific plate
+point <- data.frame(lat = 45, lon = 20)
+prd <- model_shmax(point, euler)
+misfit_shmax(prd, obs=90)
+
 }
 \author{
 Copyright (C) 2021 Tobias Stephan

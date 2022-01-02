@@ -7,9 +7,9 @@
 get_azimuth(p, q)
 }
 \arguments{
-\item{p}{two-column vector containing latitudes and longitudes of start point}
+\item{p}{two-column numeric vector containing latitude and longitude of start point}
 
-\item{q}{two-column vector containing latitudes and longitudes of end point}
+\item{q}{two-column numeric vector containing latitude and longitude of end point}
 }
 \value{
 azimuth between two points at start point p

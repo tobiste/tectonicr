@@ -5,16 +5,26 @@
 #' loxodromes of the relative plate motion´s Euler pole
 #'
 #' @author Copyright (C) 2021 Tobias Stephan
-#' @param prd data.frame containing the modeled azimuths of SHmax, i.e. the
-#' return object from model_shmax()
+#' @param prd \code{"data.frame"} containing the modeled azimuths of SHmax, i.e. the
+#' return object from \code{"model_shmax()"}
 #' @param obs numeric vector containing the observed azimuth of SHmax,
 #' same length as prd
-#' @return data.frame containing the deviation angles between the  observed and
-#' the modeled maximum horizontal stresses along great circles (dev.gc),
-#' small circles (dev.sc), and loxodromes (dev.ld.cw, dev.ld.ccw)
+#' @return An object of class \code{"data.frame"}
+#' \describe{
+#'   \item{dev.gc} {deviation of observed stress from modeled stress following
+#'   great circles}
+#'   \item{dev.sc}{small circles}
+#'   \item{dev.ld.cw}{clockwise loxodromes}
+#'   \item{dev.ld.ccw}{counter-clockwise loxodromes}
+#'   }
 #' @export
 #' @examples
-
+#' data("nuvel1")
+#' euler <- subset(nuvel1, nuvel1$ID=='na') #North America relative to Pacific plate
+#' point <- data.frame(lat = 45, lon = 20)
+#' prd <- model_shmax(point, euler)
+#' misfit_shmax(prd, obs=90)
+#'
 misfit_shmax <- function(prd, obs){
   if(length(obs)!=seq_along(prd$gc)){
     stop('prd and obs must have have the same length')

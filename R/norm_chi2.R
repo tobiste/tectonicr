@@ -12,12 +12,18 @@
 #' @param prd predicted SHmax, numeric vector of length of obs
 #' @param unc uncertainty of observed SHmax, either numeric vector of length of
 #' obs or a number
-#' @return numeric vector, numbers between 0 and 1 indicating the quality of the
+#' @return numeric vector
+#' @details Test values are between 0 and 1 indicating the quality of the
 #' predicted SHmax directions. Low values (<= 0.15) indicate good agreement,
 #' high values (>0.7) indicate a systematic misfit between predicted and
 #' observed SHmax directions
 #' @export
 #' @examples
+#' data("nuvel1")
+#' euler <- subset(nuvel1, nuvel1$ID=='na') #North America relative to Pacific plate
+#' point <- data.frame(lat = 45, lon = 20)
+#' prd <- model_shmax(point, euler)
+#' norm_chi2(obs=90, prd, unc=10)
 #'
 norm_chi2 <- function(obs, prd, unc){
   if(length(prd) != length(obs)){

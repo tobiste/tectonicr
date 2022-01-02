@@ -5,20 +5,28 @@
 #' at a given point or points
 #'
 #' @author Copyright (C) 2021 Tobias Stephan
-#' @param df data.frame containing the coordinates of the points (lat, lon)
-#' @param euler data.frame containing the coordinates of the Euler pole for the
-#' responsible plate boundary (lat, lon)
+#' @param df \code{"data.frame"} containing the coordinates of the points (lat,
+#' lon)
+#' @param euler \code{"data.frame"} containing the coordinates of the Euler pole
+#' for the plate boundary (lat, lon)
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
 #'   5037-5059, http://dx.doi.org/10.1029/97JB03390.
-#' @return data.frame containing the azimuth of the modeled maximum horizontal
-#' stress great circles (gc), small circles (sc), and loxodromes (ld.cw, ld.ccw)
-#' at the given point
+#' @return An object of class \code{"data.frame"}
+#' \describe{
+#'   \item{gc} {azimuth of the modeled maximum horizontal following stress
+#'   great circles}
+#'   \item{sc}{small circles}
+#'   \item{ld.cw}{clockwise loxodromes}
+#'   \item{ld.ccw}{counter-clockwise loxodromes}
+#'   }
 #' @export
 #' @examples
+#' data("nuvel1")
+#' euler <- subset(nuvel1, nuvel1$ID=='na') #North America relative to Pacific plate
 #' point <- data.frame(lat = 45, lon = 20)
-#' euler <- data.frame(lat = 90, lon = 0)
-#' plate_vector(point, euler)
+#' model_shmax(point, euler)
+#'
 model_shmax <- function(df, euler) {
 
 
@@ -30,8 +38,8 @@ model_shmax <- function(df, euler) {
       c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])
     ) %% 180
 
-    # plate motion vector is perpendicular to the bearing between the point and
-    # the Euler pole
+    # plate vector is perpendicular to the bearing between the point and the
+    # Euler pole
     sc <- (
       get_azimuth(c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])) - 90
     ) %% 180

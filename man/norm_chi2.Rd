@@ -15,17 +15,25 @@ norm_chi2(obs, prd, unc)
 obs or a number}
 }
 \value{
-numeric vector, numbers between 0 and 1 indicating the quality of the
-predicted SHmax directions. Low values (<= 0.15) indicate good agreement,
-high values (>0.7) indicate a systematic misfit between predicted and
-observed SHmax directions
+numeric vector
 }
 \description{
 A quantitative comparison between the predicted and observed directions of
 SHmax is obtained by the calculation of the average azimuth and by a
 normalized chi-square test.
 }
+\details{
+Test values are between 0 and 1 indicating the quality of the
+predicted SHmax directions. Low values (<= 0.15) indicate good agreement,
+high values (>0.7) indicate a systematic misfit between predicted and
+observed SHmax directions
+}
 \examples{
+data("nuvel1")
+euler <- subset(nuvel1, nuvel1$ID=='na') #North America relative to Pacific plate
+point <- data.frame(lat = 45, lon = 20)
+prd <- model_shmax(point, euler)
+norm_chi2(obs=90, prd, unc=10)
 
 }
 \references{
