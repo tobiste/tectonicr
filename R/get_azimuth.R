@@ -5,14 +5,14 @@
 #' point
 #'
 #' @author Copyright (C) 2021 Tobias Stephan
-#' @param p1 two-column vector containing latitudes and longitudes of start point
-#' @param p2 two-column vector containing latitudes and longitudes of end point
+#' @param p two-column vector containing latitudes and longitudes of start point
+#' @param q two-column vector containing latitudes and longitudes of end point
 #' @references http://www.movable-type.co.uk/scripts/latlong.html
-#' @return azimuth between two points at start point p1
+#' @return azimuth between two points at start point p
 #' @export
 #' @examples
-#' p1 <- c(35, 45) # Baghdad
-#' p2 <- c(35, 135) # Osaka
+#' p <- c(35, 45) # Baghdad
+#' q <- c(35, 135) # Osaka
 #' get_azimuth(p1, p2)
 #'
 get_azimuth <- function(p, q){
