@@ -7,12 +7,12 @@
 get_azimuth(p, q)
 }
 \arguments{
-\item{p1}{two-column vector containing latitudes and longitudes of start point}
+\item{p}{two-column vector containing latitudes and longitudes of start point}
 
-\item{p2}{two-column vector containing latitudes and longitudes of end point}
+\item{q}{two-column vector containing latitudes and longitudes of end point}
 }
 \value{
-azimuth between two points at start point p1
+azimuth between two points at start point p
 }
 \description{
 Calculate initial bearing (or forward azimuth) which is followed along a
@@ -20,8 +20,8 @@ straight line along a great-circle arc between the start point and the end
 point
 }
 \examples{
-p1 <- c(35, 45) # Baghdad
-p2 <- c(35, 135) # Osaka
+p <- c(35, 45) # Baghdad
+q <- c(35, 135) # Osaka
 get_azimuth(p1, p2)
 
 }
