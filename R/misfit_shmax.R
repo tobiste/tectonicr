@@ -1,4 +1,4 @@
-#'  Deviation of observed and predicted directions of SHmax
+#' Deviation of observed and predicted directions of SHmax
 #'
 #' Calculate the angular difference between the observed and modeled direction
 #' of maximum horizontal stresses along great circles, small circles, and
@@ -11,8 +11,7 @@
 #' same length as prd
 #' @return An object of class \code{"data.frame"}
 #' \describe{
-#'   \item{dev.gc}{deviation of observed stress from modeled stress following
-#'   great circles}
+#'   \item{dev.gc}{deviation of observed stress from modeled stress following great circles}
 #'   \item{dev.sc}{small circles}
 #'   \item{dev.ld.cw}{clockwise loxodromes}
 #'   \item{dev.ld.ccw}{counter-clockwise loxodromes}
@@ -20,10 +19,10 @@
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID=='na') #North America relative to Pacific plate
+#' euler <- subset(nuvel1, nuvel1$ID == 'na') #North America relative to Pacific plate
 #' point <- data.frame(lat = 45, lon = 20)
 #' prd <- model_shmax(point, euler)
-#' misfit_shmax(prd, obs=90)
+#' misfit_shmax(prd, obs = 90)
 #'
 misfit_shmax <- function(prd, obs){
   if(length(obs)!=seq_along(prd$gc)){
