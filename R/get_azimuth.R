@@ -1,14 +1,15 @@
 #' Azimuth between two points
 #'
-#' Calculate initial bearing (or forward azimuth) which is followed along a
-#' straight line along a great-circle arc between the start point and the end
-#' point
+#' Calculate initial bearing (or forward azimuth/direction) to go from point \code{p1} 
+#' to point \code{p2} following great-circle arc on a sphere.
 #'
-#' @author Copyright (C) 2021 Tobias Stephan
-#' @param p two-column numeric vector containing latitude and longitude of start point
-#' @param q two-column numeric vector containing latitude and longitude of end point
+#' @author Tobias Stephan
+#' @param p latitude/longitude of start point(s). Can be a vector of two numbers or a 
+#' matrix of 2 columns (first one is latitude, second is longitude)
+#' @param q as above
 #' @references http://www.movable-type.co.uk/scripts/latlong.html
-#' @return azimuth between two points at start point p
+#' C.F.F. Karney, 2013. Algorithms for geodesics, J. Geodesy 87: 43-55. https://dx.doi.org/10.1007/s00190-012-0578-z
+#' @return azimuth in degrees
 #' @export
 #' @examples
 #' p <- c(35, 45) # Baghdad
