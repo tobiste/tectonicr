@@ -13,7 +13,7 @@
 #' @examples
 #' p <- c(35, 45) # Baghdad
 #' q <- c(35, 135) # Osaka
-#' get_azimuth(p1, p2)
+#' get_azimuth(p, q)
 #'
 get_azimuth <- function(p, q){
   p.lat <- p[1]; p.lon <- p[2]
