@@ -1,6 +1,6 @@
-#' Normalize angle between two directions
+#' @title Normalize angle between two directions
 #'
-#' normalizes the angle between two directions to the acute angle in between,
+#' @description normalizes the angle between two directions to the acute angle in between,
 #' i.e. angles between 0 and 90 degrees
 #'
 #' @author Copyright (C) 2021 Tobias Stephan
@@ -24,4 +24,3 @@ deviation_norm <- function(x){
   }
   return(abs(x))
 }
-
