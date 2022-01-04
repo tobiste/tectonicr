@@ -11,7 +11,7 @@
 #' same length as prd
 #' @return An object of class \code{"data.frame"}
 #' \describe{
-#'   \item{dev.gc} {deviation of observed stress from modeled stress following
+#'   \item{dev.gc}{deviation of observed stress from modeled stress following
 #'   great circles}
 #'   \item{dev.sc}{small circles}
 #'   \item{dev.ld.cw}{clockwise loxodromes}
