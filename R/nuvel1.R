@@ -16,5 +16,4 @@
 #'
 #' data(nuvel1)
 #' head(nuvel1)
-#'
 "nuvel1"

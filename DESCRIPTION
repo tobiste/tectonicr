@@ -1,15 +1,28 @@
 Package: PlateTectonicStressR
-Title: Modelling the direction of the maximum horizontal stress using relative plate motion
+Title: Modelling the direction of the maximum horizontal stress using
+    relative plate motion
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Tobias",
            family = "Stephan",
            role = c("aut", "cre"),
            email = "tobias.stephan1@yahoo.com",
-           comment = c(ORCID = "0000-0002-9290-014X "))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+           comment = c(ORCID = "0000-0002-9290-014X"))
+Description: This package is a free and open-source R package for
+    modeling and analyzing the direction of the maximum horizontal stress
+    direction using relative plate motion. Based on Wdowinski (1998).
+License: GPL (>= 3)
+URL: https://tobiasstephan1.wixsite.com/tobi
+Imports: 
+    dplyr,
+    pracma
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

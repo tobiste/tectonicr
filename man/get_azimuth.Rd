@@ -7,27 +7,30 @@
 get_azimuth(p, q)
 }
 \arguments{
-\item{p}{two-column numeric vector containing latitude and longitude of start point}
+\item{p}{latitude/longitude of start point(s). Can be a vector of two numbers
+or a matrix of 2 columns (first one is latitude, second is longitude)}
 
-\item{q}{two-column numeric vector containing latitude and longitude of end point}
+\item{q}{as above}
 }
 \value{
-azimuth between two points at start point p
+azimuth in degrees
 }
 \description{
-Calculate initial bearing (or forward azimuth) which is followed along a
-straight line along a great-circle arc between the start point and the end
-point
+Calculate initial bearing (or forward azimuth/direction) to go
+from point \code{p1} to point \code{p2} following great-circle arc on a
+sphere.
 }
 \examples{
 p <- c(35, 45) # Baghdad
 q <- c(35, 135) # Osaka
-get_azimuth(p1, p2)
-
+get_azimuth(p, q)
 }
 \references{
 http://www.movable-type.co.uk/scripts/latlong.html
+
+C.F.F. Karney, 2013. Algorithms for geodesics, J. Geodesy 87:
+43-55. https://dx.doi.org/10.1007/s00190-012-0578-z
 }
 \author{
-Copyright (C) 2021 Tobias Stephan
+Tobias Stephan
 }

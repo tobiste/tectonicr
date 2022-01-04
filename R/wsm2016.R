@@ -17,7 +17,6 @@
 #' @keywords datasets
 #' @examples
 #'
-#' data(wsm216)
-#' head(wsm216)
-#'
-"wsm216"
+#' data(wsm2016)
+#' head(wsm2016)
+"wsm2016"

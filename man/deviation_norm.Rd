@@ -14,12 +14,13 @@ numeric vector, acute angles between two directions, i.e. values
 between 0° and 90°
 }
 \description{
-normalizes the angle between two directions to the acute angle in between,
-i.e. angles between 0 and 90 degrees
+Normalizes the angle between two directions to the acute angle
+in between, i.e. angles between 0 and 90 degrees.
 }
 \examples{
 
+deviation_norm(91)
 }
 \author{
-Copyright (C) 2021 Tobias Stephan
+Tobias Stephan
 }

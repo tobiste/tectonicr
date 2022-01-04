@@ -1,0 +1,112 @@
+---
+title: "PlateTectonicStressR: stress field analysis using R"
+subtitle: 'Documentation of the R package *PlateTectonicStressR* (preliminary)'
+description: "Test"
+author: "Tobias Stephan"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plate-Tectonic-Stress}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(PlateTectonicStressR)
+```
+
+
+## Direction between two points on earth[^ref2]
+[^ref2]: http://www.movable-type.co.uk/scripts/latlong.html
+In general, your current heading will vary as you follow a great circle path (orthodrome); the final heading will differ from the initial heading by varying degrees according to distance and latitude (if you were to go from say 35°N,45°E (≈ Baghdad) to 35°N,135°E (≈ Osaka), you would start on a heading of 60° and end up on a heading of 120°!).
+
+This formula is for the **initial** bearing (sometimes referred to as forward azimuth) which if followed in a straight line along a great-circle arc will take you from the start point to the end point:
+
+\begin{equation} \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1*\sin\psi_1-\sin\psi_1*\cos\psi_2*\cos\Delta\lambda) \end{equation}
+
+where 	$\psi_1, \lambda_1$ is the start point, 	$\psi_2, \lambda_2$ the end point ($\Delta\lambda$ is the difference in longitude).
+
+```{r azimuth}
+p1 <- c(35, 45) # Baghdad
+p2 <- c(35, 135) # Osaka
+azi <- get_azimuth(p1, p2)
+print(azi) # in degrees
+```
+
+# Intra-plate tectonics (sensu Wdowinski, 1998)[^ref1]
+[ref2]: Wdowinski, S., 1998, A theory of intraplate tectonics. *Journal of Geophysical Research*, v. 103, p. 5037-5059.
+
+## Transformation of Euler pole coordinates (Pole of Rotation system PoR) in geographical coordinates and vice versa. 
+
+PoR system is given in colatitudinal and azimuth coordinates, where the colatitudinal coordinates ia the small circle around the euler pole, and the azimuth is the great circle transecting the euler pole.
+
+>Instead of the geographical longitude, once can also give the azimuth of a vector a a given latitude to calculate the azimuth in PoR coordinates!
+
+## Intraplate displacement vector
+### Inward, outward and tangential displaced boundaries
+>The position of each point on the shell is determined by the colatitudinal and azimuthal coordinates ($\theta$, $\phi$) in the PoR system.
+
+The displacement field adjacent to inward- and outward-displaced boundaries decays linearly along small circles, indicating a dependence only in the azimuthal direction. The linear decay resultsfrom the assumed linear elastic behavior  of the deforming region. The two components of the intraplate displacement vector are
+  \begin{equation} u_\theta = 0  \end{equation} 
+  
+  \begin{equation} u_\phi = u_0 \sin^2 \theta \frac{\phi_2 - \phi}{\phi_2 - \phi_1} \end{equation} 
+  
+ where $u_0$ is the magnitude of the boundary displacment at the Euler equator, and $\phi_1$ and $\phi_2$ are the bounding coordinates of the deforming region. 
+ 
+ The resulting stress matrix:
+ 
+\begin{equation} \sigma = \frac{u_0 \sin^2 \theta}{D} \frac{E}{1+v} {\begin{pmatrix} \frac{v}{1-v} & 0 \\ 0 & 1\end{pmatrix}} \end{equation} 
+
+where $D$ is the width of the deforming region ($D = \phi_2-\phi_1$), $E$ is the Young's modulus and $v$ is Poisson's ratio.
+
+This stress field indicates that the principal axes of the stress tensor are oriented along small and great circles. For an inward-displaced
+ boundary ($u_0 < 0$), the principal axis of maximum horizontal stress lies along small circles. In case of an outward-displaced boundary ($u_0 > 0$), the principal axis of maximum horizontal stress lies along great circles.
+
+
+## Direction of small circle at specific point and deviation of the measured stress
+calculate the direction of the great and small circles and loxodromes around the Euler pole $\vec E$ at a given point.
+
+The 'direction' is the great circles bearing between the point $p$ and the Euler pole. 
+ 
+```{r direction_of_plate_motion}
+# Example:
+point <- data.frame(lat = 45, lon = 20, azi = 90)
+euler <- data.frame(lat = 90, lon = 0)
+model <- model_shmax(point, euler)
+print(model)
+```
+The deviation is the angular difference between the direction and the measured stress direction at this point.
+```{r direction_of_plate_motion}
+deviation <- misfit_shmax(model, point$azi)
+print(deviation)
+```
+
+
+
+
+
+
+## Quantitative comparison between predicted and observed SHmax[^ref1]
+The normalized $\chi^2$ test quantitively compares the predicted (`plate_vector()`) and observed SHmax azimuth relative to the reported 1$\sigma$ standard deviation (Wdowinski 1999). 
+
+\begin{equation} \textrm{Norm} \chi^2 = \frac{ \sum_{i=1}^{M} \left( \frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} {  \sum_{i=1}^{M} \left( \frac{90}{\sigma_i} \right) ^2  } \end{equation} 
+
+with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted directions of SHmax with respect to the pole of rotation,respectively. The $\sigma_i$ parameter is the reported uncertainty of the observed azimuth and $M$ is the number of observations that are used in each test. 
+
+The normalized $\chi^2$ test yields a number in the range between 0-1 which indicates the quality of the fit. Low values of the normalized $\chi^2$ test ($\leq$ 0.15 indicate good agreement between predicted and observed directions. High values ($>$ 0.7) indicate a systematic misfit between predicted and observed directions of about 90$^{\circ}$.  Random distribution of SHmax directions results in Norm $\chi^2 = 0.33$ 
+
+The test can be run using `norm_chi2(obs, prd, unc)`. obs is a numeric vector with the observed SHmax; prd is a vector with the  predicted SHmax (vector must be of length of obs); and unc is the uncertainty of observed SHmax (either numeric vector of length of obs or a number).
+
+```{r shmax_test}
+data("nuvel1")
+euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
+point <- data.frame(lat = 45, lon = 20)
+prd <- model_shmax(point, euler)
+norm_chi2(obs = 90, prd$sc, unc = 10)
+```
