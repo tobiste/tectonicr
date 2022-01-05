@@ -47,7 +47,7 @@ wrap_dateline <- function(x){
 #' at a given point or points
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon (and rotation angle [optional])
+#' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon (and rotation angle (optional)
 #' @param gridsize numeric, angular distance between small circles; default: 10
 #' @return An object of class \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
@@ -167,7 +167,7 @@ greatcircle_dummy <- function(d) {
 #' at a given point or points
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon (and rotaion angle [optional])
+#' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon)
 #' @param gridsize numeric, angle between great circles
 #' @param d numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12
 #' @return An object of class \code{SpatialLinesDataFrame}

@@ -7,7 +7,7 @@
 eulerpole_smallcircles(x, gridsize = 10)
 }
 \arguments{
-\item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon (and rotation angle \link{optional})}
+\item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon (and rotation angle (optional)}
 
 \item{gridsize}{numeric, angular distance between small circles; default: 10}
 }
