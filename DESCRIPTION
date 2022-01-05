@@ -3,14 +3,11 @@ Title: Modelling the direction of the maximum horizontal stress using
     relative plate motion
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Tobias",
-           family = "Stephan",
-           role = c("aut", "cre"),
-           email = "tobias.stephan1@yahoo.com",
+    person("Tobias", "Stephan", , "tobias.stephan1@yahoo.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9290-014X"))
-Description: This package is a free and open-source R package for
-    modeling and analyzing the direction of the maximum horizontal stress
-    direction using relative plate motion. Based on Wdowinski (1998).
+Description: This package is a free and open-source R package for modeling
+    and analyzing the direction of the maximum horizontal stress direction
+    using relative plate motion. Based on Wdowinski (1998).
 License: GPL (>= 3)
 URL: https://tobiasstephan1.wixsite.com/tobi
 Imports: 
@@ -26,4 +23,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

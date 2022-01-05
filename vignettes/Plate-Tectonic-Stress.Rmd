@@ -2,7 +2,7 @@
 title: "PlateTectonicStressR: stress field analysis using R"
 subtitle: 'Documentation of the R package *PlateTectonicStressR* (preliminary)'
 description: "Test"
-author: "Tobias Stephan"
+author: "Tobias Stephan, PhD"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Plate-Tectonic-Stress}
@@ -22,8 +22,9 @@ library(PlateTectonicStressR)
 ```
 
 
-## Direction between two points on earth[^ref2]
-[^ref2]: http://www.movable-type.co.uk/scripts/latlong.html
+# Direction between two points on earth[^ref1]
+[^ref1]: http://www.movable-type.co.uk/scripts/latlong.html
+
 In general, your current heading will vary as you follow a great circle path (orthodrome); the final heading will differ from the initial heading by varying degrees according to distance and latitude (if you were to go from say 35°N,45°E (≈ Baghdad) to 35°N,135°E (≈ Osaka), you would start on a heading of 60° and end up on a heading of 120°!).
 
 This formula is for the **initial** bearing (sometimes referred to as forward azimuth) which if followed in a straight line along a great-circle arc will take you from the start point to the end point:
@@ -39,10 +40,11 @@ azi <- get_azimuth(p1, p2)
 print(azi) # in degrees
 ```
 
-# Intra-plate tectonics (sensu Wdowinski, 1998)[^ref1]
-[ref2]: Wdowinski, S., 1998, A theory of intraplate tectonics. *Journal of Geophysical Research*, v. 103, p. 5037-5059.
+# Intra-plate tectonics (sensu Wdowinski, 1998)[^ref2]
+[^ref2]: Wdowinski, S., 1998, A theory of intraplate tectonics. *Journal of Geophysical Research*, v. 103, p. 5037-5059.
 
-## Transformation of Euler pole coordinates (Pole of Rotation system PoR) in geographical coordinates and vice versa. 
+
+## Transformation of Euler pole coordinates (Pole of Rotation system PoR) in geographical coordinates and vice versa.
 
 PoR system is given in colatitudinal and azimuth coordinates, where the colatitudinal coordinates ia the small circle around the euler pole, and the azimuth is the great circle transecting the euler pole.
 
@@ -82,7 +84,7 @@ model <- model_shmax(point, euler)
 print(model)
 ```
 The deviation is the angular difference between the direction and the measured stress direction at this point.
-```{r direction_of_plate_motion}
+```{r deviation_of_plate_motion}
 deviation <- misfit_shmax(model, point$azi)
 print(deviation)
 ```
@@ -92,8 +94,9 @@ print(deviation)
 
 
 
-## Quantitative comparison between predicted and observed SHmax[^ref1]
-The normalized $\chi^2$ test quantitively compares the predicted (`plate_vector()`) and observed SHmax azimuth relative to the reported 1$\sigma$ standard deviation (Wdowinski 1999). 
+## Quantitative comparison between predicted and observed SHmax
+
+The normalized $\chi^2$ test quantitively compares the predicted (`model_shmax()`) and observed SHmax azimuth relative to the reported 1$\sigma$ standard deviation (Wdowinski 1999). 
 
 \begin{equation} \textrm{Norm} \chi^2 = \frac{ \sum_{i=1}^{M} \left( \frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} {  \sum_{i=1}^{M} \left( \frac{90}{\sigma_i} \right) ^2  } \end{equation} 
 
