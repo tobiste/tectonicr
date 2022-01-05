@@ -12,7 +12,11 @@ License: GPL (>= 3)
 URL: https://tobiasstephan1.wixsite.com/tobi
 Imports: 
     dplyr,
-    pracma
+    geosphere,
+    ppls,
+    pracma,
+    sf,
+    sp
 Suggests: 
     knitr,
     rmarkdown,
