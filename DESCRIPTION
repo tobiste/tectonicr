@@ -13,7 +13,6 @@ URL: https://tobiasstephan1.wixsite.com/tobi
 Imports: 
     dplyr,
     geosphere,
-    ppls,
     pracma,
     sf,
     sp
