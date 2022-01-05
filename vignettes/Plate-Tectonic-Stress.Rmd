@@ -40,6 +40,45 @@ azi <- get_azimuth(p1, p2)
 print(azi) # in degrees
 ```
 
+# Rotation
+
+If $\vec u$ is a vector prior to rotation
+and $\vec u'$ is the point after rotation
+  
+then 
+  
+$\vec u' = R \cdot \vec u$ 
+  
+where $R$ is a 3x3 **rotation matrix**: 
+
+$R={\begin{bmatrix}\cos \psi +u_{x}^{2}\left(1-\cos \psi \right)&u_{x}u_{y}\left(1-\cos \psi \right)-u_{z}\sin \psi &u_{x}u_{z}\left(1-\cos \psi \right)+u_{y}\sin \psi \\u_{y}u_{x}\left(1-\cos \psi \right)+u_{z}\sin \psi &\cos \psi +u_{y}^{2}\left(1-\cos \psi \right)&u_{y}u_{z}\left(1-\cos \psi \right)-u_{x}\sin \psi \\u_{z}u_{x}\left(1-\cos \psi \right)-u_{y}\sin \psi &u_{z}u_{y}\left(1-\cos \psi \right)+u_{x}\sin \psi &\cos \psi +u_{z}^{2}\left(1-\cos \psi \right)\end{bmatrix}}$
+
+
+## Rotation matrix
+
+The matrix can be written more concisely as (*Rodrigues' rotation formula*): 
+
+\begin{equation} R =I_3 \cos\psi  + [\vec e]_x sin\psi  + (1 -\cos\psi) \vec e \otimes \vec e \end{equation}
+
+where $\vec e$ is the unity vector of $e$, $[\vec e]_x$ is the *cross product matrix* of  $\vec e$, $\otimes$ is the *outer product* ($\vec e \otimes \vec e = \vec e \vec{e}^T$), and $I_3$ is the *identity matrix*.
+
+> $\vec e$ and $\psi$ refer to the **Euler axis** and the **Euler angle**, respectively (see below).
+
+To calculate the rotation matrix from a vector (in cartesian coordinates) and an angle, use `rotation_matrix()`:
+```{r rotation_matrix_example}
+w <- c(0, 1, 0)
+R <- rotation_matrix(w, 90)
+print(R)
+```
+
+## Rotation of a vector around given vector and angle
+The dot product of the rotation matrix and a vector provides the rotation of the vector:
+```{r rotation_matrix_example2}
+u <- c(1, -2, 3)
+c(R%*%u) # rotation of u
+```
+
+
 # Intra-plate tectonics (sensu Wdowinski, 1998)[^ref2]
 [^ref2]: Wdowinski, S., 1998, A theory of intraplate tectonics. *Journal of Geophysical Research*, v. 103, p. 5037-5059.
 
@@ -90,10 +129,6 @@ print(deviation)
 ```
 
 
-
-
-
-
 ## Quantitative comparison between predicted and observed SHmax
 
 The normalized $\chi^2$ test quantitively compares the predicted (`model_shmax()`) and observed SHmax azimuth relative to the reported 1$\sigma$ standard deviation (Wdowinski 1999). 
@@ -113,3 +148,39 @@ point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
 norm_chi2(obs = 90, prd$sc, unc = 10)
 ```
+
+## Draw Pole of Rotation grids
+### Small circles
+
+Function `eulerpole_smallcircles(x, gridsize)` returns Small circles as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the small circle distances (gridsize).
+```{r small_circles_around_ep, message=FALSE, warning=FALSE}
+data("nuvel1")
+euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
+euler$angle <- euler$rate 
+euler.sm <- eulerpole_smallcircles(euler)
+
+# library(ggplot2)
+# ggplot() +
+#   coord_quickmap() +
+#   borders() +
+#   geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group), color="blue", lty = 2, alpha = .5) + 
+#   geom_point(data=euler, aes(lon, lat), color="blue") +
+#   geom_point(data=euler, aes(lon+180, -lat), color="blue", size = 2)
+```
+
+### Great circles
+Function `eulerpole_greatcircles(x, n)` returns great circles as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the number of great circles d, or the great circle angles (360/d).
+```{r great_circles_around_ep, message=FALSE, warning=FALSE}
+euler.gm <- eulerpole_greatcircles(euler)
+# ggplot() +
+#   coord_quickmap() +
+#   borders() +
+#   geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group), color="blue", lty = 2, alpha = .5) + 
+#   geom_path(data=broom::tidy(euler.gm), aes(long, lat, group=group), color="blue") + 
+#   geom_point(data=euler, aes(lon, lat), color="blue", size = 2) +
+#   geom_point(data=euler, aes(lon+180, -lat), color="blue", size = 2)
+```
+
+
+### Loxodromes 
+coming...
