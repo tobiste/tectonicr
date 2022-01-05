@@ -20,13 +20,12 @@ small circles, and loxodromes around the relative plate motion´s Euler pole
 at a given point or points
 }
 \details{
-if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
+if angle is given: output additionally gives absolute velocity on small-circle (unit: degree/Myr -> km/Myr)
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
+euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 euler$angle <- euler$rate
-# Pacific plate
 eulerpole_smallcircles(euler)
 }
 \author{

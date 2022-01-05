@@ -50,14 +50,13 @@ wrap_dateline <- function(x){
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon (and rotation angle (optional)
 #' @param gridsize numeric, angular distance between small circles; default: 10
 #' @return An object of class \code{SpatialLinesDataFrame}
-#' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
+#' @details if angle is given: output additionally gives absolute velocity on small-circle (unit: degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%"
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
+#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' euler$angle <- euler$rate
-#' # Pacific plate
 #' eulerpole_smallcircles(euler)
 eulerpole_smallcircles <- function(x, gridsize = 10) {
   sm.df <- smallcircle_dummy(gridsize)
@@ -84,8 +83,8 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
 
       pt <- c(sm.subset$lat[i], sm.subset$lon[i])
 
-      # Rotation matrix: axis is axis perpendicular to north pole 0/90 and Euler
-      # pole, rotation-angle is angle between northpole and euler pole
+      # Rotation matrix: axis is axis perpendicular to North pole and Euler
+      # pole, rotation-angle is angle between North pole and Euler pole
       rot.axis <- pracma::cross(geographical_to_cartesian(c(90, 0)),
                                 geographical_to_cartesian(c(x$lat, x$lon)))
       rot.angle <-
@@ -93,8 +92,7 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
                       geographical_to_cartesian(c(x$lat, x$lon)))
       if (is.nan(rot.angle)) {
         rot.angle <- 0
-      } # if there is no angle between,
-      # than angle=0
+      } # if there is no angle between than angle=0
 
       rot.matrix <- rotation_matrix(rot.axis, rot.angle)
 
@@ -122,19 +120,12 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
     data.frame("small_circle" = sm_range.df,
                row.names = sm_range)
   )
-
   SL.t <- wrap_dateline(SL.t)
-
-
-  # if(!is.null(x$angle)){
-  #   SL.t@data$velocity.abs <- pracma::deg2rad(x$angle) * 6371.00887714 * pracma::sind(SL.t@data$small_circle)
-  # }
   return(SL.t)
 }
 
 greatcircle_dummy <- function(d) {
   angle <- 360/d
-  #p <- c(0, 0)
   i <- 0
   while(i <= 360){
     if(i%%180 == 0){
@@ -204,7 +195,7 @@ eulerpole_greatcircles <- function(x, d, gridsize) {
       pt <- c(gm.subset$lat[i], gm.subset$lon[i])
 
       # Rotation matrix: axis is axis perpendicular to gm origin pole 0/0 and Euler
-      # pole, rotation-angle is angle between gm origin and euler pole
+      # pole, rotation-angle is angle between gm origin and Euler pole
       rot.axis <- pracma::cross(geographical_to_cartesian(c(0, 0)),
                                 geographical_to_cartesian(c(x$lat, x$lon)))
       rot.angle <-
@@ -212,8 +203,7 @@ eulerpole_greatcircles <- function(x, d, gridsize) {
                       geographical_to_cartesian(c(x$lat, x$lon)))
       if (is.nan(rot.angle)) {
         rot.angle <- 0
-      } # if there is no angle between,
-      # than angle=0
+      } # if there is no angle between, han angle=0
 
       rot.matrix <- rotation_matrix(rot.axis, rot.angle)
 
@@ -252,6 +242,5 @@ eulerpole_greatcircles <- function(x, d, gridsize) {
   )
 
   SL.t.df <- wrap_dateline(SL.t.df)
-
   return(SL.t.df)
 }
