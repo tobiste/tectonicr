@@ -11,8 +11,7 @@
 #' u <- c(1, -2, 3)
 #' v <- c(-2, 1, 1)
 #' angle_vectors(u, v)
-#'
-angle_vectors <- function(x, y){
+angle_vectors <- function(x, y) {
   angle.d <- pracma::rad2deg(
     acos(sum(x * y) / (sqrt(sum(x * x)) * sqrt(sum(y * y))))
   )
@@ -31,10 +30,9 @@ angle_vectors <- function(x, y){
 #' @examples
 #' w <- c(0, 1, 0)
 #' rotation_matrix(w, 90)
-#'
-rotation_matrix <-function(n, alpha){
+rotation_matrix <- function(n, alpha) {
   n <- ppls::normalize.vector(n) # unit vector
-  R <- matrix(nrow=3, ncol=3)
+  R <- matrix(nrow = 3, ncol = 3)
   R[1, 1] <- n[1]^2 * (1 - pracma::cosd(alpha)) + pracma::cosd(alpha)
   R[1, 2] <- n[1] * n[2] * (1 - pracma::cosd(alpha)) - n[3] * pracma::sind(alpha)
   R[1, 3] <- n[1] * n[3] * (1 - pracma::cosd(alpha)) + n[2] * pracma::sind(alpha)
@@ -55,8 +53,7 @@ rotation_matrix <-function(n, alpha){
 #' @export
 #' @examples
 #' longitude_modulo(-361)
-#'
-longitude_modulo <- function(longitude){
+longitude_modulo <- function(longitude) {
   longitude.mod <- (longitude %% 360 + 540) %% 360 - 180
   return(longitude.mod)
 }
@@ -74,8 +71,12 @@ cartesian_to_geographical <- function(n) {
   r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
   lat <- pracma::rad2deg(asin(n[3] / r))
   lon <- pracma::rad2deg(atan2(n[2], n[1]))
-  if(lat <= -90){lat <- 180 + lat}
-  if(lat >=  90){lat <- 180 - lat}
+  if (lat <= -90) {
+    lat <- 180 + lat
+  }
+  if (lat >= 90) {
+    lat <- 180 - lat
+  }
   lon <- longitude_modulo(lon)
   return(c(lat, lon))
 }
@@ -90,8 +91,8 @@ cartesian_to_geographical <- function(n) {
 #' @examples
 #' u <- c(50, 10)
 #' geographical_to_cartesian(u)
-geographical_to_cartesian <- function(p, r=1) {
-  if(missing(r)){
+geographical_to_cartesian <- function(p, r = 1) {
+  if (missing(r)) {
     r <- 1
   }
   x <- c()
@@ -113,7 +114,7 @@ geographical_to_cartesian <- function(p, r=1) {
 #' abs_vel(0.21, 0)
 #' abs_vel(0.21, 45)
 #' abs_vel(0.21, 90)
-abs_vel <- function(w, alpha, r=6371.00887714) {
+abs_vel <- function(w, alpha, r = 6371.00887714) {
   v <- pracma::deg2rad(w) * r * pracma::sind(alpha)
   return(v)
 }
