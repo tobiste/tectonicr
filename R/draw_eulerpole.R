@@ -29,7 +29,7 @@ smallcircle_dummy <- function(gridsize) {
 #' @param x Spatial object
 #' @return Spatial object
 #' @export
-wrap_dateline <- function(x){
+wrap_dateline <- function(x) {
   x.wrapped.sf <- sf::st_wrap_dateline(
     sf::st_as_sf(x),
     options =  c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
@@ -63,12 +63,13 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
   sm.df <- smallcircle_dummy(gridsize)
   sm_range <- unique(sm.df$small_circle)
 
-  if(is.null(x$angle)){
+  if (is.null(x$angle)) {
     sm_range.df <- sm_range
   } else {
     velocity <- sm.df %>%
       dplyr::mutate(abs_vel = abs_vel(x$angle, sm.df$small_circle)) %>%
-      dplyr::select(small_circle, abs_vel) %>% unique()
+      dplyr::select(small_circle, abs_vel) %>%
+      unique()
     sm_range.df <- velocity
   }
 
@@ -80,17 +81,21 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
     sm.subset.rot <- sm.subset
 
     for (i in seq_along(sm.subset$lat)) {
-      #loop through all coordinates
+      # loop through all coordinates
 
       pt <- c(sm.subset$lat[i], sm.subset$lon[i])
 
       # Rotation matrix: axis is axis perpendicular to north pole 0/90 and Euler
       # pole, rotation-angle is angle between northpole and euler pole
-      rot.axis <- pracma::cross(geographical_to_cartesian(c(90, 0)),
-                                geographical_to_cartesian(c(x$lat, x$lon)))
+      rot.axis <- pracma::cross(
+        geographical_to_cartesian(c(90, 0)),
+        geographical_to_cartesian(c(x$lat, x$lon))
+      )
       rot.angle <-
-        angle_vectors(geographical_to_cartesian(c(90, 0)),
-                      geographical_to_cartesian(c(x$lat, x$lon)))
+        angle_vectors(
+          geographical_to_cartesian(c(90, 0)),
+          geographical_to_cartesian(c(x$lat, x$lon))
+        )
       if (is.nan(rot.angle)) {
         rot.angle <- 0
       } # if there is no angle between,
@@ -119,8 +124,10 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
 
   SL.t <- sp::SpatialLinesDataFrame(
     sp::SpatialLines(SL.list, proj4string = sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")),
-    data.frame("small_circle" = sm_range.df,
-               row.names = sm_range)
+    data.frame(
+      "small_circle" = sm_range.df,
+      row.names = sm_range
+    )
   )
 
   SL.t <- wrap_dateline(SL.t)
@@ -133,11 +140,11 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
 }
 
 greatcircle_dummy <- function(d) {
-  angle <- 360/d
-  #p <- c(0, 0)
+  angle <- 360 / d
+  # p <- c(0, 0)
   i <- 0
-  while(i <= 360){
-    if(i%%180 == 0){
+  while (i <= 360) {
+    if (i %% 180 == 0) {
       great.circle.i <- data.frame(
         lon = rep(0, 181),
         lat = seq(-90, 90, 1),
@@ -150,7 +157,7 @@ greatcircle_dummy <- function(d) {
         dplyr::mutate(great.circle = i)
     }
 
-    if(i == 0){
+    if (i == 0) {
       great.circle <- great.circle.i
     } else {
       great.circle <- rbind(great.circle, great.circle.i)
@@ -182,12 +189,12 @@ greatcircle_dummy <- function(d) {
 #' eulerpole_greatcircles(euler)
 eulerpole_greatcircles <- function(x, d, gridsize) {
   if (missing(d) & !missing(gridsize)) {
-    d = round(360/gridsize, 0)
+    d <- round(360 / gridsize, 0)
   } else if (missing(d) & missing(gridsize)) {
-    d = 12
+    d <- 12
   } else if (!missing(d) & !missing(gridsize)) {
-    warning('Both gridzise and d are given. Only d is considered')
-    d = 12
+    warning("Both gridzise and d are given. Only d is considered")
+    d <- 12
   }
 
   gm.df <- greatcircle_dummy(d)
@@ -200,16 +207,20 @@ eulerpole_greatcircles <- function(x, d, gridsize) {
     gm.subset.rot <- gm.subset
 
     for (i in seq_along(gm.subset$lat)) {
-      #loop through all coordinates
+      # loop through all coordinates
       pt <- c(gm.subset$lat[i], gm.subset$lon[i])
 
       # Rotation matrix: axis is axis perpendicular to gm origin pole 0/0 and Euler
       # pole, rotation-angle is angle between gm origin and euler pole
-      rot.axis <- pracma::cross(geographical_to_cartesian(c(0, 0)),
-                                geographical_to_cartesian(c(x$lat, x$lon)))
+      rot.axis <- pracma::cross(
+        geographical_to_cartesian(c(0, 0)),
+        geographical_to_cartesian(c(x$lat, x$lon))
+      )
       rot.angle <-
-        angle_vectors(geographical_to_cartesian(c(0, 0)),
-                      geographical_to_cartesian(c(x$lat, x$lon)))
+        angle_vectors(
+          geographical_to_cartesian(c(0, 0)),
+          geographical_to_cartesian(c(x$lat, x$lon))
+        )
       if (is.nan(rot.angle)) {
         rot.angle <- 0
       } # if there is no angle between,
@@ -228,8 +239,7 @@ eulerpole_greatcircles <- function(x, d, gridsize) {
         slinelist = sp::Line(cbind(
           "lon" = gm.subset.rot$lon,
           "lat" = gm.subset.rot$lat
-        )
-        ), ID = as.character(g)
+        )), ID = as.character(g)
       )
     )
 
