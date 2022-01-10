@@ -28,6 +28,10 @@ library('PlateTectonicStressR')
 ## Author
 Tobias Stephan
 
+## How to cite
+When referencing this package, please cite both the package DOI ([10.5281/zenodo.5834182](https://doi.org/10.5281/zenodo.5834182) and the JGR: Solid Earth (AGU) journal article:
+
+
 ## References
 Wdowinski, S. (1998). A theory of intraplate tectonics. Journal of Geophysical Research: Solid Earth, 103(3), 5037–5059. doi: 10.1029/97JB03390
 
