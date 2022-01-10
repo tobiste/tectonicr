@@ -29,7 +29,7 @@ library('PlateTectonicStressR')
 Tobias Stephan
 
 ## How to cite
-When referencing this package, please cite both the package DOI ([10.5281/zenodo.5834182](https://doi.org/10.5281/zenodo.5834182) and the JGR: Solid Earth (AGU) journal article:
+When referencing this package, please cite both the package DOI ([10.5281/zenodo.5834182](https://doi.org/10.5281/zenodo.5834182)) and the JGR: Solid Earth (AGU) journal article:
 
 
 ## References
