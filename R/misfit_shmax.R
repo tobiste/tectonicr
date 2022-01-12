@@ -30,44 +30,15 @@ misfit_shmax <- function(prd, obs) {
     stop("prd and obs must have have the same length")
   }
 
-  dev.gc <- c()
-  dev.sc <- c()
-  dev.ld.cw <- c()
-  dev.ld.ccw <- c()
+  dev.gc <- prd$gc - obs
+  dev.sc <- prd$sc - obs
+  dev.ld.cw <- prd$ld.cw - obs
+  dev.ld.ccw <- prd$ld.ccw - obs
 
-  for (i in seq_along(prd$gc)) {
-    if (is.na(obs[i])) {
-      dev.gc[i] <- NA
-      dev.sc[i] <- NA
-      dev.ld.cw[i] <- NA
-      dev.ld.ccw[i] <- NA
-    } else {
-
-      # deviation from great circle direction
-      dev.gc[i] <- deviation_norm(prd$gc[i] - obs[i])
-      if (prd$gc[i] <= obs[i]) {
-        dev.gc[i] <- -1 * dev.gc[i]
-      }
-
-      # deviation from small circle direction
-      dev.sc[i] <- deviation_norm(prd$sc[i] - obs[i])
-      if (prd$sc[i] <= obs[i]) {
-        dev.sc[i] <- -1 * dev.sc[i]
-      }
-
-      # Deviation from counterclockwise (ccw) loxodrome
-      dev.ld.ccw[i] <- deviation_norm(prd$ld.ccw[i] - obs[i])
-      if (prd$ld.ccw[i] <= obs[i]) {
-        dev.ld.ccw[i] <- -1 * dev.ld.ccw[i]
-      }
-
-      # Deviation from clockwise (cw) loxodrome
-      dev.ld.cw[i] <- deviation_norm(prd$ld.cw[i] - obs[i])
-      if (prd$ld.cw[i] <= obs[i]) {
-        dev.ld.cw[i] <- -1 * dev.ld.cw[i]
-      }
-    }
-  }
+  dev.gc <- ifelse(dev.gc<=obs, -dev.gc, dev.gc)
+  dev.sc <- ifelse(dev.sc<=obs, -dev.sc, dev.sc)
+  dev.ld.cw <- ifelse(dev.ld.cw<=obs, -dev.ld.cw, dev.ld.cw)
+  dev.ld.ccw <- ifelse(dev.ld.ccw<=obs, -dev.ld.ccw, dev.ld.ccw)
 
   dev.df <- data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw)
   return(dev.df)
