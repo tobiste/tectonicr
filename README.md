@@ -2,7 +2,7 @@
 
 # PlateTectonicStressR
 
-**PlateTectonicStressR** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress using relative plate motion geometries.
+**PlateTectonicStressR** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between stress and relative plate motion.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ install.packages("remotes")
 
 ## Installation
 
-The most recent development version  of PlateTectonicStressR is available from Github and can be installed on your system as follows:
+The most recent development version of PlateTectonicStressR is available from Github and can be installed on your system as follows:
 
 ```
 remotes::install_github('tobiste/PlateTectonicStressR')
