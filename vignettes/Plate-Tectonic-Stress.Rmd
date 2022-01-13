@@ -80,7 +80,7 @@ c(R%*%u) # rotation of u
 
 
 # Intra-plate tectonics (sensu Wdowinski, 1998)[^ref2]
-[^ref2]: Wdowinski, S., 1998, A theory of intraplate tectonics. *Journal of Geophysical Research*, v. 103, p. 5037-5059.
+[^ref2]: <div class="csl-entry">Wdowinski, S. (1998). A theory of intraplate tectonics. <i>Journal of Geophysical Research: Solid Earth</i>, <i>103</i>(3), 5037–5059. http://dx.doi.org/10.1029/97JB03390</div>
 
 
 ## Transformation of Euler pole coordinates (Pole of Rotation system PoR) in geographical coordinates and vice versa.
