@@ -3,7 +3,6 @@
 # PlateTectonicStressR
 
 **PlateTectonicStressR** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress direction using relative plate motion.
-Based on Wdowinski (1998).
 
 ## Prerequisites
 
@@ -29,7 +28,7 @@ library('PlateTectonicStressR')
 Tobias Stephan
 
 ## How to cite
-When referencing this package, please cite both the package DOI ([10.5281/zenodo.5834182](https://doi.org/10.5281/zenodo.5834182)) and the JGR: Solid Earth (AGU) journal article:
+When referencing this package, please cite the package DOI ([10.5281/zenodo.5834182](https://doi.org/10.5281/zenodo.5834182)).
 
 
 ## References
