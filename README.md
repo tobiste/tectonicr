@@ -31,7 +31,7 @@ Tobias Stephan
 When referencing this package, please cite the package DOI ([10.5281/zenodo.5834182](https://doi.org/10.5281/zenodo.5834182)).
 
 
-## References
+## Useful References
 Wdowinski, S. (1998). A theory of intraplate tectonics. Journal of Geophysical Research: Solid Earth, 103(3), 5037–5059. doi: 10.1029/97JB03390
 
 ## License
