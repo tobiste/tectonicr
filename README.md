@@ -32,7 +32,7 @@ When referencing this package, please cite the package DOI ([10.5281/zenodo.5834
 
 
 ## Useful References
-Wdowinski, S. (1998). A theory of intraplate tectonics. Journal of Geophysical Research: Solid Earth, 103(3), 5037–5059. doi: 10.1029/97JB03390
+<div class="csl-entry">Wdowinski, S. (1998). A theory of intraplate tectonics. <i>Journal of Geophysical Research: Solid Earth</i>, <i>103</i>(3), 5037–5059. http://dx.doi.org/10.1029/97JB03390</div>
 
 ## License
 GPL-3.0 License
