@@ -2,7 +2,7 @@
 
 # PlateTectonicStressR
 
-**PlateTectonicStressR** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between intraplate stress and the relative motion of neighboring plates.
+**PlateTectonicStressR** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.
 
 ## Prerequisites
 
