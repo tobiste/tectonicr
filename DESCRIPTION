@@ -13,11 +13,12 @@ URL: https://tobiasstephan1.wixsite.com/tobi
 Imports: 
     dplyr,
     geosphere,
+    ggplot2,
     pracma,
     sf,
     sp
 Suggests: 
-    ggplot,
+    broom,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
