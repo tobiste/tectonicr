@@ -3,10 +3,11 @@
 #' @description Calculates the angle between two vectors
 #' @author Tobias Stephan
 #' @param x Vector 1 in cartesian coordinates. Can be a vector of three numbers
-#'  or a matrix of 3 columns (first one is x, second is y, thrid one is z)
+#'  or a matrix of 3 columns (first one is x, second y, third z)
 #' @param y Vector 2. As above
 #' @return numeric; angle in degrees
 #' @export
+#' @importFrom pracma rad2deg
 #' @examples
 #' u <- c(1, -2, 3)
 #' v <- c(-2, 1, 1)
@@ -23,15 +24,20 @@ angle_vectors <- function(x, y) {
 #' @description Calculates the rotation matrix using the rotation axis and the angle of rotation
 #' @author Tobias Stephan
 #' @param n Rotation axis (in cartesian coordinates). Can be a vector of three numbers
-#'  or a matrix of 3 columns (first one is x, second is y, thrid one is z)
+#'  or a matrix of 3 columns (first one is x, second y, third z)
 #' @param alpha Rotation angle in degrees
 #' @return matrix
+#' @details If \eqn{\vec u} is a vector prior to rotation and \eqn{\vec u'} is
+#' the point after rotation then \eqn{\vec u' = R \cdot \vec u} where \eqn{R} is
+#' a 3x3 **rotation matrix**:
+#' \eqn{R={\begin{bmatrix}\cos \psi +u_{x}^{2}\left(1-\cos \psi \right)&u_{x}u_{y}\left(1-\cos \psi \right)-u_{z}\sin \psi &u_{x}u_{z}\left(1-\cos \psi \right)+u_{y}\sin \psi \\u_{y}u_{x}\left(1-\cos \psi \right)+u_{z}\sin \psi &\cos \psi +u_{y}^{2}\left(1-\cos \psi \right)&u_{y}u_{z}\left(1-\cos \psi \right)-u_{x}\sin \psi \\u_{z}u_{x}\left(1-\cos \psi \right)-u_{y}\sin \psi &u_{z}u_{y}\left(1-\cos \psi \right)+u_{x}\sin \psi &\cos \psi +u_{z}^{2}\left(1-\cos \psi \right)\end{bmatrix}} }
 #' @export
+#' @importFrom pracma cosd sind
 #' @examples
 #' w <- c(0, 1, 0)
 #' rotation_matrix(w, 90)
 rotation_matrix <- function(n, alpha) {
-  n <- ppls::normalize.vector(n) # unit vector
+  n <- n/sqrt(sum(n^2)) # unit vector
   R <- matrix(nrow = 3, ncol = 3)
   R[1, 1] <- n[1]^2 * (1 - pracma::cosd(alpha)) + pracma::cosd(alpha)
   R[1, 2] <- n[1] * n[2] * (1 - pracma::cosd(alpha)) - n[3] * pracma::sind(alpha)
@@ -64,6 +70,7 @@ longitude_modulo <- function(longitude) {
 #' @param n Vector of three numbers (x, y, z)
 #' @return vector of two numbers (latitude, longitude)
 #' @export
+#' @importFrom pracma rad2deg
 #' @examples
 #' u <- c(1, -2, 3)
 #' cartesian_to_geographical(u)
@@ -88,6 +95,7 @@ cartesian_to_geographical <- function(n) {
 #' @param r radius. default is 1.
 #' @return Vector of three numbers (x, y, z)
 #' @export
+#' @importFrom pracma cosd sind
 #' @examples
 #' u <- c(50, 10)
 #' geographical_to_cartesian(u)
@@ -110,6 +118,7 @@ geographical_to_cartesian <- function(p, r = 1) {
 #' @param r radius. Default is Earth's radius (r=6371.00887714)
 #' @return number
 #' @export
+#' @importFrom pracma deg2rad sind
 #' @examples
 #' abs_vel(0.21, 0)
 #' abs_vel(0.21, 45)
