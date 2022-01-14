@@ -1,3 +1,38 @@
+#' @title Normalize angle between two directions
+#'
+#' @description Normalizes the angle between two directions to the acute angle
+#' in between, i.e. angles between 0 and 90 degrees.
+#'
+#' @author Tobias Stephan
+#' @param x numeric vector containing angles in degrees
+#' @return numeric vector, acute angles between two directions, i.e. values
+#' between 0° and 90°
+#' @export
+#' @examples
+#'
+#' deviation_norm(91)
+#' deviation_norm(c(-91, NA, 23497349))
+deviation_norm <- function(x) {
+  # deviation is between 0 and 90
+  if (length(x) > 1) {
+    for (i in seq_along(x)) {
+      if(!is.na(x[i])){
+        while (abs(x[i]) > 90) {
+          x[i] <- 180 - abs(x[i])
+        }
+      }
+    }
+  } else {
+    if(!is.na(x)){
+      while (abs(x) > 90) {
+        x <- 180 - abs(x)
+      }
+    }
+  }
+  return(abs(x))
+}
+
+
 #' Deviation of observed and predicted directions of SHmax
 #'
 #' Calculate the angular difference between the observed and modeled direction
@@ -29,6 +64,7 @@ misfit_shmax <- function(prd, obs) {
   if (length(obs) != length(seq_along(prd$gc))) {
     stop("prd and obs must have have the same length")
   }
+  obs <- obs %% 180
 
   dev.gc <- prd$gc - obs
   dev.sc <- prd$sc - obs
@@ -39,6 +75,12 @@ misfit_shmax <- function(prd, obs) {
   dev.sc <- ifelse(dev.sc<=obs, -dev.sc, dev.sc)
   dev.ld.cw <- ifelse(dev.ld.cw<=obs, -dev.ld.cw, dev.ld.cw)
   dev.ld.ccw <- ifelse(dev.ld.ccw<=obs, -dev.ld.ccw, dev.ld.ccw)
+
+
+  dev.gc <- deviation_norm(dev.gc)
+  dev.sc <- deviation_norm(dev.sc)
+  dev.ld.cw <- deviation_norm(dev.ld.cw)
+  dev.ld.ccw <- deviation_norm(dev.ld.ccw)
 
   dev.df <- data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw)
   return(dev.df)

@@ -8,7 +8,7 @@ angle_vectors(x, y)
 }
 \arguments{
 \item{x}{Vector 1 in cartesian coordinates. Can be a vector of three numbers
-or a matrix of 3 columns (first one is x, second is y, thrid one is z)}
+or a matrix of 3 columns (first one is x, second y, third z)}
 
 \item{y}{Vector 2. As above}
 }
@@ -22,7 +22,6 @@ Calculates the angle between two vectors
 u <- c(1, -2, 3)
 v <- c(-2, 1, 1)
 angle_vectors(u, v)
-
 }
 \author{
 Tobias Stephan

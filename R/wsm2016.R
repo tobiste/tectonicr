@@ -20,3 +20,5 @@
 #' data(wsm2016)
 #' head(wsm2016)
 "wsm2016"
+
+

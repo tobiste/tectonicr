@@ -46,7 +46,7 @@ norm_chi2 <- function(obs, prd, unc) {
       x[i] <- NA
       y[i] <- NA
     } else {
-      w[i] <- deviation_norm(prd[i] - obs[i])
+      w[i] <- deviation_norm(prd[i] - obs[i]%%180)
       x[i] <- (w[i] / unc[i])^2
       y[i] <- (90 / unc[i])^2
     }

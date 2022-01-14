@@ -1,3 +1,12 @@
+#' @title Small circle grid dummy
+#'
+#' @description create a dummy
+#'
+#' @param gridsize angle between small circles
+#' @return data.frame
+#' @export
+#' @examples
+#' smallcircle_dummy(30)
 smallcircle_dummy <- function(gridsize) {
   sm_range <- seq(0, 180, gridsize)
   lons <- seq(-180, 180, gridsize)
@@ -28,6 +37,7 @@ smallcircle_dummy <- function(gridsize) {
 #'
 #' @param x Spatial object
 #' @return Spatial object
+#' @importFrom sf st_as_sf as_Spatial st_wrap_dateline
 #' @export
 wrap_dateline <- function(x) {
   x.wrapped.sf <- sf::st_wrap_dateline(
@@ -47,11 +57,13 @@ wrap_dateline <- function(x) {
 #' at a given point or points
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon (and rotation angle [optional])
+#' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon, and rotation angle (optional)
 #' @param gridsize numeric, angular distance between small circles; default: 10
 #' @return An object of class \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
-#' @importFrom dplyr "%>%"
+#' @importFrom dplyr "%>%" mutate select
+#' @importFrom pracma cross
+#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -139,9 +151,19 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
   return(SL.t)
 }
 
+#' @title Great circle grid dummy
+#'
+#' @description create a dummy
+#'
+#' @param d numner of great circles
+#' @return data.frame
+#' @importFrom dplyr "%>%" mutate
+#' @importFrom  geosphere greatCircleBearing
+#' @export
+#' @examples
+#' greatcircle_dummy(4)
 greatcircle_dummy <- function(d) {
   angle <- 360 / d
-  # p <- c(0, 0)
   i <- 0
   while (i <= 360) {
     if (i %% 180 == 0) {
@@ -174,12 +196,14 @@ greatcircle_dummy <- function(d) {
 #' at a given point or points
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon (and rotaion angle [optional])
+#' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon, and rotation angle (optional)
 #' @param gridsize numeric, angle between great circles
 #' @param d numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12
 #' @return An object of class \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
-#' @importFrom dplyr "%>%"
+#' @importFrom dplyr "%>%" first
+#' @importFrom pracma cross
+#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
 #' @export
 #' @examples
 #' data("nuvel1")

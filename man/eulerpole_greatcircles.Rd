@@ -7,7 +7,7 @@
 eulerpole_greatcircles(x, d, gridsize)
 }
 \arguments{
-\item{x}{\code{data.frame} containing coordinates of Euler poles in lat, lon)}
+\item{x}{\code{data.frame} containing coordinates of Euler poles in lat, lon, and rotation angle (optional)}
 
 \item{d}{numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12}
 

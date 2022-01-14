@@ -17,5 +17,4 @@ Corrects the longitude value to values between -180 and +180 degree
 }
 \examples{
 longitude_modulo(-361)
-
 }

@@ -8,7 +8,7 @@ rotation_matrix(n, alpha)
 }
 \arguments{
 \item{n}{Rotation axis (in cartesian coordinates). Can be a vector of three numbers
-or a matrix of 3 columns (first one is x, second is y, thrid one is z)}
+or a matrix of 3 columns (first one is x, second y, third z)}
 
 \item{alpha}{Rotation angle in degrees}
 }
@@ -18,10 +18,15 @@ matrix
 \description{
 Calculates the rotation matrix using the rotation axis and the angle of rotation
 }
+\details{
+If \eqn{\vec u} is a vector prior to rotation and \eqn{\vec u'} is
+the point after rotation then \eqn{\vec u' = R \cdot \vec u} where \eqn{R} is
+a 3x3 \strong{rotation matrix}:
+\eqn{R={\begin{bmatrix}\cos \psi +u_{x}^{2}\left(1-\cos \psi \right)&u_{x}u_{y}\left(1-\cos \psi \right)-u_{z}\sin \psi &u_{x}u_{z}\left(1-\cos \psi \right)+u_{y}\sin \psi \\u_{y}u_{x}\left(1-\cos \psi \right)+u_{z}\sin \psi &\cos \psi +u_{y}^{2}\left(1-\cos \psi \right)&u_{y}u_{z}\left(1-\cos \psi \right)-u_{x}\sin \psi \\u_{z}u_{x}\left(1-\cos \psi \right)-u_{y}\sin \psi &u_{z}u_{y}\left(1-\cos \psi \right)+u_{x}\sin \psi &\cos \psi +u_{z}^{2}\left(1-\cos \psi \right)\end{bmatrix}} }
+}
 \examples{
 w <- c(0, 1, 0)
 rotation_matrix(w, 90)
-
 }
 \author{
 Tobias Stephan
