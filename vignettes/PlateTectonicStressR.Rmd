@@ -1,11 +1,11 @@
 ---
-title: "PlateTectonicStressR: stress field analysis using R"
+title: "PlateTectonicStressR"
 subtitle: 'Documentation of the R package *PlateTectonicStressR*'
 description: "Test"
 author: "Tobias Stephan, PhD"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Plate-Tectonic-Stress}
+  %\VignetteIndexEntry{PlateTectonicStressR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
