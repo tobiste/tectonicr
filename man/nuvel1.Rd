@@ -8,19 +8,18 @@
 An object of class \code{"data.frame"}
 }
 \usage{
-data(nuvel1)
+data('nuvel1')
 }
 \description{
 Global model of current plate motions (NUVEL-1) by DeMets et al. 1990
 }
 \examples{
-
-data(nuvel1)
-head(nuvel1)
+data('nuvel1')
+head('nuvel1')
 }
 \references{
 DeMets, C., Gordon, R. G., Argus, D. F., & Stein, S. (1990).
-Current plate motions. Geophysical Journal International, 101(2), 425–478.
+Current plate motions. Geophysical Journal International, 101(2), 425-478.
 https://doi.org/10.1111/j.1365-246X.1990.tb06579.x
 }
 \keyword{datasets}

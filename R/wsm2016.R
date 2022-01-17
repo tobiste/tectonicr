@@ -1,11 +1,11 @@
 #' World Stress Map
 #'
 #' The World Stress Map (WSM) is a global compilation of information on the
-#' crustal present-day stress field. Version 2016
+#' crustal present-day stress field (Version 2016).
 #'
 #' @docType data
 #'
-#' @usage data(wsm2016)
+#' @usage data('wsm2016')
 #'
 #' @format An object of class \code{"data.frame"}
 #'
@@ -16,9 +16,8 @@
 #' 484-498, doi:10.1016/j.tecto.2018.07.007
 #' @keywords datasets
 #' @examples
-#'
-#' data(wsm2016)
-#' head(wsm2016)
+#' data('wsm2016')
+#' head('wsm2016')
 "wsm2016"
 
 

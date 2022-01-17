@@ -164,10 +164,13 @@ san.andreas.res <- cbind(
   )
 
 #Plotting
-library(ggplot2)
+library(ggplot2) # load ggplot library
+data('PB2002') # load plate boundary data set
+
 ggplot(san.andreas.res) +
   coord_quickmap(xlim = range(san.andreas.res$lon), ylim = range(san.andreas.res$lat)) +
   borders() +
+  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=3, alpha = .5) +
   geom_spoke(aes(x=lon, y = lat, radius= 1, angle = pracma::deg2rad(-azi+90), color=deviation_norm(dev.ld.ccw)), position = 'center_spoke') +
   scale_color_continuous(type = 'viridis', limits=c(0, 90), name = '|Deviation| in °', breaks = seq(0, 90, 22.5))
 ```
@@ -197,6 +200,7 @@ euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
  coord_quickmap() +
+ geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .5) +
  borders() +
  labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
  geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group, lty='small circles'), color="blue") + 
@@ -211,6 +215,7 @@ euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
   coord_quickmap() +
+  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .5) +
   borders() +
   labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
   geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group, lty='small circles'), color="blue") +
@@ -221,4 +226,4 @@ ggplot() +
 
 
 ### Loxodromes 
-coming...
+in progress...

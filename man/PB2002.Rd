@@ -5,18 +5,17 @@
 \alias{PB2002}
 \title{Global set of present plate boundaries on the Earth (PB2002)}
 \format{
-An object of class \code{""SpatialPolygonsDataFrame""}
+An object of class \code{"SpatialPolygonsDataFrame"}
 }
 \usage{
-data(PB2002)
+data('PB2002')
 }
 \description{
 Global set of present plate boundaries on the Earth (PB2002) by Bird 2003
 }
 \examples{
-
-data(PB2002)
-head(PB2002)
+data('PB2002')
+head('PB2002')
 }
 \references{
 Bird, P. (2003), An updated digital model of plate boundaries,
