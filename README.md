@@ -22,7 +22,7 @@ library('PlateTectonicStressR')
 ```
 
 ## Documentation
-see vignette 'PlateTectonicStressR.Rmd'
+https://tobiste.github.io/PlateTectonicStressR/
 
 ## Author
 Tobias Stephan
