@@ -7,6 +7,7 @@
 #' @export
 #' @examples
 #' smallcircle_dummy(30)
+#' smallcircle_dummy()
 smallcircle_dummy <- function(x = 10) {
   sm_range <- seq(0, 180, x)
   lons <- seq(-180, 180, x)
@@ -71,8 +72,8 @@ wrap_dateline <- function(x) {
 #' euler$angle <- euler$rate
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <- function(x, gridsize) {
-  sm.df <- smallcircle_dummy(gridsize)
+eulerpole_smallcircles <- function(x, gridsize=10) {
+  sm.df <- smallcircle_dummy(x=gridsize)
   sm_range <- unique(sm.df$small_circle)
 
   if (is.null(x$angle)) {
@@ -150,15 +151,15 @@ eulerpole_smallcircles <- function(x, gridsize) {
 #'
 #' @description create a dummy
 #'
-#' @param d numner of great circles
+#' @param x number of great circles
 #' @return data.frame
 #' @importFrom dplyr "%>%" mutate
 #' @importFrom  geosphere greatCircleBearing
 #' @export
 #' @examples
 #' greatcircle_dummy(4)
-greatcircle_dummy <- function(d) {
-  angle <- 360 / d
+greatcircle_dummy <- function(x=12) {
+  angle <- 360 / x
   i <- 0
   while (i <= 360) {
     if (i %% 180 == 0) {
@@ -206,7 +207,7 @@ greatcircle_dummy <- function(d) {
 #' # Pacific plate
 #' euler$angle <- euler$rate
 #' eulerpole_greatcircles(euler)
-eulerpole_greatcircles <- function(x, d, gridsize) {
+eulerpole_greatcircles <- function(x, gridsize) {
   if (missing(d) & !missing(gridsize)) {
     d <- round(360 / gridsize, 0)
   } else if (missing(d) & missing(gridsize)) {
@@ -216,7 +217,7 @@ eulerpole_greatcircles <- function(x, d, gridsize) {
     d <- 12
   }
 
-  gm.df <- greatcircle_dummy(d)
+  gm.df <- greatcircle_dummy(x=d)
   gm_range <- unique(gm.df$great.circle)
   SL.list <- list()
 

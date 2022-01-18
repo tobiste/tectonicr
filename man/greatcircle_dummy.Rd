@@ -4,10 +4,10 @@
 \alias{greatcircle_dummy}
 \title{Great circle grid dummy}
 \usage{
-greatcircle_dummy(d)
+greatcircle_dummy(x = 12)
 }
 \arguments{
-\item{d}{numner of great circles}
+\item{x}{number of great circles}
 }
 \value{
 data.frame

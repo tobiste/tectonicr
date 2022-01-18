@@ -4,14 +4,14 @@
 \alias{eulerpole_greatcircles}
 \title{Draws great-circles of Euler pole}
 \usage{
-eulerpole_greatcircles(x, d, gridsize)
+eulerpole_greatcircles(x, gridsize)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler poles in lat, lon, and rotation angle (optional)}
 
-\item{d}{numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12}
-
 \item{gridsize}{numeric, angle between great circles}
+
+\item{d}{numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12}
 }
 \value{
 An object of class \code{SpatialLinesDataFrame}

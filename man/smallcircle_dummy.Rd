@@ -17,4 +17,5 @@ create a dummy
 }
 \examples{
 smallcircle_dummy(30)
+smallcircle_dummy()
 }
