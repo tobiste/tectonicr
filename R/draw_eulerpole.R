@@ -2,14 +2,14 @@
 #'
 #' @description create a dummy
 #'
-#' @param gridsize angle between small circles
+#' @param x angle between small circles. Default is 10
 #' @return data.frame
 #' @export
 #' @examples
 #' smallcircle_dummy(30)
-smallcircle_dummy <- function(gridsize) {
-  sm_range <- seq(0, 180, gridsize)
-  lons <- seq(-180, 180, gridsize)
+smallcircle_dummy <- function(x = 10) {
+  sm_range <- seq(0, 180, x)
+  lons <- seq(-180, 180, x)
 
   sm.df <- data.frame(
     "lon" = as.numeric(),
@@ -71,7 +71,7 @@ wrap_dateline <- function(x) {
 #' euler$angle <- euler$rate
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <- function(x, gridsize = 10) {
+eulerpole_smallcircles <- function(x, gridsize) {
   sm.df <- smallcircle_dummy(gridsize)
   sm_range <- unique(sm.df$small_circle)
 
@@ -98,7 +98,7 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
       pt <- c(sm.subset$lat[i], sm.subset$lon[i])
 
       # Rotation matrix: axis is axis perpendicular to north pole 0/90 and Euler
-      # pole, rotation-angle is angle between northpole and euler pole
+      # pole, rotation-angle is angle between Northpole and Euler pole
       rot.axis <- pracma::cross(
         geographical_to_cartesian(c(90, 0)),
         geographical_to_cartesian(c(x$lat, x$lon))
@@ -141,13 +141,8 @@ eulerpole_smallcircles <- function(x, gridsize = 10) {
       row.names = sm_range
     )
   )
-
   SL.t <- wrap_dateline(SL.t)
 
-
-  # if(!is.null(x$angle)){
-  #   SL.t@data$velocity.abs <- pracma::deg2rad(x$angle) * 6371.00887714 * pracma::sind(SL.t@data$small_circle)
-  # }
   return(SL.t)
 }
 
