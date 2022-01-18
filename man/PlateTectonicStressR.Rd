@@ -21,6 +21,7 @@ tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
 Useful links:
 \itemize{
   \item \url{https://tobiasstephan1.wixsite.com/tobi}
+  \item \url{https://tobiste.github.io/PlateTectonicStressR/}
 }
 
 }
