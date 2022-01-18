@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1642463550609.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "D19A3DDD",
+    "lastKnownWriteTime" : 1642462580,
+    "last_content_update" : 1642462580,
+    "path" : "Y:/GIT/prepare_package.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "74,0",
+        "scrollLine" : "49"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,79 @@
+devtools::document()
+usethis::use_tidy_description()
+
+# Write the NEWS.md ####
+# You can automatically generate a NEWS.md file using R with
+usethis::use_news_md()
+
+# License
+usethis::use_gpl3_license()
+
+# Write the vignette  ####
+#usethis::use_vignette("Plate-Tectonic-Stress")
+devtools::build_vignettes() # build the vignette
+
+# Write tests ####
+
+# 1. Generate the test environment
+# usethis::use_testthat()
+
+# Run the tests using
+devtools::test()
+# To get an estimation of your test coverage, you can use
+devtools::test_coverage()
+
+devtools::install()
+#devtools::build()
+
+
+# Check whether it works on various operating systems with devtools and rhub ####
+devtools::check() # runs a local R CMD check
+rhub::check_for_cran() # Check for CRAN specific requirements
+devtools::check_win_devel() # Check for win-builder
+
+# Generate cran-comments.md file ####
+# Check for CRAN specific requirements using rhub and save it in the results objects
+results <- rhub::check_for_cran()
+
+# Get the summary of your results
+results$cran_summary()
+
+# Generate your cran-comments.md, then you copy-paste the output from the function above
+usethis::use_cran_comments()
+
+
+# Continuous integration with GitHub Actions ####
+usethis:::use_github_action_check_standard()
+
+
+# Checking for good practice I: goodpractice ####
+library(goodpractice)
+goodpractice::gp()
+
+remotes::install_github("r-lib/styler")
+library(styler)
+
+# Checking for good practice II: inteRgrate ####
+remotes::install_github("jumpingrivers/inteRgrate")
+library(inteRgrate)
+check_pkg() # installs package dependencies, builds, and installs the package, before running package check (by default this check is rather strict and any note or warning raises an error by default)
+check_lintr() # runs lintr on the package, README, and the vignette. lintr checks whether your code adheres to certain standards and that you avoid syntax errors and semantic issues.
+check_tidy_description() #makes sure that your DESCRIPTION file is tidy. If not, you can use usethis::use_tidy_description() to follows the tidyverse conventions for formatting.
+check_r_filenames() #checks that all file extensions are .R and all names are lower case.
+check_gitignore() #checks whether .gitignore contains standard files.
+check_version() #ensures that you update your package version (might be good to run as the last step)
+
+# Submit to CRAN ####
+
+# Add-ons ####
+# Create your own hexagon sticker
+library(hexsticker)
+
+# quick and easy to build a website for your package
+install.packages("pkgdown")
+usethis::use_pkgdown()
+devtools::install_github('tobiste/PlateTectonicStressR')
+pkgdown::build_site()
+usethis::use_pkgdown_github_pages()
+pkgdown::build_reference_index()
+
