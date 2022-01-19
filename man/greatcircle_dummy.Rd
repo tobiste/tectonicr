@@ -4,7 +4,7 @@
 \alias{greatcircle_dummy}
 \title{Great circle grid dummy}
 \usage{
-greatcircle_dummy(x = 12)
+greatcircle_dummy(x)
 }
 \arguments{
 \item{x}{number of great circles}

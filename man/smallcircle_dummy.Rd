@@ -4,10 +4,10 @@
 \alias{smallcircle_dummy}
 \title{Small circle grid dummy}
 \usage{
-smallcircle_dummy(x = 10)
+smallcircle_dummy(x)
 }
 \arguments{
-\item{x}{angle between small circles. Default is 10}
+\item{x}{angle between small circles}
 }
 \value{
 data.frame
@@ -17,5 +17,4 @@ create a dummy
 }
 \examples{
 smallcircle_dummy(30)
-smallcircle_dummy()
 }

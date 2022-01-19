@@ -2,13 +2,12 @@
 #'
 #' @description create a dummy
 #'
-#' @param x angle between small circles. Default is 10
+#' @param x angle between small circles
 #' @return data.frame
 #' @export
 #' @examples
 #' smallcircle_dummy(30)
-#' smallcircle_dummy()
-smallcircle_dummy <- function(x = 10) {
+smallcircle_dummy <- function(x) {
   sm_range <- seq(0, 180, x)
   lons <- seq(-180, 180, x)
 
@@ -59,7 +58,7 @@ wrap_dateline <- function(x) {
 #'
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon, and rotation angle (optional)
-#' @param gridsize numeric, angular distance between small circles; default: 10
+#' @param sm numeric, angle between small circles (in degree); default: 10
 #' @return An object of class \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%" mutate select
@@ -72,8 +71,11 @@ wrap_dateline <- function(x) {
 #' euler$angle <- euler$rate
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <- function(x, gridsize=10) {
-  sm.df <- smallcircle_dummy(x=gridsize)
+eulerpole_smallcircles <- function(x, sm) {
+  if(missing(sm)){
+    sm <- 10
+    }
+  sm.df <- smallcircle_dummy(sm)
   sm_range <- unique(sm.df$small_circle)
 
   if (is.null(x$angle)) {
@@ -158,7 +160,7 @@ eulerpole_smallcircles <- function(x, gridsize=10) {
 #' @export
 #' @examples
 #' greatcircle_dummy(4)
-greatcircle_dummy <- function(x=12) {
+greatcircle_dummy <- function(x) {
   angle <- 360 / x
   i <- 0
   while (i <= 360) {
@@ -193,8 +195,8 @@ greatcircle_dummy <- function(x=12) {
 #'
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon, and rotation angle (optional)
-#' @param gridsize numeric, angle between great circles
-#' @param d numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12
+#' @param gm numeric, angle between great circles
+#' @param n numeric; number of equally spaced great circles (angle between great circles (number of great circles n = 360 / gm); default = 12
 #' @return An object of class \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%" first
@@ -207,17 +209,17 @@ greatcircle_dummy <- function(x=12) {
 #' # Pacific plate
 #' euler$angle <- euler$rate
 #' eulerpole_greatcircles(euler)
-eulerpole_greatcircles <- function(x, gridsize) {
-  if (missing(d) & !missing(gridsize)) {
-    d <- round(360 / gridsize, 0)
-  } else if (missing(d) & missing(gridsize)) {
-    d <- 12
-  } else if (!missing(d) & !missing(gridsize)) {
-    warning("Both gridzise and d are given. Only d is considered")
-    d <- 12
+eulerpole_greatcircles <- function(x, gm, n) {
+  if (missing(n) & !missing(gm)) {
+    n <- round(360 / gm, 0)
+  } else if (missing(n) & missing(gm)) {
+    n <- 12
+  } else if (!missing(n) & !missing(gm)) {
+    warning("Both gm and n are given. Only n is considered")
+    n <- 12
   }
 
-  gm.df <- greatcircle_dummy(x=d)
+  gm.df <- greatcircle_dummy(n)
   gm_range <- unique(gm.df$great.circle)
   SL.list <- list()
 
