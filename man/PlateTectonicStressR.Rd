@@ -21,6 +21,7 @@ tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
 Useful links:
 \itemize{
   \item \url{https://tobiste.github.io/PlateTectonicStressR/}
+  \item Report bugs at \url{https://github.com/tobiste/PlateTectonicStressR/issues}
 }
 
 }
