@@ -82,6 +82,7 @@ Euler pole and intersect both small- and great-circles at an angle of 45°
 Load the package
 ```{r setup}
 library(PlateTectonicStressR)
+library(ggplot2) # load ggplot library
 ```
 
 To model the direction of the great and small circles and loxodromes around the 
@@ -152,9 +153,8 @@ san.andreas.deviation <- misfit_shmax(san.andreas.prd, san.andreas$azi)
 
 ```
 
-`ggplot2::ggplot()` can be used to visualize the results. The orientation of the axis can be displayed with the function `geom_spoke()`. The position argument `position = 'center_spoke'` aligns the marker symbol at the center of the point. The deviation can be color coded. `deviation_norm()` yields the normalized value of the deviation, i.e. values between 0 and 90°.
-```{r plot, message=FALSE, warning=FALSE}
-# combine the modell results with the coordinates of the observed data
+Combine the model results with the coordinates of the observed data
+```{r san_andreas2}
 san.andreas.res <- cbind(
   lat=san.andreas$lat, 
   lon=san.andreas$lon, 
@@ -162,18 +162,24 @@ san.andreas.res <- cbind(
   san.andreas.prd, 
   san.andreas.deviation
   )
+```
 
-#Plotting
-library(ggplot2) # load ggplot library
+`ggplot2::ggplot()` can be used to visualize the results. The orientation of the axis can be displayed with the function `geom_spoke()`. The position argument `position = 'center_spoke'` aligns the marker symbol at the center of the point. The deviation can be color coded. `deviation_norm()` yields the normalized value of the deviation, i.e. values between 0 and 90°.
+
+```{r plates}
 data('PB2002') # load plate boundary data set
+```
 
+```{r plot, warning=FALSE}
 ggplot(san.andreas.res) +
-  coord_quickmap(xlim = range(san.andreas.res$lon), ylim = range(san.andreas.res$lat)) +
+  coord_fixed(xlim = range(san.andreas.res$lon), ylim = range(san.andreas.res$lat)) +
   borders() +
   geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=3, alpha = .5) +
   geom_spoke(aes(x=lon, y = lat, radius= 1, angle = pracma::deg2rad(-azi+90), color=deviation_norm(dev.ld.ccw)), position = 'center_spoke') +
   scale_color_continuous(type = 'viridis', limits=c(0, 90), name = '|Deviation| in °', breaks = seq(0, 90, 22.5))
 ```
+
+
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions from the modelled stress direction using counter-clockwise 45° loxodromes. The *normalized $\chi^2$ test* tests the fit between the modelled $\sigma_{Hmax}$ orientation the observed stress direction considering the reported uncertainties of the measurement.
 ```{r san_andreas_nchi2}
@@ -188,18 +194,18 @@ Function `eulerpole_smallcircles(x, gridsize)` returns Small circles as `Spatial
 
 For example the small-circles around the Euler pole of the relative motion of North America relative to the Pacific plate (from the NUVEL1 model):
   
-```{r load_nuvel, message=FALSE, warning=FALSE}
+```{r load_nuvel}
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 euler$angle <- euler$rate 
 ```
 
 To plot the small-circles with `ggplot`, I recommend to transform the `SpatialLinesDataFrame` into a data.frame with `broom::tidy()`:
-```{r small_circles_around_ep, message=FALSE, warning=FALSE}
+```{r small_circles_around_ep, warning=FALSE}
 euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
- coord_quickmap() +
+ coord_fixed() +
  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .5) +
  borders() +
  labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
@@ -210,11 +216,11 @@ ggplot() +
 
 ### Great Circles
 Function `eulerpole_greatcircles(x, n)` returns great circles as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the number of great circles d, or the great circle angles (360/d).
-```{r great_circles_around_ep, message=FALSE, warning=FALSE}
+```{r great_circles_around_ep, warning=FALSE}
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
-  coord_quickmap() +
+  coord_fixed() +
   geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .5) +
   borders() +
   labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
