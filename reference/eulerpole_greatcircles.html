@@ -54,17 +54,17 @@ at a given point or points</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">eulerpole_greatcircles</span><span class="op">(</span><span class="va">x</span>, <span class="va">d</span>, <span class="va">gridsize</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">eulerpole_greatcircles</span><span class="op">(</span><span class="va">x</span>, <span class="va">gm</span>, <span class="va">n</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p><code>data.frame</code> containing coordinates of Euler poles in lat, lon, and rotation angle (optional)</p></dd>
-<dt>d</dt>
-<dd><p>numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12</p></dd>
-<dt>gridsize</dt>
+<dt>gm</dt>
 <dd><p>numeric, angle between great circles</p></dd>
+<dt>n</dt>
+<dd><p>numeric; number of equally spaced great circles (angle between great circles (number of great circles n = 360 / gm); default = 12</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

@@ -4,10 +4,13 @@
     <loc>https://tobiste.github.io/PlateTectonicStressR/404.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/articles/index.html</loc>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/LICENSE.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/articles/PlateTectonicStressR.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/articles/index.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/authors.html</loc>
@@ -16,10 +19,16 @@
     <loc>https://tobiste.github.io/PlateTectonicStressR/index.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/LICENSE.html</loc>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/news/index.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/news/index.html</loc>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PB2002.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PlateTectonicStressR.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PositionCenterSpoke.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/abs_vel.html</loc>
@@ -65,15 +74,6 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/nuvel1.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PB2002.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PlateTectonicStressR.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PositionCenterSpoke.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/quantise_wsm_quality.html</loc>
