@@ -16,14 +16,14 @@ deviation_norm <- function(x) {
   # deviation is between 0 and 90
   if (length(x) > 1) {
     for (i in seq_along(x)) {
-      if(!is.na(x[i])){
+      if (!is.na(x[i])) {
         while (abs(x[i]) > 90) {
           x[i] <- 180 - abs(x[i])
         }
       }
     }
   } else {
-    if(!is.na(x)){
+    if (!is.na(x)) {
       while (abs(x) > 90) {
         x <- 180 - abs(x)
       }
@@ -71,10 +71,10 @@ misfit_shmax <- function(prd, obs) {
   dev.ld.cw <- prd$ld.cw - obs
   dev.ld.ccw <- prd$ld.ccw - obs
 
-  dev.gc <- ifelse(dev.gc<=obs, -dev.gc, dev.gc)
-  dev.sc <- ifelse(dev.sc<=obs, -dev.sc, dev.sc)
-  dev.ld.cw <- ifelse(dev.ld.cw<=obs, -dev.ld.cw, dev.ld.cw)
-  dev.ld.ccw <- ifelse(dev.ld.ccw<=obs, -dev.ld.ccw, dev.ld.ccw)
+  dev.gc <- ifelse(dev.gc <= obs, -dev.gc, dev.gc)
+  dev.sc <- ifelse(dev.sc <= obs, -dev.sc, dev.sc)
+  dev.ld.cw <- ifelse(dev.ld.cw <= obs, -dev.ld.cw, dev.ld.cw)
+  dev.ld.ccw <- ifelse(dev.ld.ccw <= obs, -dev.ld.ccw, dev.ld.ccw)
 
 
   dev.gc <- deviation_norm(dev.gc)

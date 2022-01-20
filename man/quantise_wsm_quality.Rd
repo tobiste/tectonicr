@@ -16,8 +16,8 @@ quantise_wsm_quality(x)
 Quantise the World Stress Map A, B, C, D quality ranking
 }
 \examples{
-quantise_wsm_quality(c('A', 'B', 'C', 'D', NA))
-data('wsm2016')
+quantise_wsm_quality(c("A", "B", "C", "D", NA))
+data("wsm2016")
 quantise_wsm_quality(wsm2016$quality)
 }
 \references{

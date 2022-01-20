@@ -15,6 +15,3 @@ data.frame
 \description{
 Construct curves cutting small circles perpendicular.
 }
-\examples{
-greatcircle_dummy(4)
-}

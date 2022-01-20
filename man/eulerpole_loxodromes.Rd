@@ -27,7 +27,7 @@ if angle is given: output additionally gives absolute velocity on small-circle (
 \examples{
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
-eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = 'sinistral')
+eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = "sinistral")
 }
 \author{
 Tobias Stephan

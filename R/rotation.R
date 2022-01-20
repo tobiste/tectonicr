@@ -37,7 +37,7 @@ angle_vectors <- function(x, y) {
 #' w <- c(0, 1, 0)
 #' rotation_matrix(w, 90)
 rotation_matrix <- function(n, alpha) {
-  n <- n/sqrt(sum(n^2)) # unit vector
+  n <- n / sqrt(sum(n^2)) # unit vector
   R <- matrix(nrow = 3, ncol = 3)
   R[1, 1] <- n[1]^2 * (1 - pracma::cosd(alpha)) + pracma::cosd(alpha)
   R[1, 2] <- n[1] * n[2] * (1 - pracma::cosd(alpha)) - n[3] * pracma::sind(alpha)

@@ -19,6 +19,3 @@ data.frame
 \description{
 create a dummy for loxodromes
 }
-\examples{
-loxodrome_dummy(n= 30, sense = 'sinistral')
-}

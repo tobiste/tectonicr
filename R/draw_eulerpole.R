@@ -4,9 +4,6 @@
 #'
 #' @param x angle between small circles
 #' @return data.frame
-#' @export
-#' @examples
-#' smallcircle_dummy(30)
 smallcircle_dummy <- function(x) {
   sm_range <- seq(0, 180, x)
   lons <- seq(-180, 180, x)
@@ -70,9 +67,9 @@ wrap_dateline <- function(x) {
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
 eulerpole_smallcircles <- function(x, sm, small_circle = NULL) {
-  if(missing(sm)){
+  if (missing(sm)) {
     sm <- 10
-    }
+  }
   sm.df <- smallcircle_dummy(sm)
   sm_range <- unique(sm.df$small_circle)
 
@@ -155,9 +152,6 @@ eulerpole_smallcircles <- function(x, sm, small_circle = NULL) {
 #' @return data.frame
 #' @importFrom dplyr "%>%" mutate
 #' @importFrom  geosphere greatCircleBearing
-#' @export
-#' @examples
-#' greatcircle_dummy(4)
 greatcircle_dummy <- function(x) {
   angle <- 360 / x
   i <- 0
@@ -295,10 +289,10 @@ eulerpole_greatcircles <- function(x, gm, n) {
 #' @param centre Center point of rotation
 #' @return \code{'matrix'}
 #' @importFrom pracma cosd sind
-rotate_lines <- function( theta, p, centre ) {
-  new_x <- pracma::cosd( theta ) * ( p[, 1] - centre[1] ) - pracma::sind( theta ) * ( p[, 2] - centre[2] ) + centre[1]
-  new_y <- pracma::sind( theta ) * ( p[, 1] - centre[1] ) + pracma::cosd( theta ) * ( p[, 2] - centre[2] ) + centre[2]
-  return( matrix( c( new_x, new_y ), ncol = 2 ) )
+rotate_lines <- function(theta, p, centre) {
+  new_x <- pracma::cosd(theta) * (p[, 1] - centre[1]) - pracma::sind(theta) * (p[, 2] - centre[2]) + centre[1]
+  new_y <- pracma::sind(theta) * (p[, 1] - centre[1]) + pracma::cosd(theta) * (p[, 2] - centre[2]) + centre[2]
+  return(matrix(c(new_x, new_y), ncol = 2))
 }
 
 
@@ -310,15 +304,13 @@ rotate_lines <- function( theta, p, centre ) {
 #' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or 'counterclockwise' loxodromes, respectively
 #' @return data.frame
 #' @importFrom dplyr "%>%" filter mutate
-#' @examples
-#' loxodrome_dummy(n= 30, sense = 'sinistral')
-loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL){
-  if(sense == 'sinistral' | sense == 'clockwise'){
-    s = -1
-  } else if(sense == 'dextral' | sense == 'counterclockwise'){
-    s = 1
+loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL) {
+  if (sense == "sinistral" | sense == "clockwise") {
+    s <- -1
+  } else if (sense == "dextral" | sense == "counterclockwise") {
+    s <- 1
   } else {
-    stop('sense must be sinistral, dextral, clockwise, or clounterclockwise')
+    stop("sense must be sinistral, dextral, clockwise, or clounterclockwise")
   }
 
   lats <- seq(-180, 180, 1)
@@ -328,35 +320,36 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL){
     lat = lats,
     line = 0
   )
-  for(j in seq_along(line.dummy$lon)){
-    line.dummy.rot <- rotate_lines( theta = s*45, p = cbind(line.dummy$lon[j], line.dummy$lat[j]), centre = c(line.dummy$lon[j], 0) )
+  for (j in seq_along(line.dummy$lon)) {
+    line.dummy.rot <- rotate_lines(theta = s * 45, p = cbind(line.dummy$lon[j], line.dummy$lat[j]), centre = c(line.dummy$lon[j], 0))
     loxodrome.dummy.j <- data.frame(lon = line.dummy.rot[, 1], lat = line.dummy.rot[, 2], loxodrome = line.dummy$line[j])
 
-    if(j == 1){
+    if (j == 1) {
       loxodrome.dummy <- loxodrome.dummy.j
     } else {
       loxodrome.dummy <- rbind(loxodrome.dummy, loxodrome.dummy.j)
     }
   }
 
-  for(i in seq(-360, 360, n)){
+  for (i in seq(-360, 360, n)) {
     line.i <- loxodrome.dummy %>%
       mutate(
         lon = lon - i,
-        loxodrome = i)
+        loxodrome = i
+      )
 
-    if(i == -360){
+    if (i == -360) {
       loxodromes <- line.i
     } else {
       loxodromes <- rbind(loxodromes, line.i)
     }
   }
 
-  #summary(loxodromes)
+  # summary(loxodromes)
   #
   loxodromes.filt <- loxodromes %>%
     unique() %>%
-    filter(abs(lat) <= 90)  %>%
+    filter(abs(lat) <= 90) %>%
     filter(abs(lon) <= 180)
 
   return(loxodromes.filt)
@@ -381,22 +374,22 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL){
 #' @examples
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
-#' eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = 'sinistral')
-eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL){
-  if(missing(sense)){
-    stop('sense missing')
+#' eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = "sinistral")
+eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL) {
+  if (missing(sense)) {
+    stop("sense missing")
   }
 
-  ld.df <- loxodrome_dummy(angle = angle, n = 360/ld, sense = sense)
+  ld.df <- loxodrome_dummy(angle = angle, n = 360 / ld, sense = sense)
 
 
   ld_range <- unique(ld.df$loxodrome)
   SL.list <- list()
 
   # idee:
-  #1. transformiere ld.df data.frame in spatiallinesdataframe
-  #2. definiere koordinatesystem: oblique transmercator mit euler pole als fake north pole
-  #3. transformiere in wgs84
+  # 1. transformiere ld.df data.frame in spatiallinesdataframe
+  # 2. definiere koordinatesystem: oblique transmercator mit euler pole als fake north pole
+  # 3. transformiere in wgs84
   for (l in unique(ld.df$loxodrome)) {
     # loop through all great circles
     ld.subset <- dplyr::filter(ld.df, loxodrome == l)
@@ -406,8 +399,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL
         slinelist = sp::Line(cbind(
           "lon" = ld.subset$lon,
           "lat" = ld.subset$lat
-        )
-        ), ID = as.character(l)
+        )), ID = as.character(l)
       )
     )
 
@@ -435,10 +427,10 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL
     )
   )
 
-  #transform into mercator
-  SL.merc.df <- sp::spTransform(SL.wgs84.df,  sp::CRS("+proj=merc"))
+  # transform into mercator
+  SL.merc.df <- sp::spTransform(SL.wgs84.df, sp::CRS("+proj=merc"))
 
-  #define lines in oblique mercator coordinate system with Euler pole as 'North pole'
+  # define lines in oblique mercator coordinate system with Euler pole as 'North pole'
   merc.obl <- sp::CRS(paste0("+proj=omerc +alpha=", x$lat, " +lon_c=", x$lon))
   suppressWarnings(
     sp::proj4string(SL.merc.df) <- merc.obl
@@ -448,7 +440,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL
   SL.merc.df <- wrap_dateline(SL.merc.df)
 
   # transform back to WGS84
-  SL.df <- sp::spTransform(SL.merc.df,  sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+  SL.df <- sp::spTransform(SL.merc.df, sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
 
   # wrap at dateline
   SL.df <- wrap_dateline(SL.df)

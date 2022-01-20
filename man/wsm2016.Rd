@@ -15,8 +15,8 @@ The World Stress Map (WSM) is a global compilation of information on the
 crustal present-day stress field (Version 2016).
 }
 \examples{
-data('wsm2016')
-head('wsm2016')
+data("wsm2016")
+head("wsm2016")
 }
 \references{
 Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. Müller, J.
