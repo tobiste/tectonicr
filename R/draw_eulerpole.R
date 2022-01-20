@@ -345,8 +345,6 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL) {
     }
   }
 
-  # summary(loxodromes)
-  #
   loxodromes.filt <- loxodromes %>%
     unique() %>%
     filter(abs(lat) <= 90) %>%

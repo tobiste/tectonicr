@@ -7,19 +7,9 @@ position_center_spoke <- function() PositionCenterSpoke # position subclass "cen
 #' @importFrom ggplot2 ggproto Position
 PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position,
   compute_panel = function(self, data, params, scales) {
-    # xend/yend is computed by this point, so shortcut!
     data$x <- 2 * data$x - data$xend
     data$y <- 2 * data$y - data$yend
-    # data$x <- data$x - data$radius*cos(data$angle)
-    # data$y <- data$y - data$radius*sin(data$angle)
-
-    # After shifting, the spoke needs to have diameter length,
-    # but I’m not sure if the radius is still used anywhere.
     data$radius <- 2 * data$radius
-
-    # Now the scales would need to be retrained,
-    # But compute_panel doesn’t allow that and
-    # compute_layer “should not be overridden”
     data
   }
 )

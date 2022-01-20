@@ -172,7 +172,7 @@ data('PB2002') # load plate boundary data set
 
 ```{r plot, warning=FALSE}
 ggplot(san.andreas.res) +
-  coord_fixed(xlim = range(san.andreas.res$lon), ylim = range(san.andreas.res$lat)) +
+  coord_fixed(xlim = range(san.andreas.res$lon), ylim = range(san.andreas.res$lat), expand = FALSE) +
   borders() +
   geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=3, alpha = .5) +
   geom_spoke(aes(x=lon, y = lat, radius= 1, angle = pracma::deg2rad(-azi+90), color=deviation_norm(dev.ld.ccw)), position = 'center_spoke') +
@@ -205,7 +205,7 @@ To plot the small-circles with `ggplot`, I recommend to transform the `SpatialLi
 euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
- coord_fixed() +
+ coord_fixed(expand = FALSE) +
  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
  borders() +
  labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
@@ -221,7 +221,7 @@ Function `eulerpole_greatcircles(x, n)` returns great circles as `SpatialLinesDa
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
-  coord_fixed() +
+  coord_fixed(expand = FALSE) +
   geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
   borders() +
   labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
@@ -240,7 +240,7 @@ Function `eulerpole_loxodromes(x, n)` returns loxodromes as `SpatialLinesDataFra
 euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = 'sinistral')
 
 ggplot() +
-  coord_fixed() +
+  coord_fixed(expand = FALSE) +
   geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
   borders() +
   labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
