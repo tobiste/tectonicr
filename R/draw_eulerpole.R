@@ -379,7 +379,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL
     stop("sense missing")
   }
 
-  ld.df <- loxodrome_dummy(angle = angle, n = 360 / ld, sense = sense)
+  ld.df <- loxodrome_dummy(angle = abs(angle), n = 360 / ld, sense = sense)
 
 
   ld_range <- unique(ld.df$loxodrome)
