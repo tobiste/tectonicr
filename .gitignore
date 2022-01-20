@@ -6,3 +6,6 @@ inst/doc
 docs
 /doc/
 /Meta/
+.Rdata
+.httr-oauth
+.DS_Store
