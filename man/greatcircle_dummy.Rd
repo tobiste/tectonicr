@@ -13,7 +13,7 @@ greatcircle_dummy(x)
 data.frame
 }
 \description{
-create a dummy
+Construct curves cutting small circles perpendicular.
 }
 \examples{
 greatcircle_dummy(4)

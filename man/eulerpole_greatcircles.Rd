@@ -17,9 +17,7 @@ eulerpole_greatcircles(x, gm, n)
 An object of class \code{SpatialLinesDataFrame}
 }
 \description{
-Calculate the direction of maximum horizontal stress along great circles,
-small circles, and loxodromes around the relative plate motion´s Euler pole
-at a given point or points
+.
 }
 \details{
 if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)

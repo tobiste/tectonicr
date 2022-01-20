@@ -4,7 +4,7 @@
 \alias{eulerpole_smallcircles}
 \title{Draws small-circles around Euler pole}
 \usage{
-eulerpole_smallcircles(x, sm)
+eulerpole_smallcircles(x, sm, small_circle = NULL)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon, and rotation angle (optional)}
@@ -15,9 +15,7 @@ eulerpole_smallcircles(x, sm)
 An object of class \code{SpatialLinesDataFrame}
 }
 \description{
-Calculate the direction of maximum horizontal stress along great circles,
-small circles, and loxodromes around the relative plate motion´s Euler pole
-at a given point or points
+Construct a line that has a constant distance to the Euler pole.
 }
 \details{
 if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)

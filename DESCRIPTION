@@ -16,7 +16,8 @@ Imports:
     pracma,
     sf,
     sp,
-    maps
+    maps,
+    rgdal
 Suggests: 
     broom,
     knitr,

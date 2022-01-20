@@ -206,30 +206,45 @@ euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
  coord_fixed() +
- geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .5) +
+ geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
  borders() +
  labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
  geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group, lty='small circles'), color="blue") + 
- geom_point(data=euler, aes(lon, lat), color="blue") +
- geom_point(data=euler, aes(lon+180, -lat), color="blue", size = 2)
+ geom_point(data=euler, aes(lon, lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1) +
+  geom_point(data=euler, aes(lon+180, -lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1)
 ```
 
 ### Great Circles
+Great circles are lines that cut the small circles at 90$^{\circ}$ and the Euler pole.
 Function `eulerpole_greatcircles(x, n)` returns great circles as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the number of great circles gm, or the great circle angles (360/d).
 ```{r great_circles_around_ep, warning=FALSE}
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
   coord_fixed() +
-  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .5) +
+  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
   borders() +
   labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
-  geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group, lty='small circles'), color="blue") +
+  geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group, lty='small circles'), color="blue", alpha =.5) +
   geom_path(data=broom::tidy(euler.gm), aes(long, lat, group=group, lty='great circles'), color="blue") +
-  geom_point(data=euler, aes(lon, lat), color="blue", size = 2) +
-  geom_point(data=euler, aes(lon+180, -lat), color="blue", size = 2)
+  geom_point(data=euler, aes(lon, lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1) +
+  geom_point(data=euler, aes(lon+180, -lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1)
 ```
 
 
 ### Loxodromes 
-in progress...
+Loxodrome (also called Rhumb Line) is a curve cutting the small circles at a constant angle. Thus, small and great circles are 0$^{\circ}$ and 00$^{\circ}$ loxodromes, respectively.
+
+Function `eulerpole_loxodromes(x, n)` returns loxodromes as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the angle between the loxodromes, the direction, and the sense. 
+```{r loxodromes, warning=FALSE}
+euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = 'sinistral')
+
+ggplot() +
+  coord_fixed() +
+  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
+  borders() +
+  labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
+  geom_path(data=broom::tidy(euler.ld), aes(long, lat, group=group, lty='clockwise loxodromes'), color="blue") +
+  geom_point(data=euler, aes(lon, lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1) +
+  geom_point(data=euler, aes(lon+180, -lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1)
+```
