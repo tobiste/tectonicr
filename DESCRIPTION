@@ -9,8 +9,7 @@ Description: This package is a free and open-source R package for modeling
     and analyzing the direction of the maximum horizontal stress direction
     using relative plate motion. Based on Wdowinski (1998).
 License: GPL (>= 3)
-URL: https://tobiasstephan1.wixsite.com/tobi,
-    https://tobiste.github.io/PlateTectonicStressR/
+URL: https://tobiste.github.io/PlateTectonicStressR, https://tobiasstephan1.wixsite.com/tobi, https://tobiste.github.io/PlateTectonicStressR/
 Imports: 
     dplyr,
     geosphere,
