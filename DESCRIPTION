@@ -16,7 +16,8 @@ Imports:
     ggplot2,
     pracma,
     sf,
-    sp
+    sp,
+    maps
 Suggests: 
     broom,
     knitr,
