@@ -21,9 +21,6 @@ An object of class \code{SpatialLinesDataFrame}
 \description{
 Construct curves cutting small circles at a constant angle
 }
-\details{
-if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
-}
 \examples{
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate

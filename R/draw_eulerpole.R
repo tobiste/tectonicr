@@ -366,7 +366,6 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL) {
 #' @param ld numeric, angle between loxodromes (in degree); default: 10
 #' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise' or 'counterclockwise' loxodromes, respectively
 #' @return An object of class \code{SpatialLinesDataFrame}
-#' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr first filter
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
 #' @import rgdal
