@@ -2,7 +2,7 @@ Package: PlateTectonicStressR
 Title:Modeling the Direction of the Maximum Horizontal Stress using Relative Plate Motion
 Version: 0.0.0.9000
 Authors@R: 
-    person("Tobias", "Stephan", , "tobias.stephan1@yahoo.com", role = c("aut", "cre"),
+    person("Tobias", "Stephan", email = "tobias.stephan1@yahoo.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9290-014X"))
 Description: This package is a free and open-source R package for modeling
     and analyzing the direction of the maximum horizontal stress direction
