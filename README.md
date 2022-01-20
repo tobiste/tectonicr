@@ -1,4 +1,5 @@
-[![DOI](https://zenodo.org/badge/443426588.svg)](https://zenodo.org/badge/latestdoi/443426588)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5885309.svg)](https://doi.org/10.5281/zenodo.5885309)
+
 
 # PlateTectonicStressR
 
