@@ -1,6 +1,6 @@
 Package: PlateTectonicStressR
-Title:Modeling the Direction of the Maximum Horizontal Stress using Relative Plate Motion
-Version: 0.0.0.9000
+Title: Modeling the Direction of the Maximum Horizontal Stress using Relative Plate Motion
+Version: 0.0.1
 Authors@R: 
     person("Tobias", "Stephan", email = "tobias.stephan1@yahoo.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9290-014X"))
