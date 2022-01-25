@@ -66,7 +66,8 @@ wrap_dateline <- function(x) {
 #' euler$angle <- euler$rate
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <- function(x, sm, small_circle = NULL) {
+eulerpole_smallcircles <- function(x, sm) {
+  small_circle <- NULL
   if (missing(sm)) {
     sm <- 10
   }
@@ -304,7 +305,8 @@ rotate_lines <- function(theta, p, centre) {
 #' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or 'counterclockwise' loxodromes, respectively
 #' @return data.frame
 #' @importFrom dplyr "%>%" filter mutate
-loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL) {
+loxodrome_dummy <- function(angle = 45, n = 10, sense) {
+  lon <- lat <- NULL
   if (sense == "sinistral" | sense == "clockwise") {
     s <- -1
   } else if (sense == "dextral" | sense == "counterclockwise") {
@@ -372,7 +374,8 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense, lon = NULL, lat = NULL) {
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = "sinistral")
-eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL) {
+eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
+  loxodrome <- NULL
   if (missing(sense)) {
     stop("sense missing")
   }

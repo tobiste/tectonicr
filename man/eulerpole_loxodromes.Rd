@@ -4,7 +4,7 @@
 \alias{eulerpole_loxodromes}
 \title{Draws loxodromes directed towards an Euler pole}
 \usage{
-eulerpole_loxodromes(x, angle = 45, ld = 10, sense, loxodrome = NULL)
+eulerpole_loxodromes(x, angle = 45, ld = 10, sense)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat and lon}
