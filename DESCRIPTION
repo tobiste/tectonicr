@@ -12,7 +12,7 @@ License: GPL (>= 3)
 URL: https://tobiste.github.io/PlateTectonicStressR/
 BugReports: https://github.com/tobiste/PlateTectonicStressR/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)
 Imports: 
     dplyr,
     geosphere,
