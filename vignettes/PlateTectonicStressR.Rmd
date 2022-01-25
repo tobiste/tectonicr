@@ -11,10 +11,8 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>")
 ```
 
 A free and open-source R package for modeling and analyzing the direction of the
@@ -123,7 +121,8 @@ The test can be run using `norm_chi2(obs, prd, unc)`. obs is a numeric vector wi
 
 ```{r shmax_test}
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
+euler <-
+  subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
 norm_chi2(obs = 90, prd$sc, unc = 10)
@@ -138,9 +137,9 @@ head(wsm2016)
 ```
 Subset of the WSM data to stress data relevant for the Plate boundary between North America and the Pacific plate at the San Andreas fault:
 ```{r wsm_subset}
-san.andreas <- subset(wsm2016, 
-                      wsm2016$lat>=23 & wsm2016$lat<= 40 &
-                      wsm2016$lon>=-126 & wsm2016$lon<=-108)
+san.andreas <- subset(wsm2016,
+                      wsm2016$lat >= 23 & wsm2016$lat <= 40 &
+                        wsm2016$lon >= -126 & wsm2016$lon <= -108)
 ```
 
 Modeling the stress directions using the Euler pole of the motion of North America relative to the Pacific Pate.
@@ -149,19 +148,19 @@ data("nuvel1")
 euler <- subset(nuvel1, nuvel1$ID == "na")
 
 san.andreas.prd <- model_shmax(san.andreas, euler)
-san.andreas.deviation <- misfit_shmax(san.andreas.prd, san.andreas$azi)
-
+san.andreas.deviation <-
+  misfit_shmax(san.andreas.prd, san.andreas$azi)
 ```
 
 Combine the model results with the coordinates of the observed data
 ```{r san_andreas2}
 san.andreas.res <- cbind(
-  lat=san.andreas$lat, 
-  lon=san.andreas$lon, 
-  azi=san.andreas$azi,
-  san.andreas.prd, 
+  lat = san.andreas$lat,
+  lon = san.andreas$lon,
+  azi = san.andreas$azi,
+  san.andreas.prd,
   san.andreas.deviation
-  )
+)
 ```
 
 `ggplot2::ggplot()` can be used to visualize the results. The orientation of the axis can be displayed with the function `geom_spoke()`. The position argument `position = 'center_spoke'` aligns the marker symbol at the center of the point. The deviation can be color coded. `deviation_norm()` yields the normalized value of the deviation, i.e. values between 0 and 90°.
@@ -172,19 +171,46 @@ data('PB2002') # load plate boundary data set
 
 ```{r plot, warning=FALSE}
 ggplot(san.andreas.res) +
-  coord_fixed(xlim = range(san.andreas.res$lon), ylim = range(san.andreas.res$lat), expand = FALSE) +
+  coord_fixed(
+    xlim = range(san.andreas.res$lon),
+    ylim = range(san.andreas.res$lat),
+    expand = FALSE
+  ) +
   borders() +
-  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=3, alpha = .5) +
-  geom_spoke(aes(x=lon, y = lat, radius= 1, angle = pracma::deg2rad(-azi+90), color=deviation_norm(dev.ld.ccw)), position = 'center_spoke') +
-  scale_color_continuous(type = 'viridis', limits=c(0, 90), name = '|Deviation| in °', breaks = seq(0, 90, 22.5))
+  geom_path(
+    data = broom::tidy(PB2002),
+    aes(long, lat, group = group),
+    color = "red",
+    lwd = 3,
+    alpha = .5
+  ) +
+  geom_spoke(
+    aes(
+      x = lon,
+      y = lat,
+      radius = 1,
+      angle = pracma::deg2rad(-azi + 90),
+      color = deviation_norm(dev.ld.ccw)
+    ),
+    position = "center_spoke"
+  ) +
+  scale_color_continuous(
+    type = "viridis",
+    limits = c(0, 90),
+    name = "|Deviation| in °",
+    breaks = seq(0, 90, 22.5)
+  )
 ```
 
 
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions from the modeled stress direction using counter-clockwise 45° loxodromes. The *normalized $\chi^2$ test* tests the fit between the modeled $\sigma_{Hmax}$ orientation the observed stress direction considering the reported uncertainties of the measurement.
 ```{r san_andreas_nchi2}
-san.andreas$unc <- quantise_wsm_quality(san.andreas$quality) # convert the WSM quality ranking into the standard deviation of the measurement
-norm_chi2(obs = san.andreas$azi, san.andreas.prd$ld.ccw, unc = san.andreas$unc)
+san.andreas$unc <-
+  quantise_wsm_quality(san.andreas$quality) # convert the WSM quality ranking into the standard deviation of the measurement
+norm_chi2(obs = san.andreas$azi,
+          san.andreas.prd$ld.ccw,
+          unc = san.andreas$unc)
 ```
 The value is $\leq$ 0.15, indicating a significantly good fit of the model. Thus, the tractions of the transform plate boundary explain the stress direction of the area. 
 
@@ -196,7 +222,8 @@ For example the small-circles around the Euler pole of the relative motion of No
   
 ```{r load_nuvel}
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
+euler <-
+  subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 euler$angle <- euler$rate 
 ```
 
@@ -205,13 +232,39 @@ To plot the small-circles with `ggplot`, I recommend to transform the `SpatialLi
 euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
- coord_fixed(expand = FALSE) +
- geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
- borders() +
- labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
- geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group, lty='small circles'), color="blue") + 
- geom_point(data=euler, aes(lon, lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1) +
-  geom_point(data=euler, aes(lon+180, -lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1)
+  coord_fixed(expand = FALSE) +
+  geom_path(
+    data = broom::tidy(PB2002),
+    aes(long, lat, group = group),
+    color = 'red',
+    lwd = 1,
+    alpha = .25
+  ) +
+  borders() +
+  labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
+  geom_path(
+    data = broom::tidy(euler.sm),
+    aes(long, lat, group = group, lty = "small circles"),
+    color = "blue"
+  ) +
+  geom_point(
+    data = euler,
+    aes(lon, lat),
+    shape = 21,
+    colour = "lightblue",
+    size = 2,
+    fill = "darkblue",
+    stroke = 1
+  ) +
+  geom_point(
+    data = euler,
+    aes(lon + 180, -lat),
+    shape = 21,
+    colour = "lightblue",
+    size = 2,
+    fill = "darkblue",
+    stroke = 1
+  )
 ```
 
 ### Great Circles
@@ -222,13 +275,44 @@ euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
   coord_fixed(expand = FALSE) +
-  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
+  geom_path(
+    data = broom::tidy(PB2002),
+    aes(long, lat, group = group),
+    color = "red",
+    lwd = 1,
+    alpha = .25
+  ) +
   borders() +
-  labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
-  geom_path(data=broom::tidy(euler.sm), aes(long, lat, group=group, lty='small circles'), color="blue", alpha =.5) +
-  geom_path(data=broom::tidy(euler.gm), aes(long, lat, group=group, lty='great circles'), color="blue") +
-  geom_point(data=euler, aes(lon, lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1) +
-  geom_point(data=euler, aes(lon+180, -lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1)
+  labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
+  geom_path(
+    data = broom::tidy(euler.sm),
+    aes(long, lat, group = group, lty = "small circles"),
+    color = "blue",
+    alpha = .5
+  ) +
+  geom_path(
+    data = broom::tidy(euler.gm),
+    aes(long, lat, group = group, lty = "great circles"),
+    color = "blue"
+  ) +
+  geom_point(
+    data = euler,
+    aes(lon, lat),
+    shape = 21,
+    colour = "lightblue",
+    size = 2,
+    fill = 'darkblue',
+    stroke = 1
+  ) +
+  geom_point(
+    data = euler,
+    aes(lon + 180, -lat),
+    shape = 21,
+    colour = "lightblue",
+    size = 2,
+    fill = "darkblue",
+    stroke = 1
+  )
 ```
 
 
@@ -237,14 +321,46 @@ Loxodrome (also called Rhumb Line) is a curve cutting the small circles at a con
 
 Function `eulerpole_loxodromes(x, n)` returns loxodromes as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the angle between the loxodromes, the direction, and the sense. 
 ```{r loxodromes, warning=FALSE}
-euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = 'sinistral')
+euler.ld <-
+  eulerpole_loxodromes(
+    x = euler,
+    angle = 45,
+    ld = 10,
+    sense = "sinistral"
+  )
 
 ggplot() +
   coord_fixed(expand = FALSE) +
-  geom_path(data = broom::tidy(PB2002), aes(long, lat, group=group), color = 'red', lwd=1, alpha = .25) +
+  geom_path(
+    data = broom::tidy(PB2002),
+    aes(long, lat, group = group),
+    color = "red",
+    lwd = 1,
+    alpha = .25
+  ) +
   borders() +
-  labs(title='North America relative to Pacific plate', subtitle='source: NUVEL1') +
-  geom_path(data=broom::tidy(euler.ld), aes(long, lat, group=group, lty='clockwise loxodromes'), color="blue") +
-  geom_point(data=euler, aes(lon, lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1) +
-  geom_point(data=euler, aes(lon+180, -lat), shape = 21, colour="lightblue", size = 2, fill = 'darkblue', stroke = 1)
+  labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
+  geom_path(
+    data = broom::tidy(euler.ld),
+    aes(long, lat, group = group, lty = "clockwise loxodromes"),
+    color = "blue"
+  ) +
+  geom_point(
+    data = euler,
+    aes(lon, lat),
+    shape = 21,
+    colour = "lightblue",
+    size = 2,
+    fill = "darkblue",
+    stroke = 1
+  ) +
+  geom_point(
+    data = euler,
+    aes(lon + 180, -lat),
+    shape = 21,
+    colour = "lightblue",
+    size = 2,
+    fill = "darkblue",
+    stroke = 1
+  )
 ```
