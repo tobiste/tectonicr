@@ -4,22 +4,20 @@
 \alias{eulerpole_greatcircles}
 \title{Draws great-circles of Euler pole}
 \usage{
-eulerpole_greatcircles(x, d, gridsize)
+eulerpole_greatcircles(x, gm, n)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler poles in lat, lon, and rotation angle (optional)}
 
-\item{d}{numeric; number of equally spaced great circles (angle between great circles (number of great circles = 360 / angle); default = 12}
+\item{gm}{numeric, angle between great circles}
 
-\item{gridsize}{numeric, angle between great circles}
+\item{n}{numeric; number of equally spaced great circles (angle between great circles (number of great circles n = 360 / gm); default = 12}
 }
 \value{
 An object of class \code{SpatialLinesDataFrame}
 }
 \description{
-Calculate the direction of maximum horizontal stress along great circles,
-small circles, and loxodromes around the relative plate motion´s Euler pole
-at a given point or points
+.
 }
 \details{
 if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)

@@ -16,8 +16,6 @@
 #' 484-498, doi:10.1016/j.tecto.2018.07.007
 #' @keywords datasets
 #' @examples
-#' data('wsm2016')
-#' head('wsm2016')
+#' data("wsm2016")
+#' head("wsm2016")
 "wsm2016"
-
-

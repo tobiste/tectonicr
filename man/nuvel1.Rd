@@ -14,8 +14,8 @@ data('nuvel1')
 Global model of current plate motions (NUVEL-1) by DeMets et al. 1990
 }
 \examples{
-data('nuvel1')
-head('nuvel1')
+data("nuvel1")
+head("nuvel1")
 }
 \references{
 DeMets, C., Gordon, R. G., Argus, D. F., & Stein, S. (1990).

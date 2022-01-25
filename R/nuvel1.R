@@ -13,6 +13,6 @@
 #' https://doi.org/10.1111/j.1365-246X.1990.tb06579.x
 #' @keywords datasets
 #' @examples
-#' data('nuvel1')
-#' head('nuvel1')
+#' data("nuvel1")
+#' head("nuvel1")
 "nuvel1"

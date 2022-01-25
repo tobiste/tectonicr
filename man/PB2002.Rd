@@ -14,8 +14,8 @@ data('PB2002')
 Global set of present plate boundaries on the Earth (PB2002) by Bird 2003
 }
 \examples{
-data('PB2002')
-head('PB2002')
+data("PB2002")
+head("PB2002")
 }
 \references{
 Bird, P. (2003), An updated digital model of plate boundaries,

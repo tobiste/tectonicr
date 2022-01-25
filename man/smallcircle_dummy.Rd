@@ -4,17 +4,14 @@
 \alias{smallcircle_dummy}
 \title{Small circle grid dummy}
 \usage{
-smallcircle_dummy(gridsize)
+smallcircle_dummy(x)
 }
 \arguments{
-\item{gridsize}{angle between small circles}
+\item{x}{angle between small circles}
 }
 \value{
 data.frame
 }
 \description{
 create a dummy
-}
-\examples{
-smallcircle_dummy(30)
 }

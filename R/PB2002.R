@@ -12,6 +12,6 @@
 #' Geochem. Geophys. Geosyst., 4, 1027, doi:10.1029/2001GC000252, 3.
 #' @keywords datasets
 #' @examples
-#' data('PB2002')
-#' head('PB2002')
+#' data("PB2002")
+#' head("PB2002")
 "PB2002"
