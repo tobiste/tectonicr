@@ -70,6 +70,7 @@ longitude_modulo <- function(longitude) {
 #' @param n Vector of three numbers (x, y, z)
 #' @return vector of two numbers (latitude, longitude)
 #' @export
+#' @seealso \code{\link{geographical_to_cartesian}}
 #' @importFrom pracma rad2deg
 #' @examples
 #' u <- c(1, -2, 3)
@@ -90,11 +91,12 @@ cartesian_to_geographical <- function(n) {
 
 #' @title Geographical to cartesian coordinates
 #'
-#' @description Converts vector from geographical into cartesian  coordinates
+#' @description Converts vector from geographical into cartesian coordinates
 #' @param p vector of two numbers (latitude, longitude)
 #' @param r radius. default is 1.
 #' @return Vector of three numbers (x, y, z)
 #' @export
+#' @seealso \code{\link{cartesian_to_geographical}}
 #' @importFrom pracma cosd sind
 #' @examples
 #' u <- c(50, 10)

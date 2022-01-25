@@ -19,3 +19,6 @@ Converts vector from cartesian into geographical coordinates
 u <- c(1, -2, 3)
 cartesian_to_geographical(u)
 }
+\seealso{
+\code{\link{geographical_to_cartesian}}
+}
