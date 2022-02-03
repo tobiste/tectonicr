@@ -89,61 +89,49 @@ eulerpole_smallcircles <- function(x, sm) {
   for (s in unique(sm.df$small_circle)) {
     # loop through all small circles
     sm.subset <- subset(sm.df, sm.df$small_circle == s)
-    sm.subset.rot <- sm.subset
-
-    for (i in seq_along(sm.subset$lat)) {
-      # loop through all coordinates
-
-      pt <- c(sm.subset$lat[i], sm.subset$lon[i])
-
-      # Rotation matrix: axis is axis perpendicular to north pole 0/90 and Euler
-      # pole, rotation-angle is angle between Northpole and Euler pole
-      rot.axis <- pracma::cross(
-        geographical_to_cartesian(c(90, 0)),
-        geographical_to_cartesian(c(x$lat, x$lon))
-      )
-      rot.angle <-
-        angle_vectors(
-          geographical_to_cartesian(c(90, 0)),
-          geographical_to_cartesian(c(x$lat, x$lon))
-        )
-      if (is.nan(rot.angle)) {
-        rot.angle <- 0
-      } # if there is no angle between,
-      # than angle=0
-
-      rot.matrix <- rotation_matrix(rot.axis, rot.angle)
-
-      pt1 <- cartesian_to_geographical(rot.matrix %*% geographical_to_cartesian(pt))
-
-      sm.subset.rot$lat[i] <- pt1[1]
-      sm.subset.rot$lon[i] <- pt1[2]
-    }
 
     l.i <- sp::Lines(slinelist = sp::Line(cbind(
-      "lon" = sm.subset.rot$lon,
-      "lat" = sm.subset.rot$lat
+      "lon" = sm.subset$lon,
+      "lat" = sm.subset$lat
     )), ID = as.character(s))
     SL.list[as.character(s)] <- l.i
 
     if (s == 0) {
-      sm.rot <- sm.subset.rot
+      sm.rot <- sm.subset
     } else {
-      sm.rot <- rbind(sm.rot, sm.subset.rot)
+      sm.rot <- rbind(sm.rot, sm.subset)
     }
   }
 
+  wgs84 <- sp::CRS("+proj=longlat")
+
+  # General Oblique Transformation¶
+  ep <- sp::CRS(
+    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
+           x$lat,
+           " +o_lon_p=",
+           x$lon)
+  )
+
   SL.t <- sp::SpatialLinesDataFrame(
-    sp::SpatialLines(SL.list, proj4string = sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")),
+    sp::SpatialLines(SL.list, proj4string = wgs84),
     data.frame(
       "small_circle" = sm_range.df,
       row.names = sm_range
     )
   )
-  SL.t <- wrap_dateline(SL.t)
 
-  return(SL.t)
+  SL.ep.df <- sp::spTransform(SL.t, ep)
+  suppressWarnings(
+    proj4string(SL.ep.df) <- wgs84
+  )
+
+  # wrap at dateline
+  SL.df <- wrap_dateline(SL.ep.df)
+
+  return(SL.df)
 }
+
 
 #' @title Great circle grid dummy
 #'
@@ -217,41 +205,12 @@ eulerpole_greatcircles <- function(x, gm, n) {
   for (g in unique(gm.df$great.circle)) {
     # loop through all great circles
     gm.subset <- subset(gm.df, gm.df$great.circle == g)
-    gm.subset.rot <- gm.subset
-
-    for (i in seq_along(gm.subset$lat)) {
-      # loop through all coordinates
-      pt <- c(gm.subset$lat[i], gm.subset$lon[i])
-
-      # Rotation matrix: axis is axis perpendicular to gm origin pole 0/0 and Euler
-      # pole, rotation-angle is angle between gm origin and euler pole
-      rot.axis <- pracma::cross(
-        geographical_to_cartesian(c(0, 0)),
-        geographical_to_cartesian(c(x$lat, x$lon))
-      )
-      rot.angle <-
-        angle_vectors(
-          geographical_to_cartesian(c(0, 0)),
-          geographical_to_cartesian(c(x$lat, x$lon))
-        )
-      if (is.nan(rot.angle)) {
-        rot.angle <- 0
-      } # if there is no angle between,
-      # than angle=0
-
-      rot.matrix <- rotation_matrix(rot.axis, rot.angle)
-
-      pt1 <- cartesian_to_geographical(rot.matrix %*% geographical_to_cartesian(pt))
-
-      gm.subset.rot$lat[i] <- pt1[1]
-      gm.subset.rot$lon[i] <- pt1[2]
-    }
 
     l.i <- suppressWarnings(
       sp::Lines(
         slinelist = sp::Line(cbind(
-          "lon" = gm.subset.rot$lon,
-          "lat" = gm.subset.rot$lat
+          "lon" = gm.subset$lon,
+          "lat" = gm.subset$lat
         )), ID = as.character(g)
       )
     )
@@ -259,13 +218,24 @@ eulerpole_greatcircles <- function(x, gm, n) {
     SL.list[as.character(g)] <- l.i
 
     if (g == dplyr::first(unique(gm.df$great.circle))) {
-      gm.rot <- gm.subset.rot
+      gm.rot <- gm.subset
     } else {
-      gm.rot <- rbind(gm.rot, gm.subset.rot)
+      gm.rot <- rbind(gm.rot, gm.subset)
     }
   }
 
-  SL.t <- sp::SpatialLines(SL.list, proj4string = sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+  wgs84 <- sp::CRS("+proj=longlat")
+
+  # General Oblique Transformation¶
+  ep <- sp::CRS(
+    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
+           x$lat,
+           " +o_lon_p=",
+           x$lon)
+  )
+
+
+  SL.t <- sp::SpatialLines(SL.list, proj4string = wgs84)
 
   SL.t.df <- suppressWarnings(
     sp::SpatialLinesDataFrame(
@@ -274,9 +244,15 @@ eulerpole_greatcircles <- function(x, gm, n) {
     )
   )
 
-  SL.t.df <- wrap_dateline(SL.t.df)
+  SL.ep.df <- sp::spTransform(SL.t.df, ep)
+  suppressWarnings(
+    proj4string(SL.ep.df) <- wgs84
+  )
 
-  return(SL.t.df)
+
+  SL.df <- wrap_dateline(SL.ep.df)
+
+  return(SL.df)
 }
 
 
@@ -409,7 +385,6 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
       ld <- rbind(ld, ld.subset)
     }
   }
-
 
   wgs84 <- sp::CRS("+proj=longlat")
 
