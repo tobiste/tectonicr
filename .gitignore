@@ -9,3 +9,15 @@ docs
 .Rdata
 .httr-oauth
 .DS_Store
+.Rapp.history
+*-Ex.R
+/*.tar.gz
+/*.Rcheck/
+.Rproj.user/
+vignettes/*.html
+vignettes/*.pdf
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+.Renviron

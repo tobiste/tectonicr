@@ -4,7 +4,7 @@
 \alias{loxodrome_dummy}
 \title{Loxodrome dummy}
 \usage{
-loxodrome_dummy(angle = 45, n = 10, sense, lon = NULL, lat = NULL)
+loxodrome_dummy(angle = 45, n = 10, sense)
 }
 \arguments{
 \item{angle}{Direction of loxodromes (in degree)}

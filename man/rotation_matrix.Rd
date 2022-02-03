@@ -22,7 +22,13 @@ Calculates the rotation matrix using the rotation axis and the angle of rotation
 If \eqn{\vec u} is a vector prior to rotation and \eqn{\vec u'} is
 the point after rotation then \eqn{\vec u' = R \cdot \vec u} where \eqn{R} is
 a 3x3 \strong{rotation matrix}:
-\eqn{R={\begin{bmatrix}\cos \psi +u_{x}^{2}\left(1-\cos \psi \right)&u_{x}u_{y}\left(1-\cos \psi \right)-u_{z}\sin \psi &u_{x}u_{z}\left(1-\cos \psi \right)+u_{y}\sin \psi \\u_{y}u_{x}\left(1-\cos \psi \right)+u_{z}\sin \psi &\cos \psi +u_{y}^{2}\left(1-\cos \psi \right)&u_{y}u_{z}\left(1-\cos \psi \right)-u_{x}\sin \psi \\u_{z}u_{x}\left(1-\cos \psi \right)-u_{y}\sin \psi &u_{z}u_{y}\left(1-\cos \psi \right)+u_{x}\sin \psi &\cos \psi +u_{z}^{2}\left(1-\cos \psi \right)\end{bmatrix}} }
+\eqn{
+  R={\begin{bmatrix}
+  \cos \psi +u_{x}^{2}\left(1-\cos \psi \right) & u_{x}u_{y}\left(1-\cos \psi \right)-u_{z}\sin \psi & u_{x}u_{z}\left(1-\cos \psi \right)+u_{y}\sin \psi \
+ \u_{y}u_{x}\left(1-\cos \psi \right)+u_{z}\sin \psi & \cos \psi +u_{y}^{2}\left(1-\cos \psi \right) & u_{y}u_{z}\left(1-\cos \psi \right)-u_{x}\sin \psi \
+  \u_{z}u_{x}\left(1-\cos \psi \right)-u_{y}\sin \psi & u_{z}u_{y}\left(1-\cos \psi \right)+u_{x}\sin \psi & \cos \psi +u_{z}^{2}\left(1-\cos \psi \right)
+  \end{bmatrix}}
+}
 }
 \examples{
 w <- c(0, 1, 0)

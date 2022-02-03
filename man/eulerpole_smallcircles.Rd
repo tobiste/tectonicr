@@ -4,7 +4,7 @@
 \alias{eulerpole_smallcircles}
 \title{Draws small-circles around Euler pole}
 \usage{
-eulerpole_smallcircles(x, sm, small_circle = NULL)
+eulerpole_smallcircles(x, sm)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon, and rotation angle (optional)}

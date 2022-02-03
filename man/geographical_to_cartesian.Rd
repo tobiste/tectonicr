@@ -15,9 +15,12 @@ geographical_to_cartesian(p, r = 1)
 Vector of three numbers (x, y, z)
 }
 \description{
-Converts vector from geographical into cartesian  coordinates
+Converts vector from geographical into cartesian coordinates
 }
 \examples{
 u <- c(50, 10)
 geographical_to_cartesian(u)
+}
+\seealso{
+\code{\link{cartesian_to_geographical}}
 }
