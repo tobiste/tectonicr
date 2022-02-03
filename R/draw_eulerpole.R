@@ -123,7 +123,7 @@ eulerpole_smallcircles <- function(x, sm) {
 
   SL.ep.df <- sp::spTransform(SL.t, ep)
   suppressWarnings(
-    proj4string(SL.ep.df) <- wgs84
+    sp::proj4string(SL.ep.df) <- wgs84
   )
 
   # wrap at dateline
@@ -246,7 +246,7 @@ eulerpole_greatcircles <- function(x, gm, n) {
 
   SL.ep.df <- sp::spTransform(SL.t.df, ep)
   suppressWarnings(
-    proj4string(SL.ep.df) <- wgs84
+    sp::proj4string(SL.ep.df) <- wgs84
   )
 
 
@@ -409,7 +409,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
 
   SL.ep.df <- sp::spTransform(SL.wgs84.df, ep)
   suppressWarnings(
-    proj4string(SL.ep.df) <- wgs84
+    sp::proj4string(SL.ep.df) <- wgs84
   )
 
   # wrap at dateline
