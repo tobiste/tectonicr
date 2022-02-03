@@ -170,7 +170,7 @@ san.andreas.res <- cbind(
 data('PB2002') # load plate boundary data set
 ```
 
-```{r plot, warning=FALSE}
+```{r plot, warning=FALSE, message=FALSE}
 ggplot(san.andreas.res) +
   coord_fixed(xlim = range(san.andreas.res$lon), ylim = range(san.andreas.res$lat), expand = FALSE) +
   borders() +
@@ -201,7 +201,7 @@ euler$angle <- euler$rate
 ```
 
 To plot the small-circles with `ggplot`, I recommend to transform the `SpatialLinesDataFrame` into a data.frame with `broom::tidy()`:
-```{r small_circles_around_ep, warning=FALSE}
+```{r small_circles_around_ep, warning=FALSE, message=FALSE}
 euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
@@ -217,7 +217,7 @@ ggplot() +
 ### Great Circles
 Great circles are lines that cut the small circles at 90$^{\circ}$ and the Euler pole.
 Function `eulerpole_greatcircles(x, n)` returns great circles as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the number of great circles gm, or the great circle angles (360/d).
-```{r great_circles_around_ep, warning=FALSE}
+```{r great_circles_around_ep, warning=FALSE, message=FALSE}
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
@@ -236,7 +236,7 @@ ggplot() +
 Loxodrome (also called Rhumb Line) is a curve cutting the small circles at a constant angle. Thus, small and great circles are 0$^{\circ}$ and 00$^{\circ}$ loxodromes, respectively.
 
 Function `eulerpole_loxodromes(x, n)` returns loxodromes as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole coordinates in lat and lon (x) and the angle between the loxodromes, the direction, and the sense. 
-```{r loxodromes, warning=FALSE}
+```{r loxodromes, warning=FALSE, message=FALSE}
 euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = 'sinistral')
 
 ggplot() +

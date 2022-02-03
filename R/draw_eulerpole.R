@@ -383,10 +383,6 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL
   ld_range <- unique(ld.df$loxodrome)
   SL.list <- list()
 
-  # idee:
-  # 1. transformiere ld.df data.frame in spatiallinesdataframe
-  # 2. definiere koordinatesystem: oblique transmercator mit euler pole als fake north pole
-  # 3. transformiere in wgs84
   for (l in unique(ld.df$loxodrome)) {
     # loop through all great circles
     ld.subset <- dplyr::filter(ld.df, loxodrome == l)
@@ -411,11 +407,20 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL
     }
   }
 
+
+  wgs84 <- sp::CRS("+proj=longlat")
+
+  # General Oblique Transformation¶
+  ep <- sp::CRS(
+    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
+           x$lat,
+           " +o_lon_p=",
+           x$lon)
+  )
   SL.wgs84 <- sp::SpatialLines(
     SL.list,
-    proj4string =  sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+    proj4string = wgs84
   )
-
 
   SL.wgs84.df <- suppressWarnings(
     sp::SpatialLinesDataFrame(
@@ -424,23 +429,14 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, loxodrome = NULL
     )
   )
 
-  # transform into mercator
-  SL.merc.df <- sp::spTransform(SL.wgs84.df, sp::CRS("+proj=merc"))
-
-  # define lines in oblique mercator coordinate system with Euler pole as 'North pole'
-  merc.obl <- sp::CRS(paste0("+proj=omerc +alpha=", x$lat, " +lon_c=", x$lon))
+  SL.ep.df <- sp::spTransform(SL.wgs84.df, ep)
   suppressWarnings(
-    sp::proj4string(SL.merc.df) <- merc.obl
+    proj4string(SL.ep.df) <- wgs84
   )
 
   # wrap at dateline
-  SL.merc.df <- wrap_dateline(SL.merc.df)
+  SL.df <- wrap_dateline(SL.ep.df)
 
-  # transform back to WGS84
-  SL.df <- sp::spTransform(SL.merc.df, sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
-
-  # wrap at dateline
-  SL.df <- wrap_dateline(SL.df)
 
   return(SL.df)
 }
