@@ -9,9 +9,9 @@ abs_vel(w, alpha, r = 6371.00887714)
 \arguments{
 \item{w}{Angular velocity or rate or angle of rotation}
 
-\item{alpha}{Angular distance to Euler pole or smallcircle around Euler pole}
+\item{alpha}{Angular distance to Euler pole or small circle around Euler pole}
 
-\item{r}{radius. Default is Earth's radius (r=6371.00887714)}
+\item{r}{radius. Default is Earth's radius (r=6371.00887714 km)}
 }
 \value{
 number

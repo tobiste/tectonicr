@@ -13,7 +13,7 @@ cartesian_to_geographical(n)
 vector of two numbers (latitude, longitude)
 }
 \description{
-Converts vector from cartesian into geographical coordinates
+Converts vector from Cartesian into geographical coordinates
 }
 \examples{
 u <- c(1, -2, 3)

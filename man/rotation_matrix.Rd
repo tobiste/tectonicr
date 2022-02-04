@@ -7,7 +7,7 @@
 rotation_matrix(n, alpha)
 }
 \arguments{
-\item{n}{Rotation axis (in cartesian coordinates). Can be a vector of three numbers
+\item{n}{Rotation axis (in Cartesian coordinates). Can be a vector of three numbers
 or a matrix of 3 columns (first one is x, second y, third z)}
 
 \item{alpha}{Rotation angle in degrees}

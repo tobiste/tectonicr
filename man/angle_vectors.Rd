@@ -7,7 +7,7 @@
 angle_vectors(x, y)
 }
 \arguments{
-\item{x}{Vector 1 in cartesian coordinates. Can be a vector of three numbers
+\item{x}{Vector 1 in Cartesian coordinates. Can be a vector of three numbers
 or a matrix of 3 columns (first one is x, second y, third z)}
 
 \item{y}{Vector 2. As above}

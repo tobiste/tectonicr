@@ -9,7 +9,7 @@ circular_quasi_quartile(x, na.rm = TRUE)
 \arguments{
 \item{x}{a numeric vector containing the orientations whose sample quartile is to be computed}
 
-\item{na.rm}{logical; if true (default), any NA and NaN's are removed from x before the quantiles are computed.}
+\item{na.rm}{logical; if true (default), any NA and NaN's are removed from \code{x} before the quantiles are computed.}
 }
 \description{
 The \code{"stats::quantile"} equivalent for circular orientation data

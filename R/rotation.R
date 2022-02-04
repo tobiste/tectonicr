@@ -2,7 +2,7 @@
 #'
 #' @description Calculates the angle between two vectors
 #' @author Tobias Stephan
-#' @param x Vector 1 in cartesian coordinates. Can be a vector of three numbers
+#' @param x Vector 1 in Cartesian coordinates. Can be a vector of three numbers
 #'  or a matrix of 3 columns (first one is x, second y, third z)
 #' @param y Vector 2. As above
 #' @return numeric; angle in degrees
@@ -23,7 +23,7 @@ angle_vectors <- function(x, y) {
 #'
 #' @description Calculates the rotation matrix using the rotation axis and the angle of rotation
 #' @author Tobias Stephan
-#' @param n Rotation axis (in cartesian coordinates). Can be a vector of three numbers
+#' @param n Rotation axis (in Cartesian coordinates). Can be a vector of three numbers
 #'  or a matrix of 3 columns (first one is x, second y, third z)
 #' @param alpha Rotation angle in degrees
 #' @return matrix
@@ -72,7 +72,7 @@ longitude_modulo <- function(longitude) {
 
 #' @title Cartesian to geographical coordinates
 #'
-#' @description Converts vector from cartesian into geographical coordinates
+#' @description Converts vector from Cartesian into geographical coordinates
 #' @param n Vector of three numbers (x, y, z)
 #' @return vector of two numbers (latitude, longitude)
 #' @export
@@ -122,8 +122,8 @@ geographical_to_cartesian <- function(p, r = 1) {
 #'
 #' @description Calculates the absolute angular velocity of plate motion
 #' @param w Angular velocity or rate or angle of rotation
-#' @param alpha Angular distance to Euler pole or smallcircle around Euler pole
-#' @param r radius. Default is Earth's radius (r=6371.00887714)
+#' @param alpha Angular distance to Euler pole or small circle around Euler pole
+#' @param r radius. Default is Earth's radius (r=6371.00887714 km)
 #' @return number
 #' @export
 #' @importFrom pracma deg2rad sind
