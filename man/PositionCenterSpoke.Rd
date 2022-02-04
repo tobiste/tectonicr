@@ -11,6 +11,7 @@ An object of class \code{PositionCenterSpoke} (inherits from \code{Position}, \c
 PositionCenterSpoke
 }
 \description{
-\code{position} subclass "center_spoke" to center \code{ggplot::geom_spoke()} marker at its origin
+\code{position} subclass "center_spoke" to center
+\code{ggplot::geom_spoke()} marker at its origin
 }
 \keyword{datasets}

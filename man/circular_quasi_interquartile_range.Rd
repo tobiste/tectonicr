@@ -7,18 +7,22 @@
 circular_quasi_interquartile_range(x, na.rm = TRUE)
 }
 \arguments{
-\item{x}{a numeric vector containing the orientations whose sample quartile is to be computed}
+\item{x}{a numeric vector containing the orientations whose sample quartile
+is to be computed}
 
-\item{na.rm}{logical; if true (default), any NA and NaN's are removed from \code{x} before the quantiles are computed.}
+\item{na.rm}{logical; if true (default), any NA and NaN's are removed from
+\code{x} before the quantiles are computed.}
 }
 \description{
 The \code{"stats::IQR"} equivalent for circular orientation data
 }
 \examples{
-circular_quasi_interquartile_range(x = c(0, 45, 55, 40+180, 50+180))
+circular_quasi_interquartile_range(x = c(0, 45, 55, 40 + 180, 50 + 180))
 }
 \references{
-Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M., Moeck, I. (2014). A revised crustal stress orientation database for Canada. Tectonophysics, 636, 111–124. https://doi.org/10.1016/j.tecto.2014.08.006
+Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
+Moeck, I. (2014). A revised crustal stress orientation database for Canada.
+Tectonophysics, 636, 111–124. https://doi.org/10.1016/j.tecto.2014.08.006
 }
 \seealso{
 \code{\link[stats]{IQR}}

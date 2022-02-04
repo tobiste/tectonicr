@@ -7,13 +7,15 @@
 eulerpole_loxodromes(x, angle = 45, ld = 10, sense)
 }
 \arguments{
-\item{x}{\code{data.frame} containing coordinates of Euler pole in lat and lon}
+\item{x}{\code{data.frame} containing coordinates of Euler pole in lat and
+lon}
 
 \item{angle}{Direction of loxodromes; default = 45}
 
 \item{ld}{numeric, angle between loxodromes (in degree); default: 10}
 
-\item{sense}{Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise' or 'counterclockwise' loxodromes, respectively}
+\item{sense}{Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
+or 'counterclockwise' loxodromes, respectively}
 }
 \value{
 An object of class \code{SpatialLinesDataFrame}

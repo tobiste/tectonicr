@@ -31,7 +31,8 @@ norm_chi2 <- function(obs, prd, unc) {
   }
 
   if (length(unc) != 1 & length(unc) != length(obs)) {
-    stop("Uncertainties must be either a numeric value or a numeric value with length of observed values!")
+    stop("Uncertainties must be either a numeric value or a numeric value with
+         length of observed values!")
   }
 
   if (length(unc) == 1) {
@@ -59,31 +60,37 @@ norm_chi2 <- function(obs, prd, unc) {
 
 #' @title Quasi Median on a Circle
 #' @description Median of orientation data, i.e. pi-periodical data
-#' @param x a numeric vector containing the orientations whose median is to be computed
-#' @param na.rm logical; if true (default), any NA and NaN's are removed from \code{x} before the quantiles are computed.
+#' @param x a numeric vector containing the orientations whose median is to be
+#' computed
+#' @param na.rm logical; if true (default), any NA and NaN's are removed from
+#' \code{x} before the quantiles are computed.
 #' @importFrom pracma atand cosd sind
 #' @export
 #' @seealso \code{\link[stats]{median}}
-#' @references Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009). A New Estimator of a Circular Median. Communications in Statistics - Simulation and Computation, 38(6), 1269–1291. https://doi.org/10.1080/03610910902899950
+#' @references Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+#' A New Estimator of a Circular Median. Communications in Statistics -
+#' Simulation and Computation, 38(6), 1269–1291.
+#' https://doi.org/10.1080/03610910902899950
 #' @examples
-#' circular_quasi_median(x = c(0, 45, 55, 40+180, 50+180))
-circular_quasi_median <- function(x, na.rm=TRUE){
-  if(na.rm==TRUE){
+#' circular_quasi_median(x = c(0, 45, 55, 40 + 180, 50 + 180))
+circular_quasi_median <- function(x, na.rm = TRUE) {
+  if (na.rm == TRUE) {
   } else {
     warning("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
   n <- length(x)
 
-  if(n%%2 != 0){
-    m <- (n-1)/2
+  if (n %% 2 != 0) {
+    m <- (n - 1) / 2
     qmed <- pracma::atand(
-      pracma::sind(x[m+1])/pracma::cosd(x[m+1])
+      pracma::sind(x[m + 1]) / pracma::cosd(x[m + 1])
     )
   } else {
-    m <- n/2
+    m <- n / 2
     qmed <- pracma::atand(
-      (pracma::sind(x[m]) + pracma::sind(x[m+1])) / (pracma::cosd(x[m]) + pracma::cosd(x[m+1]))
+      (pracma::sind(x[m]) + pracma::sind(x[m + 1])) /
+        (pracma::cosd(x[m]) + pracma::cosd(x[m + 1]))
     )
   }
   return(qmed)
@@ -92,72 +99,90 @@ circular_quasi_median <- function(x, na.rm=TRUE){
 
 
 #' @title Quasi Quartile on a Circle
-#' @description The \code{"stats::quantile"} equivalent for circular orientation data
-#' @param x a numeric vector containing the orientations whose sample quartile is to be computed
-#' @param na.rm logical; if true (default), any NA and NaN's are removed from \code{x} before the quantiles are computed.
+#' @description The \code{"stats::quantile"} equivalent for circular orientation
+#'  data
+#' @param x a numeric vector containing the orientations whose sample quartile
+#' is to be computed
+#' @param na.rm logical; if true (default), any NA and NaN's are removed from
+#' \code{x} before the quantiles are computed.
 #' @importFrom pracma atand cosd sind
 #' @export
 #' @seealso \code{\link[stats]{stats}}
-#' @references Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009). A New Estimator of a Circular Median. Communications in Statistics - Simulation and Computation, 38(6), 1269–1291. https://doi.org/10.1080/03610910902899950
+#' @references Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+#' A New Estimator of a Circular Median. Communications in Statistics -
+#' Simulation and Computation, 38(6), 1269–1291.
+#' https://doi.org/10.1080/03610910902899950
 #' @examples
-#' circular_quasi_quartile(x = c(0, 45, 55, 40+180, 50+180))
-circular_quasi_quartile <- function(x, na.rm=TRUE){
-  if(na.rm==TRUE){
+#' circular_quasi_quartile(x = c(0, 45, 55, 40 + 180, 50 + 180))
+circular_quasi_quartile <- function(x, na.rm = TRUE) {
+  if (na.rm == TRUE) {
   } else {
     warning("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
   n <- length(x)
-  #ms <- 1:n
+  # ms <- 1:n
 
   med <- circular_quasi_median(x)
 
-  if(n%%4 == 0){
-    m <- n/4
+  if (n %% 4 == 0) {
+    m <- n / 4
     lq <- pracma::atand(
-      pracma::sind(x[m+1]) / pracma::cosd(x[m+1])
+      pracma::sind(x[m + 1]) / pracma::cosd(x[m + 1])
     )
     uq <- pracma::atand(
-      pracma::sind(x[3*m+1]) / pracma::cosd(x[3*m+1])
+      pracma::sind(x[3 * m + 1]) / pracma::cosd(x[3 * m + 1])
     )
   }
-  if(n%%4 == 1){
-    m <- (n-1)/4
+  if (n %% 4 == 1) {
+    m <- (n - 1) / 4
     lq <- pracma::atand(
-      (3*pracma::sind(x[m]) + pracma::sind(x[m+1])) / (3*pracma::cosd(x[m])+pracma::cosd(x[m+1]))
+      (3 * pracma::sind(x[m]) + pracma::sind(x[m + 1])) /
+        (3 * pracma::cosd(x[m]) + pracma::cosd(x[m + 1]))
     )
     uq <- pracma::atand(
-      (3*pracma::sind(x[3*m])+pracma::sind(x[3*m+1])) / (3*pracma::cosd(x[3*m])+pracma::cosd(x[3*m+1]))
+      (3 * pracma::sind(x[3 * m]) + pracma::sind(x[3 * m + 1])) /
+        (3 * pracma::cosd(x[3 * m]) + pracma::cosd(x[3 * m + 1]))
     )
   }
-  if(n%%4 == 2) {
-    m <- (n-2)/4
-    lq <- pracma::atand( (pracma::sind(x[m])+pracma::sind(x[m+1])) / (pracma::cosd(x[m])+pracma::cosd(x[m+1])) )
-    uq <- pracma::atand( (pracma::sind(x[3*m])+pracma::sind(x[3*m+1])) / (pracma::cosd(x[3*m])+pracma::cosd(x[3*m+1])) )
+  if (n %% 4 == 2) {
+    m <- (n - 2) / 4
+    lq <- pracma::atand((pracma::sind(x[m]) + pracma::sind(x[m + 1])) /
+                          (pracma::cosd(x[m]) + pracma::cosd(x[m + 1])))
+    uq <- pracma::atand((pracma::sind(x[3 * m]) + pracma::sind(x[3 * m + 1])) /
+                          (pracma::cosd(x[3 * m]) + pracma::cosd(x[3 * m + 1])))
   }
-  if(n%%4 == 3) {
-    m <- (n-2)/4
-    lq <- pracma::atand( (pracma::sind(x[m]) + 3*pracma::sind(x[m+1])) / (pracma::cosd(x[m]) + 3*pracma::cosd(x[m+1])) )
-    uq <- pracma::atand( (pracma::sind(x[3*m]) + 3*pracma::sind(x[3*m+1])) / (pracma::cosd(x[3*m]) + 3*pracma::cosd(x[3*m+1])) )
+  if (n %% 4 == 3) {
+    m <- (n - 2) / 4
+    lq <- pracma::atand((pracma::sind(x[m]) + 3 * pracma::sind(x[m + 1])) /
+                          (pracma::cosd(x[m]) + 3 * pracma::cosd(x[m + 1])))
+    uq <- pracma::atand((pracma::sind(x[3 * m]) +
+                           3 * pracma::sind(x[3 * m + 1])) /
+                          (pracma::cosd(x[3 * m]) +
+                             3 * pracma::cosd(x[3 * m + 1])))
   }
 
   quantiles <- c(x[1], lq, med, uq, x[length(x)])
-  names(quantiles) <- c("0%" ,  "25%" , "50%" , "75%" , "100%")
+  names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
   return(quantiles)
 }
 
 
 #' @title Quasi Interquartile Range on a Circle
 #' @description The \code{"stats::IQR"} equivalent for circular orientation data
-#' @param x a numeric vector containing the orientations whose sample quartile is to be computed
-#' @param na.rm logical; if true (default), any NA and NaN's are removed from \code{x} before the quantiles are computed.
+#' @param x a numeric vector containing the orientations whose sample quartile
+#' is to be computed
+#' @param na.rm logical; if true (default), any NA and NaN's are removed from
+#' \code{x} before the quantiles are computed.
 #' @export
-#' @references Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M., Moeck, I. (2014). A revised crustal stress orientation database for Canada. Tectonophysics, 636, 111–124. https://doi.org/10.1016/j.tecto.2014.08.006
+#' @references Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
+#' Moeck, I. (2014). A revised crustal stress orientation database for Canada.
+#' Tectonophysics, 636, 111–124. https://doi.org/10.1016/j.tecto.2014.08.006
 #' @seealso \code{\link[stats]{IQR}}
 #' @examples
-#' circular_quasi_interquartile_range(x = c(0, 45, 55, 40+180, 50+180))
-circular_quasi_interquartile_range <- function(x, na.rm=TRUE){
-  if(na.rm==TRUE){
+#' circular_quasi_interquartile_range(x = c(0, 45, 55, 40 + 180, 50 + 180))
+circular_quasi_interquartile_range <- function(x, na.rm = TRUE) {
+  if (na.rm == TRUE) {
   } else {
     warning("NA values have been dropped\n")
   }

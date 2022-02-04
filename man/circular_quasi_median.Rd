@@ -7,18 +7,23 @@
 circular_quasi_median(x, na.rm = TRUE)
 }
 \arguments{
-\item{x}{a numeric vector containing the orientations whose median is to be computed}
+\item{x}{a numeric vector containing the orientations whose median is to be
+computed}
 
-\item{na.rm}{logical; if true (default), any NA and NaN's are removed from \code{x} before the quantiles are computed.}
+\item{na.rm}{logical; if true (default), any NA and NaN's are removed from
+\code{x} before the quantiles are computed.}
 }
 \description{
 Median of orientation data, i.e. pi-periodical data
 }
 \examples{
-circular_quasi_median(x = c(0, 45, 55, 40+180, 50+180))
+circular_quasi_median(x = c(0, 45, 55, 40 + 180, 50 + 180))
 }
 \references{
-Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009). A New Estimator of a Circular Median. Communications in Statistics - Simulation and Computation, 38(6), 1269–1291. https://doi.org/10.1080/03610910902899950
+Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+A New Estimator of a Circular Median. Communications in Statistics -
+Simulation and Computation, 38(6), 1269–1291.
+https://doi.org/10.1080/03610910902899950
 }
 \seealso{
 \code{\link[stats]{median}}

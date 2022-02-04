@@ -7,7 +7,8 @@
 eulerpole_smallcircles(x, sm)
 }
 \arguments{
-\item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon, and rotation angle (optional)}
+\item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon,
+and rotation angle (optional)}
 
 \item{sm}{numeric, angle between small circles (in degree); default: 10}
 }
@@ -18,7 +19,8 @@ An object of class \code{SpatialLinesDataFrame}
 Construct a line that has a constant distance to the Euler pole.
 }
 \details{
-if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
+if angle is given: output additionally gives absolute velocity on
+small circle (degree/Myr -> km/Myr)
 }
 \examples{
 data("nuvel1")

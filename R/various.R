@@ -1,8 +1,10 @@
-position_center_spoke <- function() PositionCenterSpoke # position subclass "center_spoke" to center ggplot::geom_spoke() marker at its origin
+position_center_spoke <- function() PositionCenterSpoke # position subclass
+# "center_spoke" to center ggplot::geom_spoke() marker at its origin
 
 #' @title  Centrically aligned geom_spoke marker
 #'
-#' @description \code{position} subclass "center_spoke" to center \code{ggplot::geom_spoke()} marker at its origin
+#' @description \code{position} subclass "center_spoke" to center
+#' \code{ggplot::geom_spoke()} marker at its origin
 #' @export
 #' @importFrom ggplot2 ggproto Position
 PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position,
