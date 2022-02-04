@@ -88,7 +88,7 @@ at an angle of 45$^{\circ}$ (Wdowinski, 1998).
 
 Load the package
 
-```{r setup}
+```{r setup, echo=TRUE}
 library(PlateTectonicStressR)
 library(ggplot2) # load ggplot library
 ```
@@ -101,7 +101,7 @@ For example, the Euler pole has the coordinates: 90$^{\circ}$N/0$^{\circ}$E. The
 $\sigma_{Hmax}$ following great and small circles and loxodromes
 geometries can be modeled with `model_shmax()`:
 
-```{r direction_of_plate_motion}
+```{r direction_of_plate_motion, echo=TRUE}
 # Example:
 point <- data.frame(lat = 45, lon = 20)
 euler <- data.frame(lat = 90, lon = 0)
@@ -113,7 +113,7 @@ If there is an observed stress orientation at the point, e.g. azimuth of
 $\sigma_{Hmax}$ is 90$^{\circ}$, the deviation from the modeled stress
 orientations can be achieved via `misfit_shmax()`:
 
-```{r deviation_of_plate_motion}
+```{r deviation_of_plate_motion, echo=TRUE}
 deviation <- misfit_shmax(model, 90)
 print(deviation)
 ```
@@ -145,7 +145,7 @@ vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted $
 (vector must be of length of `obs`); and `unc` is the uncertainty of
 observed $\sigma_{Hmax}$ (either numeric vector of length of `obs` or a number).
 
-```{r shmax_test}
+```{r shmax_test, echo=TRUE}
 data("nuvel1")
 euler <-
   subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
@@ -154,12 +154,13 @@ prd <- model_shmax(point, euler)
 norm_chi2(obs = 90, prd$sc, unc = 10)
 ```
 
+
 ## Larger Data Sets
 
 `PlateTectonicStressR` also handles larger files. For example, we can
 import the WSM2016 data:
 
-```{r load_wsm2016}
+```{r load_wsm2016, echo=TRUE}
 data('wsm2016')
 head(wsm2016)
 ```
@@ -167,7 +168,7 @@ head(wsm2016)
 Subset of the WSM data to stress data relevant for the Plate boundary
 between North America and the Pacific plate at the San Andreas fault:
 
-```{r wsm_subset}
+```{r wsm_subset, echo=TRUE}
 san.andreas <- subset(wsm2016,
                       wsm2016$lat >= 23 & wsm2016$lat <= 40 &
                         wsm2016$lon >= -126 & wsm2016$lon <= -108)
@@ -176,7 +177,7 @@ san.andreas <- subset(wsm2016,
 Modeling the stress directions using the Euler pole of the motion of
 North America relative to the Pacific Pate.
 
-```{r san_andreas}
+```{r san_andreas, echo=TRUE}
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$ID == "na")
 
@@ -187,7 +188,7 @@ san.andreas.deviation <-
 
 Combine the model results with the coordinates of the observed data
 
-```{r san_andreas2}
+```{r san_andreas2, echo=TRUE}
 san.andreas.res <- cbind(
   lat = san.andreas$lat,
   lon = san.andreas$lon,
@@ -204,11 +205,11 @@ the marker symbol at the center of the point. The deviation can be color
 coded. `deviation_norm()` yields the normalized value of the deviation,
 i.e. values between 0 and 90$^{\circ}$.
 
-```{r plates}
+```{r plates, echo=TRUE}
 data('PB2002') # load plate boundary data set
 ```
 
-```{r plot, warning=FALSE, message=FALSE}
+```{r plot, echo=TRUE, warning=FALSE, message=FALSE}
 ggplot(san.andreas.res) +
   coord_fixed(
     xlim = range(san.andreas.res$lon),
@@ -231,7 +232,8 @@ ggplot(san.andreas.res) +
       angle = pracma::deg2rad(-azi + 90),
       color = deviation_norm(dev.ld.ccw)
     ),
-    position = "center_spoke"
+    position = "center_spoke",
+    na.rm = TRUE
   ) +
   scale_color_continuous(
     type = "viridis",
@@ -247,9 +249,10 @@ loxodromes. The *normalized* $\chi^2$ test tests the fit between the
 modeled $\sigma_{Hmax}$ orientation the observed stress direction
 considering the reported uncertainties of the measurement.
 
-```{r san_andreas_nchi2}
+```{r san_andreas_nchi2, echo=TRUE}
 san.andreas$unc <-
   quantise_wsm_quality(san.andreas$quality) # convert the WSM quality ranking into the standard deviation of the measurement
+
 norm_chi2(obs = san.andreas$azi,
           san.andreas.prd$ld.ccw,
           unc = san.andreas$unc)
@@ -271,7 +274,7 @@ For example the small circles around the Euler pole of the relative
 motion of North America relative to the Pacific plate (from the NUVEL1
 model):
 
-```{r load_nuvel}
+```{r load_nuvel, echo=TRUE}
 data("nuvel1")
 euler <-
   subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
@@ -281,7 +284,7 @@ euler$angle <- euler$rate
 To plot the small circles with `ggplot`, I recommend to transform the
 `SpatialLinesDataFrame` into a `data.frame` with `broom::tidy()`:
 
-```{r small_circles_around_ep, warning=FALSE, message=FALSE}
+```{r small_circles_around_ep, echo=TRUE, warning=FALSE, message=FALSE}
 euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
@@ -328,7 +331,7 @@ circles as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler
 pole coordinates in lat and lon (`x`) and the number of great circles `gm`,
 or the great circle angles (`360/d`).
 
-```{r great_circles_around_ep, warning=FALSE, message=FALSE}
+```{r great_circles_around_ep, echo=TRUE, warning=FALSE, message=FALSE}
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
@@ -384,7 +387,7 @@ Function `eulerpole_loxodromes(x, ld)` returns loxodromes as
 coordinates in lat and lon (`x`) and the angle between the loxodromes, the
 direction, and the sense.
 
-```{r loxodromes, warning=FALSE, message=FALSE}
+```{r loxodromes, echo=TRUE, warning=FALSE, message=FALSE}
 euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = 'sinistral')
 
 ggplot() +
