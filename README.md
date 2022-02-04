@@ -11,7 +11,7 @@
 
 ## Prerequisites
 
-You must have R installed on your system (see http://r-project.org). Additionally, to install PlateTectonicStressR from Github, you also need the devtools package. This can be installed by typing the following code at the R command line prompt:
+You must have R installed on your system (see http://r-project.org). Additionally, to install PlateTectonicStressR from Github, you also need the `remotes` package. This can be installed by typing the following code at the R command line prompt:
 
 ```
 install.packages("remotes")

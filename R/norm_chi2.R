@@ -92,7 +92,7 @@ circular_quasi_median <- function(x, na.rm=TRUE){
 
 
 #' @title Quasi Quartile on a Circle
-#' @description The \code{"stats::quantile"} equivalent for circular orienation data
+#' @description The \code{"stats::quantile"} equivalent for circular orientation data
 #' @param x a numeric vector containing the orientations whose sample quartile is to be computed
 #' @param na.rm logical; if true (default), any NA and NaN's are removed from x before the quantiles are computed.
 #' @importFrom pracma atand cosd sind
@@ -148,7 +148,7 @@ circular_quasi_quartile <- function(x, na.rm=TRUE){
 
 
 #' @title Quasi Interquartile Range on a Circle
-#' @description The \code{"stats::IQR"} equivalent for circular orienation data
+#' @description The \code{"stats::IQR"} equivalent for circular orientation data
 #' @param x a numeric vector containing the orientations whose sample quartile is to be computed
 #' @param na.rm logical; if true (default), any NA and NaN's are removed from x before the quantiles are computed.
 #' @export

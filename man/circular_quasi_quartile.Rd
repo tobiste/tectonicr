@@ -12,7 +12,7 @@ circular_quasi_quartile(x, na.rm = TRUE)
 \item{na.rm}{logical; if true (default), any NA and NaN's are removed from x before the quantiles are computed.}
 }
 \description{
-The \code{"stats::quantile"} equivalent for circular orienation data
+The \code{"stats::quantile"} equivalent for circular orientation data
 }
 \examples{
 circular_quasi_quartile(x = c(0, 45, 55, 40+180, 50+180))
