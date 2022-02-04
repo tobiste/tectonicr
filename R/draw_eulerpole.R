@@ -201,7 +201,7 @@ eulerpole_greatcircles <- function(x, gm, n) {
   } else if (missing(n) & missing(gm)) {
     n <- 12
   } else if (!missing(n) & !missing(gm)) {
-    warning("Both gm and n are given. Only n is considered")
+    warning("Both gm and n are given. Only n is considered\n")
     n <- 12
   }
 
@@ -301,7 +301,7 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense) {
   } else if (sense == "dextral" | sense == "counterclockwise") {
     s <- 1
   } else {
-    stop("sense must be sinistral, dextral, clockwise, or clounterclockwise")
+    stop("sense must be sinistral, dextral, clockwise, or clounterclockwise\n")
   }
 
   lats <- seq(-180, 180, 1)
@@ -372,7 +372,7 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense) {
 eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
   loxodrome <- NULL
   if (missing(sense)) {
-    stop("sense missing")
+    stop("sense missing\n")
   }
 
   ld.df <-

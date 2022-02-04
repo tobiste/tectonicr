@@ -62,7 +62,7 @@ deviation_norm <- function(x) {
 #' misfit_shmax(prd, obs = 90)
 misfit_shmax <- function(prd, obs) {
   if (length(obs) != length(seq_along(prd$gc))) {
-    stop("prd and obs must have have the same length")
+    stop("prd and obs must have have the same length\n")
   }
   obs <- obs %% 180
 

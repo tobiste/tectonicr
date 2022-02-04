@@ -21,9 +21,11 @@ angle_vectors <- function(x, y) {
 
 #' @title Rotation matrix
 #'
-#' @description Calculates the rotation matrix using the rotation axis and the angle of rotation
+#' @description Calculates the rotation matrix using the rotation axis and the
+#' angle of rotation
 #' @author Tobias Stephan
-#' @param n Rotation axis (in Cartesian coordinates). Can be a vector of three numbers
+#' @param n Rotation axis (in Cartesian coordinates). Can be a vector of three
+#' numbers
 #'  or a matrix of 3 columns (first one is x, second y, third z)
 #' @param alpha Rotation angle in degrees
 #' @return matrix
@@ -59,7 +61,8 @@ rotation_matrix <- function(n, alpha) {
 
 #' @title Longitude correction
 #'
-#' @description Corrects the longitude value to values between -180 and +180 degree
+#' @description Corrects the longitude value to values between -180 and +180
+#' degree
 #' @param longitude longitude(s) in degree
 #' @return number
 #' @export
@@ -123,7 +126,7 @@ geographical_to_cartesian <- function(p, r = 1) {
 #' @description Calculates the absolute angular velocity of plate motion
 #' @param w Angular velocity or rate or angle of rotation
 #' @param alpha Angular distance to Euler pole or small circle around Euler pole
-#' @param r radius. Default is Earth's radius (r=6371.00887714 km)
+#' @param r radius. Default is Earth's radius (r = 6371.00887714 km)
 #' @return number
 #' @export
 #' @importFrom pracma deg2rad sind

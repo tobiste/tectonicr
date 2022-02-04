@@ -27,12 +27,12 @@
 #' norm_chi2(obs = 90, prd$sc, unc = 10)
 norm_chi2 <- function(obs, prd, unc) {
   if (length(prd) != length(obs)) {
-    stop("Observed and predicted values must have the same length!")
+    stop("Observed and predicted values must have the same length!\n")
   }
 
   if (length(unc) != 1 & length(unc) != length(obs)) {
     stop("Uncertainties must be either a numeric value or a numeric value with
-         length of observed values!")
+         length of observed values!\n")
   }
 
   if (length(unc) == 1) {
@@ -73,9 +73,8 @@ norm_chi2 <- function(obs, prd, unc) {
 #' https://doi.org/10.1080/03610910902899950
 #' @examples
 #' circular_quasi_median(x = c(0, 45, 55, 40 + 180, 50 + 180))
-circular_quasi_median <- function(x, na.rm = TRUE) {
-  if (na.rm == TRUE) {
-  } else {
+circular_quasi_median <- function(x) {
+  if (NA %in% x) {
     warning("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
@@ -114,9 +113,8 @@ circular_quasi_median <- function(x, na.rm = TRUE) {
 #' https://doi.org/10.1080/03610910902899950
 #' @examples
 #' circular_quasi_quartile(x = c(0, 45, 55, 40 + 180, 50 + 180))
-circular_quasi_quartile <- function(x, na.rm = TRUE) {
-  if (na.rm == TRUE) {
-  } else {
+circular_quasi_quartile <- function(x) {
+  if (NA %in% x) {
     warning("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
@@ -181,9 +179,8 @@ circular_quasi_quartile <- function(x, na.rm = TRUE) {
 #' @seealso \code{\link[stats]{IQR}}
 #' @examples
 #' circular_quasi_interquartile_range(x = c(0, 45, 55, 40 + 180, 50 + 180))
-circular_quasi_interquartile_range <- function(x, na.rm = TRUE) {
-  if (na.rm == TRUE) {
-  } else {
+circular_quasi_interquartile_range <- function(x) {
+  if (NA %in% x) {
     warning("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
