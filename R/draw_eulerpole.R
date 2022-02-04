@@ -111,7 +111,7 @@ eulerpole_smallcircles <- function(x, sm) {
 
   wgs84 <- sp::CRS("+proj=longlat")
 
-  # General Oblique Transformation¶
+  # General Oblique TransformationÂ¶
   ep <- sp::CRS(
     paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
            x$lat,
@@ -240,7 +240,7 @@ eulerpole_greatcircles <- function(x, gm, n) {
 
   wgs84 <- sp::CRS("+proj=longlat")
 
-  # General Oblique Transformation¶
+  # General Oblique TransformationÂ¶
   dummy <- sp::CRS(
     paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0")
   )
@@ -411,7 +411,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
 
   wgs84 <- sp::CRS("+proj=longlat")
 
-  # General Oblique Transformation¶
+  # General Oblique TransformationÂ¶
   ep <- sp::CRS(
     paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
            x$lat,
