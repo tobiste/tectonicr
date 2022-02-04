@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_eulerpole.R
 \name{eulerpole_smallcircles}
 \alias{eulerpole_smallcircles}
-\title{Draws small-circles around Euler pole}
+\title{Small-circles around Euler pole}
 \usage{
 eulerpole_smallcircles(x, sm)
 }

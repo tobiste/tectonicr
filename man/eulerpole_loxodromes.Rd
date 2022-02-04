@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_eulerpole.R
 \name{eulerpole_loxodromes}
 \alias{eulerpole_loxodromes}
-\title{Draws loxodromes directed towards an Euler pole}
+\title{Loxodromes directed towards an Euler pole}
 \usage{
 eulerpole_loxodromes(x, angle = 45, ld = 10, sense)
 }

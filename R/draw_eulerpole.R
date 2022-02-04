@@ -50,7 +50,7 @@ wrap_dateline <- function(x) {
   return(x.wrapped)
 }
 
-#' @title Draws small-circles around Euler pole
+#' @title Small-circles around Euler pole
 #'
 #' @description Construct a line that has a constant distance to the Euler pole.
 #'
@@ -180,9 +180,9 @@ greatcircle_dummy <- function(x) {
   return(great.circle)
 }
 
-#' @title Draws great-circles of Euler pole
+#' @title Great-circles of Euler pole
 #'
-#' @description .
+#' @description Get points on a great circle as defined by the shortest distance between two specified points
 #'
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon, and rotation angle (optional)
@@ -196,8 +196,7 @@ greatcircle_dummy <- function(x) {
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
-#' # Pacific plate
+#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' euler$angle <- euler$rate
 #' eulerpole_greatcircles(euler)
 eulerpole_greatcircles <- function(x, gm, n) {
@@ -240,7 +239,7 @@ eulerpole_greatcircles <- function(x, gm, n) {
 
   wgs84 <- sp::CRS("+proj=longlat")
 
-  # General Oblique TransformationÂ¶
+  # General Oblique Transformation
   dummy <- sp::CRS(
     paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0")
   )
@@ -274,7 +273,6 @@ eulerpole_greatcircles <- function(x, gm, n) {
 
   return(SL.df)
 }
-
 
 
 
@@ -355,7 +353,7 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense) {
 }
 
 
-#' @title Draws loxodromes directed towards an Euler pole
+#' @title Loxodromes directed towards an Euler pole
 #'
 #' @description Construct curves cutting small circles at a constant angle
 #'
@@ -411,7 +409,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
 
   wgs84 <- sp::CRS("+proj=longlat")
 
-  # General Oblique TransformationÂ¶
+  # General Oblique Transformation
   ep <- sp::CRS(
     paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
            x$lat,

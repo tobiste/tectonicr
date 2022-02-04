@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_eulerpole.R
 \name{eulerpole_greatcircles}
 \alias{eulerpole_greatcircles}
-\title{Draws great-circles of Euler pole}
+\title{Great-circles of Euler pole}
 \usage{
 eulerpole_greatcircles(x, gm, n)
 }
@@ -17,15 +17,14 @@ eulerpole_greatcircles(x, gm, n)
 An object of class \code{SpatialLinesDataFrame}
 }
 \description{
-.
+Get points on a great circle as defined by the shortest distance between two specified points
 }
 \details{
 if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
-# Pacific plate
+euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 euler$angle <- euler$rate
 eulerpole_greatcircles(euler)
 }
