@@ -21,6 +21,7 @@ Imports:
     sf,
     sp
 Suggests: 
+    covr,
     broom,
     knitr,
     maps,
