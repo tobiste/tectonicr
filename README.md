@@ -1,8 +1,8 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tobiste/PlateTectonicStressR/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/PlateTectonicStressR/actions)
 [![Launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tobiste/PlateTectonicStressR/main)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5885309.svg)](https://doi.org/10.5281/zenodo.5885309)
 [![Codecov test coverage](https://codecov.io/gh/tobiste/PlateTectonicStressR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tobiste/PlateTectonicStressR?branch=main)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5885309.svg)](https://doi.org/10.5281/zenodo.5885309)
 <!-- badges: end -->
 
 
