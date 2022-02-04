@@ -254,10 +254,12 @@ eulerpole_greatcircles <- function(x, gm, n) {
 
   SL.t <-  sp::SpatialLines(SL.list, proj4string = dummy)
 
-  SL.t.df <- sp::SpatialLinesDataFrame(
-    SL.t,
-    data.frame("great_circle" = as.character(gm_range), row.names = gm_range)
-    )
+  SL.t.df <- wrap_dateline(
+    sp::SpatialLinesDataFrame(
+      SL.t,
+      data.frame("great_circle" = as.character(gm_range), row.names = gm_range)
+      )
+  )
 
 
   SL.ep.df <- wrap_dateline(
