@@ -11,7 +11,7 @@ abs_vel(w, alpha, r = 6371.00887714)
 
 \item{alpha}{Angular distance to Euler pole or small circle around Euler pole}
 
-\item{r}{radius. Default is Earth's radius (r=6371.00887714 km)}
+\item{r}{radius. Default is Earth's radius (r = 6371.00887714 km)}
 }
 \value{
 number

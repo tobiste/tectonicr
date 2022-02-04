@@ -121,11 +121,15 @@ eulerpole_smallcircles <- function(x, sm) {
     sp::SpatialLines(SL.list, proj4string = wgs84),
     data.frame("small_circle" = sm_range.df,
                row.names = sm_range)
+  ) %>% wrap_dateline()
+
+  SL.ep.df <- sp::spTransform(SL.t, ep) %>% wrap_dateline()
+
+  suppressMessages(
+    suppressWarnings(
+      sp::proj4string(SL.ep.df) <- wgs84
+    )
   )
-
-  SL.ep.df <- wrap_dateline(sp::spTransform(SL.t, ep))
-
-  suppressWarnings(sp::proj4string(SL.ep.df) <- wgs84)
 
   # wrap at dateline
   SL.df <- wrap_dateline(SL.ep.df)
@@ -227,34 +231,35 @@ eulerpole_greatcircles <- function(x, gm, n) {
     }
   }
 
-  sp::set_ll_warn(TRUE)
-
-  wgs84 <- sp::CRS("+proj=longlat +datum=WGS84 +over +lon_wrap=180")
+  wgs84 <- sp::CRS("+proj=longlat")
 
   # General Oblique Transformation
   dummy <- sp::CRS(
     paste0(
-      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=0 +o_lon_p=0 +over +lon_wrap=180"
+      "+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0"
       )
     )
 
   ep <- sp::CRS(
     paste0(
-      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=", x$lat, " +o_lon_p=", x$lon,
-      " +over +lon_wrap=180"
+      "+proj=ob_tran +o_proj=longlat +o_lat_p=", x$lat, " +o_lon_p=", x$lon
       )
     )
 
   SL.t <- sp::SpatialLines(SL.list, proj4string = dummy)
 
-  SL.t.df <- wrap_dateline(sp::SpatialLinesDataFrame(
+  SL.t.df <- sp::SpatialLinesDataFrame(
     SL.t,
     data.frame("great_circle" = as.character(gm_range), row.names = gm_range)
-  ))
+  ) %>% wrap_dateline()
 
-  SL.ep.df <- wrap_dateline(sp::spTransform(SL.t.df, ep))
+  SL.ep.df <- sp::spTransform(SL.t.df, ep) %>% wrap_dateline()
 
-  suppressWarnings(sp::proj4string(SL.ep.df) <- wgs84)
+  suppressMessages(
+    suppressWarnings(
+      sp::proj4string(SL.ep.df) <- wgs84
+    )
+  )
 
   SL.df <- wrap_dateline(SL.ep.df)
 
@@ -420,7 +425,11 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
 
   SL.ep.df <- wrap_dateline(sp::spTransform(SL.wgs84.df, ep))
 
-  suppressWarnings(sp::proj4string(SL.ep.df) <- wgs84)
+  suppressMessages(
+    suppressWarnings(
+      sp::proj4string(SL.ep.df) <- wgs84
+    )
+  )
 
   # wrap at dateline
   SL.df <- wrap_dateline(SL.ep.df)

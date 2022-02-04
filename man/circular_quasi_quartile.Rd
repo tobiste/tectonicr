@@ -4,7 +4,7 @@
 \alias{circular_quasi_quartile}
 \title{Quasi Quartile on a Circle}
 \usage{
-circular_quasi_quartile(x, na.rm = TRUE)
+circular_quasi_quartile(x)
 }
 \arguments{
 \item{x}{a numeric vector containing the orientations whose sample quartile

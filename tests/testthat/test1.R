@@ -25,11 +25,20 @@ misfits2 <- misfit_shmax(prd2, points$azi)
 
 test2 <- norm_chi2(obs = points$azi, prd = prd2$sc, unc = 10)
 
+#misfit_shmax(c(1, 2), c(1))
+
+rotation_matrix(c(0, 1, 0), 90)
+
+longitude_modulo(-361)
+abs_vel(0.21, 0, r=1)
+
+quantise_wsm_quality(c('A', 'E', 'F', 'G', 5))
+
 
 ep1 <- data.frame(lat = 91, lon = 0, angle = 1)
 eulerpole_smallcircles(ep1)
 eulerpole_greatcircles(ep1)
-eulerpole_loxodromes(ep1)
+#eulerpole_loxodromes(ep1)
 eulerpole_loxodromes(ep1, sense = 'dextral')
 eulerpole_loxodromes(ep1, sense = 'sinistral')
 eulerpole_loxodromes(ep1, angle = 0, sense = 'sinistral')

@@ -4,7 +4,7 @@
 \alias{circular_quasi_interquartile_range}
 \title{Quasi Interquartile Range on a Circle}
 \usage{
-circular_quasi_interquartile_range(x, na.rm = TRUE)
+circular_quasi_interquartile_range(x)
 }
 \arguments{
 \item{x}{a numeric vector containing the orientations whose sample quartile

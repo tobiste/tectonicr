@@ -7,7 +7,8 @@
 rotation_matrix(n, alpha)
 }
 \arguments{
-\item{n}{Rotation axis (in Cartesian coordinates). Can be a vector of three numbers
+\item{n}{Rotation axis (in Cartesian coordinates). Can be a vector of three
+numbers
 or a matrix of 3 columns (first one is x, second y, third z)}
 
 \item{alpha}{Rotation angle in degrees}
@@ -16,7 +17,8 @@ or a matrix of 3 columns (first one is x, second y, third z)}
 matrix
 }
 \description{
-Calculates the rotation matrix using the rotation axis and the angle of rotation
+Calculates the rotation matrix using the rotation axis and the
+angle of rotation
 }
 \details{
 If \eqn{\vec u} is a vector prior to rotation and \eqn{\vec u'} is

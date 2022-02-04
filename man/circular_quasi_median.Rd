@@ -4,7 +4,7 @@
 \alias{circular_quasi_median}
 \title{Quasi Median on a Circle}
 \usage{
-circular_quasi_median(x, na.rm = TRUE)
+circular_quasi_median(x)
 }
 \arguments{
 \item{x}{a numeric vector containing the orientations whose median is to be
