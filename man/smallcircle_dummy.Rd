@@ -15,3 +15,6 @@ data.frame
 \description{
 create a dummy
 }
+\examples{
+smallcircle_dummy(10)
+}

@@ -19,3 +19,6 @@ data.frame
 \description{
 create a dummy for loxodromes
 }
+\examples{
+loxodrome_dummy(sense = "sinistral")
+}

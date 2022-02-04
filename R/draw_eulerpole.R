@@ -4,6 +4,9 @@
 #'
 #' @param x angle between small circles
 #' @return data.frame
+#' @export
+#' @examples
+#' smallcircle_dummy(10)
 smallcircle_dummy <- function(x) {
   sm_range <- seq(0, 180, x)
   lons <- seq(-180, 180, x)
@@ -94,7 +97,10 @@ eulerpole_smallcircles <- function(x, sm) {
       "lon" = sm.subset$lon,
       "lat" = sm.subset$lat
     )), ID = as.character(s))
-    SL.list[as.character(s)] <- l.i
+
+    suppressWarnings(
+      SL.list[as.character(s)] <- l.i
+    )
 
     if (s == 0) {
       sm.rot <- sm.subset
@@ -140,7 +146,10 @@ eulerpole_smallcircles <- function(x, sm) {
 #' @param x number of great circles
 #' @return data.frame
 #' @importFrom dplyr "%>%" mutate
-#' @importFrom  geosphere greatCircleBearing
+#' @importFrom geosphere greatCircleBearing
+#' @export
+#' @examples
+#' greatcircle_dummy(10)
 greatcircle_dummy <- function(x) {
   angle <- 360 / x
   i <- 0
@@ -215,7 +224,9 @@ eulerpole_greatcircles <- function(x, gm, n) {
       )
     )
 
-    SL.list[as.character(g)] <- l.i
+    suppressWarnings(
+      SL.list[as.character(g)] <- l.i
+    )
 
     if (g == dplyr::first(unique(gm.df$great.circle))) {
       gm.rot <- gm.subset
@@ -227,6 +238,10 @@ eulerpole_greatcircles <- function(x, gm, n) {
   wgs84 <- sp::CRS("+proj=longlat")
 
   # General Oblique Transformation¶
+  dummy <- sp::CRS(
+    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0")
+  )
+
   ep <- sp::CRS(
     paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
            x$lat,
@@ -234,8 +249,7 @@ eulerpole_greatcircles <- function(x, gm, n) {
            x$lon)
   )
 
-
-  SL.t <- sp::SpatialLines(SL.list, proj4string = wgs84)
+  SL.t <-  suppressWarnings( sp::SpatialLines(SL.list, proj4string = dummy) )
 
   SL.t.df <- suppressWarnings(
     sp::SpatialLinesDataFrame(
@@ -248,7 +262,6 @@ eulerpole_greatcircles <- function(x, gm, n) {
   suppressWarnings(
     sp::proj4string(SL.ep.df) <- wgs84
   )
-
 
   SL.df <- wrap_dateline(SL.ep.df)
 
@@ -281,6 +294,9 @@ rotate_lines <- function(theta, p, centre) {
 #' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or 'counterclockwise' loxodromes, respectively
 #' @return data.frame
 #' @importFrom dplyr "%>%" filter mutate
+#' @export
+#' @examples
+#' loxodrome_dummy(sense = "sinistral")
 loxodrome_dummy <- function(angle = 45, n = 10, sense) {
   lon <- lat <- NULL
   if (sense == "sinistral" | sense == "clockwise") {
