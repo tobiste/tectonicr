@@ -44,7 +44,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Quasi Median on a Circle</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/PlateTectonicStressR/blob/HEAD/R/norm_chi2.R" class="external-link"><code>R/norm_chi2.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/PlateTectonicStressR/blob/HEAD/R/statistics.R" class="external-link"><code>R/statistics.R</code></a></small>
       <div class="d-none name"><code>circular_quasi_median.Rd</code></div>
     </div>
 
@@ -60,13 +60,18 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>a numeric vector containing the orientations whose median is to be computed</p></dd>
+<dd><p>a numeric vector containing the orientations whose median is to be
+computed</p></dd>
 <dt>na.rm</dt>
-<dd><p>logical; if true (default), any NA and NaN's are removed from x before the quantiles are computed.</p></dd>
+<dd><p>logical; if true (default), any NA and NaN's are removed from
+<code>x</code> before the quantiles are computed.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009). A New Estimator of a Circular Median. Communications in Statistics - Simulation and Computation, 38(6), 1269–1291. https://doi.org/10.1080/03610910902899950</p>
+    <p>Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+A New Estimator of a Circular Median. Communications in Statistics -
+Simulation and Computation, 38(6), 1269–1291.
+https://doi.org/10.1080/03610910902899950</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -75,7 +80,7 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">circular_quasi_median</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">55</span>, <span class="fl">40</span><span class="op">+</span><span class="fl">180</span>, <span class="fl">50</span><span class="op">+</span><span class="fl">180</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">circular_quasi_median</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">55</span>, <span class="fl">40</span> <span class="op">+</span> <span class="fl">180</span>, <span class="fl">50</span> <span class="op">+</span> <span class="fl">180</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 55</span>
 </code></pre></div>
     </div>
