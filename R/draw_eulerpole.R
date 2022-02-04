@@ -298,8 +298,8 @@ rotate_lines <- function(theta, p, centre) {
 #' @importFrom dplyr "%>%" filter mutate
 #' @export
 #' @examples
-#' loxodrome_dummy(sense = "sinistral")
-loxodrome_dummy <- function(angle = 45, n = 10, sense) {
+#' loxodrome_dummy(angle = 45, n = 10, sense = "sinistral")
+loxodrome_dummy <- function(angle, n, sense) {
   lon <- lat <- NULL
   if (sense == "sinistral" | sense == "clockwise") {
     s <- -1
@@ -365,16 +365,20 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense) {
 #' @param ld numeric, angle between loxodromes (in degree); default: 10
 #' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
 #' or 'counterclockwise' loxodromes, respectively
-#' @return An object of class \code{SpatialLinesDataFrame}
+#' @param sf logical. Export object type of the lines.
+#' TRUE (the default) simple feature (\code{sf}) objects.
+#' FALSE for \code{"SpatialLInesDataFrame"} object.
+#' @return An object of class \code{sf} or \code{SpatialLinesDataFrame}
 #' @importFrom dplyr first filter
-#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
+#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame
+#' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline as_Spatial
 #' @import rgdal
 #' @export
 #' @examples
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = "sinistral")
-eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
+eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, sf = TRUE) {
   loxodrome <- NULL
   if (missing(sense)) {
     stop("sense missing\n")
@@ -389,7 +393,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
   SL.list <- list()
 
   for (l in unique(ld.df$loxodrome)) {
-    # loop through all great circles
+    # loop through all circles
     ld.subset <- dplyr::filter(ld.df, loxodrome == l)
 
     l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
@@ -398,41 +402,35 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
     ), ID = as.character(l)))
 
     suppressWarnings(SL.list[as.character(l)] <- l.i)
-
-    if (l == dplyr::first(unique(ld.df$loxodrome))) {
-      ld <- ld.subset
-    } else {
-      ld <- rbind(ld, ld.subset)
-    }
   }
 
-  wgs84 <- sp::CRS("+proj=longlat +datum=WGS84 +over +lon_wrap=180")
-
-  # General Oblique Transformation
-  ep <- sp::CRS(paste0(
-    "+proj=ob_tran +o_proj=longlat +datum=WGS84 +lon_wrap=180 +o_lat_p=",
+  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84")
+  ep <- sf::st_crs(paste0(
+    "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
     x$lat,
     " +o_lon_p=",
-    x$lon, " +over"
-  ))
-  SL.wgs84 <- sp::SpatialLines(SL.list,
-                               proj4string = wgs84)
+    x$lon)
+  )
 
-  SL.wgs84.df <- suppressWarnings(sp::SpatialLinesDataFrame(
+  SL.wgs84 <- sp::SpatialLines(SL.list)
+  SL.wgs84.df <- sp::SpatialLinesDataFrame(
     SL.wgs84,
     data.frame("loxodrome" = as.character(ld_range), row.names = ld_range)
-  ))
-
-  SL.ep.df <- wrap_dateline(sp::spTransform(SL.wgs84.df, ep))
+  )
 
   suppressMessages(
     suppressWarnings(
-      sp::proj4string(SL.ep.df) <- wgs84
+      SL <- SL.wgs84.df %>%
+        sf::st_as_sf() %>%
+        sf::st_set_crs(wgs84) %>%
+        sf::st_transform(ep, options = "WRAPDATELINE=YES") %>%
+        sf::st_set_crs(wgs84) %>%
+        sf::st_wrap_dateline()
     )
   )
 
-  # wrap at dateline
-  SL.df <- wrap_dateline(SL.ep.df)
-
-  return(SL.df)
+  if (!sf) {
+    SL <- sf::as_Spatial(SL)
+  }
+  return(SL)
 }
