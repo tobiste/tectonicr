@@ -11,11 +11,9 @@ smallcircle_dummy <- function(x) {
   sm_range <- seq(0, 180, x)
   lons <- seq(-180, 180, x)
 
-  sm.df <- data.frame(
-    "lon" = as.numeric(),
-    "lat" = as.numeric(),
-    "small_circle" = as.numeric()
-  )
+  sm.df <- data.frame("lon" = as.numeric(),
+                      "lat" = as.numeric(),
+                      "small_circle" = as.numeric())
 
   for (i in sm_range) {
     # loop through all small circles
@@ -55,10 +53,12 @@ wrap_dateline <- function(x) {
 #' @description Construct a line that has a constant distance to the Euler pole.
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon, and rotation angle (optional)
+#' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
+#' and rotation angle (optional)
 #' @param sm numeric, angle between small circles (in degree); default: 10
 #' @return An object of class \code{SpatialLinesDataFrame}
-#' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
+#' @details if angle is given: output additionally gives absolute velocity on
+#' small circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%" mutate select
 #' @importFrom pracma cross
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
@@ -98,9 +98,7 @@ eulerpole_smallcircles <- function(x, sm) {
       "lat" = sm.subset$lat
     )), ID = as.character(s))
 
-    suppressWarnings(
-      SL.list[as.character(s)] <- l.i
-    )
+    suppressWarnings(SL.list[as.character(s)] <- l.i)
 
     if (s == 0) {
       sm.rot <- sm.subset
@@ -112,28 +110,22 @@ eulerpole_smallcircles <- function(x, sm) {
   wgs84 <- sp::CRS("+proj=longlat")
 
   # General Oblique TransformationÂ¶
-  ep <- sp::CRS(
-    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
-           x$lat,
-           " +o_lon_p=",
-           x$lon)
-  )
+  ep <- sp::CRS(paste0(
+    "+proj=ob_tran +o_proj=longlat +o_lat_p=",
+    x$lat,
+    " +o_lon_p=",
+    x$lon
+  ))
 
   SL.t <- sp::SpatialLinesDataFrame(
     sp::SpatialLines(SL.list, proj4string = wgs84),
-    data.frame(
-      "small_circle" = sm_range.df,
-      row.names = sm_range
-    )
+    data.frame("small_circle" = sm_range.df,
+               row.names = sm_range)
   )
 
-  SL.ep.df <- wrap_dateline(
-    sp::spTransform(SL.t, ep)
-    )
+  SL.ep.df <- wrap_dateline(sp::spTransform(SL.t, ep))
 
-  suppressWarnings(
-    sp::proj4string(SL.ep.df) <- wgs84
-  )
+  suppressWarnings(sp::proj4string(SL.ep.df) <- wgs84)
 
   # wrap at dateline
   SL.df <- wrap_dateline(SL.ep.df)
@@ -182,14 +174,18 @@ greatcircle_dummy <- function(x) {
 
 #' @title Great-circles of Euler pole
 #'
-#' @description Get points on a great circle as defined by the shortest distance between two specified points
+#' @description Get points on a great circle as defined by the shortest distance
+#'  between two specified points
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon, and rotation angle (optional)
+#' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon,
+#'  and rotation angle (optional)
 #' @param gm numeric, angle between great circles
-#' @param n numeric; number of equally spaced great circles (angle between great circles (number of great circles n = 360 / gm); default = 12
+#' @param n numeric; number of equally spaced great circles (angle between great
+#' circles (number of great circles n = 360 / gm); default = 12
 #' @return An object of class \code{SpatialLinesDataFrame}
-#' @details if angle is given: output additionally gives absolute velocity on small-circle (degree/Myr -> km/Myr)
+#' @details if angle is given: output additionally gives absolute velocity on
+#' small circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%" first
 #' @importFrom pracma cross
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
@@ -217,18 +213,12 @@ eulerpole_greatcircles <- function(x, gm, n) {
     # loop through all great circles
     gm.subset <- subset(gm.df, gm.df$great.circle == g)
 
-    l.i <- suppressWarnings(
-      sp::Lines(
-        slinelist = sp::Line(cbind(
-          "lon" = gm.subset$lon,
-          "lat" = gm.subset$lat
-        )), ID = as.character(g)
-      )
-    )
+    l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
+      cbind("lon" = gm.subset$lon,
+            "lat" = gm.subset$lat)
+    ), ID = as.character(g)))
 
-    suppressWarnings(
-      SL.list[as.character(g)] <- l.i
-    )
+    suppressWarnings(SL.list[as.character(g)] <- l.i)
 
     if (g == dplyr::first(unique(gm.df$great.circle))) {
       gm.rot <- gm.subset
@@ -237,37 +227,34 @@ eulerpole_greatcircles <- function(x, gm, n) {
     }
   }
 
-  wgs84 <- sp::CRS("+proj=longlat")
+  sp::set_ll_warn(TRUE)
+
+  wgs84 <- sp::CRS("+proj=longlat +over +lon_wrap=180")
 
   # General Oblique Transformation
   dummy <- sp::CRS(
-    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0")
-  )
+    paste0(
+      "+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0 +over +lon_wrap=180"
+      )
+    )
 
   ep <- sp::CRS(
-    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
-           x$lat,
-           " +o_lon_p=",
-           x$lon)
-  )
-
-  SL.t <-  sp::SpatialLines(SL.list, proj4string = dummy)
-
-  SL.t.df <- wrap_dateline(
-    sp::SpatialLinesDataFrame(
-      SL.t,
-      data.frame("great_circle" = as.character(gm_range), row.names = gm_range)
+    paste0(
+      "+proj=ob_tran +o_proj=longlat +o_lat_p=", x$lat, " +o_lon_p=", x$lon,
+      " +over +lon_wrap=180"
       )
-  )
+    )
 
+  SL.t <- sp::SpatialLines(SL.list, proj4string = dummy)
 
-  SL.ep.df <- wrap_dateline(
-    sp::spTransform(SL.t.df, ep)
-  )
+  SL.t.df <- wrap_dateline(sp::SpatialLinesDataFrame(
+    SL.t,
+    data.frame("great_circle" = as.character(gm_range), row.names = gm_range)
+  ))
 
-  suppressWarnings(
-    sp::proj4string(SL.ep.df) <- wgs84
-  )
+  SL.ep.df <- wrap_dateline(sp::spTransform(SL.t.df, ep))
+
+  suppressWarnings(sp::proj4string(SL.ep.df) <- wgs84)
 
   SL.df <- wrap_dateline(SL.ep.df)
 
@@ -285,8 +272,12 @@ eulerpole_greatcircles <- function(x, gm, n) {
 #' @return \code{'matrix'}
 #' @importFrom pracma cosd sind
 rotate_lines <- function(theta, p, centre) {
-  new_x <- pracma::cosd(theta) * (p[, 1] - centre[1]) - pracma::sind(theta) * (p[, 2] - centre[2]) + centre[1]
-  new_y <- pracma::sind(theta) * (p[, 1] - centre[1]) + pracma::cosd(theta) * (p[, 2] - centre[2]) + centre[2]
+  new_x <-
+    pracma::cosd(theta) * (p[, 1] - centre[1]) - pracma::sind(theta) *
+    (p[, 2] - centre[2]) + centre[1]
+  new_y <-
+    pracma::sind(theta) * (p[, 1] - centre[1]) + pracma::cosd(theta) *
+    (p[, 2] - centre[2]) + centre[2]
   return(matrix(c(new_x, new_y), ncol = 2))
 }
 
@@ -296,7 +287,8 @@ rotate_lines <- function(theta, p, centre) {
 #'
 #' @param angle Direction of loxodromes (in degree)
 #' @param n number of loxodromes  (in  degree)
-#' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or 'counterclockwise' loxodromes, respectively
+#' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or
+#' 'counterclockwise' loxodromes, respectively
 #' @return data.frame
 #' @importFrom dplyr "%>%" filter mutate
 #' @export
@@ -314,14 +306,20 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense) {
 
   lats <- seq(-180, 180, 1)
 
-  line.dummy <- data.frame(
-    lon = rep(0, length(lats)),
-    lat = lats,
-    line = 0
-  )
+  line.dummy <- data.frame(lon = rep(0, length(lats)),
+                           lat = lats,
+                           line = 0)
   for (j in seq_along(line.dummy$lon)) {
-    line.dummy.rot <- rotate_lines(theta = s * 45, p = cbind(line.dummy$lon[j], line.dummy$lat[j]), centre = c(line.dummy$lon[j], 0))
-    loxodrome.dummy.j <- data.frame(lon = line.dummy.rot[, 1], lat = line.dummy.rot[, 2], loxodrome = line.dummy$line[j])
+    line.dummy.rot <-
+      rotate_lines(
+        theta = s * 45,
+        p = cbind(line.dummy$lon[j],
+                  line.dummy$lat[j]),
+        centre = c(line.dummy$lon[j], 0)
+      )
+    loxodrome.dummy.j <- data.frame(lon = line.dummy.rot[, 1],
+                                    lat = line.dummy.rot[, 2],
+                                    loxodrome = line.dummy$line[j])
 
     if (j == 1) {
       loxodrome.dummy <- loxodrome.dummy.j
@@ -332,10 +330,8 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense) {
 
   for (i in seq(-360, 360, n)) {
     line.i <- loxodrome.dummy %>%
-      mutate(
-        lon = lon - i,
-        loxodrome = i
-      )
+      mutate(lon = lon - i,
+             loxodrome = i)
 
     if (i == -360) {
       loxodromes <- line.i
@@ -358,10 +354,12 @@ loxodrome_dummy <- function(angle = 45, n = 10, sense) {
 #' @description Construct curves cutting small circles at a constant angle
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler pole in lat and lon
+#' @param x \code{data.frame} containing coordinates of Euler pole in lat and
+#' lon
 #' @param angle Direction of loxodromes; default = 45
 #' @param ld numeric, angle between loxodromes (in degree); default: 10
-#' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise' or 'counterclockwise' loxodromes, respectively
+#' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
+#' or 'counterclockwise' loxodromes, respectively
 #' @return An object of class \code{SpatialLinesDataFrame}
 #' @importFrom dplyr first filter
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
@@ -377,8 +375,10 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
     stop("sense missing")
   }
 
-  ld.df <- loxodrome_dummy(angle = abs(angle), n = 360 / ld, sense = sense)
-
+  ld.df <-
+    loxodrome_dummy(angle = abs(angle),
+                    n = 360 / ld,
+                    sense = sense)
 
   ld_range <- unique(ld.df$loxodrome)
   SL.list <- list()
@@ -387,18 +387,12 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
     # loop through all great circles
     ld.subset <- dplyr::filter(ld.df, loxodrome == l)
 
-    l.i <- suppressWarnings(
-      sp::Lines(
-        slinelist = sp::Line(cbind(
-          "lon" = ld.subset$lon,
-          "lat" = ld.subset$lat
-        )), ID = as.character(l)
-      )
-    )
+    l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
+      cbind("lon" = ld.subset$lon,
+            "lat" = ld.subset$lat)
+    ), ID = as.character(l)))
 
-    suppressWarnings(
-      SL.list[as.character(l)] <- l.i
-    )
+    suppressWarnings(SL.list[as.character(l)] <- l.i)
 
     if (l == dplyr::first(unique(ld.df$loxodrome))) {
       ld <- ld.subset
@@ -410,35 +404,26 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense) {
   wgs84 <- sp::CRS("+proj=longlat")
 
   # General Oblique Transformation
-  ep <- sp::CRS(
-    paste0("+proj=ob_tran +o_proj=longlat +o_lat_p=",
-           x$lat,
-           " +o_lon_p=",
-           x$lon)
-  )
-  SL.wgs84 <- sp::SpatialLines(
-    SL.list,
-    proj4string = wgs84
-  )
+  ep <- sp::CRS(paste0(
+    "+proj=ob_tran +o_proj=longlat +o_lat_p=",
+    x$lat,
+    " +o_lon_p=",
+    x$lon
+  ))
+  SL.wgs84 <- sp::SpatialLines(SL.list,
+                               proj4string = wgs84)
 
-  SL.wgs84.df <- suppressWarnings(
-    sp::SpatialLinesDataFrame(
-      SL.wgs84,
-      data.frame("loxodrome" = as.character(ld_range), row.names = ld_range)
-    )
-  )
+  SL.wgs84.df <- suppressWarnings(sp::SpatialLinesDataFrame(
+    SL.wgs84,
+    data.frame("loxodrome" = as.character(ld_range), row.names = ld_range)
+  ))
 
-  SL.ep.df <- wrap_dateline(
-    sp::spTransform(SL.wgs84.df, ep)
-  )
+  SL.ep.df <- wrap_dateline(sp::spTransform(SL.wgs84.df, ep))
 
-  suppressWarnings(
-    sp::proj4string(SL.ep.df) <- wgs84
-  )
+  suppressWarnings(sp::proj4string(SL.ep.df) <- wgs84)
 
   # wrap at dateline
   SL.df <- wrap_dateline(SL.ep.df)
-
 
   return(SL.df)
 }
