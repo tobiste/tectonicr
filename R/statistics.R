@@ -116,10 +116,7 @@ circular_quasi_quartile <- function(x) {
   x <- sort(x[!is.na(x)])
   n <- length(x)
 
-  if(n <4){
-    stop("x needs more than 3 values\n")
-  }
-
+  if(n > 3){
   # ms <- 1:n
 
   med <- circular_quasi_median(x)
@@ -164,6 +161,9 @@ circular_quasi_quartile <- function(x) {
   quantiles <- c(x[1], lq, med, uq, x[length(x)])
   names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
   return(quantiles)
+  } else {
+    warning("x needs to have more than three values\n")
+  }
 }
 
 
@@ -184,11 +184,11 @@ circular_quasi_interquartile_range <- function(x) {
   }
   x <- sort(x[!is.na(x)])
 
-  if(n <4){
-    stop("x needs more than 3 values\n")
+  if(n > 3){
+    quantiles <- circular_quasi_quartile(x)
+    qiroc <- as.numeric(quantiles[4] - quantiles[2])
+    return(qiroc)
+  } else {
+    warning("x needs to have more than three values\n")
   }
-
-  quantiles <- circular_quasi_quartile(x)
-  qiroc <- as.numeric(quantiles[4] - quantiles[2])
-  return(qiroc)
 }
