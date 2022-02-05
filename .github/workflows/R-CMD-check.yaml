@@ -55,5 +55,5 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown", type = "binary")
+          install.packages("sf", type = "binary")
         shell: Rscript {0}

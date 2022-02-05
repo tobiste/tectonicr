@@ -34,6 +34,13 @@ abs_vel(0.21, 0, r=1)
 
 quantise_wsm_quality(c('A', 'E', 'F', 'G', 5))
 
+circular_quasi_median(NA)
+circular_quasi_median(c(15, 16))
+circular_quasi_median(c(15, 15, 16))
+circular_quasi_quartile(NA)
+circular_quasi_quartile(c(15, 16))
+circular_quasi_quartile(c(15, 15, 16))
+
 
 ep1 <- data.frame(lat = 91, lon = 0, angle = 1)
 eulerpole_smallcircles(ep1)
