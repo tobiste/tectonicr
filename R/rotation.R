@@ -111,7 +111,7 @@ cartesian_to_geographical <- function(n) {
 #' u <- c(50, 10)
 #' geographical_to_cartesian(u)
 geographical_to_cartesian <- function(p, r = 1) {
-  if (is.numeric(p) & length(n) == 2) {
+  if (is.numeric(p) & length(p) == 2) {
     if (missing(r)) {
       r <- 1
     }
