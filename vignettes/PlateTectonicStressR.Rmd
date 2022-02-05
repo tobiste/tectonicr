@@ -1,6 +1,6 @@
 ---
 title: "PlateTectonicStressR"
-subtitle: 'Documentation of the R Package *PlateTectonicStressR*'
+subtitle: 'Documentation of the R Package'
 description: "Test"
 author: "Tobias Stephan, PhD"
 output: rmarkdown::html_vignette
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-A free and open-source R package for modeling and analyzing the
+**PlateTectonicStressR** is a free and open-source R package for modeling and analyzing the
 direction of the maximum horizontal stress based on the empirical link
 between the orientation of intraplate stress and the direction of the
 relative motion of neighboring plates.
