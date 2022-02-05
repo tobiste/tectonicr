@@ -14,7 +14,6 @@ Depends:
     R (>= 3.5.0)
 Imports: 
     dplyr,
-    geosphere,
     ggplot2,
     pracma,
     rgdal,

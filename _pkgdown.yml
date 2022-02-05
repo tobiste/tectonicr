@@ -1,8 +1,4 @@
 url: https://tobiste.github.io/PlateTectonicStressR/
 template:
   bootstrap: 5
-name: Install dependencies
-run: |
-  remotes::install_deps(dependencies = TRUE)
-  install.packages("pkgdown", type = "binary")
-shell: Rscript {0}
+
