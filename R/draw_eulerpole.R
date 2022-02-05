@@ -45,7 +45,7 @@ smallcircle_dummy <- function(x) {
 #' @details if angle is given: output additionally gives absolute velocity on
 #' small circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%" mutate select
-#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame
+#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame proj4string CRS
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline as_Spatial
 #' @export
 #' @examples
@@ -113,6 +113,12 @@ eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
 
   if (!sf) {
     SL <- sf::as_Spatial(SL)
+    suppressMessages(
+      suppressWarnings(
+        sp::proj4string(SL) <- sp::CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+      )
+    )
+
   }
   return(SL)
 }
@@ -319,6 +325,11 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, sf = TRUE) {
 
   if (!sf) {
     SL <- sf::as_Spatial(SL)
+    suppressMessages(
+      suppressWarnings(
+        sp::proj4string(SL) <- sp::CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+      )
+    )
   }
   return(SL)
 }
