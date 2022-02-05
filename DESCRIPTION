@@ -22,8 +22,9 @@ Imports:
     sp
 Suggests: 
     covr,
-    broom,
     knitr,
+    rnaturalearth,
+    rgeos,
     maps,
     rmarkdown,
     testthat (>= 3.0.0)

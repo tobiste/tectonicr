@@ -5,7 +5,7 @@
 \alias{PB2002}
 \title{Global set of present plate boundaries on the Earth (PB2002)}
 \format{
-An object of class \code{"SpatialPolygonsDataFrame"}
+An object of class \code{"sf"}
 }
 \usage{
 data('PB2002')

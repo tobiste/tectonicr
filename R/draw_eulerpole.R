@@ -105,9 +105,9 @@ eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
       SL <- SL.wgs84.df %>%
         sf::st_as_sf() %>%
         sf::st_set_crs(wgs84) %>%
-        sf::st_transform(ep, options = "WRAPDATELINE=YES") %>%
+        sf::st_transform(ep) %>%
         sf::st_set_crs(wgs84) %>%
-        sf::st_wrap_dateline()
+        sf::st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
     )
   )
 
@@ -316,9 +316,9 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, sf = TRUE) {
       SL <- SL.wgs84.df %>%
         sf::st_as_sf() %>%
         sf::st_set_crs(wgs84) %>%
-        sf::st_transform(ep, options = "WRAPDATELINE=YES") %>%
+        sf::st_transform(ep) %>%
         sf::st_set_crs(wgs84) %>%
-        sf::st_wrap_dateline()
+        sf::st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
     )
   )
 
