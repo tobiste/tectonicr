@@ -97,7 +97,7 @@ eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
   SL.wgs84 <- sp::SpatialLines(SL.list)
   SL.wgs84.df <- sp::SpatialLinesDataFrame(
     SL.wgs84,
-    data.frame("small_circle" = sm_range.df, row.names = sm_range)
+    data.frame("n" = sm_range.df, row.names = sm_range)
   )
 
   suppressMessages(
@@ -151,11 +151,6 @@ eulerpole_greatcircles <- function(x, gm, n, sf=TRUE) {
   }
 
   SL <- eulerpole_loxodromes(x, angle = 0, ld = n, sense = "dextral", sf = TRUE)
-  if (sf) {
-    names(SL)[1] <- "greatcircle"
-  } else {
-    names(SL) <- "greatcircle"
-  }
   return(SL)
 }
 
@@ -308,7 +303,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, sf = TRUE) {
   SL.wgs84 <- sp::SpatialLines(SL.list)
   SL.wgs84.df <- sp::SpatialLinesDataFrame(
     SL.wgs84,
-    data.frame("loxodrome" = as.character(ld_range), row.names = ld_range)
+    data.frame("n" = as.character(ld_range), row.names = ld_range)
   )
 
   suppressMessages(
