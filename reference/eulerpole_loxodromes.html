@@ -54,7 +54,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">eulerpole_loxodromes</span><span class="op">(</span><span class="va">x</span>, angle <span class="op">=</span> <span class="fl">45</span>, ld <span class="op">=</span> <span class="fl">10</span>, <span class="va">sense</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">eulerpole_loxodromes</span><span class="op">(</span><span class="va">x</span>, angle <span class="op">=</span> <span class="fl">45</span>, ld <span class="op">=</span> <span class="fl">10</span>, <span class="va">sense</span>, sf <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,10 +69,14 @@ lon</p></dd>
 <dt>sense</dt>
 <dd><p>Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
 or 'counterclockwise' loxodromes, respectively</p></dd>
+<dt>sf</dt>
+<dd><p>logical. Export object type of the lines.
+TRUE (the default) simple feature (<code>sf</code>) objects.
+FALSE for <code>"SpatialLInesDataFrame"</code> object.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class <code>SpatialLinesDataFrame</code></p>
+    <p>An object of class <code>sf</code> or <code>SpatialLinesDataFrame</code></p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -84,22 +88,23 @@ or 'counterclockwise' loxodromes, respectively</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">ID</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span>
 <span class="r-in"><span class="fu">eulerpole_loxodromes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, ld <span class="op">=</span> <span class="fl">10</span>, sense <span class="op">=</span> <span class="st">"sinistral"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        geometry loxodrome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -252  MULTILINESTRING((1.77573 -0.8468508 ...))      -252</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -216  MULTILINESTRING((1.773117 -0.848093 ...))      -216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -180 MULTILINESTRING((1.772099 -0.8501138 ...))      -180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -144 MULTILINESTRING((1.773076 -0.8521438 ...))      -144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -108 MULTILINESTRING((1.775684 -0.8534054 ...))      -108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -72  MULTILINESTRING((1.778924 -0.8534127 ...))       -72</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -36  MULTILINESTRING((1.781545 -0.8521631 ...))       -36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0    MULTILINESTRING((1.782543 -0.8501375 ...))         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36   MULTILINESTRING((1.781547 -0.8481121 ...))        36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72   MULTILINESTRING((1.778946 -0.8468582 ...))        72</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 108  MULTILINESTRING((1.781065 -0.5258241 ...))       108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 144   MULTILINESTRING((1.786547 0.1035626 ...))       144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 180   MULTILINESTRING((1.777321 0.7206639 ...))       180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 216    MULTILINESTRING((1.781345 1.350071 ...))       216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 252   MULTILINESTRING((-1.365955 1.162111 ...))       252</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 15 features and 1 field</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -180 ymin: -89.80256 xmax: 180 ymax: 89.80256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           +proj=longlat +datum=WGS84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      loxodrome                       geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -252      -252 LINESTRING (162.1974 -89.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -216      -216 LINESTRING (126.1974 -89.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -180      -180 LINESTRING (90.19744 -89.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -144      -144 LINESTRING (54.19744 -89.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -108      -108 LINESTRING (18.19744 -89.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -72        -72 LINESTRING (-17.80256 -89.8...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -36        -36 LINESTRING (-53.80256 -89.8...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0            0 LINESTRING (-89.80256 -89.8...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36          36 LINESTRING (-125.8026 -89.8...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72          72 LINESTRING (-161.8026 -89.8...</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
