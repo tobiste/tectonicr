@@ -184,7 +184,7 @@ circular_quasi_interquartile_range <- function(x) {
   }
   x <- sort(x[!is.na(x)])
 
-  if (length(n) > 3) {
+  if (length(x) > 3) {
     quantiles <- circular_quasi_quartile(x)
     qiroc <- as.numeric(quantiles[4] - quantiles[2])
     return(qiroc)
