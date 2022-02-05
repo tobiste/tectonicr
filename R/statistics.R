@@ -73,7 +73,7 @@ norm_chi2 <- function(obs, prd, unc) {
 #' circular_quasi_median(x = c(0, 45, 55, 40 + 180, 50 + 180))
 circular_quasi_median <- function(x) {
   if (NA %in% x) {
-    warning("NA values have been dropped\n")
+    message("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
   n <- length(x)
@@ -111,13 +111,13 @@ circular_quasi_median <- function(x) {
 #' circular_quasi_quartile(x = c(0, 45, 55, 40 + 180, 50 + 180))
 circular_quasi_quartile <- function(x) {
   if (NA %in% x) {
-    warning("NA values have been dropped\n")
+    message("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
   n <- length(x)
 
   if (n > 3) {
-  # ms <- 1:n
+   ms <- 1:n
 
   med <- circular_quasi_median(x)
 
@@ -158,11 +158,13 @@ circular_quasi_quartile <- function(x) {
                              3 * pracma::cosd(x[3 * m + 1])))
   }
 
+
   quantiles <- c(x[1], lq, med, uq, x[length(x)])
   names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
   return(quantiles)
   } else {
-    warning("x needs to have more than three values\n")
+    message("x needs more than 3 values\n")
+    return(NULL)
   }
 }
 
@@ -180,15 +182,11 @@ circular_quasi_quartile <- function(x) {
 #' circular_quasi_interquartile_range(x = c(0, 45, 55, 40 + 180, 50 + 180))
 circular_quasi_interquartile_range <- function(x) {
   if (NA %in% x) {
-    warning("NA values have been dropped\n")
+    message("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
 
-  if (length(x) > 3) {
-    quantiles <- circular_quasi_quartile(x)
-    qiroc <- as.numeric(quantiles[4] - quantiles[2])
-    return(qiroc)
-  } else {
-    warning("x needs to have more than three values\n")
-  }
+  quantiles <- circular_quasi_quartile(x)
+  qiroc <- as.numeric(quantiles[4] - quantiles[2])
+  return(qiroc)
 }
