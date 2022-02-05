@@ -13,10 +13,12 @@
 #' v <- c(-2, 1, 1)
 #' angle_vectors(u, v)
 angle_vectors <- function(x, y) {
-  angle.d <- pracma::rad2deg(
-    acos(sum(x * y) / (sqrt(sum(x * x)) * sqrt(sum(y * y))))
-  )
-  return(angle.d)
+  if (length(x) == length(y)) {
+    angle.d <- pracma::rad2deg(
+      acos(sum(x * y) / (sqrt(sum(x * x)) * sqrt(sum(y * y))))
+    )
+    return(angle.d)
+  }
 }
 
 #' @title Rotation matrix
@@ -81,17 +83,19 @@ longitude_modulo <- function(longitude) {
 #' u <- c(1, -2, 3)
 #' cartesian_to_geographical(u)
 cartesian_to_geographical <- function(n) {
-  r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
-  lat <- pracma::rad2deg(asin(n[3] / r))
-  lon <- pracma::rad2deg(atan2(n[2], n[1]))
-  if (lat <= -90) {
-    lat <- 180 + lat
+  if (is.numeric(n) & length(n) == 3) {
+    r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
+    lat <- pracma::rad2deg(asin(n[3] / r))
+    lon <- pracma::rad2deg(atan2(n[2], n[1]))
+    if (lat <= -90) {
+      lat <- 180 + lat
+    }
+    if (lat >= 90) {
+      lat <- 180 - lat
+    }
+    lon <- longitude_modulo(lon)
+    return(c(lat, lon))
   }
-  if (lat >= 90) {
-    lat <- 180 - lat
-  }
-  lon <- longitude_modulo(lon)
-  return(c(lat, lon))
 }
 
 #' @title Geographical to cartesian coordinates
@@ -107,14 +111,16 @@ cartesian_to_geographical <- function(n) {
 #' u <- c(50, 10)
 #' geographical_to_cartesian(u)
 geographical_to_cartesian <- function(p, r = 1) {
-  if (missing(r)) {
-    r <- 1
+  if (is.numeric(p) & length(n) == 2) {
+    if (missing(r)) {
+      r <- 1
+    }
+    x <- c()
+    x[1] <- r * pracma::cosd(p[1]) * pracma::cosd(p[2])
+    x[2] <- r * pracma::cosd(p[1]) * pracma::sind(p[2])
+    x[3] <- r * pracma::sind(p[1])
+    return(x)
   }
-  x <- c()
-  x[1] <- r * pracma::cosd(p[1]) * pracma::cosd(p[2])
-  x[2] <- r * pracma::cosd(p[1]) * pracma::sind(p[2])
-  x[3] <- r * pracma::sind(p[1])
-  return(x)
 }
 
 #' @title Absolute plate velocity

@@ -86,7 +86,7 @@ eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
     suppressWarnings(SL.list[as.character(s)] <- l.i)
   }
 
-  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84")
+  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
   ep <- sf::st_crs(paste0(
     "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
     x$lat,
@@ -297,7 +297,7 @@ eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, sf = TRUE) {
     suppressWarnings(SL.list[as.character(l)] <- l.i)
   }
 
-  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84")
+  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
   ep <- sf::st_crs(paste0(
     "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
     x$lat,

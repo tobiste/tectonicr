@@ -25,6 +25,9 @@ misfits2 <- misfit_shmax(prd2, points$azi)
 
 test2 <- norm_chi2(obs = points$azi, prd = prd2$sc, unc = 10)
 
+norm_chi2(NA, NA, NA)
+norm_chi2(1, NA, NA)
+
 #misfit_shmax(c(1, 2), c(1))
 
 rotation_matrix(c(0, 1, 0), 90)
@@ -68,3 +71,12 @@ ep3 <- data.frame()
 eulerpole_smallcircles(ep3)
 eulerpole_greatcircles(ep3)
 eulerpole_loxodromes(ep3, sense = 'dextral')
+
+
+angle_vectors(NA, NA)
+angle_vectors(c(1, 0), NA)
+
+cartesian_to_geographical(1)
+geographical_to_cartesian(1)
+cartesian_to_geographical(NA)
+geographical_to_cartesian(NA)
