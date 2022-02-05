@@ -9,9 +9,6 @@ circular_quasi_interquartile_range(x)
 \arguments{
 \item{x}{a numeric vector containing the orientations whose sample quartile
 is to be computed}
-
-\item{na.rm}{logical; if true (default), any NA and NaN's are removed from
-\code{x} before the quantiles are computed.}
 }
 \description{
 The \code{"stats::IQR"} equivalent for circular orientation data

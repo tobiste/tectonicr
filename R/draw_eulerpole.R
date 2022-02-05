@@ -29,24 +29,6 @@ smallcircle_dummy <- function(x) {
   return(sm.df)
 }
 
-#' @title Wrap Spatial object at dateline
-#'
-#' @description Wrap a Spatial object at date line
-#'
-#' @param x Spatial object
-#' @return Spatial object
-#' @importFrom sf st_as_sf as_Spatial st_wrap_dateline
-#' @export
-wrap_dateline <- function(x) {
-  x.wrapped.sf <- sf::st_wrap_dateline(
-    sf::st_as_sf(x),
-    options =  c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
-    quiet = TRUE
-  )
-  x.wrapped <- sf::as_Spatial(x.wrapped.sf)
-
-  return(x.wrapped)
-}
 
 #' @title Small-circles around Euler pole
 #'
@@ -56,12 +38,15 @@ wrap_dateline <- function(x) {
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
 #' and rotation angle (optional)
 #' @param sm numeric, angle between small circles (in degree); default: 10
-#' @return An object of class \code{SpatialLinesDataFrame}
+#' @param sf logical. Export object type of the lines.
+#' TRUE (the default) simple feature (\code{sf}) objects.
+#' FALSE for \code{"SpatialLInesDataFrame"} object.
+#' @return An object of class \code{sf} or \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on
 #' small circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%" mutate select
-#' @importFrom pracma cross
-#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
+#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame
+#' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline as_Spatial
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -69,7 +54,7 @@ wrap_dateline <- function(x) {
 #' euler$angle <- euler$rate
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <- function(x, sm) {
+eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
   small_circle <- NULL
   if (missing(sm)) {
     sm <- 10
@@ -99,82 +84,40 @@ eulerpole_smallcircles <- function(x, sm) {
     )), ID = as.character(s))
 
     suppressWarnings(SL.list[as.character(s)] <- l.i)
-
-    if (s == 0) {
-      sm.rot <- sm.subset
-    } else {
-      sm.rot <- rbind(sm.rot, sm.subset)
-    }
   }
 
-  wgs84 <- sp::CRS("+proj=longlat +datum=WGS84 +over +lon_wrap=180")
-
-  # General Oblique TransformationÂ¶
-  ep <- sp::CRS(paste0(
-    "+proj=ob_tran +o_proj=longlat +datum=WGS84 +over +lon_wrap=180 +o_lat_p=",
+  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84")
+  ep <- sf::st_crs(paste0(
+    "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
     x$lat,
     " +o_lon_p=",
-    x$lon
-  ))
+    x$lon)
+  )
 
-  SL.t <- sp::SpatialLinesDataFrame(
-    sp::SpatialLines(SL.list, proj4string = wgs84),
-    data.frame("small_circle" = sm_range.df,
-               row.names = sm_range)
-  ) %>% wrap_dateline()
-
-  SL.ep.df <- sp::spTransform(SL.t, ep) %>% wrap_dateline()
+  SL.wgs84 <- sp::SpatialLines(SL.list)
+  SL.wgs84.df <- sp::SpatialLinesDataFrame(
+    SL.wgs84,
+    data.frame("small_circle" = sm_range.df, row.names = sm_range)
+  )
 
   suppressMessages(
     suppressWarnings(
-      sp::proj4string(SL.ep.df) <- wgs84
+      SL <- SL.wgs84.df %>%
+        sf::st_as_sf() %>%
+        sf::st_set_crs(wgs84) %>%
+        sf::st_transform(ep, options = "WRAPDATELINE=YES") %>%
+        sf::st_set_crs(wgs84) %>%
+        sf::st_wrap_dateline()
     )
   )
 
-  # wrap at dateline
-  SL.df <- wrap_dateline(SL.ep.df)
-
-  return(SL.df)
-}
-
-
-#' @title Great circle grid dummy
-#'
-#' @description Construct curves cutting small circles perpendicular.
-#'
-#' @param x number of great circles
-#' @return data.frame
-#' @importFrom dplyr "%>%" mutate
-#' @importFrom geosphere greatCircleBearing
-#' @export
-#' @examples
-#' greatcircle_dummy(10)
-greatcircle_dummy <- function(x) {
-  angle <- 360 / x
-  i <- 0
-  while (i <= 360) {
-    if (i %% 180 == 0) {
-      great.circle.i <- data.frame(
-        lon = rep(0, 181),
-        lat = seq(-90, 90, 1),
-        great.circle = i
-      )
-    } else {
-      great.circle.i <-
-        geosphere::greatCircleBearing(c(0, 0), i) %>%
-        as.data.frame() %>%
-        dplyr::mutate(great.circle = i)
-    }
-
-    if (i == 0) {
-      great.circle <- great.circle.i
-    } else {
-      great.circle <- rbind(great.circle, great.circle.i)
-    }
-    i <- i + angle
+  if (!sf) {
+    SL <- sf::as_Spatial(SL)
   }
-  return(great.circle)
+  return(SL)
 }
+
+
 
 #' @title Great-circles of Euler pole
 #'
@@ -187,19 +130,17 @@ greatcircle_dummy <- function(x) {
 #' @param gm numeric, angle between great circles
 #' @param n numeric; number of equally spaced great circles (angle between great
 #' circles (number of great circles n = 360 / gm); default = 12
-#' @return An object of class \code{SpatialLinesDataFrame}
-#' @details if angle is given: output additionally gives absolute velocity on
-#' small circle (degree/Myr -> km/Myr)
-#' @importFrom dplyr "%>%" first
-#' @importFrom pracma cross
-#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame CRS
+#' @param sf logical. Export object type of the lines.
+#' TRUE (the default) simple feature (\code{sf}) objects.
+#' FALSE for \code{"SpatialLInesDataFrame"} object.
+#' @return An object of class \code{sf} or \code{SpatialLinesDataFrame}
 #' @export
 #' @examples
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' euler$angle <- euler$rate
 #' eulerpole_greatcircles(euler)
-eulerpole_greatcircles <- function(x, gm, n) {
+eulerpole_greatcircles <- function(x, gm, n, sf=TRUE) {
   if (missing(n) & !missing(gm)) {
     n <- round(360 / gm, 0)
   } else if (missing(n) & missing(gm)) {
@@ -209,61 +150,13 @@ eulerpole_greatcircles <- function(x, gm, n) {
     n <- 12
   }
 
-  gm.df <- greatcircle_dummy(n)
-  gm_range <- unique(gm.df$great.circle)
-  SL.list <- list()
-
-  for (g in unique(gm.df$great.circle)) {
-    # loop through all great circles
-    gm.subset <- subset(gm.df, gm.df$great.circle == g)
-
-    l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
-      cbind("lon" = gm.subset$lon,
-            "lat" = gm.subset$lat)
-    ), ID = as.character(g)))
-
-    suppressWarnings(SL.list[as.character(g)] <- l.i)
-
-    if (g == dplyr::first(unique(gm.df$great.circle))) {
-      gm.rot <- gm.subset
-    } else {
-      gm.rot <- rbind(gm.rot, gm.subset)
-    }
+  SL <- eulerpole_loxodromes(x, angle = 0, ld = n, sense = "dextral", sf = TRUE)
+  if (sf) {
+    names(SL)[1] <- "greatcircle"
+  } else {
+    names(SL) <- "greatcircle"
   }
-
-  wgs84 <- sp::CRS("+proj=longlat")
-
-  # General Oblique Transformation
-  dummy <- sp::CRS(
-    paste0(
-      "+proj=ob_tran +o_proj=longlat +o_lat_p=0 +o_lon_p=0"
-      )
-    )
-
-  ep <- sp::CRS(
-    paste0(
-      "+proj=ob_tran +o_proj=longlat +o_lat_p=", x$lat, " +o_lon_p=", x$lon
-      )
-    )
-
-  SL.t <- sp::SpatialLines(SL.list, proj4string = dummy)
-
-  SL.t.df <- sp::SpatialLinesDataFrame(
-    SL.t,
-    data.frame("great_circle" = as.character(gm_range), row.names = gm_range)
-  ) %>% wrap_dateline()
-
-  SL.ep.df <- sp::spTransform(SL.t.df, ep) %>% wrap_dateline()
-
-  suppressMessages(
-    suppressWarnings(
-      sp::proj4string(SL.ep.df) <- wgs84
-    )
-  )
-
-  SL.df <- wrap_dateline(SL.ep.df)
-
-  return(SL.df)
+  return(SL)
 }
 
 
@@ -317,7 +210,7 @@ loxodrome_dummy <- function(angle, n, sense) {
   for (j in seq_along(line.dummy$lon)) {
     line.dummy.rot <-
       rotate_lines(
-        theta = s * 45,
+        theta = s * angle,
         p = cbind(line.dummy$lon[j],
                   line.dummy$lat[j]),
         centre = c(line.dummy$lon[j], 0)

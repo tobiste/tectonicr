@@ -4,16 +4,20 @@
 \alias{eulerpole_smallcircles}
 \title{Small-circles around Euler pole}
 \usage{
-eulerpole_smallcircles(x, sm)
+eulerpole_smallcircles(x, sm, sf = TRUE)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon,
 and rotation angle (optional)}
 
 \item{sm}{numeric, angle between small circles (in degree); default: 10}
+
+\item{sf}{logical. Export object type of the lines.
+TRUE (the default) simple feature (\code{sf}) objects.
+FALSE for \code{"SpatialLInesDataFrame"} object.}
 }
 \value{
-An object of class \code{SpatialLinesDataFrame}
+An object of class \code{sf} or \code{SpatialLinesDataFrame}
 }
 \description{
 Construct a line that has a constant distance to the Euler pole.

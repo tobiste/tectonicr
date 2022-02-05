@@ -4,7 +4,7 @@
 \alias{loxodrome_dummy}
 \title{Loxodrome dummy}
 \usage{
-loxodrome_dummy(angle = 45, n = 10, sense)
+loxodrome_dummy(angle, n, sense)
 }
 \arguments{
 \item{angle}{Direction of loxodromes (in degree)}
@@ -21,5 +21,5 @@ data.frame
 create a dummy for loxodromes
 }
 \examples{
-loxodrome_dummy(sense = "sinistral")
+loxodrome_dummy(angle = 45, n = 10, sense = "sinistral")
 }

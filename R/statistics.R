@@ -62,8 +62,6 @@ norm_chi2 <- function(obs, prd, unc) {
 #' @description Median of orientation data, i.e. pi-periodical data
 #' @param x a numeric vector containing the orientations whose median is to be
 #' computed
-#' @param na.rm logical; if true (default), any NA and NaN's are removed from
-#' \code{x} before the quantiles are computed.
 #' @importFrom pracma atand cosd sind
 #' @export
 #' @seealso \code{\link[stats]{median}}
@@ -102,8 +100,6 @@ circular_quasi_median <- function(x) {
 #'  data
 #' @param x a numeric vector containing the orientations whose sample quartile
 #' is to be computed
-#' @param na.rm logical; if true (default), any NA and NaN's are removed from
-#' \code{x} before the quantiles are computed.
 #' @importFrom pracma atand cosd sind
 #' @export
 #' @seealso \code{\link[stats]{stats}}
@@ -170,8 +166,6 @@ circular_quasi_quartile <- function(x) {
 #' @description The \code{"stats::IQR"} equivalent for circular orientation data
 #' @param x a numeric vector containing the orientations whose sample quartile
 #' is to be computed
-#' @param na.rm logical; if true (default), any NA and NaN's are removed from
-#' \code{x} before the quantiles are computed.
 #' @export
 #' @references Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
 #' Moeck, I. (2014). A revised crustal stress orientation database for Canada.

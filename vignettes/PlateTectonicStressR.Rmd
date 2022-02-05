@@ -272,8 +272,8 @@ stress direction of the area.
 
 ### Small Circles
 
-Function `eulerpole_smallcircles(x, gridsize)` returns Small circles as
-`SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole
+Function `eulerpole_smallcircles(x, gridsize)` returns Small circles as as 
+simple feature(`sf`) by giving a `data.frame` of the Euler pole
 coordinates in lat and lon (`x`) and the small circle distances (`sm`).
 
 For example the small circles around the Euler pole of the relative
@@ -287,8 +287,7 @@ euler <-
 euler$angle <- euler$rate
 ```
 
-To plot the small circles with `ggplot`, I recommend to transform the
-`SpatialLinesDataFrame` into a `data.frame` with `broom::tidy()`:
+To plot the small circles with `ggplot`, I recommend to `geom_sf()`:
 
 ```{r small_circles_around_ep, echo=TRUE, warning=FALSE, message=FALSE}
 euler.sm <- eulerpole_smallcircles(euler)
@@ -304,10 +303,11 @@ ggplot() +
   ) +
   borders() +
   labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
-  geom_path(
-    data = broom::tidy(euler.sm),
-    aes(long, lat, group = group, lty = "small circles"),
-    color = "blue"
+ geom_sf(
+    data = euler.sm, 
+    aes(lty = "small circles"),
+    color = "blue",
+    alpha = .5
   ) +
   geom_point(
     data = euler,
@@ -333,7 +333,7 @@ ggplot() +
 
 Great circles are lines that cut the small circles at 90$^{\circ}$ and
 the Euler pole. Function `eulerpole_greatcircles(x, n)` returns great
-circles as `SpatialLinesDataFrame` by giving a `data.frame` of the Euler
+circles as `sf` object by giving a `data.frame` of the Euler
 pole coordinates in lat and lon (`x`) and the number of great circles `gm`,
 or the great circle angles (`360/d`).
 
@@ -351,15 +351,15 @@ ggplot() +
   ) +
   borders() +
   labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
-  geom_path(
-    data = broom::tidy(euler.sm),
-    aes(long, lat, group = group, lty = "small circles"),
+ geom_sf(
+    data = euler.sm, 
+    aes(lty = "small circles"),
     color = "blue",
     alpha = .5
   ) +
-  geom_path(
-    data = broom::tidy(euler.gm),
-    aes(long, lat, group = group, lty = "great circles"),
+  geom_sf(
+    data = euler.gm, 
+    aes(lty = "great circles"),
     color = "blue"
   ) +
   geom_point(
@@ -389,7 +389,7 @@ at a constant angle. Thus, small and great circles are 0$^{\circ}$ and
 90$^{\circ}$ loxodromes, respectively.
 
 Function `eulerpole_loxodromes(x, ld)` returns loxodromes as
-`SpatialLinesDataFrame` by giving a `data.frame` of the Euler pole
+`sf` object by giving a `data.frame` of the Euler pole
 coordinates in lat and lon (`x`) and the angle between the loxodromes, the
 direction, and the sense.
 
@@ -407,9 +407,9 @@ ggplot() +
   ) +
   borders() +
   labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
-  geom_path(
-    data = broom::tidy(euler.ld),
-    aes(long, lat, group = group, lty = "clockwise loxodromes"),
+  geom_sf(
+    data = euler.ld, 
+    aes(lty = "clockwise loxodromes"),
     color = "blue"
   ) +
   geom_point(
