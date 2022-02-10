@@ -47,7 +47,7 @@ norm_chi2 <- function(obs, prd, unc) {
       x[i] <- NA
       y[i] <- NA
     } else {
-      w[i] <- deviation_norm(prd[i] - obs[i] %% 180)
+      w[i] <- deviation_norm(prd[i] - (obs[i] + 180) %% 180)
       x[i] <- (w[i] / unc[i])^2
       y[i] <- (90 / unc[i])^2
     }
@@ -117,7 +117,7 @@ circular_quasi_quartile <- function(x) {
   n <- length(x)
 
   if (n > 3) {
-   ms <- 1:n
+  #ms <- 1:n
 
   med <- circular_quasi_median(x)
 

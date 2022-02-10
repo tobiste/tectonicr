@@ -41,7 +41,7 @@ smallcircle_dummy <- function(x) {
 #' @param sf logical. Export object type of the lines.
 #' TRUE (the default) simple feature (\code{sf}) objects.
 #' FALSE for \code{"SpatialLInesDataFrame"} object.
-#' @return An object of class \code{sf} or \code{SpatialLinesDataFrame}
+#' @return \code{sf} or \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on
 #' small circle (degree/Myr -> km/Myr)
 #' @importFrom dplyr "%>%" mutate select
@@ -54,7 +54,10 @@ smallcircle_dummy <- function(x) {
 #' euler$angle <- euler$rate
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
+eulerpole_smallcircles <- function(x, sm, returnclass = c("sf", "sp")) {
+
+  returnclass <- match.arg(returnclass)
+
   small_circle <- NULL
   if (missing(sm)) {
     sm <- 10
@@ -111,7 +114,7 @@ eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
     )
   )
 
-  if (!sf) {
+  if (returnclass == "sp") {
     SL <- sf::as_Spatial(SL)
     suppressMessages(
       suppressWarnings(
@@ -121,6 +124,9 @@ eulerpole_smallcircles <- function(x, sm, sf = TRUE) {
 
   }
   return(SL)
+
+
+
 }
 
 

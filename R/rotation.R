@@ -67,8 +67,8 @@ rotation_matrix <- function(n, alpha) {
 #' @examples
 #' longitude_modulo(-361)
 longitude_modulo <- function(longitude) {
-  longitude.mod <- (longitude %% 360 + 540) %% 360 - 180
-  return(longitude.mod)
+  #longitude.mod <- (longitude %% 360 + 540) %% 360 - 180
+  (longitude + 540) %% 360 - 180
 }
 
 #' @title Cartesian to geographical coordinates

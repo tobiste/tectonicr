@@ -64,7 +64,7 @@ misfit_shmax <- function(prd, obs) {
   if (length(obs) != length(seq_along(prd$gc))) {
     stop("prd and obs must have have the same length\n")
   }
-  obs <- obs %% 180
+  obs <- (obs + 180) %% 180
 
   dev.gc <- prd$gc - obs
   dev.sc <- prd$sc - obs
