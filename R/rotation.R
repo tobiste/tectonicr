@@ -32,12 +32,6 @@ angle_vectors <- function(x, y) {
 #'  or a matrix of 3 columns (first one is x, second y, third z)
 #' @param alpha Rotation angle in degrees
 #' @return matrix
-#' @details If \eqn{\vec u} is a vector prior to rotation and \eqn{\vec u'} is
-#' the point after rotation then \eqn{\vec u' = R \cdot \vec u} where \eqn{R} is
-#' a 3x3 rotation matrix:
-#' \eqn{
-#'   R = \begin{bmatrix} \cos \theta +u_{x}^{2}\left(1-\cos \theta \right) & u_{x}u_{y}\left(1-\cos \theta \right)-u_{z}\sin \theta & u_{x}u_{z}\left(1-\cos \theta \right)+u_{y}\sin \theta \\ u_{y}u_{x}\left(1-\cos \theta \right)+u_{z}\sin \theta & \cos \theta +u_{y}^{2}\left(1-\cos \theta \right)& u_{y}u_{z}\left(1-\cos \theta \right)-u_{x}\sin \theta \\ u_{z}u_{x}\left(1-\cos \theta \right)-u_{y}\sin \theta & u_{z}u_{y}\left(1-\cos \theta \right)+u_{x}\sin \theta & \cos \theta +u_{z}^{2}\left(1-\cos \theta \right)\end{bmatrix}
-#' }
 #' @export
 #' @importFrom pracma cosd sind
 #' @examples
