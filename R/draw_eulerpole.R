@@ -11,9 +11,11 @@ smallcircle_dummy <- function(x) {
   sm_range <- seq(0, 180, x)
   lons <- seq(-180, 180, x)
 
-  sm.df <- data.frame("lon" = as.numeric(),
-                      "lat" = as.numeric(),
-                      "small_circle" = as.numeric())
+  sm.df <- data.frame(
+    "lon" = as.numeric(),
+    "lat" = as.numeric(),
+    "small_circle" = as.numeric()
+  )
 
   for (i in sm_range) {
     # loop through all small circles
@@ -38,9 +40,7 @@ smallcircle_dummy <- function(x) {
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
 #' and rotation angle (optional)
 #' @param sm numeric, angle between small circles (in degree); default: 10
-#' @param sf logical. Export object type of the lines.
-#' TRUE (the default) simple feature (\code{sf}) objects.
-#' FALSE for \code{"SpatialLInesDataFrame"} object.
+#' @param returnclass "sf" default for simple features or "sp" for spatial objects
 #' @return \code{sf} or \code{SpatialLinesDataFrame}
 #' @details if angle is given: output additionally gives absolute velocity on
 #' small circle (degree/Myr -> km/Myr)
@@ -54,80 +54,82 @@ smallcircle_dummy <- function(x) {
 #' euler$angle <- euler$rate
 #' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <- function(x, sm, returnclass = c("sf", "sp")) {
+eulerpole_smallcircles <-
+  function(x, sm, returnclass = c("sf", "sp")) {
+    returnclass <- match.arg(returnclass)
 
-  returnclass <- match.arg(returnclass)
+    small_circle <- NULL
+    if (missing(sm)) {
+      sm <- 10
+    }
+    sm.df <- smallcircle_dummy(sm)
+    sm_range <- unique(sm.df$small_circle)
 
-  small_circle <- NULL
-  if (missing(sm)) {
-    sm <- 10
-  }
-  sm.df <- smallcircle_dummy(sm)
-  sm_range <- unique(sm.df$small_circle)
+    if (is.null(x$angle)) {
+      sm_range.df <- sm_range
+    } else {
+      velocity <- sm.df %>%
+        dplyr::mutate(abs_vel = abs_vel(x$angle, sm.df$small_circle)) %>%
+        dplyr::select(small_circle, abs_vel) %>%
+        unique()
+      sm_range.df <- velocity
+    }
 
-  if (is.null(x$angle)) {
-    sm_range.df <- sm_range
-  } else {
-    velocity <- sm.df %>%
-      dplyr::mutate(abs_vel = abs_vel(x$angle, sm.df$small_circle)) %>%
-      dplyr::select(small_circle, abs_vel) %>%
-      unique()
-    sm_range.df <- velocity
-  }
+    SL.list <- list()
 
-  SL.list <- list()
+    for (s in unique(sm.df$small_circle)) {
+      # loop through all small circles
+      sm.subset <- subset(sm.df, sm.df$small_circle == s)
 
-  for (s in unique(sm.df$small_circle)) {
-    # loop through all small circles
-    sm.subset <- subset(sm.df, sm.df$small_circle == s)
+      l.i <- sp::Lines(slinelist = sp::Line(cbind(
+        "lon" = sm.subset$lon,
+        "lat" = sm.subset$lat
+      )), ID = as.character(s))
 
-    l.i <- sp::Lines(slinelist = sp::Line(cbind(
-      "lon" = sm.subset$lon,
-      "lat" = sm.subset$lat
-    )), ID = as.character(s))
+      suppressWarnings(SL.list[as.character(s)] <- l.i)
+    }
 
-    suppressWarnings(SL.list[as.character(s)] <- l.i)
-  }
-
-  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-  ep <- sf::st_crs(paste0(
-    "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-    x$lat,
-    " +o_lon_p=",
-    x$lon)
-  )
-
-  SL.wgs84 <- sp::SpatialLines(SL.list)
-  SL.wgs84.df <- sp::SpatialLinesDataFrame(
-    SL.wgs84,
-    data.frame("n" = sm_range.df, row.names = sm_range)
-  )
-
-  suppressMessages(
-    suppressWarnings(
-      SL <- SL.wgs84.df %>%
-        sf::st_as_sf() %>%
-        sf::st_set_crs(wgs84) %>%
-        sf::st_transform(ep) %>%
-        sf::st_set_crs(wgs84) %>%
-        sf::st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
-    )
-  )
-
-  if (returnclass == "sp") {
-    SL <- sf::as_Spatial(SL)
-    suppressMessages(
-      suppressWarnings(
-        sp::proj4string(SL) <- sp::CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    wgs84 <-
+      sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    ep <- sf::st_crs(
+      paste0(
+        "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
+        x$lat,
+        " +o_lon_p=",
+        x$lon
       )
     )
 
+    SL.wgs84 <- sp::SpatialLines(SL.list)
+    SL.wgs84.df <- sp::SpatialLinesDataFrame(
+      SL.wgs84,
+      data.frame("n" = sm_range.df, row.names = sm_range)
+    )
+
+    suppressMessages(
+      suppressWarnings(
+        SL <- SL.wgs84.df %>%
+          sf::st_as_sf() %>%
+          sf::st_set_crs(wgs84) %>%
+          sf::st_transform(ep) %>%
+          sf::st_set_crs(wgs84) %>%
+          sf::st_wrap_dateline(options = c(
+            "WRAPDATELINE=YES", "DATELINEOFFSET=180"
+          ))
+      )
+    )
+
+    if (returnclass == "sp") {
+      SL <- sf::as_Spatial(SL)
+      suppressMessages(suppressWarnings(
+        sp::proj4string(SL) <-
+          sp::CRS(
+            "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+          )
+      ))
+    }
+    return(SL)
   }
-  return(SL)
-
-
-
-}
 
 
 
@@ -142,17 +144,17 @@ eulerpole_smallcircles <- function(x, sm, returnclass = c("sf", "sp")) {
 #' @param gm numeric, angle between great circles
 #' @param n numeric; number of equally spaced great circles (angle between great
 #' circles (number of great circles n = 360 / gm); default = 12
-#' @param sf logical. Export object type of the lines.
-#' TRUE (the default) simple feature (\code{sf}) objects.
-#' FALSE for \code{"SpatialLInesDataFrame"} object.
-#' @return An object of class \code{sf} or \code{SpatialLinesDataFrame}
+#' @param returnclass "sf" default for simple features or "sp" for spatial objects
+#' @return \code{sf} or \code{SpatialLinesDataFrame}
 #' @export
 #' @examples
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' euler$angle <- euler$rate
 #' eulerpole_greatcircles(euler)
-eulerpole_greatcircles <- function(x, gm, n, sf=TRUE) {
+eulerpole_greatcircles <- function(x, gm, n, returnclass = c("sf", "sp")) {
+  returnclass <- match.arg(returnclass)
+
   if (missing(n) & !missing(gm)) {
     n <- round(360 / gm, 0)
   } else if (missing(n) & missing(gm)) {
@@ -162,7 +164,14 @@ eulerpole_greatcircles <- function(x, gm, n, sf=TRUE) {
     n <- 12
   }
 
-  SL <- eulerpole_loxodromes(x, angle = 0, ld = n, sense = "dextral", sf = TRUE)
+  SL <-
+    eulerpole_loxodromes(
+      x,
+      angle = 0,
+      ld = n,
+      sense = "dextral",
+      returnclass = returnclass
+    )
   return(SL)
 }
 
@@ -179,10 +188,10 @@ eulerpole_greatcircles <- function(x, gm, n, sf=TRUE) {
 rotate_lines <- function(theta, p, centre) {
   new_x <-
     pracma::cosd(theta) * (p[, 1] - centre[1]) - pracma::sind(theta) *
-    (p[, 2] - centre[2]) + centre[1]
+      (p[, 2] - centre[2]) + centre[1]
   new_y <-
     pracma::sind(theta) * (p[, 1] - centre[1]) + pracma::cosd(theta) *
-    (p[, 2] - centre[2]) + centre[2]
+      (p[, 2] - centre[2]) + centre[2]
   return(matrix(c(new_x, new_y), ncol = 2))
 }
 
@@ -211,20 +220,26 @@ loxodrome_dummy <- function(angle, n, sense) {
 
   lats <- seq(-180, 180, 1)
 
-  line.dummy <- data.frame(lon = rep(0, length(lats)),
-                           lat = lats,
-                           line = 0)
+  line.dummy <- data.frame(
+    lon = rep(0, length(lats)),
+    lat = lats,
+    line = 0
+  )
   for (j in seq_along(line.dummy$lon)) {
     line.dummy.rot <-
       rotate_lines(
         theta = s * angle,
-        p = cbind(line.dummy$lon[j],
-                  line.dummy$lat[j]),
+        p = cbind(
+          line.dummy$lon[j],
+          line.dummy$lat[j]
+        ),
         centre = c(line.dummy$lon[j], 0)
       )
-    loxodrome.dummy.j <- data.frame(lon = line.dummy.rot[, 1],
-                                    lat = line.dummy.rot[, 2],
-                                    loxodrome = line.dummy$line[j])
+    loxodrome.dummy.j <- data.frame(
+      lon = line.dummy.rot[, 1],
+      lat = line.dummy.rot[, 2],
+      loxodrome = line.dummy$line[j]
+    )
 
     if (j == 1) {
       loxodrome.dummy <- loxodrome.dummy.j
@@ -235,8 +250,10 @@ loxodrome_dummy <- function(angle, n, sense) {
 
   for (i in seq(-360, 360, n)) {
     line.i <- loxodrome.dummy %>%
-      mutate(lon = lon - i,
-             loxodrome = i)
+      mutate(
+        lon = lon - i,
+        loxodrome = i
+      )
 
     if (i == -360) {
       loxodromes <- line.i
@@ -265,10 +282,8 @@ loxodrome_dummy <- function(angle, n, sense) {
 #' @param ld numeric, angle between loxodromes (in degree); default: 10
 #' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
 #' or 'counterclockwise' loxodromes, respectively
-#' @param sf logical. Export object type of the lines.
-#' TRUE (the default) simple feature (\code{sf}) objects.
-#' FALSE for \code{"SpatialLInesDataFrame"} object.
-#' @return An object of class \code{sf} or \code{SpatialLinesDataFrame}
+#' @param returnclass "sf" default for simple features or "sp" for spatial objects
+#' @return \code{sf} or \code{SpatialLinesDataFrame}
 #' @importFrom dplyr first filter
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline as_Spatial
@@ -278,64 +293,82 @@ loxodrome_dummy <- function(angle, n, sense) {
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = "sinistral")
-eulerpole_loxodromes <- function(x, angle = 45, ld = 10, sense, sf = TRUE) {
-  loxodrome <- NULL
-  if (missing(sense)) {
-    stop("sense missing\n")
-  }
+eulerpole_loxodromes <-
+  function(x,
+           angle = 45,
+           ld = 10,
+           sense,
+           returnclass = c("sf", "sp")) {
+    returnclass <- match.arg(returnclass)
 
-  ld.df <-
-    loxodrome_dummy(angle = abs(angle),
-                    n = 360 / ld,
-                    sense = sense)
 
-  ld_range <- unique(ld.df$loxodrome)
-  SL.list <- list()
+    loxodrome <- NULL
+    if (missing(sense)) {
+      stop("sense missing\n")
+    }
 
-  for (l in unique(ld.df$loxodrome)) {
-    # loop through all circles
-    ld.subset <- dplyr::filter(ld.df, loxodrome == l)
+    ld.df <-
+      loxodrome_dummy(
+        angle = abs(angle),
+        n = 360 / ld,
+        sense = sense
+      )
 
-    l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
-      cbind("lon" = ld.subset$lon,
-            "lat" = ld.subset$lat)
-    ), ID = as.character(l)))
+    ld_range <- unique(ld.df$loxodrome)
+    SL.list <- list()
 
-    suppressWarnings(SL.list[as.character(l)] <- l.i)
-  }
+    for (l in unique(ld.df$loxodrome)) {
+      # loop through all circles
+      ld.subset <- dplyr::filter(ld.df, loxodrome == l)
 
-  wgs84 <- sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-  ep <- sf::st_crs(paste0(
-    "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-    x$lat,
-    " +o_lon_p=",
-    x$lon)
-  )
+      l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
+        cbind(
+          "lon" = ld.subset$lon,
+          "lat" = ld.subset$lat
+        )
+      ), ID = as.character(l)))
 
-  SL.wgs84 <- sp::SpatialLines(SL.list)
-  SL.wgs84.df <- sp::SpatialLinesDataFrame(
-    SL.wgs84,
-    data.frame("n" = as.character(ld_range), row.names = ld_range)
-  )
+      suppressWarnings(SL.list[as.character(l)] <- l.i)
+    }
 
-  suppressMessages(
-    suppressWarnings(
-      SL <- SL.wgs84.df %>%
-        sf::st_as_sf() %>%
-        sf::st_set_crs(wgs84) %>%
-        sf::st_transform(ep) %>%
-        sf::st_set_crs(wgs84) %>%
-        sf::st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
-    )
-  )
-
-  if (!sf) {
-    SL <- sf::as_Spatial(SL)
-    suppressMessages(
-      suppressWarnings(
-        sp::proj4string(SL) <- sp::CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    wgs84 <-
+      sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    ep <- sf::st_crs(
+      paste0(
+        "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
+        x$lat,
+        " +o_lon_p=",
+        x$lon
       )
     )
+
+    SL.wgs84 <- sp::SpatialLines(SL.list)
+    SL.wgs84.df <- sp::SpatialLinesDataFrame(
+      SL.wgs84,
+      data.frame("n" = as.character(ld_range), row.names = ld_range)
+    )
+
+    suppressMessages(
+      suppressWarnings(
+        SL <- SL.wgs84.df %>%
+          sf::st_as_sf() %>%
+          sf::st_set_crs(wgs84) %>%
+          sf::st_transform(ep) %>%
+          sf::st_set_crs(wgs84) %>%
+          sf::st_wrap_dateline(options = c(
+            "WRAPDATELINE=YES", "DATELINEOFFSET=180"
+          ))
+      )
+    )
+
+    if (returnclass == "sp") {
+      SL <- sf::as_Spatial(SL)
+      suppressMessages(suppressWarnings(
+        sp::proj4string(SL) <-
+          sp::CRS(
+            "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+          )
+      ))
+    }
+    return(SL)
   }
-  return(SL)
-}

@@ -16,9 +16,9 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
   }
 )
 
-#' Quantise World Stress Map quality ranking
+#' Quantize World Stress Map quality ranking
 #'
-#' Quantise the World Stress Map A, B, C, D quality ranking
+#' Quantize the World Stress Map A, B, C, D quality ranking
 #'
 #' @param x Either a string or a character vector of WSM quality ranking
 #' @return \code{"integer"} or vector of type \code{"integer"}

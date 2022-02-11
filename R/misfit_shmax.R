@@ -61,9 +61,9 @@ deviation_norm <- function(x) {
 #' prd <- model_shmax(point, euler)
 #' misfit_shmax(prd, obs = 90)
 misfit_shmax <- function(prd, obs) {
-  if (length(obs) != length(seq_along(prd$gc))) {
-    stop("prd and obs must have have the same length\n")
-  }
+  stopifnot(length(obs) == length(seq_along(prd$gc)))
+
+  # normalize azimuth
   obs <- (obs + 180) %% 180
 
   dev.gc <- prd$gc - obs

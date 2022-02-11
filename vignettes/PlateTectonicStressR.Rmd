@@ -96,7 +96,7 @@ library(ggplot2) # load ggplot library
 ```
 
 To model the direction of the great and small circles and loxodromes
-around the Euler pole $\vec E$ at a given point (eg. at 45$^{\circ}$N/20$^{\circ}$E), you
+around the Euler pole $\vec E$ at a given point (e.g. at 45$^{\circ}$N/20$^{\circ}$E), you
 need the coordinates of the Euler pole.
 
 For example, the Euler pole has the coordinates: 90$^{\circ}$N/0$^{\circ}$E. Then
@@ -122,7 +122,7 @@ print(deviation)
 
 ## Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress
 
-The **normalized** $\chi^2$ test quantitively compares the predicted
+The **normalized** $\chi^2$ test quantitatively compares the predicted
 (`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the reported
 $\sigma$ standard deviation (Wdowinski 1999).
 

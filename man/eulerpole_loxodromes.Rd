@@ -4,7 +4,13 @@
 \alias{eulerpole_loxodromes}
 \title{Loxodromes directed towards an Euler pole}
 \usage{
-eulerpole_loxodromes(x, angle = 45, ld = 10, sense, sf = TRUE)
+eulerpole_loxodromes(
+  x,
+  angle = 45,
+  ld = 10,
+  sense,
+  returnclass = c("sf", "sp")
+)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat and
@@ -17,12 +23,10 @@ lon}
 \item{sense}{Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
 or 'counterclockwise' loxodromes, respectively}
 
-\item{sf}{logical. Export object type of the lines.
-TRUE (the default) simple feature (\code{sf}) objects.
-FALSE for \code{"SpatialLInesDataFrame"} object.}
+\item{returnclass}{"sf" default for simple features or "sp" for spatial objects}
 }
 \value{
-An object of class \code{sf} or \code{SpatialLinesDataFrame}
+\code{sf} or \code{SpatialLinesDataFrame}
 }
 \description{
 Construct curves cutting small circles at a constant angle

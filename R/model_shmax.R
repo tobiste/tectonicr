@@ -17,8 +17,6 @@
 #' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
 #' longitude)
 #' @references http://www.movable-type.co.uk/scripts/latlong.html
-#' @references C.F.F. Karney, 2013. Algorithms for geodesics, J. Geodesy 87:
-#' 43-55. https://dx.doi.org/10.1007/s00190-012-0578-z
 #' @return azimuth in degrees
 #' @export
 #' @importFrom pracma atan2d cosd sind
@@ -27,6 +25,8 @@
 #' q <- c(35, 135) # Osaka
 #' get_azimuth(p, q)
 get_azimuth <- function(p, q) {
+  stopifnot(is.numeric(p) & is.numeric(q))
+
   p.lat <- p[1]
   p.lon <- p[2]
   q.lat <- q[1]

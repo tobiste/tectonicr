@@ -22,10 +22,10 @@ Imports:
 Suggests: 
     covr,
     knitr,
-    rnaturalearth,
-    rgeos,
     maps,
+    rgeos,
     rmarkdown,
+    rnaturalearth,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr

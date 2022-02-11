@@ -4,7 +4,7 @@
 \alias{eulerpole_greatcircles}
 \title{Great-circles of Euler pole}
 \usage{
-eulerpole_greatcircles(x, gm, n, sf = TRUE)
+eulerpole_greatcircles(x, gm, n, returnclass = c("sf", "sp"))
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler poles in lat, lon,
@@ -15,12 +15,10 @@ and rotation angle (optional)}
 \item{n}{numeric; number of equally spaced great circles (angle between great
 circles (number of great circles n = 360 / gm); default = 12}
 
-\item{sf}{logical. Export object type of the lines.
-TRUE (the default) simple feature (\code{sf}) objects.
-FALSE for \code{"SpatialLInesDataFrame"} object.}
+\item{returnclass}{"sf" default for simple features or "sp" for spatial objects}
 }
 \value{
-An object of class \code{sf} or \code{SpatialLinesDataFrame}
+\code{sf} or \code{SpatialLinesDataFrame}
 }
 \description{
 Get points on a great circle as defined by the shortest distance

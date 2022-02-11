@@ -37,9 +37,6 @@ get_azimuth(p, q)
 }
 \references{
 http://www.movable-type.co.uk/scripts/latlong.html
-
-C.F.F. Karney, 2013. Algorithms for geodesics, J. Geodesy 87:
-43-55. https://dx.doi.org/10.1007/s00190-012-0578-z
 }
 \author{
 Tobias Stephan

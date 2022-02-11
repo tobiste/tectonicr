@@ -72,6 +72,8 @@ norm_chi2 <- function(obs, prd, unc) {
 #' @examples
 #' circular_quasi_median(x = c(0, 45, 55, 40 + 180, 50 + 180))
 circular_quasi_median <- function(x) {
+  stopifnot(any(is.numeric(x)))
+
   if (NA %in% x) {
     message("NA values have been dropped\n")
   }
@@ -110,6 +112,8 @@ circular_quasi_median <- function(x) {
 #' @examples
 #' circular_quasi_quartile(x = c(0, 45, 55, 40 + 180, 50 + 180))
 circular_quasi_quartile <- function(x) {
+  stopifnot(any(is.numeric(x)))
+
   if (NA %in% x) {
     message("NA values have been dropped\n")
   }
@@ -117,51 +121,51 @@ circular_quasi_quartile <- function(x) {
   n <- length(x)
 
   if (n > 3) {
-  #ms <- 1:n
+    # ms <- 1:n
 
-  med <- circular_quasi_median(x)
+    med <- circular_quasi_median(x)
 
-  if (n %% 4 == 0) {
-    m <- n / 4
-    lq <- pracma::atand(
-      pracma::sind(x[m + 1]) / pracma::cosd(x[m + 1])
-    )
-    uq <- pracma::atand(
-      pracma::sind(x[3 * m + 1]) / pracma::cosd(x[3 * m + 1])
-    )
-  }
-  if (n %% 4 == 1) {
-    m <- (n - 1) / 4
-    lq <- pracma::atand(
-      (3 * pracma::sind(x[m]) + pracma::sind(x[m + 1])) /
-        (3 * pracma::cosd(x[m]) + pracma::cosd(x[m + 1]))
-    )
-    uq <- pracma::atand(
-      (3 * pracma::sind(x[3 * m]) + pracma::sind(x[3 * m + 1])) /
-        (3 * pracma::cosd(x[3 * m]) + pracma::cosd(x[3 * m + 1]))
-    )
-  }
-  if (n %% 4 == 2) {
-    m <- (n - 2) / 4
-    lq <- pracma::atand((pracma::sind(x[m]) + pracma::sind(x[m + 1])) /
-                          (pracma::cosd(x[m]) + pracma::cosd(x[m + 1])))
-    uq <- pracma::atand((pracma::sind(x[3 * m]) + pracma::sind(x[3 * m + 1])) /
-                          (pracma::cosd(x[3 * m]) + pracma::cosd(x[3 * m + 1])))
-  }
-  if (n %% 4 == 3) {
-    m <- (n - 2) / 4
-    lq <- pracma::atand((pracma::sind(x[m]) + 3 * pracma::sind(x[m + 1])) /
-                          (pracma::cosd(x[m]) + 3 * pracma::cosd(x[m + 1])))
-    uq <- pracma::atand((pracma::sind(x[3 * m]) +
-                           3 * pracma::sind(x[3 * m + 1])) /
-                          (pracma::cosd(x[3 * m]) +
-                             3 * pracma::cosd(x[3 * m + 1])))
-  }
+    if (n %% 4 == 0) {
+      m <- n / 4
+      lq <- pracma::atand(
+        pracma::sind(x[m + 1]) / pracma::cosd(x[m + 1])
+      )
+      uq <- pracma::atand(
+        pracma::sind(x[3 * m + 1]) / pracma::cosd(x[3 * m + 1])
+      )
+    }
+    if (n %% 4 == 1) {
+      m <- (n - 1) / 4
+      lq <- pracma::atand(
+        (3 * pracma::sind(x[m]) + pracma::sind(x[m + 1])) /
+          (3 * pracma::cosd(x[m]) + pracma::cosd(x[m + 1]))
+      )
+      uq <- pracma::atand(
+        (3 * pracma::sind(x[3 * m]) + pracma::sind(x[3 * m + 1])) /
+          (3 * pracma::cosd(x[3 * m]) + pracma::cosd(x[3 * m + 1]))
+      )
+    }
+    if (n %% 4 == 2) {
+      m <- (n - 2) / 4
+      lq <- pracma::atand((pracma::sind(x[m]) + pracma::sind(x[m + 1])) /
+        (pracma::cosd(x[m]) + pracma::cosd(x[m + 1])))
+      uq <- pracma::atand((pracma::sind(x[3 * m]) + pracma::sind(x[3 * m + 1])) /
+        (pracma::cosd(x[3 * m]) + pracma::cosd(x[3 * m + 1])))
+    }
+    if (n %% 4 == 3) {
+      m <- (n - 2) / 4
+      lq <- pracma::atand((pracma::sind(x[m]) + 3 * pracma::sind(x[m + 1])) /
+        (pracma::cosd(x[m]) + 3 * pracma::cosd(x[m + 1])))
+      uq <- pracma::atand((pracma::sind(x[3 * m]) +
+        3 * pracma::sind(x[3 * m + 1])) /
+        (pracma::cosd(x[3 * m]) +
+          3 * pracma::cosd(x[3 * m + 1])))
+    }
 
 
-  quantiles <- c(x[1], lq, med, uq, x[length(x)])
-  names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
-  return(quantiles)
+    quantiles <- c(x[1], lq, med, uq, x[length(x)])
+    names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
+    return(quantiles)
   } else {
     message("x needs more than 3 values\n")
     return(NULL)
@@ -181,6 +185,8 @@ circular_quasi_quartile <- function(x) {
 #' @examples
 #' circular_quasi_interquartile_range(x = c(0, 45, 55, 40 + 180, 50 + 180))
 circular_quasi_interquartile_range <- function(x) {
+  stopifnot(any(is.numeric(x)))
+
   if (NA %in% x) {
     message("NA values have been dropped\n")
   }
