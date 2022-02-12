@@ -25,6 +25,3 @@ Transforms between angles in degrees and radians.
 deg2rad(c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90))
 rad2deg(seq(-pi/2, pi/2, length = 19))
 }
-\seealso{
-\code{\link[pracma]{deg2rad }}
-}

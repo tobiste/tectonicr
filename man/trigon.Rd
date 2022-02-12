@@ -43,6 +43,3 @@ head(tx)
 tx[ (x \%\% 1) \%in\% c(0, 0.5) ,]
 options(op)
 }
-\seealso{
-\code{\link[pracma]{sind}}
-}
