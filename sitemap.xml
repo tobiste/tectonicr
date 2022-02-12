@@ -34,34 +34,22 @@
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/abs_vel.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/angle-conversion.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/angle_vectors.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/cartesian_to_geographical.html</loc>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/circle_median.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/circular_quasi_interquartile_range.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/circular_quasi_median.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/circular_quasi_quartile.html</loc>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/coordinates.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/deviation_norm.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/eulerpole_greatcircles.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/eulerpole_loxodromes.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/eulerpole_smallcircles.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/geographical_to_cartesian.html</loc>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/dummy.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/get_azimuth.html</loc>
@@ -71,9 +59,6 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/longitude_modulo.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/loxodrome_dummy.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/misfit_shmax.html</loc>
@@ -97,7 +82,10 @@
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotation_matrix.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/smallcircle_dummy.html</loc>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/stress_paths.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/trigon.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/wsm2016.html</loc>

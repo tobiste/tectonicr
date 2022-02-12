@@ -66,9 +66,11 @@ normalized chi-square test.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>obs</dt>
-<dd><p>observed SHmax, numeric vector</p></dd>
+<dd><p>numeric vector containing the observed azimuth of SHmax,
+same length as <code>prd</code></p></dd>
 <dt>prd</dt>
-<dd><p>predicted SHmax, numeric vector of length of <code>obs</code></p></dd>
+<dd><p><code>data.frame</code> containing the modeled azimuths of SHmax, i.e.
+the return object from <code><a href="model_shmax.html">model_shmax()</a></code></p></dd>
 <dt>unc</dt>
 <dd><p>uncertainty of observed SHmax, either numeric vector of length of
 <code>obs</code> or a number</p></dd>
