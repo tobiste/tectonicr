@@ -7,13 +7,11 @@
 get_azimuth(p, q)
 }
 \arguments{
-\item{p}{latitude/longitude of start point(s). Can be a vector of two numbers
-or a matrix of 2 columns (first one is latitude, second is longitude)}
-
-\item{q}{as above}
+\item{p, q}{latitude/longitude of start and end point(s).
+Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)}
 }
 \value{
-azimuth in degrees
+Azimuth in degrees
 }
 \description{
 Calculate initial bearing (or forward azimuth/direction) to go
@@ -37,7 +35,4 @@ get_azimuth(p, q)
 }
 \references{
 http://www.movable-type.co.uk/scripts/latlong.html
-}
-\author{
-Tobias Stephan
 }

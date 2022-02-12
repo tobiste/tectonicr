@@ -85,3 +85,4 @@ misfit_shmax <- function(prd, obs) {
   dev.df <- data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw)
   return(dev.df)
 }
+

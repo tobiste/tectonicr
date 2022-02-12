@@ -6,6 +6,7 @@ position_center_spoke <- function() PositionCenterSpoke # position subclass
 #' @description \code{position} subclass "center_spoke" to center
 #' \code{ggplot::geom_spoke()} marker at its origin
 #' @export
+#' @source https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin
 #' @importFrom ggplot2 ggproto Position
 PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position,
   compute_panel = function(self, data, params, scales) {

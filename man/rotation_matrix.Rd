@@ -8,8 +8,7 @@ rotation_matrix(n, alpha)
 }
 \arguments{
 \item{n}{Rotation axis (in Cartesian coordinates). Can be a vector of three
-numbers
-or a matrix of 3 columns (first one is x, second y, third z)}
+numbers or a matrix of 3 columns (x, y, z)}
 
 \item{alpha}{Rotation angle in degrees}
 }
@@ -23,7 +22,4 @@ angle of rotation
 \examples{
 w <- c(0, 1, 0)
 rotation_matrix(w, 90)
-}
-\author{
-Tobias Stephan
 }

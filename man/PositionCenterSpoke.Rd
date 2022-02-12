@@ -7,6 +7,9 @@
 \format{
 An object of class \code{PositionCenterSpoke} (inherits from \code{Position}, \code{ggproto}, \code{gg}) of length 2.
 }
+\source{
+https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin
+}
 \usage{
 PositionCenterSpoke
 }

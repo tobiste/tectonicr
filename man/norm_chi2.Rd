@@ -7,9 +7,11 @@
 norm_chi2(obs, prd, unc)
 }
 \arguments{
-\item{obs}{observed SHmax, numeric vector}
+\item{obs}{numeric vector containing the observed azimuth of SHmax,
+same length as \code{prd}}
 
-\item{prd}{predicted SHmax, numeric vector of length of \code{obs}}
+\item{prd}{\code{data.frame} containing the modeled azimuths of SHmax, i.e.
+the return object from \code{model_shmax()}}
 
 \item{unc}{uncertainty of observed SHmax, either numeric vector of length of
 \code{obs} or a number}

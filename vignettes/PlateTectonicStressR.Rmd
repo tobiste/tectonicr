@@ -228,7 +228,7 @@ ggplot(san.andreas.res) +
       x = lon,
       y = lat,
       radius = 1,
-      angle = pracma::deg2rad(-azi + 90),
+      angle = deg2rad(-azi + 90),
       color = deviation_norm(dev.ld.ccw)
     ),
     position = "center_spoke",
@@ -274,7 +274,7 @@ stress direction of the area.
 
 Function `eulerpole_smallcircles(x, gridsize)` returns Small circles as as 
 simple feature(`sf`) by giving a `data.frame` of the Euler pole
-coordinates in lat and lon (`x`) and the small circle distances (`sm`).
+coordinates in lat and lon (`x`) and the number of small circles (`n`).
 
 For example the small circles around the Euler pole of the relative
 motion of North America relative to the Pacific plate (from the NUVEL1
@@ -333,7 +333,7 @@ ggplot() +
 Great circles are lines that cut the small circles at 90$^{\circ}$ and
 the Euler pole. Function `eulerpole_greatcircles(x, n)` returns great
 circles as `sf` object by giving a `data.frame` of the Euler
-pole coordinates in lat and lon (`x`) and the number of great circles `gm`,
+pole coordinates in lat and lon (`x`) and the number of great circles `n`,
 or the great circle angles (`360/d`).
 
 ```{r great_circles_around_ep, echo=TRUE, warning=FALSE, message=FALSE}
@@ -386,13 +386,13 @@ Loxodrome (also called Rhumb Line) is a curve cutting the small circles
 at a constant angle. Thus, small and great circles are 0$^{\circ}$ and
 90$^{\circ}$ loxodromes, respectively.
 
-Function `eulerpole_loxodromes(x, ld)` returns loxodromes as
+Function `eulerpole_loxodromes(x, n)` returns loxodromes as
 `sf` object by giving a `data.frame` of the Euler pole
 coordinates in lat and lon (`x`) and the angle between the loxodromes, the
 direction, and the sense.
 
 ```{r loxodromes, echo=TRUE, warning=FALSE, message=FALSE}
-euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = "sinistral")
+euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
 
 ggplot() +
   geom_sf(data = world, fill = alpha("grey", .5)) +

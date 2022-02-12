@@ -1,15 +1,42 @@
-#' @title Small circle grid dummy
+#' @title Rotate lines
+#' @description Rotate a set of lines around a angle
 #'
-#' @description create a dummy
-#'
-#' @param x angle between small circles
+#' @param theta Angle of rotation (in degree)
+#' @param p Points of lines
+#' @param centre Center point of rotation
+#' @return \code{'matrix'}
+rotate_lines <- function(theta, p, centre) {
+  new_x <-
+    cosd(theta) * (p[, 1] - centre[1]) - sind(theta) *
+    (p[, 2] - centre[2]) + centre[1]
+  new_y <-
+    sind(theta) * (p[, 1] - centre[1]) + cosd(theta) *
+    (p[, 2] - centre[2]) + centre[2]
+  return(matrix(c(new_x, new_y), ncol = 2))
+}
+
+
+#' @title Plate stress dummy grid
+#' @description Creates a dummy grid for small circles, great circles, and
+#' loxodromes of an Euler pole
+#' @param n Number of curves
+#' @param angle Direction of loxodromes (in degree)
+#' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or
+#' 'counterclockwise' loxodromes, respectively
 #' @return data.frame
-#' @export
+#' @importFrom dplyr "%>%" filter mutate
+#' @name dummy
 #' @examples
 #' smallcircle_dummy(10)
-smallcircle_dummy <- function(x) {
-  sm_range <- seq(0, 180, x)
-  lons <- seq(-180, 180, x)
+#' greatcircle_dummy(10)
+#' loxodrome_dummy(10, 45, "sinistral")
+NULL
+
+#' @rdname dummy
+#' @export
+smallcircle_dummy <- function(n) {
+  sm_range <- seq(0, 180, n)
+  lons <- seq(-180, 180, n)
 
   sm.df <- data.frame(
     "lon" = as.numeric(),
@@ -24,45 +51,141 @@ smallcircle_dummy <- function(x) {
     sm.l <- data.frame(
       "lat" = rep(lat, length(lons)),
       "lon" = lons,
-      "small_circle" = sm
+      "small_circle" = 360/i
     )
     sm.df <- rbind(sm.df, sm.l)
   }
   return(sm.df)
 }
 
+#' @rdname dummy
+#' @export
+greatcircle_dummy <- function(n) {
+  loxodrome_dummy(n, angle = 180, sense = "sinistral")
+}
 
-#' @title Small-circles around Euler pole
+#' @rdname dummy
+#' @export
+loxodrome_dummy <- function(n, angle, sense) {
+  lon <- lat <- NULL
+  if (sense == "sinistral" | sense == "clockwise") {
+    s <- -1
+  } else if (sense == "dextral" | sense == "counterclockwise") {
+    s <- 1
+  } else {
+    stop("sense must be sinistral, dextral, clockwise, or clounterclockwise\n")
+  }
+
+  lats <- seq(-180, 180, 1)
+
+  line.dummy <- data.frame(
+    lon = rep(0, length(lats)),
+    lat = lats,
+    line = 0
+  )
+  for (j in seq_along(line.dummy$lon)) {
+    line.dummy.rot <-
+      rotate_lines(
+        theta = s * angle,
+        p = cbind(
+          line.dummy$lon[j],
+          line.dummy$lat[j]
+        ),
+        centre = c(line.dummy$lon[j], 0)
+      )
+    loxodrome.dummy.j <- data.frame(
+      lon = line.dummy.rot[, 1],
+      lat = line.dummy.rot[, 2],
+      loxodrome = line.dummy$line[j]
+    )
+
+    if (j == 1) {
+      loxodrome.dummy <- loxodrome.dummy.j
+    } else {
+      loxodrome.dummy <- rbind(loxodrome.dummy, loxodrome.dummy.j)
+    }
+  }
+
+  for (i in seq(-360, 360, n)) {
+    line.i <- loxodrome.dummy %>%
+      mutate(
+        lon = lon - i,
+        loxodrome = i
+      )
+
+    if (i == -360) {
+      loxodromes <- line.i
+    } else {
+      loxodromes <- rbind(loxodromes, line.i)
+    }
+  }
+
+  loxodromes.filt <- loxodromes %>%
+    unique() %>%
+    filter(abs(lat) <= 90) %>%
+    filter(abs(lon) <= 180)
+
+  return(loxodromes.filt)
+}
+
+
+
+
+#' @title Plate tectonic stress paths
 #'
-#' @description Construct a line that has a constant distance to the Euler pole.
+#' @description Construct SHmax lines that are following small-circles,
+#' great-circles, or loxodromes of an Euler pole for the relative plate motion.
 #'
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
 #' and rotation angle (optional)
-#' @param sm numeric, angle between small circles (in degree); default: 10
-#' @param returnclass "sf" default for simple features or "sp" for spatial objects
+#' @param n number of equally spaced curves
+#' @param angle Direction of loxodromes; default = 45
+#' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
+#' or 'counterclockwise' loxodromes, respectively
+#' @param type character string specifying the type of curves to export. Either \code{"sm"} for small circles (default), \code{"gc"} for great circles, or  \code{"ld"} for loxodromes.
+#' @param returnclass "sf" (default) for simple features or "sp" for spatial objects
 #' @return \code{sf} or \code{SpatialLinesDataFrame}
-#' @details if angle is given: output additionally gives absolute velocity on
-#' small circle (degree/Myr -> km/Myr)
+#' @details Maximum horizontal stress can be aligned to three types of curves related to relative plate motion:
+#' \describe{
+#' \item{Small circles}{Lines that have a constant distance to the Euler pole. If x contains \code{angle}, output additionally gives absolute
+#' velocity on small circle (degree/Myr -> km/Myr).}
+#' \item{Great circles}{Paths of the the shortest distance between the Euler pole and its antipodal position.}
+#'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small circles at a constant angle.}
+#'  }
 #' @importFrom dplyr "%>%" mutate select
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame proj4string CRS
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline as_Spatial
-#' @export
+#' @name stress_paths
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
+#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
 #' euler$angle <- euler$rate
-#' # Pacific plate
 #' eulerpole_smallcircles(euler)
-eulerpole_smallcircles <-
-  function(x, sm, returnclass = c("sf", "sp")) {
-    returnclass <- match.arg(returnclass)
+#' eulerpole_greatcircles(euler)
+#' eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
+#' eulerpole_loxodromes(x = euler, angle = 30, sense = "dextral")
+NULL
 
+#' @rdname stress_paths
+#' @export
+eulerpole_paths <- function(x, type, n, angle, sense, returnclass = c("sf", "sp")) {
+  if (type == 'gc') {
+    eulerpole_greatcircles(x, n, returnclass)
+  } else if (type == "ld") {
+    eulerpole_loxodromes(x, n, angle, sense, returnclass)
+  } else {
+    eulerpole_smallcircles(x, n, returnclass)
+  }
+}
+
+#' @rdname stress_paths
+#' @export
+eulerpole_smallcircles <-
+  function(x, n = 36, returnclass = c("sf", "sp")) {
+    returnclass <- match.arg(returnclass)
     small_circle <- NULL
-    if (missing(sm)) {
-      sm <- 10
-    }
-    sm.df <- smallcircle_dummy(sm)
+    sm.df <- smallcircle_dummy(n)
     sm_range <- unique(sm.df$small_circle)
 
     if (is.null(x$angle)) {
@@ -132,175 +255,26 @@ eulerpole_smallcircles <-
   }
 
 
-
-#' @title Great-circles of Euler pole
-#'
-#' @description Get points on a great circle as defined by the shortest distance
-#'  between two specified points
-#'
-#' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler poles in lat, lon,
-#'  and rotation angle (optional)
-#' @param gm numeric, angle between great circles
-#' @param n numeric; number of equally spaced great circles (angle between great
-#' circles (number of great circles n = 360 / gm); default = 12
-#' @param returnclass "sf" default for simple features or "sp" for spatial objects
-#' @return \code{sf} or \code{SpatialLinesDataFrame}
+#' @rdname stress_paths
 #' @export
-#' @examples
-#' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
-#' euler$angle <- euler$rate
-#' eulerpole_greatcircles(euler)
-eulerpole_greatcircles <- function(x, gm, n, returnclass = c("sf", "sp")) {
+eulerpole_greatcircles <- function(x, n = 12, returnclass = c("sf", "sp")) {
   returnclass <- match.arg(returnclass)
-
-  if (missing(n) & !missing(gm)) {
-    n <- round(360 / gm, 0)
-  } else if (missing(n) & missing(gm)) {
-    n <- 12
-  } else if (!missing(n) & !missing(gm)) {
-    warning("Both gm and n are given. Only n is considered\n")
-    n <- 12
-  }
 
   SL <-
     eulerpole_loxodromes(
       x,
       angle = 0,
-      ld = n,
+      n = n,
       sense = "dextral",
       returnclass = returnclass
     )
   return(SL)
 }
 
-
-
-#' @title Rotate lines
-#' @description Rotate a set of lines around a angle
-#'
-#' @param theta  Angle of rotation (in degree)
-#' @param p Points of lines
-#' @param centre Center point of rotation
-#' @return \code{'matrix'}
-#' @importFrom pracma cosd sind
-rotate_lines <- function(theta, p, centre) {
-  new_x <-
-    pracma::cosd(theta) * (p[, 1] - centre[1]) - pracma::sind(theta) *
-      (p[, 2] - centre[2]) + centre[1]
-  new_y <-
-    pracma::sind(theta) * (p[, 1] - centre[1]) + pracma::cosd(theta) *
-      (p[, 2] - centre[2]) + centre[2]
-  return(matrix(c(new_x, new_y), ncol = 2))
-}
-
-
-#' @title Loxodrome dummy
-#' @description create a dummy for loxodromes
-#'
-#' @param angle Direction of loxodromes (in degree)
-#' @param n number of loxodromes  (in  degree)
-#' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or
-#' 'counterclockwise' loxodromes, respectively
-#' @return data.frame
-#' @importFrom dplyr "%>%" filter mutate
+#' @rdname stress_paths
 #' @export
-#' @examples
-#' loxodrome_dummy(angle = 45, n = 10, sense = "sinistral")
-loxodrome_dummy <- function(angle, n, sense) {
-  lon <- lat <- NULL
-  if (sense == "sinistral" | sense == "clockwise") {
-    s <- -1
-  } else if (sense == "dextral" | sense == "counterclockwise") {
-    s <- 1
-  } else {
-    stop("sense must be sinistral, dextral, clockwise, or clounterclockwise\n")
-  }
-
-  lats <- seq(-180, 180, 1)
-
-  line.dummy <- data.frame(
-    lon = rep(0, length(lats)),
-    lat = lats,
-    line = 0
-  )
-  for (j in seq_along(line.dummy$lon)) {
-    line.dummy.rot <-
-      rotate_lines(
-        theta = s * angle,
-        p = cbind(
-          line.dummy$lon[j],
-          line.dummy$lat[j]
-        ),
-        centre = c(line.dummy$lon[j], 0)
-      )
-    loxodrome.dummy.j <- data.frame(
-      lon = line.dummy.rot[, 1],
-      lat = line.dummy.rot[, 2],
-      loxodrome = line.dummy$line[j]
-    )
-
-    if (j == 1) {
-      loxodrome.dummy <- loxodrome.dummy.j
-    } else {
-      loxodrome.dummy <- rbind(loxodrome.dummy, loxodrome.dummy.j)
-    }
-  }
-
-  for (i in seq(-360, 360, n)) {
-    line.i <- loxodrome.dummy %>%
-      mutate(
-        lon = lon - i,
-        loxodrome = i
-      )
-
-    if (i == -360) {
-      loxodromes <- line.i
-    } else {
-      loxodromes <- rbind(loxodromes, line.i)
-    }
-  }
-
-  loxodromes.filt <- loxodromes %>%
-    unique() %>%
-    filter(abs(lat) <= 90) %>%
-    filter(abs(lon) <= 180)
-
-  return(loxodromes.filt)
-}
-
-
-#' @title Loxodromes directed towards an Euler pole
-#'
-#' @description Construct curves cutting small circles at a constant angle
-#'
-#' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler pole in lat and
-#' lon
-#' @param angle Direction of loxodromes; default = 45
-#' @param ld numeric, angle between loxodromes (in degree); default: 10
-#' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
-#' or 'counterclockwise' loxodromes, respectively
-#' @param returnclass "sf" default for simple features or "sp" for spatial objects
-#' @return \code{sf} or \code{SpatialLinesDataFrame}
-#' @importFrom dplyr first filter
-#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame
-#' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline as_Spatial
-#' @import rgdal
-#' @export
-#' @examples
-#' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
-#' eulerpole_loxodromes(x = euler, angle = 45, ld = 10, sense = "sinistral")
-eulerpole_loxodromes <-
-  function(x,
-           angle = 45,
-           ld = 10,
-           sense,
-           returnclass = c("sf", "sp")) {
+eulerpole_loxodromes <- function(x, n = 10, angle = 45, sense, returnclass = c("sf", "sp")) {
     returnclass <- match.arg(returnclass)
-
 
     loxodrome <- NULL
     if (missing(sense)) {
@@ -310,7 +284,7 @@ eulerpole_loxodromes <-
     ld.df <-
       loxodrome_dummy(
         angle = abs(angle),
-        n = 360 / ld,
+        n = n,
         sense = sense
       )
 

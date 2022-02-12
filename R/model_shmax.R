@@ -4,10 +4,8 @@
 #' from point \code{p1} to point \code{p2} following great-circle arc on a
 #' sphere.
 #'
-#' @author Tobias Stephan
-#' @param p latitude/longitude of start point(s). Can be a vector of two numbers
-#'  or a matrix of 2 columns (first one is latitude, second is longitude)
-#' @param q as above
+#' @param p,q latitude/longitude of start and end point(s).
+#' Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)
 #' @details This formula is for the initial bearing (sometimes referred to as
 #' forward azimuth) which if followed in a straight line along a great-circle
 #' arc will take you from the start point to the end point:
@@ -17,9 +15,8 @@
 #' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
 #' longitude)
 #' @references http://www.movable-type.co.uk/scripts/latlong.html
-#' @return azimuth in degrees
+#' @return Azimuth in degrees
 #' @export
-#' @importFrom pracma atan2d cosd sind
 #' @examples
 #' p <- c(35, 45) # Baghdad
 #' q <- c(35, 135) # Osaka
@@ -35,10 +32,10 @@ get_azimuth <- function(p, q) {
   delta.lon <- q.lon - p.lon
 
   # azimuth
-  theta <- pracma::atan2d(
-    pracma::sind(delta.lon) * pracma::cosd(q.lat),
-    pracma::cosd(p.lat) * pracma::sind(q.lat) -
-      pracma::sind(p.lat) * pracma::cosd(q.lat) * pracma::cosd(delta.lon)
+  theta <- atan2d(
+    sind(delta.lon) * cosd(q.lat),
+    cosd(p.lat) * sind(q.lat) -
+      sind(p.lat) * cosd(q.lat) * cosd(delta.lon)
   )
 
   # Normalize result to a compass bearing (0-360)
