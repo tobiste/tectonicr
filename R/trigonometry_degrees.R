@@ -5,6 +5,8 @@
 #' @param deg	 (array of) angles in degrees.
 #' @param rad (array of) angles in radians.
 #' @return The angle in degrees or radians.
+#' @source \code{\link[pracma]{deg2rad}}, \code{\link[pracma]{rad2deg}} from
+#' package "pracma".
 #' @examples
 #' deg2rad(c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90))
 #' rad2deg(seq(-pi / 2, pi / 2, length = 19))
@@ -25,11 +27,12 @@ deg2rad <- function(deg) {
 }
 
 #' @title Trigonometric Functions in Degrees
-#'
 #' @description Trigonometric functions expecting input in degrees, not radians.
 #'
 #' @param x,x1,x2 Numeric or complex vectors.
 #' @return Returns a scalar or vector of numeric values.
+#' @source \code{\link[pracma]{sind}}, \code{\link[pracma]{cosd}}, ...  from
+#' package "pracma".
 #' @examples
 #' x <- seq(-3, 7, by = 1 / 8)
 #' tx <- cbind(x, cos(pi * x), cospi(x), sin(pi * x), sinpi(x),

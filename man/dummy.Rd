@@ -18,8 +18,8 @@ loxodrome_dummy(n, angle, sense)
 
 \item{angle}{Direction of loxodromes (in degree)}
 
-\item{sense}{Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or
-'counterclockwise' loxodromes, respectively}
+\item{sense}{Sense of loxodromes> Either "sinistral", "dextral", "clockwise", or
+"counterclockwise" loxodromes.}
 }
 \value{
 \code{data.frame}

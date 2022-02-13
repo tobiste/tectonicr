@@ -14,7 +14,7 @@
 #' where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
 #' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
 #' longitude)
-#' @references http://www.movable-type.co.uk/scripts/latlong.html
+#' @references \url{http://www.movable-type.co.uk/scripts/latlong.html}
 #' @return Azimuth in degrees
 #' @export
 #' @examples
@@ -47,7 +47,7 @@ get_azimuth <- function(p, q) {
 
 #' @title Theoretical Direction of Maximum Horizontal Stress
 #'
-#' Models the direction of maximum horizontal stress along
+#' Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
 #' great circles, small circles, and loxodromes at a given point or points
 #' according to the relative plate motion
 #'
@@ -58,17 +58,17 @@ get_azimuth <- function(p, q) {
 #' for the plate boundary (lat, lon)
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-#'   5037-5059, http://dx.doi.org/10.1029/97JB03390.
+#'   5037-5059, \doi{10.1029/97JB03390}.
 #' @return An object of class \code{data.frame}
 #' \describe{
-#'   \item{gc}{Azimuth of the modeled maximum horizontal following stress
+#'   \item{gc}{Azimuth of modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
 #'   great circles}
 #'   \item{sc}{Small circles}
 #'   \item{ld.cw}{Clockwise loxodromes}
 #'   \item{ld.ccw}{Counter-clockwise loxodromes}
-#'   }
-#'  @seealso [misfit_shmax()] to compute the deviation of the modeled direction
-#'  from the observed direction of maximum stress.
+#'  }
+#' @seealso [misfit_shmax()] to compute the deviation of the modeled direction
+#'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
 #' @export
 #' @examples
 #' data("nuvel1")

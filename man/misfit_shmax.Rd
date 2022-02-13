@@ -2,33 +2,31 @@
 % Please edit documentation in R/misfit_shmax.R
 \name{misfit_shmax}
 \alias{misfit_shmax}
-\title{Deviation of Observed and Predicted Directions of SHmax}
+\title{Deviation of Observed and Predicted Directions of Maximum Horizontal Stress}
 \usage{
 misfit_shmax(prd, obs)
 }
 \arguments{
-\item{prd}{\code{data.frame} containing the modeled azimuths of SHmax, i.e.
+\item{prd}{\code{data.frame} containing the modeled azimuths of \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
-\item{obs}{Numeric vector containing the observed azimuth of SHmax,
+\item{obs}{Numeric vector containing the observed azimuth of \eqn{\sigma_\text{Hmax}}{SHmax},
 same length as \code{prd}}
 }
 \value{
 An object of class \code{data.frame}
 \describe{
-\item{dev.gc}{Deviation of observed stress from modeled stress following
+\item{dev.gc}{Deviation of observed stress from modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
 great circles}
 \item{dev.sc}{Small circles}
 \item{dev.ld.cw}{Clockwise loxodromes}
 \item{dev.ld.ccw}{Counter-clockwise loxodromes}
 }
-@seealso \code{\link[=model_shmax]{model_shmax()}} to calculate the theoretical direction of maximum
-horizontal stress.
 }
 \description{
 Calculate the angular difference between the observed and modeled direction
-of maximum horizontal stresses along great circles, small circles, and
-loxodromes of the relative plate motion´s Euler pole
+of maximum horizontal stresses (\eqn{\sigma_\text{Hmax}}{SHmax}) along great circles, small circles, and
+loxodromes of the relative plate motion's Euler pole
 }
 \examples{
 data("nuvel1")
@@ -37,6 +35,9 @@ euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
 point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
 misfit_shmax(prd, obs = 90)
+}
+\seealso{
+\code{\link[=model_shmax]{model_shmax()}} to calculate the theoretical direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
 }
 \author{
 Tobias Stephan

@@ -1,4 +1,4 @@
-#' Global model of current plate motions (NUVEL-1)
+#' Global model of current plate motions
 #'
 #' Global model of current plate motions (NUVEL-1) by DeMets et al. 1990
 #'
@@ -10,7 +10,7 @@
 #'
 #' @references DeMets, C., Gordon, R. G., Argus, D. F., & Stein, S. (1990).
 #' Current plate motions. Geophysical Journal International, 101(2), 425-478.
-#' https://doi.org/10.1111/j.1365-246X.1990.tb06579.x
+#' \doi{10.1111/j.1365-246X.1990.tb06579.x}.
 #' @keywords datasets
 #' @examples
 #' data("nuvel1")

@@ -4,7 +4,7 @@
 \alias{model_shmax}
 \title{Theoretical Direction of Maximum Horizontal Stress
 
-Models the direction of maximum horizontal stress along
+Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
 great circles, small circles, and loxodromes at a given point or points
 according to the relative plate motion}
 \usage{
@@ -20,19 +20,17 @@ for the plate boundary (lat, lon)}
 \value{
 An object of class \code{data.frame}
 \describe{
-\item{gc}{Azimuth of the modeled maximum horizontal following stress
+\item{gc}{Azimuth of modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
 great circles}
 \item{sc}{Small circles}
 \item{ld.cw}{Clockwise loxodromes}
 \item{ld.ccw}{Counter-clockwise loxodromes}
 }
-@seealso \code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
-from the observed direction of maximum stress.
 }
 \description{
 Theoretical Direction of Maximum Horizontal Stress
 
-Models the direction of maximum horizontal stress along
+Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
 great circles, small circles, and loxodromes at a given point or points
 according to the relative plate motion
 }
@@ -46,7 +44,11 @@ model_shmax(point, euler)
 \references{
 Wdowinski, S., 1998, A theory of intraplate
 tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-5037-5059, http://dx.doi.org/10.1029/97JB03390.
+5037-5059, \doi{10.1029/97JB03390}.
+}
+\seealso{
+\code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
+from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
 }
 \author{
 Tobias Stephan

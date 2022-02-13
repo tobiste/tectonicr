@@ -33,27 +33,26 @@ deviation_norm <- function(x) {
 }
 
 
-#' Deviation of Observed and Predicted Directions of SHmax
+#' Deviation of Observed and Predicted Directions of Maximum Horizontal Stress
 #'
 #' Calculate the angular difference between the observed and modeled direction
-#' of maximum horizontal stresses along great circles, small circles, and
-#' loxodromes of the relative plate motion´s Euler pole
+#' of maximum horizontal stresses (\eqn{\sigma_\text{Hmax}}{SHmax}) along great circles, small circles, and
+#' loxodromes of the relative plate motion's Euler pole
 #'
 #' @author Tobias Stephan
-#' @param prd \code{data.frame} containing the modeled azimuths of SHmax, i.e.
+#' @param prd \code{data.frame} containing the modeled azimuths of \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 #' the return object from \code{model_shmax()}
-#' @param obs Numeric vector containing the observed azimuth of SHmax,
+#' @param obs Numeric vector containing the observed azimuth of \eqn{\sigma_\text{Hmax}}{SHmax},
 #' same length as \code{prd}
 #' @return An object of class \code{data.frame}
 #' \describe{
-#'   \item{dev.gc}{Deviation of observed stress from modeled stress following
+#'   \item{dev.gc}{Deviation of observed stress from modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
 #'   great circles}
 #'   \item{dev.sc}{Small circles}
 #'   \item{dev.ld.cw}{Clockwise loxodromes}
 #'   \item{dev.ld.ccw}{Counter-clockwise loxodromes}
-#'   }
-#'  @seealso [model_shmax()] to calculate the theoretical direction of maximum
-#'  horizontal stress.
+#' }
+#' @seealso [model_shmax()] to calculate the theoretical direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
 #' @export
 #' @examples
 #' data("nuvel1")

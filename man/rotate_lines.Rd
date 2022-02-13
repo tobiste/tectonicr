@@ -14,7 +14,7 @@ rotate_lines(theta, p, centre)
 \item{centre}{Center point of rotation}
 }
 \value{
-\code{'matrix'}
+\code{matrix}
 }
 \description{
 Rotate a set of lines around a angle

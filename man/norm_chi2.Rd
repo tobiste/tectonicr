@@ -7,13 +7,13 @@
 norm_chi2(obs, prd, unc)
 }
 \arguments{
-\item{obs}{Numeric vector containing the observed azimuth of SHmax,
+\item{obs}{Numeric vector containing the observed azimuth of \eqn{\sigma_\text{Hmax}}{SHmax},
 same length as \code{prd}}
 
-\item{prd}{\code{data.frame} containing the modeled azimuths of SHmax, i.e.
+\item{prd}{\code{data.frame} containing the modeled azimuths of \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
-\item{unc}{Uncertainty of observed SHmax, either numeric vector of length of
+\item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either numeric vector of length of
 \code{obs} or a number}
 }
 \value{
@@ -21,14 +21,19 @@ Numeric vector
 }
 \description{
 A quantitative comparison between the predicted and observed directions of
-SHmax is obtained by the calculation of the average azimuth and by a
-normalized chi-square test.
+\eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average azimuth and by a
+normalized \eqn{\chi^2}{chi-square} test.
 }
 \details{
-Test result are values are between 0 and 1 indicating the quality of
-the predicted SHmax directions. Low values (<= 0.15) indicate good agreement,
-high values (>0.7) indicate a systematic misfit between predicted and
-observed SHmax directions
+The normalized \eqn{\chi^2}{chi-square} test is
+\deqn{ \text{Norm} \chi^2_i =
+ = \frac{
+   \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i} \right) ^2}
+   {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}
+The test result are values are between 0 and 1 indicating the quality of
+the predicted \eqn{\sigma_\text{Hmax}}{SHmax} directions. Low values (\eqn{\le 0.15}) indicate good agreement,
+high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
+observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
 }
 \examples{
 data("nuvel1")
@@ -41,8 +46,5 @@ norm_chi2(obs = 90, prd$sc, unc = 10)
 \references{
 Wdowinski, S., 1998, A theory of intraplate
 tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-5037-5059, http://dx.doi.org/10.1029/97JB03390.
-}
-\author{
-2021 Tobias Stephan
+5037-5059, \doi{10.1029/97JB03390}.
 }

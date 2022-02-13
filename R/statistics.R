@@ -1,21 +1,26 @@
 #' Normalized Chi-Square Test
 #'
 #' A quantitative comparison between the predicted and observed directions of
-#' SHmax is obtained by the calculation of the average azimuth and by a
-#' normalized chi-square test.
+#' \eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average azimuth and by a
+#' normalized \eqn{\chi^2}{chi-square} test.
 #'
-#' @author 2021 Tobias Stephan
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-#'   5037-5059, http://dx.doi.org/10.1029/97JB03390.
+#'   5037-5059, \doi{10.1029/97JB03390}.
 #' @inheritParams misfit_shmax
-#' @param unc Uncertainty of observed SHmax, either numeric vector of length of
+#' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either numeric vector of length of
 #' \code{obs} or a number
 #' @return Numeric vector
-#' @details Test result are values are between 0 and 1 indicating the quality of
-#' the predicted SHmax directions. Low values (<= 0.15) indicate good agreement,
-#' high values (>0.7) indicate a systematic misfit between predicted and
-#' observed SHmax directions
+#' @details
+#' The normalized \eqn{\chi^2}{chi-square} test is
+#' \deqn{ \text{Norm} \chi^2_i =
+#'  = \frac{
+#'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i} \right) ^2}
+#'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}
+#' The test result are values are between 0 and 1 indicating the quality of
+#' the predicted \eqn{\sigma_\text{Hmax}}{SHmax} directions. Low values (\eqn{\le 0.15}) indicate good agreement,
+#' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
+#' observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -57,27 +62,29 @@ norm_chi2 <- function(obs, prd, unc) {
 }
 
 
-#' @title Median and Quartiles on Pi-periodic Data
+#' @title Median and Quartile on Pi-periodic Data
 #'
-#' @description Median, quartiles, and interquartile range of orientation data
+#' @description Calculate the median, quartile, and interquartile range of
+#' orientation data.
 #'
 #' @param x Numeric vector
 #'
 #' @return Numeric vector
 #'
-#' @details Quasi median on the circle, quasi quartiles on a circle, quasi interquartile range on a circle
+#' @details Quasi median on the circle, quasi quartiles on a circle, quasi interquartile range on a circle.
 #'
-#' @seealso \code{\link[stats]{median}}, \code{\link[stats]{stats}},
-#' \code{\link[stats]{IQR}}
+#' @source [stats::median()], [stats::stats()], and [stats::IQR()] are the
+#' equivalents for non-periodic data.
 #'
-#' @references Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+#' @references
+#' * Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
 #' A New Estimator of a Circular Median. Communications in Statistics -
 #' Simulation and Computation, 38(6), 1269-1291.
-#' https://doi.org/10.1080/03610910902899950
+#' \doi{10.1080/03610910902899950}.
 #'
-#' Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
+#' * Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
 #' Moeck, I. (2014). A revised crustal stress orientation database for Canada.
-#' Tectonophysics, 636, 111-124. https://doi.org/10.1016/j.tecto.2014.08.006
+#' Tectonophysics, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}.
 #' @examples
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
 #' circular_quasi_median(x)

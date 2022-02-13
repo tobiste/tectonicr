@@ -5,6 +5,10 @@
 \alias{rad2deg}
 \alias{deg2rad}
 \title{Degrees to Radians}
+\source{
+\code{\link[pracma]{deg2rad}}, \code{\link[pracma]{rad2deg}} from
+package "pracma".
+}
 \usage{
 rad2deg(rad)
 

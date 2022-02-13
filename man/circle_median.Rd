@@ -5,7 +5,11 @@
 \alias{circular_quasi_median}
 \alias{circular_quasi_quartile}
 \alias{circular_quasi_interquartile_range}
-\title{Median and Quartiles on Pi-periodic Data}
+\title{Median and Quartile on Pi-periodic Data}
+\source{
+\code{\link[stats:median]{stats::median()}}, \code{\link[stats:stats-package]{stats::stats()}}, and \code{\link[stats:IQR]{stats::IQR()}} are the
+equivalents for non-periodic data.
+}
 \usage{
 circular_quasi_median(x)
 
@@ -20,10 +24,11 @@ circular_quasi_interquartile_range(x)
 Numeric vector
 }
 \description{
-Median, quartiles, and interquartile range of orientation data
+Calculate the median, quartile, and interquartile range of
+orientation data.
 }
 \details{
-Quasi median on the circle, quasi quartiles on a circle, quasi interquartile range on a circle
+Quasi median on the circle, quasi quartiles on a circle, quasi interquartile range on a circle.
 }
 \examples{
 x <- c(0, 45, 55, 40 + 180, 50 + 180)
@@ -32,16 +37,13 @@ circular_quasi_quartile(x)
 circular_quasi_interquartile_range(x)
 }
 \references{
-Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+\itemize{
+\item Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
 A New Estimator of a Circular Median. Communications in Statistics -
 Simulation and Computation, 38(6), 1269-1291.
-https://doi.org/10.1080/03610910902899950
-
-Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
+\doi{10.1080/03610910902899950}.
+\item Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
 Moeck, I. (2014). A revised crustal stress orientation database for Canada.
-Tectonophysics, 636, 111-124. https://doi.org/10.1016/j.tecto.2014.08.006
+Tectonophysics, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}.
 }
-\seealso{
-\code{\link[stats]{median}}, \code{\link[stats]{stats}},
-\code{\link[stats]{IQR}}
 }

@@ -26,5 +26,5 @@ Heidbach, O.; Barth, A.; Müller, B.; Reinecker, J.;
 Stephansson, O.; Tingay, M.; Zang, A. (2016). WSM quality
 ranking scheme, database description and analysis guidelines for stress
 indicator. World Stress Map Technical Report 16-01, GFZ German Research
-Centre for Geosciences. DOI: http://doi.org/10.2312/wsm.2016.001
+Centre for Geosciences. \doi{10.2312/wsm.2016.001}
 }

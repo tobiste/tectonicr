@@ -13,7 +13,7 @@
 #' Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
 #' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 #' release 2016: Crustal stress pattern across scales. Tectonophysics, 744,
-#' 484-498, doi:10.1016/j.tecto.2018.07.007
+#' 484-498, \doi{10.1016/j.tecto.2018.07.007}.
 #' @keywords datasets
 #' @examples
 #' data("wsm2016")

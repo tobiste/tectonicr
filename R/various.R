@@ -11,7 +11,7 @@ position_center_spoke <- function() PositionCenterSpoke #
 #' @description \code{"position"} subclass "center_spoke" to center
 #' \code{ggplot::geom_spoke()} marker at its origin
 #' @export
-#' @source https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin
+#' @source \url{https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin}
 #' @importFrom ggplot2 ggproto Position
 PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position,
   compute_panel = function(self, data, params, scales) {
@@ -33,7 +33,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' Stephansson, O.; Tingay, M.; Zang, A. (2016). WSM quality
 #' ranking scheme, database description and analysis guidelines for stress
 #' indicator. World Stress Map Technical Report 16-01, GFZ German Research
-#' Centre for Geosciences. DOI: http://doi.org/10.2312/wsm.2016.001
+#' Centre for Geosciences. \doi{10.2312/wsm.2016.001}
 #' @export
 #' @examples
 #' quantise_wsm_quality(c("A", "B", "C", "D", NA))

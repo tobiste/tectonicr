@@ -4,7 +4,7 @@
 #' @param theta Angle of rotation (in degree)
 #' @param p Points of lines
 #' @param centre Center point of rotation
-#' @return \code{'matrix'}
+#' @return \code{matrix}
 rotate_lines <- function(theta, p, centre) {
   new_x <-
     cosd(theta) * (p[, 1] - centre[1]) - sind(theta) *
@@ -21,8 +21,8 @@ rotate_lines <- function(theta, p, centre) {
 #' loxodromes of an Euler pole
 #' @param n Number of curves
 #' @param angle Direction of loxodromes (in degree)
-#' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or
-#' 'counterclockwise' loxodromes, respectively
+#' @param sense Sense of loxodromes> Either "sinistral", "dextral", "clockwise", or
+#' "counterclockwise" loxodromes.
 #' @return \code{data.frame}
 #' @importFrom dplyr "%>%" filter mutate
 #' @name dummy
@@ -133,8 +133,9 @@ loxodrome_dummy <- function(n, angle, sense) {
 
 #' @title Theoretical Plate Tectonic Stress Paths
 #'
-#' @description Construct SHmax lines that are following small-circles,
-#' great-circles, or loxodromes of an Euler pole for the relative plate motion.
+#' @description Construct \eqn{\sigma_\text{Hmax}}{SHmax} lines that are
+#' following small circles, great circles, or loxodromes of an Euler pole for
+#' the relative plate motion.
 #'
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,

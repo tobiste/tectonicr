@@ -34,5 +34,5 @@ q <- c(35, 135) # Osaka
 get_azimuth(p, q)
 }
 \references{
-http://www.movable-type.co.uk/scripts/latlong.html
+\url{http://www.movable-type.co.uk/scripts/latlong.html}
 }

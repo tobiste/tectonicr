@@ -35,8 +35,9 @@ or 'counterclockwise' loxodromes, respectively}
 \code{sf} or \code{SpatialLinesDataFrame}
 }
 \description{
-Construct SHmax lines that are following small-circles,
-great-circles, or loxodromes of an Euler pole for the relative plate motion.
+Construct \eqn{\sigma_\text{Hmax}}{SHmax} lines that are
+following small circles, great circles, or loxodromes of an Euler pole for
+the relative plate motion.
 }
 \details{
 Maximum horizontal stress can be aligned to three types of curves related to relative plate motion:

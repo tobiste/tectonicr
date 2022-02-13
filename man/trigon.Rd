@@ -10,6 +10,10 @@
 \alias{atand}
 \alias{atan2d}
 \title{Trigonometric Functions in Degrees}
+\source{
+\code{\link[pracma]{sind}}, \code{\link[pracma]{cosd}}, ...  from
+package "pracma".
+}
 \usage{
 sind(x)
 
