@@ -2,22 +2,22 @@
 % Please edit documentation in R/statistics.R
 \name{norm_chi2}
 \alias{norm_chi2}
-\title{Normalized chi-square test}
+\title{Normalized Chi-Square Test}
 \usage{
 norm_chi2(obs, prd, unc)
 }
 \arguments{
-\item{obs}{numeric vector containing the observed azimuth of SHmax,
+\item{obs}{Numeric vector containing the observed azimuth of SHmax,
 same length as \code{prd}}
 
 \item{prd}{\code{data.frame} containing the modeled azimuths of SHmax, i.e.
 the return object from \code{model_shmax()}}
 
-\item{unc}{uncertainty of observed SHmax, either numeric vector of length of
+\item{unc}{Uncertainty of observed SHmax, either numeric vector of length of
 \code{obs} or a number}
 }
 \value{
-numeric vector
+Numeric vector
 }
 \description{
 A quantitative comparison between the predicted and observed directions of

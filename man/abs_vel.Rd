@@ -2,7 +2,7 @@
 % Please edit documentation in R/rotation.R
 \name{abs_vel}
 \alias{abs_vel}
-\title{Absolute plate velocity}
+\title{Absolute Plate Velocity}
 \usage{
 abs_vel(w, alpha, r = 6371.00887714)
 }
@@ -11,10 +11,10 @@ abs_vel(w, alpha, r = 6371.00887714)
 
 \item{alpha}{Angular distance to Euler pole or small circle around Euler pole}
 
-\item{r}{radius. Default is Earth's radius (6371.00887714 km)}
+\item{r}{Radius. Default is Earth's radius (6371.00887714 km)}
 }
 \value{
-number
+Number
 }
 \description{
 Calculates the absolute angular velocity of plate motion

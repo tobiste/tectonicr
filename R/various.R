@@ -1,9 +1,14 @@
-position_center_spoke <- function() PositionCenterSpoke # position subclass
-# "center_spoke" to center ggplot::geom_spoke() marker at its origin
+#' Class for Central Position of Spoke Marker
+#'
+#' position subclass \code{"center_spoke"} to center \code{ggplot::geom_spoke()}
+#' marker at its origin
+#'
+#' @noRd
+position_center_spoke <- function() PositionCenterSpoke #
 
 #' @title  Centrically aligned geom_spoke marker
 #'
-#' @description \code{position} subclass "center_spoke" to center
+#' @description \code{"position"} subclass "center_spoke" to center
 #' \code{ggplot::geom_spoke()} marker at its origin
 #' @export
 #' @source https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin
@@ -17,9 +22,10 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
   }
 )
 
-#' Quantize World Stress Map quality ranking
+#' Quantize World Stress Map Quality Ranking
 #'
-#' Quantize the World Stress Map A, B, C, D quality ranking
+#' Relates the categorical quality ranking of the World Stress Map (A, B, C, D)
+#' to numeric values of the precision of each measurement.
 #'
 #' @param x Either a string or a character vector of WSM quality ranking
 #' @return \code{"integer"} or vector of type \code{"integer"}

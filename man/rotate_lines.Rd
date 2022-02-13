@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_eulerpole.R
 \name{rotate_lines}
 \alias{rotate_lines}
-\title{Rotate lines}
+\title{Rotate Lines}
 \usage{
 rotate_lines(theta, p, centre)
 }

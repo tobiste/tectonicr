@@ -5,7 +5,7 @@
 \alias{circular_quasi_median}
 \alias{circular_quasi_quartile}
 \alias{circular_quasi_interquartile_range}
-\title{Median and quartiles on pi-periodic data}
+\title{Median and Quartiles on Pi-periodic Data}
 \usage{
 circular_quasi_median(x)
 
@@ -14,10 +14,10 @@ circular_quasi_quartile(x)
 circular_quasi_interquartile_range(x)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{x}{Numeric vector}
 }
 \value{
-numeric vector
+Numeric vector
 }
 \description{
 Median, quartiles, and interquartile range of orientation data

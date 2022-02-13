@@ -2,7 +2,7 @@
 % Please edit documentation in R/various.R
 \name{quantise_wsm_quality}
 \alias{quantise_wsm_quality}
-\title{Quantize World Stress Map quality ranking}
+\title{Quantize World Stress Map Quality Ranking}
 \usage{
 quantise_wsm_quality(x)
 }
@@ -13,7 +13,8 @@ quantise_wsm_quality(x)
 \code{"integer"} or vector of type \code{"integer"}
 }
 \description{
-Quantize the World Stress Map A, B, C, D quality ranking
+Relates the categorical quality ranking of the World Stress Map (A, B, C, D)
+to numeric values of the precision of each measurement.
 }
 \examples{
 quantise_wsm_quality(c("A", "B", "C", "D", NA))

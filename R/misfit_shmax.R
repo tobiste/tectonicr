@@ -1,11 +1,11 @@
-#' @title Normalize angle between two directions
+#' @title Normalize Angle Between Two Directions
 #'
 #' @description Normalizes the angle between two directions to the acute angle
 #' in between, i.e. angles between 0 and 90 degrees.
 #'
 #' @author Tobias Stephan
-#' @param x numeric vector containing angles in degrees
-#' @return numeric vector, acute angles between two directions, i.e. values
+#' @param x Bumeric vector containing angles in degrees
+#' @return Numeric vector, acute angles between two directions, i.e. values
 #' between 0° and 90°
 #' @export
 #' @examples
@@ -33,7 +33,7 @@ deviation_norm <- function(x) {
 }
 
 
-#' Deviation of observed and predicted directions of SHmax
+#' Deviation of Observed and Predicted Directions of SHmax
 #'
 #' Calculate the angular difference between the observed and modeled direction
 #' of maximum horizontal stresses along great circles, small circles, and
@@ -42,16 +42,18 @@ deviation_norm <- function(x) {
 #' @author Tobias Stephan
 #' @param prd \code{data.frame} containing the modeled azimuths of SHmax, i.e.
 #' the return object from \code{model_shmax()}
-#' @param obs numeric vector containing the observed azimuth of SHmax,
+#' @param obs Numeric vector containing the observed azimuth of SHmax,
 #' same length as \code{prd}
 #' @return An object of class \code{data.frame}
 #' \describe{
-#'   \item{dev.gc}{deviation of observed stress from modeled stress following
+#'   \item{dev.gc}{Deviation of observed stress from modeled stress following
 #'   great circles}
-#'   \item{dev.sc}{small circles}
-#'   \item{dev.ld.cw}{clockwise loxodromes}
-#'   \item{dev.ld.ccw}{counter-clockwise loxodromes}
+#'   \item{dev.sc}{Small circles}
+#'   \item{dev.ld.cw}{Clockwise loxodromes}
+#'   \item{dev.ld.ccw}{Counter-clockwise loxodromes}
 #'   }
+#'  @seealso [model_shmax()] to calculate the theoretical direction of maximum
+#'  horizontal stress.
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -85,4 +87,3 @@ misfit_shmax <- function(prd, obs) {
   dev.df <- data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw)
   return(dev.df)
 }
-

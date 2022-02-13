@@ -6,13 +6,13 @@
 \alias{eulerpole_smallcircles}
 \alias{eulerpole_greatcircles}
 \alias{eulerpole_loxodromes}
-\title{Plate tectonic stress paths}
+\title{Theoretical Plate Tectonic Stress Paths}
 \usage{
-eulerpole_paths(x, type, n, angle, sense, returnclass = c("sf", "sp"))
+eulerpole_paths(x, type, n = 10, angle, sense, returnclass = c("sf", "sp"))
 
-eulerpole_smallcircles(x, n = 36, returnclass = c("sf", "sp"))
+eulerpole_smallcircles(x, n = 10, returnclass = c("sf", "sp"))
 
-eulerpole_greatcircles(x, n = 12, returnclass = c("sf", "sp"))
+eulerpole_greatcircles(x, n = 10, returnclass = c("sf", "sp"))
 
 eulerpole_loxodromes(x, n = 10, angle = 45, sense, returnclass = c("sf", "sp"))
 }
@@ -20,9 +20,9 @@ eulerpole_loxodromes(x, n = 10, angle = 45, sense, returnclass = c("sf", "sp"))
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon,
 and rotation angle (optional)}
 
-\item{type}{character string specifying the type of curves to export. Either \code{"sm"} for small circles (default), \code{"gc"} for great circles, or  \code{"ld"} for loxodromes.}
+\item{type}{Character string specifying the type of curves to export. Either \code{"sm"} for small circles (default), \code{"gc"} for great circles, or  \code{"ld"} for loxodromes.}
 
-\item{n}{number of equally spaced curves}
+\item{n}{Number of equally spaced curves}
 
 \item{angle}{Direction of loxodromes; default = 45}
 

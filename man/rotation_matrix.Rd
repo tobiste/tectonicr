@@ -2,7 +2,7 @@
 % Please edit documentation in R/rotation.R
 \name{rotation_matrix}
 \alias{rotation_matrix}
-\title{Rotation matrix}
+\title{Rotation Matrix}
 \usage{
 rotation_matrix(n, alpha)
 }
@@ -13,7 +13,7 @@ numbers or a matrix of 3 columns (x, y, z)}
 \item{alpha}{Rotation angle in degrees}
 }
 \value{
-matrix
+\code{matrix}
 }
 \description{
 Calculates the rotation matrix using the rotation axis and the

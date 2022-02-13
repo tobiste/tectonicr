@@ -2,7 +2,7 @@
 % Please edit documentation in R/misfit_shmax.R
 \name{misfit_shmax}
 \alias{misfit_shmax}
-\title{Deviation of observed and predicted directions of SHmax}
+\title{Deviation of Observed and Predicted Directions of SHmax}
 \usage{
 misfit_shmax(prd, obs)
 }
@@ -10,18 +10,20 @@ misfit_shmax(prd, obs)
 \item{prd}{\code{data.frame} containing the modeled azimuths of SHmax, i.e.
 the return object from \code{model_shmax()}}
 
-\item{obs}{numeric vector containing the observed azimuth of SHmax,
+\item{obs}{Numeric vector containing the observed azimuth of SHmax,
 same length as \code{prd}}
 }
 \value{
 An object of class \code{data.frame}
 \describe{
-\item{dev.gc}{deviation of observed stress from modeled stress following
+\item{dev.gc}{Deviation of observed stress from modeled stress following
 great circles}
-\item{dev.sc}{small circles}
-\item{dev.ld.cw}{clockwise loxodromes}
-\item{dev.ld.ccw}{counter-clockwise loxodromes}
+\item{dev.sc}{Small circles}
+\item{dev.ld.cw}{Clockwise loxodromes}
+\item{dev.ld.ccw}{Counter-clockwise loxodromes}
 }
+@seealso \code{\link[=model_shmax]{model_shmax()}} to calculate the theoretical direction of maximum
+horizontal stress.
 }
 \description{
 Calculate the angular difference between the observed and modeled direction

@@ -2,15 +2,15 @@
 % Please edit documentation in R/rotation.R
 \name{longitude_modulo}
 \alias{longitude_modulo}
-\title{Longitude correction}
+\title{Longitude Correction}
 \usage{
 longitude_modulo(longitude)
 }
 \arguments{
-\item{longitude}{longitude(s) in degree}
+\item{longitude}{Longitude(s) in degree}
 }
 \value{
-number
+Number
 }
 \description{
 Corrects the longitude value to values between -180 and +180

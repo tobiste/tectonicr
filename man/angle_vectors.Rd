@@ -2,7 +2,7 @@
 % Please edit documentation in R/rotation.R
 \name{angle_vectors}
 \alias{angle_vectors}
-\title{Angle between two vectors}
+\title{Angle Between Two Vectors}
 \usage{
 angle_vectors(x, y)
 }
@@ -11,7 +11,7 @@ angle_vectors(x, y)
 or a matrix of 3 columns (x, y, z)}
 }
 \value{
-numeric; angle in degrees
+Numeric; angle in degrees
 }
 \description{
 Calculates the angle between two vectors

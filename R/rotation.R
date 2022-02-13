@@ -1,9 +1,9 @@
-#' @title Angle between two vectors
+#' @title Angle Between Two Vectors
 #'
 #' @description Calculates the angle between two vectors
 #' @param x,y Vectors in Cartesian coordinates. Can be vectors of three numbers
 #'  or a matrix of 3 columns (x, y, z)
-#' @return numeric; angle in degrees
+#' @return Numeric; angle in degrees
 #' @export
 #' @examples
 #' u <- c(1, -2, 3)
@@ -19,14 +19,14 @@ angle_vectors <- function(x, y) {
   }
 }
 
-#' @title Rotation matrix
+#' @title Rotation Matrix
 #'
 #' @description Calculates the rotation matrix using the rotation axis and the
 #' angle of rotation
 #' @param n Rotation axis (in Cartesian coordinates). Can be a vector of three
 #' numbers or a matrix of 3 columns (x, y, z)
 #' @param alpha Rotation angle in degrees
-#' @return matrix
+#' @return \code{matrix}
 #' @export
 #' @examples
 #' w <- c(0, 1, 0)
@@ -48,12 +48,12 @@ rotation_matrix <- function(n, alpha) {
   return(R)
 }
 
-#' @title Longitude correction
+#' @title Longitude Correction
 #'
 #' @description Corrects the longitude value to values between -180 and +180
 #' degree
-#' @param longitude longitude(s) in degree
-#' @return number
+#' @param longitude Longitude(s) in degree
+#' @return Number
 #' @export
 #' @examples
 #' longitude_modulo(-361)
@@ -67,7 +67,7 @@ longitude_modulo <- function(longitude) {
 #' @description Converts vector between Cartesian and geographical coordinate
 #' systems
 #' @param n Cartesian coordinates (x, y, z) as vector
-#' @param p geographical coordinates (latitude, longitude) as vector
+#' @param p Geographical coordinates (latitude, longitude) as vector
 #' @return Functions return a (2- or 3-dimensional) vector representing a
 #' point in the requested coordinate system.
 #' @examples
@@ -107,13 +107,13 @@ geographical_to_cartesian <- function(p) {
   return(x)
 }
 
-#' @title Absolute plate velocity
+#' @title Absolute Plate Velocity
 #'
 #' @description Calculates the absolute angular velocity of plate motion
 #' @param w Angular velocity or rate or angle of rotation
 #' @param alpha Angular distance to Euler pole or small circle around Euler pole
-#' @param r radius. Default is Earth's radius (6371.00887714 km)
-#' @return number
+#' @param r Radius. Default is Earth's radius (6371.00887714 km)
+#' @return Number
 #' @export
 #' @examples
 #' abs_vel(0.21, 0)

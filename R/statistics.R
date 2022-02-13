@@ -1,4 +1,4 @@
-#' Normalized chi-square test
+#' Normalized Chi-Square Test
 #'
 #' A quantitative comparison between the predicted and observed directions of
 #' SHmax is obtained by the calculation of the average azimuth and by a
@@ -9,9 +9,9 @@
 #'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
 #'   5037-5059, http://dx.doi.org/10.1029/97JB03390.
 #' @inheritParams misfit_shmax
-#' @param unc uncertainty of observed SHmax, either numeric vector of length of
+#' @param unc Uncertainty of observed SHmax, either numeric vector of length of
 #' \code{obs} or a number
-#' @return numeric vector
+#' @return Numeric vector
 #' @details Test result are values are between 0 and 1 indicating the quality of
 #' the predicted SHmax directions. Low values (<= 0.15) indicate good agreement,
 #' high values (>0.7) indicate a systematic misfit between predicted and
@@ -57,13 +57,13 @@ norm_chi2 <- function(obs, prd, unc) {
 }
 
 
-#' @title Median and quartiles on pi-periodic data
+#' @title Median and Quartiles on Pi-periodic Data
 #'
 #' @description Median, quartiles, and interquartile range of orientation data
 #'
-#' @param x numeric vector
+#' @param x Numeric vector
 #'
-#' @return numeric vector
+#' @return Numeric vector
 #'
 #' @details Quasi median on the circle, quasi quartiles on a circle, quasi interquartile range on a circle
 #'
@@ -83,7 +83,6 @@ norm_chi2 <- function(obs, prd, unc) {
 #' circular_quasi_median(x)
 #' circular_quasi_quartile(x)
 #' circular_quasi_interquartile_range(x)
-
 #' @name circle_median
 NULL
 
@@ -175,7 +174,6 @@ circular_quasi_quartile <- function(x) {
     return(NULL)
   }
 }
-
 
 #' @rdname circle_median
 #' @export

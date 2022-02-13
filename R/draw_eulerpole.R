@@ -1,4 +1,4 @@
-#' @title Rotate lines
+#' @title Rotate Lines
 #' @description Rotate a set of lines around a angle
 #'
 #' @param theta Angle of rotation (in degree)
@@ -8,22 +8,22 @@
 rotate_lines <- function(theta, p, centre) {
   new_x <-
     cosd(theta) * (p[, 1] - centre[1]) - sind(theta) *
-    (p[, 2] - centre[2]) + centre[1]
+      (p[, 2] - centre[2]) + centre[1]
   new_y <-
     sind(theta) * (p[, 1] - centre[1]) + cosd(theta) *
-    (p[, 2] - centre[2]) + centre[2]
+      (p[, 2] - centre[2]) + centre[2]
   return(matrix(c(new_x, new_y), ncol = 2))
 }
 
 
-#' @title Plate stress dummy grid
+#' @title Plate Stress Dummy Grid
 #' @description Creates a dummy grid for small circles, great circles, and
 #' loxodromes of an Euler pole
 #' @param n Number of curves
 #' @param angle Direction of loxodromes (in degree)
 #' @param sense Sense of loxodromes 'sinistral' or 'dextral' for 'clockwise' or
 #' 'counterclockwise' loxodromes, respectively
-#' @return data.frame
+#' @return \code{data.frame}
 #' @importFrom dplyr "%>%" filter mutate
 #' @name dummy
 #' @examples
@@ -35,8 +35,8 @@ NULL
 #' @rdname dummy
 #' @export
 smallcircle_dummy <- function(n) {
-  sm_range <- seq(0, 180, n)
-  lons <- seq(-180, 180, n)
+  sm_range <- seq(0, 180, 180 / n)
+  lons <- seq(-180, 180, 180 / n)
 
   sm.df <- data.frame(
     "lon" = as.numeric(),
@@ -51,7 +51,7 @@ smallcircle_dummy <- function(n) {
     sm.l <- data.frame(
       "lat" = rep(lat, length(lons)),
       "lon" = lons,
-      "small_circle" = 360/i
+      "small_circle" = i
     )
     sm.df <- rbind(sm.df, sm.l)
   }
@@ -106,7 +106,7 @@ loxodrome_dummy <- function(n, angle, sense) {
     }
   }
 
-  for (i in seq(-360, 360, n)) {
+  for (i in seq(-360, 360, 360 / n)) {
     line.i <- loxodrome.dummy %>%
       mutate(
         lon = lon - i,
@@ -131,7 +131,7 @@ loxodrome_dummy <- function(n, angle, sense) {
 
 
 
-#' @title Plate tectonic stress paths
+#' @title Theoretical Plate Tectonic Stress Paths
 #'
 #' @description Construct SHmax lines that are following small-circles,
 #' great-circles, or loxodromes of an Euler pole for the relative plate motion.
@@ -139,11 +139,11 @@ loxodrome_dummy <- function(n, angle, sense) {
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
 #' and rotation angle (optional)
-#' @param n number of equally spaced curves
+#' @param n Number of equally spaced curves
 #' @param angle Direction of loxodromes; default = 45
 #' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
 #' or 'counterclockwise' loxodromes, respectively
-#' @param type character string specifying the type of curves to export. Either \code{"sm"} for small circles (default), \code{"gc"} for great circles, or  \code{"ld"} for loxodromes.
+#' @param type Character string specifying the type of curves to export. Either \code{"sm"} for small circles (default), \code{"gc"} for great circles, or  \code{"ld"} for loxodromes.
 #' @param returnclass "sf" (default) for simple features or "sp" for spatial objects
 #' @return \code{sf} or \code{SpatialLinesDataFrame}
 #' @details Maximum horizontal stress can be aligned to three types of curves related to relative plate motion:
@@ -169,8 +169,8 @@ NULL
 
 #' @rdname stress_paths
 #' @export
-eulerpole_paths <- function(x, type, n, angle, sense, returnclass = c("sf", "sp")) {
-  if (type == 'gc') {
+eulerpole_paths <- function(x, type, n = 10, angle, sense, returnclass = c("sf", "sp")) {
+  if (type == "gc") {
     eulerpole_greatcircles(x, n, returnclass)
   } else if (type == "ld") {
     eulerpole_loxodromes(x, n, angle, sense, returnclass)
@@ -182,7 +182,7 @@ eulerpole_paths <- function(x, type, n, angle, sense, returnclass = c("sf", "sp"
 #' @rdname stress_paths
 #' @export
 eulerpole_smallcircles <-
-  function(x, n = 36, returnclass = c("sf", "sp")) {
+  function(x, n = 10, returnclass = c("sf", "sp")) {
     returnclass <- match.arg(returnclass)
     small_circle <- NULL
     sm.df <- smallcircle_dummy(n)
@@ -192,7 +192,7 @@ eulerpole_smallcircles <-
       sm_range.df <- sm_range
     } else {
       velocity <- sm.df %>%
-        dplyr::mutate(abs_vel = abs_vel(x$angle, sm.df$small_circle)) %>%
+        dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = sm.df$small_circle)) %>%
         dplyr::select(small_circle, abs_vel) %>%
         unique()
       sm_range.df <- velocity
@@ -257,7 +257,7 @@ eulerpole_smallcircles <-
 
 #' @rdname stress_paths
 #' @export
-eulerpole_greatcircles <- function(x, n = 12, returnclass = c("sf", "sp")) {
+eulerpole_greatcircles <- function(x, n = 10, returnclass = c("sf", "sp")) {
   returnclass <- match.arg(returnclass)
 
   SL <-
@@ -274,75 +274,75 @@ eulerpole_greatcircles <- function(x, n = 12, returnclass = c("sf", "sp")) {
 #' @rdname stress_paths
 #' @export
 eulerpole_loxodromes <- function(x, n = 10, angle = 45, sense, returnclass = c("sf", "sp")) {
-    returnclass <- match.arg(returnclass)
+  returnclass <- match.arg(returnclass)
 
-    loxodrome <- NULL
-    if (missing(sense)) {
-      stop("sense missing\n")
-    }
-
-    ld.df <-
-      loxodrome_dummy(
-        angle = abs(angle),
-        n = n,
-        sense = sense
-      )
-
-    ld_range <- unique(ld.df$loxodrome)
-    SL.list <- list()
-
-    for (l in unique(ld.df$loxodrome)) {
-      # loop through all circles
-      ld.subset <- dplyr::filter(ld.df, loxodrome == l)
-
-      l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
-        cbind(
-          "lon" = ld.subset$lon,
-          "lat" = ld.subset$lat
-        )
-      ), ID = as.character(l)))
-
-      suppressWarnings(SL.list[as.character(l)] <- l.i)
-    }
-
-    wgs84 <-
-      sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-    ep <- sf::st_crs(
-      paste0(
-        "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-        x$lat,
-        " +o_lon_p=",
-        x$lon
-      )
-    )
-
-    SL.wgs84 <- sp::SpatialLines(SL.list)
-    SL.wgs84.df <- sp::SpatialLinesDataFrame(
-      SL.wgs84,
-      data.frame("n" = as.character(ld_range), row.names = ld_range)
-    )
-
-    suppressMessages(
-      suppressWarnings(
-        SL <- SL.wgs84.df %>%
-          sf::st_as_sf() %>%
-          sf::st_set_crs(wgs84) %>%
-          sf::st_transform(ep) %>%
-          sf::st_set_crs(wgs84) %>%
-          sf::st_wrap_dateline(options = c(
-            "WRAPDATELINE=YES", "DATELINEOFFSET=180"
-          ))
-      )
-    )
-
-    if (returnclass == "sp") {
-      SL <- sf::as_Spatial(SL)
-      suppressMessages(suppressWarnings(
-        sp::proj4string(SL) <-
-          sp::CRS(
-            "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-          )
-      ))
-    }
-    return(SL)
+  loxodrome <- NULL
+  if (missing(sense)) {
+    stop("sense missing\n")
   }
+
+  ld.df <-
+    loxodrome_dummy(
+      angle = abs(angle),
+      n = n,
+      sense = sense
+    )
+
+  ld_range <- unique(ld.df$loxodrome)
+  SL.list <- list()
+
+  for (l in unique(ld.df$loxodrome)) {
+    # loop through all circles
+    ld.subset <- dplyr::filter(ld.df, loxodrome == l)
+
+    l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
+      cbind(
+        "lon" = ld.subset$lon,
+        "lat" = ld.subset$lat
+      )
+    ), ID = as.character(l)))
+
+    suppressWarnings(SL.list[as.character(l)] <- l.i)
+  }
+
+  wgs84 <-
+    sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+  ep <- sf::st_crs(
+    paste0(
+      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
+      x$lat,
+      " +o_lon_p=",
+      x$lon
+    )
+  )
+
+  SL.wgs84 <- sp::SpatialLines(SL.list)
+  SL.wgs84.df <- sp::SpatialLinesDataFrame(
+    SL.wgs84,
+    data.frame("n" = as.character(ld_range), row.names = ld_range)
+  )
+
+  suppressMessages(
+    suppressWarnings(
+      SL <- SL.wgs84.df %>%
+        sf::st_as_sf() %>%
+        sf::st_set_crs(wgs84) %>%
+        sf::st_transform(ep) %>%
+        sf::st_set_crs(wgs84) %>%
+        sf::st_wrap_dateline(options = c(
+          "WRAPDATELINE=YES", "DATELINEOFFSET=180"
+        ))
+    )
+  )
+
+  if (returnclass == "sp") {
+    SL <- sf::as_Spatial(SL)
+    suppressMessages(suppressWarnings(
+      sp::proj4string(SL) <-
+        sp::CRS(
+          "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+        )
+    ))
+  }
+  return(SL)
+}

@@ -5,7 +5,7 @@
 \alias{smallcircle_dummy}
 \alias{greatcircle_dummy}
 \alias{loxodrome_dummy}
-\title{Plate stress dummy grid}
+\title{Plate Stress Dummy Grid}
 \usage{
 smallcircle_dummy(n)
 
@@ -22,7 +22,7 @@ loxodrome_dummy(n, angle, sense)
 'counterclockwise' loxodromes, respectively}
 }
 \value{
-data.frame
+\code{data.frame}
 }
 \description{
 Creates a dummy grid for small circles, great circles, and

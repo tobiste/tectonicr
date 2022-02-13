@@ -2,15 +2,15 @@
 % Please edit documentation in R/misfit_shmax.R
 \name{deviation_norm}
 \alias{deviation_norm}
-\title{Normalize angle between two directions}
+\title{Normalize Angle Between Two Directions}
 \usage{
 deviation_norm(x)
 }
 \arguments{
-\item{x}{numeric vector containing angles in degrees}
+\item{x}{Bumeric vector containing angles in degrees}
 }
 \value{
-numeric vector, acute angles between two directions, i.e. values
+Numeric vector, acute angles between two directions, i.e. values
 between 0° and 90°
 }
 \description{

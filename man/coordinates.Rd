@@ -13,7 +13,7 @@ geographical_to_cartesian(p)
 \arguments{
 \item{n}{Cartesian coordinates (x, y, z) as vector}
 
-\item{p}{geographical coordinates (latitude, longitude) as vector}
+\item{p}{Geographical coordinates (latitude, longitude) as vector}
 }
 \value{
 Functions return a (2- or 3-dimensional) vector representing a

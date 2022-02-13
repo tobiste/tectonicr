@@ -15,13 +15,13 @@ Depends:
 Imports: 
     dplyr,
     ggplot2,
-    rgdal,
     sf,
     sp
 Suggests: 
     covr,
     knitr,
     maps,
+    rgdal,
     rgeos,
     rmarkdown,
     rnaturalearth,

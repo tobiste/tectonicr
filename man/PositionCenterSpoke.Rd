@@ -14,7 +14,7 @@ https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-the
 PositionCenterSpoke
 }
 \description{
-\code{position} subclass "center_spoke" to center
+\code{"position"} subclass "center_spoke" to center
 \code{ggplot::geom_spoke()} marker at its origin
 }
 \keyword{datasets}

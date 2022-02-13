@@ -2,7 +2,11 @@
 % Please edit documentation in R/model_shmax.R
 \name{model_shmax}
 \alias{model_shmax}
-\title{Modeling directions of maximum horizontal stress}
+\title{Theoretical Direction of Maximum Horizontal Stress
+
+Models the direction of maximum horizontal stress along
+great circles, small circles, and loxodromes at a given point or points
+according to the relative plate motion}
 \usage{
 model_shmax(df, euler)
 }
@@ -16,17 +20,21 @@ for the plate boundary (lat, lon)}
 \value{
 An object of class \code{data.frame}
 \describe{
-\item{gc}{azimuth of the modeled maximum horizontal following stress
+\item{gc}{Azimuth of the modeled maximum horizontal following stress
 great circles}
-\item{sc}{small circles}
-\item{ld.cw}{clockwise loxodromes}
-\item{ld.ccw}{counter-clockwise loxodromes}
+\item{sc}{Small circles}
+\item{ld.cw}{Clockwise loxodromes}
+\item{ld.ccw}{Counter-clockwise loxodromes}
 }
+@seealso \code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
+from the observed direction of maximum stress.
 }
 \description{
-Calculate the direction of maximum horizontal stress along great circles,
-small circles, and loxodromes around the relative plate motion´s Euler pole
-at a given point or points
+Theoretical Direction of Maximum Horizontal Stress
+
+Models the direction of maximum horizontal stress along
+great circles, small circles, and loxodromes at a given point or points
+according to the relative plate motion
 }
 \examples{
 data("nuvel1")

@@ -1,10 +1,10 @@
-#' @title Azimuth between two points
+#' @title Azimuth Between two Points
 #'
 #' @description Calculate initial bearing (or forward azimuth/direction) to go
 #' from point \code{p1} to point \code{p2} following great-circle arc on a
 #' sphere.
 #'
-#' @param p,q latitude/longitude of start and end point(s).
+#' @param p,q Latitude/longitude of start and end point(s).
 #' Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)
 #' @details This formula is for the initial bearing (sometimes referred to as
 #' forward azimuth) which if followed in a straight line along a great-circle
@@ -45,11 +45,11 @@ get_azimuth <- function(p, q) {
 
 
 
-#'  Modeling directions of maximum horizontal stress
+#' @title Theoretical Direction of Maximum Horizontal Stress
 #'
-#' Calculate the direction of maximum horizontal stress along great circles,
-#' small circles, and loxodromes around the relative plate motion´s Euler pole
-#' at a given point or points
+#' Models the direction of maximum horizontal stress along
+#' great circles, small circles, and loxodromes at a given point or points
+#' according to the relative plate motion
 #'
 #' @author Tobias Stephan
 #' @param df \code{data.frame} containing the coordinates of the point(s)
@@ -61,12 +61,14 @@ get_azimuth <- function(p, q) {
 #'   5037-5059, http://dx.doi.org/10.1029/97JB03390.
 #' @return An object of class \code{data.frame}
 #' \describe{
-#'   \item{gc}{azimuth of the modeled maximum horizontal following stress
+#'   \item{gc}{Azimuth of the modeled maximum horizontal following stress
 #'   great circles}
-#'   \item{sc}{small circles}
-#'   \item{ld.cw}{clockwise loxodromes}
-#'   \item{ld.ccw}{counter-clockwise loxodromes}
+#'   \item{sc}{Small circles}
+#'   \item{ld.cw}{Clockwise loxodromes}
+#'   \item{ld.ccw}{Counter-clockwise loxodromes}
 #'   }
+#'  @seealso [misfit_shmax()] to compute the deviation of the modeled direction
+#'  from the observed direction of maximum stress.
 #' @export
 #' @examples
 #' data("nuvel1")

@@ -2,12 +2,12 @@
 % Please edit documentation in R/model_shmax.R
 \name{get_azimuth}
 \alias{get_azimuth}
-\title{Azimuth between two points}
+\title{Azimuth Between two Points}
 \usage{
 get_azimuth(p, q)
 }
 \arguments{
-\item{p, q}{latitude/longitude of start and end point(s).
+\item{p, q}{Latitude/longitude of start and end point(s).
 Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)}
 }
 \value{

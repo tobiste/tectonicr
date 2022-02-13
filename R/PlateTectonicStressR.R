@@ -1,7 +1,7 @@
 #' @title library(PlateTectonicStressR)
 #'
 #' @description A list of documented functions may be viewed by typing
-#'     \code{help(package='PlateTectonicStressR')}. Further
+#'     \code{help(package="PlateTectonicStressR")}. Further
 #'     details about the theoretical background are provided by
 #'     Wdowinski (1999).
 #'
