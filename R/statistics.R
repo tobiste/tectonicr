@@ -1,14 +1,16 @@
 #' Normalized Chi-Square Test
 #'
 #' A quantitative comparison between the predicted and observed directions of
-#' \eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average azimuth and by a
+#' \eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average
+#' azimuth and by a
 #' normalized \eqn{\chi^2}{chi-square} test.
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
 #'   5037-5059, \doi{10.1029/97JB03390}.
 #' @inheritParams misfit_shmax
-#' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either numeric vector of length of
+#' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either
+#' numeric vector of length of
 #' \code{obs} or a number
 #' @return Numeric vector
 #' @details
@@ -16,9 +18,12 @@
 #' \deqn{ \text{Norm} \chi^2_i =
 #'  = \frac{
 #'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i} \right) ^2}
-#'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}
+#'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
+#'    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
+#'    }
 #' The test result are values are between 0 and 1 indicating the quality of
-#' the predicted \eqn{\sigma_\text{Hmax}}{SHmax} directions. Low values (\eqn{\le 0.15}) indicate good agreement,
+#' the predicted \eqn{\sigma_\text{Hmax}}{SHmax} directions. Low values
+#' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 #' observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
 #' @export
@@ -51,14 +56,12 @@ norm_chi2 <- function(obs, prd, unc) {
       x[i] <- NA
       y[i] <- NA
     } else {
-      w[i] <- deviation_norm(prd[i] - (obs[i] + 180) %% 180)
+      w[i] <- deviation_norm(prd[i] - obs[i])
       x[i] <- (w[i] / unc[i])^2
       y[i] <- (90 / unc[i])^2
     }
   }
-  nchi2 <- sum(x, na.rm = TRUE) / sum(y, na.rm = TRUE)
-
-  return(nchi2)
+  sum(x, na.rm = TRUE) / sum(y, na.rm = TRUE)
 }
 
 
@@ -71,7 +74,8 @@ norm_chi2 <- function(obs, prd, unc) {
 #'
 #' @return Numeric vector
 #'
-#' @details Quasi median on the circle, quasi quartiles on a circle, quasi interquartile range on a circle.
+#' @details Quasi median on the circle, quasi quartiles on a circle, quasi
+#' interquartile range on a circle.
 #'
 #' @source [stats::median()], [stats::stats()], and [stats::IQR()] are the
 #' equivalents for non-periodic data.
@@ -193,6 +197,5 @@ circular_quasi_interquartile_range <- function(x) {
   x <- sort(x[!is.na(x)])
 
   quantiles <- circular_quasi_quartile(x)
-  qiroc <- as.numeric(quantiles[4] - quantiles[2])
-  return(qiroc)
+  as.numeric(quantiles[4] - quantiles[2])
 }

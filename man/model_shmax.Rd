@@ -18,7 +18,7 @@ model_shmax(df, euler)
 for the plate boundary (lat, lon)}
 }
 \value{
-An object of class \code{data.frame}
+\code{data.frame}
 \describe{
 \item{gc}{Azimuth of modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
 great circles}

@@ -121,6 +121,5 @@ geographical_to_cartesian <- function(p) {
 #' abs_vel(0.21, 90)
 abs_vel <- function(w, alpha, r = 6371.00887714) {
   stopifnot(is.numeric(w) & is.numeric(alpha))
-  v <- deg2rad(w) * r * sind(alpha)
-  return(v)
+  deg2rad(w) * r * sind(alpha)
 }

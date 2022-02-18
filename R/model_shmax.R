@@ -39,8 +39,7 @@ get_azimuth <- function(p, q) {
   )
 
   # Normalize result to a compass bearing (0-360)
-  theta <- (theta + 360) %% 360
-  return(theta)
+  (theta + 360) %% 360
 }
 
 
@@ -59,7 +58,7 @@ get_azimuth <- function(p, q) {
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
 #'   5037-5059, \doi{10.1029/97JB03390}.
-#' @return An object of class \code{data.frame}
+#' @return \code{data.frame}
 #' \describe{
 #'   \item{gc}{Azimuth of modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
 #'   great circles}
@@ -77,38 +76,33 @@ get_azimuth <- function(p, q) {
 #' point <- data.frame(lat = 45, lon = 20)
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
+  sc <- c()
+  gc <- c()
+  ld.cw <- c()
+  ld.ccw <- c()
   for (i in seq_along(df$lat)) {
     # great circles
-    gc <- get_azimuth(
+    gc[i] <- get_azimuth(
       c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1]) + 180
     ) %% 180
 
     # plate vector is perpendicular to the bearing between the point and the
     # Euler pole
-    sc <- (
+    sc[i] <- (
       get_azimuth(c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])) - 90 + 180
     ) %% 180
 
 
     # counterclockwise loxodrome
-    ld.ccw <- (
+    ld.ccw[i] <- (
       get_azimuth(c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])) - 45 + 180
     ) %% 180
 
 
     # clockwise loxodrome
-    ld.cw <- (
+    ld.cw[i] <- (
       get_azimuth(c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])) + 45 + 180
     ) %% 180
-
-    x.i <- data.frame(
-      gc, sc, ld.ccw, ld.cw
-    )
-    if (i == 1) {
-      x <- x.i
-    } else {
-      x <- rbind(x, x.i)
-    }
   }
-  return(x)
+  data.frame(sc, gc, ld.cw, ld.ccw)
 }

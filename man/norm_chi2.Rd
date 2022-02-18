@@ -13,7 +13,8 @@ same length as \code{prd}}
 \item{prd}{\code{data.frame} containing the modeled azimuths of \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
-\item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either numeric vector of length of
+\item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either
+numeric vector of length of
 \code{obs} or a number}
 }
 \value{
@@ -21,7 +22,8 @@ Numeric vector
 }
 \description{
 A quantitative comparison between the predicted and observed directions of
-\eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average azimuth and by a
+\eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average
+azimuth and by a
 normalized \eqn{\chi^2}{chi-square} test.
 }
 \details{
@@ -29,9 +31,12 @@ The normalized \eqn{\chi^2}{chi-square} test is
 \deqn{ \text{Norm} \chi^2_i =
  = \frac{
    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i} \right) ^2}
-   {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}
+   {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
+   (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
+   }
 The test result are values are between 0 and 1 indicating the quality of
-the predicted \eqn{\sigma_\text{Hmax}}{SHmax} directions. Low values (\eqn{\le 0.15}) indicate good agreement,
+the predicted \eqn{\sigma_\text{Hmax}}{SHmax} directions. Low values
+(\eqn{\le 0.15}) indicate good agreement,
 high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
 }

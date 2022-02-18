@@ -83,6 +83,5 @@ misfit_shmax <- function(prd, obs) {
   dev.ld.cw <- deviation_norm(dev.ld.cw)
   dev.ld.ccw <- deviation_norm(dev.ld.ccw)
 
-  dev.df <- data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw)
-  return(dev.df)
+  data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw)
 }

@@ -28,7 +28,8 @@ Calculate the median, quartile, and interquartile range of
 orientation data.
 }
 \details{
-Quasi median on the circle, quasi quartiles on a circle, quasi interquartile range on a circle.
+Quasi median on the circle, quasi quartiles on a circle, quasi
+interquartile range on a circle.
 }
 \examples{
 x <- c(0, 45, 55, 40 + 180, 50 + 180)
