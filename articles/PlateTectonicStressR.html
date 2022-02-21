@@ -80,25 +80,33 @@
     
 <p><strong>PlateTectonicStressR</strong> is a free and open-source R package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.</p>
 <div class="section level2">
-<h2 id="model">Model<a class="anchor" aria-label="anchor" href="#model"></a>
+<h2 id="theory">Theory<a class="anchor" aria-label="anchor" href="#theory"></a>
 </h2>
-<p>The theory of intraplate tectonics (Wdowinski 1998) allows for calculating the first-order intraplate deformation induced by horizontal displacement of deformable plate boundaries. It is based on empirical link between the directions of relative plate motion and the displacement and deformation fields within a plate interior adjacent to three types of deformable plate boundaries: inward-, outward-, and tangential-displaced boundaries. The model predicts the direction of intraplate displacement, displacement rate, strain, and stress fields in terms of small circles, great circles, and 45<span class="math inline">\(^{\circ}\)</span> loxodromes around the pole of rotation of two adjacent plates. The principal axis of the maximum horizontal stress follows small circles for inward-displaced boundaries, great circles for outward-displaced boundaries, and loxodromes for tangential-displaced boundaries</p>
-<p>The theory indicates that the first-order intraplate deformation is predominantly induced by horizontal forces acting on plate boundaries and by buoyancy forces that arise from lateral density variations between mid-ocean ridges and plate interiors (ridge push).</p>
+<p>The theory of intraplate tectonics (<a href="http://dx.doi.org/10.1029/97JB03390" class="external-link">Wdowinski 1998</a>) allows for calculating the first-order intraplate deformation induced by horizontal displacement of deformable plate boundaries. It is based on empirical link between the directions of relative plate motion and the displacement and deformation fields within a plate interior adjacent to three types of deformable plate boundaries: inward-, outward-, and tangential-displaced boundaries. The model predicts the direction of intraplate displacement, displacement rate, strain, and stress fields in terms of small circles, great circles, and 45<span class="math inline">\(^{\circ}\)</span> loxodromes around the pole of rotation of two adjacent plates. According to the theory, the principal axis of the maximum horizontal stress follows small circles for inward-displaced boundaries, great circles for outward-displaced boundaries, and loxodromes for tangential-displaced boundaries.</p>
+<p>The theory assumes that the first-order intraplate deformation is predominantly induced by horizontal forces acting on plate boundaries and by buoyancy forces that arise from lateral density variations between mid-ocean ridges and plate interiors (ridge push).</p>
 <div class="section level3">
 <h3 id="inward-outward-and-tangential-displaced-boundaries">Inward, Outward and Tangential Displaced Boundaries<a class="anchor" aria-label="anchor" href="#inward-outward-and-tangential-displaced-boundaries"></a>
 </h3>
 <p><strong>Inward-moving plate boundaries</strong> induce compressional horizontal tractions from the plate boundary towards the plate’s interior along the direction of relative plate motion. These compressional tractions are produced by forces related to subduction, collision, or ridge-push. Thus, stresses across convergent plate boundaries are characterized by the dominance of thrusting or strike-slip faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> (maximum horizontal stress) trending parallel to the plate convergence, i.e. parallel to small circles around the Euler pole of the relative plate motion.</p>
-<p><strong>Outward moving plate boundaries</strong> produce tensional tractions and displacements directed away from the plate interior. Along spreading ridges and intracontinental rifting stresses are dominated by normal faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{vertical}\)</span>, <span class="math inline">\(\sigma_2 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> trending perpendicular to the plate motion trajectories (i.e. along great circles). In the case of intracontinental setting, stresses and displacements may be associated to slab-retreat, back-arc extension, or the release of the excess of gravitational potential energy stored in thickened crust through, e.g., gravitational collapse (Dalmayrac and Molnar, 1981; Tapponnier et al., 1982; Molnar and Wang-Ping Chen, 1983; Ellis and Watkinson, 1987; Gapais et al., 1992; Faccenna et al., 1997; Rey et al., 2001).</p>
-<p>Along transform boundaries (<strong>tangential displaced boundaries</strong>), the two neighboring plates exert shear tractions tangential to the orientation of the boundary (Forsyth and Uyeda, 1975). Faulting and displacement adjacent to these plate boundaries are characterized by strike-slip parallel to the plate motion, and thus, the principal axes of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory (e.g. Zoback et al., 1987; Townend and Zoback, 2004; Balfour et al., 2005). Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> orientation follows along 45<span class="math inline">\(^{\circ}\)</span> loxodromes which diverge —-depending on the sense of the transform boundary—-clockwise or counterclockwise from the relative Euler pole and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span> (Wdowinski, 1998).</p>
+<p><strong>Outward moving plate boundaries</strong> produce tensional tractions and displacements directed away from the plate interior. Along spreading ridges and intracontinental rifting stresses are dominated by normal faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{vertical}\)</span>, <span class="math inline">\(\sigma_2 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> trending perpendicular to the plate motion trajectories (i.e. along great circles). In the case of intracontinental setting, stresses and displacements may be associated to slab-retreat, back-arc extension, or the release of the excess of gravitational potential energy stored in thickened crust through, e.g., gravitational collapse.</p>
+<p>Along transform boundaries (<strong>tangential displaced boundaries</strong>), the two neighboring plates exert shear tractions tangential to the orientation of the boundary (<a href="https://academic.oup.com/gji/article-lookup/doi/10.1111/j.1365-246X.1975.tb00631.x" class="external-link">Forsyth and Uyeda, 1975</a>). Faulting and displacement adjacent to these plate boundaries are characterized by strike-slip parallel to the plate motion, and thus, the principal axes of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> orientation follows along 45<span class="math inline">\(^{\circ}\)</span> loxodromes which diverge —-depending on the sense of the transform boundary—-clockwise or counterclockwise from the relative Euler pole and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
 </div>
 <div class="section level3">
-<h3 id="direction-of-small-circle-at-apecific-point-and-deviation-of-the-measured-stress">Direction of Small Circle at Apecific Point and Deviation of the Measured Stress<a class="anchor" aria-label="anchor" href="#direction-of-small-circle-at-apecific-point-and-deviation-of-the-measured-stress"></a>
+<h3 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
 </h3>
-<p>Load the package</p>
+<p><strong>PlateTectonicStressR</strong> basically calculates the bearing from a point of interest to a given Euler pole of the relative plate motion by the formula:</p>
+<span class="math display">\[\begin{equation} 
+  \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)
+\end{equation}\]</span>
+<p>where <span class="math inline">\(\psi_1\)</span>, <span class="math inline">\(\lambda_1\)</span> are the longitude and latitude of the point, <span class="math inline">\(\psi_2\)</span>, <span class="math inline">\(\lambda_2\)</span> the longitude and latitude of the Euler pole (<span class="math inline">\(\Delta\lambda\)</span> is the difference in longitude).</p>
+<p>This bearing <span class="math inline">\(\theta\)</span>, thereby, reflects the theoretical direction of <span class="math inline">\(\sigma_{Hmax}\)</span> that follows great circles. Small circle directions are <span class="math inline">\(90^{\circ}\)</span> and loxodrome directions are <span class="math inline">\(\pm45^{\circ}\)</span> to <span class="math inline">\(\theta\)</span>.</p>
+<hr>
+<p>In <strong>PlateTectonicStressR</strong>, these directions can modeled by the following steps:</p>
+<p>First, load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/PlateTectonicStressR/">PlateTectonicStressR</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></code></pre></div>
-<p>To model the direction of the great and small circles and loxodromes around the Euler pole <span class="math inline">\(\vec E\)</span> at a given point (e.g. at 45<span class="math inline">\(^{\circ}\)</span>N/20<span class="math inline">\(^{\circ}\)</span>E), you need the coordinates of the Euler pole.</p>
+<p>Next, we need to specify coordinates of the Euler pole to get the directions of the great circles, small circles, and loxodromes around the Euler pole at the given point (e.g. at 45<span class="math inline">\(^{\circ}\)</span>N/20<span class="math inline">\(^{\circ}\)</span>E).</p>
 <p>For example, the Euler pole has the coordinates: 90<span class="math inline">\(^{\circ}\)</span>N/0<span class="math inline">\(^{\circ}\)</span>E. Then <span class="math inline">\(\sigma_{Hmax}\)</span> following great and small circles and loxodromes geometries can be modeled with <code><a href="../reference/model_shmax.html">model_shmax()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Example:</span>
@@ -135,7 +143,7 @@
 <div class="section level3">
 <h3 id="larger-data-sets">Larger Data Sets<a class="anchor" aria-label="anchor" href="#larger-data-sets"></a>
 </h3>
-<p><code>PlateTectonicStressR</code> also handles larger files. For example, we can import the WSM2016 data:</p>
+<p><strong>PlateTectonicStressR</strong> also handles larger data sets. The <a href="http://www.world-stress-map.org/" class="external-link">World Stress map (WSM2016)</a> data compilation is included as an example data set and can be imported through:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"wsm2016"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wsm2016</span><span class="op">)</span>
@@ -162,16 +170,18 @@
   <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&gt;=</span> <span class="fl">23</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&lt;=</span> <span class="fl">40</span> <span class="op">&amp;</span>
     <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">126</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&lt;=</span> <span class="op">-</span><span class="fl">108</span>
 <span class="op">)</span></code></pre></div>
-<p>Modeling the stress directions using the Euler pole of the motion of North America relative to the Pacific Pate.</p>
+<p>The plate motions relative to the Pacific plate according to the <a href="https://doi.org/10.1029/91GL01532" class="external-link">NUVEL-1A</a> model are included in the package and can be imported through:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span>
-<span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">ID</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></code></pre></div>
+<p>Modeling the stress directions using the Euler pole of the motion of North America relative to the Pacific Pate.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">ID</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span>
 
 <span class="va">san.andreas.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">san.andreas</span>, <span class="va">euler</span><span class="op">)</span>
 <span class="va">san.andreas.deviation</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/misfit_shmax.html">misfit_shmax</a></span><span class="op">(</span><span class="va">san.andreas.prd</span>, <span class="va">san.andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></code></pre></div>
 <p>Combine the model results with the coordinates of the observed data</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">san.andreas.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>
   lat <span class="op">=</span> <span class="va">san.andreas</span><span class="op">$</span><span class="va">lat</span>,
   lon <span class="op">=</span> <span class="va">san.andreas</span><span class="op">$</span><span class="va">lon</span>,
@@ -180,10 +190,11 @@
   <span class="va">san.andreas.deviation</span>
 <span class="op">)</span></code></pre></div>
 <p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> can be used to visualize the results. The orientation of the axis can be displayed with the function <code><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke()</a></code>. The position argument <code>position = 'center_spoke'</code> aligns the marker symbol at the center of the point. The deviation can be color coded. <code><a href="../reference/deviation_norm.html">deviation_norm()</a></code> yields the normalized value of the deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</span>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Also included are the plate boundary geometries after <a href="http://doi.wiley.com/10.1029/2001GC000252" class="external-link">Bird (2003)</a>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"PB2002"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span>
 <span class="va">world</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="st">"small"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span> <span class="co"># load </span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san.andreas.res</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, fill <span class="op">=</span> <span class="fu"><a href="https://scales.r-lib.org/reference/alpha.html" class="external-link">alpha</a></span><span class="op">(</span><span class="st">"grey"</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>
@@ -216,7 +227,7 @@
   <span class="op">)</span> </code></pre></div>
 <p><img src="PlateTectonicStressR_files/figure-html/plot-1.png" width="700"></p>
 <p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes. The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> test tests the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> orientation the observed stress direction considering the reported uncertainties of the measurement.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">san.andreas</span><span class="op">$</span><span class="va">unc</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/quantise_wsm_quality.html">quantise_wsm_quality</a></span><span class="op">(</span><span class="va">san.andreas</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span> <span class="co"># convert the WSM quality ranking into the standard deviation of the measurement</span>
 
@@ -236,13 +247,13 @@
 </h4>
 <p>Function <code>eulerpole_smallcircles(x, gridsize)</code> returns Small circles as as simple feature(<code>sf</code>) by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the number of small circles (<code>n</code>).</p>
 <p>For example the small circles around the Euler pole of the relative motion of North America relative to the Pacific plate (from the NUVEL1 model):</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span>
 <span class="va">euler</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">ID</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span>
 <span class="va">euler</span><span class="op">$</span><span class="va">angle</span> <span class="op">&lt;-</span> <span class="va">euler</span><span class="op">$</span><span class="va">rate</span></code></pre></div>
 <p>To plot the small circles with <code>ggplot</code>, I recommend to <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler.sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_smallcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -285,7 +296,7 @@
 <h4 id="great-circles">Great Circles<a class="anchor" aria-label="anchor" href="#great-circles"></a>
 </h4>
 <p>Great circles are lines that cut the small circles at 90<span class="math inline">\(^{\circ}\)</span> and the Euler pole. Function <code>eulerpole_greatcircles(x, n)</code> returns great circles as <code>sf</code> object by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the number of great circles <code>n</code>, or the great circle angles (<code>360/d</code>).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler.gm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_greatcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -334,7 +345,7 @@
 </h4>
 <p>Loxodrome (also called Rhumb Line) is a curve cutting the small circles at a constant angle. Thus, small and great circles are 0<span class="math inline">\(^{\circ}\)</span> and 90<span class="math inline">\(^{\circ}\)</span> loxodromes, respectively.</p>
 <p>Function <code>eulerpole_loxodromes(x, n)</code> returns loxodromes as <code>sf</code> object by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the angle between the loxodromes, the direction, and the sense.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler.ld</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, sense <span class="op">=</span> <span class="st">"sinistral"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
