@@ -21,8 +21,8 @@ rotate_lines <- function(theta, p, centre) {
 #' loxodromes of an Euler pole
 #' @param n Number of curves
 #' @param angle Direction of loxodromes (in degree)
-#' @param sense Sense of loxodromes> Either "sinistral", "dextral", "clockwise", or
-#' "counterclockwise" loxodromes.
+#' @param sense Sense of loxodromes. Character string, either "sinistral",
+#' "dextral", "clockwise", or "counterclockwise" loxodromes.
 #' @return \code{data.frame}
 #' @importFrom dplyr "%>%" filter mutate
 #' @name dummy
@@ -144,15 +144,21 @@ loxodrome_dummy <- function(n, angle, sense) {
 #' @param angle Direction of loxodromes; default = 45
 #' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
 #' or 'counterclockwise' loxodromes, respectively
-#' @param type Character string specifying the type of curves to export. Either \code{"sm"} for small circles (default), \code{"gc"} for great circles, or  \code{"ld"} for loxodromes.
+#' @param type Character string specifying the type of curves to export. Either
+#' \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
+#' \code{"ld"} for loxodromes.
 #' @param returnclass "sf" (default) for simple features or "sp" for spatial objects
 #' @return \code{sf} or \code{SpatialLinesDataFrame}
-#' @details Maximum horizontal stress can be aligned to three types of curves related to relative plate motion:
+#' @details Maximum horizontal stress can be aligned to three types of curves
+#' related to relative plate motion:
 #' \describe{
-#' \item{Small circles}{Lines that have a constant distance to the Euler pole. If x contains \code{angle}, output additionally gives absolute
+#' \item{Small circles}{Lines that have a constant distance to the Euler pole.
+#' If x contains \code{angle}, output additionally gives absolute
 #' velocity on small circle (degree/Myr -> km/Myr).}
-#' \item{Great circles}{Paths of the the shortest distance between the Euler pole and its antipodal position.}
-#'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small circles at a constant angle.}
+#' \item{Great circles}{Paths of the the shortest distance between the Euler
+#' pole and its antipodal position.}
+#'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
+#'  circles at a constant angle.}
 #'  }
 #' @importFrom dplyr "%>%" mutate select
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame proj4string CRS

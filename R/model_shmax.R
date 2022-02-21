@@ -1,15 +1,15 @@
 #' @title Azimuth Between two Points
 #'
 #' @description Calculate initial bearing (or forward azimuth/direction) to go
-#' from point \code{p1} to point \code{p2} following great-circle arc on a
+#' from point \code{p1} to point \code{p2} following great circle arc on a
 #' sphere.
 #'
 #' @param p,q Latitude/longitude of start and end point(s).
 #' Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)
 #' @details This formula is for the initial bearing (sometimes referred to as
-#' forward azimuth) which if followed in a straight line along a great-circle
+#' forward azimuth) which if followed in a straight line along a great circle
 #' arc will take you from the start point to the end point:
-#' \eqn{\theta = \arctan2 (\sin \Delta\lambda *
+#' \deqn{\theta = \arctan2 (\sin \Delta\lambda *
 #' \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)}
 #' where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
 #' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
@@ -46,7 +46,7 @@ get_azimuth <- function(p, q) {
 
 #' @title Theoretical Direction of Maximum Horizontal Stress
 #'
-#' Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
+#' @description Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
 #' great circles, small circles, and loxodromes at a given point or points
 #' according to the relative plate motion
 #'
@@ -55,9 +55,11 @@ get_azimuth <- function(p, q) {
 #' (lat, lon)
 #' @param euler \code{data.frame} containing the coordinates of the Euler pole
 #' for the plate boundary (lat, lon)
-#' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-#'   5037-5059, \doi{10.1029/97JB03390}.
+#' @details \eqn{\sigma_\text{Hmax}}{SHmax} following *great circles* is the
+#' (initial) bearing between the given point and the pole of relative plate
+#' motion. \eqn{\sigma_\text{Hmax}}{SHmax} along *small circles*, clockwise, and
+#' counter-clockwise *loxodromes* is 90\eqn{^{\circ}}{ degree}, +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree} (-45\eqn{^{\circ}}{ degree})
+#'  to this great circle bearing, respectively.
 #' @return \code{data.frame}
 #' \describe{
 #'   \item{gc}{Azimuth of modeled \eqn{\sigma_\text{Hmax}}{SHmax} following

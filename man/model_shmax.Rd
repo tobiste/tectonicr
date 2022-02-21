@@ -2,11 +2,7 @@
 % Please edit documentation in R/model_shmax.R
 \name{model_shmax}
 \alias{model_shmax}
-\title{Theoretical Direction of Maximum Horizontal Stress
-
-Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
-great circles, small circles, and loxodromes at a given point or points
-according to the relative plate motion}
+\title{Theoretical Direction of Maximum Horizontal Stress}
 \usage{
 model_shmax(df, euler)
 }
@@ -28,11 +24,16 @@ great circles}
 }
 }
 \description{
-Theoretical Direction of Maximum Horizontal Stress
-
 Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
 great circles, small circles, and loxodromes at a given point or points
 according to the relative plate motion
+}
+\details{
+\eqn{\sigma_\text{Hmax}}{SHmax} following \emph{great circles} is the
+(initial) bearing between the given point and the pole of relative plate
+motion. \eqn{\sigma_\text{Hmax}}{SHmax} along \emph{small circles}, clockwise, and
+counter-clockwise \emph{loxodromes} is 90\eqn{^{\circ}}{ degree}, +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree} (-45\eqn{^{\circ}}{ degree})
+to this great circle bearing, respectively.
 }
 \examples{
 data("nuvel1")
@@ -40,11 +41,6 @@ euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
 # Pacific plate
 point <- data.frame(lat = 45, lon = 20)
 model_shmax(point, euler)
-}
-\references{
-Wdowinski, S., 1998, A theory of intraplate
-tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-5037-5059, \doi{10.1029/97JB03390}.
 }
 \seealso{
 \code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction

@@ -20,7 +20,9 @@ eulerpole_loxodromes(x, n = 10, angle = 45, sense, returnclass = c("sf", "sp"))
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon,
 and rotation angle (optional)}
 
-\item{type}{Character string specifying the type of curves to export. Either \code{"sm"} for small circles (default), \code{"gc"} for great circles, or  \code{"ld"} for loxodromes.}
+\item{type}{Character string specifying the type of curves to export. Either
+\code{"sm"} for small circles (default), \code{"gc"} for great circles, or
+\code{"ld"} for loxodromes.}
 
 \item{n}{Number of equally spaced curves}
 
@@ -40,12 +42,16 @@ following small circles, great circles, or loxodromes of an Euler pole for
 the relative plate motion.
 }
 \details{
-Maximum horizontal stress can be aligned to three types of curves related to relative plate motion:
+Maximum horizontal stress can be aligned to three types of curves
+related to relative plate motion:
 \describe{
-\item{Small circles}{Lines that have a constant distance to the Euler pole. If x contains \code{angle}, output additionally gives absolute
+\item{Small circles}{Lines that have a constant distance to the Euler pole.
+If x contains \code{angle}, output additionally gives absolute
 velocity on small circle (degree/Myr -> km/Myr).}
-\item{Great circles}{Paths of the the shortest distance between the Euler pole and its antipodal position.}
-\item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small circles at a constant angle.}
+\item{Great circles}{Paths of the the shortest distance between the Euler
+pole and its antipodal position.}
+\item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
+circles at a constant angle.}
 }
 }
 \examples{
