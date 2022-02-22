@@ -52,6 +52,18 @@
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/dummy.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/equivalent_rotation.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/euler_from_rot.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/euler_pole.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/euler_rot.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/get_azimuth.html</loc>
   </url>
   <url>
@@ -77,6 +89,12 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotate_lines.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotation_angle.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotation_axis.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotation_matrix.html</loc>
