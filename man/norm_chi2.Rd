@@ -42,7 +42,7 @@ observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
+euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 # Pacific plate
 point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
@@ -50,6 +50,6 @@ norm_chi2(obs = 90, prd$sc, unc = 10)
 }
 \references{
 Wdowinski, S., 1998, A theory of intraplate
-tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-5037-5059, \doi{10.1029/97JB03390}.
+tectonics. \emph{Journal of Geophysical Research: Solid Earth}, v. 103, p.
+5037--5059, \doi{10.1029/97JB03390}.
 }

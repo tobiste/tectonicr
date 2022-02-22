@@ -11,8 +11,9 @@
 \alias{atan2d}
 \title{Trigonometric Functions in Degrees}
 \source{
-\code{\link[pracma]{sind}}, \code{\link[pracma]{cosd}}, ...  from
-package "pracma".
+\code{\link[pracma:sind]{pracma::sind()}}, \code{\link[pracma:sind]{pracma::cosd()}}, \code{\link[pracma:sind]{pracma::tand()}},
+\code{\link[pracma:sind]{pracma::asind()}}, \code{\link[pracma:sind]{pracma::acosd()}}, \code{\link[pracma:sind]{pracma::atand()}}, and
+\code{\link[pracma:sind]{pracma::atan2d()}} from the package "pracma".
 }
 \usage{
 sind(x)

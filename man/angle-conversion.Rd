@@ -6,7 +6,7 @@
 \alias{deg2rad}
 \title{Degrees to Radians}
 \source{
-\code{\link[pracma]{deg2rad}}, \code{\link[pracma]{rad2deg}} from
+\code{\link[pracma:deg2rad]{pracma::deg2rad()}}, \code{\link[pracma:deg2rad]{pracma::rad2deg()}} from the
 package "pracma".
 }
 \usage{

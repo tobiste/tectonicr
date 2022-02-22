@@ -6,8 +6,8 @@
 #' normalized \eqn{\chi^2}{chi-square} test.
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-#'   5037-5059, \doi{10.1029/97JB03390}.
+#'   tectonics. *Journal of Geophysical Research: Solid Earth*, v. 103, p.
+#'   5037--5059, \doi{10.1029/97JB03390}.
 #' @inheritParams misfit_shmax
 #' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either
 #' numeric vector of length of
@@ -29,7 +29,7 @@
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 #' # Pacific plate
 #' point <- data.frame(lat = 45, lon = 20)
 #' prd <- model_shmax(point, euler)
@@ -82,13 +82,13 @@ norm_chi2 <- function(obs, prd, unc) {
 #'
 #' @references
 #' * Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
-#' A New Estimator of a Circular Median. Communications in Statistics -
-#' Simulation and Computation, 38(6), 1269-1291.
+#' A New Estimator of a Circular Median. *Communications in Statistics -
+#' Simulation and Computation*, 38(6), 1269--1291.
 #' \doi{10.1080/03610910902899950}.
 #'
 #' * Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
 #' Moeck, I. (2014). A revised crustal stress orientation database for Canada.
-#' Tectonophysics, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}.
+#' *Tectonophysics*, 636, 111--124. \doi{10.1016/j.tecto.2014.08.006}.
 #' @examples
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
 #' circular_quasi_median(x)
@@ -120,7 +120,7 @@ circular_quasi_median <- function(x) {
         (cosd(x[m]) + cosd(x[m + 1]))
     )
   }
-  return(qmed)
+  qmed
 }
 
 #' @rdname circle_median

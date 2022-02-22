@@ -14,7 +14,7 @@ abs_vel(w, alpha, r = 6371.00887714)
 \item{r}{Radius. Default is Earth's radius (6371.00887714 km)}
 }
 \value{
-Number
+Number (in km/Myr)
 }
 \description{
 Calculates the absolute angular velocity of plate motion

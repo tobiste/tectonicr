@@ -40,11 +40,11 @@ circular_quasi_interquartile_range(x)
 \references{
 \itemize{
 \item Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
-A New Estimator of a Circular Median. Communications in Statistics -
-Simulation and Computation, 38(6), 1269-1291.
+A New Estimator of a Circular Median. \emph{Communications in Statistics -
+Simulation and Computation}, 38(6), 1269--1291.
 \doi{10.1080/03610910902899950}.
 \item Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
 Moeck, I. (2014). A revised crustal stress orientation database for Canada.
-Tectonophysics, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}.
+\emph{Tectonophysics}, 636, 111--124. \doi{10.1016/j.tecto.2014.08.006}.
 }
 }

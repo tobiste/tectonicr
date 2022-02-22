@@ -167,12 +167,20 @@ vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted $
 observed $\sigma_{Hmax}$ (either numeric vector of length of `obs` or a number).
 
 ```{r shmax_test, echo=TRUE}
-data("nuvel1")
+data("nuvel1") # import example data set for Euler roations
 euler <-
-  subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
+  subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 point <- data.frame(lat = 45, lon = 20)
+
 prd <- model_shmax(point, euler)
 norm_chi2(obs = 90, prd$sc, unc = 10)
+```
+The plate motions relative to the Pacific plate according to the 
+[NUVEL-1A](https://doi.org/10.1029/91GL01532) model are included in the package
+and can be imported through:
+
+```{r nuvel1, eval=FALSE, include=TRUE}
+data("nuvel1")
 ```
 
 
@@ -198,20 +206,11 @@ san.andreas <- subset(
 )
 ```
 
-The plate motions relative to the Pacific plate according to the 
-[NUVEL-1A](https://doi.org/10.1029/91GL01532) model are included in the package
-and can be imported through:
-
-```{r nuvel1, echo=TRUE}
-data("nuvel1")
-```
-
-
 Modeling the stress directions using the Euler pole of the motion of
 North America relative to the Pacific Pate.
 
 ```{r san_andreas, echo=TRUE}
-euler <- subset(nuvel1, nuvel1$ID == "na")
+euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 san.andreas.prd <- model_shmax(san.andreas, euler)
 san.andreas.deviation <-
@@ -242,12 +241,14 @@ Also included are the plate boundary geometries after
 
 ```{r plates, echo=TRUE}
 data("PB2002") # load plate boundary data set
-world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") # load 
 ```
 
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE}
+# load some geometries from the rnaturalearth package
+world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") 
+
 ggplot(san.andreas.res) +
-  geom_sf(data = world, fill = alpha("grey", .5)) +
+  geom_sf(data = world, alpha =.5) +
   geom_sf(
     data = PB2002,
     color = "red",
@@ -274,13 +275,15 @@ ggplot(san.andreas.res) +
   coord_sf(
     xlim = range(san.andreas.res$lon),
     ylim = range(san.andreas.res$lat),
-    expand = FALSE
+    expand = FALSE, 
+    default_crs = "WGS84"
   ) 
 ```
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$
-directions from the modeled stress direction using counter-clockwise 45$^{\circ}$
-loxodromes. The *normalized* $\chi^2$ test tests the fit between the
+directions from the modeled stress direction using counter-clockwise 
+45$^{\circ}$ loxodromes. 
+The *normalized* $\chi^2$ test tests the fit between the
 modeled $\sigma_{Hmax}$ orientation the observed stress direction
 considering the reported uncertainties of the measurement.
 
@@ -299,6 +302,23 @@ The value is $\leq$ 0.15, indicating a significantly good fit of the
 model. Thus, the traction of the transform plate boundary explain the
 stress direction of the area.
 
+## Equivalent rotations
+
+Relative plate motions from a set of (global) plate motions can be retrieved by 
+transforming the set of the Euler rotations parameters to equivalent rotations.
+
+The NUVEL1 data set offers the global plate motions relative to the Pacific 
+plate. In order to extract the plate motions between two other plates 
+(e.g. all plates relative to Eurasia), one has to transform the rotations in to 
+a new, equivalent reference system (i.e. all rotation with respect to Eurasia). 
+
+In **PlateTectonicStressR** this can be done with \code{equivalent_rotation}:
+
+```{r nuvel_eq, echo=TRUE}
+nuvel1.eu <- equivalent_rotation(nuvel1, fixed = "eu")
+head(nuvel1.eu)
+```
+
 ## Plotting Pole of Rotation Grids
 
 ### Small Circles
@@ -308,34 +328,36 @@ simple feature(`sf`) by giving a `data.frame` of the Euler pole
 coordinates in lat and lon (`x`) and the number of small circles (`n`).
 
 For example the small circles around the Euler pole of the relative
-motion of North America relative to the Pacific plate (from the NUVEL1
-model):
+motion of the Indian plate relative to the Eurasian plate (transformed from the 
+from the NUVEL1 model).
 
-```{r load_nuvel, echo=TRUE}
-data("nuvel1")
+```{r nuvel_euin, echo=TRUE}
 euler <-
-  subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
-euler$angle <- euler$rate
+  subset(nuvel1.eu, nuvel1$plate.rot == "in") # India relative to Eurasia
 ```
 
-To plot the small circles with `ggplot`, I recommend to `geom_sf()`:
+The `returnclass` option in `eulerpole_smallcircles()` provides the output 
+types `"sf"` (for a simple feature) and `"sp" (for a `Spatial*` object) for the
+small circles. 
+
+To eventually plot the small circles with `ggplot`, I recommend to extract a 
+`sf` feature and plot the it with `geom_sf()`: 
 
 ```{r small_circles_around_ep, echo=TRUE, warning=FALSE, message=FALSE}
 euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
-  geom_sf(data = world, fill = alpha("grey", .5)) +
+  geom_sf(data = world, alpha =.5) +
   geom_sf(
     data = PB2002,
     color = "red",
-    lwd = 1,
-    alpha = .25
+    alpha = .5
   ) +
-  labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
+  labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
  geom_sf(
     data = euler.sm, 
     aes(lty = "small circles"),
-    color = "blue",
+    color = "darkblue", fill = NA,
     alpha = .5
   ) +
   geom_point(
@@ -356,7 +378,7 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(expand = FALSE)
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
 ```
 
 ### Great Circles
@@ -371,24 +393,23 @@ or the great circle angles (`360/d`).
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
-  geom_sf(data = world, fill = alpha("grey", .5)) +
+  geom_sf(data = world, alpha =.5) +
   geom_sf(
     data = PB2002,
     color = "red",
-    lwd = 1,
-    alpha = .25
+    alpha = .5
   ) +
-  labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
+  labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
  geom_sf(
     data = euler.sm, 
     aes(lty = "small circles"),
-    color = "blue",
+    color = "darkblue",
     alpha = .5
   ) +
   geom_sf(
     data = euler.gm, 
     aes(lty = "great circles"),
-    color = "blue"
+    color = "darkblue"
   ) +
   geom_point(
     data = euler,
@@ -408,7 +429,7 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(expand = FALSE)
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
 ```
 
 ### Loxodromes
@@ -426,18 +447,17 @@ direction, and the sense.
 euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
 
 ggplot() +
-  geom_sf(data = world, fill = alpha("grey", .5)) +
+  labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
+  geom_sf(data = world, alpha =.5) +
   geom_sf(
     data = PB2002,
     color = "red",
-    lwd = 1,
-    alpha = .25
+    alpha = .5
   ) +
-  labs(title = "North America relative to Pacific plate", subtitle = "source: NUVEL1") +
   geom_sf(
     data = euler.ld, 
     aes(lty = "clockwise loxodromes"),
-    color = "blue"
+    color = "darkblue"
   ) +
   geom_point(
     data = euler,
@@ -457,5 +477,5 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(expand = FALSE) 
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
 ```

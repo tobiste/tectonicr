@@ -1,9 +1,9 @@
 #' @title Rotate Lines
-#' @description Rotate a set of lines around a angle
+#' @description Rotates a set of straight lines around an angle
 #'
 #' @param theta Angle of rotation (in degree)
-#' @param p Points of lines
-#' @param centre Center point of rotation
+#' @param p Coordinates of the lines end points
+#' @param centre Coordinates of the center point of rotation
 #' @return \code{matrix}
 rotate_lines <- function(theta, p, centre) {
   new_x <-
@@ -12,7 +12,7 @@ rotate_lines <- function(theta, p, centre) {
   new_y <-
     sind(theta) * (p[, 1] - centre[1]) + cosd(theta) *
       (p[, 2] - centre[2]) + centre[2]
-  return(matrix(c(new_x, new_y), ncol = 2))
+  matrix(c(new_x, new_y), ncol = 2)
 }
 
 
@@ -129,8 +129,6 @@ loxodrome_dummy <- function(n, angle, sense) {
 }
 
 
-
-
 #' @title Theoretical Plate Tectonic Stress Paths
 #'
 #' @description Construct \eqn{\sigma_\text{Hmax}}{SHmax} lines that are
@@ -166,8 +164,8 @@ loxodrome_dummy <- function(n, angle, sense) {
 #' @name stress_paths
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
-#' euler$angle <- euler$rate
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#'
 #' eulerpole_smallcircles(euler)
 #' eulerpole_greatcircles(euler)
 #' eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")

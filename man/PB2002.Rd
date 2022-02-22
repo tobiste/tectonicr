@@ -19,6 +19,6 @@ head("PB2002")
 }
 \references{
 Bird, P. (2003), An updated digital model of plate boundaries,
-Geochem. Geophys. Geosyst., 4, 1027,\doi{10.1029/2001GC000252}, 3.
+\emph{Geochem. Geophys. Geosyst.}, 4, 1027,\doi{10.1029/2001GC000252}, 3.
 }
 \keyword{datasets}

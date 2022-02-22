@@ -2,8 +2,6 @@ data("PB2002")
 data("wsm2016")
 data("nuvel1")
 
-
-
 # test model_shmax
 euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific
 point <- data.frame(lat = 45, lon = 20)

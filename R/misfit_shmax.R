@@ -1,12 +1,12 @@
 #' @title Normalize Angle Between Two Directions
 #'
 #' @description Normalizes the angle between two directions to the acute angle
-#' in between, i.e. angles between 0 and 90 degrees.
+#' in between, i.e. angles between 0 and 90°
 #'
 #' @author Tobias Stephan
-#' @param x Bumeric vector containing angles in degrees
+#' @param x Numeric vector containing angles in degrees
 #' @return Numeric vector, acute angles between two directions, i.e. values
-#' between 0° and 90°
+#' between 0 and 90°
 #' @export
 #' @examples
 #'
@@ -29,7 +29,7 @@ deviation_norm <- function(x) {
       }
     }
   }
-  return(abs(x))
+  abs(x)
 }
 
 
@@ -56,9 +56,12 @@ deviation_norm <- function(x) {
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
-#' # Pacific plate
+#' # North America relative to Pacific plate:
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#'
+#' # the point where we want to model the SHmax direction:
 #' point <- data.frame(lat = 45, lon = 20)
+#'
 #' prd <- model_shmax(point, euler)
 #' misfit_shmax(prd, obs = 90)
 misfit_shmax <- function(prd, obs) {

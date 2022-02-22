@@ -30,9 +30,12 @@ loxodromes of the relative plate motion's Euler pole
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
-# Pacific plate
+# North America relative to Pacific plate:
+euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+
+# the point where we want to model the SHmax direction:
 point <- data.frame(lat = 45, lon = 20)
+
 prd <- model_shmax(point, euler)
 misfit_shmax(prd, obs = 90)
 }

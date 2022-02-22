@@ -5,7 +5,7 @@
 #' @param deg	 (array of) angles in degrees.
 #' @param rad (array of) angles in radians.
 #' @return The angle in degrees or radians.
-#' @source \code{\link[pracma]{deg2rad}}, \code{\link[pracma]{rad2deg}} from
+#' @source [pracma::deg2rad()], [pracma::rad2deg()] from the
 #' package "pracma".
 #' @examples
 #' deg2rad(c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90))
@@ -31,8 +31,9 @@ deg2rad <- function(deg) {
 #'
 #' @param x,x1,x2 Numeric or complex vectors.
 #' @return Returns a scalar or vector of numeric values.
-#' @source \code{\link[pracma]{sind}}, \code{\link[pracma]{cosd}}, ...  from
-#' package "pracma".
+#' @source [pracma::sind()], [pracma::cosd()], [pracma::tand()],
+#' [pracma::asind()], [pracma::acosd()], [pracma::atand()], and
+#' [pracma::atan2d()] from the package "pracma".
 #' @examples
 #' x <- seq(-3, 7, by = 1 / 8)
 #' tx <- cbind(x, cos(pi * x), cospi(x), sin(pi * x), sinpi(x),
@@ -82,4 +83,26 @@ atand <- function(x) {
 #' @export
 atan2d <- function(x1, x2) {
   atan2(x1, x2) * 180 / pi
+}
+
+
+#' @title Angle Between Two Vectors
+#'
+#' @description Calculates the angle between two vectors
+#' @param x,y Vectors in Cartesian coordinates. Can be vectors of three numbers
+#'  or a matrix of 3 columns (x, y, z)
+#' @return Numeric; angle in degrees
+#' @export
+#' @examples
+#' u <- c(1, -2, 3)
+#' v <- c(-2, 1, 1)
+#' angle_vectors(u, v)
+angle_vectors <- function(x, y) {
+  stopifnot(is.numeric(x) & is.numeric(y))
+  if (length(x) == length(y)) {
+    angle.d <- rad2deg(
+      acos(sum(x * y) / (sqrt(sum(x * x)) * sqrt(sum(y * y))))
+    )
+    return(angle.d)
+  }
 }

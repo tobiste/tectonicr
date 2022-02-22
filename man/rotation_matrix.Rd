@@ -23,3 +23,7 @@ angle of rotation
 w <- c(0, 1, 0)
 rotation_matrix(w, 90)
 }
+\seealso{
+\code{\link[=rotation_axis]{rotation_axis()}} and \code{\link[=rotation_angle]{rotation_angle()}} to extract the axis and the
+angle from the rotation matrix.
+}

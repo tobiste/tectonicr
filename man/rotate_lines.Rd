@@ -9,13 +9,13 @@ rotate_lines(theta, p, centre)
 \arguments{
 \item{theta}{Angle of rotation (in degree)}
 
-\item{p}{Points of lines}
+\item{p}{Coordinates of the lines end points}
 
-\item{centre}{Center point of rotation}
+\item{centre}{Coordinates of the center point of rotation}
 }
 \value{
 \code{matrix}
 }
 \description{
-Rotate a set of lines around a angle
+Rotates a set of straight lines around an angle
 }

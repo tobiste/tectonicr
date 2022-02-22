@@ -56,8 +56,8 @@ circles at a constant angle.}
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific plate
-euler$angle <- euler$rate
+euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+
 eulerpole_smallcircles(euler)
 eulerpole_greatcircles(euler)
 eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")

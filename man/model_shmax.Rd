@@ -37,9 +37,12 @@ to this great circle bearing, respectively.
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to
-# Pacific plate
+# North America relative to Pacific plate:
+euler <- subset(nuvel1, nuvel1$ID == "na")
+
+# the point where we mant to model the SHmax direction:
 point <- data.frame(lat = 45, lon = 20)
+
 model_shmax(point, euler)
 }
 \seealso{

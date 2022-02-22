@@ -7,15 +7,15 @@
 deviation_norm(x)
 }
 \arguments{
-\item{x}{Bumeric vector containing angles in degrees}
+\item{x}{Numeric vector containing angles in degrees}
 }
 \value{
 Numeric vector, acute angles between two directions, i.e. values
-between 0° and 90°
+between 0 and 90°
 }
 \description{
 Normalizes the angle between two directions to the acute angle
-in between, i.e. angles between 0 and 90 degrees.
+in between, i.e. angles between 0 and 90°
 }
 \examples{
 
