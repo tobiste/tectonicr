@@ -120,7 +120,7 @@ circular_quasi_median <- function(x) {
         (cosd(x[m]) + cosd(x[m + 1]))
     )
   }
-  qmed
+  (qmed + 180) %% 180
 }
 
 #' @rdname circle_median
@@ -197,5 +197,5 @@ circular_quasi_interquartile_range <- function(x) {
   x <- sort(x[!is.na(x)])
 
   quantiles <- circular_quasi_quartile(x)
-  as.numeric(quantiles[4] - quantiles[2])
+  deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
 }
