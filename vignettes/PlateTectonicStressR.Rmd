@@ -340,7 +340,7 @@ euler <-
 ```
 
 The `returnclass` option in `eulerpole_smallcircles()` provides the output 
-types `"sf"` (for a simple feature) and `"sp" (for a `Spatial*` object) for the
+types `"sf"` (for a simple feature) and `"sp"` (`Spatial*` object) for the
 small circles. 
 
 To eventually plot the small circles with `ggplot`, I recommend to extract a 
