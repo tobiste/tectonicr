@@ -146,7 +146,10 @@ The **normalized** $\chi^2$ test quantitatively compares the predicted
 $\sigma$ standard deviation (Wdowinski 1999).
 
 ```{=tex}
-\begin{equation} \textrm{Norm} \chi^2 = \frac{ \sum_{i=1}^{M} \left( \frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} {  \sum_{i=1}^{M} \left( \frac{90}{\sigma_i} \right) ^2  } \end{equation}
+\begin{equation} 
+  \textrm{Norm} \chi^2_i = 
+ \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2}
+ {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation}
 ```
 with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted
 directions of $\sigma_{Hmax}$ with respect to the pole of rotation,respectively.
