@@ -80,7 +80,6 @@ test_that("type of object returned is as expected", {
 
 test_that("Message expected", {
   expect_message(circular_quasi_quartile(c(12, NA)))
-  expect_message(circular_quasi_interquartile_range(c(12, NA)))
 })
 
 test_that("Warning expected", {
@@ -101,4 +100,5 @@ test_that("Error message if incorrect type argument", {
   expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
   expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
   expect_error(euler_pole(90, 0, NA, 'test'))
+  expect_error(circular_quasi_interquartile_range(c(12, NA)))
 })
