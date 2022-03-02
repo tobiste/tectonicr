@@ -47,7 +47,6 @@ p2 <- c(35, 135) # Osaka
 p3 <- c(35, NA) # add NA values
 get_azimuth(p3, p2)
 
-
 test_that("Output of functions is as expected", {
   expect_equal(norm_chi2(NA, NA, NA), NaN)
   expect_equal(norm_chi2(1, NA, NA), NaN)
@@ -58,8 +57,10 @@ test_that("Output of functions is as expected", {
   expect_equal(circular_quasi_median(c(15, 15, 16)), 15)
   expect_equal(circular_quasi_interquartile_range(c(15, 16, 15, 15)), 1)
   expect_equal(deviation_norm(91), 89)
+  expect_equal(circular_quasi_median(c(12, NA)), 12)
+  expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
+  expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
 })
-
 
 test_that("Statistics return NULL when too few numbers", {
   expect_null(circular_quasi_quartile(c(15, 16)))
@@ -78,11 +79,13 @@ test_that("type of object returned is as expected", {
 })
 
 test_that("Message expected", {
-  expect_message(circular_quasi_median(c(12, NA)))
   expect_message(circular_quasi_quartile(c(12, NA)))
   expect_message(circular_quasi_interquartile_range(c(12, NA)))
 })
 
+test_that("Warning expected", {
+  expect_warning(rotation_angle(rotation_matrix(c(0, 0, 1), 0.000001)))
+})
 
 test_that("Error message if incorrect type argument", {
   expect_error(misfit_shmax(c(1, 2), c(1)))
@@ -94,4 +97,8 @@ test_that("Error message if incorrect type argument", {
   expect_error(geographical_to_cartesian(NA))
   expect_error(norm_chi2(obs = c(1, 2), prd = 1, unc = 1))
   expect_error(norm_chi2(obs = c(1, 2), prd = 1, unc = c(1, 2, 3)))
+  expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
+  expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
+  expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
+  expect_error(euler_pole(90, 0, NA, 'test'))
 })
