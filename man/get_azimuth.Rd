@@ -4,10 +4,10 @@
 \alias{get_azimuth}
 \title{Azimuth Between two Points}
 \usage{
-get_azimuth(p, q)
+get_azimuth(a, b)
 }
 \arguments{
-\item{p, q}{Latitude/longitude of start and end point(s).
+\item{a, b}{Latitude/longitude of start and end point(s).
 Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)}
 }
 \value{
@@ -29,9 +29,9 @@ where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
 longitude)
 }
 \examples{
-p <- c(35, 45) # Baghdad
-q <- c(35, 135) # Osaka
-get_azimuth(p, q)
+berlin <- c(52.517, 13.4) # Berlin
+tokyo <- c(35.7, 139.767) # Tokyo
+get_azimuth(berlin, tokyo)
 }
 \references{
 \url{http://www.movable-type.co.uk/scripts/latlong.html}

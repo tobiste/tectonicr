@@ -4,7 +4,7 @@
 #' from point \code{p1} to point \code{p2} following great circle arc on a
 #' sphere.
 #'
-#' @param p,q Latitude/longitude of start and end point(s).
+#' @param a,b Latitude/longitude of start and end point(s).
 #' Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)
 #' @details This formula is for the initial bearing (sometimes referred to as
 #' forward azimuth) which if followed in a straight line along a great circle
@@ -18,25 +18,22 @@
 #' @return Azimuth in degrees
 #' @export
 #' @examples
-#' p <- c(35, 45) # Baghdad
-#' q <- c(35, 135) # Osaka
-#' get_azimuth(p, q)
-get_azimuth <- function(p, q) {
-  stopifnot(is.numeric(p) & is.numeric(q))
+#' berlin <- c(52.517, 13.4) # Berlin
+#' tokyo <- c(35.7, 139.767) # Tokyo
+#' get_azimuth(berlin, tokyo)
+get_azimuth <- function(a, b) {
+  stopifnot(is.numeric(a) & is.numeric(b))
 
-  p.lat <- p[1]
-  p.lon <- p[2]
-  q.lat <- q[1]
-  q.lon <- q[2]
+  # convert deg into rad
+  phi1 <- pi / 180 * a[1]
+  phi2 <- pi / 180 * b[1]
 
-  delta.lon <- q.lon - p.lon
+  d.lambda <- (b[2] - a[2]) * (pi / 180)
 
-  # azimuth
-  theta <- atan2d(
-    sind(delta.lon) * cosd(q.lat),
-    cosd(p.lat) * sind(q.lat) -
-      sind(p.lat) * cosd(q.lat) * cosd(delta.lon)
-  )
+  y <- sin(d.lambda) * cos(phi2)
+  x <- cos(phi1) * sin(phi2) -
+    sin(phi1) * cos(phi2) * cos(d.lambda)
+  theta <- atan2(y, x) * 180 / pi
 
   # Normalize result to a compass bearing (0-360)
   (theta + 360) %% 360
