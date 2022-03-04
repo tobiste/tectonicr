@@ -60,12 +60,12 @@ sphere.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">p</span>, <span class="va">q</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>p, q</dt>
+    <dl><dt>a, b</dt>
 <dd><p>Latitude/longitude of start and end point(s).
 Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)</p></dd>
 </dl></div>
@@ -91,10 +91,10 @@ longitude)</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">45</span><span class="op">)</span> <span class="co"># Baghdad</span></span>
-<span class="r-in"><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">135</span><span class="op">)</span> <span class="co"># Osaka</span></span>
-<span class="r-in"><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">p</span>, <span class="va">q</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 60.16243</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">berlin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">52.517</span>, <span class="fl">13.4</span><span class="op">)</span> <span class="co"># Berlin</span></span>
+<span class="r-in"><span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35.7</span>, <span class="fl">139.767</span><span class="op">)</span> <span class="co"># Tokyo</span></span>
+<span class="r-in"><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">berlin</span>, <span class="va">tokyo</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 41.57361</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
