@@ -78,33 +78,28 @@ get_azimuth <- function(a, b) {
 #'
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
+  beta <- c()
   sc <- c()
   gc <- c()
   ld.cw <- c()
   ld.ccw <- c()
   for (i in seq_along(df$lat)) {
+    beta[i] <- get_azimuth(
+      c(df$lat[i], df$lon[i]),
+      c(euler$lat[1], euler$lon[1])
+      )
+
     # great circles
-    gc[i] <- get_azimuth(
-      c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1]) + 180
-    ) %% 180
+    gc[i] <- (beta[i] + 180) %% 180
 
-    # plate vector is perpendicular to the bearing between the point and the
-    # Euler pole
-    sc[i] <- (
-      get_azimuth(c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])) - 90 + 180
-    ) %% 180
-
+    # small circles
+    sc[i] <- (beta[i] + 90 + 180) %% 180
 
     # counterclockwise loxodrome
-    ld.ccw[i] <- (
-      get_azimuth(c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])) - 45 + 180
-    ) %% 180
-
+    ld.ccw[i] <- (beta[i] + 135 + 180) %% 180
 
     # clockwise loxodrome
-    ld.cw[i] <- (
-      get_azimuth(c(df$lat[i], df$lon[i]), c(euler$lat[1], euler$lon[1])) + 45 + 180
-    ) %% 180
+    ld.cw[i] <- (beta[i] + 45 + 180) %% 180
   }
-  data.frame(sc, gc, ld.cw, ld.ccw)
+  data.frame(sc, ld.ccw, gc, ld.cw)
 }
