@@ -114,8 +114,8 @@
 <span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">90</span>, lon <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">euler</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
-<span class="co">#&gt;   sc gc ld.cw ld.ccw</span>
-<span class="co">#&gt; 1 90  0    45    135</span></code></pre></div>
+<span class="co">#&gt;   sc ld.ccw gc ld.cw</span>
+<span class="co">#&gt; 1 90    135  0    45</span></code></pre></div>
 <p>If there is an observed stress orientation at the point, e.g. azimuth of <span class="math inline">\(\sigma_{Hmax}\)</span> is 90<span class="math inline">\(^{\circ}\)</span>, the deviation from the modeled stress orientations can be achieved via <code><a href="../reference/misfit_shmax.html">misfit_shmax()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/misfit_shmax.html">misfit_shmax</a></span><span class="op">(</span><span class="va">model</span>, <span class="fl">90</span><span class="op">)</span>
