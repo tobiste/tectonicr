@@ -2,16 +2,17 @@
 % Please edit documentation in R/model_shmax.R
 \name{model_shmax}
 \alias{model_shmax}
-\title{Theoretical Direction of Maximum Horizontal Stress}
+\title{Theoretical Direction of Maximum Horizontal Stress in the
+geographical reference system.}
 \usage{
 model_shmax(df, euler)
 }
 \arguments{
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
-(lat, lon)}
+(\code{lat}, \code{lon}).}
 
 \item{euler}{\code{data.frame} containing the coordinates of the Euler pole
-for the plate boundary (lat, lon)}
+for the plate boundary (\code{lat}, \code{lon}).}
 }
 \value{
 \code{data.frame}
@@ -26,7 +27,8 @@ great circles}
 \description{
 Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
 great circles, small circles, and loxodromes at a given point or points
-according to the relative plate motion
+according to the relative plate motion in the geographical coordinate reference
+system.
 }
 \details{
 \eqn{\sigma_\text{Hmax}}{SHmax} following \emph{great circles} is the
@@ -38,7 +40,7 @@ to this great circle bearing, respectively.
 \examples{
 data("nuvel1")
 # North America relative to Pacific plate:
-euler <- subset(nuvel1, nuvel1$ID == "na")
+euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 # the point where we mant to model the SHmax direction:
 point <- data.frame(lat = 45, lon = 20)
@@ -48,6 +50,8 @@ model_shmax(point, euler)
 \seealso{
 \code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
 from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
+\code{\link[=PoR_shmax]{PoR_shmax()}} to calculate the azimuth of \eqn{\sigma_\text{Hmax}}{SHmax} in
+the pole of rotation reference system.
 }
 \author{
 Tobias Stephan

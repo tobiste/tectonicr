@@ -41,17 +41,19 @@ get_azimuth <- function(a, b) {
 
 
 
-#' @title Theoretical Direction of Maximum Horizontal Stress
+#' @title Theoretical Direction of Maximum Horizontal Stress in the
+#' geographical reference system.
 #'
 #' @description Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
 #' great circles, small circles, and loxodromes at a given point or points
-#' according to the relative plate motion
+#' according to the relative plate motion in the geographical coordinate reference
+#' system.
 #'
 #' @author Tobias Stephan
 #' @param df \code{data.frame} containing the coordinates of the point(s)
-#' (lat, lon)
+#' (\code{lat}, \code{lon}).
 #' @param euler \code{data.frame} containing the coordinates of the Euler pole
-#' for the plate boundary (lat, lon)
+#' for the plate boundary (\code{lat}, \code{lon}).
 #' @details \eqn{\sigma_\text{Hmax}}{SHmax} following *great circles* is the
 #' (initial) bearing between the given point and the pole of relative plate
 #' motion. \eqn{\sigma_\text{Hmax}}{SHmax} along *small circles*, clockwise, and
@@ -67,17 +69,21 @@ get_azimuth <- function(a, b) {
 #'  }
 #' @seealso [misfit_shmax()] to compute the deviation of the modeled direction
 #'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
+#'  [PoR_shmax()] to calculate the azimuth of \eqn{\sigma_\text{Hmax}}{SHmax} in
+#'  the pole of rotation reference system.
 #' @export
 #' @examples
 #' data("nuvel1")
 #' # North America relative to Pacific plate:
-#' euler <- subset(nuvel1, nuvel1$ID == "na")
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
 #' # the point where we mant to model the SHmax direction:
 #' point <- data.frame(lat = 45, lon = 20)
 #'
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
+  stopifnot(is.data.frame(df) & is.data.frame(euler))
+
   beta <- c()
   sc <- c()
   gc <- c()
@@ -102,4 +108,81 @@ model_shmax <- function(df, euler) {
     ld.cw[i] <- (beta[i] + 45 + 180) %% 180
   }
   data.frame(sc, ld.ccw, gc, ld.cw)
+}
+
+
+
+#' @title Theoretical Direction of Maximum Horizontal Stress in PoR reference system
+#'
+#' @description Models the direction of maximum horizontal stress
+#' \eqn{\sigma_{\text{Hmax}}}{SHmax} in the Euler pole (Pole of Rotation)
+#' cooridnate reference system. When type of plate boundary is given, it also
+#' gives the deviation from the theoretically predicted azimuth of
+#' \eqn{\sigma_{\text{Hmax}}}{SHmax}, the deviation, and the normalized
+#' \eqn{\chi^2}{chi-square} statistics.
+#' @param df \code{data.frame} containing the coordinates of the point(s)
+#' (\code{lat}, \code{lon}), the orientation of
+#' \eqn{\sigma_{\text{Hmax}}}{SHmax} \code{azi} and its standard deviation
+#' \code{azi.std} (optional)
+#' @param euler \code{data.frame} containing the coordinates of the Euler pole
+#' for the plate boundary  (\code{lat}, \code{lon})
+#' @param type Character. Type of plate boundary (optional). Can be
+#' \code{"out"}, \code{"in"}, \code{"right"}, or
+#' \code{"left"} for outward, inward, right-lateral, or left-lateral
+#' moving plate boundaries, respectively.
+#' @return Either a numeric vector of the azimuths in the transformed coordinate
+#' system, or a \code{"data.frame"} with the transformed azimuths
+#' (\code{"azi.PoR"}), the predicted azimuths (\code{"prd}), the deviation,
+#' (\code{"dev"}), and the normalized \eqn{\chi^2}{chi-square} statistics
+#' (\code{"nchi2}).
+#' @seealso [model_shmax()] to compute the theoretical orientation of
+#' \eqn{\sigma_\text{Hmax}}{SHmax} in the geographical reference system.
+#' [misfit_shmax()] to compute the deviation of the modeled direction
+#'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
+#'  [norm_chi2()] to calculate the normalized \eqn{\chi^2}{chi-square}
+#'  statistics.
+#' @details According to the theory, the azimuth of
+#' \eqn{\sigma_{\text{Hmax}}}{SHmax} in the pole of rotation reference system is
+#' approximate 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
+#' outward, sinistral, inward, or dextral moving plate boundary, respectively.
+#' directions of \eqn{\sigma_{\text{Hmax}}}{SHmax} with respect to the four
+#' plate boundary types.
+#' @export
+#' @examples
+#' data("nuvel1")
+#' # North America relative to Pacific plate:
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#'
+#' data("wsm2016")
+#' stress <- subset(wsm2016,
+#' wsm2016$lat >= 23 & wsm2016$lat <= 40 &
+#' wsm2016$lon >= -126 & wsm2016$lon <= -108)
+#' stress$azi.std <- stress$sd
+#' PoR_shmax(stress, euler, type = "right")
+PoR_shmax <- function(df, euler, type) {
+  stopifnot(is.data.frame(df) & is.data.frame(euler))
+
+  beta <- c()
+  for (i in seq_along(df$lat)) {
+    beta[i] <- (get_azimuth(
+      c(df$lat[i], df$lon[i]),
+      c(euler$lat[1], euler$lon[1])
+    ) + 180) %% 180
+  }
+  azi.por <- (df$azi - beta + 180) %% 180
+
+  if(!missing(type) & !is.null(df$azi.std)) {
+    prd <- NA
+    prd <- ifelse(type == "out", 180, prd)
+    prd <- ifelse(type == "right", 135, prd)
+    prd <- ifelse(type == "in", 90, prd)
+    prd <- ifelse(type == "left", 45, prd)
+
+    dev <- deviation_norm(azi.por-prd)
+    nchi2.i <- (dev/df$azi.std)^2 / (90/df$azi.std)^2
+
+    data.frame("azi.PoR" = azi.por, "prd" = prd, "deviation" = dev, "nchi2" = nchi2.i)
+  } else {
+    azi.por
+  }
 }
