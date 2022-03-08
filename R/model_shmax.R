@@ -181,7 +181,7 @@ PoR_shmax <- function(df, euler, type) {
     dev <- deviation_norm(azi.por-prd)
     nchi2.i <- (dev/df$azi.std)^2 / (90/df$azi.std)^2
 
-    data.frame("azi.PoR" = azi.por, "prd" = prd, "deviation" = dev, "nchi2" = nchi2.i)
+    data.frame("azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchi2" = nchi2.i)
   } else {
     azi.por
   }
