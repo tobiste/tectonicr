@@ -217,35 +217,13 @@ eulerpole_smallcircles <-
       suppressWarnings(SL.list[as.character(s)] <- l.i)
     }
 
-    wgs84 <-
-      sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-    ep <- sf::st_crs(
-      paste0(
-        "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-        x$lat,
-        " +o_lon_p=",
-        x$lon
-      )
-    )
-
     SL.wgs84 <- sp::SpatialLines(SL.list)
     SL.wgs84.df <- sp::SpatialLinesDataFrame(
       SL.wgs84,
       data.frame("n" = sm_range.df, row.names = sm_range)
     )
 
-    suppressMessages(
-      suppressWarnings(
-        SL <- SL.wgs84.df %>%
-          sf::st_as_sf() %>%
-          sf::st_set_crs(wgs84) %>%
-          sf::st_transform(ep) %>%
-          sf::st_set_crs(wgs84) %>%
-          sf::st_wrap_dateline(options = c(
-            "WRAPDATELINE=YES", "DATELINEOFFSET=180"
-          ))
-      )
-    )
+    SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x)
 
     if (returnclass == "sp") {
       SL <- sf::as_Spatial(SL)
@@ -310,35 +288,13 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, sense, returnclass = c("
     suppressWarnings(SL.list[as.character(l)] <- l.i)
   }
 
-  wgs84 <-
-    sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-  ep <- sf::st_crs(
-    paste0(
-      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-      x$lat,
-      " +o_lon_p=",
-      x$lon
-    )
-  )
-
   SL.wgs84 <- sp::SpatialLines(SL.list)
   SL.wgs84.df <- sp::SpatialLinesDataFrame(
     SL.wgs84,
     data.frame("n" = as.character(ld_range), row.names = ld_range)
   )
 
-  suppressMessages(
-    suppressWarnings(
-      SL <- SL.wgs84.df %>%
-        sf::st_as_sf() %>%
-        sf::st_set_crs(wgs84) %>%
-        sf::st_transform(ep) %>%
-        sf::st_set_crs(wgs84) %>%
-        sf::st_wrap_dateline(options = c(
-          "WRAPDATELINE=YES", "DATELINEOFFSET=180"
-        ))
-    )
-  )
+  SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x)
 
   if (returnclass == "sp") {
     SL <- sf::as_Spatial(SL)

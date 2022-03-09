@@ -56,3 +56,95 @@ geographical_to_cartesian <- function(p) {
   x[3] <- sind(p[1])
   x
 }
+
+
+
+
+
+#' Conversion between PoR to geographical coordinate system
+#'
+#' Transform spherical objects from PoR to geographical coordinate system and
+#' vice versa.
+#'
+#' @param x \code{sf} object of the data points in geographical or PoR coordinate system
+#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole (\code{lat}, \code{lon})
+#' @return \code{sf} object of the data points in the transformed geographical or PoR
+#' coordinate system
+#' @importFrom dplyr %>%
+#' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
+#' @examples
+#' data("nuvel1")
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#'
+#' data("wsm2016")
+#' example.geo <- sf::st_set_crs(sf::st_as_sf(wsm2016[1:10, ], coords = c("lon", "lat")), "EPSG:4326")
+#'
+#' example.por <- geographical_to_PoR(example.geo, euler)
+#' PoR_to_geographical(example.por, euler)
+#' @name por_crs
+NULL
+
+#' @rdname por_crs
+#' @export
+PoR_to_geographical <- function(x, ep) {
+  stopifnot(inherits(x, "sf") & is.data.frame(ep))
+
+  crs.wgs84 <-
+    sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+  crs.ep <- sf::st_crs(
+    paste0(
+      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
+      ep$lat,
+      " +o_lon_p=",
+      ep$lon
+    )
+  )
+
+  suppressMessages(
+    suppressWarnings(
+      x.por <- x %>%
+        sf::st_set_crs(crs.wgs84) %>%
+        sf::st_transform(crs.ep) %>%
+        sf::st_set_crs(crs.wgs84) %>%
+        sf::st_wrap_dateline(options = c(
+          "WRAPDATELINE=YES", "DATELINEOFFSET=180"
+        )
+        )
+    )
+  )
+  return(x.por)
+}
+
+#' @rdname por_crs
+#' @export
+geographical_to_PoR <- function(x, ep) {
+  stopifnot(inherits(x, "sf") & is.data.frame(ep))
+
+  crs.wgs84 <-
+    sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+  crs.ep <- sf::st_crs(
+    paste0(
+      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
+      ep$lat,
+      " +o_lon_p=",
+      ep$lon
+    )
+  )
+
+  suppressMessages(
+    suppressWarnings(
+      x.geo <- x %>%
+        sf::st_set_crs(crs.ep) %>%
+        sf::st_transform(crs.wgs84) %>%
+        sf::st_set_crs(crs.ep) %>%
+        sf::st_wrap_dateline(options = c(
+          "WRAPDATELINE=YES", "DATELINEOFFSET=180"
+        )
+        )
+    )
+  )
+  return(x.geo)
+}
+
