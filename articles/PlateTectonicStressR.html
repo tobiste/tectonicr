@@ -87,9 +87,9 @@
 <div class="section level3">
 <h3 id="inward-outward-and-tangential-displaced-boundaries">Inward, Outward and Tangential Displaced Boundaries<a class="anchor" aria-label="anchor" href="#inward-outward-and-tangential-displaced-boundaries"></a>
 </h3>
-<p><strong>Inward-moving plate boundaries</strong> induce compressional horizontal tractions from the plate boundary towards the plate’s interior along the direction of relative plate motion. These compressional tractions are produced by forces related to subduction, collision, or ridge-push. Thus, stresses across convergent plate boundaries are characterized by the dominance of thrusting or strike-slip faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> (maximum horizontal stress) trending parallel to the plate convergence, i.e. parallel to small circles around the Euler pole of the relative plate motion.</p>
-<p><strong>Outward moving plate boundaries</strong> produce tensional tractions and displacements directed away from the plate interior. Along spreading ridges and intracontinental rifting stresses are dominated by normal faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{vertical}\)</span>, <span class="math inline">\(\sigma_2 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> trending perpendicular to the plate motion trajectories (i.e. along great circles). In the case of intracontinental setting, stresses and displacements may be associated to slab-retreat, back-arc extension, or the release of the excess of gravitational potential energy stored in thickened crust through, e.g., gravitational collapse.</p>
-<p>Along transform boundaries (<strong>tangential displaced boundaries</strong>), the two neighboring plates exert shear tractions tangential to the orientation of the boundary (<a href="https://academic.oup.com/gji/article-lookup/doi/10.1111/j.1365-246X.1975.tb00631.x" class="external-link">Forsyth and Uyeda, 1975</a>). Faulting and displacement adjacent to these plate boundaries are characterized by strike-slip parallel to the plate motion, and thus, the principal axes of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> orientation follows along 45<span class="math inline">\(^{\circ}\)</span> loxodromes which diverge —-depending on the sense of the transform boundary—-clockwise or counterclockwise from the relative Euler pole and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
+<p><strong>Inward-moving plate boundaries</strong> induce compressional horizontal tractions from the plate boundary towards the plate’s interior along the direction of relative plate motion. These compressional tractions are produced by forces related to subduction, collision, or ridge-push. Thus, stresses across convergent plate boundaries are characterized by the dominance of thrusting or strike-slip faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> (maximum horizontal stress) trending parallel to the plate convergence, i.e. parallel to <em>small circles</em> around the Euler pole of the relative plate motion.</p>
+<p><strong>Outward moving plate boundaries</strong> produce tensional tractions and displacements directed away from the plate interior. Along spreading ridges and intracontinental rifting stresses are dominated by normal faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{vertical}\)</span>, <span class="math inline">\(\sigma_2 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> trending perpendicular to the plate motion trajectories (i.e. along <em>great circles</em>). In the case of intracontinental setting, stresses and displacements may be associated to slab-retreat, back-arc extension, or the release of the excess of gravitational potential energy stored in thickened crust through, e.g., gravitational collapse.</p>
+<p>Along transform boundaries (<strong>tangential displaced boundaries</strong>), the two neighboring plates exert shear tractions tangential to the orientation of the boundary (<a href="https://academic.oup.com/gji/article-lookup/doi/10.1111/j.1365-246X.1975.tb00631.x" class="external-link">Forsyth and Uyeda, 1975</a>). Faulting and displacement adjacent to these plate boundaries are characterized by strike-slip parallel to the plate motion, and thus, the principal axes of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> orientation follows along 45<span class="math inline">\(^{\circ}\)</span> <em>loxodromes</em> (lines of constant bearing) which diverge —depending on the sense of the transform boundary— clockwise or counterclockwise from the relative Euler pole and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
@@ -99,7 +99,9 @@
   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)
 \end{equation}\]</span>
 <p>where <span class="math inline">\(\psi_1\)</span>, <span class="math inline">\(\lambda_1\)</span> are the longitude and latitude of the point, <span class="math inline">\(\psi_2\)</span>, <span class="math inline">\(\lambda_2\)</span> the longitude and latitude of the Euler pole (<span class="math inline">\(\Delta\lambda\)</span> is the difference in longitude).</p>
-<p>This bearing <span class="math inline">\(\theta\)</span>, thereby, reflects the theoretical direction of <span class="math inline">\(\sigma_{Hmax}\)</span> that follows great circles. Small circle directions are <span class="math inline">\(90^{\circ}\)</span> and loxodrome directions are <span class="math inline">\(\pm45^{\circ}\)</span> to <span class="math inline">\(\theta\)</span>.</p>
+<blockquote>
+<p>The bearing <span class="math inline">\(\theta\)</span> is the orientation of a great circle that passes through the point and the Euler pole. Thus, it reflects the theoretical direction of <span class="math inline">\(\sigma_{Hmax}\)</span> that follows great circles trajectories. Small circle directions then are <span class="math inline">\(90^{\circ}\)</span> and loxodrome directions are <span class="math inline">\(\pm45^{\circ}\)</span> to <span class="math inline">\(\theta\)</span>.</p>
+</blockquote>
 <hr>
 <p>In <strong>PlateTectonicStressR</strong>, these directions can modeled by the following steps:</p>
 <p>First, load the package:</p>
@@ -172,28 +174,27 @@
 <span class="co">#&gt; <span style="color: #949494;">#   bot &lt;dbl&gt;, no_mag_ven &lt;dbl&gt;, young &lt;dbl&gt;, poisson &lt;dbl&gt;, rock &lt;chr&gt;, …</span></span></code></pre></div>
 <p>Subset of the WSM data to stress data relevant for the Plate boundary between North America and the Pacific plate at the San Andreas fault:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">san.andreas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">california</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>
   <span class="va">wsm2016</span>,
   <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&gt;=</span> <span class="fl">23</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&lt;=</span> <span class="fl">40</span> <span class="op">&amp;</span>
     <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">126</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&lt;=</span> <span class="op">-</span><span class="fl">108</span>
 <span class="op">)</span></code></pre></div>
-<p>Modeling the stress directions using the Euler pole of the motion of North America relative to the Pacific Pate.</p>
+<p>Modeling the stress directions (wrt to the geographic North pole) using the Euler pole of the motion of North America relative to the Pacific Pate.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span>
 
-<span class="va">san.andreas.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">san.andreas</span>, <span class="va">euler</span><span class="op">)</span>
-<span class="va">san.andreas.deviation</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/misfit_shmax.html">misfit_shmax</a></span><span class="op">(</span><span class="va">san.andreas.prd</span>, <span class="va">san.andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></code></pre></div>
+<span class="va">california.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">california</span>, <span class="va">euler</span><span class="op">)</span>
+<span class="va">california.deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/misfit_shmax.html">misfit_shmax</a></span><span class="op">(</span><span class="va">california.prd</span>, <span class="va">california</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></code></pre></div>
 <p>Combine the model results with the coordinates of the observed data</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">san.andreas.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>
-  lat <span class="op">=</span> <span class="va">san.andreas</span><span class="op">$</span><span class="va">lat</span>,
-  lon <span class="op">=</span> <span class="va">san.andreas</span><span class="op">$</span><span class="va">lon</span>,
-  azi <span class="op">=</span> <span class="va">san.andreas</span><span class="op">$</span><span class="va">azi</span>,
-  <span class="va">san.andreas.prd</span>,
-  <span class="va">san.andreas.deviation</span>
+<code class="sourceCode R"><span class="va">california.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>
+  lat <span class="op">=</span> <span class="va">california</span><span class="op">$</span><span class="va">lat</span>,
+  lon <span class="op">=</span> <span class="va">california</span><span class="op">$</span><span class="va">lon</span>,
+  azi <span class="op">=</span> <span class="va">california</span><span class="op">$</span><span class="va">azi</span>,
+  <span class="va">california.prd</span>,
+  <span class="va">california.deviation</span>
 <span class="op">)</span></code></pre></div>
-<p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> can be used to visualize the results. The orientation of the axis can be displayed with the function <code><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke()</a></code>. The position argument <code>position = 'center_spoke'</code> aligns the marker symbol at the center of the point. The deviation can be color coded. <code><a href="../reference/deviation_norm.html">deviation_norm()</a></code> yields the normalized value of the deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</span>.</p>
+<p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> can be used to visualize the results. The orientation of the axis can be displayed with the function <code><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke()</a></code>. The position argument <code>position = "center_spoke"</code> aligns the marker symbol at the center of the point. The deviation can be color coded. <code><a href="../reference/deviation_norm.html">deviation_norm()</a></code> yields the normalized value of the deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</span>.</p>
 <p>Also included are the plate boundary geometries after <a href="http://doi.wiley.com/10.1029/2001GC000252" class="external-link">Bird (2003)</a>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"PB2002"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></code></pre></div>
@@ -201,7 +202,7 @@
 <code class="sourceCode R"><span class="co"># load some geometries from the rnaturalearth package</span>
 <span class="va">world</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="st">"small"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span> 
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san.andreas.res</span><span class="op">)</span> <span class="op">+</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">california.res</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">PB2002</span>,
@@ -227,24 +228,108 @@
     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">90</span>, <span class="fl">22.5</span><span class="op">)</span>
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>
-    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san.andreas.res</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,
-    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san.andreas.res</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span>,
+    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">california.res</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,
+    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">california.res</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span>,
     expand <span class="op">=</span> <span class="cn">FALSE</span>, 
     default_crs <span class="op">=</span> <span class="st">"WGS84"</span>
   <span class="op">)</span> </code></pre></div>
 <p><img src="PlateTectonicStressR_files/figure-html/plot-1.png" width="700"></p>
-<p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes. The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> test tests the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> orientation the observed stress direction considering the reported uncertainties of the measurement.</p>
+<p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes.</p>
+<p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> test quantifies the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> orientation the observed stress direction considering the reported uncertainties of the measurement.</p>
+<p>First, we need to complete the uncertainties of the WSM database in case of missing values:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">san.andreas</span><span class="op">$</span><span class="va">unc</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/quantise_wsm_quality.html">quantise_wsm_quality</a></span><span class="op">(</span><span class="va">san.andreas</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span> <span class="co"># convert the WSM quality ranking into the standard deviation of the measurement</span>
-
-<span class="fu"><a href="../reference/norm_chi2.html">norm_chi2</a></span><span class="op">(</span>
-  obs <span class="op">=</span> <span class="va">san.andreas</span><span class="op">$</span><span class="va">azi</span>,
-  <span class="va">san.andreas.prd</span><span class="op">$</span><span class="va">ld.ccw</span>,
-  unc <span class="op">=</span> <span class="va">san.andreas</span><span class="op">$</span><span class="va">unc</span>
+<code class="sourceCode R"><span class="co"># convert the WSM quality ranking into the standard deviation of the measurement</span>
+<span class="va">california.res</span><span class="op">$</span><span class="va">unc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">california</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span>, 
+  <span class="fu"><a href="../reference/quantise_wsm_quality.html">quantise_wsm_quality</a></span><span class="op">(</span><span class="va">california</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span>, 
+  <span class="va">california</span><span class="op">$</span><span class="va">sd</span>
+<span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/norm_chi2.html">norm_chi2</a></span><span class="op">(</span>
+  obs <span class="op">=</span> <span class="va">california</span><span class="op">$</span><span class="va">azi</span>,
+  prd <span class="op">=</span> <span class="va">california.prd</span><span class="op">$</span><span class="va">ld.ccw</span>,
+  unc <span class="op">=</span> <span class="va">california.res</span><span class="op">$</span><span class="va">unc</span>
 <span class="op">)</span>
-<span class="co">#&gt; [1] 0.06148918</span></code></pre></div>
+<span class="co">#&gt; NA values have been removed</span>
+<span class="co">#&gt; [1] 0.01246891</span></code></pre></div>
 <p>The value is <span class="math inline">\(\leq\)</span> 0.15, indicating a significantly good fit of the model. Thus, the traction of the transform plate boundary explain the stress direction of the area.</p>
+<div class="section level4">
+<h4 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary"></a>
+</h4>
+<p>The orientation of the maximum horizontal stress correlates with plate motion direction at the plate boundary zone. Towards the plate interior, plate boundary forces become weaker and other stress sources will probably dominate.</p>
+<p>To visualize the variation of the <span class="math inline">\(\sigma_{Hmax}\)</span> wrt to the distance to the plate boundary, we need to transfer the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> from the geographic reference system (i.e. azimuth is the deviation of a direction from geographic North pole) to the <strong>Pole of Rotation (PoR)</strong> reference system (i.e. azimuth is the deviation from the Euler pole).</p>
+<blockquote>
+<p>The azimuth in the <em>PoR reference system</em> <span class="math inline">\(\alpha_{PoR}\)</span> is the angular difference between the azimuth in geographic reference system <span class="math inline">\(\alpha_{geo}\)</span> and the (initial) bearing of the great circle that passes through the data point and the Euler pole <span class="math inline">\(\theta\)</span>:</p>
+</blockquote>
+<span class="math display">\[\begin{equation} 
+  \alpha_{PoR} = \alpha_{geo} - \theta
+\end{equation}\]</span>
+<p>The function <code><a href="../reference/PoR_shmax.html">PoR_shmax()</a></code> returns the transformed azimuth of <span class="math inline">\(\sigma_{Hmax}\)</span> and, if given, the deviation from the predicted <span class="math inline">\(\sigma_{Hmax}\)</span> orientation related to the plate boundary type:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">california.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">california.res</span>,
+                        <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">california.res</span>, <span class="va">euler</span>, type <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>To calculate the distance to the plate boundary, both the plate boundary geometries and the data points (in geographical coordinates() will be transformed in to the <em>PoR</em> reference system. In the <em>PoR</em> system, the distance is the latitudinal or longitudinal difference between the data points and the inward/outward or tangential moving plate boundaries, respectively.</p>
+<p>This is done with the function <code><a href="../reference/distance_from_pb.html">distance_from_pb()</a></code>, which returns the angular distances.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">san_andreas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">PB2002</span>,
+                      <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateA</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span> , <span class="st">"PA"</span><span class="op">)</span> <span class="op">&amp;</span>
+                        <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateB</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">california_sf</span> <span class="op">&lt;-</span>
+  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_set_crs</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">california</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"WGS84"</span><span class="op">)</span>
+
+<span class="va">california.res</span><span class="op">$</span><span class="va">distance</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/distance_from_pb.html">distance_from_pb</a></span><span class="op">(</span>
+    x <span class="op">=</span> <span class="va">california_sf</span>,
+    ep <span class="op">=</span> <span class="va">euler</span>,
+    pb <span class="op">=</span> <span class="va">san_andreas</span>,
+    tangential <span class="op">=</span> <span class="cn">TRUE</span>
+  <span class="op">)</span></code></pre></div>
+<p>Finally, we visualize the the <span class="math inline">\(\sigma_{Hmax}\)</span> orientation wrt to the distance to the plate boundary:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">california.res</span>,
+       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>
+         x <span class="op">=</span> <span class="va">distance</span>,
+         y <span class="op">=</span> <span class="va">azi.PoR</span>,
+         color <span class="op">=</span> <span class="va">california</span><span class="op">$</span><span class="va">regime</span>
+       <span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (°)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (°)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_pointrange</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">azi.PoR</span> <span class="op">-</span> <span class="va">unc</span>, ymax <span class="op">=</span> <span class="va">azi.PoR</span> <span class="op">+</span> <span class="va">unc</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>
+    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">360</span>, <span class="fl">45</span><span class="op">)</span>,
+    sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">sec_axis</a></span><span class="op">(</span>
+      <span class="op">~</span> <span class="va">.</span>,
+      name <span class="op">=</span> <span class="cn">NULL</span>,
+      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>,
+      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Outward"</span>, <span class="st">'Tan (L)'</span>, <span class="st">"Inward"</span>, <span class="st">"Tan (R)"</span>, <span class="st">"Outward"</span><span class="op">)</span>
+    <span class="op">)</span>
+  <span class="op">)</span></code></pre></div>
+<p><img src="PlateTectonicStressR_files/figure-html/san.andreas.distanceplot1-1.png" width="700"></p>
+<p>Close to the here dextral plate boundary, the majority of the stress data have a strike-slip regime and are orientated around 135° wrt to the Euler pole. Away from the plate boundary, the data becomes more noisy.</p>
+<blockquote>
+<p>This plot also allows to identify the nature of the plate boundary (i.e.  inward, outward, or tangetial) in the first place.</p>
+</blockquote>
+<p>The relationship between the azimuth and the distance can be better visualized by using the deviation (normalized by the data precision) from the the predicted stress orientation, i.e. the <em>normalized</em> <span class="math inline">\(\chi^2\)</span>:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">california.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">nchi2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (°)"</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">Norm</span><span class="op">~</span><span class="va">chi</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">.33</span>, <span class="fl">.7</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">california</span><span class="op">$</span><span class="va">regime</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">sec_axis</a></span><span class="op">(</span>
+    <span class="op">~</span> <span class="va">.</span>,
+    name <span class="op">=</span> <span class="cn">NULL</span>,
+    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.15</span> <span class="op">/</span> <span class="fl">2</span>, <span class="fl">.33</span>, <span class="fl">.7</span> <span class="op">+</span> <span class="fl">0.15</span><span class="op">)</span>,
+    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Good fit"</span>, <span class="st">'Random'</span>, <span class="st">"Systematic\nmisfit"</span><span class="op">)</span>
+  <span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="PlateTectonicStressR_files/figure-html/san.andreas.distanceplot2-1.png" width="700"></p>
+<p>We can see that that the data in fact scatters randomly at a distance of 6° from the plate boundary. Thus the plate boundary zone is somewhat 4–6° wide.</p>
+<blockquote>
+<p>This plot allows to specify the width of the plate boundary zone.</p>
+</blockquote>
+</div>
 </div>
 <div class="section level3">
 <h3 id="equivalent-rotations">Equivalent rotations<a class="anchor" aria-label="anchor" href="#equivalent-rotations"></a>
@@ -252,7 +337,7 @@
 <p>Relative plate motions from a set of (global) plate motions can be retrieved by transforming the set of the Euler rotations parameters to equivalent rotations.</p>
 <p>The NUVEL1 data set offers the global plate motions relative to the Pacific plate. In order to extract the plate motions between two other plates (e.g. all plates relative to Eurasia), one has to transform the rotations in to a new, equivalent reference system (i.e. all rotation with respect to Eurasia).</p>
 <p>In <strong>PlateTectonicStressR</strong> this can be done with :</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nuvel1.eu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">nuvel1</span>, fixed <span class="op">=</span> <span class="st">"eu"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nuvel1.eu</span><span class="op">)</span>
 <span class="co">#&gt;   plate.rot       lat        lon      angle plate.fix</span>
@@ -266,17 +351,18 @@
 <div class="section level3">
 <h3 id="plotting-pole-of-rotation-grids">Plotting Pole of Rotation Grids<a class="anchor" aria-label="anchor" href="#plotting-pole-of-rotation-grids"></a>
 </h3>
+<p>To visualize the theoretical trajectories of the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> (great circles, small circles, and loxodomes), we need to transform the locations from the geographical coordinate system into the <em>PoR</em> coordinate system. The transformations are done through the function functions <code><a href="../reference/por_crs.html">geographical_to_PoR()</a></code> and <code><a href="../reference/por_crs.html">PoR_to_geographical()</a></code>. They are the base of the functions <code><a href="../reference/stress_paths.html">eulerpole_smallcircles()</a></code>, <code><a href="../reference/stress_paths.html">eulerpole_greatcircles()</a></code>, and <code><a href="../reference/stress_paths.html">eulerpole_loxodromes()</a></code> that allow to draw the theoretical trajectories in geographical coordinates.</p>
 <div class="section level4">
 <h4 id="small-circles">Small Circles<a class="anchor" aria-label="anchor" href="#small-circles"></a>
 </h4>
 <p>Function <code>eulerpole_smallcircles(x, gridsize)</code> returns Small circles as as simple feature(<code>sf</code>) by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the number of small circles (<code>n</code>).</p>
 <p>For example the small circles around the Euler pole of the relative motion of the Indian plate relative to the Eurasian plate (transformed from the from the NUVEL1 model).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1.eu</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"in"</span><span class="op">)</span> <span class="co"># India relative to Eurasia</span></code></pre></div>
 <p>The <code>returnclass</code> option in <code><a href="../reference/stress_paths.html">eulerpole_smallcircles()</a></code> provides the output types <code>"sf"</code> (for a simple feature) and <code>"sp"</code> (<code>Spatial*</code> object) for the small circles.</p>
 <p>To eventually plot the small circles with <code>ggplot</code>, I recommend to extract a <code>sf</code> feature and plot the it with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler.sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_smallcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -318,7 +404,7 @@
 <h4 id="great-circles">Great Circles<a class="anchor" aria-label="anchor" href="#great-circles"></a>
 </h4>
 <p>Great circles are lines that cut the small circles at 90<span class="math inline">\(^{\circ}\)</span> and the Euler pole. Function <code>eulerpole_greatcircles(x, n)</code> returns great circles as <code>sf</code> object by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the number of great circles <code>n</code>, or the great circle angles (<code>360/d</code>).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler.gm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_greatcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -366,7 +452,7 @@
 </h4>
 <p>Loxodrome (also called Rhumb Line) is a curve cutting the small circles at a constant angle. Thus, small and great circles are 0<span class="math inline">\(^{\circ}\)</span> and 90<span class="math inline">\(^{\circ}\)</span> loxodromes, respectively.</p>
 <p>Function <code>eulerpole_loxodromes(x, n)</code> returns loxodromes as <code>sf</code> object by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the angle between the loxodromes, the direction, and the sense.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler.ld</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, sense <span class="op">=</span> <span class="st">"sinistral"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>

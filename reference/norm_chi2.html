@@ -75,9 +75,8 @@ same length as <code>prd</code></p></dd>
 <dd><p><code>data.frame</code> containing the modeled azimuths of \(\sigma_\text{Hmax}\), i.e.
 the return object from <code><a href="model_shmax.html">model_shmax()</a></code></p></dd>
 <dt>unc</dt>
-<dd><p>Uncertainty of observed \(\sigma_\text{Hmax}\), either
-numeric vector of length of
-<code>obs</code> or a number</p></dd>
+<dd><p>Uncertainty of observed \(\sigma_\text{Hmax}\), either a
+numeric vector or a number</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -111,8 +110,8 @@ tectonics. <em>Journal of Geophysical Research: Solid Earth</em>, v. 103, p.
 <span class="r-in"><span class="co"># Pacific plate</span></span>
 <span class="r-in"><span class="va">point</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">45</span>, lon <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">euler</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">norm_chi2</span><span class="op">(</span>obs <span class="op">=</span> <span class="fl">90</span>, <span class="va">prd</span><span class="op">$</span><span class="va">sc</span>, unc <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2790849</span>
+<span class="r-in"><span class="fu">norm_chi2</span><span class="op">(</span>obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">40</span>, <span class="fl">42</span><span class="op">)</span>, <span class="va">prd</span><span class="op">$</span><span class="va">sc</span>, unc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001426232</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
