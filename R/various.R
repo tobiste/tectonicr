@@ -52,3 +52,44 @@ quantise_wsm_quality <- function(x) {
   }
   return(azi.std)
 }
+
+
+
+#' Distance from plate boundary
+#'
+#' Distance of data points from the nearest plate boundary in degree
+#'
+#' @param x,pb \code{sf} objects of the data points and the plate boundary
+#' geometries in the geographical coordinate system
+#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole (\code{lat}, \code{lon})
+#' @param tangential Logical. \code{TRUE} for tangential boundaries and
+#' \code{FALSE} (the default) for inward and outward boundaries.
+#' @return Numeric vector of the (great circle) distances in degree
+#' @export
+distance_from_pb <- function(x, ep, pb, tangential = FALSE){
+  stopifnot(inherits(x, "sf") & inherits(pb, "sf") & is.data.frame(ep))
+
+  x.por <- geographical_to_PoR(ep, x)
+  pb.por <- geographical_to_PoR(ep, pb)
+
+  pb.coords <- sf::st_coordinates(pb.por)
+  colnames(coords) <- c('lon', 'lat')
+
+  x.coords <- sf::st_coordinates(x.por)
+  colnames(coords) <- c('lon', 'lat')
+
+  dist <- c()
+  for(i in seq_along(x.coords$lon)) {
+    if(tangential) {
+      # latitudinal distance for tangential plate boundaries
+      dist[i] <- min(abs(pb.coords$lat[i] - x.coords$lat[i]))
+    } else {
+      # azimuthal distance for inward/outward plate boundaries
+      dist[i] <- min(abs(pb.coords$lon[i] - x.coords$lon[i]))
+    }
+  }
+
+  dist
+}
+
+
