@@ -123,7 +123,7 @@ model_shmax <- function(df, euler) {
 #' @param df \code{data.frame} containing the coordinates of the point(s)
 #' (\code{lat}, \code{lon}), the orientation of
 #' \eqn{\sigma_{\text{Hmax}}}{SHmax} \code{azi} and its standard deviation
-#' \code{azi.std} (optional)
+#' \code{unc} (optional)
 #' @param euler \code{data.frame} containing the coordinates of the Euler pole
 #' for the plate boundary  (\code{lat}, \code{lon})
 #' @param type Character. Type of plate boundary (optional). Can be
@@ -157,7 +157,7 @@ model_shmax <- function(df, euler) {
 #' stress <- subset(wsm2016,
 #' wsm2016$lat >= 23 & wsm2016$lat <= 40 &
 #' wsm2016$lon >= -126 & wsm2016$lon <= -108)
-#' stress$azi.std <- stress$sd
+#' stress$unc <- stress$sd
 #' PoR_shmax(stress, euler, type = "right")
 PoR_shmax <- function(df, euler, type) {
   stopifnot(is.data.frame(df) & is.data.frame(euler))
@@ -171,7 +171,7 @@ PoR_shmax <- function(df, euler, type) {
   }
   azi.por <- (df$azi - beta + 180) %% 180
 
-  if(!missing(type) & !is.null(df$azi.std)) {
+  if(!missing(type) & !is.null(df$unc)) {
     prd <- NA
     prd <- ifelse(type == "out", 180, prd)
     prd <- ifelse(type == "right", 135, prd)
@@ -179,7 +179,7 @@ PoR_shmax <- function(df, euler, type) {
     prd <- ifelse(type == "left", 45, prd)
 
     dev <- deviation_norm(azi.por-prd)
-    nchi2.i <- (dev/df$azi.std)^2 / (90/df$azi.std)^2
+    nchi2.i <- (dev/df$unc)^2 / (90/df$unc)^2
 
     data.frame("azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchi2" = nchi2.i)
   } else {

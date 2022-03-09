@@ -66,30 +66,42 @@ quantise_wsm_quality <- function(x) {
 #' \code{FALSE} (the default) for inward and outward boundaries.
 #' @return Numeric vector of the (great circle) distances in degree
 #' @export
+#' @examples
+#' data("nuvel1")
+#' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
+#'
+#' data("PB2002")
+#' san_andreas <- subset(PB2002, PB2002$PlateA %in% c("NA" , "PA") & PB2002$PlateB %in% c("NA", "PA"))
+#'
+#' data("wsm2016")
+#' california <- subset(
+#' wsm2016,
+#' wsm2016$lat >= 23 & wsm2016$lat <= 40 &
+#'   wsm2016$lon >= -126 & wsm2016$lon <= -108
+#'   )
+#' california <- sf::st_set_crs(sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84")
+#'
+#' distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
 distance_from_pb <- function(x, ep, pb, tangential = FALSE){
   stopifnot(inherits(x, "sf") & inherits(pb, "sf") & is.data.frame(ep))
 
-  x.por <- geographical_to_PoR(ep, x)
-  pb.por <- geographical_to_PoR(ep, pb)
+  x.por <- geographical_to_PoR(x, ep)
+  pb.por <- geographical_to_PoR(pb, ep)
 
   pb.coords <- sf::st_coordinates(pb.por)
-  colnames(coords) <- c('lon', 'lat')
 
   x.coords <- sf::st_coordinates(x.por)
-  colnames(coords) <- c('lon', 'lat')
 
   dist <- c()
-  for(i in seq_along(x.coords$lon)) {
+  for(i in seq_along(x.coords[, 1])) {
     if(tangential) {
       # latitudinal distance for tangential plate boundaries
-      dist[i] <- min(abs(pb.coords$lat[i] - x.coords$lat[i]))
+      dist[i] <- min(abs(pb.coords[, 2] - x.coords[i, 2]))
     } else {
       # azimuthal distance for inward/outward plate boundaries
-      dist[i] <- min(abs(pb.coords$lon[i] - x.coords$lon[i]))
+      dist[i] <- min(abs(pb.coords[, 1] - x.coords[i, 1]))
     }
   }
 
   dist
 }
-
-

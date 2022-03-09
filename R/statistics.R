@@ -9,9 +9,8 @@
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, v. 103, p.
 #'   5037--5059, \doi{10.1029/97JB03390}.
 #' @inheritParams misfit_shmax
-#' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either
-#' numeric vector of length of
-#' \code{obs} or a number
+#' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
+#' numeric vector or a number
 #' @return Numeric vector
 #' @details
 #' The normalized \eqn{\chi^2}{chi-square} test is
@@ -33,29 +32,39 @@
 #' # Pacific plate
 #' point <- data.frame(lat = 45, lon = 20)
 #' prd <- model_shmax(point, euler)
-#' norm_chi2(obs = 90, prd$sc, unc = 10)
+#' norm_chi2(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
 norm_chi2 <- function(obs, prd, unc) {
-  if (length(prd) != length(obs)) {
-    stop("Observed and predicted values must have the same length!\n")
-  }
+  stopifnot(is.numeric(obs) & is.numeric(prd) & is.numeric(unc))
 
-  if (length(unc) != 1 & length(unc) != length(obs)) {
-    stop("Uncertainties must be either a numeric value or a numeric value with
-         length of observed values!\n")
+  if (length(prd) == 1) {
+    prd <- rep(prd, length(obs))
   }
 
   if (length(unc) == 1) {
     unc <- rep(unc, length(obs))
   }
 
+  if(anyNA(obs)) {
+    x <- subset(data.frame(obs=obs, prd=prd, unc=unc), !is.na(obs) | !is.na(prd))
+    obs <- x[, 1]
+    prd <- x[, 2]
+    unc <- x[, 3]
+    message("NA values have been removed")
+  }
+
+
+
+  stopifnot(length(prd) == length(obs) & length(unc) == length(obs) & length(unc) == length(prd))
+
   w <- c()
   x <- c()
   y <- c()
   for (i in seq_along(obs)) {
-    if (is.na(prd[i]) | is.na(obs[i])) {
+    if (is.na(obs[i])) {
       x[i] <- NA
       y[i] <- NA
     } else {
+      if(!is.na(unc[i]) & unc[i]==0){unc[i] <- 0.01} # uncertainty cannot be 0
       w[i] <- deviation_norm(prd[i] - obs[i])
       x[i] <- (w[i] / unc[i])^2
       y[i] <- (90 / unc[i])^2
