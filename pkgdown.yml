@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   PlateTectonicStressR: PlateTectonicStressR.html
-last_built: 2022-03-09T22:28Z
+last_built: 2022-03-10T00:07Z
 urls:
   reference: https://tobiste.github.io/PlateTectonicStressR/reference
   article: https://tobiste.github.io/PlateTectonicStressR/articles
