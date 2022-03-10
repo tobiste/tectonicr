@@ -64,7 +64,11 @@ quantise_wsm_quality <- function(x) {
 #' @param ep \code{data.frame} of the geographical coordinates of the Euler pole (\code{lat}, \code{lon})
 #' @param tangential Logical. \code{TRUE} for tangential boundaries and
 #' \code{FALSE} (the default) for inward and outward boundaries.
-#' @return Numeric vector of the (great circle) distances in degree
+#' @return Numeric vector of the great circle distances in degree
+#' @details The distance to the plate boundary is the longitudinal or
+#' latitudinal difference between the data point and the plate boundary
+#' (along the closest latitude or longitude) for inward/outward or tangential
+#' plate boundaries, respectively.
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -95,13 +99,21 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE){
   dist <- c()
   for(i in seq_along(x.coords[, 1])) {
     if(tangential) {
-      # latitudinal distance for tangential plate boundaries
-      dist[i] <- min(abs(pb.coords[, 2] - x.coords[i, 2]))
+      # latitudinal differences for tangential plate boundaries
+      delta.lat <- abs(pb.coords[, 2] - x.coords[i, 2])
+
+      # select the one with the closest longitude
+      q <- which.min((abs(pb.coords[, 1] - x.coords[i, 1])))
+      dist[i] <- delta.lat[q]
+
     } else {
-      # azimuthal distance for inward/outward plate boundaries
-      dist[i] <- min(abs(pb.coords[, 1] - x.coords[i, 1]))
+      # longitudinal differences for inward/outward plate boundaries
+      delta.lon <- (abs(pb.coords[, 1] - x.coords[i, 1]))
+
+      # select the one with the closest latitude
+      q <- which.min((abs(pb.coords[, 2] - x.coords[i, 2])))
+      dist[i] <- delta.lon[q]
     }
   }
-
   dist
 }

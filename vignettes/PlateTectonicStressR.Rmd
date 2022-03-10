@@ -327,9 +327,13 @@ geographic reference system (i.e. azimuth is the deviation of a direction from
 geographic North pole) to the **Pole of Rotation (PoR)** reference system
 (i.e. azimuth is the deviation from the Euler pole). 
 
-> The azimuth in the *PoR reference system*
-$\alpha_{PoR}$ is the angular difference between the azimuth in geographic 
-reference system $\alpha_{geo}$ and the (initial) bearing of the great circle 
+> The *PoR coordinate reference system* is the oblique transformation of the
+geographical coordinate system with the Euler pole coordinates being the the
+translation factors.
+
+The azimuth in the *PoR reference system* $\alpha_{PoR}$ is the angular 
+difference between the azimuth in geographic reference system $\alpha_{geo}$ 
+and the (initial) bearing of the great circle 
 that passes through the data point and the Euler pole $\theta$:
 
 ```{=tex}

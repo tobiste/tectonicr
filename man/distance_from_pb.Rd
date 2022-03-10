@@ -16,10 +16,16 @@ geometries in the geographical coordinate system}
 \code{FALSE} (the default) for inward and outward boundaries.}
 }
 \value{
-Numeric vector of the (great circle) distances in degree
+Numeric vector of the great circle distances in degree
 }
 \description{
 Distance of data points from the nearest plate boundary in degree
+}
+\details{
+The distance to the plate boundary is the longitudinal or
+latitudinal difference between the data point and the plate boundary
+(along the closest latitude or longitude) for inward/outward or tangential
+plate boundaries, respectively.
 }
 \examples{
 data("nuvel1")
