@@ -172,7 +172,7 @@ vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted $
 observed $\sigma_{Hmax}$ (either numeric vector of length of `obs` or a number).
 
 ```{r shmax_test, echo=TRUE}
-data("nuvel1") # import example data set for Euler roations
+data("nuvel1") # import example data set for Euler rotations
 euler <-
   subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 point <- data.frame(lat = 45, lon = 20)
