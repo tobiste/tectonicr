@@ -10,7 +10,7 @@ PoR_shmax(df, euler, type)
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
 (\code{lat}, \code{lon}), the orientation of
 \eqn{\sigma_{\text{Hmax}}}{SHmax} \code{azi} and its standard deviation
-\code{azi.std} (optional)}
+\code{unc} (optional)}
 
 \item{euler}{\code{data.frame} containing the coordinates of the Euler pole
 for the plate boundary  (\code{lat}, \code{lon})}
@@ -52,7 +52,7 @@ data("wsm2016")
 stress <- subset(wsm2016,
 wsm2016$lat >= 23 & wsm2016$lat <= 40 &
 wsm2016$lon >= -126 & wsm2016$lon <= -108)
-stress$azi.std <- stress$sd
+stress$unc <- stress$sd
 PoR_shmax(stress, euler, type = "right")
 }
 \seealso{

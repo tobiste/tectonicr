@@ -66,10 +66,15 @@ geographical_to_cartesian <- function(p) {
 #' Transform spherical objects from PoR to geographical coordinate system and
 #' vice versa.
 #'
-#' @param x \code{sf} object of the data points in geographical or PoR coordinate system
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole (\code{lat}, \code{lon})
-#' @return \code{sf} object of the data points in the transformed geographical or PoR
+#' @param x \code{sf} object of the data points in geographical or PoR
 #' coordinate system
+#' @param ep \code{data.frame} of the geographical coordinates of the Euler
+#' pole (\code{lat}, \code{lon})
+#' @return \code{sf} object of the data points in the transformed geographical
+#' or PoR coordinate system
+#' @details The PoR coordinate reference system is oblique transformation of the
+#' geographical coordinate system with the Euler pole coordinates being the the
+#' translation factors.
 #' @importFrom dplyr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
 #' @examples

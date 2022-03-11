@@ -48,8 +48,6 @@ p3 <- c(35, NA) # add NA values
 get_azimuth(p3, p2)
 
 test_that("Output of functions is as expected", {
-  expect_equal(norm_chi2(NA, NA, NA), NaN)
-  expect_equal(norm_chi2(1, NA, NA), NaN)
   expect_equal(longitude_modulo(-361), -1)
   expect_equal(abs_vel(0.21, 0, r = 1), 0)
   expect_equal(quantise_wsm_quality(c("A", "E", "F", "G", 5)), c(15, NA, NA, NA, NA))
@@ -80,6 +78,7 @@ test_that("type of object returned is as expected", {
 
 test_that("Message expected", {
   expect_message(circular_quasi_quartile(c(12, NA)))
+  expect_message(norm_chi2(c(12, NA), 1, 1))
 })
 
 test_that("Warning expected", {
@@ -94,7 +93,9 @@ test_that("Error message if incorrect type argument", {
   expect_error(geographical_to_cartesian(1))
   expect_error(cartesian_to_geographical(NA))
   expect_error(geographical_to_cartesian(NA))
-  expect_error(norm_chi2(obs = c(1, 2), prd = 1, unc = 1))
+  expect_error(norm_chi2(1, NA, NA))
+  expect_error(norm_chi2(NA, NA, NA))
+  expect_error(norm_chi2(2, 3, 3, na.rm = "typo"))
   expect_error(norm_chi2(obs = c(1, 2), prd = 1, unc = c(1, 2, 3)))
   expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
   expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))

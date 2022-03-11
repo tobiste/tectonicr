@@ -13,9 +13,8 @@ same length as \code{prd}}
 \item{prd}{\code{data.frame} containing the modeled azimuths of \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
-\item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either
-numeric vector of length of
-\code{obs} or a number}
+\item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
+numeric vector or a number}
 }
 \value{
 Numeric vector
@@ -46,7 +45,7 @@ euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 # Pacific plate
 point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
-norm_chi2(obs = 90, prd$sc, unc = 10)
+norm_chi2(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
 }
 \references{
 Wdowinski, S., 1998, A theory of intraplate

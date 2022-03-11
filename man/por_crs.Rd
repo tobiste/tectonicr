@@ -11,17 +11,24 @@ PoR_to_geographical(x, ep)
 geographical_to_PoR(x, ep)
 }
 \arguments{
-\item{x}{\code{sf} object of the data points in geographical or PoR coordinate system}
+\item{x}{\code{sf} object of the data points in geographical or PoR
+coordinate system}
 
-\item{ep}{\code{data.frame} of the geographical coordinates of the Euler pole (\code{lat}, \code{lon})}
+\item{ep}{\code{data.frame} of the geographical coordinates of the Euler
+pole (\code{lat}, \code{lon})}
 }
 \value{
-\code{sf} object of the data points in the transformed geographical or PoR
-coordinate system
+\code{sf} object of the data points in the transformed geographical
+or PoR coordinate system
 }
 \description{
 Transform spherical objects from PoR to geographical coordinate system and
 vice versa.
+}
+\details{
+The PoR coordinate reference system is oblique transformation of the
+geographical coordinate system with the Euler pole coordinates being the the
+translation factors.
 }
 \examples{
 data("nuvel1")
