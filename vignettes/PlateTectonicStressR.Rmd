@@ -346,7 +346,7 @@ small circles.
 To eventually plot the small circles with `ggplot`, I recommend to extract a 
 `sf` feature and plot the it with `geom_sf()`: 
 
-```{r small_circles_around_ep, echo=TRUE, warning=FALSE, message=FALSE}
+```{r small_circles_around_ep, eval=FALSE, include=TRUE}
 euler.sm <- eulerpole_smallcircles(euler)
 
 ggplot() +
@@ -384,6 +384,9 @@ ggplot() +
   coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
 ```
 
+![Predicted SHmax trajectories that are small circles around the In-Eu Euler pole.](smallcircles.png)
+
+
 ### Great Circles
 
 Great circles are lines that cut the small circles at 90$^{\circ}$ and
@@ -392,7 +395,7 @@ circles as `sf` object by giving a `data.frame` of the Euler
 pole coordinates in lat and lon (`x`) and the number of great circles `n`,
 or the great circle angles (`360/d`).
 
-```{r great_circles_around_ep, echo=TRUE, warning=FALSE, message=FALSE}
+```{r great_circles_around_ep, eval=FALSE, include=TRUE}
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
@@ -435,6 +438,8 @@ ggplot() +
   coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
 ```
 
+![Predicted SHmax trajectories that are great circles passing through the In-Eu Euler pole.](greatcircles.png)
+
 ### Loxodromes
 
 Loxodrome (also called Rhumb Line) is a curve cutting the small circles
@@ -446,7 +451,7 @@ Function `eulerpole_loxodromes(x, n)` returns loxodromes as
 coordinates in lat and lon (`x`) and the angle between the loxodromes, the
 direction, and the sense.
 
-```{r loxodromes, echo=TRUE, warning=FALSE, message=FALSE}
+```{r loxodromes, eval=FALSE, include=TRUE}
 euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
 
 ggplot() +
@@ -482,3 +487,6 @@ ggplot() +
   ) +
   coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
 ```
+
+![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.](loxodromes.png)
+
