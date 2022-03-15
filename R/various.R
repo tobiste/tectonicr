@@ -53,11 +53,9 @@ quantise_wsm_quality <- function(x) {
   return(azi.std)
 }
 
-
-
 #' Distance from plate boundary
 #'
-#' Distance of data points from the nearest plate boundary in degree
+#' Absolute distance of data points from the nearest plate boundary in degree
 #'
 #' @param x,pb \code{sf} objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
@@ -70,6 +68,7 @@ quantise_wsm_quality <- function(x) {
 #' (along the closest latitude or longitude) for inward/outward or tangential
 #' plate boundaries, respectively.
 #' @export
+#' @importFrom sf st_geometry_type st_cast st_coordinates
 #' @examples
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -90,28 +89,30 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE){
   stopifnot(inherits(x, "sf") & inherits(pb, "sf") & is.data.frame(ep))
 
   x.por <- geographical_to_PoR(x, ep)
-  pb.por <- geographical_to_PoR(pb, ep)
+  pb.por <- geographical_to_PoR(pb, ep) %>% sf::st_cast(to = "LINESTRING")
 
   pb.coords <- sf::st_coordinates(pb.por)
-
   x.coords <- sf::st_coordinates(x.por)
 
   dist <- c()
   for(i in seq_along(x.coords[, 1])) {
     if(tangential) {
       # latitudinal differences for tangential plate boundaries
-      delta.lat <- abs(pb.coords[, 2] - x.coords[i, 2])
+      delta.lat <- abs(longitude_modulo(pb.coords[, 2] - x.coords[i, 2]))
 
       # select the one with the closest longitude
-      q <- which.min((abs(pb.coords[, 1] - x.coords[i, 1])))
+      delta.lon <- abs(longitude_modulo(pb.coords[, 1] - x.coords[i, 1]))
+
+      q <- which.min(delta.lon)
       dist[i] <- delta.lat[q]
 
     } else {
       # longitudinal differences for inward/outward plate boundaries
-      delta.lon <- (abs(pb.coords[, 1] - x.coords[i, 1]))
+      delta.lon <- abs(longitude_modulo(pb.coords[, 1] - x.coords[i, 1]))
 
       # select the one with the closest latitude
-      q <- which.min((abs(pb.coords[, 2] - x.coords[i, 2])))
+      delta.lat <- abs(longitude_modulo(pb.coords[, 2] - x.coords[i, 2]))
+      q <- which.min(delta.lat)
       dist[i] <- delta.lon[q]
     }
   }

@@ -172,7 +172,7 @@ vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted $
 observed $\sigma_{Hmax}$ (either numeric vector of length of `obs` or a number).
 
 ```{r shmax_test, echo=TRUE}
-data("nuvel1") # import example data set for Euler roations
+data("nuvel1") # import example data set for Euler rotations
 euler <-
   subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 point <- data.frame(lat = 45, lon = 20)
@@ -593,6 +593,7 @@ Function `eulerpole_loxodromes(x, n)` returns loxodromes as
 `sf` object by giving a `data.frame` of the Euler pole
 coordinates in lat and lon (`x`) and the angle between the loxodromes, the
 direction, and the sense.
+
 
 ```{r loxodromes, eval=FALSE, include=TRUE}
 euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")

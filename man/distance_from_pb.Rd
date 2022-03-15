@@ -19,7 +19,7 @@ geometries in the geographical coordinate system}
 Numeric vector of the great circle distances in degree
 }
 \description{
-Distance of data points from the nearest plate boundary in degree
+Absolute distance of data points from the nearest plate boundary in degree
 }
 \details{
 The distance to the plate boundary is the longitudinal or
