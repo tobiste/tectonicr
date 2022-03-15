@@ -1,6 +1,6 @@
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/tobiste/PlateTectonicStressR/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/PlateTectonicStressR/actions)
-[![Codecov test coverage](https://codecov.io/gh/tobiste/PlateTectonicStressR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tobiste/PlateTectonicStressR?branch=main)
+[![R-CMD-check](https://github.com/tobiste/PlateTectonicStressR/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/stressr/actions)
+[![Codecov test coverage](https://codecov.io/gh/tobiste/PlateTectonicStressR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tobiste/stressr?branch=main)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5885309.svg)](https://doi.org/10.5281/zenodo.5885309)
 <!-- badges: end -->
 
@@ -27,7 +27,7 @@ library('stressr')
 ```
 
 ## Documentation
-https://tobiste.github.io/PlateTectonicStressR/articles/PlateTectonicStressR.html
+https://tobiste.github.io/stressr/articles/stressr.html
 
 ## Author
 Tobias Stephan

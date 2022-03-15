@@ -1,4 +1,4 @@
 library(testthat)
-library(PlateTectonicStressR)
+library(stressr)
 
-test_check("PlateTectonicStressR")
+test_check("stressr")
