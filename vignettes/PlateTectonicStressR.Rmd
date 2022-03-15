@@ -590,7 +590,7 @@ coordinates in lat and lon (`x`) and the angle between the loxodromes, the
 direction, and the sense.
 
 ```{r loxodromes, echo=TRUE, warning=FALSE, message=FALSE}
-euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
+euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "dextral")
 
 ggplot() +
   labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +

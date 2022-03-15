@@ -69,9 +69,9 @@ greatcircle_dummy <- function(n) {
 loxodrome_dummy <- function(n, angle, sense) {
   lon <- lat <- NULL
   if (sense == "sinistral" | sense == "clockwise") {
-    s <- 1
-  } else if (sense == "dextral" | sense == "counterclockwise") {
     s <- -1
+  } else if (sense == "dextral" | sense == "counterclockwise") {
+    s <- 1
   } else {
     stop("sense must be sinistral, dextral, clockwise, or clounterclockwise\n")
   }
