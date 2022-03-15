@@ -1,6 +1,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tobiste/tectonicr/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/tectonicr/actions)
-[![Codecov test coverage](https://codecov.io/gh/tobiste/tectonicr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tobiste/tectonicr?branch=main)
+<!--- [![Codecov test coverage](https://codecov.io/gh/tobiste/tectonicr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tobiste/tectonicr?branch=main)
+-->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5885309.svg)](https://doi.org/10.5281/zenodo.5885309)
 <!-- badges: end -->
 
