@@ -2,8 +2,8 @@ pandoc: 2.7.3
 pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  PlateTectonicStressR: PlateTectonicStressR.html
-last_built: 2022-03-15T21:59Z
+  stressr: stressr.html
+last_built: 2022-03-15T22:13Z
 urls:
   reference: https://tobiste.github.io/PlateTectonicStressR/reference
   article: https://tobiste.github.io/PlateTectonicStressR/articles
