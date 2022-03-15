@@ -8,7 +8,7 @@
 <meta name="description" content="Models and analyzes the direction of the maximum horizontal
     stress direction using relative plate motion parameters.">
 <title>Modeling the Direction of the Maximum Horizontal Stress using
-    Relative Plate Motion • stressr</title>
+    Relative Plate Motion • tectonicr</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -28,7 +28,7 @@
 
     <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
-    <a class="navbar-brand me-2" href="index.html">stressr</a>
+    <a class="navbar-brand me-2" href="index.html">tectonicr</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
@@ -40,7 +40,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="articles/stressr.html">Get started</a>
+  <a class="nav-link" href="articles/tectonicr.html">Get started</a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
@@ -55,7 +55,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/tobiste/stressr/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/tobiste/tectonicr/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -69,26 +69,26 @@
 <div class="row">
   <main id="main" class="col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="stressr">stressr<a class="anchor" aria-label="anchor" href="#stressr"></a>
+<div class="page-header"><h1 id="tectonicr">tectonicr<a class="anchor" aria-label="anchor" href="#tectonicr"></a>
 </h1></div>
-<p><strong>stressr</strong> is a free and open-source <strong>R</strong> package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.</p>
+<p><strong>tectonicr</strong> is a free and open-source <strong>R</strong> package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.</p>
 <div class="section level2">
 <h2 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
 </h2>
-<p>You must have R installed on your system (see <a href="http://r-project.org" class="external-link uri">http://r-project.org</a>). Additionally, to install stressr from Github, you also need the <code>remotes</code> package. This can be installed by typing the following code at the R command line prompt:</p>
+<p>You must have R installed on your system (see <a href="http://r-project.org" class="external-link uri">http://r-project.org</a>). Additionally, to install <strong>tectonicr</strong> from Github, you also need the <code>remotes</code> package. This can be installed by typing the following code at the R command line prompt:</p>
 <pre><code><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The most recent development version of stressr is available from Github and can be installed on your system as follows:</p>
-<pre><code><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'tobiste/stressr'</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tobiste.github.io/stressr/" class="external-link">'stressr'</a></span><span class="op">)</span></code></pre>
+<p>The most recent development version of <strong>tectonicr</strong> is available from Github and can be installed on your system as follows:</p>
+<pre><code><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'tobiste/tectonicr'</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tobiste.github.io/tectonicr/" class="external-link">'tectonicr'</a></span><span class="op">)</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h2>
-<p><a href="https://tobiste.github.io/stressr/articles/stressr.html" class="external-link uri">https://tobiste.github.io/stressr/articles/stressr.html</a></p>
+<p><a href="https://tobiste.github.io/tectonicr/articles/tectonicr.html" class="external-link uri">https://tobiste.github.io/tectonicr/articles/tectonicr.html</a></p>
 </div>
 <div class="section level2">
 <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
@@ -128,9 +128,8 @@ Zoback, M. Lou, Zoback, M. D., Adams, J., Assumpção, M., Bell, S., Bergman, E.
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=stressr" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/tobiste/stressr/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/tobiste/stressr/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/tobiste/tectonicr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/tobiste/tectonicr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -146,7 +145,7 @@ Zoback, M. Lou, Zoback, M. D., Adams, J., Assumpção, M., Bell, S., Bergman, E.
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing stressr</a></li>
+<li><a href="authors.html#citation">Citing tectonicr</a></li>
 </ul>
 </div>
 
@@ -160,8 +159,8 @@ Zoback, M. Lou, Zoback, M. D., Adams, J., Assumpção, M., Bell, S., Bergman, E.
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/tobiste/stressr/actions" class="external-link"><img src="https://github.com/tobiste/PlateTectonicStressR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/tobiste/stressr?branch=main" class="external-link"><img src="https://codecov.io/gh/tobiste/PlateTectonicStressR/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/tobiste/tectonicr/actions" class="external-link"><img src="https://github.com/tobiste/tectonicr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/tobiste/tectonicr?branch=main" class="external-link"><img src="https://codecov.io/gh/tobiste/tectonicr/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://doi.org/10.5281/zenodo.5885309" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5885309.svg" alt="DOI"></a></li>
 </ul>
 </div>
