@@ -86,7 +86,7 @@ quantise_wsm_quality <- function(x) {
 #'
 #' distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
 distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
-  stopifnot(inherits(x, "sf") & inherits(pb, "sf") & is.data.frame(ep))
+  stopifnot(inherits(x, "sf") & inherits(pb, "sf") & is.data.frame(ep) & is.logical(tangential))
 
   x.por <- geographical_to_PoR(x, ep)
   pb.por <- geographical_to_PoR(pb, ep) %>% sf::st_cast(to = "LINESTRING")
