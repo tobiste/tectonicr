@@ -1,11 +1,10 @@
 ---
-title: "stressr"
+title: "tectonicr"
 subtitle: 'Documentation of the R Package'
-description: "Test"
 author: "Tobias Stephan, PhD"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{stressr}
+  %\VignetteIndexEntry{tectonicr}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -20,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-**stressr** is a free and open-source R package for modeling and analyzing the
+**tectonicr** is a free and open-source R package for modeling and analyzing the
 direction of the maximum horizontal stress based on the empirical link
 between the orientation of intraplate stress and the direction of the
 relative motion of neighboring plates.
@@ -85,7 +84,7 @@ great circles at an angle of 45$^{\circ}$.
 
 ## Theoretical direction of Horizontal Stress and Deviation From the Measured Stress
 
-**stressr** basically calculates the bearing from a point of 
+**tectonicr** basically calculates the bearing from a point of 
 interest to a given Euler pole of the relative plate motion by the formula:
 
 ```{=tex}
@@ -106,13 +105,13 @@ are $\pm45^{\circ}$ to $\theta$.
 
 ---
 
-In **stressr**, these directions can modeled by the following 
+In **tectonicr**, these directions can modeled by the following 
 steps:
 
 First, load the package:
 
 ```{r setup, echo=TRUE}
-library(stressr)
+library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
 
@@ -191,7 +190,7 @@ data("nuvel1")
 
 ## Larger Data Sets
 
-**stressr** also handles larger data sets. The 
+**tectonicr** also handles larger data sets. The 
 [World Stress map (WSM2016)](http://www.world-stress-map.org/) data compilation
 is included as an example data set and can be imported through:
 
@@ -449,7 +448,7 @@ plate. In order to extract the plate motions between two other plates
 (e.g. all plates relative to Eurasia), one has to transform the rotations in to 
 a new, equivalent reference system (i.e. all rotation with respect to Eurasia). 
 
-In **stressr** this can be done with \code{equivalent_rotation}:
+In **tectonicr** this can be done with \code{equivalent_rotation}:
 
 ```{r nuvel_eq, echo=TRUE}
 nuvel1.eu <- equivalent_rotation(nuvel1, fixed = "eu")

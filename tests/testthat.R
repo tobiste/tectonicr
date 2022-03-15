@@ -1,4 +1,4 @@
 library(testthat)
-library(stressr)
+library(tectonicr)
 
-test_check("stressr")
+test_check("tectonicr")
