@@ -8,13 +8,20 @@
 \alias{eulerpole_loxodromes}
 \title{Theoretical Plate Tectonic Stress Paths}
 \usage{
-eulerpole_paths(x, type, n = 10, angle, sense, returnclass = c("sf", "sp"))
+eulerpole_paths(
+  x,
+  type = c("sc", "gc", "ld"),
+  n = 10,
+  angle,
+  cw,
+  returnclass = c("sf", "sp")
+)
 
 eulerpole_smallcircles(x, n = 10, returnclass = c("sf", "sp"))
 
 eulerpole_greatcircles(x, n = 10, returnclass = c("sf", "sp"))
 
-eulerpole_loxodromes(x, n = 10, angle = 45, sense, returnclass = c("sf", "sp"))
+eulerpole_loxodromes(x, n = 10, angle = 45, cw, returnclass = c("sf", "sp"))
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon,
@@ -28,8 +35,9 @@ and rotation angle (optional)}
 
 \item{angle}{Direction of loxodromes; default = 45}
 
-\item{sense}{Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
-or 'counterclockwise' loxodromes, respectively}
+\item{cw}{logical. Sense of loxodromes: \code{TRUE} for clockwise
+loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
+counterclockwise loxodromes (left-lateral displaced plate boundaries).}
 
 \item{returnclass}{"sf" (default) for simple features or "sp" for spatial objects}
 }
@@ -60,8 +68,8 @@ euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pa
 
 eulerpole_smallcircles(euler)
 eulerpole_greatcircles(euler)
-eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
-eulerpole_loxodromes(x = euler, angle = 30, sense = "dextral")
+eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
+eulerpole_loxodromes(x = euler, angle = 30, cw = TRUE)
 }
 \author{
 Tobias Stephan

@@ -74,18 +74,18 @@ quantise_wsm_quality <- function(x) {
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
 #' data("PB2002")
-#' san_andreas <- subset(PB2002, PB2002$PlateA %in% c("NA" , "PA") & PB2002$PlateB %in% c("NA", "PA"))
+#' san_andreas <- subset(PB2002, PB2002$PlateA %in% c("NA", "PA") & PB2002$PlateB %in% c("NA", "PA"))
 #'
 #' data("wsm2016")
 #' california <- subset(
-#' wsm2016,
-#' wsm2016$lat >= 23 & wsm2016$lat <= 40 &
-#'   wsm2016$lon >= -126 & wsm2016$lon <= -108
-#'   )
+#'   wsm2016,
+#'   wsm2016$lat >= 23 & wsm2016$lat <= 40 &
+#'     wsm2016$lon >= -126 & wsm2016$lon <= -108
+#' )
 #' california <- sf::st_set_crs(sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84")
 #'
 #' distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
-distance_from_pb <- function(x, ep, pb, tangential = FALSE){
+distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
   stopifnot(inherits(x, "sf") & inherits(pb, "sf") & is.data.frame(ep))
 
   x.por <- geographical_to_PoR(x, ep)
@@ -95,8 +95,8 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE){
   x.coords <- sf::st_coordinates(x.por)
 
   dist <- c()
-  for(i in seq_along(x.coords[, 1])) {
-    if(tangential) {
+  for (i in seq_along(x.coords[, 1])) {
+    if (tangential) {
       # latitudinal differences for tangential plate boundaries
       delta.lat <- abs(longitude_modulo(pb.coords[, 2] - x.coords[i, 2]))
 
@@ -105,7 +105,6 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE){
 
       q <- which.min(delta.lon)
       dist[i] <- delta.lat[q]
-
     } else {
       # longitudinal differences for inward/outward plate boundaries
       delta.lon <- abs(longitude_modulo(pb.coords[, 1] - x.coords[i, 1]))

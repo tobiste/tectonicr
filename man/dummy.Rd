@@ -11,15 +11,16 @@ smallcircle_dummy(n)
 
 greatcircle_dummy(n)
 
-loxodrome_dummy(n, angle, sense)
+loxodrome_dummy(n, angle, cw)
 }
 \arguments{
 \item{n}{Number of curves}
 
 \item{angle}{Direction of loxodromes (in degree)}
 
-\item{sense}{Sense of loxodromes. Character string, either "sinistral",
-"dextral", "clockwise", or "counterclockwise" loxodromes.}
+\item{cw}{logical. Sense of loxodromes: \code{TRUE} for clockwise
+loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
+counterclockwise loxodromes (left-lateral displaced plate boundaries).}
 }
 \value{
 \code{data.frame}
@@ -31,5 +32,5 @@ loxodromes of an Euler pole
 \examples{
 smallcircle_dummy(10)
 greatcircle_dummy(10)
-loxodrome_dummy(10, 45, "sinistral")
+loxodrome_dummy(10, 45, cw = FALSE)
 }

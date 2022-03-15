@@ -93,7 +93,7 @@ model_shmax <- function(df, euler) {
     beta[i] <- get_azimuth(
       c(df$lat[i], df$lon[i]),
       c(euler$lat[1], euler$lon[1])
-      )
+    )
 
     # great circles
     gc[i] <- (beta[i] + 180) %% 180
@@ -154,14 +154,16 @@ model_shmax <- function(df, euler) {
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
 #' data("wsm2016")
-#' stress <- subset(wsm2016,
-#' wsm2016$lat >= 23 & wsm2016$lat <= 40 &
-#' wsm2016$lon >= -126 & wsm2016$lon <= -108)
+#' stress <- subset(
+#'   wsm2016,
+#'   wsm2016$lat >= 23 & wsm2016$lat <= 40 &
+#'     wsm2016$lon >= -126 & wsm2016$lon <= -108
+#' )
 #' stress$unc <- stress$sd
 #' PoR_shmax(stress, euler, type = "right")
-PoR_shmax <- function(df, euler, type) {
+PoR_shmax <- function(df, euler, type = c("in", "out", "right", "left")) {
   stopifnot(is.data.frame(df) & is.data.frame(euler))
-
+  type <- match.arg(type)
   beta <- c()
   for (i in seq_along(df$lat)) {
     beta[i] <- (get_azimuth(
@@ -171,15 +173,15 @@ PoR_shmax <- function(df, euler, type) {
   }
   azi.por <- (df$azi - beta + 180) %% 180
 
-  if(!missing(type) & !is.null(df$unc)) {
+  if (!missing(type) & !is.null(df$unc)) {
     prd <- NA
     prd <- ifelse(type == "out", 180, prd)
     prd <- ifelse(type == "right", 135, prd)
     prd <- ifelse(type == "in", 90, prd)
     prd <- ifelse(type == "left", 45, prd)
 
-    dev <- deviation_norm(azi.por-prd)
-    nchi2.i <- (dev/df$unc)^2 / (90/df$unc)^2
+    dev <- deviation_norm(azi.por - prd)
+    nchi2.i <- (dev / df$unc)^2 / (90 / df$unc)^2
 
     data.frame("azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchi2" = nchi2.i)
   } else {

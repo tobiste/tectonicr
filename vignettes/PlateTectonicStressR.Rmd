@@ -596,7 +596,7 @@ direction, and the sense.
 
 
 ```{r loxodromes, eval=FALSE, include=TRUE}
-euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
+euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
 
 ggplot() +
   labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +

@@ -4,7 +4,7 @@
 \alias{PoR_shmax}
 \title{Theoretical Direction of Maximum Horizontal Stress in PoR reference system}
 \usage{
-PoR_shmax(df, euler, type)
+PoR_shmax(df, euler, type = c("in", "out", "right", "left"))
 }
 \arguments{
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
@@ -49,9 +49,11 @@ data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 data("wsm2016")
-stress <- subset(wsm2016,
-wsm2016$lat >= 23 & wsm2016$lat <= 40 &
-wsm2016$lon >= -126 & wsm2016$lon <= -108)
+stress <- subset(
+  wsm2016,
+  wsm2016$lat >= 23 & wsm2016$lat <= 40 &
+    wsm2016$lon >= -126 & wsm2016$lon <= -108
+)
 stress$unc <- stress$sd
 PoR_shmax(stress, euler, type = "right")
 }

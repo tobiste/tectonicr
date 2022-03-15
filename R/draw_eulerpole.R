@@ -21,15 +21,16 @@ rotate_lines <- function(theta, p, centre) {
 #' loxodromes of an Euler pole
 #' @param n Number of curves
 #' @param angle Direction of loxodromes (in degree)
-#' @param sense Sense of loxodromes. Character string, either "sinistral",
-#' "dextral", "clockwise", or "counterclockwise" loxodromes.
+#' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
+#' loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
+#' counterclockwise loxodromes (left-lateral displaced plate boundaries).
 #' @return \code{data.frame}
 #' @importFrom dplyr "%>%" filter mutate
 #' @name dummy
 #' @examples
 #' smallcircle_dummy(10)
 #' greatcircle_dummy(10)
-#' loxodrome_dummy(10, 45, "sinistral")
+#' loxodrome_dummy(10, 45, cw = FALSE)
 NULL
 
 #' @rdname dummy
@@ -61,21 +62,19 @@ smallcircle_dummy <- function(n) {
 #' @rdname dummy
 #' @export
 greatcircle_dummy <- function(n) {
-  loxodrome_dummy(n, angle = 180, sense = "sinistral")
+  loxodrome_dummy(n, angle = 180, cw = FALSE)
 }
 
 #' @rdname dummy
 #' @export
-loxodrome_dummy <- function(n, angle, sense) {
+loxodrome_dummy <- function(n, angle, cw) {
+  stopifnot(is.logical(cw))
   lon <- lat <- NULL
-  if (sense == "sinistral" | sense == "clockwise") {
-    s <- -1
-  } else if (sense == "dextral" | sense == "counterclockwise") {
+  if (cw) {
     s <- 1
   } else {
-    stop("sense must be sinistral, dextral, clockwise, or clounterclockwise\n")
+    s <- -1
   }
-
   lats <- seq(-180, 180, 1)
 
   line.dummy <- data.frame(
@@ -140,8 +139,9 @@ loxodrome_dummy <- function(n, angle, sense) {
 #' and rotation angle (optional)
 #' @param n Number of equally spaced curves
 #' @param angle Direction of loxodromes; default = 45
-#' @param sense Sense of loxodromes  'sinistral' or 'dextral' for 'clockwise'
-#' or 'counterclockwise' loxodromes, respectively
+#' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
+#' loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
+#' counterclockwise loxodromes (left-lateral displaced plate boundaries).
 #' @param type Character string specifying the type of curves to export. Either
 #' \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 #' \code{"ld"} for loxodromes.
@@ -168,17 +168,18 @@ loxodrome_dummy <- function(n, angle, sense) {
 #'
 #' eulerpole_smallcircles(euler)
 #' eulerpole_greatcircles(euler)
-#' eulerpole_loxodromes(x = euler, angle = 45, n = 10, sense = "sinistral")
-#' eulerpole_loxodromes(x = euler, angle = 30, sense = "dextral")
+#' eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
+#' eulerpole_loxodromes(x = euler, angle = 30, cw = TRUE)
 NULL
 
 #' @rdname stress_paths
 #' @export
-eulerpole_paths <- function(x, type, n = 10, angle, sense, returnclass = c("sf", "sp")) {
+eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle, cw, returnclass = c("sf", "sp")) {
+  type <- match.arg(type)
   if (type == "gc") {
     eulerpole_greatcircles(x, n, returnclass)
   } else if (type == "ld") {
-    eulerpole_loxodromes(x, n, angle, sense, returnclass)
+    eulerpole_loxodromes(x, n, angle, cw, returnclass)
   } else {
     eulerpole_smallcircles(x, n, returnclass)
   }
@@ -248,7 +249,7 @@ eulerpole_greatcircles <- function(x, n = 10, returnclass = c("sf", "sp")) {
       x,
       angle = 0,
       n = n,
-      sense = "dextral",
+      cw = TRUE,
       returnclass = returnclass
     )
   return(SL)
@@ -256,19 +257,16 @@ eulerpole_greatcircles <- function(x, n = 10, returnclass = c("sf", "sp")) {
 
 #' @rdname stress_paths
 #' @export
-eulerpole_loxodromes <- function(x, n = 10, angle = 45, sense, returnclass = c("sf", "sp")) {
+eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf", "sp")) {
+  stopifnot(is.logical(cw))
   returnclass <- match.arg(returnclass)
-
   loxodrome <- NULL
-  if (missing(sense)) {
-    stop("sense missing\n")
-  }
 
   ld.df <-
     loxodrome_dummy(
       angle = abs(angle),
       n = n,
-      sense = sense
+      cw = cw
     )
 
   ld_range <- unique(ld.df$loxodrome)
@@ -276,7 +274,7 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, sense, returnclass = c("
 
   for (l in unique(ld.df$loxodrome)) {
     # loop through all circles
-    ld.subset <- dplyr::filter(ld.df, loxodrome == l)
+    ld.subset <- subset(ld.df, ld.df$loxodrome == l)
 
     l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
       cbind(

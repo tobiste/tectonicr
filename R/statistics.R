@@ -44,8 +44,8 @@ norm_chi2 <- function(obs, prd, unc) {
     unc <- rep(unc, length(obs))
   }
 
-  if(anyNA(obs)) {
-    x <- subset(data.frame(obs=obs, prd=prd, unc=unc), !is.na(obs) | !is.na(prd))
+  if (anyNA(obs)) {
+    x <- subset(data.frame(obs = obs, prd = prd, unc = unc), !is.na(obs) | !is.na(prd))
     obs <- x[, 1]
     prd <- x[, 2]
     unc <- x[, 3]
@@ -64,7 +64,9 @@ norm_chi2 <- function(obs, prd, unc) {
       x[i] <- NA
       y[i] <- NA
     } else {
-      if(!is.na(unc[i]) & unc[i]==0){unc[i] <- 0.01} # uncertainty cannot be 0
+      if (!is.na(unc[i]) & unc[i] == 0) {
+        unc[i] <- 0.01
+      } # uncertainty cannot be 0
       w[i] <- deviation_norm(prd[i] - obs[i])
       x[i] <- (w[i] / unc[i])^2
       y[i] <- (90 / unc[i])^2
