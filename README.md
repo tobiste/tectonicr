@@ -5,13 +5,13 @@
 <!-- badges: end -->
 
 
-# PlateTectonicStressR
+# stressr
 
-**PlateTectonicStressR** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.
+**stressr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.
 
 ## Prerequisites
 
-You must have R installed on your system (see http://r-project.org). Additionally, to install PlateTectonicStressR from Github, you also need the `remotes` package. This can be installed by typing the following code at the R command line prompt:
+You must have R installed on your system (see http://r-project.org). Additionally, to install stressr from Github, you also need the `remotes` package. This can be installed by typing the following code at the R command line prompt:
 
 ```
 install.packages("remotes")
@@ -19,11 +19,11 @@ install.packages("remotes")
 
 ## Installation
 
-The most recent development version of PlateTectonicStressR is available from Github and can be installed on your system as follows:
+The most recent development version of stressr is available from Github and can be installed on your system as follows:
 
 ```
-remotes::install_github('tobiste/PlateTectonicStressR')
-library('PlateTectonicStressR')
+remotes::install_github('tobiste/stressr')
+library('stressr')
 ```
 
 ## Documentation
