@@ -61,7 +61,7 @@ loxodromes of an Euler pole</p>
 
 <span class="fu">greatcircle_dummy</span><span class="op">(</span><span class="va">n</span><span class="op">)</span>
 
-<span class="fu">loxodrome_dummy</span><span class="op">(</span><span class="va">n</span>, <span class="va">angle</span>, <span class="va">sense</span><span class="op">)</span></code></pre></div>
+<span class="fu">loxodrome_dummy</span><span class="op">(</span><span class="va">n</span>, <span class="va">angle</span>, <span class="va">cw</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,9 +70,10 @@ loxodromes of an Euler pole</p>
 <dd><p>Number of curves</p></dd>
 <dt>angle</dt>
 <dd><p>Direction of loxodromes (in degree)</p></dd>
-<dt>sense</dt>
-<dd><p>Sense of loxodromes. Character string, either "sinistral",
-"dextral", "clockwise", or "counterclockwise" loxodromes.</p></dd>
+<dt>cw</dt>
+<dd><p>logical. Sense of loxodromes: <code>TRUE</code> for clockwise
+loxodromes (right-lateral displaced plate boundaries). <code>FALSE</code> for
+counterclockwise loxodromes (left-lateral displaced plate boundaries).</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -2307,7 +2308,7 @@ loxodromes of an Euler pole</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1989 -180 -88       180</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1990 -180 -89       180</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1991 -180 -90       180</span>
-<span class="r-in"><span class="fu">loxodrome_dummy</span><span class="op">(</span><span class="fl">10</span>, <span class="fl">45</span>, <span class="st">"sinistral"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">loxodrome_dummy</span><span class="op">(</span><span class="fl">10</span>, <span class="fl">45</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                lon         lat loxodrome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     162.19743879 -89.8025612      -252</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     162.90454557 -89.0954544      -252</span>

@@ -326,7 +326,7 @@
     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Good fit"</span>, <span class="st">'Random'</span>, <span class="st">"Systematic\nmisfit"</span><span class="op">)</span>
   <span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="PlateTectonicStressR_files/figure-html/san.andreas.distanceplot2-1.png" width="700"></p>
-<p>We can see that the data in fact starts to scatter more randomly beyond a distance of 4° and becomes totally random at ca. 8° away from the plate boundary. Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is approx. 4–6° (ca. 440–670 km) wide.</p>
+<p>We can see that the data in fact starts to scatter notably beyond a distance of 4° and becomes random at ca. 8° away from the plate boundary. Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is approx. 4–6° (ca. 440–670 km) wide.</p>
 <blockquote>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> vs. distance plot allows to specify the width of the plate boundary zone.</p>
 </blockquote>
@@ -458,7 +458,7 @@
 <p>Loxodrome (also called Rhumb Line) is a curve cutting the small circles at a constant angle. Thus, small and great circles are 0<span class="math inline">\(^{\circ}\)</span> and 90<span class="math inline">\(^{\circ}\)</span> loxodromes, respectively.</p>
 <p>Function <code>eulerpole_loxodromes(x, n)</code> returns loxodromes as <code>sf</code> object by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the angle between the loxodromes, the direction, and the sense.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">euler.ld</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, sense <span class="op">=</span> <span class="st">"sinistral"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">euler.ld</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"India relative to Eurasia"</span>, subtitle <span class="op">=</span> <span class="st">"source: NUVEL1"</span><span class="op">)</span> <span class="op">+</span>
