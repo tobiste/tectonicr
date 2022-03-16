@@ -1,6 +1,6 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tobiste/tectonicr/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/tectonicr/actions)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5885309.svg)](https://doi.org/10.5281/zenodo.5885309)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360893.svg)](https://doi.org/10.5281/zenodo.6360893)
 <!-- badges: end -->
 
 # tectonicr
@@ -31,7 +31,7 @@ https://tobiste.github.io/tectonicr/articles/tectonicr.html
 Tobias Stephan
 
 ## How to cite
-When referencing this package, please cite the package DOI ([10.5281/zenodo.5834182](https://doi.org/10.5281/zenodo.5834182)).
+When referencing this package, please cite the package DOI ([10.5281/zenodo.6360893](https://doi.org/10.5281/zenodo.6360893)).
 
 
 ## Useful References
