@@ -1,120 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/404.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/404.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/LICENSE.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/articles/index.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/articles/datasets.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/articles/tectonicr.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/authors.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/articles/stress_trajectories.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/index.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/articles/tectonicr.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/news/index.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/authors.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PB2002.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/index.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PoR_shmax.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/news/index.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/PositionCenterSpoke.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/PB2002.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/abs_vel.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/PoR_shmax.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/angle-conversion.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/PositionCenterSpoke.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/angle_vectors.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/abs_vel.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/circle_median.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/angle-conversion.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/coordinates.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/deviation_norm.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/circle_median.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/distance_from_pb.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/coordinates.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/dummy.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/deviation_norm.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/equivalent_rotation.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/distance_from_pb.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/euler_from_rot.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/euler_pole.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/equivalent_rotation.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/euler_rot.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/euler_from_rot.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/get_azimuth.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/euler_pole.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/index.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/euler_rot.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/longitude_modulo.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/get_azimuth.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/misfit_shmax.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/model_shmax.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/longitude_modulo.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/norm_chi2.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/misfit_shmax.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/nuvel1.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/model_shmax.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/por_crs.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/norm_chi2.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/quantise_wsm_quality.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/nuvel1.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotate_lines.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/por_crs.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotation_angle.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/quantise_wsm_quality.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotation_axis.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/rotate_lines.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/rotation_matrix.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/rotation_angle.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/stress_paths.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/rotation_axis.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/tectonicr.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/rotation_matrix.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/trigon.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/stress_paths.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/PlateTectonicStressR/reference/wsm2016.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/tectonicr.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/trigon.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/wsm2016.html</loc>
   </url>
 </urlset>
