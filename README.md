@@ -31,7 +31,7 @@ https://tobiste.github.io/tectonicr/articles/tectonicr.html
 Tobias Stephan
 
 ## How to cite
-When referencing this package, please cite the package DOI ([10.5281/zenodo.6360893](https://doi.org/10.5281/zenodo.6360893).
+When referencing this package, please cite the package DOI ([10.5281/zenodo.6360893](https://doi.org/10.5281/zenodo.6360893)).
 
 
 ## Useful References
