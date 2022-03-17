@@ -40,9 +40,9 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' data("wsm2016")
 #' quantise_wsm_quality(wsm2016$quality)
 quantise_wsm_quality <- function(x) {
-  azi.std <- c()
+  unc <- c()
   for (i in seq_along(x)) {
-    azi.std[i] <- ifelse(x[i] == "A", 15,
+    unc[i] <- ifelse(x[i] == "A", 15,
       ifelse(x[i] == "B", 20,
         ifelse(x[i] == "C", 25,
           ifelse(x[i] == "D", 40, NA)
@@ -50,7 +50,7 @@ quantise_wsm_quality <- function(x) {
       )
     )
   }
-  return(azi.std)
+  return(unc)
 }
 
 #' Distance from plate boundary
