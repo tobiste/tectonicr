@@ -112,9 +112,7 @@ PoR_to_geographical <- function(x, ep) {
         sf::st_set_crs(crs.wgs84) %>%
         sf::st_transform(crs.ep) %>%
         sf::st_set_crs(crs.wgs84) %>%
-        sf::st_wrap_dateline(options = c(
-          "WRAPDATELINE=YES", "DATELINEOFFSET=180"
-        ))
+        sf::st_wrap_dateline()
     )
   )
   return(x.por)
@@ -143,9 +141,7 @@ geographical_to_PoR <- function(x, ep) {
         sf::st_set_crs(crs.ep) %>%
         sf::st_transform(crs.wgs84) %>%
         sf::st_set_crs(crs.ep) %>%
-        sf::st_wrap_dateline(options = c(
-          "WRAPDATELINE=YES", "DATELINEOFFSET=180"
-        ))
+        sf::st_wrap_dateline()
     )
   )
   return(x.geo)

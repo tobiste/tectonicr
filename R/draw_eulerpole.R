@@ -160,7 +160,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  }
 #' @importFrom dplyr "%>%" mutate select
 #' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame proj4string CRS
-#' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline as_Spatial
+#' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial
 #' @name stress_paths
 #' @examples
 #' data("nuvel1")

@@ -96,21 +96,17 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
 
   dist <- c()
   for (i in seq_along(x.coords[, 1])) {
+    delta.lat <- abs(tectonicr::asind(tectonicr::sind(abs(abs(pb.coords[, 2]) - abs(x.coords[i, 2])))))
+    delta.lon <- longitude_modulo(abs(pb.coords[, 1] - x.coords[i, 1]))
+
     if (tangential) {
-      # latitudinal differences for tangential plate boundaries
-      delta.lat <- abs(longitude_modulo(pb.coords[, 2] - x.coords[i, 2]))
-
+      # latitudinal differences for tangential plate boundaries and
       # select the one with the closest longitude
-      delta.lon <- abs(longitude_modulo(pb.coords[, 1] - x.coords[i, 1]))
-
       q <- which.min(delta.lon)
       dist[i] <- delta.lat[q]
     } else {
-      # longitudinal differences for inward/outward plate boundaries
-      delta.lon <- abs(longitude_modulo(pb.coords[, 1] - x.coords[i, 1]))
-
+      # longitudinal differences for inward/outward plate boundaries and
       # select the one with the closest latitude
-      delta.lat <- abs(longitude_modulo(pb.coords[, 2] - x.coords[i, 2]))
       q <- which.min(delta.lat)
       dist[i] <- delta.lon[q]
     }
