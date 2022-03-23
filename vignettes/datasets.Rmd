@@ -274,5 +274,3 @@ approx. 4--6° (ca. 440--670 km) wide.
 
 > The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
 plate boundary zone.
-
-

@@ -60,11 +60,11 @@ quantise_wsm_quality <- function(x) {
 #'
 #' @param x numeric, angular distance (in degrees)
 #' @examples
-#' distance_mod(-361)
+#' distance_mod(c(-361, 361))
 distance_mod <- function(x) {
   x <- abs(x)
-  while(abs(x)>180){
-    x <- 360 - (abs(x) %% 360)
+  for(i in seq_along(x)) {
+    while(abs(x[i])>180) x[i] <- 360 - (abs(x[i]) %% 360)
   }
   x
 }

@@ -14,5 +14,5 @@ Helper function to express angular distance on the sphere in the range of
 -180 to 180 degrees
 }
 \examples{
-distance_mod(-361)
+distance_mod(c(-361, 361))
 }
