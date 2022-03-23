@@ -61,6 +61,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/distance_from_pb.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/distance_mod.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc>
   </url>
   <url>
@@ -95,6 +98,9 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/por_crs.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/por_transformation.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/quantise_wsm_quality.html</loc>
