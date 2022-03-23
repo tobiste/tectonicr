@@ -1,16 +1,30 @@
-#' @title Longitude Correction
+#' @title Coordinate Correction
 #'
-#' @description Corrects the longitude value to values between -180 and +180
-#' degree
-#' @param longitude Longitude(s) in degree
-#' @return Number
-#' @export
+#' @description Corrects the longitudes or latitudes to values -180 and +180, or
+#' -90 and +90 degree
+#' @param x Longitude(s) or latitude(s) in degree
+#' @return numeric
+#' @name coordinate_mod
 #' @examples
 #' longitude_modulo(-361)
-longitude_modulo <- function(longitude) {
+#' latitude_modulo (-91)
+NULL
+
+#' @rdname coordinate_mod
+#' @export
+longitude_modulo <- function(x) {
+  stopifnot(is.numeric(x))
   # longitude.mod <- (longitude %% 360 + 540) %% 360 - 180
-  (longitude + 540) %% 360 - 180
+  (x + 540) %% 360 - 180
 }
+
+#' @rdname coordinate_mod
+#' @export
+latitude_modulo <- function(x) {
+  stopifnot(is.numeric(x))
+  tectonicr::asind(tectonicr::sind(x))
+}
+
 
 #' @title Coordinate Transformations
 #'
