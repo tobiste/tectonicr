@@ -17,8 +17,8 @@ rotate_lines <- function(theta, p, centre) {
 
 
 #' @title Plate Stress Dummy Grid
-#' @description Creates a dummy grid for small circles, great circles, and
-#' loxodromes of an Euler pole
+#' @description Helper functions to create a dummy grid for small circles,
+#' great circles, and loxodromes of an Euler pole
 #' @param n Number of curves
 #' @param angle Direction of loxodromes (in degree)
 #' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
@@ -34,7 +34,6 @@ rotate_lines <- function(theta, p, centre) {
 NULL
 
 #' @rdname dummy
-#' @export
 smallcircle_dummy <- function(n) {
   sm_range <- seq(0, 180, 180 / n)
   lons <- seq(-180, 180, 180 / n)
@@ -60,13 +59,11 @@ smallcircle_dummy <- function(n) {
 }
 
 #' @rdname dummy
-#' @export
 greatcircle_dummy <- function(n) {
   loxodrome_dummy(n, angle = 180, cw = FALSE)
 }
 
 #' @rdname dummy
-#' @export
 loxodrome_dummy <- function(n, angle, cw) {
   stopifnot(is.logical(cw))
   lon <- lat <- NULL
@@ -126,7 +123,6 @@ loxodrome_dummy <- function(n, angle, cw) {
 
   return(loxodromes.filt)
 }
-
 
 #' @title Theoretical Plate Tectonic Stress Paths
 #'

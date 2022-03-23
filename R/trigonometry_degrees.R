@@ -1,6 +1,7 @@
 #' @title Degrees to Radians
 #'
-#' @description Transforms between angles in degrees and radians.
+#' @description Helper functions to transform between angles in degrees and
+#' radians.
 #'
 #' @param deg	 (array of) angles in degrees.
 #' @param rad (array of) angles in radians.
@@ -14,7 +15,6 @@
 NULL
 
 #' @rdname angle-conversion
-#' @export
 rad2deg <- function(rad) {
   stopifnot(is.numeric(rad))
   (deg <- rad / (pi / 180))
@@ -48,39 +48,32 @@ deg2rad <- function(deg) {
 NULL
 
 #' @rdname trigon
-#' @export
 sind <- function(x) {
   sinpi(x / 180)
 }
 #' @rdname trigon
-#' @export
 cosd <- function(x) {
   cospi(x / 180)
 }
 #' @rdname trigon
-#' @export
 tand <- function(x) {
   sinpi(x / 180) / cospi(x / 180)
 }
 #'
 #' @rdname trigon
-#' @export
 asind <- function(x) {
   asin(x) * 180 / pi
 }
 #' @rdname trigon
-#' @export
 acosd <- function(x) {
   acos(x) * 180 / pi
 }
 #' @rdname trigon
-#' @export
 atand <- function(x) {
   atan(x) * 180 / pi
 }
 #'
 #' @rdname trigon
-#' @export
 atan2d <- function(x1, x2) {
   atan2(x1, x2) * 180 / pi
 }

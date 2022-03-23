@@ -155,7 +155,7 @@ geographical_to_PoR <- function(x, ep) {
         sf::st_set_crs(crs.ep) %>%
         sf::st_transform(crs.wgs84) %>%
         sf::st_set_crs(crs.ep) %>%
-        sf::st_wrap_dateline()
+        sf::st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
     )
   )
   return(x.geo)

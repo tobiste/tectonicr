@@ -53,6 +53,22 @@ quantise_wsm_quality <- function(x) {
   return(unc)
 }
 
+#' Normalize angular distance on a sphere distance
+#'
+#' Helper function to express angular distance on the sphere in the range of
+#' -180 to 180 degrees
+#'
+#' @param x numeric, angular distance (in degrees)
+#' @examples
+#' distance_mod(-361)
+distance_mod <- function(x) {
+  x <- abs(x)
+  while(abs(x)>180){
+    x <- 360 - (abs(x) %% 360)
+  }
+  x
+}
+
 #' Distance from plate boundary
 #'
 #' Absolute distance of data points from the nearest plate boundary in degree
@@ -96,19 +112,19 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
 
   dist <- c()
   for (i in seq_along(x.coords[, 1])) {
-    delta.lat <- pb.coords[, 2] - x.coords[i, 2]
-    delta.lon <- pb.coords[, 1] - x.coords[i, 1]
+    delta.lat <- distance_mod(pb.coords[, 2] - x.coords[i, 2])
+    delta.lon <- distance_mod(pb.coords[, 1] - x.coords[i, 1])
 
     if (tangential) {
       # latitudinal differences for tangential plate boundaries and
       # select the one with the closest longitude
       q <- which.min(delta.lon)
-      dist[i] <- abs(longitude_modulo(delta.lat[q]))
+      dist[i] <- delta.lat[q]
     } else {
       # longitudinal differences for inward/outward plate boundaries and
       # select the one with the closest latitude
       q <- which.min(delta.lat)
-      dist[i] <- abs(longitude_modulo(delta.lon[q]))
+      dist[i] <- delta.lon[q]
     }
   }
   dist

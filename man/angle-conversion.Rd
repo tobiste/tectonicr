@@ -23,7 +23,8 @@ deg2rad(deg)
 The angle in degrees or radians.
 }
 \description{
-Transforms between angles in degrees and radians.
+Helper functions to transform between angles in degrees and
+radians.
 }
 \examples{
 deg2rad(c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90))
