@@ -71,8 +71,30 @@ geographical_to_cartesian <- function(p) {
   x
 }
 
+#' PoR coordinate reference system
+#'
+#' Helper function to create the reference system transformed in Euler pole
+#' coordinate
+#'
+#' @param x \code{data.frame} of the geographical coordinates of the Euler pole
+#' @details The PoR coordinate reference system is oblique transformation of the
+#' geographical coordinate system with the Euler pole coordinates being the the
+#' translation factors.
+PoR_crs <- function(x){
+  if(x$lat > 0) {
+    x$lat <- -x$lat
+    x$lon <- longitude_modulo(x$lon + 180)
+  }
 
-
+  sf::st_crs(
+    paste0(
+      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
+      x$lat,
+      " +o_lon_p=",
+      x$lon
+    )
+  )
+}
 
 
 #' Conversion between PoR to geographical coordinate system
@@ -100,10 +122,10 @@ geographical_to_cartesian <- function(p) {
 #'
 #' example.por <- geographical_to_PoR(example.geo, euler)
 #' PoR_to_geographical(example.por, euler)
-#' @name por_crs
+#' @name por_transformation
 NULL
 
-#' @rdname por_crs
+#' @rdname por_transformation
 #' @export
 PoR_to_geographical <- function(x, ep) {
   stopifnot(inherits(x, "sf") & is.data.frame(ep))
@@ -111,14 +133,7 @@ PoR_to_geographical <- function(x, ep) {
   crs.wgs84 <-
     sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
-  crs.ep <- sf::st_crs(
-    paste0(
-      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-      ep$lat,
-      " +o_lon_p=",
-      ep$lon
-    )
-  )
+  crs.ep <- PoR_crs(ep)
 
   suppressMessages(
     suppressWarnings(
@@ -132,7 +147,7 @@ PoR_to_geographical <- function(x, ep) {
   return(x.por)
 }
 
-#' @rdname por_crs
+#' @rdname por_transformation
 #' @export
 geographical_to_PoR <- function(x, ep) {
   stopifnot(inherits(x, "sf") & is.data.frame(ep))
@@ -140,14 +155,7 @@ geographical_to_PoR <- function(x, ep) {
   crs.wgs84 <-
     sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
-  crs.ep <- sf::st_crs(
-    paste0(
-      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-      ep$lat,
-      " +o_lon_p=",
-      ep$lon
-    )
-  )
+  crs.ep <- PoR_crs(ep)
 
   suppressMessages(
     suppressWarnings(
