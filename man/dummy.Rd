@@ -29,8 +29,4 @@ counterclockwise loxodromes (left-lateral displaced plate boundaries).}
 Helper functions to create a dummy grid for small circles,
 great circles, and loxodromes of an Euler pole
 }
-\examples{
-smallcircle_dummy(10)
-greatcircle_dummy(10)
-loxodrome_dummy(10, 45, cw = FALSE)
-}
+\keyword{internal}

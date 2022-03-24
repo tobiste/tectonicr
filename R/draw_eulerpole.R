@@ -4,6 +4,7 @@
 #' @param theta Angle of rotation (in degree)
 #' @param p Coordinates of the lines end points
 #' @param centre Coordinates of the center point of rotation
+#' @keywords internal
 #' @return \code{matrix}
 rotate_lines <- function(theta, p, centre) {
   new_x <-
@@ -25,12 +26,9 @@ rotate_lines <- function(theta, p, centre) {
 #' loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
 #' counterclockwise loxodromes (left-lateral displaced plate boundaries).
 #' @return \code{data.frame}
+#' @keywords internal
 #' @importFrom dplyr "%>%" filter mutate
 #' @name dummy
-#' @examples
-#' smallcircle_dummy(10)
-#' greatcircle_dummy(10)
-#' loxodrome_dummy(10, 45, cw = FALSE)
 NULL
 
 #' @rdname dummy

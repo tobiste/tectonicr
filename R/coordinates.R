@@ -22,7 +22,7 @@ longitude_modulo <- function(x) {
 #' @export
 latitude_modulo <- function(x) {
   stopifnot(is.numeric(x))
-  tectonicr::asind(tectonicr::sind(x))
+  asind(sind(x))
 }
 
 

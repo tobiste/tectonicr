@@ -6,15 +6,15 @@
 #' @param deg	 (array of) angles in degrees.
 #' @param rad (array of) angles in radians.
 #' @return The angle in degrees or radians.
-#' @source [pracma::deg2rad()], [pracma::rad2deg()] from the
-#' package "pracma".
+#' @source [pracma::deg2rad()], [pracma::rad2deg()] from the package "pracma".
 #' @examples
-#' deg2rad(c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90))
-#' rad2deg(seq(-pi / 2, pi / 2, length = 19))
+#' deg2rad(seq(-90, 90, 15))
+#' rad2deg(seq(-pi / 2, pi / 2, length = 13))
 #' @name angle-conversion
 NULL
 
 #' @rdname angle-conversion
+#' @export
 rad2deg <- function(rad) {
   stopifnot(is.numeric(rad))
   (deg <- rad / (pi / 180))
@@ -31,19 +31,10 @@ deg2rad <- function(deg) {
 #'
 #' @param x,x1,x2 Numeric or complex vectors.
 #' @return Returns a scalar or vector of numeric values.
+#' @keywords internal
 #' @source [pracma::sind()], [pracma::cosd()], [pracma::tand()],
 #' [pracma::asind()], [pracma::acosd()], [pracma::atand()], and
 #' [pracma::atan2d()] from the package "pracma".
-#' @examples
-#' x <- seq(-3, 7, by = 1 / 8)
-#' tx <- cbind(x, cos(pi * x), cospi(x), sin(pi * x), sinpi(x),
-#'   tan(pi * x), tanpi(x),
-#'   deparse.level = 2
-#' )
-#' op <- options(digits = 4, width = 90) # for nice formatting
-#' head(tx)
-#' tx[(x %% 1) %in% c(0, 0.5), ]
-#' options(op)
 #' @name trigon
 NULL
 

@@ -9,10 +9,11 @@ distance_mod(x)
 \arguments{
 \item{x}{numeric, angular distance (in degrees)}
 }
+\value{
+numeric vector
+}
 \description{
 Helper function to express angular distance on the sphere in the range of
 -180 to 180 degrees
 }
-\examples{
-distance_mod(c(-361, 361))
-}
+\keyword{internal}

@@ -53,14 +53,14 @@ quantise_wsm_quality <- function(x) {
   return(unc)
 }
 
-#' Normalize angular distance on a sphere distance
+#' @title Normalize angular distance on a sphere distance
 #'
-#' Helper function to express angular distance on the sphere in the range of
+#' @description  Helper function to express angular distance on the sphere in the range of
 #' -180 to 180 degrees
 #'
 #' @param x numeric, angular distance (in degrees)
-#' @examples
-#' distance_mod(c(-361, 361))
+#' @returns numeric vector
+#' @keywords internal
 distance_mod <- function(x) {
   x <- abs(x)
   for(i in seq_along(x)) {

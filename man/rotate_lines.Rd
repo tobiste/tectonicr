@@ -19,3 +19,4 @@ rotate_lines(theta, p, centre)
 \description{
 Rotates a set of straight lines around an angle
 }
+\keyword{internal}

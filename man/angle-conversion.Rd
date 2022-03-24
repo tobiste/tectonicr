@@ -6,8 +6,7 @@
 \alias{deg2rad}
 \title{Degrees to Radians}
 \source{
-\code{\link[pracma:deg2rad]{pracma::deg2rad()}}, \code{\link[pracma:deg2rad]{pracma::rad2deg()}} from the
-package "pracma".
+\code{\link[pracma:deg2rad]{pracma::deg2rad()}}, \code{\link[pracma:deg2rad]{pracma::rad2deg()}} from the package "pracma".
 }
 \usage{
 rad2deg(rad)
@@ -27,6 +26,6 @@ Helper functions to transform between angles in degrees and
 radians.
 }
 \examples{
-deg2rad(c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90))
-rad2deg(seq(-pi / 2, pi / 2, length = 19))
+deg2rad(seq(-90, 90, 15))
+rad2deg(seq(-pi / 2, pi / 2, length = 13))
 }
