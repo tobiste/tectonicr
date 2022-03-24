@@ -71,8 +71,7 @@ radians.</p>
 
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p><code>pracma::deg2rad()</code>, <code>pracma::rad2deg()</code> from the
-package "pracma".</p>
+    <p><code>pracma::deg2rad()</code>, <code>pracma::rad2deg()</code> from the package "pracma".</p>
     </div>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
@@ -88,11 +87,12 @@ package "pracma".</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">deg2rad</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span>, <span class="fl">60</span>, <span class="fl">70</span>, <span class="fl">80</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.0000000 0.1745329 0.3490659 0.5235988 0.6981317 0.8726646 1.0471976</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 1.2217305 1.3962634 1.5707963</span>
-<span class="r-in"><span class="fu">rad2deg</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="va">pi</span> <span class="op">/</span> <span class="fl">2</span>, <span class="va">pi</span> <span class="op">/</span> <span class="fl">2</span>, length <span class="op">=</span> <span class="fl">19</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rad2deg(seq(-pi/2, pi/2, length = 19)):</span> could not find function "rad2deg"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">deg2rad</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">90</span>, <span class="fl">90</span>, <span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -1.5707963 -1.3089969 -1.0471976 -0.7853982 -0.5235988 -0.2617994</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  0.0000000  0.2617994  0.5235988  0.7853982  1.0471976  1.3089969</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  1.5707963</span>
+<span class="r-in"><span class="fu">rad2deg</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="va">pi</span> <span class="op">/</span> <span class="fl">2</span>, <span class="va">pi</span> <span class="op">/</span> <span class="fl">2</span>, length <span class="op">=</span> <span class="fl">13</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -90 -75 -60 -45 -30 -15   0  15  30  45  60  75  90</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
