@@ -171,6 +171,8 @@ NULL
 #' @rdname stress_paths
 #' @export
 eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle, cw, returnclass = c("sf", "sp")) {
+  stopifnot(is.data.frame(x))
+  stopifnot(dim(x)[1]>0)
   type <- match.arg(type)
   if (type == "gc") {
     eulerpole_greatcircles(x, n, returnclass)
@@ -185,6 +187,8 @@ eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle, cw, re
 #' @export
 eulerpole_smallcircles <-
   function(x, n = 10, returnclass = c("sf", "sp")) {
+    stopifnot(is.data.frame(x))
+    stopifnot(dim(x)[1]>0)
     returnclass <- match.arg(returnclass)
     small_circle <- NULL
     sm.df <- smallcircle_dummy(n)
@@ -254,6 +258,9 @@ eulerpole_greatcircles <- function(x, n = 10, returnclass = c("sf", "sp")) {
 #' @rdname stress_paths
 #' @export
 eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf", "sp")) {
+  stopifnot(is.data.frame(x))
+  stopifnot(dim(x)[1]>0)
+
   stopifnot(is.logical(cw))
   returnclass <- match.arg(returnclass)
   loxodrome <- NULL

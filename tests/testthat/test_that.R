@@ -43,10 +43,10 @@ eulerpole_greatcircles(ep2)
 eulerpole_loxodromes(ep2, cw = TRUE)
 
 ep3 <- data.frame()
-eulerpole_smallcircles(ep3)
-eulerpole_greatcircles(ep3)
-eulerpole_loxodromes(ep3, cw = TRUE)
-eulerpole_paths(ep3)
+# eulerpole_smallcircles(ep3)
+# eulerpole_greatcircles(ep3)
+# eulerpole_loxodromes(ep3, cw = TRUE)
+# eulerpole_paths(ep3)
 
 euler_rot(ep1, 45)
 
@@ -137,4 +137,8 @@ test_that("Error message if incorrect type argument", {
   expect_error(distance_from_pb(california, euler, san_andreas, tangential = "typo"))
   expect_error(distance_from_pb(x = stress, ep = euler, pb = san_andreas, tangential = TRUE))
   expect_error(equivalent_rotation(nuvel1, fixed = "test"))
+  expect_error(eulerpole_smallcircles(ep3))
+  expect_error(eulerpole_greatcircles(ep3))
+  expect_error(eulerpole_loxodromes(ep3))
+  expect_error(eulerpole_paths(ep3))
 })
