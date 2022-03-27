@@ -126,13 +126,13 @@ circular_quasi_median <- function(x, quiet = TRUE) {
     m <- (n - 1) / 2
     atand(
       sind(x[m+1]) / cosd(x[m+1])
-    )
+    ) %% 180
   } else { # if even
     m <- n / 2
     atand(
       (sind(x[m]) + sind(x[m + 1])) /
         (cosd(x[m]) + cosd(x[m + 1]))
-    )
+    ) %% 180
   }
 
 }
