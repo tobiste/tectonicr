@@ -22,10 +22,13 @@ moving plate boundaries, respectively.}
 }
 \value{
 Either a numeric vector of the azimuths in the transformed coordinate
-system, or a \code{"data.frame"} with the transformed azimuths
-(\code{"azi.PoR"}), the predicted azimuths (\code{"prd}), the deviation,
-(\code{"dev"}), and the normalized \eqn{\chi^2}{chi-square} statistics
-(\code{"nchi2}).
+system, or a \code{"data.frame"} with
+\describe{
+\item{\code{"azi.PoR"}}{the transformed azimuths,}
+\item{\code{"prd"}}{the predicted azimuths,}
+\item{\code{"dev"}}{the deviation, and}
+\item{\code{"nchi2"}}{the normalized \eqn{\chi^2}{chi-square} statistics.}
+}
 }
 \description{
 Models the direction of maximum horizontal stress

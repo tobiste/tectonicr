@@ -81,7 +81,9 @@ norm_chi2 <- function(obs, prd, unc) {
 #' @description Calculate the median, quartile, and interquartile range of
 #' orientation data.
 #'
-#' @param x Numeric vector
+#' @param x Numeric vector (NA values will be removed).
+#' @param quiet logical. If false, a warning message is printed if there are NA
+#' values.
 #'
 #' @return Numeric vector
 #'
@@ -97,49 +99,50 @@ norm_chi2 <- function(obs, prd, unc) {
 #' Simulation and Computation*, 38(6), 1269--1291.
 #' \doi{10.1080/03610910902899950}.
 #'
-#' * Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M.,
-#' Moeck, I. (2014). A revised crustal stress orientation database for Canada.
-#' *Tectonophysics*, 636, 111--124. \doi{10.1016/j.tecto.2014.08.006}.
 #' @examples
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
 #' circular_quasi_median(x)
 #' circular_quasi_quartile(x)
 #' circular_quasi_interquartile_range(x)
+#' circular_variance(x)
+#' circular_mean_deviation(x)
+#' circular_median_deviation(x)
+#' circular_mean_error(x)
 #' @name circle_median
 NULL
 
 #' @rdname circle_median
 #' @export
-circular_quasi_median <- function(x) {
+circular_quasi_median <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
-  if (NA %in% x) {
+  if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
   n <- length(x)
 
-  if (n %% 2 != 0) {
+  if (n %% 2 != 0) { # if odd
     m <- (n - 1) / 2
-    qmed <- atand(
-      sind(x[m + 1]) / cosd(x[m + 1])
+    atand(
+      sind(x[m+1]) / cosd(x[m+1])
     )
-  } else {
+  } else { # if even
     m <- n / 2
-    qmed <- atand(
+    atand(
       (sind(x[m]) + sind(x[m + 1])) /
         (cosd(x[m]) + cosd(x[m + 1]))
     )
   }
-  (qmed + 180) %% 180
+
 }
 
 #' @rdname circle_median
 #' @export
-circular_quasi_quartile <- function(x) {
+circular_quasi_quartile <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
-  if (NA %in% x) {
+  if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
@@ -199,14 +202,85 @@ circular_quasi_quartile <- function(x) {
 
 #' @rdname circle_median
 #' @export
-circular_quasi_interquartile_range <- function(x) {
+circular_quasi_interquartile_range <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
-  if (NA %in% x) {
+  if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
   x <- sort(x[!is.na(x)])
 
   quantiles <- circular_quasi_quartile(x)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
+}
+
+#' @rdname circle_median
+#' @export
+circular_variance <- function(x, quiet = TRUE) {
+  stopifnot(any(is.numeric(x)))
+
+  if (NA %in% x & quiet) {
+    message("NA values have been dropped\n")
+  }
+  x <- sort(x[!is.na(x)])
+  n <- length(x)
+
+  for (i in 1:n){
+    k <- cosd(x[i])
+    l <- sind(x[i])
+  }
+  R <- sqrt(sum(k)^2 + sum(l)^2)
+  1 - R/n
+}
+
+#' @rdname circle_median
+#' @export
+circular_mean_deviation <- function(x, quiet = TRUE) {
+  stopifnot(any(is.numeric(x)))
+
+  if (NA %in% x & quiet) {
+    message("NA values have been dropped\n")
+  }
+  x <- sort(x[!is.na(x)])
+  n <- length(x)
+
+  for(i in 1:n){
+    k <- abs(
+      180 - abs(x[i] - circular_quasi_median(x))
+    )
+  }
+  180 - (1/n * sum(k))
+}
+
+#' @rdname circle_median
+#' @export
+circular_median_deviation <- function(x, quiet = TRUE) {
+  stopifnot(any(is.numeric(x)))
+
+  if (NA %in% x & quiet) {
+    message("NA values have been dropped\n")
+  }
+  x <- sort(x[!is.na(x)])
+
+  for(i in seq_along(x)){
+    k <- 180 - abs(180 - abs(x[i] - circular_quasi_median(x)))
+  }
+  median(k)
+}
+
+#' @rdname circle_median
+#' @export
+circular_mean_error <- function(x, quiet = TRUE) {
+  stopifnot(any(is.numeric(x)))
+
+  if (NA %in% x & quiet) {
+    message("NA values have been dropped\n")
+  }
+  x <- sort(x[!is.na(x)])
+  n <- length(x)
+
+  for(i in 1:n){
+    k <- abs(180 - abs(x[i] - circular_quasi_median(x)))
+  }
+  180 - (1/n * sum(k))
 }

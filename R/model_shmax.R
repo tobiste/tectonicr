@@ -131,10 +131,13 @@ model_shmax <- function(df, euler) {
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
 #' moving plate boundaries, respectively.
 #' @return Either a numeric vector of the azimuths in the transformed coordinate
-#' system, or a \code{"data.frame"} with the transformed azimuths
-#' (\code{"azi.PoR"}), the predicted azimuths (\code{"prd}), the deviation,
-#' (\code{"dev"}), and the normalized \eqn{\chi^2}{chi-square} statistics
-#' (\code{"nchi2}).
+#' system, or a \code{"data.frame"} with
+#' \describe{
+#' \item{\code{"azi.PoR"}}{the transformed azimuths,}
+#' \item{\code{"prd"}}{the predicted azimuths,}
+#' \item{\code{"dev"}}{the deviation, and}
+#' \item{\code{"nchi2"}}{the normalized \eqn{\chi^2}{chi-square} statistics.}
+#' }
 #' @seealso [model_shmax()] to compute the theoretical orientation of
 #' \eqn{\sigma_\text{Hmax}}{SHmax} in the geographical reference system.
 #' [misfit_shmax()] to compute the deviation of the modeled direction
