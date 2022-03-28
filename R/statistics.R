@@ -119,22 +119,24 @@ circular_quasi_median <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)]) %% 180
+
+  x <- sort(x[!is.na(x)])
   n <- length(x)
 
   if (n %% 2 != 0) { # if odd
     m <- (n - 1) / 2
-    atand(
-      sind(x[m+1]) / cosd(x[m+1])
-    ) %% 180
+    # atand(
+    #   sind(x[m+1]) / cosd(x[m+1])
+    # ) %% 180
+    atand_spec(x = sind(x[m + 1]), y = cosd(x[m + 1]))
   } else { # if even
     m <- n / 2
-    atand(
-      (sind(x[m]) + sind(x[m + 1])) /
-        (cosd(x[m]) + cosd(x[m + 1]))
-    ) %% 180
+    # atand(
+    #   (sind(x[m]) + sind(x[m + 1])) /
+    #     (cosd(x[m]) + cosd(x[m + 1]))
+    # ) %% 180
+    atand_spec(x = sind(x[m]) + sind(x[m + 1]), y = cosd(x[m]) + cosd(x[m + 1]))
   }
-
 }
 
 #' @rdname circle_median
@@ -225,12 +227,12 @@ circular_variance <- function(x, quiet = TRUE) {
   x <- sort(x[!is.na(x)])
   n <- length(x)
 
-  for (i in 1:n){
+  for (i in 1:n) {
     k <- cosd(x[i])
     l <- sind(x[i])
   }
   R <- sqrt(sum(k)^2 + sum(l)^2)
-  1 - R/n
+  1 - R / n
 }
 
 #' @rdname circle_median
@@ -244,12 +246,12 @@ circular_mean_deviation <- function(x, quiet = TRUE) {
   x <- sort(x[!is.na(x)])
   n <- length(x)
 
-  for(i in 1:n){
+  for (i in 1:n) {
     k <- abs(
       180 - abs(x[i] - circular_quasi_median(x))
     )
   }
-  180 - (1/n * sum(k))
+  180 - (1 / n * sum(k))
 }
 
 #' @rdname circle_median
@@ -262,7 +264,7 @@ circular_median_deviation <- function(x, quiet = TRUE) {
   }
   x <- sort(x[!is.na(x)])
 
-  for(i in seq_along(x)){
+  for (i in seq_along(x)) {
     k <- 180 - abs(180 - abs(x[i] - circular_quasi_median(x)))
   }
   median(k)
@@ -279,8 +281,8 @@ circular_mean_error <- function(x, quiet = TRUE) {
   x <- sort(x[!is.na(x)])
   n <- length(x)
 
-  for(i in 1:n){
+  for (i in 1:n) {
     k <- abs(180 - abs(x[i] - circular_quasi_median(x)))
   }
-  180 - (1/n * sum(k))
+  180 - (1 / n * sum(k))
 }

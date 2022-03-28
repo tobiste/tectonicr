@@ -69,6 +69,38 @@ atan2d <- function(x1, x2) {
   atan2(x1, x2) * 180 / pi
 }
 
+#' Quadrant-specific inverse of the tangent
+#'
+#' returns the quadrant specific inverse of the tangent
+#'
+#' @param x,y dividend and divisor that comprise the sum of sines and cosines, respectively.
+#'
+#' @references Jammalamadaka, S. Rao, and Ambar Sengupta. Topics in circular statistics. Vol. 5. world scientific, 2001.
+#' @name spec_atan
+NULL
+
+#' @rdname spec_atan
+#' @export
+atan_spec <- function(x, y) {
+  if (y > 0 & x >= 0) {
+    atan(x / y)
+    } else if (y == 0 & x > 0) {
+      pi / 2
+      } else if (y < 0) {
+        atan(x / y + pi)
+      } else if (y > 0 & x < 0) {
+        atan(x / y) + 2 * pi
+      } else if (y == 0 & x == 0) {
+        Inf
+      }
+}
+
+#' @rdname spec_atan
+#' @export
+atand_spec <- function(x, y) {
+  atan_spec(x, y) * 180 / pi
+}
+
 
 #' @title Angle Between Two Vectors
 #'
