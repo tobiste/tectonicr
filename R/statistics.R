@@ -128,14 +128,14 @@ circular_quasi_median <- function(x, quiet = TRUE) {
     # atand(
     #   sind(x[m+1]) / cosd(x[m+1])
     # ) %% 180
-    atand_spec(x = sind(x[m + 1]), y = cosd(x[m + 1]))
+    atand_spec(x = sind(x[m + 1]), y = cosd(x[m + 1])) %% 180
   } else { # if even
     m <- n / 2
     # atand(
     #   (sind(x[m]) + sind(x[m + 1])) /
     #     (cosd(x[m]) + cosd(x[m + 1]))
     # ) %% 180
-    atand_spec(x = sind(x[m]) + sind(x[m + 1]), y = cosd(x[m]) + cosd(x[m + 1]))
+    atand_spec(x = sind(x[m]) + sind(x[m + 1]), y = cosd(x[m]) + cosd(x[m + 1])) %% 180
   }
 }
 
