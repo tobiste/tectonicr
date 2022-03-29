@@ -27,7 +27,7 @@ system, or a \code{"data.frame"} with
 \item{\code{"azi.PoR"}}{the transformed azimuths,}
 \item{\code{"prd"}}{the predicted azimuths,}
 \item{\code{"dev"}}{the deviation, and}
-\item{\code{"nchi2"}}{the normalized \eqn{\chi^2}{chi-square} statistics.}
+\item{\code{"nchisq"}}{the normalized \eqn{\chi^2}{chi-squared} statistics.}
 }
 }
 \description{
@@ -36,7 +36,7 @@ Models the direction of maximum horizontal stress
 cooridnate reference system. When type of plate boundary is given, it also
 gives the deviation from the theoretically predicted azimuth of
 \eqn{\sigma_{\text{Hmax}}}{SHmax}, the deviation, and the normalized
-\eqn{\chi^2}{chi-square} statistics.
+\eqn{\chi^2}{chi-squared} statistics.
 }
 \details{
 According to the theory, the azimuth of
@@ -65,6 +65,6 @@ PoR_shmax(stress, euler, type = "right")
 \eqn{\sigma_\text{Hmax}}{SHmax} in the geographical reference system.
 \code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
 from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
-\code{\link[=norm_chi2]{norm_chi2()}} to calculate the normalized \eqn{\chi^2}{chi-square}
+\code{\link[=norm_chisq]{norm_chisq()}} to calculate the normalized \eqn{\chi^2}{chi-squared}
 statistics.
 }

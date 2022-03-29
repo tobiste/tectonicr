@@ -164,7 +164,7 @@ observed directions. High values ($>$ 0.7) indicate a systematic misfit
 between predicted and observed directions of about 90$^{\circ}$. Random
 distribution of $\sigma_{Hmax}$ directions results in Norm $\chi^2 = 0.33$
 
-The test can be run using `norm_chi2(obs, prd, unc)`. `obs` is a numeric
+The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a numeric
 vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted $\sigma_{Hmax}$
 (vector must be of length of `obs`); and `unc` is the uncertainty of
 observed $\sigma_{Hmax}$ (either numeric vector of length of `obs` or a number).
@@ -176,7 +176,7 @@ euler <-
 point <- data.frame(lat = 45, lon = 20)
 
 prd <- model_shmax(point, euler)
-norm_chi2(obs = 90, prd$sc, unc = 10)
+norm_chisq(obs = 90, prd$sc, unc = 10)
 ```
 The plate motions relative to the Pacific plate according to the 
 [NUVEL-1A](https://doi.org/10.1029/91GL01532) model are included in the package

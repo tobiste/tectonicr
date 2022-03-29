@@ -1,9 +1,8 @@
-#' Normalized Chi-Square Test
+#' Normalized Chi-Squared Test
 #'
 #' A quantitative comparison between the predicted and observed directions of
 #' \eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average
-#' azimuth and by a
-#' normalized \eqn{\chi^2}{chi-square} test.
+#' azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, v. 103, p.
@@ -13,15 +12,16 @@
 #' numeric vector or a number
 #' @return Numeric vector
 #' @details
-#' The normalized \eqn{\chi^2}{chi-square} test is
+#' The normalized \eqn{\chi^2}{chi-squared} test is
 #' \deqn{ \text{Norm} \chi^2_i =
 #'  = \frac{
 #'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i} \right) ^2}
 #'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
 #'    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
 #'    }
-#' The test result are values are between 0 and 1 indicating the quality of
-#' the predicted \eqn{\sigma_\text{Hmax}}{SHmax} directions. Low values
+#' The value of the chi-squared test statistic is a number between 0 and 1
+#' indicating the quality of the predicted \eqn{\sigma_\text{Hmax}}{SHmax}
+#' directions. Low values
 #' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 #' observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
@@ -32,8 +32,8 @@
 #' # Pacific plate
 #' point <- data.frame(lat = 45, lon = 20)
 #' prd <- model_shmax(point, euler)
-#' norm_chi2(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
-norm_chi2 <- function(obs, prd, unc) {
+#' norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
+norm_chisq <- function(obs, prd, unc) {
   stopifnot(is.numeric(obs) & is.numeric(prd) & is.numeric(unc))
 
   if (length(prd) == 1) {
@@ -45,16 +45,20 @@ norm_chi2 <- function(obs, prd, unc) {
   }
 
   if (anyNA(obs)) {
-    x <- subset(data.frame(obs = obs, prd = prd, unc = unc), !is.na(obs) | !is.na(prd))
+    x <- subset(data.frame(
+      obs = obs, prd = prd, unc = unc
+    ), !is.na(obs) | !is.na(prd))
     obs <- x[, 1]
     prd <- x[, 2]
     unc <- x[, 3]
     message("NA values have been removed")
   }
 
-
-
-  stopifnot(length(prd) == length(obs) & length(unc) == length(obs) & length(unc) == length(prd))
+  stopifnot(
+    length(prd) == length(obs) &
+      length(unc) == length(obs) &
+      length(unc) == length(prd)
+  )
 
   w <- c()
   x <- c()
@@ -67,7 +71,7 @@ norm_chi2 <- function(obs, prd, unc) {
       if (!is.na(unc[i]) & unc[i] == 0) {
         unc[i] <- 0.01
       } # uncertainty cannot be 0
-      w[i] <- deviation_norm(prd[i] - obs[i])
+      w[i] <- deviation_norm(obs[i] - prd[i])
       x[i] <- (w[i] / unc[i])^2
       y[i] <- (90 / unc[i])^2
     }
@@ -90,7 +94,8 @@ norm_chi2 <- function(obs, prd, unc) {
 #' @details Quasi median on the circle, quasi quartiles on a circle, quasi
 #' interquartile range on a circle.
 #'
-#' @source [stats::median()], [stats::quantile()], and [stats::IQR()] are the
+#' @importFrom stats median
+#' @source [median()], [quantile()], and [IQR()] are the
 #' equivalents for non-periodic data.
 #'
 #' @references
@@ -267,7 +272,7 @@ circular_median_deviation <- function(x, quiet = TRUE) {
   for (i in seq_along(x)) {
     k <- 180 - abs(180 - abs(x[i] - circular_quasi_median(x)))
   }
-  median(k)
+  stats::median(k)
 }
 
 #' @rdname circle_median

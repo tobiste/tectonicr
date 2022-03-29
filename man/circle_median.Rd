@@ -11,7 +11,7 @@
 \alias{circular_mean_error}
 \title{Median and statistics on Pi-periodic Data}
 \source{
-\code{\link[stats:median]{stats::median()}}, \code{\link[stats:quantile]{stats::quantile()}}, and \code{\link[stats:IQR]{stats::IQR()}} are the
+\code{\link[=median]{median()}}, \code{\link[=quantile]{quantile()}}, and \code{\link[=IQR]{IQR()}} are the
 equivalents for non-periodic data.
 }
 \usage{

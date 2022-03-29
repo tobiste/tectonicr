@@ -18,7 +18,7 @@ set.seed(12)
 points <- dplyr::slice_sample(wsm2016, n = 10)
 prd2 <- model_shmax(points, euler)
 misfits2 <- misfit_shmax(prd2, points$azi)
-test2 <- norm_chi2(obs = points$azi, prd = prd2$sc, unc = 10)
+test2 <- norm_chisq(obs = points$azi, prd = prd2$sc, unc = 10)
 
 ep1 <- data.frame(lat = 91, lon = 0, angle = 1)
 sm.sf <- eulerpole_smallcircles(ep1)
@@ -108,7 +108,7 @@ test_that("type of object returned is as expected", {
 # test message -----------------------------------------------------------------
 test_that("Message expected", {
   expect_message(circular_quasi_quartile(c(12, NA)))
-  expect_message(norm_chi2(c(12, NA), 1, 1))
+  expect_message(norm_chisq(c(12, NA), 1, 1))
 })
 
 # test warning -----------------------------------------------------------------
@@ -125,10 +125,10 @@ test_that("Error message if incorrect type argument", {
   expect_error(geographical_to_cartesian(1))
   expect_error(cartesian_to_geographical(NA))
   expect_error(geographical_to_cartesian(NA))
-  expect_error(norm_chi2(1, NA, NA))
-  expect_error(norm_chi2(NA, NA, NA))
-  expect_error(norm_chi2(2, 3, 3, na.rm = "typo"))
-  expect_error(norm_chi2(obs = c(1, 2), prd = 1, unc = c(1, 2, 3)))
+  expect_error(norm_chisq(1, NA, NA))
+  expect_error(norm_chisq(NA, NA, NA))
+  expect_error(norm_chisq(2, 3, 3, na.rm = "typo"))
+  expect_error(norm_chisq(obs = c(1, 2), prd = 1, unc = c(1, 2, 3)))
   expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
   expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
   expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))

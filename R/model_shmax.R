@@ -119,7 +119,7 @@ model_shmax <- function(df, euler) {
 #' cooridnate reference system. When type of plate boundary is given, it also
 #' gives the deviation from the theoretically predicted azimuth of
 #' \eqn{\sigma_{\text{Hmax}}}{SHmax}, the deviation, and the normalized
-#' \eqn{\chi^2}{chi-square} statistics.
+#' \eqn{\chi^2}{chi-squared} statistics.
 #' @param df \code{data.frame} containing the coordinates of the point(s)
 #' (\code{lat}, \code{lon}), the orientation of
 #' \eqn{\sigma_{\text{Hmax}}}{SHmax} \code{azi} and its standard deviation
@@ -136,13 +136,13 @@ model_shmax <- function(df, euler) {
 #' \item{\code{"azi.PoR"}}{the transformed azimuths,}
 #' \item{\code{"prd"}}{the predicted azimuths,}
 #' \item{\code{"dev"}}{the deviation, and}
-#' \item{\code{"nchi2"}}{the normalized \eqn{\chi^2}{chi-square} statistics.}
+#' \item{\code{"nchisq"}}{the normalized \eqn{\chi^2}{chi-squared} statistics.}
 #' }
 #' @seealso [model_shmax()] to compute the theoretical orientation of
 #' \eqn{\sigma_\text{Hmax}}{SHmax} in the geographical reference system.
 #' [misfit_shmax()] to compute the deviation of the modeled direction
 #'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
-#'  [norm_chi2()] to calculate the normalized \eqn{\chi^2}{chi-square}
+#'  [norm_chisq()] to calculate the normalized \eqn{\chi^2}{chi-squared}
 #'  statistics.
 #' @details According to the theory, the azimuth of
 #' \eqn{\sigma_{\text{Hmax}}}{SHmax} in the pole of rotation reference system is
@@ -184,9 +184,9 @@ PoR_shmax <- function(df, euler, type = c("in", "out", "right", "left")) {
     prd <- ifelse(type == "left", 45, prd)
 
     dev <- deviation_norm(azi.por - prd)
-    nchi2.i <- (dev / df$unc)^2 / (90 / df$unc)^2
+    nchisq.i <- (dev / df$unc)^2 / (90 / df$unc)^2
 
-    data.frame("azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchi2" = nchi2.i)
+    data.frame("azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchisq" = nchisq.i)
   } else {
     azi.por
   }
