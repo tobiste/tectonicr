@@ -84,15 +84,15 @@ NULL
 atan_spec <- function(x, y) {
   if (y > 0 & x >= 0) {
     atan(x / y)
-    } else if (y == 0 & x > 0) {
-      pi / 2
-      } else if (y < 0) {
-        atan(x / y + pi)
-      } else if (y > 0 & x < 0) {
-        atan(x / y) + 2 * pi
-      } else if (y == 0 & x == 0) {
-        Inf
-      }
+  } else if (y == 0 & x > 0) {
+    pi / 2
+  } else if (y < 0) {
+    atan(x / y + pi)
+  } else if (y > 0 & x < 0) {
+    atan(x / y) + 2 * pi
+  } else if (y == 0 & x == 0) {
+    Inf
+  }
 }
 
 #' @rdname spec_atan

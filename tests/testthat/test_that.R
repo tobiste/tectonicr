@@ -58,8 +58,10 @@ get_azimuth(p3, p2)
 
 
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
-stress <- subset(wsm2016,
-                 wsm2016$lat >= 23 & wsm2016$lat <= 40 & wsm2016$lon >= -126 & wsm2016$lon <= -108)
+stress <- subset(
+  wsm2016,
+  wsm2016$lat >= 23 & wsm2016$lat <= 40 & wsm2016$lon >= -126 & wsm2016$lon <= -108
+)
 stress$unc <- stress$sd
 
 san_andreas <- subset(PB2002, PB2002$PlateA %in% c("NA", "PA") & PB2002$PlateB %in% c("NA", "PA"))
@@ -75,10 +77,10 @@ test_that("Output of functions is as expected", {
   expect_equal(quantise_wsm_quality(c("A", "E", "F", "G", 5)), c(15, NA, NA, NA, NA))
   expect_equal(circular_quasi_median(c(15, 16)), 15.5)
   expect_equal(circular_quasi_median(c(15, 15, 16)), 15)
-  expect_equal(circular_quasi_interquartile_range(c(15, 16, 15, 15)), 1)
+  expect_equal(circular_quasi_IQR(c(15, 16, 15, 15)), 1)
   expect_equal(deviation_norm(91), 89)
   expect_equal(circular_quasi_median(c(12, NA)), 12)
-  #expect_equal(circular_quasi_median(c(180, 0)), 0)
+  # expect_equal(circular_quasi_median(c(180, 0)), 0)
   expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
   expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
 })
@@ -132,7 +134,7 @@ test_that("Error message if incorrect type argument", {
   expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
   expect_error(euler_pole(90, 0, NA, "test"))
   expect_error(euler_from_rot(C(1, 2, 3)))
-  expect_error(circular_quasi_interquartile_range(c(12, NA)))
+  expect_error(circular_quasi_IQR(c(12, NA)))
   expect_error(PoR_shmax(stress, 10))
   expect_error(euler_rot(c(90, 0), "test"))
   expect_error(distance_from_pb(california, euler, san_andreas, tangential = "typo"))

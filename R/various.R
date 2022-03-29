@@ -63,8 +63,8 @@ quantise_wsm_quality <- function(x) {
 #' @keywords internal
 distance_mod <- function(x) {
   x <- abs(x)
-  for(i in seq_along(x)) {
-    while(abs(x[i])>180) x[i] <- 360 - (abs(x[i]) %% 360)
+  for (i in seq_along(x)) {
+    while (abs(x[i]) > 180) x[i] <- 360 - (abs(x[i]) %% 360)
   }
   x
 }

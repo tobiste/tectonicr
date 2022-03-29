@@ -76,10 +76,10 @@ norm_chi2 <- function(obs, prd, unc) {
 }
 
 
-#' @title Median and Quartile on Pi-periodic Data
+#' @title Median and statistics on Pi-periodic Data
 #'
-#' @description Calculate the median, quartile, and interquartile range of
-#' orientation data.
+#' @description Calculate the median, quartile, interquartile range, variance,
+#' deviation, and error of orientation data.
 #'
 #' @param x Numeric vector (NA values will be removed).
 #' @param quiet logical. If false, a warning message is printed if there are NA
@@ -90,11 +90,11 @@ norm_chi2 <- function(obs, prd, unc) {
 #' @details Quasi median on the circle, quasi quartiles on a circle, quasi
 #' interquartile range on a circle.
 #'
-#' @source [stats::median()], [stats::stats()], and [stats::IQR()] are the
+#' @source [stats::median()], [stats::quantile()], and [stats::IQR()] are the
 #' equivalents for non-periodic data.
 #'
 #' @references
-#' * Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+#' Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
 #' A New Estimator of a Circular Median. *Communications in Statistics -
 #' Simulation and Computation*, 38(6), 1269--1291.
 #' \doi{10.1080/03610910902899950}.
@@ -103,8 +103,8 @@ norm_chi2 <- function(obs, prd, unc) {
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
 #' circular_quasi_median(x)
 #' circular_quasi_quartile(x)
-#' circular_quasi_interquartile_range(x)
-#' circular_variance(x)
+#' circular_quasi_IQR(x)
+#' circular_var(x)
 #' circular_mean_deviation(x)
 #' circular_median_deviation(x)
 #' circular_mean_error(x)
@@ -120,7 +120,7 @@ circular_quasi_median <- function(x, quiet = TRUE) {
     message("NA values have been dropped\n")
   }
 
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
   n <- length(x)
 
   if (n %% 2 != 0) { # if odd
@@ -147,7 +147,7 @@ circular_quasi_quartile <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
   n <- length(x)
 
   if (n > 3) {
@@ -204,13 +204,13 @@ circular_quasi_quartile <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_quasi_interquartile_range <- function(x, quiet = TRUE) {
+circular_quasi_IQR <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
 
   quantiles <- circular_quasi_quartile(x)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
@@ -218,13 +218,13 @@ circular_quasi_interquartile_range <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_variance <- function(x, quiet = TRUE) {
+circular_var <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
   n <- length(x)
 
   for (i in 1:n) {
@@ -243,7 +243,7 @@ circular_mean_deviation <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
   n <- length(x)
 
   for (i in 1:n) {
@@ -262,7 +262,7 @@ circular_median_deviation <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
 
   for (i in seq_along(x)) {
     k <- 180 - abs(180 - abs(x[i] - circular_quasi_median(x)))
@@ -278,7 +278,7 @@ circular_mean_error <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)])
+  x <- sort(x[!is.na(x)]) %% 180
   n <- length(x)
 
   for (i in 1:n) {

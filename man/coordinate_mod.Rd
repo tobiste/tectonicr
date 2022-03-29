@@ -22,5 +22,5 @@ Corrects the longitudes or latitudes to values -180 and +180, or
 }
 \examples{
 longitude_modulo(-361)
-latitude_modulo (-91)
+latitude_modulo(-91)
 }

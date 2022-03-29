@@ -7,7 +7,7 @@
 #' @name coordinate_mod
 #' @examples
 #' longitude_modulo(-361)
-#' latitude_modulo (-91)
+#' latitude_modulo(-91)
 NULL
 
 #' @rdname coordinate_mod
@@ -80,9 +80,9 @@ geographical_to_cartesian <- function(p) {
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the the
 #' translation factors.
-PoR_crs <- function(x){
+PoR_crs <- function(x) {
   stopifnot(is.numeric(x$lat) | is.numeric(x$lon))
-  if(x$lat > 0) {
+  if (x$lat > 0) {
     x$lat <- -x$lat
     x$lon <- longitude_modulo(x$lon + 180)
   }
