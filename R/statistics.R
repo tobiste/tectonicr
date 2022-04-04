@@ -82,7 +82,7 @@ norm_chisq <- function(obs, prd, unc) {
 
 #' @title Median and statistics on Pi-periodic Data
 #'
-#' @description Calculate the median, quartile, interquartile range, variance,
+#' @description Calculate the mean, median, quartile, interquartile range, variance,
 #' deviation, and error of orientation data.
 #'
 #' @param x Numeric vector (NA values will be removed).
@@ -99,13 +99,17 @@ norm_chisq <- function(obs, prd, unc) {
 #' equivalents for non-periodic data.
 #'
 #' @references
-#' Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+#' * Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
 #' A New Estimator of a Circular Median. *Communications in Statistics -
 #' Simulation and Computation*, 38(6), 1269--1291.
 #' \doi{10.1080/03610910902899950}.
+#' * Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M., & Moeck, I.
+#' (2014). A revised crustal stress orientation database for Canada.
+#' *Tectonophysics*, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}
 #'
 #' @examples
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
+#' circular_quasi_mean(x)
 #' circular_quasi_median(x)
 #' circular_quasi_quartile(x)
 #' circular_quasi_IQR(x)
@@ -133,15 +137,21 @@ circular_quasi_median <- function(x, quiet = TRUE) {
     # atand(
     #   sind(x[m+1]) / cosd(x[m+1])
     # ) %% 180
-    atand_spec(x = sind(x[m + 1]), y = cosd(x[m + 1])) %% 180
+    atan2d_spec(x = sind(x[m + 1]), y = cosd(x[m + 1])) %% 180
   } else { # if even
     m <- n / 2
     # atand(
     #   (sind(x[m]) + sind(x[m + 1])) /
     #     (cosd(x[m]) + cosd(x[m + 1]))
     # ) %% 180
-    atand_spec(x = sind(x[m]) + sind(x[m + 1]), y = cosd(x[m]) + cosd(x[m + 1])) %% 180
+    atan2d_spec(x = sind(x[m]) + sind(x[m + 1]), y = cosd(x[m]) + cosd(x[m + 1])) %% 180
   }
+}
+
+#' @rdname circle_median
+#' @export
+circular_quasi_mean <- function(x, quiet = TRUE) {
+  circular_weighted_mean(x, unc = 1, na.rm = quiet)
 }
 
 #' @rdname circle_median
@@ -290,4 +300,78 @@ circular_mean_error <- function(x, quiet = TRUE) {
     k <- abs(180 - abs(x[i] - circular_quasi_median(x)))
   }
   180 - (1 / n * sum(k))
+}
+
+#' @title Weighted Mean and Statistics on Pi-periodic Data
+#'
+#' @description Calculate the weighted median and standard deviation
+#' of orientation data. Weighting is based on the reciprocal of the data
+#' uncertainties.
+#'
+#' @param x Numeric vector
+#' @param unc Numeric vector or number of the uncertainties of x. Default is
+#' @param na.rm  logical value indicating whether \code{NA} values in x should
+#' be stripped before the computation proceeds.
+#' \code{1}, i.e. statistics are not weighted
+#' @references
+#' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
+#' Mathematical Statistics. London: Academic Press.
+#' * Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
+#' Stress2Grid v1.1. (WSM Technical Report; 19-02),
+#' GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}
+#' * Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfeß, D., & Müller,
+#' B. (2010). Global crustal stress pattern based on the World Stress Map
+#' database release 2008. *Tectonophysics* 482, 3–-15,
+#' \doi{10.1016/j.tecto.2009.07.023}
+#' @examples
+#' x <- c(175, 179, 2, 4)
+#' unc <- c(10, 20, 10, 20)
+#' circular_weighted_mean(x, unc)
+#' circular_weighted_sd(x, unc)
+#' @name weighted_circle_stats
+NULL
+
+#' @rdname weighted_circle_stats
+#' @export
+circular_weighted_mean <- function(x, unc = 1, na.rm = TRUE) {
+  stopifnot(any(is.numeric(x)) & any(is.numeric(unc)))
+
+  data <- data.frame(x, unc)
+  if(na.rm){
+    data <- subset(data, !is.na(x) & !is.na(unc))
+  }
+
+  x <- deg2rad(data$x)
+  unc <- deg2rad(data$unc)
+
+  w <- 1/unc
+  Z <- sum(w)
+
+  s.m <- 1/Z * sum(w*sin(2*x))
+  c.m <- 1/Z * sum(w*cos(2*x))
+
+  (atan2d_spec(s.m, c.m) / 2) %% 180
+}
+
+#' @rdname weighted_circle_stats
+#' @export
+circular_weighted_sd <- function(x, unc = 1, na.rm = TRUE) {
+  stopifnot(any(is.numeric(x)) & any(is.numeric(unc)))
+
+  data <- data.frame(x, unc)
+  if(na.rm){
+    data <- subset(data, !is.na(x) & !is.na(unc))
+  }
+
+  x <- deg2rad(data$x)
+  unc <- deg2rad(data$unc)
+
+  w <- 1/unc
+  Z <- sum(w)
+
+  s.m <- 1/Z * sum(w*sin(2*x))
+  c.m <- 1/Z * sum(w*cos(2*x))
+  R <- sqrt(c.m^2 + s.m^2)
+
+  sd <- sqrt((-2*log(R))/2)
 }

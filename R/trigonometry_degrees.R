@@ -81,7 +81,7 @@ NULL
 
 #' @rdname spec_atan
 #' @export
-atan_spec <- function(x, y) {
+atan2_spec <- function(x, y) {
   if (y > 0 & x >= 0) {
     atan(x / y)
   } else if (y == 0 & x > 0) {
@@ -97,8 +97,8 @@ atan_spec <- function(x, y) {
 
 #' @rdname spec_atan
 #' @export
-atand_spec <- function(x, y) {
-  atan_spec(x, y) * 180 / pi
+atan2d_spec <- function(x, y) {
+  atan2_spec(x, y) * 180 / pi
 }
 
 

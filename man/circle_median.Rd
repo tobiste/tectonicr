@@ -3,6 +3,7 @@
 \name{circle_median}
 \alias{circle_median}
 \alias{circular_quasi_median}
+\alias{circular_quasi_mean}
 \alias{circular_quasi_quartile}
 \alias{circular_quasi_IQR}
 \alias{circular_var}
@@ -16,6 +17,8 @@ equivalents for non-periodic data.
 }
 \usage{
 circular_quasi_median(x, quiet = TRUE)
+
+circular_quasi_mean(x, quiet = TRUE)
 
 circular_quasi_quartile(x, quiet = TRUE)
 
@@ -39,7 +42,7 @@ values.}
 Numeric vector
 }
 \description{
-Calculate the median, quartile, interquartile range, variance,
+Calculate the mean, median, quartile, interquartile range, variance,
 deviation, and error of orientation data.
 }
 \details{
@@ -48,6 +51,7 @@ interquartile range on a circle.
 }
 \examples{
 x <- c(0, 45, 55, 40 + 180, 50 + 180)
+circular_quasi_mean(x)
 circular_quasi_median(x)
 circular_quasi_quartile(x)
 circular_quasi_IQR(x)
@@ -57,8 +61,13 @@ circular_median_deviation(x)
 circular_mean_error(x)
 }
 \references{
-Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
+\itemize{
+\item Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
 A New Estimator of a Circular Median. \emph{Communications in Statistics -
 Simulation and Computation}, 38(6), 1269--1291.
 \doi{10.1080/03610910902899950}.
+\item Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M., & Moeck, I.
+(2014). A revised crustal stress orientation database for Canada.
+\emph{Tectonophysics}, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}
+}
 }

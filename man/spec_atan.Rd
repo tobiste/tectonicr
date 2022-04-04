@@ -2,13 +2,13 @@
 % Please edit documentation in R/trigonometry_degrees.R
 \name{spec_atan}
 \alias{spec_atan}
-\alias{atan_spec}
-\alias{atand_spec}
+\alias{atan2_spec}
+\alias{atan2d_spec}
 \title{Quadrant-specific inverse of the tangent}
 \usage{
-atan_spec(x, y)
+atan2_spec(x, y)
 
-atand_spec(x, y)
+atan2d_spec(x, y)
 }
 \arguments{
 \item{x, y}{dividend and divisor that comprise the sum of sines and cosines, respectively.}
