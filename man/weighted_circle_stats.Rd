@@ -3,15 +3,21 @@
 \name{weighted_circle_stats}
 \alias{weighted_circle_stats}
 \alias{circular_weighted_mean}
-\alias{circular_weighted_median}
 \alias{circular_weighted_sd}
+\alias{circular_weighted_median}
+\alias{circular_weighted_quantiles}
+\alias{circular_weighted_IQR}
 \title{Weighted Mean and Statistics on Pi-periodic Data}
 \usage{
 circular_weighted_mean(x, w = NULL, na.rm = TRUE)
 
+circular_weighted_sd(x, w = NULL, na.rm = TRUE)
+
 circular_weighted_median(x, w = NULL, na.rm = TRUE)
 
-circular_weighted_sd(x, w = NULL, na.rm = TRUE)
+circular_weighted_quantiles(x, w = NULL, na.rm = TRUE)
+
+circular_weighted_IQR(x, w = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{x}{Data values. A vector of numeric values in degrees, for which the
@@ -20,8 +26,8 @@ mean, median or standard deviation are required.}
 \item{w}{Weights. A vector of nonnegative numbers, of the same length as
 \code{x}.}
 
-\item{na.rm}{logical value indicating whether \code{NA} values in x should
-be stripped before the computation proceeds.}
+\item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
+should be stripped before the computation proceeds.}
 }
 \description{
 Calculate the weighted median and standard deviation
@@ -30,10 +36,11 @@ uncertainties.
 }
 \examples{
 x <- c(175, 179, 2, 4)
-unc <- c(10, 20, 10, 20)
-circular_weighted_mean(x, 1/unc)
-circular_weighted_median(x, 1/unc)
-circular_weighted_sd(x, 1/unc)
+unc <- c(5, 1, 2, 4)
+circular_weighted_mean(x, 1 / unc)
+circular_weighted_sd(x, 1 / unc)
+circular_weighted_median(x, 1 / unc)
+circular_weighted_IQR(x, 1/unc)
 }
 \references{
 \itemize{

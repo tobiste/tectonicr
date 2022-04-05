@@ -111,7 +111,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
 #' circular_mean(x)
 #' circular_quasi_median(x)
-#' circular_quasi_quartile(x)
+#' circular_quasi_quantile(x)
 #' circular_quasi_IQR(x)
 #' circular_var(x)
 #' circular_mean_deviation(x)
@@ -171,7 +171,7 @@ circular_mean <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_quasi_quartile <- function(x, quiet = TRUE) {
+circular_quasi_quantile <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   if (NA %in% x & quiet) {
@@ -225,7 +225,7 @@ circular_quasi_quartile <- function(x, quiet = TRUE) {
 
     quantiles <- c(x[1], lq, med, uq, x[length(x)])
     names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
-    return(quantiles)
+    return(as.numeric(quantiles))
   } else {
     message("x needs more than 3 values\n")
     return(NULL)
@@ -235,14 +235,8 @@ circular_quasi_quartile <- function(x, quiet = TRUE) {
 #' @rdname circle_median
 #' @export
 circular_quasi_IQR <- function(x, quiet = TRUE) {
-  stopifnot(any(is.numeric(x)))
-
-  if (NA %in% x & quiet) {
-    message("NA values have been dropped\n")
-  }
-
-  quantiles <- circular_quasi_quartile(x)
-  deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
+  quantiles <- circular_quasi_quantile(x)
+  deviation_norm(quantiles[4] - quantiles[2])
 }
 
 #' @rdname circle_median
@@ -340,10 +334,11 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' \doi{10.1016/j.tecto.2009.07.023}
 #' @examples
 #' x <- c(175, 179, 2, 4)
-#' unc <- c(10, 20, 10, 20)
+#' unc <- c(5, 1, 2, 4)
 #' circular_weighted_mean(x, 1 / unc)
-#' circular_weighted_median(x, 1 / unc)
 #' circular_weighted_sd(x, 1 / unc)
+#' circular_weighted_median(x, 1 / unc)
+#' circular_weighted_IQR(x, 1/unc)
 #' @name weighted_circle_stats
 NULL
 
@@ -380,6 +375,42 @@ circular_weighted_mean <- function(x, w = NULL, na.rm = TRUE) {
   meanx_rad <- atan2_spec(meansin2, meancos2) / 2
   rad2deg(meanx_rad) %% 180
 }
+
+#' @rdname weighted_circle_stats
+#' @export
+circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
+  stopifnot(any(is.numeric(x)))
+
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  } else {
+    w <- as.double(w)
+  }
+  na.rm <- as.logical(na.rm)
+  if (is.na(na.rm)) na.rm <- FALSE
+
+
+  data <- data.frame(x, w)
+  if (na.rm) {
+    data <- subset(data, !is.na(x) & !is.na(w))
+  }
+
+  x <- deg2rad(data$x)
+  w <- deg2rad(data$w)
+
+  Z <- sum(w)
+
+  sin2 <- w * sin(2 * x)
+  cos2 <- w * cos(2 * x)
+  sumsin2 <- sum(sin2)
+  sumcos2 <- sum(cos2)
+  meansin2 <- sumsin2 / Z
+  meancos2 <- sumcos2 / Z
+  meanR <- sqrt(meancos2^2 + meansin2^2)
+
+  sqrt(-2 * log(meanR)) / (2 * pi / 180)
+}
+
 
 #' @rdname weighted_circle_stats
 #' @export
@@ -425,13 +456,14 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
     sumsin2 <- (w[m] * sin(2 * x[m]) + w[m + 1] * sin(2 * x[m + 1]))
     sumcos2 <- (w[m] * cos(2 * x[m]) + w[m + 1] * cos(2 * x[m + 1]))
   }
-  atan2d_spec(sumsin2, sumcos2) %% 180
+  (atan2d_spec(sumsin2, sumcos2)) %% 180
 }
+
 
 
 #' @rdname weighted_circle_stats
 #' @export
-circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
+circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   if (is.null(w)) {
@@ -442,24 +474,73 @@ circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
   na.rm <- as.logical(na.rm)
   if (is.na(na.rm)) na.rm <- FALSE
 
-
   data <- data.frame(x, w)
+
   if (na.rm) {
     data <- subset(data, !is.na(x) & !is.na(w))
   }
 
+  data <- data[order(x), ]
+
   x <- deg2rad(data$x)
   w <- deg2rad(data$w)
 
-  Z <- sum(w)
+  n <- length(x)
 
-  sin2 <- w * sin(2 * x)
-  cos2 <- w * cos(2 * x)
-  sumsin2 <- sum(sin2)
-  sumcos2 <- sum(cos2)
-  meansin2 <- sumsin2 / Z
-  meancos2 <- sumcos2 / Z
-  meanR <- sqrt(meancos2^2 + meansin2^2)
+  if (n > 3) {
+    med <- circular_weighted_median(x, w)
+    x <- 2 * x
 
-  sqrt(-2 * log(meanR)) / (2 * pi / 180)
+    if (n %% 4 == 0) {
+      m <- n / 4
+      lq <- atand(
+        w[m + 1] * sind(x[m + 1]) / w[m + 1] * cosd(x[m + 1])
+      )
+      uq <- atand(
+        w[3 * m + 1] * sind(x[3 * m + 1]) / w[3 * m + 1] * cosd(x[3 * m + 1])
+      )
+    }
+    if (n %% 4 == 1) {
+      m <- (n - 1) / 4
+      lq <- atand(
+        (3 * w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])) /
+          (3 * w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1]))
+      )
+      uq <- atand(
+        (3 * w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])) /
+          (3 * w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1]))
+      )
+    }
+    if (n %% 4 == 2) {
+      m <- (n - 2) / 4
+      lq <- atand((w[m] + sind(x[m]) + w[m + 1] + sind(x[m + 1])) /
+        (w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])))
+      uq <- atand((w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])) /
+        (w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1])))
+    }
+    if (n %% 4 == 3) {
+      m <- (n - 2) / 4
+      lq <- atand((w[m] * sind(x[m]) + 3 * w[m + 1] * sind(x[m + 1])) /
+        (w[m] * cosd(x[m]) + 3 * w[m + 1] * cosd(x[m + 1])))
+      uq <- atand((w[3 * m] * sind(x[3 * m]) +
+        3 * w[3 * m + 1] * sind(x[3 * m + 1])) /
+        (w[3 * m] * cosd(x[3 * m]) +
+          3 * w[3 * m + 1] * cosd(x[3 * m + 1])))
+    }
+
+
+    quantiles <- c(x[1] / 2, lq / 2, med, uq / 2, x[length(x)] / 2)
+    names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
+    return(as.numeric(quantiles))
+  } else {
+    message("x needs more than 3 values\n")
+    return(NULL)
+  }
+}
+
+#' @rdname weighted_circle_stats
+#' @export
+circular_weighted_IQR <- function(x, w = NULL, na.rm = TRUE) {
+  quantiles <- circular_weighted_quantiles(x, w)
+  deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
 }

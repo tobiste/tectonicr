@@ -69,6 +69,8 @@ california <- sf::st_set_crs(sf::st_as_sf(stress, coords = c("lon", "lat")), "WG
 
 distance_from_pb(x = california, ep = euler, pb = san_andreas, tangential = TRUE)
 
+test.vals <- c(175, 179, 2, 4)
+test.weights <- 1 / c(5, 1, 2, 4)
 
 # test expected output values --------------------------------------------------
 test_that("Output of functions is as expected", {
@@ -84,13 +86,16 @@ test_that("Output of functions is as expected", {
   # expect_equal(circular_weighted_mean(c(180, 0)), 0)
   expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
   expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
+  #expect_equal(circular_quasi_median(test.vals), circular_weighted_median(test.vals))
+  #expect_equal(circular_quasi_IQR(test.vals), circular_weighted_IQR(test.vals))
+  #expect_equal(circular_mean(test.vals), circular_weighted_mean(test.vals))
 })
 
 # test output is NULL ----------------------------------------------------------
 
 test_that("Statistics return NULL when too few numbers", {
-  expect_null(circular_quasi_quartile(c(15, 16)))
-  expect_null(circular_quasi_quartile(c(15, 15, 16)))
+  expect_null(circular_quasi_quantile(c(15, 16)))
+  expect_null(circular_quasi_quantile(c(15, 15, 16)))
 })
 
 # test type --------------------------------------------------------------------
@@ -108,7 +113,7 @@ test_that("type of object returned is as expected", {
 
 # test message -----------------------------------------------------------------
 test_that("Message expected", {
-  expect_message(circular_quasi_quartile(c(12, NA)))
+  expect_message(circular_quasi_quantile(c(12, NA)))
   expect_message(norm_chisq(c(12, NA), 1, 1))
 })
 

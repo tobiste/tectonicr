@@ -4,7 +4,7 @@
 \alias{circle_median}
 \alias{circular_quasi_median}
 \alias{circular_mean}
-\alias{circular_quasi_quartile}
+\alias{circular_quasi_quantile}
 \alias{circular_quasi_IQR}
 \alias{circular_var}
 \alias{circular_mean_deviation}
@@ -20,7 +20,7 @@ circular_quasi_median(x, quiet = TRUE)
 
 circular_mean(x, quiet = TRUE)
 
-circular_quasi_quartile(x, quiet = TRUE)
+circular_quasi_quantile(x, quiet = TRUE)
 
 circular_quasi_IQR(x, quiet = TRUE)
 
@@ -53,7 +53,7 @@ interquartile range on a circle.
 x <- c(0, 45, 55, 40 + 180, 50 + 180)
 circular_mean(x)
 circular_quasi_median(x)
-circular_quasi_quartile(x)
+circular_quasi_quantile(x)
 circular_quasi_IQR(x)
 circular_var(x)
 circular_mean_deviation(x)
