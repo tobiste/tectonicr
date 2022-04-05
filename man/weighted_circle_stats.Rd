@@ -7,16 +7,18 @@
 \alias{circular_weighted_sd}
 \title{Weighted Mean and Statistics on Pi-periodic Data}
 \usage{
-circular_weighted_mean(x, unc, na.rm = TRUE)
+circular_weighted_mean(x, w = NULL, na.rm = TRUE)
 
-circular_weighted_median(x, unc, na.rm = TRUE)
+circular_weighted_median(x, w = NULL, na.rm = TRUE)
 
-circular_weighted_sd(x, unc, na.rm = TRUE)
+circular_weighted_sd(x, w = NULL, na.rm = TRUE)
 }
 \arguments{
-\item{x}{Numeric vector}
+\item{x}{Data values. A vector of numeric values in degrees, for which the
+mean, median or standard deviation are required.}
 
-\item{unc}{Numeric vector or number of the uncertainties of x.}
+\item{w}{Weights. A vector of nonnegative numbers, of the same length as
+\code{x}.}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in x should
 be stripped before the computation proceeds.}
@@ -29,9 +31,9 @@ uncertainties.
 \examples{
 x <- c(175, 179, 2, 4)
 unc <- c(10, 20, 10, 20)
-circular_weighted_mean(x, unc)
-circular_weighted_median(x, unc)
-circular_weighted_sd(x, unc)
+circular_weighted_mean(x, 1/unc)
+circular_weighted_median(x, 1/unc)
+circular_weighted_sd(x, 1/unc)
 }
 \references{
 \itemize{

@@ -33,7 +33,7 @@ circular_median_deviation(x, quiet = TRUE)
 circular_mean_error(x, quiet = TRUE)
 }
 \arguments{
-\item{x}{Numeric vector (NA values will be removed).}
+\item{x}{Numeric vector in degrees.}
 
 \item{quiet}{logical. If false, a warning message is printed if there are NA
 values.}
