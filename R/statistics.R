@@ -339,9 +339,10 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' x <- c(175, 179, 0, 2, 4)
 #' unc <- c(5, 1, 0.1, 2, 4)
 #' circular_weighted_mean(x, 1 / unc)
+#' circular_weighted_var(x, 1 / unc)
 #' circular_weighted_sd(x, 1 / unc)
-#' circular_weighted_median(x, 1 / unc)
-#' circular_weighted_IQR(x, 1/unc)
+#' #circular_weighted_median(x, 1 / unc)
+#' #circular_weighted_IQR(x, 1/unc)
 #' @name weighted_circle_stats
 NULL
 
@@ -378,6 +379,12 @@ circular_weighted_mean <- function(x, w = NULL, na.rm = TRUE) {
   meanx_rad <- atan2_spec(meansin2, meancos2) / 2
   rad2deg(meanx_rad) %% 180
 }
+#' @rdname weighted_circle_stats
+#' @export
+circular_weighted_var <- function(x, w = NULL, na.rm = TRUE) {
+  circular_weighted_sd(x, w, na.rm)^2
+}
+
 
 #' @rdname weighted_circle_stats
 #' @export
@@ -416,7 +423,6 @@ circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
 
 
 #' @rdname weighted_circle_stats
-#' @export
 circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
 
@@ -466,7 +472,6 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
 
 
 #' @rdname weighted_circle_stats
-#' @export
 circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
 
@@ -559,7 +564,6 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
 }
 
 #' @rdname weighted_circle_stats
-#' @export
 circular_weighted_IQR <- function(x, w = NULL, na.rm = TRUE) {
   quantiles <- circular_weighted_quantiles(x, w)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))

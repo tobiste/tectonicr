@@ -3,6 +3,7 @@
 \name{weighted_circle_stats}
 \alias{weighted_circle_stats}
 \alias{circular_weighted_mean}
+\alias{circular_weighted_var}
 \alias{circular_weighted_sd}
 \alias{circular_weighted_median}
 \alias{circular_weighted_quantiles}
@@ -10,6 +11,8 @@
 \title{Weighted Mean and Statistics on Pi-periodic Data}
 \usage{
 circular_weighted_mean(x, w = NULL, na.rm = TRUE)
+
+circular_weighted_var(x, w = NULL, na.rm = TRUE)
 
 circular_weighted_sd(x, w = NULL, na.rm = TRUE)
 
@@ -38,9 +41,10 @@ uncertainties.
 x <- c(175, 179, 0, 2, 4)
 unc <- c(5, 1, 0.1, 2, 4)
 circular_weighted_mean(x, 1 / unc)
+circular_weighted_var(x, 1 / unc)
 circular_weighted_sd(x, 1 / unc)
-circular_weighted_median(x, 1 / unc)
-circular_weighted_IQR(x, 1/unc)
+#circular_weighted_median(x, 1 / unc)
+#circular_weighted_IQR(x, 1/unc)
 }
 \references{
 \itemize{
