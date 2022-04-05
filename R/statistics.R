@@ -129,7 +129,7 @@ circular_quasi_median <- function(x, quiet = TRUE) {
     message("NA values have been dropped\n")
   }
 
-  x <- sort(x[!is.na(x)]) %% 180
+  x <- deg2rad(sort(x[!is.na(x)])) %% pi
   n <- length(x)
 
   if (n %% 2 != 0) { # if odd
@@ -137,21 +137,36 @@ circular_quasi_median <- function(x, quiet = TRUE) {
     # atand(
     #   sind(x[m+1]) / cosd(x[m+1])
     # ) %% 180
-    atan2d_spec(x = sind(x[m + 1]), y = cosd(x[m + 1])) %% 180
+    ss <- sin(x[m + 1])
+    cs <- cos(x[m + 1])
   } else { # if even
     m <- n / 2
     # atand(
     #   (sind(x[m]) + sind(x[m + 1])) /
     #     (cosd(x[m]) + cosd(x[m + 1]))
     # ) %% 180
-    atan2d_spec(x = sind(x[m]) + sind(x[m + 1]), y = cosd(x[m]) + cosd(x[m + 1])) %% 180
+    ss <- sin(x[m]) + sin(x[m + 1])
+    cs <- cos(x[m]) + cos(x[m + 1])
   }
+  atan2d_spec(ss, cs) %% 180
 }
 
 #' @rdname circle_median
 #' @export
 circular_quasi_mean <- function(x, quiet = TRUE) {
-  circular_weighted_mean(x, unc = 1, na.rm = quiet)
+  stopifnot(any(is.numeric(x)))
+
+  data <- data.frame(x)
+  if (quiet) {
+    data <- subset(data, !is.na(x))
+  }
+
+  x <- deg2rad(data$x)
+
+  s.m <- sum(sin(2 * x))
+  c.m <- sum(cos(2 * x))
+
+  (atan2d_spec(s.m, c.m) / 2) %% 180
 }
 
 #' @rdname circle_median
@@ -225,7 +240,6 @@ circular_quasi_IQR <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)]) %% 180
 
   quantiles <- circular_quasi_quartile(x)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
@@ -239,14 +253,14 @@ circular_var <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)]) %% 180
+  x <- x %% 180
   n <- length(x)
 
   for (i in 1:n) {
-    k <- cosd(x[i])
-    l <- sind(x[i])
+    cs <- cosd(x[i])
+    ss <- sind(x[i])
   }
-  R <- sqrt(sum(k)^2 + sum(l)^2)
+  R <- sqrt(sum(cs)^2 + sum(ss)^2)
   1 - R / n
 }
 
@@ -258,7 +272,7 @@ circular_mean_deviation <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)]) %% 180
+  x <- x %% 180
   n <- length(x)
 
   for (i in 1:n) {
@@ -277,7 +291,7 @@ circular_median_deviation <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)]) %% 180
+  x <- x %% 180
 
   for (i in seq_along(x)) {
     k <- 180 - abs(180 - abs(x[i] - circular_quasi_median(x)))
@@ -293,7 +307,7 @@ circular_mean_error <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)]) %% 180
+  x <- x %% 180
   n <- length(x)
 
   for (i in 1:n) {
@@ -309,10 +323,9 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' uncertainties.
 #'
 #' @param x Numeric vector
-#' @param unc Numeric vector or number of the uncertainties of x. Default is
+#' @param unc Numeric vector or number of the uncertainties of x.
 #' @param na.rm  logical value indicating whether \code{NA} values in x should
 #' be stripped before the computation proceeds.
-#' \code{1}, i.e. statistics are not weighted
 #' @references
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
 #' Mathematical Statistics. London: Academic Press.
@@ -327,51 +340,93 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' x <- c(175, 179, 2, 4)
 #' unc <- c(10, 20, 10, 20)
 #' circular_weighted_mean(x, unc)
+#' circular_weighted_median(x, unc)
 #' circular_weighted_sd(x, unc)
 #' @name weighted_circle_stats
 NULL
 
 #' @rdname weighted_circle_stats
 #' @export
-circular_weighted_mean <- function(x, unc = 1, na.rm = TRUE) {
+circular_weighted_mean <- function(x, unc, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)) & any(is.numeric(unc)))
 
   data <- data.frame(x, unc)
-  if(na.rm){
+  if (na.rm) {
     data <- subset(data, !is.na(x) & !is.na(unc))
   }
 
   x <- deg2rad(data$x)
   unc <- deg2rad(data$unc)
 
-  w <- 1/unc
+  w <- 1 / unc
   Z <- sum(w)
 
-  s.m <- 1/Z * sum(w*sin(2*x))
-  c.m <- 1/Z * sum(w*cos(2*x))
+  s.m <- 1 / Z * sum(w * sin(2 * x))
+  c.m <- 1 / Z * sum(w * cos(2 * x))
 
   (atan2d_spec(s.m, c.m) / 2) %% 180
 }
 
 #' @rdname weighted_circle_stats
 #' @export
-circular_weighted_sd <- function(x, unc = 1, na.rm = TRUE) {
+circular_weighted_median <- function(x, unc, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)) & any(is.numeric(unc)))
 
   data <- data.frame(x, unc)
-  if(na.rm){
+
+  if (na.rm) {
+    data <- subset(data, !is.na(x) & !is.na(unc))
+  }
+
+  data <- data[order(x), ]
+
+  x <- deg2rad(data$x)
+  unc <- deg2rad(data$unc)
+
+  n <- length(x)
+  w <- 1 / unc
+
+  if (n %% 2 != 0) { # if odd
+    m <- (n - 1) / 2
+    # atand(
+    #   sind(x[m+1]) / cosd(x[m+1])
+    # ) %% 180
+
+    s.m <- w[m + 1] * sin(2 * x[m + 1])
+    c.m <- w[m + 1] * cos(2 * x[m + 1])
+  } else { # if even
+    m <- n / 2
+    # atand(
+    #   (sind(x[m]) + sind(x[m + 1])) /
+    #     (cosd(x[m]) + cosd(x[m + 1]))
+    # ) %% 180
+
+    s.m <- (w[m] * sin(2 * x[m]) + w[m + 1] * sin(2 * x[m + 1]))
+    c.m <- (w[m] * cos(2 * x[m]) + w[m + 1] * cos(2 * x[m + 1]))
+  }
+  atan2d_spec(s.m, c.m) %% 180
+}
+
+
+#' @rdname weighted_circle_stats
+#' @export
+circular_weighted_sd <- function(x, unc, na.rm = TRUE) {
+  stopifnot(any(is.numeric(x)) & any(is.numeric(unc)))
+
+  data <- data.frame(x, unc)
+  if (na.rm) {
     data <- subset(data, !is.na(x) & !is.na(unc))
   }
 
   x <- deg2rad(data$x)
   unc <- deg2rad(data$unc)
 
-  w <- 1/unc
+  w <- 1 / unc
   Z <- sum(w)
 
-  s.m <- 1/Z * sum(w*sin(2*x))
-  c.m <- 1/Z * sum(w*cos(2*x))
+  s.m <- 1 / Z * sum(w * sin(2 * x))
+  c.m <- 1 / Z * sum(w * cos(2 * x))
   R <- sqrt(c.m^2 + s.m^2)
 
-  sd <- sqrt((-2*log(R))/2)
+  sd <- sqrt((-2 * log(R)) / 2)
 }

@@ -3,21 +3,23 @@
 \name{weighted_circle_stats}
 \alias{weighted_circle_stats}
 \alias{circular_weighted_mean}
+\alias{circular_weighted_median}
 \alias{circular_weighted_sd}
 \title{Weighted Mean and Statistics on Pi-periodic Data}
 \usage{
-circular_weighted_mean(x, unc = 1, na.rm = TRUE)
+circular_weighted_mean(x, unc, na.rm = TRUE)
 
-circular_weighted_sd(x, unc = 1, na.rm = TRUE)
+circular_weighted_median(x, unc, na.rm = TRUE)
+
+circular_weighted_sd(x, unc, na.rm = TRUE)
 }
 \arguments{
 \item{x}{Numeric vector}
 
-\item{unc}{Numeric vector or number of the uncertainties of x. Default is}
+\item{unc}{Numeric vector or number of the uncertainties of x.}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in x should
-be stripped before the computation proceeds.
-\code{1}, i.e. statistics are not weighted}
+be stripped before the computation proceeds.}
 }
 \description{
 Calculate the weighted median and standard deviation
@@ -28,6 +30,7 @@ uncertainties.
 x <- c(175, 179, 2, 4)
 unc <- c(10, 20, 10, 20)
 circular_weighted_mean(x, unc)
+circular_weighted_median(x, unc)
 circular_weighted_sd(x, unc)
 }
 \references{
