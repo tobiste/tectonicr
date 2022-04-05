@@ -55,7 +55,7 @@ loxodromes of the relative plate motion's Euler pole"><!-- mathjax --><script sr
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Deviation of Observed and Predicted Directions of Maximum Horizontal Stress</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/R/misfit_shmax.R" class="external-link"><code>R/misfit_shmax.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/R/model_shmax.R" class="external-link"><code>R/model_shmax.R</code></a></small>
       <div class="d-none name"><code>misfit_shmax.Rd</code></div>
     </div>
 
@@ -116,8 +116,8 @@ great circles</p></dd>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">euler</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">misfit_shmax</span><span class="op">(</span><span class="va">prd</span>, obs <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     dev.gc   dev.sc dev.ld.cw dev.ld.ccw</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 42.45436 47.54564  87.45436   2.545636</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     dev.gc    dev.sc dev.ld.cw dev.ld.ccw</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 42.45436 -47.54564  87.45436  -2.545636</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

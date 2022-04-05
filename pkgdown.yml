@@ -5,7 +5,7 @@ articles:
   datasets: datasets.html
   stress_trajectories: stress_trajectories.html
   tectonicr: tectonicr.html
-last_built: 2022-04-05T00:22Z
+last_built: 2022-04-05T23:32Z
 urls:
   reference: https://tobiste.github.io/tectonicr/reference
   article: https://tobiste.github.io/tectonicr/articles
