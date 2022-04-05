@@ -129,7 +129,8 @@ circular_quasi_median <- function(x, quiet = TRUE) {
     message("NA values have been dropped\n")
   }
 
-  x <- deg2rad(sort(x[!is.na(x)])) %% pi
+  x <- deg2rad(x) %% pi
+  x <- sort(x[!is.na(x)])
   n <- length(x)
 
   if (n %% 2 != 0) { # if odd
@@ -153,20 +154,21 @@ circular_quasi_median <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_mean <- function(x, quiet = TRUE) {
-  stopifnot(any(is.numeric(x)))
-
-  data <- data.frame(x)
-  if (quiet) {
-    data <- subset(data, !is.na(x))
-  }
-
-  x <- deg2rad(data$x)
-
-  s.m <- sum(sin(2 * x))
-  c.m <- sum(cos(2 * x))
-
-  (atan2d_spec(s.m, c.m) / 2) %% 180
+circular_mean <- function(x) {
+  # stopifnot(any(is.numeric(x)))
+  #
+  # data <- data.frame(x)
+  # if (quiet) {
+  #   data <- subset(data, !is.na(x))
+  # }
+  #
+  # x <- deg2rad(data$x)
+  #
+  # s.m <- sum(sin(2 * x))
+  # c.m <- sum(cos(2 * x))
+  #
+  # (atan2d_spec(s.m, c.m) / 2) %% 180
+  circular_weighted_mean(x, w = 1, na.rm = TRUE)
 }
 
 #' @rdname circle_median
@@ -177,7 +179,8 @@ circular_quasi_quantile <- function(x, quiet = TRUE) {
   if (NA %in% x & quiet) {
     message("NA values have been dropped\n")
   }
-  x <- sort(x[!is.na(x)]) %% 180
+  x <- x %% 180
+  x <- sort(x[!is.na(x)])
   n <- length(x)
 
   if (n > 3) {
@@ -333,8 +336,8 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' database release 2008. *Tectonophysics* 482, 3–-15,
 #' \doi{10.1016/j.tecto.2009.07.023}
 #' @examples
-#' x <- c(175, 179, 2, 4)
-#' unc <- c(5, 1, 2, 4)
+#' x <- c(175, 179, 0, 2, 4)
+#' unc <- c(5, 1, 0.1, 2, 4)
 #' circular_weighted_mean(x, 1 / unc)
 #' circular_weighted_sd(x, 1 / unc)
 #' circular_weighted_median(x, 1 / unc)
@@ -425,7 +428,7 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
   na.rm <- as.logical(na.rm)
   if (is.na(na.rm)) na.rm <- FALSE
 
-  data <- data.frame(x, w)
+  data <- data.frame(x %% 180, w)
 
   if (na.rm) {
     data <- subset(data, !is.na(x) & !is.na(w))
@@ -444,8 +447,9 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
     #   sind(x[m+1]) / cosd(x[m+1])
     # ) %% 180
 
-    sumsin2 <- w[m + 1] * sin(2 * x[m + 1])
-    sumcos2 <- w[m + 1] * cos(2 * x[m + 1])
+    sumsin2 <- sin(x[m + 1])
+    sumcos2 <- cos(x[m + 1])
+
   } else { # if even
     m <- n / 2
     # atand(
@@ -453,8 +457,8 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
     #     (cosd(x[m]) + cosd(x[m + 1]))
     # ) %% 180
 
-    sumsin2 <- (w[m] * sin(2 * x[m]) + w[m + 1] * sin(2 * x[m + 1]))
-    sumcos2 <- (w[m] * cos(2 * x[m]) + w[m + 1] * cos(2 * x[m + 1]))
+    sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / (w[m] +  w[m + 1])
+    sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / (w[m] +  w[m + 1])
   }
   (atan2d_spec(sumsin2, sumcos2)) %% 180
 }
@@ -474,7 +478,7 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
   na.rm <- as.logical(na.rm)
   if (is.na(na.rm)) na.rm <- FALSE
 
-  data <- data.frame(x, w)
+  data <- data.frame(x %% 180, w)
 
   if (na.rm) {
     data <- subset(data, !is.na(x) & !is.na(w))
@@ -489,47 +493,63 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
 
   if (n > 3) {
     med <- circular_weighted_median(x, w)
-    x <- 2 * x
 
     if (n %% 4 == 0) {
       m <- n / 4
-      lq <- atand(
-        w[m + 1] * sind(x[m + 1]) / w[m + 1] * cosd(x[m + 1])
-      )
-      uq <- atand(
-        w[3 * m + 1] * sind(x[3 * m + 1]) / w[3 * m + 1] * cosd(x[3 * m + 1])
-      )
+      sum.sin.lq <- sind(x[m + 1])
+      sum.cos.lq <- cosd(x[m + 1])
+
+      sum.sin.uq <- sind(x[3 * m + 1])
+      sum.cos.uq <- cosd(x[3 * m + 1])
+
+      Zu <- Zl <- 1
     }
     if (n %% 4 == 1) {
       m <- (n - 1) / 4
-      lq <- atand(
-        (3 * w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])) /
-          (3 * w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1]))
-      )
-      uq <- atand(
-        (3 * w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])) /
-          (3 * w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1]))
-      )
+
+      sum.sin.lq <- 3 * w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
+      sum.cos.lq <- 3 * w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])
+
+      sum.sin.uq <- 3 * w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])
+      sum.cos.uq <- 3 * w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1])
+
+      Zl <- w[m] + w[m + 1]
+      Zu <- w[3 * m] + w[3 * m + 1]
     }
     if (n %% 4 == 2) {
       m <- (n - 2) / 4
-      lq <- atand((w[m] + sind(x[m]) + w[m + 1] + sind(x[m + 1])) /
-        (w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])))
-      uq <- atand((w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])) /
-        (w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1])))
+
+      sum.sin.lq <- w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
+      sum.cos.lq <- w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])
+
+      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])
+      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1])
+
+      Zl <- w[m] + w[m + 1]
+      Zu <- w[3 * m] + w[3 * m + 1]
     }
     if (n %% 4 == 3) {
       m <- (n - 2) / 4
-      lq <- atand((w[m] * sind(x[m]) + 3 * w[m + 1] * sind(x[m + 1])) /
-        (w[m] * cosd(x[m]) + 3 * w[m + 1] * cosd(x[m + 1])))
-      uq <- atand((w[3 * m] * sind(x[3 * m]) +
-        3 * w[3 * m + 1] * sind(x[3 * m + 1])) /
-        (w[3 * m] * cosd(x[3 * m]) +
-          3 * w[3 * m + 1] * cosd(x[3 * m + 1])))
+
+      sum.sin.lq <- w[m] * sind(x[m]) + 3 * w[m + 1] * sind(x[m + 1])
+      sum.cos.lq <- w[m] * cosd(x[m]) + 3 * w[m + 1] * cosd(x[m + 1])
+
+      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + 3 * w[3 * m + 1] * sind(x[3 * m + 1])
+      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + 3 * w[3 * m + 1] * cosd(x[3 * m + 1])
+
+      Zl <- w[m] + w[m + 1]
+      Zu <- w[3 * m] + w[3 * m + 1]
     }
+    mean.sin.lq <- sum.sin.lq / Zl
+    mean.cos.lq <- sum.cos.lq / Zl
 
+    mean.sin.uq <- sum.sin.uq / Zu
+    mean.cos.uq <- sum.cos.uq / Zu
 
-    quantiles <- c(x[1] / 2, lq / 2, med, uq / 2, x[length(x)] / 2)
+    lq <- (atan2d_spec(mean.sin.lq, mean.cos.lq)) %% 180
+    uq <- (atan2d_spec(mean.sin.uq, mean.cos.uq)) %% 180
+
+    quantiles <- c(x[1], lq, med, uq, x[length(x)])
     names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
     return(as.numeric(quantiles))
   } else {

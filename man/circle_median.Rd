@@ -18,7 +18,7 @@ equivalents for non-periodic data.
 \usage{
 circular_quasi_median(x, quiet = TRUE)
 
-circular_mean(x, quiet = TRUE)
+circular_mean(x)
 
 circular_quasi_quantile(x, quiet = TRUE)
 
