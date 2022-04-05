@@ -109,7 +109,7 @@ norm_chisq <- function(obs, prd, unc) {
 #'
 #' @examples
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
-#' circular_quasi_mean(x)
+#' circular_mean(x)
 #' circular_quasi_median(x)
 #' circular_quasi_quartile(x)
 #' circular_quasi_IQR(x)
@@ -153,7 +153,7 @@ circular_quasi_median <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_quasi_mean <- function(x, quiet = TRUE) {
+circular_mean <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   data <- data.frame(x)

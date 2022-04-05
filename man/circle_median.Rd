@@ -3,7 +3,7 @@
 \name{circle_median}
 \alias{circle_median}
 \alias{circular_quasi_median}
-\alias{circular_quasi_mean}
+\alias{circular_mean}
 \alias{circular_quasi_quartile}
 \alias{circular_quasi_IQR}
 \alias{circular_var}
@@ -18,7 +18,7 @@ equivalents for non-periodic data.
 \usage{
 circular_quasi_median(x, quiet = TRUE)
 
-circular_quasi_mean(x, quiet = TRUE)
+circular_mean(x, quiet = TRUE)
 
 circular_quasi_quartile(x, quiet = TRUE)
 
@@ -51,7 +51,7 @@ interquartile range on a circle.
 }
 \examples{
 x <- c(0, 45, 55, 40 + 180, 50 + 180)
-circular_quasi_mean(x)
+circular_mean(x)
 circular_quasi_median(x)
 circular_quasi_quartile(x)
 circular_quasi_IQR(x)
