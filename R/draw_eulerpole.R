@@ -222,7 +222,10 @@ eulerpole_smallcircles <-
       data.frame("n" = sm_range.df, row.names = sm_range)
     )
 
-    SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x)
+    SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x) %>%
+      sf::st_wrap_dateline(
+        options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
+        quiet = TRUE)
 
     if (returnclass == "sp") {
       SL <- sf::as_Spatial(SL)
@@ -293,7 +296,10 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf"
     data.frame("n" = as.character(ld_range), row.names = ld_range)
   )
 
-  SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x)
+  SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x) %>%
+    sf::st_wrap_dateline(
+      options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
+      quiet = TRUE)
 
   if (returnclass == "sp") {
     SL <- sf::as_Spatial(SL)
