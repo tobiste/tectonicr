@@ -19,7 +19,7 @@ to numeric values of the precision of each measurement.
 \examples{
 quantise_wsm_quality(c("A", "B", "C", "D", NA))
 data("wsm2016")
-quantise_wsm_quality(wsm2016$quality)
+quantise_wsm_quality(wsm2016$quality[1:20])
 }
 \references{
 Heidbach, O.; Barth, A.; Müller, B.; Reinecker, J.;

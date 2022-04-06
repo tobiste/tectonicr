@@ -38,7 +38,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' @examples
 #' quantise_wsm_quality(c("A", "B", "C", "D", NA))
 #' data("wsm2016")
-#' quantise_wsm_quality(wsm2016$quality)
+#' quantise_wsm_quality(wsm2016$quality[1:20])
 quantise_wsm_quality <- function(x) {
   unc <- c()
   for (i in seq_along(x)) {
@@ -100,7 +100,8 @@ distance_mod <- function(x) {
 #' )
 #' california <- sf::st_set_crs(sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84")
 #'
-#' distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
+#' res <- distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
+#' head(res)
 distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
   stopifnot(inherits(x, "sf") & inherits(pb, "sf") & is.data.frame(ep) & is.logical(tangential))
 

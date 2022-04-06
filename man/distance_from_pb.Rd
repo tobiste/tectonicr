@@ -42,5 +42,6 @@ california <- subset(
 )
 california <- sf::st_set_crs(sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84")
 
-distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
+res <- distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
+head(res)
 }

@@ -58,7 +58,8 @@ stress <- subset(
     wsm2016$lon >= -126 & wsm2016$lon <= -108
 )
 stress$unc <- stress$sd
-PoR_shmax(stress, euler, type = "right")
+res <- PoR_shmax(stress, euler, type = "right")
+head(res)
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to compute the theoretical orientation of

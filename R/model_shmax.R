@@ -254,7 +254,8 @@ misfit_shmax <- function(prd, obs) {
 #'     wsm2016$lon >= -126 & wsm2016$lon <= -108
 #' )
 #' stress$unc <- stress$sd
-#' PoR_shmax(stress, euler, type = "right")
+#' res <- PoR_shmax(stress, euler, type = "right")
+#' head(res)
 PoR_shmax <- function(df, euler, type = c("in", "out", "right", "left")) {
   stopifnot(is.data.frame(df) & is.data.frame(euler))
   type <- match.arg(type)
