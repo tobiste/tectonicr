@@ -108,16 +108,20 @@ doi: <a href="https://doi.org/10.1016/j.tecto.2009.07.023" class="external-link"
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">175</span>, <span class="fl">179</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">175</span>, <span class="fl">179</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fl">90</span></span>
 <span class="r-in"><span class="va">unc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">0.1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">circular_weighted_mean</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001016599</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 90.0001</span>
 <span class="r-in"><span class="fu">circular_weighted_var</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.002809</span>
 <span class="r-in"><span class="fu">circular_weighted_sd</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.001404</span>
-<span class="r-in"><span class="co">#circular_weighted_median(x, 1 / unc)</span></span>
-<span class="r-in"><span class="co">#circular_weighted_IQR(x, 1/unc)</span></span>
+<span class="r-in"><span class="fu">circular_weighted_median</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 90</span>
+<span class="r-in"><span class="fu">circular_weighted_quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">/</span><span class="va">unc</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 85.00000 87.50000 90.00000 90.03279 94.00000</span>
+<span class="r-in"><span class="fu">circular_weighted_IQR</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">/</span><span class="va">unc</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.532787</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
