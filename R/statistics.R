@@ -126,7 +126,7 @@ circular_quasi_median <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   if (NA %in% x & quiet) {
-    message("NA values have been dropped\n")
+    message("NA values have been dropped")
   }
 
   x <- deg2rad(x) %% pi
@@ -177,7 +177,7 @@ circular_quasi_quantile <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   if (NA %in% x & quiet) {
-    message("NA values have been dropped\n")
+    message("NA values have been dropped")
   }
   x <- x %% 180
   x <- sort(x[!is.na(x)])
@@ -230,7 +230,7 @@ circular_quasi_quantile <- function(x, quiet = TRUE) {
     names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
     return(as.numeric(quantiles))
   } else {
-    message("x needs more than 3 values\n")
+    message("x needs more than 3 values")
     return(NULL)
   }
 }
@@ -248,7 +248,7 @@ circular_var <- function(x, quiet = TRUE) {
   stopifnot(any(is.numeric(x)))
 
   if (NA %in% x & quiet) {
-    message("NA values have been dropped\n")
+    message("NA values have been dropped")
   }
   x <- x %% 180
   n <- length(x)
@@ -336,13 +336,14 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' database release 2008. *Tectonophysics* 482, 3–-15,
 #' \doi{10.1016/j.tecto.2009.07.023}
 #' @examples
-#' x <- c(175, 179, 0, 2, 4)
+#' x <- c(175, 179, 0, 2, 4) + 90
 #' unc <- c(5, 1, 0.1, 2, 4)
 #' circular_weighted_mean(x, 1 / unc)
 #' circular_weighted_var(x, 1 / unc)
 #' circular_weighted_sd(x, 1 / unc)
-#' #circular_weighted_median(x, 1 / unc)
-#' #circular_weighted_IQR(x, 1/unc)
+#' circular_weighted_median(x, 1 / unc)
+#' circular_weighted_quantiles(x, 1/unc)
+#' circular_weighted_IQR(x, 1/unc)
 #' @name weighted_circle_stats
 NULL
 
@@ -364,8 +365,8 @@ circular_weighted_mean <- function(x, w = NULL, na.rm = TRUE) {
     data <- subset(data, !is.na(x) & !is.na(w))
   }
 
-  x <- deg2rad(data$x)
-  w <- deg2rad(data$w)
+  x <- deg2rad(data$x) %% pi
+  w <- data$w
 
   Z <- sum(w)
 
@@ -376,7 +377,7 @@ circular_weighted_mean <- function(x, w = NULL, na.rm = TRUE) {
   meansin2 <- sumsin2 / Z
   meancos2 <- sumcos2 / Z
 
-  meanx_rad <- atan2_spec(meansin2, meancos2) / 2
+  meanx_rad <- atan2(meansin2, meancos2) / 2
   rad2deg(meanx_rad) %% 180
 }
 #' @rdname weighted_circle_stats
@@ -405,8 +406,8 @@ circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
     data <- subset(data, !is.na(x) & !is.na(w))
   }
 
-  x <- deg2rad(data$x)
-  w <- deg2rad(data$w)
+  x <- deg2rad(data$x) %% pi
+  w <- data$w
 
   Z <- sum(w)
 
@@ -418,11 +419,13 @@ circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
   meancos2 <- sumcos2 / Z
   meanR <- sqrt(meancos2^2 + meansin2^2)
 
-  sqrt(-2 * log(meanR)) / (2 * pi / 180)
+  sd <- sqrt(-2 * log(meanR)) / 2
+  rad2deg(sd)
 }
 
 
 #' @rdname weighted_circle_stats
+#' @export
 circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
 
@@ -434,16 +437,16 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
   na.rm <- as.logical(na.rm)
   if (is.na(na.rm)) na.rm <- FALSE
 
-  data <- data.frame(x %% 180, w)
+  data <- data.frame(x = x %% 180, w)
 
   if (na.rm) {
     data <- subset(data, !is.na(x) & !is.na(w))
   }
 
-  data <- data[order(x), ]
+  data <- dplyr::arrange(data, x)
 
   x <- deg2rad(data$x)
-  w <- deg2rad(data$w)
+  w <- data$w
 
   n <- length(x)
 
@@ -466,12 +469,13 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
     sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / (w[m] +  w[m + 1])
     sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / (w[m] +  w[m + 1])
   }
-  (atan2d_spec(sumsin2, sumcos2)) %% 180
+  atan2d(sumsin2, sumcos2) %% 180
 }
 
 
 
 #' @rdname weighted_circle_stats
+#' @export
 circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
 
@@ -483,21 +487,22 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
   na.rm <- as.logical(na.rm)
   if (is.na(na.rm)) na.rm <- FALSE
 
-  data <- data.frame(x %% 180, w)
+  data <- data.frame(x = x %% 180, w)
 
   if (na.rm) {
     data <- subset(data, !is.na(x) & !is.na(w))
   }
 
-  data <- data[order(x), ]
+  data <- dplyr::arrange(data, x)
+
+  med <- circular_weighted_median(data$x, data$w)
 
   x <- deg2rad(data$x)
-  w <- deg2rad(data$w)
+  w <- data$w
 
   n <- length(x)
 
   if (n > 3) {
-    med <- circular_weighted_median(x, w)
 
     if (n %% 4 == 0) {
       m <- n / 4
@@ -551,19 +556,20 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
     mean.sin.uq <- sum.sin.uq / Zu
     mean.cos.uq <- sum.cos.uq / Zu
 
-    lq <- (atan2d_spec(mean.sin.lq, mean.cos.lq)) %% 180
-    uq <- (atan2d_spec(mean.sin.uq, mean.cos.uq)) %% 180
+    lq <- atan2d(mean.sin.lq, mean.cos.lq)
+    uq <- atan2d(mean.sin.uq, mean.cos.uq)
 
-    quantiles <- c(x[1], lq, med, uq, x[length(x)])
+    quantiles <- c(rad2deg(x[1]), rad2deg(lq), med, rad2deg(uq), rad2deg(x[length(x)]))
     names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
     return(as.numeric(quantiles))
   } else {
-    message("x needs more than 3 values\n")
+    message("x needs more than 3 values")
     return(NULL)
   }
 }
 
 #' @rdname weighted_circle_stats
+#' @export
 circular_weighted_IQR <- function(x, w = NULL, na.rm = TRUE) {
   quantiles <- circular_weighted_quantiles(x, w)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))

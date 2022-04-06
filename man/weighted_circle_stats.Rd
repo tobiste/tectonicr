@@ -38,13 +38,14 @@ of orientation data. Weighting is based on the reciprocal of the data
 uncertainties.
 }
 \examples{
-x <- c(175, 179, 0, 2, 4)
+x <- c(175, 179, 0, 2, 4) + 90
 unc <- c(5, 1, 0.1, 2, 4)
 circular_weighted_mean(x, 1 / unc)
 circular_weighted_var(x, 1 / unc)
 circular_weighted_sd(x, 1 / unc)
-#circular_weighted_median(x, 1 / unc)
-#circular_weighted_IQR(x, 1/unc)
+circular_weighted_median(x, 1 / unc)
+circular_weighted_quantiles(x, 1/unc)
+circular_weighted_IQR(x, 1/unc)
 }
 \references{
 \itemize{
