@@ -31,9 +31,9 @@ and rotation angle (optional)}
 \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 \code{"ld"} for loxodromes.}
 
-\item{n}{Number of equally spaced curves}
+\item{n}{Number of equally spaced curves; n = 10 by default (angular distance between curves: 180 / n)}
 
-\item{angle}{Direction of loxodromes; default = 45}
+\item{angle}{Direction of loxodromes; angle = 45 by default.}
 
 \item{cw}{logical. Sense of loxodromes: \code{TRUE} for clockwise
 loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for

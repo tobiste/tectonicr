@@ -44,8 +44,8 @@ circular_weighted_mean(x, 1 / unc)
 circular_weighted_var(x, 1 / unc)
 circular_weighted_sd(x, 1 / unc)
 circular_weighted_median(x, 1 / unc)
-circular_weighted_quantiles(x, 1/unc)
-circular_weighted_IQR(x, 1/unc)
+circular_weighted_quantiles(x, 1 / unc)
+circular_weighted_IQR(x, 1 / unc)
 }
 \references{
 \itemize{

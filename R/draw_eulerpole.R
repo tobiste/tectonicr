@@ -131,8 +131,8 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
 #' and rotation angle (optional)
-#' @param n Number of equally spaced curves
-#' @param angle Direction of loxodromes; default = 45
+#' @param n Number of equally spaced curves; n = 10 by default (angular distance between curves: 180 / n)
+#' @param angle Direction of loxodromes; angle = 45 by default.
 #' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
 #' loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
 #' counterclockwise loxodromes (left-lateral displaced plate boundaries).
@@ -152,7 +152,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
 #'  circles at a constant angle.}
 #'  }
-#' @importFrom dplyr "%>%" mutate select summarise group_by
+#' @importFrom dplyr "%>%" mutate select summarise group_by rename
 #' @importFrom sp proj4string CRS
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
 #' @importFrom smoothr densify
@@ -209,7 +209,8 @@ eulerpole_smallcircles <-
       summarise(do_union = FALSE) %>%
       st_cast("MULTILINESTRING") %>%
       smoothr::densify() %>%
-      mutate(small_circle = ifelse(small_circle <= 90, -1 * small_circle, 180 - small_circle))
+      mutate(small_circle = ifelse(small_circle < 90, -1 * small_circle, 180 - small_circle)) %>%
+      rename(d = small_circle)
 
     SL <- PoR_to_geographical(x = sf::st_as_sf(sm.sf), ep = x) %>%
       sf::st_wrap_dateline(
@@ -270,7 +271,8 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf"
     summarise(do_union = FALSE) %>%
     st_cast("MULTILINESTRING") %>%
     smoothr::densify() %>%
-    mutate(loxodrome = loxodrome %% 180)
+    mutate(loxodrome = loxodrome %% 180) %>%
+    rename(d = loxodrome)
 
   SL <- PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%
     sf::st_wrap_dateline(
