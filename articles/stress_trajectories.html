@@ -121,6 +121,9 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler.sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_smallcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span>
 
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"PB2002"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span>
+<span class="va">world</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="st">"small"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span> 
+
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>
@@ -153,10 +156,9 @@
     fill <span class="op">=</span> <span class="st">"darkblue"</span>,
     stroke <span class="op">=</span> <span class="fl">1</span>
   <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"+proj=natearth"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<div class="figure">
-<img src="smallcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are small circles around the In-Eu Euler pole.</p>
-</div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+<p><img src="stress_trajectories_files/figure-html/small_circles_around_ep-1.png" width="700"></p>
+<!-- ![Predicted SHmax trajectories that are small circles around the In-Eu Euler pole.](smallcircles.png)-->
 </div>
 <div class="section level3">
 <h3 id="great-circles">Great Circles<a class="anchor" aria-label="anchor" href="#great-circles"></a>
@@ -202,10 +204,9 @@
     fill <span class="op">=</span> <span class="st">"darkblue"</span>,
     stroke <span class="op">=</span> <span class="fl">1</span>
   <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"+proj=natearth"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<div class="figure">
-<img src="greatcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are great circles passing through the In-Eu Euler pole.</p>
-</div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="stress_trajectories_files/figure-html/great_circles_around_ep-1.png" width="700"></p>
+<!--![Predicted SHmax trajectories that are great circles passing through the In-Eu Euler pole.](greatcircles.png)-->
 </div>
 <div class="section level3">
 <h3 id="loxodromes">Loxodromes<a class="anchor" aria-label="anchor" href="#loxodromes"></a>
@@ -246,10 +247,9 @@
     fill <span class="op">=</span> <span class="st">"darkblue"</span>,
     stroke <span class="op">=</span> <span class="fl">1</span>
   <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"+proj=natearth"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<div class="figure">
-<img src="loxodromes.png" alt=""><p class="caption">Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.</p>
-</div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+<p><img src="stress_trajectories_files/figure-html/loxodromes-1.png" width="700"></p>
+<!--![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.](loxodromes.png)-->
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
