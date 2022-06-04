@@ -16,7 +16,8 @@ Imports:
     dplyr,
     ggplot2,
     sf,
-    sp
+    sp,
+    smoothr
 Suggests: 
     covr,
     knitr,
@@ -33,4 +34,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0

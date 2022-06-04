@@ -152,9 +152,10 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
 #'  circles at a constant angle.}
 #'  }
-#' @importFrom dplyr "%>%" mutate select
-#' @importFrom sp Line Lines SpatialLines SpatialLinesDataFrame proj4string CRS
-#' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial
+#' @importFrom dplyr "%>%" mutate select summarise group_by
+#' @importFrom sp proj4string CRS
+#' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
+#' @importFrom smoothr densify
 #' @name stress_paths
 #' @examples
 #' data("nuvel1")
@@ -202,27 +203,15 @@ eulerpole_smallcircles <-
       sm_range.df <- velocity
     }
 
-    SL.list <- list()
+    sm.sf <- sm.df %>%
+      st_as_sf(coords = c("lon", "lat")) %>%
+      group_by(small_circle) %>%
+      summarise(do_union = FALSE) %>%
+      st_cast("MULTILINESTRING") %>%
+      smoothr::densify() %>%
+      mutate(small_circle = ifelse(small_circle <= 90, -1*small_circle, 180-small_circle))
 
-    for (s in unique(sm.df$small_circle)) {
-      # loop through all small circles
-      sm.subset <- subset(sm.df, sm.df$small_circle == s)
-
-      l.i <- sp::Lines(slinelist = sp::Line(cbind(
-        "lon" = sm.subset$lon,
-        "lat" = sm.subset$lat
-      )), ID = as.character(s))
-
-      suppressWarnings(SL.list[as.character(s)] <- l.i)
-    }
-
-    SL.wgs84 <- sp::SpatialLines(SL.list)
-    SL.wgs84.df <- sp::SpatialLinesDataFrame(
-      SL.wgs84,
-      data.frame("n" = sm_range.df, row.names = sm_range)
-    )
-
-    SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x) %>%
+    SL <- PoR_to_geographical(x = sf::st_as_sf(sm.sf), ep = x) %>%
       sf::st_wrap_dateline(
         options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
         quiet = TRUE)
@@ -261,6 +250,7 @@ eulerpole_greatcircles <- function(x, n = 10, returnclass = c("sf", "sp")) {
 eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf", "sp")) {
   stopifnot(is.data.frame(x))
   stopifnot(dim(x)[1] > 0)
+  stopifnot(abs(angle)!=90)
 
   stopifnot(is.logical(cw))
   returnclass <- match.arg(returnclass)
@@ -273,30 +263,15 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf"
       cw = cw
     )
 
-  ld_range <- unique(ld.df$loxodrome)
-  SL.list <- list()
+  ld.sf <- ld.df %>%
+    st_as_sf(coords = c("lon", "lat")) %>%
+    group_by(loxodrome) %>%
+    summarise(do_union = FALSE) %>%
+    st_cast("MULTILINESTRING") %>%
+    smoothr::densify() %>%
+    mutate(loxodrome = loxodrome %% 180)
 
-  for (l in unique(ld.df$loxodrome)) {
-    # loop through all circles
-    ld.subset <- subset(ld.df, ld.df$loxodrome == l)
-
-    l.i <- suppressWarnings(sp::Lines(slinelist = sp::Line(
-      cbind(
-        "lon" = ld.subset$lon,
-        "lat" = ld.subset$lat
-      )
-    ), ID = as.character(l)))
-
-    suppressWarnings(SL.list[as.character(l)] <- l.i)
-  }
-
-  SL.wgs84 <- sp::SpatialLines(SL.list)
-  SL.wgs84.df <- sp::SpatialLinesDataFrame(
-    SL.wgs84,
-    data.frame("n" = as.character(ld_range), row.names = ld_range)
-  )
-
-  SL <- PoR_to_geographical(x = sf::st_as_sf(SL.wgs84.df), ep = x) %>%
+  SL <- PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%
     sf::st_wrap_dateline(
       options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
       quiet = TRUE)
