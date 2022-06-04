@@ -342,8 +342,8 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' circular_weighted_var(x, 1 / unc)
 #' circular_weighted_sd(x, 1 / unc)
 #' circular_weighted_median(x, 1 / unc)
-#' circular_weighted_quantiles(x, 1/unc)
-#' circular_weighted_IQR(x, 1/unc)
+#' circular_weighted_quantiles(x, 1 / unc)
+#' circular_weighted_IQR(x, 1 / unc)
 #' @name weighted_circle_stats
 NULL
 
@@ -458,7 +458,6 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
 
     sumsin2 <- sin(x[m + 1])
     sumcos2 <- cos(x[m + 1])
-
   } else { # if even
     m <- n / 2
     # atand(
@@ -466,8 +465,8 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
     #     (cosd(x[m]) + cosd(x[m + 1]))
     # ) %% 180
 
-    sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / (w[m] +  w[m + 1])
-    sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / (w[m] +  w[m + 1])
+    sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / (w[m] + w[m + 1])
+    sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / (w[m] + w[m + 1])
   }
   atan2d(sumsin2, sumcos2) %% 180
 }
@@ -503,7 +502,6 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
   n <- length(x)
 
   if (n > 3) {
-
     if (n %% 4 == 0) {
       m <- n / 4
       sum.sin.lq <- sind(x[m + 1])

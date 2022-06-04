@@ -85,9 +85,9 @@ test_that("Output of functions is as expected", {
   # expect_equal(circular_weighted_mean(c(180, 0)), 0)
   expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
   expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
-  #expect_equal(circular_quasi_median(test.vals), circular_weighted_median(test.vals))
-  #expect_equal(circular_quasi_IQR(test.vals), circular_weighted_IQR(test.vals))
-  #expect_equal(circular_mean(test.vals), circular_weighted_mean(test.vals))
+  # expect_equal(circular_quasi_median(test.vals), circular_weighted_median(test.vals))
+  # expect_equal(circular_quasi_IQR(test.vals), circular_weighted_IQR(test.vals))
+  # expect_equal(circular_mean(test.vals), circular_weighted_mean(test.vals))
 })
 
 # test output is NULL ----------------------------------------------------------

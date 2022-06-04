@@ -209,12 +209,13 @@ eulerpole_smallcircles <-
       summarise(do_union = FALSE) %>%
       st_cast("MULTILINESTRING") %>%
       smoothr::densify() %>%
-      mutate(small_circle = ifelse(small_circle <= 90, -1*small_circle, 180-small_circle))
+      mutate(small_circle = ifelse(small_circle <= 90, -1 * small_circle, 180 - small_circle))
 
     SL <- PoR_to_geographical(x = sf::st_as_sf(sm.sf), ep = x) %>%
       sf::st_wrap_dateline(
         options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
-        quiet = TRUE)
+        quiet = TRUE
+      )
 
     if (returnclass == "sp") {
       SL <- sf::as_Spatial(SL)
@@ -250,7 +251,7 @@ eulerpole_greatcircles <- function(x, n = 10, returnclass = c("sf", "sp")) {
 eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf", "sp")) {
   stopifnot(is.data.frame(x))
   stopifnot(dim(x)[1] > 0)
-  stopifnot(abs(angle)!=90)
+  stopifnot(abs(angle) != 90)
 
   stopifnot(is.logical(cw))
   returnclass <- match.arg(returnclass)
@@ -274,7 +275,8 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf"
   SL <- PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%
     sf::st_wrap_dateline(
       options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
-      quiet = TRUE)
+      quiet = TRUE
+    )
 
   if (returnclass == "sp") {
     SL <- sf::as_Spatial(SL)
