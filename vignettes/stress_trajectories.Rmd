@@ -114,7 +114,7 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("ESRI:54030")) 
 ```
 
 <!-- ![Predicted SHmax trajectories that are small circles around the In-Eu Euler pole.](smallcircles.png)-->
@@ -168,7 +168,7 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("ESRI:54030"))
 ```
 
 <!--![Predicted SHmax trajectories that are great circles passing through the In-Eu Euler pole.](greatcircles.png)-->
@@ -219,7 +219,7 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(default_crs = "WGS84", crs = sf::st_crs("+proj=natearth")) 
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("ESRI:54030")) 
 ```
 
 <!--![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.](loxodromes.png)--> 
