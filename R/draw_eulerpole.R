@@ -198,7 +198,7 @@ eulerpole_smallcircles <-
       dplyr::summarise(do_union = FALSE) %>%
       sf::st_cast("MULTILINESTRING") %>%
       smoothr::densify() %>%
-      dplyr::mutate(d = ifelse(small_circle < 90, -1 * small_circle, 180 - small_circle)) %>%
+      dplyr::mutate(d = ifelse(small_circle < 90, -1 * small_circle, 180 - small_circle))
 
     if (!is.null(x$angle)) {
       sm.sf <- sm.sf %>%
