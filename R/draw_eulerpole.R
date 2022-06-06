@@ -191,26 +191,22 @@ eulerpole_smallcircles <-
     returnclass <- match.arg(returnclass)
     small_circle <- NULL
     sm.df <- smallcircle_dummy(n)
-    sm_range <- unique(sm.df$small_circle)
-
-    if (is.null(x$angle)) {
-      sm_range.df <- sm_range
-    } else {
-      velocity <- sm.df %>%
-        dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = sm.df$small_circle)) %>%
-        dplyr::select(small_circle, abs_vel) %>%
-        unique()
-      sm_range.df <- velocity
-    }
 
     sm.sf <- sm.df %>%
-      st_as_sf(coords = c("lon", "lat")) %>%
-      group_by(small_circle) %>%
-      summarise(do_union = FALSE) %>%
-      st_cast("MULTILINESTRING") %>%
+      sf::st_as_sf(coords = c("lon", "lat")) %>%
+      dplyr::group_by(small_circle) %>%
+      dplyr::summarise(do_union = FALSE) %>%
+      sf::st_cast("MULTILINESTRING") %>%
       smoothr::densify() %>%
-      mutate(small_circle = ifelse(small_circle < 90, -1 * small_circle, 180 - small_circle)) %>%
-      rename(d = small_circle)
+      dplyr::mutate(d = ifelse(small_circle < 90, -1 * small_circle, 180 - small_circle)) %>%
+
+    if (!is.null(x$angle)) {
+      sm.sf <- sm.sf %>%
+        dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle)) %>%
+        dplyr::select(d, abs_vel, small_circle)
+    }
+
+    sm.sf <- sm.sf %>% dplyr::select(-small_circle)
 
     SL <- PoR_to_geographical(x = sf::st_as_sf(sm.sf), ep = x) %>%
       sf::st_wrap_dateline(
@@ -266,13 +262,13 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf"
     )
 
   ld.sf <- ld.df %>%
-    st_as_sf(coords = c("lon", "lat")) %>%
-    group_by(loxodrome) %>%
-    summarise(do_union = FALSE) %>%
-    st_cast("MULTILINESTRING") %>%
+    sf::st_as_sf(coords = c("lon", "lat")) %>%
+    dplyr::group_by(loxodrome) %>%
+    dplyr::summarise(do_union = FALSE) %>%
+    sf::st_cast("MULTILINESTRING") %>%
     smoothr::densify() %>%
-    mutate(loxodrome = loxodrome %% 180) %>%
-    rename(d = loxodrome)
+    dplyr::mutate(loxodrome = loxodrome %% 180) %>%
+    dplyr::rename(d = loxodrome)
 
   SL <- PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%
     sf::st_wrap_dateline(
