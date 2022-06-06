@@ -136,25 +136,7 @@ circles at a constant angle.</p></dd>
 <span class="r-in"><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">eulerpole_smallcircles</span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 11 features and 1 field</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -180 ymin: -90 xmax: 180 ymax: 90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        d                                                                geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                                                        <span style="color: #949494; font-style: italic;">&lt;LINESTRING [°]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     0 (-180 -90, -178.2 -90, -176.4 -90, -174.6 -90, -172.8 -90, -171 -90, -…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>   -<span style="color: #BB0000;">18</span> (-180 -72, -178.2 -72, -176.4 -72, -174.6 -72, -172.8 -72, -171 -72, -…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>   -<span style="color: #BB0000;">36</span> (-180 -54, -178.2 -54, -176.4 -54, -174.6 -54, -172.8 -54, -171 -54, -…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>   -<span style="color: #BB0000;">54</span> (-180 -36, -178.2 -36, -176.4 -36, -174.6 -36, -172.8 -36, -171 -36, -…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>   -<span style="color: #BB0000;">72</span> (-180 -18, -178.2 -18, -176.4 -18, -174.6 -18, -172.8 -18, -171 -18, -…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>    90 (-180 0, -178.2 0, -176.4 0, -174.6 0, -172.8 0, -171 0, -169.2 0, -16…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>    72 (-180 18, -178.2 18, -176.4 18, -174.6 18, -172.8 18, -171 18, -169.2 …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>    54 (-180 36, -178.2 36, -176.4 36, -174.6 36, -172.8 36, -171 36, -169.2 …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>    36 (-180 54, -178.2 54, -176.4 54, -174.6 54, -172.8 54, -171 54, -169.2 …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>    18 (-180 72, -178.2 72, -176.4 72, -174.6 72, -172.8 72, -171 72, -169.2 …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>     0 (-180 90, -178.2 90, -176.4 90, -174.6 90, -172.8 90, -171 90, -169.2 …</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (.) !is.null(x$angle) else {    sm.sf &lt;- sm.sf %&gt;% dplyr::mutate(abs_vel = abs_vel(w = x$angle,         alpha = small_circle)) %&gt;% dplyr::select(d, abs_vel,         small_circle)}:</span> the condition has length &gt; 1</span>
 <span class="r-in"><span class="fu">eulerpole_greatcircles</span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 11 features and 1 field</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: GEOMETRY</span>
