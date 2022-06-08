@@ -224,12 +224,12 @@ equivalent_rotation <- function(x, fixed) {
   if (exists(paste0("fixed.plate$plate.fix"))) {
     fixed0.plate <- subset(x, x$plate.rot == fixed.plate$plate.fix)
     fixed0.ep <- euler_pole(fixed0.plate$lat, fixed0.plate$lon)
-    fixed0.rot <- euler_rot(fixed0.ep, -fixed0.plate$angle)
+    fixed0.rot <- euler_rot(fixed0.ep, -fixed0.plate$angle) # reverse rotation
 
     fixed.rot <-
       euler_rot(fixed.ep, fixed.plate$angle) %*% fixed0.rot
   } else {
-    fixed.rot <- euler_rot(fixed.ep, -fixed.plate$angle)
+    fixed.rot <- euler_rot(fixed.ep, -fixed.plate$angle) # reverse rotation
   }
 
   for (i in seq_along(x$plate.rot)) {
@@ -240,8 +240,11 @@ equivalent_rotation <- function(x, fixed) {
       angle.eq[i] <- 0
     } else {
       # Composition of finite rotations
-      equivalent.rot <- fixed.rot %*%
-        euler_rot(euler_pole(x$lat[i], x$lon[i]), x$angle[i])
+      # equivalent.rot <- fixed.rot %*%
+      #   euler_rot(euler_pole(x$lat[i], x$lon[i]), x$angle[i])
+
+      equivalent.rot <-
+        euler_rot(euler_pole(x$lat[i], x$lon[i]), x$angle[i]) %*% fixed.rot
 
       equivalent.ep <- euler_from_rot(equivalent.rot)
 

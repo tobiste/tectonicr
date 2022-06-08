@@ -1,13 +1,13 @@
 #' @title Coordinate Correction
 #'
-#' @description Corrects the longitudes or latitudes to values -180 and +180, or
-#' -90 and +90 degree
+#' @description Corrects the longitudes or latitudes to value between -180.0 and 180.0 or
+#' -90 and 90 degree
 #' @param x Longitude(s) or latitude(s) in degree
 #' @return numeric
 #' @name coordinate_mod
 #' @examples
-#' longitude_modulo(-361)
-#' latitude_modulo(-91)
+#' longitude_modulo(-361 + 5*360)
+#' latitude_modulo(-91 + 5*180)
 NULL
 
 #' @rdname coordinate_mod
@@ -49,13 +49,10 @@ cartesian_to_geographical <- function(n) {
   r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
   lat <- rad2deg(asin(n[3] / r))
   lon <- rad2deg(atan2(n[2], n[1]))
-  if (lat <= -90) {
-    lat <- 180 + lat
-  }
-  if (lat >= 90) {
-    lat <- 180 - lat
-  }
-  lon <- longitude_modulo(lon)
+  # if (abs(lat) > 90) {
+  #   lat <- latitude_modulo(lat)
+  #   lon <- longitude_modulo(lon + 180)
+  # }
   c(lat, lon)
 }
 

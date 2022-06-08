@@ -189,7 +189,7 @@ eulerpole_smallcircles <-
     stopifnot(is.data.frame(x))
     stopifnot(dim(x)[1] > 0)
     returnclass <- match.arg(returnclass)
-    small_circle <- NULL
+    small_circle <- d <- NULL
     sm.df <- smallcircle_dummy(n)
 
     sm.sf <- sm.df %>%
