@@ -6,11 +6,17 @@
 
 # tectonicr
 
-**tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.
+**tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates. The following methods are available:
+
+- **Theoretical direction of SHmax**: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the  neighboring plates using the function `model_shmax()`. The deviation or misfit of the prediction to the observation can be obtained from the function `misfit_shmax()` and statistically evaluated by applying `norm_chisq()`.
+- **Distance to plate boundary**: `distance_from_pb()`measures the proper distance between the stress data point and the plate boundary along the stress trajectories.
+- **Visualisation of the trajectories of the theoretical stress field** in terms of small circles, great circles, and lines of constant bearing. The `eulerpole_paths()` functions generates an  `sf` object containing spatial informartion that is suitable to plot with, for instance, `ggplot()`. 
+- **Relative rotations from a given set of plate motion parameters**: `equivalent_rotation()` transfers a set of plate motion parameters into the relative plate motions among the given plates. 
+- **Average direction of a set of SHmax data** using the (weighted) mean or median for pi-directional data.
 
 ## Prerequisites
 
-You must have R installed on your system (see http://r-project.org). Additionally, to install **tectonicr** from Github, you also need the `remotes` package. This can be installed by typing the following code at the R command line prompt:
+You must have R installed on your system (see http://r-project.org). To install **tectonicr** from Github, you also need the `remotes` package. This can be installed by typing the following code at the R command line prompt:
 
 ```
 install.packages("remotes")
