@@ -152,7 +152,8 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  }
 #' @importFrom dplyr "%>%" mutate select summarise group_by rename
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
-#' @importFrom smoothr densify
+#' @note If package "smoothr" is installed, the sf objects will be "densified"
+#' via [smoothr::densify()].
 #' @name stress_paths
 #' @examples
 #' data("nuvel1")
@@ -193,9 +194,13 @@ eulerpole_smallcircles <-
       sf::st_as_sf(coords = c("lon", "lat")) %>%
       dplyr::group_by(small_circle) %>%
       dplyr::summarise(do_union = FALSE) %>%
-      sf::st_cast("MULTILINESTRING") %>%
-      smoothr::densify() %>%
-      dplyr::mutate(d = ifelse(
+      sf::st_cast("MULTILINESTRING")
+
+    # If "smoothr" is installed, the object will be densified
+    if (requireNamespace("smoothr", quietly = TRUE)) {
+      sm.sf <- smoothr::densify(sm.sf)
+    }
+    sm.sf <- dplyr::mutate(sm.sf, d = ifelse(
         small_circle < 90, -1 * small_circle, 180 - small_circle
       ))
 
@@ -247,9 +252,15 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
     sf::st_as_sf(coords = c("lon", "lat")) %>%
     dplyr::group_by(loxodrome) %>%
     dplyr::summarise(do_union = FALSE) %>%
-    sf::st_cast("MULTILINESTRING") %>%
-    smoothr::densify() %>%
-    dplyr::mutate(loxodrome = loxodrome %% 180) %>%
+    sf::st_cast("MULTILINESTRING")
+
+  # If "smoothr" is installed, the object will be densified
+  if (requireNamespace("smoothr", quietly = TRUE)) {
+    ld.sf <- smoothr::densify(ld.sf)
+  }
+
+  ld.sf %>%
+    dplyr::mutate(ld.sf, loxodrome = loxodrome %% 180) %>%
     dplyr::rename(d = loxodrome)
 
   PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%

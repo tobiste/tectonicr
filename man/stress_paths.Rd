@@ -54,6 +54,10 @@ pole and its antipodal position.}
 circles at a constant angle.}
 }
 }
+\note{
+If package "smoothr" is installed, the sf objects will be "densified"
+via \code{\link[smoothr:densify]{smoothr::densify()}}.
+}
 \examples{
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
