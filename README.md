@@ -1,4 +1,5 @@
 <!-- badges: start -->
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/tectonicr/actions)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360893.svg)](https://doi.org/10.5281/zenodo.6360893)
 <!-- badges: end -->
