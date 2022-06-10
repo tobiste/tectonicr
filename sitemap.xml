@@ -73,13 +73,7 @@
     <loc>https://tobiste.github.io/tectonicr/reference/equivalent_rotation.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/euler_from_rot.html</loc>
-  </url>
-  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/euler_pole.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/euler_rot.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/get_azimuth.html</loc>
@@ -106,16 +100,10 @@
     <loc>https://tobiste.github.io/tectonicr/reference/quantise_wsm_quality.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/relative_rotation.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/rotate_lines.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rotation_angle.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rotation_axis.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rotation_matrix.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/spec_atan.html</loc>
