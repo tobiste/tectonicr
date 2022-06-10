@@ -17,7 +17,8 @@ Imports:
     ggplot2,
     sf,
     sp,
-    smoothr
+    smoothr,
+    pracma
 Suggests: 
     covr,
     knitr,

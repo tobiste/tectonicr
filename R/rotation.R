@@ -1,83 +1,3 @@
-#' @title Rotation Matrix
-#'
-#' @description Calculates the rotation matrix using the rotation axis and the
-#' angle of rotation
-#' @param n Rotation axis (in Cartesian coordinates). Can be a vector of three
-#' numbers or a matrix of 3 columns (x, y, z)
-#' @param alpha Rotation angle in degrees
-#' @return \code{matrix}
-#' @seealso [rotation_axis()] and [rotation_angle()] to extract the axis and the
-#' angle from the rotation matrix.
-#' @export
-#' @examples
-#' w <- c(0, 1, 0)
-#' rotation_matrix(w, 90)
-rotation_matrix <- function(n, alpha) {
-  stopifnot(is.numeric(n) & is.numeric(alpha))
-
-  n <- n / sqrt(sum(n^2)) # unit vector
-  R <- matrix(nrow = 3, ncol = 3)
-  R[1, 1] <- n[1]^2 * (1 - cosd(alpha)) + cosd(alpha)
-  R[1, 2] <- n[1] * n[2] * (1 - cosd(alpha)) - n[3] * sind(alpha)
-  R[1, 3] <- n[1] * n[3] * (1 - cosd(alpha)) + n[2] * sind(alpha)
-  R[2, 1] <- n[2] * n[1] * (1 - cosd(alpha)) + n[3] * sind(alpha)
-  R[2, 2] <- n[2]^2 * (1 - cosd(alpha)) + cosd(alpha)
-  R[2, 3] <- n[2] * n[3] * (1 - cosd(alpha)) - n[1] * sind(alpha)
-  R[3, 1] <- n[3] * n[1] * (1 - cosd(alpha)) - n[2] * sind(alpha)
-  R[3, 2] <- n[3] * n[2] * (1 - cosd(alpha)) + n[1] * sind(alpha)
-  R[3, 3] <- n[3]^2 * (1 - cosd(alpha)) + cosd(alpha)
-  R
-}
-
-
-#' @title Rotation angle from rotation matrix
-#' @description Extracts the rotation angle from rotation matrix
-#' @param A 3x3 matrix
-#' @note Infinitesimal small rotation (i.e. small angles) will cause an Error
-#' due to round-off errors. In order to avoid the error, these rotations will
-#' be treated as equal rotations. The function will print a warning message when
-#' this is the case.
-#' @return numeric angle in degree
-#' @seealso [rotation_axis()] to extract the axis of the rotation matrix.
-#' @export
-#' @examples
-#' w <- c(0, 1, 0)
-#' rot <- rotation_matrix(w, 90)
-#'
-#' rotation_angle(rot)
-rotation_angle <- function(A) {
-  stopifnot(is.matrix(A))
-
-  a <- (sum(diag(A)) - 1) / 2
-  if (a >= 1) {
-    warning("introduces round-off")
-    a <- 1
-  }
-  psi <- acos(a)
-  rad2deg(psi)
-}
-
-#' @title Rotation axis from rotation matrix
-#' @description Extracts the rotation axis from rotation matrix
-#' @param A 3x3 matrix
-#' @return vector
-#' @seealso [rotation_angle()] to extract the angle of the rotation matrix.
-#' @export
-#' @examples
-#' w <- c(0, 1, 0)
-#' rot <- rotation_matrix(w, 90)
-#'
-#' rotation_axis(rot)
-rotation_axis <- function(A) {
-  stopifnot(is.matrix(A))
-
-  psi <- rotation_angle(A)
-  e1 <- (A[3, 2] - A[2, 3]) / 2 * sind(psi)
-  e2 <- (A[1, 3] - A[3, 1]) / 2 * sind(psi)
-  e3 <- (A[2, 1] - A[1, 2]) / 2 * sind(psi)
-  c(e1, e2, e3)
-}
-
 #' @title Euler pole object
 #' @description Creates an object of the orientation of the Euler pole axis
 #' @param x latitude or x coordinate of Euler pole axis
@@ -86,14 +6,18 @@ rotation_axis <- function(A) {
 #' @param geo logical,\code{TRUE} (the default) if Euler pole axis is given in
 #' geographical coordinates (latitude, longitude). \code{FALSE} if given in
 #' cartesian coordinates (x, y, z)
-#' @return An object of class \code{"euler.pole"}
-#' containing the Euler pole axis in both geographical and cartesian coordinates.
+#' @param angle (optional) Angle of rotation in degrees (CCW rotation if angle > 0)
+#' @return An object of class \code{"euler.pole"} containing the Euler pole
+#' axis in both geographical and Cartesian coordinates and the angle of rotation
+#' in radians.
 #' @export
 #' @examples
-#' euler_pole(90, 0)
+#' euler_pole(90, 0, 45)
 #' euler_pole(0, 0, 1, geo = FALSE)
-euler_pole <- function(x, y, z = NA, geo = TRUE) {
+euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
   stopifnot(is.logical(geo))
+
+  if(!is.na(angle)) angle <- deg2rad(angle)
 
   if (geo) {
     cart <- geographical_to_cartesian(c(x, y))
@@ -111,85 +35,58 @@ euler_pole <- function(x, y, z = NA, geo = TRUE) {
     z <- z
   }
 
-  ep <- data.frame(lat, lon, x, y, z)
+  ep <- data.frame(lat, lon, x, y, z, angle)
   class(ep) <- append(class(ep), "euler.pole")
   return(ep)
 }
 
-#' @title Euler rotation matrix
-#' @description Creates a matrix from the given set of values.
-#' @param ep An object of class \code{"euler.pole"}, or a data.frame
-#' (containing lon and lat)
-#' @param psi Angle of rotation in degree
-#' @return \code{matrix}
-#' @references Greiner, B. (1999). Euler rotations in plate-tectonic
-#' reconstructions. *Computers and Geosciences*, 25(3), 209--216.
-#' \doi{10.1016/S0098-3004(98)00160-5}
-#' @export
-#' @examples
-#' ep <- euler_pole(90, 0)
-#' euler_rot(ep, psi = 45)
-euler_rot <- function(ep, psi) {
-  stopifnot(is.numeric(psi))
-
-  mat <- matrix(nrow = 3, ncol = 3)
-  mat[1, 1] <- sind(ep$lat) * cosd(ep$lon)
-  mat[1, 2] <- sind(ep$lat) * sind(ep$lon)
-  mat[1, 3] <- -cosd(ep$lat)
-  mat[2, 1] <- -sind(ep$lon)
-  mat[2, 2] <- cosd(ep$lon)
-  mat[2, 3] <- 0
-  mat[3, 1] <- cosd(ep$lat) * cosd(ep$lon)
-  mat[3, 2] <- cosd(ep$lat) * sind(ep$lon)
-  mat[3, 3] <- sind(ep$lat)
-
-  R <- matrix(nrow = 3, ncol = 3)
-  R[1, 1] <- cosd(psi)
-  R[1, 2] <- -sind(psi)
-  R[1, 3] <- 0
-  R[2, 1] <- sind(psi)
-  R[2, 2] <- cosd(psi)
-  R[2, 3] <- 0
-  R[3, 1] <- 0
-  R[3, 2] <- 0
-  R[3, 3] <- 1
-
-  solve(mat) %*% R %*% mat
-}
-
-
-#' @title Euler axis and angle from Euler matrix
-#' @description Extracts the coordinates of an Euler pole and the angle from a
-#' Euler matrix
-#' @param A 3x3 matrix
-#' @details If there is no rotation (i.e. angle i zero), the coordinates of the
-#' axis are equal to Earth's spin axis (according to the GPLATES convention).
-#' @return \code{list} with the following objects
-#' \describe{
-#' \item{pole}{object of class \code{"euler.pole"}}
-#' \item{psi}{numeric Euler angle in degree}
-#' }
-#' @export
-#' @examples
-#' ep <- euler_pole(90, 0)
-#' er <- euler_rot(ep, psi = 45)
+#' Relative rotation between two rotations
 #'
-#' euler_from_rot(er)
-euler_from_rot <- function(A) {
-  stopifnot(is.matrix(A))
+#' Calculates the relative rotation between two rotations, i.e. the
+#' difference from rotation 1 to rotation 2.
+#'
+#' @param r1,r2 Objects of class \code{"euler.pole"}. First rotation is
+#' \code{r1}, followed rotation \code{r2}.
+#' @importFrom pracma cross
+#' @references Schaeben, H., Kroner, U. and Stephan, T. (2021). Euler Poles of
+#' Tectonic Plates. In B. S. Daza Sagar, Q. Cheng, J. McKinley and F. Agterberg
+#' (Eds.), *Encyclopedia of Mathematical Geosciences. Encyclopedia of Earth Sciences Series*
+#' (pp. 1--7). Springer Nature Switzerland AG 2021.
+#' \doi{10.1007/978-3-030-26050-7_435-1}
+#' @returns \code{list}. Infinitesimal and the finite approach Euler axes
+#' (geographical coordinates) and Euler angles (in degrees)
+#' @aliases rotation quaternion
+#' @seealso [euler_pole()] for class \code{"euler.pole"}
+#' @export
+#' @examples
+#' a <- euler_pole(90, 0, angle = 45)
+#' b <- euler_pole(0, 0, 1, geo = FALSE, angle = -15)
+#' relative_rotation(a, b)
+#' relative_rotation(b, a)
+relative_rotation <- function(r1, r2) {
+  w1 <- r1$angle
+  w2 <- r2$angle
 
-  psi <- rotation_angle(A)
-  if (psi != 0) {
-    ra <- rotation_axis(A)
-  } else {
-    ra <- c()
-    ra[1] <- 0
-    ra[2] <- 0
-    ra[3] <- 1
-  }
-  ep <- euler_pole(ra[1], ra[2], ra[3], geo = FALSE)
-  list(pole = ep, psi = psi)
+  e1 <- c(r1$x, r1$y, r1$z)
+  e2 <- c(r2$x, r2$y, r2$z)
+
+  angle <- as.numeric(
+    2 * acos(
+      cos(w2 / 2) * cos(w1 / 2) + (sin(w2 / 2) * e2) %*% (sin(w1 / 2) * e1)
+      )
+  )
+
+  a <- 1 / sin(angle / 2)
+  b <- -cos(w2 / 2) * sin(w1 / 2) * e1 + cos(w1 / 2) * sin(w2 / 2) * e2 - pracma::cross(sin(w2 / 2) * e2, sin(w1 / 2) * e1)
+
+  axis <- a * b
+
+  list(
+    axis = cartesian_to_geographical(axis),
+    angle = rad2deg(angle)
+  )
 }
+
 
 #' @title Equivalent rotation
 #' @description Transforms a sequence of rotations into a new reference system
@@ -219,17 +116,14 @@ equivalent_rotation <- function(x, fixed) {
   angle.eq <- c()
 
   fixed.plate <- subset(x, x$plate.rot == fixed)
-  fixed.ep <- euler_pole(fixed.plate$lat, fixed.plate$lon)
+  fixed.ep <- euler_pole(fixed.plate$lat, fixed.plate$lon, angle = fixed.plate$angle)
 
   if (exists(paste0("fixed.plate$plate.fix"))) {
     fixed0.plate <- subset(x, x$plate.rot == fixed.plate$plate.fix)
-    fixed0.ep <- euler_pole(fixed0.plate$lat, fixed0.plate$lon)
-    fixed0.rot <- euler_rot(fixed0.ep, -fixed0.plate$angle) # reverse rotation
+    fixed0.ep <- euler_pole(fixed0.plate$lat, fixed0.plate$lon, angle = fixed0.plate$angle)
 
-    fixed.rot <-
-      euler_rot(fixed.ep, fixed.plate$angle) %*% fixed0.rot
-  } else {
-    fixed.rot <- euler_rot(fixed.ep, -fixed.plate$angle) # reverse rotation
+    temp <- relative_rotation(fixed0.ep, fixed.ep)
+    fixed.ep <- euler_pole(temp$axis[1], temp$axis[2], angle = temp$angle)
   }
 
   for (i in seq_along(x$plate.rot)) {
@@ -239,18 +133,12 @@ equivalent_rotation <- function(x, fixed) {
       lon.eq[i] <- 0
       angle.eq[i] <- 0
     } else {
-      # Composition of finite rotations
-      # equivalent.rot <- fixed.rot %*%
-      #   euler_rot(euler_pole(x$lat[i], x$lon[i]), x$angle[i])
+      xi.ep <- euler_pole(x$lat[i], x$lon[i], angle = x$angle[i])
+      equivalent <- relative_rotation(fixed.ep, xi.ep)
 
-      equivalent.rot <-
-        euler_rot(euler_pole(x$lat[i], x$lon[i]), x$angle[i]) %*% fixed.rot
-
-      equivalent.ep <- euler_from_rot(equivalent.rot)
-
-      lat.eq[i] <- equivalent.ep$pole$lat
-      lon.eq[i] <- equivalent.ep$pole$lon
-      angle.eq[i] <- equivalent.ep$psi
+      lat.eq[i] <- equivalent$axis[1]
+      lon.eq[i] <- equivalent$axis[2]
+      angle.eq[i] <- equivalent$angle
     }
   }
   data.frame(

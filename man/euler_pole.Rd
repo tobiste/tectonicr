@@ -4,7 +4,7 @@
 \alias{euler_pole}
 \title{Euler pole object}
 \usage{
-euler_pole(x, y, z = NA, geo = TRUE)
+euler_pole(x, y, z = NA, geo = TRUE, angle = NA)
 }
 \arguments{
 \item{x}{latitude or x coordinate of Euler pole axis}
@@ -16,15 +16,18 @@ euler_pole(x, y, z = NA, geo = TRUE)
 \item{geo}{logical,\code{TRUE} (the default) if Euler pole axis is given in
 geographical coordinates (latitude, longitude). \code{FALSE} if given in
 cartesian coordinates (x, y, z)}
+
+\item{angle}{(optional) Angle of rotation in degrees}
 }
 \value{
-An object of class \code{"euler.pole"}
-containing the Euler pole axis in both geographical and cartesian coordinates.
+An object of class \code{"euler.pole"} containing the Euler pole
+axis in both geographical and Cartesian coordinates and the angle of rotation
+in radians.
 }
 \description{
 Creates an object of the orientation of the Euler pole axis
 }
 \examples{
-euler_pole(90, 0)
+euler_pole(90, 0, 45)
 euler_pole(0, 0, 1, geo = FALSE)
 }

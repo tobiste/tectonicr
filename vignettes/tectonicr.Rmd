@@ -184,4 +184,5 @@ and can be imported through:
 
 ```{r nuvel1, eval=FALSE, include=TRUE}
 data("nuvel1")
+head(nuvel1)
 ```

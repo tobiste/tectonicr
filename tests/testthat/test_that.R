@@ -47,7 +47,7 @@ ep3 <- data.frame()
 # eulerpole_loxodromes(ep3, cw = TRUE)
 # eulerpole_paths(ep3)
 
-euler_rot(ep1, 45)
+#euler_rot(ep1, 45)
 
 p1 <- c(35, 45) # Baghdad
 p2 <- c(35, 135) # Osaka
@@ -101,7 +101,7 @@ test_that("Statistics return NULL when too few numbers", {
 
 test_that("type of object returned is as expected", {
   expect_vector(get_azimuth(p1, p2), ptype = double(), size = 1)
-  expect_type(rotation_matrix(c(0, 1, 0), 90), "double")
+  #expect_type(rotation_matrix(c(0, 1, 0), 90), "double")
   expect_s3_class(sm.sf, "sf")
   expect_s3_class(gc.sf, "sf")
   expect_s3_class(ld.sf, "sf")
@@ -117,9 +117,9 @@ test_that("Message expected", {
 })
 
 # test warning -----------------------------------------------------------------
-test_that("Warning expected", {
-  expect_warning(rotation_angle(rotation_matrix(c(0, 0, 1), 0.000001)))
-})
+# test_that("Warning expected", {
+#   expect_warning(rotation_angle(rotation_matrix(c(0, 0, 1), 0.000001)))
+# })
 
 # test error -------------------------------------------------------------------
 test_that("Error message if incorrect type argument", {
@@ -134,14 +134,14 @@ test_that("Error message if incorrect type argument", {
   expect_error(norm_chisq(NA, NA, NA))
   expect_error(norm_chisq(2, 3, 3, na.rm = "typo"))
   expect_error(norm_chisq(obs = c(1, 2), prd = 1, unc = c(1, 2, 3)))
-  expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
-  expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
-  expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
+  #expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
+  #expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
+  #expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
   expect_error(euler_pole(90, 0, NA, "test"))
-  expect_error(euler_from_rot(C(1, 2, 3)))
+  #expect_error(euler_from_rot(C(1, 2, 3)))
   expect_error(circular_quasi_IQR(c(12, NA)))
   expect_error(PoR_shmax(stress, 10))
-  expect_error(euler_rot(c(90, 0), "test"))
+  #expect_error(euler_rot(c(90, 0), "test"))
   expect_error(distance_from_pb(california, euler, san_andreas, tangential = "typo"))
   expect_error(distance_from_pb(x = stress, ep = euler, pb = san_andreas, tangential = TRUE))
   expect_error(equivalent_rotation(nuvel1, fixed = "test"))
