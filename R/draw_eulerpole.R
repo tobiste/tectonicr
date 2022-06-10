@@ -209,8 +209,7 @@ eulerpole_smallcircles <-
 
     if (!is.null(x$angle) | !is.na(x$angle)) {
       sm.sf <- sm.sf %>%
-        dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle)) %>%
-        dplyr::select(d, abs_vel, small_circle)
+        dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle))
     }
 
     sm.sf <- sm.sf %>% dplyr::select(-small_circle)
@@ -262,8 +261,8 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
     ld.sf <- smoothr::densify(ld.sf)
   }
 
-  ld.sf %>%
-    dplyr::mutate(ld.sf, loxodrome = loxodrome %% 180) %>%
+  ld.sf <- ld.sf %>%
+    dplyr::mutate(loxodrome = loxodrome %% 180) %>%
     dplyr::rename(d = loxodrome)
 
   PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%
