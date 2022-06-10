@@ -25,9 +25,9 @@ sm.sf <- eulerpole_smallcircles(ep1)
 gc.sf <- eulerpole_greatcircles(ep1)
 ld.sf <- eulerpole_loxodromes(ep1, cw = FALSE)
 
-sm.sp <- eulerpole_smallcircles(ep1, returnclass = "sp")
-gc.sp <- eulerpole_greatcircles(ep1, returnclass = "sp")
-ld.sp <- eulerpole_loxodromes(ep1, cw = FALSE, returnclass = "sp")
+# sm.sp <- eulerpole_smallcircles(ep1, returnclass = "sp")
+# gc.sp <- eulerpole_greatcircles(ep1, returnclass = "sp")
+# ld.sp <- eulerpole_loxodromes(ep1, cw = FALSE, returnclass = "sp")
 
 eulerpole_loxodromes(ep1, cw = TRUE)
 eulerpole_loxodromes(ep1, cw = FALSE)
@@ -47,7 +47,7 @@ ep3 <- data.frame()
 # eulerpole_loxodromes(ep3, cw = TRUE)
 # eulerpole_paths(ep3)
 
-#euler_rot(ep1, 45)
+# euler_rot(ep1, 45)
 
 p1 <- c(35, 45) # Baghdad
 p2 <- c(35, 135) # Osaka
@@ -59,14 +59,22 @@ get_azimuth(p3, p2)
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 stress <- subset(
   wsm2016,
-  wsm2016$lat >= 23 & wsm2016$lat <= 40 & wsm2016$lon >= -126 & wsm2016$lon <= -108
+  wsm2016$lat >= 23 &
+    wsm2016$lat <= 40 &
+    wsm2016$lon >= -126 &
+    wsm2016$lon <= -108
 )
 stress$unc <- stress$sd
 
-san_andreas <- subset(PB2002, PB2002$PlateA %in% c("NA", "PA") & PB2002$PlateB %in% c("NA", "PA"))
-california <- sf::st_set_crs(sf::st_as_sf(stress, coords = c("lon", "lat")), "WGS84")
+san_andreas <- subset(PB2002, PB2002$PlateA %in% c("NA", "PA") &
+  PB2002$PlateB %in% c("NA", "PA"))
+california <- sf::st_set_crs(
+  sf::st_as_sf(stress, coords = c("lon", "lat")), "WGS84"
+)
 
-distance_from_pb(x = california, ep = euler, pb = san_andreas, tangential = TRUE)
+distance_from_pb(
+  x = california, ep = euler, pb = san_andreas, tangential = TRUE
+)
 
 test.vals <- c(175, 179, 2, 4)
 test.weights <- 1 / c(5, 1, 2, 4)
@@ -101,13 +109,13 @@ test_that("Statistics return NULL when too few numbers", {
 
 test_that("type of object returned is as expected", {
   expect_vector(get_azimuth(p1, p2), ptype = double(), size = 1)
-  #expect_type(rotation_matrix(c(0, 1, 0), 90), "double")
+  # expect_type(rotation_matrix(c(0, 1, 0), 90), "double")
   expect_s3_class(sm.sf, "sf")
   expect_s3_class(gc.sf, "sf")
   expect_s3_class(ld.sf, "sf")
-  expect_s4_class(sm.sp, "SpatialLinesDataFrame")
-  expect_s4_class(gc.sp, "SpatialLinesDataFrame")
-  expect_s4_class(ld.sp, "SpatialLinesDataFrame")
+  # expect_s4_class(sm.sp, "SpatialLinesDataFrame")
+  # expect_s4_class(gc.sp, "SpatialLinesDataFrame")
+  # expect_s4_class(ld.sp, "SpatialLinesDataFrame")
 })
 
 # test message -----------------------------------------------------------------
@@ -134,14 +142,14 @@ test_that("Error message if incorrect type argument", {
   expect_error(norm_chisq(NA, NA, NA))
   expect_error(norm_chisq(2, 3, 3, na.rm = "typo"))
   expect_error(norm_chisq(obs = c(1, 2), prd = 1, unc = c(1, 2, 3)))
-  #expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
-  #expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
-  #expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
+  # expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
+  # expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
+  # expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
   expect_error(euler_pole(90, 0, NA, "test"))
-  #expect_error(euler_from_rot(C(1, 2, 3)))
+  # expect_error(euler_from_rot(C(1, 2, 3)))
   expect_error(circular_quasi_IQR(c(12, NA)))
   expect_error(PoR_shmax(stress, 10))
-  #expect_error(euler_rot(c(90, 0), "test"))
+  # expect_error(euler_rot(c(90, 0), "test"))
   expect_error(distance_from_pb(california, euler, san_andreas, tangential = "typo"))
   expect_error(distance_from_pb(x = stress, ep = euler, pb = san_andreas, tangential = TRUE))
   expect_error(equivalent_rotation(nuvel1, fixed = "test"))

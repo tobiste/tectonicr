@@ -44,10 +44,10 @@ get_azimuth <- function(a, b) {
 #' @title Theoretical Direction of Maximum Horizontal Stress in the
 #' geographical reference system.
 #'
-#' @description Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
-#' great circles, small circles, and loxodromes at a given point or points
-#' according to the relative plate motion in the geographical coordinate reference
-#' system.
+#' @description Models the direction of maximum horizontal stress
+#' \eqn{\sigma_\text{Hmax}}{SHmax} along great circles, small circles, and
+#' loxodromes at a given point or points according to the relative plate motion
+#' in the geographical coordinate reference system.
 #'
 #' @author Tobias Stephan
 #' @param df \code{data.frame} containing the coordinates of the point(s)
@@ -57,8 +57,9 @@ get_azimuth <- function(a, b) {
 #' @details \eqn{\sigma_\text{Hmax}}{SHmax} following *great circles* is the
 #' (initial) bearing between the given point and the pole of relative plate
 #' motion. \eqn{\sigma_\text{Hmax}}{SHmax} along *small circles*, clockwise, and
-#' counter-clockwise *loxodromes* is 90\eqn{^{\circ}}{ degree}, +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree} (-45\eqn{^{\circ}}{ degree})
-#'  to this great circle bearing, respectively.
+#' counter-clockwise *loxodromes* is 90\eqn{^{\circ}}{ degree},
+#' +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree}
+#' (-45\eqn{^{\circ}}{ degree}) to this great circle bearing, respectively.
 #' @return \code{data.frame}
 #' \describe{
 #'   \item{gc}{Azimuth of modeled \eqn{\sigma_\text{Hmax}}{SHmax} following

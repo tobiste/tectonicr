@@ -13,7 +13,8 @@ distance_mod(x)
 numeric vector
 }
 \description{
-Helper function to express angular distance on the sphere in the range of
+Helper function to express angular distance on the sphere in
+the range of
 -180 to 180 degrees
 }
 \keyword{internal}

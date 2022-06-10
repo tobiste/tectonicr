@@ -1,13 +1,13 @@
 #' @title Coordinate Correction
 #'
-#' @description Corrects the longitudes or latitudes to value between -180.0 and 180.0 or
-#' -90 and 90 degree
+#' @description Corrects the longitudes or latitudes to value between -180.0 and
+#' 180.0 or -90 and 90 degree
 #' @param x Longitude(s) or latitude(s) in degree
 #' @return numeric
 #' @name coordinate_mod
 #' @examples
-#' longitude_modulo(-361 + 5*360)
-#' latitude_modulo(-91 + 5*180)
+#' longitude_modulo(-361 + 5 * 360)
+#' latitude_modulo(-91 + 5 * 180)
 NULL
 
 #' @rdname coordinate_mod
@@ -116,7 +116,9 @@ PoR_crs <- function(x) {
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #'
 #' data("wsm2016")
-#' example.geo <- sf::st_set_crs(sf::st_as_sf(wsm2016[1:10, ], coords = c("lon", "lat")), "EPSG:4326")
+#' example.geo <- sf::st_set_crs(
+#'   sf::st_as_sf(wsm2016[1:10, ], coords = c("lon", "lat")), "EPSG:4326"
+#' )
 #'
 #' example.por <- geographical_to_PoR(example.geo, euler)
 #' PoR_to_geographical(example.por, euler)
@@ -129,7 +131,9 @@ PoR_to_geographical <- function(x, ep) {
   stopifnot(inherits(x, "sf") & is.data.frame(ep))
 
   crs.wgs84 <-
-    sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    sf::st_crs(
+      "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    )
 
   crs.ep <- PoR_crs(ep)
 
@@ -151,7 +155,9 @@ geographical_to_PoR <- function(x, ep) {
   stopifnot(inherits(x, "sf") & is.data.frame(ep))
 
   crs.wgs84 <-
-    sf::st_crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+    sf::st_crs(
+      "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    )
 
   crs.ep <- PoR_crs(ep)
 
@@ -161,7 +167,9 @@ geographical_to_PoR <- function(x, ep) {
         sf::st_set_crs(crs.ep) %>%
         sf::st_transform(crs.wgs84) %>%
         sf::st_set_crs(crs.ep) %>%
-        sf::st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"))
+        sf::st_wrap_dateline(
+          options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
+        )
     )
   )
   return(x.geo)

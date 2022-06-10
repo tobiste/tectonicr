@@ -114,12 +114,10 @@ loxodrome_dummy <- function(n, angle, cw) {
     }
   }
 
-  loxodromes.filt <- loxodromes %>%
+  loxodromes %>%
     unique() %>%
     filter(abs(lat) <= 90) %>%
     filter(abs(lon) <= 180)
-
-  return(loxodromes.filt)
 }
 
 #' @title Theoretical Plate Tectonic Stress Paths
@@ -131,7 +129,8 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @author Tobias Stephan
 #' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
 #' and rotation angle (optional)
-#' @param n Number of equally spaced curves; n = 10 by default (angular distance between curves: 180 / n)
+#' @param n Number of equally spaced curves; n = 10 by default (angular distance
+#' between curves: 180 / n)
 #' @param angle Direction of loxodromes; angle = 45 by default.
 #' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
 #' loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
@@ -139,8 +138,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @param type Character string specifying the type of curves to export. Either
 #' \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 #' \code{"ld"} for loxodromes.
-#' @param returnclass "sf" (default) for simple features or "sp" for spatial objects
-#' @return \code{sf} or \code{SpatialLinesDataFrame}
+#' @return \code{sf} object
 #' @details Maximum horizontal stress can be aligned to three types of curves
 #' related to relative plate motion:
 #' \describe{
@@ -153,13 +151,13 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  circles at a constant angle.}
 #'  }
 #' @importFrom dplyr "%>%" mutate select summarise group_by rename
-#' @importFrom sp proj4string CRS
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
 #' @importFrom smoothr densify
 #' @name stress_paths
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
+#' # Pacific plate
 #'
 #' eulerpole_smallcircles(euler)
 #' eulerpole_greatcircles(euler)
@@ -169,26 +167,25 @@ NULL
 
 #' @rdname stress_paths
 #' @export
-eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle, cw, returnclass = c("sf", "sp")) {
+eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle, cw) {
   stopifnot(is.data.frame(x))
   stopifnot(dim(x)[1] > 0)
   type <- match.arg(type)
   if (type == "gc") {
-    eulerpole_greatcircles(x, n, returnclass)
+    eulerpole_greatcircles(x, n)
   } else if (type == "ld") {
-    eulerpole_loxodromes(x, n, angle, cw, returnclass)
+    eulerpole_loxodromes(x, n, angle, cw)
   } else {
-    eulerpole_smallcircles(x, n, returnclass)
+    eulerpole_smallcircles(x, n)
   }
 }
 
 #' @rdname stress_paths
 #' @export
 eulerpole_smallcircles <-
-  function(x, n = 10, returnclass = c("sf", "sp")) {
+  function(x, n = 10) {
     stopifnot(is.data.frame(x))
     stopifnot(dim(x)[1] > 0)
-    returnclass <- match.arg(returnclass)
     small_circle <- d <- NULL
     sm.df <- smallcircle_dummy(n)
 
@@ -198,7 +195,9 @@ eulerpole_smallcircles <-
       dplyr::summarise(do_union = FALSE) %>%
       sf::st_cast("MULTILINESTRING") %>%
       smoothr::densify() %>%
-      dplyr::mutate(d = ifelse(small_circle < 90, -1 * small_circle, 180 - small_circle))
+      dplyr::mutate(d = ifelse(
+        small_circle < 90, -1 * small_circle, 180 - small_circle
+      ))
 
     if (!is.null(x$angle)) {
       sm.sf <- sm.sf %>%
@@ -208,50 +207,33 @@ eulerpole_smallcircles <-
 
     sm.sf <- sm.sf %>% dplyr::select(-small_circle)
 
-    SL <- PoR_to_geographical(x = sf::st_as_sf(sm.sf), ep = x) %>%
+    PoR_to_geographical(x = sf::st_as_sf(sm.sf), ep = x) %>%
       sf::st_wrap_dateline(
         options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
         quiet = TRUE
       )
-
-    if (returnclass == "sp") {
-      SL <- sf::as_Spatial(SL)
-      suppressMessages(suppressWarnings(
-        sp::proj4string(SL) <-
-          sp::CRS(
-            "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-          )
-      ))
-    }
-    return(SL)
   }
 
 
 #' @rdname stress_paths
 #' @export
-eulerpole_greatcircles <- function(x, n = 10, returnclass = c("sf", "sp")) {
-  returnclass <- match.arg(returnclass)
-
-  SL <-
-    eulerpole_loxodromes(
-      x,
-      angle = 0,
-      n = n,
-      cw = TRUE,
-      returnclass = returnclass
-    )
-  return(SL)
+eulerpole_greatcircles <- function(x, n = 10) {
+  eulerpole_loxodromes(
+    x,
+    angle = 0,
+    n = n,
+    cw = TRUE
+  )
 }
 
 #' @rdname stress_paths
 #' @export
-eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf", "sp")) {
+eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
   stopifnot(is.data.frame(x))
   stopifnot(dim(x)[1] > 0)
   stopifnot(abs(angle) != 90)
 
   stopifnot(is.logical(cw))
-  returnclass <- match.arg(returnclass)
   loxodrome <- NULL
 
   ld.df <-
@@ -270,20 +252,9 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw, returnclass = c("sf"
     dplyr::mutate(loxodrome = loxodrome %% 180) %>%
     dplyr::rename(d = loxodrome)
 
-  SL <- PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%
+  PoR_to_geographical(x = sf::st_as_sf(ld.sf), ep = x) %>%
     sf::st_wrap_dateline(
       options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
       quiet = TRUE
     )
-
-  if (returnclass == "sp") {
-    SL <- sf::as_Spatial(SL)
-    suppressMessages(suppressWarnings(
-      sp::proj4string(SL) <-
-        sp::CRS(
-          "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-        )
-    ))
-  }
-  return(SL)
 }

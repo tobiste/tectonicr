@@ -73,9 +73,11 @@ atan2d <- function(x1, x2) {
 #'
 #' returns the quadrant specific inverse of the tangent
 #'
-#' @param x,y dividend and divisor that comprise the sum of sines and cosines, respectively.
+#' @param x,y dividend and divisor that comprise the sum of sines and cosines,
+#' respectively.
 #'
-#' @references Jammalamadaka, S. Rao, and Ambar Sengupta. Topics in circular statistics. Vol. 5. world scientific, 2001.
+#' @references Jammalamadaka, S. Rao, and Ambar Sengupta. Topics in circular
+#' statistics. Vol. 5. world scientific, 2001.
 #' @name spec_atan
 NULL
 

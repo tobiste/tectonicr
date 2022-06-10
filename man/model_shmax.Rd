@@ -25,17 +25,18 @@ great circles}
 }
 }
 \description{
-Models the direction of maximum horizontal stress \eqn{\sigma_\text{Hmax}}{SHmax} along
-great circles, small circles, and loxodromes at a given point or points
-according to the relative plate motion in the geographical coordinate reference
-system.
+Models the direction of maximum horizontal stress
+\eqn{\sigma_\text{Hmax}}{SHmax} along great circles, small circles, and
+loxodromes at a given point or points according to the relative plate motion
+in the geographical coordinate reference system.
 }
 \details{
 \eqn{\sigma_\text{Hmax}}{SHmax} following \emph{great circles} is the
 (initial) bearing between the given point and the pole of relative plate
 motion. \eqn{\sigma_\text{Hmax}}{SHmax} along \emph{small circles}, clockwise, and
-counter-clockwise \emph{loxodromes} is 90\eqn{^{\circ}}{ degree}, +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree} (-45\eqn{^{\circ}}{ degree})
-to this great circle bearing, respectively.
+counter-clockwise \emph{loxodromes} is 90\eqn{^{\circ}}{ degree},
++45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree}
+(-45\eqn{^{\circ}}{ degree}) to this great circle bearing, respectively.
 }
 \examples{
 data("nuvel1")

@@ -8,20 +8,13 @@
 \alias{eulerpole_loxodromes}
 \title{Theoretical Plate Tectonic Stress Paths}
 \usage{
-eulerpole_paths(
-  x,
-  type = c("sc", "gc", "ld"),
-  n = 10,
-  angle,
-  cw,
-  returnclass = c("sf", "sp")
-)
+eulerpole_paths(x, type = c("sc", "gc", "ld"), n = 10, angle, cw)
 
-eulerpole_smallcircles(x, n = 10, returnclass = c("sf", "sp"))
+eulerpole_smallcircles(x, n = 10)
 
-eulerpole_greatcircles(x, n = 10, returnclass = c("sf", "sp"))
+eulerpole_greatcircles(x, n = 10)
 
-eulerpole_loxodromes(x, n = 10, angle = 45, cw, returnclass = c("sf", "sp"))
+eulerpole_loxodromes(x, n = 10, angle = 45, cw)
 }
 \arguments{
 \item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon,
@@ -31,18 +24,17 @@ and rotation angle (optional)}
 \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 \code{"ld"} for loxodromes.}
 
-\item{n}{Number of equally spaced curves; n = 10 by default (angular distance between curves: 180 / n)}
+\item{n}{Number of equally spaced curves; n = 10 by default (angular distance
+between curves: 180 / n)}
 
 \item{angle}{Direction of loxodromes; angle = 45 by default.}
 
 \item{cw}{logical. Sense of loxodromes: \code{TRUE} for clockwise
 loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
 counterclockwise loxodromes (left-lateral displaced plate boundaries).}
-
-\item{returnclass}{"sf" (default) for simple features or "sp" for spatial objects}
 }
 \value{
-\code{sf} or \code{SpatialLinesDataFrame}
+\code{sf} object
 }
 \description{
 Construct \eqn{\sigma_\text{Hmax}}{SHmax} lines that are
@@ -64,7 +56,8 @@ circles at a constant angle.}
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
+# Pacific plate
 
 eulerpole_smallcircles(euler)
 eulerpole_greatcircles(euler)

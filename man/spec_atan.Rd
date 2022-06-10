@@ -11,11 +11,13 @@ atan2_spec(x, y)
 atan2d_spec(x, y)
 }
 \arguments{
-\item{x, y}{dividend and divisor that comprise the sum of sines and cosines, respectively.}
+\item{x, y}{dividend and divisor that comprise the sum of sines and cosines,
+respectively.}
 }
 \description{
 returns the quadrant specific inverse of the tangent
 }
 \references{
-Jammalamadaka, S. Rao, and Ambar Sengupta. Topics in circular statistics. Vol. 5. world scientific, 2001.
+Jammalamadaka, S. Rao, and Ambar Sengupta. Topics in circular
+statistics. Vol. 5. world scientific, 2001.
 }

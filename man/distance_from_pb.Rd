@@ -10,7 +10,8 @@ distance_from_pb(x, ep, pb, tangential = FALSE)
 \item{x, pb}{\code{sf} objects of the data points and the plate boundary
 geometries in the geographical coordinate system}
 
-\item{ep}{\code{data.frame} of the geographical coordinates of the Euler pole (\code{lat}, \code{lon})}
+\item{ep}{\code{data.frame} of the geographical coordinates of the Euler pole
+(\code{lat}, \code{lon})}
 
 \item{tangential}{Logical. \code{TRUE} for tangential boundaries and
 \code{FALSE} (the default) for inward and outward boundaries.}
@@ -32,7 +33,9 @@ data("nuvel1")
 na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 data("PB2002")
-san_andreas <- subset(PB2002, PB2002$PlateA \%in\% c("NA", "PA") & PB2002$PlateB \%in\% c("NA", "PA"))
+san_andreas <- subset(
+  PB2002, PB2002$PlateA \%in\% c("NA", "PA") & PB2002$PlateB \%in\% c("NA", "PA")
+)
 
 data("wsm2016")
 california <- subset(
@@ -40,8 +43,12 @@ california <- subset(
   wsm2016$lat >= 23 & wsm2016$lat <= 40 &
     wsm2016$lon >= -126 & wsm2016$lon <= -108
 )
-california <- sf::st_set_crs(sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84")
+california <- sf::st_set_crs(
+  sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84"
+)
 
-res <- distance_from_pb(x = california, ep = na_pa, pb = san_andreas, tangential = TRUE)
+res <- distance_from_pb(
+  x = california, ep = na_pa, pb = san_andreas, tangential = TRUE
+)
 head(res)
 }

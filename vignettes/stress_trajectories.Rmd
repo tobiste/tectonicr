@@ -80,18 +80,18 @@ To eventually plot the small circles with `ggplot`, I recommend to extract a
 euler.sm <- eulerpole_smallcircles(euler)
 
 data("PB2002") # load plate boundary data set
-world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") 
+world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 
 ggplot() +
-  geom_sf(data = world, alpha =.5) +
+  geom_sf(data = world, alpha = .5) +
   geom_sf(
     data = PB2002,
     color = "red",
     alpha = .5
   ) +
   labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
- geom_sf(
-    data = euler.sm, 
+  geom_sf(
+    data = euler.sm,
     aes(lty = "small circles"),
     color = "darkblue", fill = NA,
     alpha = .5
@@ -114,7 +114,7 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(default_crs = "WGS84", crs = sf::st_crs("ESRI:54030")) 
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("ESRI:54030"))
 ```
 
 ![Predicted SHmax trajectories that are small circles around the In-Eu Euler pole.](smallcircles.png)
@@ -132,21 +132,21 @@ or the great circle angles (`360/d`).
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
-  geom_sf(data = world, alpha =.5) +
+  geom_sf(data = world, alpha = .5) +
   geom_sf(
     data = PB2002,
     color = "red",
     alpha = .5
   ) +
   labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
- geom_sf(
-    data = euler.sm, 
+  geom_sf(
+    data = euler.sm,
     aes(lty = "small circles"),
     color = "darkblue",
     alpha = .5
   ) +
   geom_sf(
-    data = euler.gm, 
+    data = euler.gm,
     aes(lty = "great circles"),
     color = "darkblue"
   ) +
@@ -190,14 +190,14 @@ euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
 
 ggplot() +
   labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
-  geom_sf(data = world, alpha =.5) +
+  geom_sf(data = world, alpha = .5) +
   geom_sf(
     data = PB2002,
     color = "red",
     alpha = .5
   ) +
   geom_sf(
-    data = euler.ld, 
+    data = euler.ld,
     aes(lty = "clockwise loxodromes"),
     color = "darkblue"
   ) +
@@ -219,8 +219,7 @@ ggplot() +
     fill = "darkblue",
     stroke = 1
   ) +
-  coord_sf(default_crs = "WGS84", crs = sf::st_crs("ESRI:54030")) 
+  coord_sf(default_crs = "WGS84", crs = sf::st_crs("ESRI:54030"))
 ```
 
 ![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.](loxodromes.png)
-

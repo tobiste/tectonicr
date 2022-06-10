@@ -85,10 +85,10 @@ data("PB2002") # load plate boundary data set
 
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE}
 # load some geometries from the rnaturalearth package
-world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") 
+world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 
 ggplot(california.res) +
-  geom_sf(data = world, alpha =.5) +
+  geom_sf(data = world, alpha = .5) +
   geom_sf(
     data = PB2002,
     color = "red",
@@ -115,9 +115,9 @@ ggplot(california.res) +
   coord_sf(
     xlim = range(california.res$lon),
     ylim = range(california.res$lat),
-    expand = FALSE, 
+    expand = FALSE,
     default_crs = "WGS84"
-  ) 
+  )
 ```
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$
@@ -133,8 +133,8 @@ missing values:
 ```{r san_andreas_unc, echo=TRUE}
 # convert the WSM quality ranking into the standard deviation of the measurement
 california.res$unc <- ifelse(
-  is.na(california$sd), 
-  quantise_wsm_quality(california$quality), 
+  is.na(california$sd),
+  quantise_wsm_quality(california$quality),
   california$sd
 )
 ```
@@ -183,8 +183,10 @@ and, if given, the deviation from the predicted $\sigma_{Hmax}$ orientation
 related to the plate boundary type:
 
 ```{r san_andreas_por, echo=TRUE}
-california.res <- cbind(california.res,
-                        PoR_shmax(california.res, euler, type = "right"))
+california.res <- cbind(
+  california.res,
+  PoR_shmax(california.res, euler, type = "right")
+)
 ```
 
 To calculate the distance to the plate boundary, both the plate boundary 
@@ -198,9 +200,11 @@ This is done with the function `distance_from_pb()`, which returns the angular
 distances.
 
 ```{r san_andreas_distance, echo=TRUE}
-san_andreas <- subset(PB2002,
-                      PB2002$PlateA %in% c("NA" , "PA") &
-                        PB2002$PlateB %in% c("NA", "PA"))
+san_andreas <- subset(
+  PB2002,
+  PB2002$PlateA %in% c("NA", "PA") &
+    PB2002$PlateB %in% c("NA", "PA")
+)
 
 california_sf <-
   sf::st_set_crs(sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84")
@@ -217,22 +221,24 @@ california.res$distance <-
 Finally, we visualize the the $\sigma_{Hmax}$ orientation wrt to the distance to
 the plate boundary:
 ```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE}
-ggplot(california.res,
-       aes(
-         x = distance,
-         y = azi.PoR,
-         color = california$regime
-       )) +
+ggplot(
+  california.res,
+  aes(
+    x = distance,
+    y = azi.PoR,
+    color = california$regime
+  )
+) +
   labs(x = "Distance from plate boundary (°)", y = "Azimuth in PoR (°)") +
   geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
   geom_pointrange(aes(ymin = azi.PoR - unc, ymax = azi.PoR + unc)) +
   scale_y_continuous(
     breaks = seq(-180, 360, 45),
     sec.axis = sec_axis(
-      ~ .,
+      ~.,
       name = NULL,
       breaks = c(0, 45, 90, 135, 180),
-      labels = c("Outward", 'Tan (L)', "Inward", "Tan (R)", "Outward")
+      labels = c("Outward", "Tan (L)", "Inward", "Tan (R)", "Outward")
     )
   )
 ```
@@ -254,15 +260,15 @@ stress orientation, i.e. the *normalized* $\chi^2$:
 ```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE}
 ggplot(california.res, aes(x = distance, y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Distance from plate boundary (°)", y = expression(Norm~chi^2)) +
+  labs(x = "Distance from plate boundary (°)", y = expression(Norm ~ chi^2)) +
   geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +
   geom_smooth() +
   geom_point(aes(color = california$regime)) +
   scale_y_continuous(sec.axis = sec_axis(
-    ~ .,
+    ~.,
     name = NULL,
     breaks = c(.15 / 2, .33, .7 + 0.15),
-    labels = c("Good fit", 'Random', "Systematic\nmisfit")
+    labels = c("Good fit", "Random", "Systematic\nmisfit")
   ))
 ```
 

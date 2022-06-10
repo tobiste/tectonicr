@@ -28,7 +28,8 @@ azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
 The normalized \eqn{\chi^2}{chi-squared} test is
 \deqn{ \text{Norm} \chi^2_i =
  = \frac{
-   \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i} \right) ^2}
+   \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i}
+   \right) ^2}
    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
    }

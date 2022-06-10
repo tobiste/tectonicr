@@ -6,7 +6,8 @@
 #' @param geo logical,\code{TRUE} (the default) if Euler pole axis is given in
 #' geographical coordinates (latitude, longitude). \code{FALSE} if given in
 #' cartesian coordinates (x, y, z)
-#' @param angle (optional) Angle of rotation in degrees (CCW rotation if angle > 0)
+#' @param angle (optional) Angle of rotation in degrees (CCW rotation if angle
+#' is positive)
 #' @return An object of class \code{"euler.pole"} containing the Euler pole
 #' axis in both geographical and Cartesian coordinates and the angle of rotation
 #' in radians.
@@ -16,8 +17,7 @@
 #' euler_pole(0, 0, 1, geo = FALSE)
 euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
   stopifnot(is.logical(geo))
-
-  if(!is.na(angle)) angle <- deg2rad(angle)
+  if (!is.na(angle)) angle <- deg2rad(angle)
 
   if (geo) {
     cart <- geographical_to_cartesian(c(x, y))
@@ -73,11 +73,12 @@ relative_rotation <- function(r1, r2) {
   angle <- as.numeric(
     2 * acos(
       cos(w2 / 2) * cos(w1 / 2) + (sin(w2 / 2) * e2) %*% (sin(w1 / 2) * e1)
-      )
+    )
   )
 
   a <- 1 / sin(angle / 2)
-  b <- -cos(w2 / 2) * sin(w1 / 2) * e1 + cos(w1 / 2) * sin(w2 / 2) * e2 - pracma::cross(sin(w2 / 2) * e2, sin(w1 / 2) * e1)
+  b <- -cos(w2 / 2) * sin(w1 / 2) * e1 + cos(w1 / 2) * sin(w2 / 2) *
+    e2 - pracma::cross(sin(w2 / 2) * e2, sin(w1 / 2) * e1)
 
   axis <- a * b
 
@@ -116,11 +117,19 @@ equivalent_rotation <- function(x, fixed) {
   angle.eq <- c()
 
   fixed.plate <- subset(x, x$plate.rot == fixed)
-  fixed.ep <- euler_pole(fixed.plate$lat, fixed.plate$lon, angle = fixed.plate$angle)
+  fixed.ep <- euler_pole(
+    fixed.plate$lat,
+    fixed.plate$lon,
+    angle = fixed.plate$angle
+  )
 
   if (exists(paste0("fixed.plate$plate.fix"))) {
     fixed0.plate <- subset(x, x$plate.rot == fixed.plate$plate.fix)
-    fixed0.ep <- euler_pole(fixed0.plate$lat, fixed0.plate$lon, angle = fixed0.plate$angle)
+    fixed0.ep <- euler_pole(
+      fixed0.plate$lat,
+      fixed0.plate$lon,
+      angle = fixed0.plate$angle
+    )
 
     temp <- relative_rotation(fixed0.ep, fixed.ep)
     fixed.ep <- euler_pole(temp$axis[1], temp$axis[2], angle = temp$angle)

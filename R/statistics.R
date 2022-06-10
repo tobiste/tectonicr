@@ -15,7 +15,8 @@
 #' The normalized \eqn{\chi^2}{chi-squared} test is
 #' \deqn{ \text{Norm} \chi^2_i =
 #'  = \frac{
-#'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i} \right) ^2}
+#'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i}
+#'    \right) ^2}
 #'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
 #'    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
 #'    }
@@ -82,7 +83,8 @@ norm_chisq <- function(obs, prd, unc) {
 
 #' @title Median and statistics on Pi-periodic Data
 #'
-#' @description Calculate the mean, median, quartile, interquartile range, variance,
+#' @description Calculate the mean, median, quartile, interquartile range,
+#' variance,
 #' deviation, and error of orientation data.
 #'
 #' @param x Numeric vector in degrees.
@@ -518,8 +520,10 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
       sum.sin.lq <- 3 * w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
       sum.cos.lq <- 3 * w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])
 
-      sum.sin.uq <- 3 * w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])
-      sum.cos.uq <- 3 * w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1])
+      sum.sin.uq <- 3 * w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] *
+        sind(x[3 * m + 1])
+      sum.cos.uq <- 3 * w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] *
+        cosd(x[3 * m + 1])
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
@@ -530,8 +534,10 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
       sum.sin.lq <- w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
       sum.cos.lq <- w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])
 
-      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] * sind(x[3 * m + 1])
-      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] * cosd(x[3 * m + 1])
+      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] *
+        sind(x[3 * m + 1])
+      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] *
+        cosd(x[3 * m + 1])
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
@@ -542,8 +548,10 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
       sum.sin.lq <- w[m] * sind(x[m]) + 3 * w[m + 1] * sind(x[m + 1])
       sum.cos.lq <- w[m] * cosd(x[m]) + 3 * w[m + 1] * cosd(x[m + 1])
 
-      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + 3 * w[3 * m + 1] * sind(x[3 * m + 1])
-      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + 3 * w[3 * m + 1] * cosd(x[3 * m + 1])
+      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + 3 * w[3 * m + 1] *
+        sind(x[3 * m + 1])
+      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + 3 * w[3 * m + 1] *
+        cosd(x[3 * m + 1])
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
@@ -557,7 +565,10 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
     lq <- atan2d(mean.sin.lq, mean.cos.lq)
     uq <- atan2d(mean.sin.uq, mean.cos.uq)
 
-    quantiles <- c(rad2deg(x[1]), rad2deg(lq), med, rad2deg(uq), rad2deg(x[length(x)]))
+    quantiles <- c(
+      rad2deg(x[1]), rad2deg(lq), med, rad2deg(uq),
+      rad2deg(x[length(x)])
+    )
     names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
     return(as.numeric(quantiles))
   } else {

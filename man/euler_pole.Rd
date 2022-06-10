@@ -17,7 +17,8 @@ euler_pole(x, y, z = NA, geo = TRUE, angle = NA)
 geographical coordinates (latitude, longitude). \code{FALSE} if given in
 cartesian coordinates (x, y, z)}
 
-\item{angle}{(optional) Angle of rotation in degrees}
+\item{angle}{(optional) Angle of rotation in degrees (CCW rotation if angle
+is positive)}
 }
 \value{
 An object of class \code{"euler.pole"} containing the Euler pole

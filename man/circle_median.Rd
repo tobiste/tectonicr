@@ -42,7 +42,8 @@ values.}
 Numeric vector
 }
 \description{
-Calculate the mean, median, quartile, interquartile range, variance,
+Calculate the mean, median, quartile, interquartile range,
+variance,
 deviation, and error of orientation data.
 }
 \details{
