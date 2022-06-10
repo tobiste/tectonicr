@@ -40,6 +40,25 @@ euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
   return(ep)
 }
 
+#' Vector cross product
+#'
+#' Vector or cross product
+#'
+#' @param x,y numeric vectors of length 3
+#' @returns numeric vector of length 3
+#' @export
+#' @examples
+#' vcross(c(1, 2, 3), c(4, 5, 6))
+vcross <- function(x, y) {
+  stopifnot(is.numeric(x) & is.numeric(y))
+  stopifnot(length(x) == length(y) && length(x) == 3)
+
+  c(x[2] * y[3] - x[3] * y[2], x[3] * y[1] -
+    x[1] * y[3], x[1] * y[2] - x[2] * y[1])
+}
+
+
+
 #' Relative rotation between two rotations
 #'
 #' Calculates the relative rotation between two rotations, i.e. the
@@ -47,7 +66,6 @@ euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
 #'
 #' @param r1,r2 Objects of class \code{"euler.pole"}. First rotation is
 #' \code{r1}, followed rotation \code{r2}.
-#' @importFrom pracma cross
 #' @references Schaeben, H., Kroner, U. and Stephan, T. (2021). Euler Poles of
 #' Tectonic Plates. In B. S. Daza Sagar, Q. Cheng, J. McKinley and F. Agterberg
 #' (Eds.), *Encyclopedia of Mathematical Geosciences. Encyclopedia of Earth Sciences Series*
@@ -78,7 +96,7 @@ relative_rotation <- function(r1, r2) {
 
   a <- 1 / sin(angle / 2)
   b <- -cos(w2 / 2) * sin(w1 / 2) * e1 + cos(w1 / 2) * sin(w2 / 2) *
-    e2 - pracma::cross(sin(w2 / 2) * e2, sin(w1 / 2) * e1)
+    e2 - vcross(sin(w2 / 2) * e2, sin(w1 / 2) * e1)
 
   axis <- a * b
 

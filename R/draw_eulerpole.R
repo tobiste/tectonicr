@@ -202,8 +202,8 @@ eulerpole_smallcircles <-
       sm.sf <- smoothr::densify(sm.sf)
     }
     sm.sf <- dplyr::mutate(sm.sf, d = ifelse(
-        small_circle < 90, -1 * small_circle, 180 - small_circle
-      ))
+      small_circle < 90, -1 * small_circle, 180 - small_circle
+    ))
 
     if (!is.null(x$angle) | !is.na(x$angle)) {
       sm.sf <- sm.sf %>%

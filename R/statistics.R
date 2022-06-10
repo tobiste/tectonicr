@@ -96,7 +96,6 @@ norm_chisq <- function(obs, prd, unc) {
 #' @details Quasi median on the circle, quasi quartiles on a circle, quasi
 #' interquartile range on a circle.
 #'
-#' @importFrom stats median
 #' @source [median()], [quantile()], and [IQR()] are the
 #' equivalents for non-periodic data.
 #'
@@ -109,6 +108,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' (2014). A revised crustal stress orientation database for Canada.
 #' *Tectonophysics*, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}
 #'
+#' @importFrom stats median
 #' @examples
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180)
 #' circular_mean(x)
