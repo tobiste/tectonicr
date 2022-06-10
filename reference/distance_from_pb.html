@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,15 +69,23 @@
     <dl><dt>x, pb</dt>
 <dd><p><code>sf</code> objects of the data points and the plate boundary
 geometries in the geographical coordinate system</p></dd>
+
+
 <dt>ep</dt>
-<dd><p><code>data.frame</code> of the geographical coordinates of the Euler pole (<code>lat</code>, <code>lon</code>)</p></dd>
+<dd><p><code>data.frame</code> of the geographical coordinates of the Euler pole
+(<code>lat</code>, <code>lon</code>)</p></dd>
+
+
 <dt>tangential</dt>
 <dd><p>Logical. <code>TRUE</code> for tangential boundaries and
 <code>FALSE</code> (the default) for inward and outward boundaries.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Numeric vector of the great circle distances in degree</p>
+    
+
+<p>Numeric vector of the great circle distances in degree</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -93,7 +101,9 @@ plate boundaries, respectively.</p>
 <span class="r-in"><span class="va">na_pa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"PB2002"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">san_andreas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">PB2002</span>, <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateA</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateB</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">san_andreas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="va">PB2002</span>, <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateA</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateB</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"wsm2016"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">california</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
@@ -101,9 +111,13 @@ plate boundaries, respectively.</p>
 <span class="r-in">  <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&gt;=</span> <span class="fl">23</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&lt;=</span> <span class="fl">40</span> <span class="op">&amp;</span></span>
 <span class="r-in">    <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">126</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&lt;=</span> <span class="op">-</span><span class="fl">108</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">california</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_set_crs</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">california</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"WGS84"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">california</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_set_crs</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">california</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"WGS84"</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">distance_from_pb</span><span class="op">(</span>x <span class="op">=</span> <span class="va">california</span>, ep <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">san_andreas</span>, tangential <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">distance_from_pb</span><span class="op">(</span></span>
+<span class="r-in">  x <span class="op">=</span> <span class="va">california</span>, ep <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">san_andreas</span>, tangential <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.502915 4.175856 2.728180 3.523382 5.998119 6.988708</span>
 </code></pre></div>
@@ -117,7 +131,7 @@ plate boundaries, respectively.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

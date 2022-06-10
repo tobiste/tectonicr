@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,20 +68,32 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>latitude or x coordinate of Euler pole axis</p></dd>
+
+
 <dt>y</dt>
 <dd><p>longitude or y</p></dd>
+
+
 <dt>z</dt>
 <dd><p>z coordinate</p></dd>
+
+
 <dt>geo</dt>
 <dd><p>logical,<code>TRUE</code> (the default) if Euler pole axis is given in
 geographical coordinates (latitude, longitude). <code>FALSE</code> if given in
 cartesian coordinates (x, y, z)</p></dd>
+
+
 <dt>angle</dt>
-<dd><p>(optional) Angle of rotation in degrees</p></dd>
+<dd><p>(optional) Angle of rotation in degrees (CCW rotation if angle
+is positive)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class <code>"euler.pole"</code> containing the Euler pole
+    
+
+<p>An object of class <code>"euler.pole"</code> containing the Euler pole
 axis in both geographical and Cartesian coordinates and the angle of rotation
 in radians.</p>
     </div>
@@ -105,7 +117,7 @@ in radians.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
