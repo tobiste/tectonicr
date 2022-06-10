@@ -44,5 +44,9 @@ When referencing this package, please cite the package DOI ([10.5281/zenodo.6360
 
 - <div class="csl-entry">Zoback, M. Lou, Zoback, M. D., Adams, J., Assumpção, M., Bell, S., Bergman, E. A., Blümling, P., Brereton, N. R., Denham, D., Ding, J., Fuchs, K., Gay, N., Gregersen, S., Gupta, H. K., Gvishiani, A., Jacob, K., Klein, R., Knoll, P., Magee, M., … Zhizhin, M. (1989). Global patterns of tectonic stress. <i>Nature</i>, <i>341</i>(6240), 291–298. https://doi.org/10.1038/341291a0</div>
 
+## Code of Conduct
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
 ## License
 GPL-3.0 License
