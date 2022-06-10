@@ -127,8 +127,9 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' the relative plate motion.
 #'
 #' @author Tobias Stephan
-#' @param x \code{data.frame} containing coordinates of Euler pole in lat, lon,
-#' and rotation angle (optional)
+#' @param x Either an object of class \code{"euler.pole"} or \code{data.frame}
+#' containing coordinates of Euler pole in lat, lon, and rotation angle
+#' (optional).
 #' @param n Number of equally spaced curves; n = 10 by default (angular distance
 #' between curves: 180 / n)
 #' @param angle Direction of loxodromes; angle = 45 by default.
@@ -204,7 +205,7 @@ eulerpole_smallcircles <-
         small_circle < 90, -1 * small_circle, 180 - small_circle
       ))
 
-    if (!is.null(x$angle)) {
+    if (!is.null(x$angle) | !is.na(x$angle)) {
       sm.sf <- sm.sf %>%
         dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle)) %>%
         dplyr::select(d, abs_vel, small_circle)

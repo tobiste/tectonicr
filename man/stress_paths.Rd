@@ -17,8 +17,9 @@ eulerpole_greatcircles(x, n = 10)
 eulerpole_loxodromes(x, n = 10, angle = 45, cw)
 }
 \arguments{
-\item{x}{\code{data.frame} containing coordinates of Euler pole in lat, lon,
-and rotation angle (optional)}
+\item{x}{Either an object of class \code{"euler.pole"} or \code{data.frame}
+containing coordinates of Euler pole in lat, lon, and rotation angle
+(optional).}
 
 \item{type}{Character string specifying the type of curves to export. Either
 \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
