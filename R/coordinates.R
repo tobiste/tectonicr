@@ -109,7 +109,7 @@ PoR_crs <- function(x) {
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the the
 #' translation factors.
-#' @importFrom dplyr %>%
+#' @importFrom magrittr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
 #' @examples
 #' data("nuvel1")

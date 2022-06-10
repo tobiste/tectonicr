@@ -27,7 +27,8 @@ rotate_lines <- function(theta, p, centre) {
 #' counterclockwise loxodromes (left-lateral displaced plate boundaries).
 #' @return \code{data.frame}
 #' @keywords internal
-#' @importFrom dplyr "%>%" filter mutate
+#' @importFrom dplyr filter mutate
+#' @importFrom magrittr %>%
 #' @name dummy
 NULL
 
@@ -151,7 +152,8 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
 #'  circles at a constant angle.}
 #'  }
-#' @importFrom dplyr "%>%" mutate select summarise group_by rename
+#' @importFrom dplyr mutate select summarise group_by rename
+#' @importFrom magrittr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
 #' @note If package "smoothr" is installed, the sf objects will be "densified"
 #' via [smoothr::densify()].
