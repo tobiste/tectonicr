@@ -21,3 +21,4 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Renviron
+tectonicr_qr.pdf
