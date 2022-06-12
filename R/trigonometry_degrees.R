@@ -17,13 +17,13 @@ NULL
 #' @export
 rad2deg <- function(rad) {
   stopifnot(is.numeric(rad))
-  (deg <- rad / (pi / 180))
+  rad * 180 / pi
 }
 #' @rdname angle-conversion
 #' @export
 deg2rad <- function(deg) {
   stopifnot(is.numeric(deg))
-  (rad <- (pi / 180) * deg)
+  deg * pi / 180
 }
 
 #' @title Trigonometric Functions in Degrees

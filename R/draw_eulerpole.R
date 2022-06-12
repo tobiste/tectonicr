@@ -167,6 +167,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' eulerpole_greatcircles(euler)
 #' eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
 #' eulerpole_loxodromes(x = euler, angle = 30, cw = TRUE)
+#' eulerpole_smallcircles(data.frame(lat = 30, lon = 10))
 NULL
 
 #' @rdname stress_paths
@@ -207,10 +208,11 @@ eulerpole_smallcircles <-
       small_circle < 90, -1 * small_circle, 180 - small_circle
     ))
 
-    if (!is.null(x$angle) | !is.na(x$angle)) {
+    if ("angle" %in% colnames(x)) {
+      if(!is.na(x$angle)){
       sm.sf <- sm.sf %>%
         dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle))
-    }
+    }}
 
     sm.sf <- sm.sf %>% dplyr::select(-small_circle)
 

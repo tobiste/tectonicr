@@ -68,6 +68,7 @@ eulerpole_smallcircles(euler)
 eulerpole_greatcircles(euler)
 eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
 eulerpole_loxodromes(x = euler, angle = 30, cw = TRUE)
+eulerpole_smallcircles(data.frame(lat = 30, lon = 10))
 }
 \author{
 Tobias Stephan
