@@ -12,3 +12,4 @@
 ^codecov\.yml$
 ^PlateTectonicStressR\.Rproj$
 ^\.covrignore$
+^data-raw$

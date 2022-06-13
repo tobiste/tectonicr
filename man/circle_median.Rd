@@ -60,6 +60,9 @@ circular_var(x)
 circular_mean_deviation(x)
 circular_median_deviation(x)
 circular_mean_error(x)
+
+data("san_andreas")
+circular_quasi_median(san_andreas$azi)
 }
 \references{
 \itemize{

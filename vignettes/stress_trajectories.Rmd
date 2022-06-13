@@ -38,6 +38,7 @@ a new, equivalent reference system (i.e. all rotation with respect to Eurasia).
 In **tectonicr** this can be done with \code{equivalent_rotation}:
 
 ```{r nuvel_eq, echo=TRUE}
+data("nuvel1")
 nuvel1.eu <- equivalent_rotation(nuvel1, fixed = "eu")
 head(nuvel1.eu)
 ```

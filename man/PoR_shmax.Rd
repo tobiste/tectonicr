@@ -51,14 +51,8 @@ data("nuvel1")
 # North America relative to Pacific plate:
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 
-data("wsm2016")
-stress <- subset(
-  wsm2016,
-  wsm2016$lat >= 23 & wsm2016$lat <= 40 &
-    wsm2016$lon >= -126 & wsm2016$lon <= -108
-)
-stress$unc <- stress$sd
-res <- PoR_shmax(stress, euler, type = "right")
+data("san_andreas")
+res <- PoR_shmax(san_andreas, euler, type = "right")
 head(res)
 }
 \seealso{

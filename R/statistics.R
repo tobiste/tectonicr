@@ -119,6 +119,9 @@ norm_chisq <- function(obs, prd, unc) {
 #' circular_mean_deviation(x)
 #' circular_median_deviation(x)
 #' circular_mean_error(x)
+#'
+#' data("san_andreas")
+#' circular_quasi_median(san_andreas$azi)
 #' @name circle_median
 NULL
 
@@ -346,6 +349,9 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' circular_weighted_median(x, 1 / unc)
 #' circular_weighted_quantiles(x, 1 / unc)
 #' circular_weighted_IQR(x, 1 / unc)
+#'
+#' data("san_andreas")
+#' circular_weighted_mean(san_andreas$azi, 1 / san_andreas$unc)
 #' @name weighted_circle_stats
 NULL
 

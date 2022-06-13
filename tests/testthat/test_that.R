@@ -1,6 +1,7 @@
 data("PB2002")
 data("wsm2016")
 data("nuvel1")
+data("san_andreas")
 # test rotations
 
 
@@ -15,7 +16,7 @@ misfit1 <- misfit_shmax(prd, obs = 90)
 
 # test with data.frames
 set.seed(12)
-points <- dplyr::slice_sample(wsm2016, n = 10)
+points <- dplyr::slice_sample(san_andreas, n = 10)
 prd2 <- model_shmax(points, euler)
 misfits2 <- misfit_shmax(prd2, points$azi)
 test2 <- norm_chisq(obs = points$azi, prd = prd2$sc, unc = 10)
@@ -57,23 +58,13 @@ get_azimuth(p3, p2)
 
 
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
-stress <- subset(
-  wsm2016,
-  wsm2016$lat >= 23 &
-    wsm2016$lat <= 40 &
-    wsm2016$lon >= -126 &
-    wsm2016$lon <= -108
-)
-stress$unc <- stress$sd
 
-san_andreas <- subset(PB2002, PB2002$PlateA %in% c("NA", "PA") &
+
+plate_boundary <- subset(PB2002, PB2002$PlateA %in% c("NA", "PA") &
   PB2002$PlateB %in% c("NA", "PA"))
-california <- sf::st_set_crs(
-  sf::st_as_sf(stress, coords = c("lon", "lat")), "WGS84"
-)
 
 distance_from_pb(
-  x = california, ep = euler, pb = san_andreas, tangential = TRUE
+  x = san_andreas, ep = euler, pb = plate_boundary, tangential = TRUE
 )
 
 test.vals <- c(175, 179, 2, 4)
@@ -150,7 +141,7 @@ test_that("Error message if incorrect type argument", {
   expect_error(circular_quasi_IQR(c(12, NA)))
   expect_error(PoR_shmax(stress, 10))
   # expect_error(euler_rot(c(90, 0), "test"))
-  expect_error(distance_from_pb(california, euler, san_andreas, tangential = "typo"))
+  expect_error(distance_from_pb(san_andreas, euler, plate_boundary, tangential = "typo"))
   expect_error(distance_from_pb(x = stress, ep = euler, pb = san_andreas, tangential = TRUE))
   expect_error(equivalent_rotation(nuvel1, fixed = "test"))
   expect_error(eulerpole_smallcircles(ep3))

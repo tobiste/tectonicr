@@ -46,6 +46,9 @@ circular_weighted_sd(x, 1 / unc)
 circular_weighted_median(x, 1 / unc)
 circular_weighted_quantiles(x, 1 / unc)
 circular_weighted_IQR(x, 1 / unc)
+
+data("san_andreas")
+circular_weighted_mean(san_andreas$azi, 1 / san_andreas$unc)
 }
 \references{
 \itemize{
