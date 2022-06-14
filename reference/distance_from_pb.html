@@ -101,25 +101,16 @@ plate boundaries, respectively.</p>
 <span class="r-in"><span class="va">na_pa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"PB2002"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">san_andreas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
+<span class="r-in"><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">PB2002</span>, <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateA</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateB</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"wsm2016"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">california</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">wsm2016</span>,</span>
-<span class="r-in">  <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&gt;=</span> <span class="fl">23</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lat</span> <span class="op">&lt;=</span> <span class="fl">40</span> <span class="op">&amp;</span></span>
-<span class="r-in">    <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">126</span> <span class="op">&amp;</span> <span class="va">wsm2016</span><span class="op">$</span><span class="va">lon</span> <span class="op">&lt;=</span> <span class="op">-</span><span class="fl">108</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">california</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_set_crs</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">california</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"WGS84"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">distance_from_pb</span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="va">california</span>, ep <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">san_andreas</span>, tangential <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span class="r-in">  x <span class="op">=</span> <span class="va">san_andreas</span>, ep <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">plate_boundary</span>, tangential <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.502915 4.175856 2.728180 3.523382 5.998119 6.988708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 19.7272257 30.3935707  0.3178409 24.2142184  6.0973185  1.3492690</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
