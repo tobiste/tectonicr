@@ -63,7 +63,7 @@ euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 
 plate_boundary <- subset(plates, plates$plateA %in% c("na", "pa") &
-                           plates$plateB %in% c("na", "pa"))
+  plates$plateB %in% c("na", "pa"))
 
 distance_from_pb(
   x = san_andreas, ep = euler, pb = plate_boundary, tangential = TRUE

@@ -209,10 +209,11 @@ eulerpole_smallcircles <-
     ))
 
     if ("angle" %in% colnames(x)) {
-      if(!is.na(x$angle)){
-      sm.sf <- sm.sf %>%
-        dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle))
-    }}
+      if (!is.na(x$angle)) {
+        sm.sf <- sm.sf %>%
+          dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle))
+      }
+    }
 
     sm.sf <- sm.sf %>% dplyr::select(-small_circle)
 
