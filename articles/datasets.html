@@ -128,7 +128,8 @@
 <p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> can be used to visualize the results. The orientation of the axis can be displayed with the function <code><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke()</a></code>. The position argument <code>position = "center_spoke"</code> aligns the marker symbol at the center of the point. The deviation can be color coded. <code><a href="../reference/deviation_norm.html">deviation_norm()</a></code> yields the normalized value of the deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</span>.</p>
 <p>Also included are the plate boundary geometries after <a href="http://doi.wiley.com/10.1029/2001GC000252" class="external-link">Bird (2003)</a>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"PB2002"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"plates"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></code></pre></div>
+<p>Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. (1990) stored under <code>data("nuvel1_plates")</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load some geometries from the rnaturalearth package</span>
 <span class="va">world</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="st">"small"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span>
@@ -136,7 +137,7 @@
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>
-    data <span class="op">=</span> <span class="va">PB2002</span>,
+    data <span class="op">=</span> <span class="va">plates</span>,
     color <span class="op">=</span> <span class="st">"red"</span>,
     lwd <span class="op">=</span> <span class="fl">2</span>,
     alpha <span class="op">=</span> <span class="fl">.5</span>
@@ -196,11 +197,7 @@
 <p>To calculate the distance to the plate boundary, both the plate boundary geometries and the data points (in geographical coordinates() will be transformed in to the <em>PoR</em> reference system. In the <em>PoR</em> system, the distance is the latitudinal or longitudinal difference between the data points and the inward/outward or tangential moving plate boundaries, respectively.</p>
 <p>This is done with the function <code><a href="../reference/distance_from_pb.html">distance_from_pb()</a></code>, which returns the angular distances.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span>
-  <span class="va">PB2002</span>,
-  <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateA</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span> <span class="op">&amp;</span>
-    <span class="va">PB2002</span><span class="op">$</span><span class="va">PlateB</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA"</span>, <span class="st">"PA"</span><span class="op">)</span>
-<span class="op">)</span>
+<code class="sourceCode R"><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">plates</span><span class="op">$</span><span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span>
 
 <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../reference/distance_from_pb.html">distance_from_pb</a></span><span class="op">(</span>
