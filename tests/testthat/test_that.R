@@ -1,6 +1,8 @@
-data("PB2002")
+data("pb2002")
+data("pb2002_plates")
 data("wsm2016")
 data("nuvel1")
+data("nuvel1_plates")
 data("san_andreas")
 # test rotations
 
@@ -60,8 +62,8 @@ get_azimuth(p3, p2)
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 
-plate_boundary <- subset(PB2002, PB2002$PlateA %in% c("NA", "PA") &
-  PB2002$PlateB %in% c("NA", "PA"))
+plate_boundary <- subset(plates, plates$plateA %in% c("na", "pa") &
+                           plates$plateB %in% c("na", "pa"))
 
 distance_from_pb(
   x = san_andreas, ep = euler, pb = plate_boundary, tangential = TRUE

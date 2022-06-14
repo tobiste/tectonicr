@@ -32,10 +32,8 @@ plate boundaries, respectively.
 data("nuvel1")
 na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 
-data("PB2002")
-plate_boundary <- subset(
-  PB2002, PB2002$PlateA \%in\% c("NA", "PA") & PB2002$PlateB \%in\% c("NA", "PA")
-)
+data("plates")
+plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 data("san_andreas")
 res <- distance_from_pb(

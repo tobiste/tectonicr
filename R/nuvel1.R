@@ -1,6 +1,6 @@
 #' Global model of current plate motions
 #'
-#' Global model of current plate motions (NUVEL-1) by DeMets et al. 1990
+#' NUVEL-1 global model of current plate motions by DeMets et al. 1990
 #'
 #' @docType data
 #'

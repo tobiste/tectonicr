@@ -20,7 +20,7 @@ to \code{plate.fix}}
 data('nuvel1')
 }
 \description{
-Global model of current plate motions (NUVEL-1) by DeMets et al. 1990
+NUVEL-1 global model of current plate motions by DeMets et al. 1990
 }
 \examples{
 data("nuvel1")

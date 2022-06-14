@@ -70,8 +70,11 @@ Also included are the plate boundary geometries after
 [Bird (2003)](http://doi.wiley.com/10.1029/2001GC000252): 
 
 ```{r plates, echo=TRUE}
-data("PB2002") # load plate boundary data set
+data("plates") # load plate boundary data set
 ```
+
+Alternatively, there is also the NUVEL1 plate boundary model by 
+DeMets et al. (1990) stored under `data("nuvel1_plates")`.
 
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE}
 # load some geometries from the rnaturalearth package
@@ -80,7 +83,7 @@ world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 ggplot(san_andreas.res) +
   geom_sf(data = world, alpha = .5) +
   geom_sf(
-    data = PB2002,
+    data = plates,
     color = "red",
     lwd = 2,
     alpha = .5
@@ -180,11 +183,7 @@ This is done with the function `distance_from_pb()`, which returns the angular
 distances.
 
 ```{r san_andreas_distance, echo=TRUE}
-plate_boundary <- subset(
-  PB2002,
-  PB2002$PlateA %in% c("NA", "PA") &
-    PB2002$PlateB %in% c("NA", "PA")
-)
+plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 san_andreas.res$distance <-
   distance_from_pb(
