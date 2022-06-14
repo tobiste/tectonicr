@@ -92,22 +92,13 @@ distance_mod <- function(x) {
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
 #' data("PB2002")
-#' san_andreas <- subset(
+#' plate_boundary <- subset(
 #'   PB2002, PB2002$PlateA %in% c("NA", "PA") & PB2002$PlateB %in% c("NA", "PA")
 #' )
 #'
-#' data("wsm2016")
-#' california <- subset(
-#'   wsm2016,
-#'   wsm2016$lat >= 23 & wsm2016$lat <= 40 &
-#'     wsm2016$lon >= -126 & wsm2016$lon <= -108
-#' )
-#' california <- sf::st_set_crs(
-#'   sf::st_as_sf(california, coords = c("lon", "lat")), "WGS84"
-#' )
-#'
+#' data("san_andreas")
 #' res <- distance_from_pb(
-#'   x = california, ep = na_pa, pb = san_andreas, tangential = TRUE
+#'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
 distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
