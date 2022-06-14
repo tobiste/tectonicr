@@ -7,10 +7,12 @@
 norm_chisq(obs, prd, unc)
 }
 \arguments{
-\item{obs}{Numeric vector containing the observed azimuth of \eqn{\sigma_\text{Hmax}}{SHmax},
+\item{obs}{Numeric vector containing the observed azimuth of
+\eqn{\sigma_{\text{Hmax}}}{SHmax},
 same length as \code{prd}}
 
-\item{prd}{\code{data.frame} containing the modeled azimuths of \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
+\item{prd}{\code{data.frame} containing the modeled azimuths of
+\eqn{\sigma_{\text{Hmax}}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
 \item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
