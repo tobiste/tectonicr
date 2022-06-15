@@ -206,6 +206,12 @@ ggplot() +
     alpha = .5
   ) +
   geom_sf(
+    data = euler.sm,
+    aes(lty = "small circles"),
+    color = "darkblue",
+    alpha = .5
+  ) +
+  geom_sf(
     data = euler.ld,
     aes(lty = "clockwise loxodromes"),
     color = "darkblue"

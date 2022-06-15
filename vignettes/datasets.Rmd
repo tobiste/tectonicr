@@ -78,7 +78,7 @@ DeMets et al. (1990) stored under `data("nuvel1_plates")`.
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
 # load some geometries from the rnaturalearth package
 world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
-trajectories <- eulerpole_loxodromes(x = euler,n = 40, cw = FALSE)
+trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
 
 ggplot(san_andreas.res) +
   geom_sf(data = world, alpha = .5) +
@@ -89,9 +89,9 @@ ggplot(san_andreas.res) +
     alpha = .5
   ) +
   geom_sf(
-    data = trajectories, 
+    data = trajectories,
     lty = 2
-    ) +
+  ) +
   geom_spoke(
     aes(
       x = lon,
@@ -204,24 +204,27 @@ san_andreas.res$distance <-
 Finally, we visualize the the $\sigma_{Hmax}$ orientation wrt to the distance to
 the plate boundary:
 ```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=FALSE}
-ggplot(san_andreas.res, aes(x = distance,y = azi.PoR)) +
-    coord_cartesian(ylim = c(0, 180)) +
-    labs(x = "Distance from plate boundary (°)", y = "Azimuth in PoR (°)") +
-    geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
-    geom_pointrange(
-      aes(ymin = azi.PoR - unc, ymax = azi.PoR + unc, 
-        color = san_andreas$regime, alpha = san_andreas$quality), size = .25
-      ) +
-    geom_smooth() +
-    scale_y_continuous(
-      breaks = seq(-180, 360, 45),
-      sec.axis = sec_axis(
-        ~.,
-        name = NULL,
-        breaks = c(0, 45, 90, 135, 180),
-        labels = c("Outward", "Tan (L)", "Inward", "Tan (R)", "Outward")
-      )
-    ) +
+ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
+  coord_cartesian(ylim = c(0, 180)) +
+  labs(x = "Distance from plate boundary (°)", y = "Azimuth in PoR (°)") +
+  geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
+  geom_pointrange(
+    aes(
+      ymin = azi.PoR - unc, ymax = azi.PoR + unc,
+      color = san_andreas$regime, alpha = san_andreas$quality
+    ),
+    size = .25
+  ) +
+  geom_smooth() +
+  scale_y_continuous(
+    breaks = seq(-180, 360, 45),
+    sec.axis = sec_axis(
+      ~.,
+      name = NULL,
+      breaks = c(0, 45, 90, 135, 180),
+      labels = c("Outward", "Tan (L)", "Inward", "Tan (R)", "Outward")
+    )
+  ) +
   scale_alpha_discrete(name = "Quality rank") +
   scale_color_discrete(name = "Tectonic regime")
 ```
