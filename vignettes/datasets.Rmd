@@ -41,7 +41,6 @@ Euler pole of the motion of North America relative to the Pacific Pate.
 
 ```{r san_andreas, echo=TRUE}
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
-
 san_andreas.prd <- model_shmax(san_andreas, euler)
 san_andreas.deviation <- misfit_shmax(san_andreas.prd, san_andreas$azi)
 ```
@@ -76,11 +75,10 @@ data("plates") # load plate boundary data set
 Alternatively, there is also the NUVEL1 plate boundary model by 
 DeMets et al. (1990) stored under `data("nuvel1_plates")`.
 
-```{r plot, echo=TRUE, warning=FALSE, message=FALSE}
+```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
 # load some geometries from the rnaturalearth package
 world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 trajectories <- eulerpole_loxodromes(x = euler,n = 40, cw = FALSE)
-
 
 ggplot(san_andreas.res) +
   geom_sf(data = world, alpha = .5) +
@@ -120,6 +118,7 @@ ggplot(san_andreas.res) +
   ) +
   scale_alpha_discrete(name = "Quality rank")
 ```
+![](san_andreas_map.png)
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$
 directions from the modeled stress direction using counter-clockwise 
@@ -204,7 +203,7 @@ san_andreas.res$distance <-
 
 Finally, we visualize the the $\sigma_{Hmax}$ orientation wrt to the distance to
 the plate boundary:
-```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE}
+```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance,y = azi.PoR)) +
     coord_cartesian(ylim = c(0, 180)) +
     labs(x = "Distance from plate boundary (°)", y = "Azimuth in PoR (°)") +
@@ -226,6 +225,7 @@ ggplot(san_andreas.res, aes(x = distance,y = azi.PoR)) +
   scale_alpha_discrete(name = "Quality rank") +
   scale_color_discrete(name = "Tectonic regime")
 ```
+![](azimuth.png)
 
 Close to the here dextral plate boundary, the majority of the stress data have 
 a strike-slip fault regime and are oriented around 135° wrt to the Euler 
@@ -241,7 +241,7 @@ The relationship between the azimuth and the distance can be better visualized
 by using the deviation (normalized by the data precision) from the the predicted
 stress orientation, i.e. the *normalized* $\chi^2$:
 
-```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE}
+```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
   labs(x = "Distance from plate boundary (°)", y = expression(Norm ~ chi^2)) +
@@ -256,6 +256,7 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   )) +
   scale_color_discrete(name = "Tectonic regime")
 ```
+![](nchisq.png)
 
 We can see that the data in fact starts to scatter notably 
 beyond a distance of 4° and becomes random at ca. 8° away from the plate 

@@ -88,7 +88,6 @@ To eventually plot the small circles with `ggplot`, I recommend to extract a
 
 ```{r small_circles_around_ep, eval=FALSE, include=TRUE}
 euler.sm <- eulerpole_smallcircles(euler)
-
 data("plates") # load plate boundary data set
 world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 
