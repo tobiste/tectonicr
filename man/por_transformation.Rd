@@ -34,11 +34,8 @@ translation factors.
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 
-data("wsm2016")
-example.geo <- sf::st_set_crs(
-  sf::st_as_sf(wsm2016[1:10, ], coords = c("lon", "lat")), "EPSG:4326"
-)
+data("san_andreas")
 
-example.por <- geographical_to_PoR(example.geo, euler)
-PoR_to_geographical(example.por, euler)
+san_andreas.por <- geographical_to_PoR(san_andreas, euler)
+PoR_to_geographical(san_andreas, euler)
 }

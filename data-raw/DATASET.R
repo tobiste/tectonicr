@@ -1,6 +1,7 @@
 ## code to prepare `san_andreas` dataset goes here  -------------
-data("wsm2016")
 library(dplyr)
+
+data("wsm2016", package = "ptrotR")
 san_andreas <- filter(
   wsm2016,
   between(lat, 23, 40) &

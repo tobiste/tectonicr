@@ -37,8 +37,8 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' @export
 #' @examples
 #' quantise_wsm_quality(c("A", "B", "C", "D", NA))
-#' data("wsm2016")
-#' quantise_wsm_quality(wsm2016$quality[1:20])
+#' data("san_andreas")
+#' quantise_wsm_quality(san_andreas$quality[1:20])
 quantise_wsm_quality <- function(x) {
   unc <- c()
   for (i in seq_along(x)) {
