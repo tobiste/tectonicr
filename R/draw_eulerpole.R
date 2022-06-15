@@ -191,7 +191,8 @@ eulerpole_smallcircles <-
   function(x, n = 10) {
     stopifnot(is.data.frame(x))
     stopifnot(dim(x)[1] > 0)
-    small_circle <- d <- NULL
+    small_circle <- NULL
+    d <- NULL
     sm.df <- smallcircle_dummy(n)
 
     sm.sf <- sm.df %>%
