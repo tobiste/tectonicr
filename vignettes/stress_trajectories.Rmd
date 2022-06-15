@@ -23,6 +23,7 @@ stress directions.
 ```{r setup, echo=TRUE}
 library(tectonicr)
 library(ggplot2) # load ggplot library
+library(sf)
 ```
 
 ## Equivalent rotations

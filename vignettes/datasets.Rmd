@@ -100,7 +100,8 @@ ggplot(san_andreas.res) +
       y = lat,
       radius = 1,
       angle = deg2rad(-azi + 90),
-      color = deviation_norm(dev.ld.ccw)
+      color = deviation_norm(dev.ld.ccw),
+      alpha = san_andreas$quality
     ),
     position = "center_spoke",
     na.rm = TRUE
@@ -116,7 +117,8 @@ ggplot(san_andreas.res) +
     ylim = range(san_andreas.res$lat),
     expand = FALSE,
     default_crs = "WGS84"
-  )
+  ) +
+  scale_alpha_discrete(name = "Quality rank")
 ```
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$
@@ -203,26 +205,26 @@ san_andreas.res$distance <-
 Finally, we visualize the the $\sigma_{Hmax}$ orientation wrt to the distance to
 the plate boundary:
 ```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE}
-ggplot(
-  san_andreas.res,
-  aes(
-    x = distance,
-    y = azi.PoR,
-    color = san_andreas$regime
-  )
-) +
-  labs(x = "Distance from plate boundary (°)", y = "Azimuth in PoR (°)") +
-  geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
-  geom_pointrange(aes(ymin = azi.PoR - unc, ymax = azi.PoR + unc)) +
-  scale_y_continuous(
-    breaks = seq(-180, 360, 45),
-    sec.axis = sec_axis(
-      ~.,
-      name = NULL,
-      breaks = c(0, 45, 90, 135, 180),
-      labels = c("Outward", "Tan (L)", "Inward", "Tan (R)", "Outward")
-    )
-  )
+ggplot(san_andreas.res, aes(x = distance,y = azi.PoR)) +
+    coord_cartesian(ylim = c(0, 180)) +
+    labs(x = "Distance from plate boundary (°)", y = "Azimuth in PoR (°)") +
+    geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
+    geom_pointrange(
+      aes(ymin = azi.PoR - unc, ymax = azi.PoR + unc, 
+        color = san_andreas$regime, alpha = san_andreas$quality), size = .25
+      ) +
+    geom_smooth() +
+    scale_y_continuous(
+      breaks = seq(-180, 360, 45),
+      sec.axis = sec_axis(
+        ~.,
+        name = NULL,
+        breaks = c(0, 45, 90, 135, 180),
+        labels = c("Outward", "Tan (L)", "Inward", "Tan (R)", "Outward")
+      )
+    ) +
+  scale_alpha_discrete(name = "Quality rank") +
+  scale_color_discrete(name = "Tectonic regime")
 ```
 
 Close to the here dextral plate boundary, the majority of the stress data have 
@@ -251,7 +253,8 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
     name = NULL,
     breaks = c(.15 / 2, .33, .7 + 0.15),
     labels = c("Good fit", "Random", "Systematic\nmisfit")
-  ))
+  )) +
+  scale_color_discrete(name = "Tectonic regime")
 ```
 
 We can see that the data in fact starts to scatter notably 
