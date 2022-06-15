@@ -112,7 +112,6 @@
 <p>Modeling the stress directions (wrt to the geographic North pole) using the Euler pole of the motion of North America relative to the Pacific Pate.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span>
-
 <span class="va">san_andreas.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span><span class="op">)</span>
 <span class="va">san_andreas.deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/misfit_shmax.html">misfit_shmax</a></span><span class="op">(</span><span class="va">san_andreas.prd</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></code></pre></div>
 <p>Combine the model results with the coordinates of the observed data</p>
@@ -133,6 +132,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load some geometries from the rnaturalearth package</span>
 <span class="va">world</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="st">"small"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span>
+<span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
@@ -141,6 +141,10 @@
     color <span class="op">=</span> <span class="st">"red"</span>,
     lwd <span class="op">=</span> <span class="fl">2</span>,
     alpha <span class="op">=</span> <span class="fl">.5</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>
+    data <span class="op">=</span> <span class="va">trajectories</span>,
+    lty <span class="op">=</span> <span class="fl">2</span>
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke</a></span><span class="op">(</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>
@@ -167,7 +171,7 @@
     default_crs <span class="op">=</span> <span class="st">"WGS84"</span>
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span><span class="op">)</span></code></pre></div>
-<p><img src="datasets_files/figure-html/plot-1.png" width="700"></p>
+<p><img src="san_andreas_map.png"></p>
 <p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes.</p>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> test quantifies the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> orientation the observed stress direction considering the reported uncertainties of the measurement.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -196,7 +200,7 @@
   <span class="va">san_andreas.res</span>,
   <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span>, type <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<p>To calculate the distance to the plate boundary, both the plate boundary geometries and the data points (in geographical coordinates() will be transformed in to the <em>PoR</em> reference system. In the <em>PoR</em> system, the distance is the latitudinal or longitudinal difference between the data points and the inward/outward or tangential moving plate boundaries, respectively.</p>
+<p>To calculate the distance to the plate boundary, both the plate boundary geometries and the data points (in geographical coordinates) will be transformed in to the <em>PoR</em> reference system. In the <em>PoR</em> system, the distance is the latitudinal or longitudinal difference between the data points and the inward/outward or tangential moving plate boundaries, respectively.</p>
 <p>This is done with the function <code><a href="../reference/distance_from_pb.html">distance_from_pb()</a></code>, which returns the angular distances.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">plates</span><span class="op">$</span><span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span>
@@ -207,30 +211,34 @@
     ep <span class="op">=</span> <span class="va">euler</span>,
     pb <span class="op">=</span> <span class="va">plate_boundary</span>,
     tangential <span class="op">=</span> <span class="cn">TRUE</span>
-  <span class="op">)</span></code></pre></div>
+  <span class="op">)</span>
+<span class="co">#&gt; Warning in st_cast.MULTILINESTRING(X[[i]], ...): keeping first linestring only</span></code></pre></div>
 <p>Finally, we visualize the the <span class="math inline">\(\sigma_{Hmax}\)</span> orientation wrt to the distance to the plate boundary:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>,y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (°)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (°)"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_pointrange</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">azi.PoR</span> <span class="op">-</span> <span class="va">unc</span>, ymax <span class="op">=</span> <span class="va">azi.PoR</span> <span class="op">+</span> <span class="va">unc</span>, 
-        color <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">regime</span>, alpha <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">.25</span>
-      <span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>
-      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">360</span>, <span class="fl">45</span><span class="op">)</span>,
-      sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">sec_axis</a></span><span class="op">(</span>
-        <span class="op">~</span><span class="va">.</span>,
-        name <span class="op">=</span> <span class="cn">NULL</span>,
-        breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>,
-        labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Outward"</span>, <span class="st">"Tan (L)"</span>, <span class="st">"Inward"</span>, <span class="st">"Tan (R)"</span>, <span class="st">"Outward"</span><span class="op">)</span>
-      <span class="op">)</span>
-    <span class="op">)</span> <span class="op">+</span>
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (°)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (°)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_pointrange</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>
+      ymin <span class="op">=</span> <span class="va">azi.PoR</span> <span class="op">-</span> <span class="va">unc</span>, ymax <span class="op">=</span> <span class="va">azi.PoR</span> <span class="op">+</span> <span class="va">unc</span>,
+      color <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">regime</span>, alpha <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">quality</span>
+    <span class="op">)</span>,
+    size <span class="op">=</span> <span class="fl">.25</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>
+    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">360</span>, <span class="fl">45</span><span class="op">)</span>,
+    sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">sec_axis</a></span><span class="op">(</span>
+      <span class="op">~</span><span class="va">.</span>,
+      name <span class="op">=</span> <span class="cn">NULL</span>,
+      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>,
+      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Outward"</span>, <span class="st">"Tan (L)"</span>, <span class="st">"Inward"</span>, <span class="st">"Tan (R)"</span>, <span class="st">"Outward"</span><span class="op">)</span>
+    <span class="op">)</span>
+  <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span><span class="op">)</span></code></pre></div>
-<p><img src="datasets_files/figure-html/san.andreas.distanceplot1-1.png" width="700"></p>
+<p><img src="azimuth.png"></p>
 <p>Close to the here dextral plate boundary, the majority of the stress data have a strike-slip fault regime and are oriented around 135° wrt to the Euler pole. Thus, the date are parallel to the predicted stress sourced by a right-lateral displaced plate boundary. Away from the plate boundary, the data becomes more noisy.</p>
 <blockquote>
 <p>This Azimuth (PoR) vs. distance plot also allows to identify wether a less known plate boundary represents a inward, outward, or tangetial displaced boundary.</p>
@@ -250,7 +258,7 @@
     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Good fit"</span>, <span class="st">"Random"</span>, <span class="st">"Systematic\nmisfit"</span><span class="op">)</span>
   <span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span><span class="op">)</span></code></pre></div>
-<p><img src="datasets_files/figure-html/san.andreas.distanceplot2-1.png" width="700"></p>
+<p><img src="nchisq.png"></p>
 <p>We can see that the data in fact starts to scatter notably beyond a distance of 4° and becomes random at ca. 8° away from the plate boundary. Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is approx. 4–6° (ca. 440–670 km) wide.</p>
 <blockquote>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> vs. distance plot allows to specify the width of the plate boundary zone.</p>
