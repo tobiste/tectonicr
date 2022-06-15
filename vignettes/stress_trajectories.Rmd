@@ -195,7 +195,7 @@ direction, and the sense.
 
 
 ```{r loxodromes, eval=FALSE, include=TRUE}
-euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
+euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = TRUE)
 
 ggplot() +
   labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
