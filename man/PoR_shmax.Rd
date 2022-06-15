@@ -9,7 +9,7 @@ PoR_shmax(df, euler, type = c("in", "out", "right", "left"))
 \arguments{
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
 (\code{lat}, \code{lon}), the orientation of
-\eqn{\sigma_{\text{Hmax}}}{SHmax} \code{azi} and its standard deviation
+\eqn{\sigma_\text{Hmax}}{SHmax} \code{azi} and its standard deviation
 \code{unc} (optional)}
 
 \item{euler}{\code{data.frame} containing the coordinates of the Euler pole
@@ -32,18 +32,18 @@ system, or a \code{"data.frame"} with
 }
 \description{
 Models the direction of maximum horizontal stress
-\eqn{\sigma_{\text{Hmax}}}{SHmax} in the Euler pole (Pole of Rotation)
-cooridnate reference system. When type of plate boundary is given, it also
+\eqn{\sigma_\text{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
+coordinate reference system. When type of plate boundary is given, it also
 gives the deviation from the theoretically predicted azimuth of
-\eqn{\sigma_{\text{Hmax}}}{SHmax}, the deviation, and the normalized
+\eqn{\sigma_\text{Hmax}}{SHmax}, the deviation, and the normalized
 \eqn{\chi^2}{chi-squared} statistics.
 }
 \details{
 According to the theory, the azimuth of
-\eqn{\sigma_{\text{Hmax}}}{SHmax} in the pole of rotation reference system is
+\eqn{\sigma_\text{Hmax}}{SHmax} in the pole of rotation reference system is
 approximate 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
 outward, sinistral, inward, or dextral moving plate boundary, respectively.
-directions of \eqn{\sigma_{\text{Hmax}}}{SHmax} with respect to the four
+directions of \eqn{\sigma_\text{Hmax}}{SHmax} with respect to the four
 plate boundary types.
 }
 \examples{

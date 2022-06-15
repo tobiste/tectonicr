@@ -236,8 +236,8 @@ pole. Thus, the date are parallel to the predicted stress sourced by a
 right-lateral displaced plate boundary. 
 Away from the plate boundary, the data becomes more noisy.
 
-> This Azimuth (PoR) vs. distance plot also allows to identify wether a less 
-known plate boundary represents a inward, outward, or tangetial displaced 
+> This Azimuth (PoR) vs. distance plot also allows to identify whether a less 
+known plate boundary represents a inward, outward, or tangential displaced 
 boundary.
 
 The relationship between the azimuth and the distance can be better visualized 
