@@ -107,18 +107,16 @@ PoR_crs <- function(x) {
 #' @return \code{sf} object of the data points in the transformed geographical
 #' or PoR coordinate system
 #' @details The PoR coordinate reference system is oblique transformation of the
-#' geographical coordinate system with the Euler pole coordinates being the the
+#' geographical coordinate system with the Euler pole coordinates being the
 #' translation factors.
 #' @importFrom magrittr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
 #' @examples
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
-#'
 #' data("san_andreas")
-#'
 #' san_andreas.por <- geographical_to_PoR(san_andreas, euler)
-#' PoR_to_geographical(san_andreas, euler)
+#' PoR_to_geographical(san_andreas.por, euler)
 #' @name por_transformation
 NULL
 
