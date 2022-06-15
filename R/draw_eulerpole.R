@@ -67,9 +67,9 @@ loxodrome_dummy <- function(n, angle, cw) {
   stopifnot(is.logical(cw))
   lon <- lat <- NULL
   if (cw) {
-    s <- 1
-  } else {
     s <- -1
+  } else {
+    s <- 1
   }
   lats <- seq(-180, 180, 1)
 

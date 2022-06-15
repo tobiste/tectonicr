@@ -43,6 +43,7 @@ pbty.def <- data.frame(
 plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") %>%
   sf::st_set_crs("EPSG:4326") %>%
   sf::st_make_valid() %>%
+  sf::st_wrap_dateline() %>%
   rename(plate.pair = plat_pr, pb.type = type) %>%
   mutate(pb = paste0(plate.pair, "_", pb.type)) %>%
   left_join(pbty.def) %>%

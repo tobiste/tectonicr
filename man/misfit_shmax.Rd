@@ -7,16 +7,19 @@
 misfit_shmax(prd, obs)
 }
 \arguments{
-\item{prd}{\code{data.frame} containing the modeled azimuths of \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
+\item{prd}{\code{data.frame} containing the modeled azimuths of
+\eqn{\sigma_{\text{Hmax}}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
-\item{obs}{Numeric vector containing the observed azimuth of \eqn{\sigma_\text{Hmax}}{SHmax},
+\item{obs}{Numeric vector containing the observed azimuth of
+\eqn{\sigma_{\text{Hmax}}}{SHmax},
 same length as \code{prd}}
 }
 \value{
 An object of class \code{data.frame}
 \describe{
-\item{dev.gc}{Deviation of observed stress from modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
+\item{dev.gc}{Deviation of observed stress from modeled
+\eqn{\sigma_{\text{Hmax}}}{SHmax} following
 great circles}
 \item{dev.sc}{Small circles}
 \item{dev.ld.cw}{Clockwise loxodromes}
@@ -25,7 +28,8 @@ great circles}
 }
 \description{
 Calculate the angular difference between the observed and modeled direction
-of maximum horizontal stresses (\eqn{\sigma_\text{Hmax}}{SHmax}) along great circles, small circles, and
+of maximum horizontal stresses (\eqn{\sigma_{\text{Hmax}}}{SHmax}) along
+great circles, small circles, and
 loxodromes of the relative plate motion's Euler pole
 }
 \examples{
@@ -40,7 +44,8 @@ prd <- model_shmax(point, euler)
 misfit_shmax(prd, obs = 90)
 }
 \seealso{
-\code{\link[=model_shmax]{model_shmax()}} to calculate the theoretical direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
+\code{\link[=model_shmax]{model_shmax()}} to calculate the theoretical direction of
+\eqn{\sigma_{\text{Hmax}}}{SHmax}.
 }
 \author{
 Tobias Stephan

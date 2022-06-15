@@ -79,6 +79,8 @@ DeMets et al. (1990) stored under `data("nuvel1_plates")`.
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE}
 # load some geometries from the rnaturalearth package
 world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
+trajectories <- eulerpole_loxodromes(x = euler,n = 40, cw = FALSE)
+
 
 ggplot(san_andreas.res) +
   geom_sf(data = world, alpha = .5) +
@@ -88,6 +90,10 @@ ggplot(san_andreas.res) +
     lwd = 2,
     alpha = .5
   ) +
+  geom_sf(
+    data = trajectories, 
+    lty = 2
+    ) +
   geom_spoke(
     aes(
       x = lon,
@@ -173,7 +179,7 @@ san_andreas.res <- cbind(
 ```
 
 To calculate the distance to the plate boundary, both the plate boundary 
-geometries and the data points (in geographical coordinates() will be 
+geometries and the data points (in geographical coordinates) will be 
 transformed in to the *PoR* reference system. 
 In the *PoR* system, the distance is the latitudinal or longitudinal difference 
 between the data points and the inward/outward or tangential moving plate 
