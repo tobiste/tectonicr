@@ -26,7 +26,7 @@ relative motion of neighboring plates.
 # Theory
 
 The theory of intraplate tectonics 
-([Wdowinski 1998](http://dx.doi.org/10.1029/97JB03390)) allows for
+([Wdowinski 1998](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/97JB03390)) allows for
 calculating the first-order intraplate deformation induced by horizontal
 displacement of deformable plate boundaries. It is based on empirical
 link between the directions of relative plate motion and the
@@ -179,7 +179,7 @@ prd <- model_shmax(point, euler)
 norm_chisq(obs = 90, prd$sc, unc = 10)
 ```
 The plate motions relative to the Pacific plate according to the 
-[NUVEL-1A](https://doi.org/10.1029/91GL01532) model are included in the package
+[NUVEL-1A](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/91GL01532/) model are included in the package
 and can be imported through:
 
 ```{r nuvel1, eval=FALSE, include=TRUE}

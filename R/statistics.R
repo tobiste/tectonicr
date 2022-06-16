@@ -1,31 +1,31 @@
 #' Normalized Chi-Squared Test
 #'
 #' A quantitative comparison between the predicted and observed directions of
-#' \eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average
+#' \eqn{\sigma_{Hmax}}{SHmax} is obtained by the calculation of the average
 #' azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, v. 103, p.
-#'   5037-5059, \doi{10.1029/97JB03390}.
+#'   5037-5059, doi: 10.1029/97JB03390.
 #' @inheritParams misfit_shmax
-#' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
+#' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 #' numeric vector or a number
 #' @return Numeric vector
 #' @details
 #' The normalized \eqn{\chi^2}{chi-squared} test is
-#' \deqn{ \text{Norm} \chi^2_i =
+#' \deqn{ {Norm} \chi^2_i =
 #'  = \frac{
-#'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{\text{predict}}}{\sigma_i}
+#'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{{predict}}}{\sigma_i}
 #'    \right) ^2}
 #'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
 #'    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
 #'    }
 #' The value of the chi-squared test statistic is a number between 0 and 1
-#' indicating the quality of the predicted \eqn{\sigma_\text{Hmax}}{SHmax}
+#' indicating the quality of the predicted \eqn{\sigma_{Hmax}}{SHmax}
 #' directions. Low values
 #' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
-#' observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
+#' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -326,7 +326,7 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #'
 #' @param x Data values. A vector of numeric values in degrees, for which the
 #' mean, median or standard deviation are required.
-#' @param w Weights. A vector of nonnegative numbers, of the same length as
+#' @param w Weights. A vector of positive numbers, of the same length as
 #' \code{x}.
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.

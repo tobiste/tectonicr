@@ -26,7 +26,7 @@ circular_weighted_IQR(x, w = NULL, na.rm = TRUE)
 \item{x}{Data values. A vector of numeric values in degrees, for which the
 mean, median or standard deviation are required.}
 
-\item{w}{Weights. A vector of nonnegative numbers, of the same length as
+\item{w}{Weights. A vector of positive numbers, of the same length as
 \code{x}.}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}

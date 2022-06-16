@@ -13,3 +13,4 @@
 ^\.covrignore$
 ^data-raw$
 ^CRAN-SUBMISSION$
+^revdep$

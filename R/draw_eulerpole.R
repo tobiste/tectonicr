@@ -123,7 +123,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 
 #' @title Theoretical Plate Tectonic Stress Paths
 #'
-#' @description Construct \eqn{\sigma_\text{Hmax}}{SHmax} lines that are
+#' @description Construct \eqn{\sigma_{Hmax}}{SHmax} lines that are
 #' following small circles, great circles, or loxodromes of an Euler pole for
 #' the relative plate motion.
 #'

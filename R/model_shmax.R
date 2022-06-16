@@ -44,7 +44,7 @@ get_azimuth <- function(a, b) {
 #' geographical reference system.
 #'
 #' @description Models the direction of maximum horizontal stress
-#' \eqn{\sigma_\text{Hmax}}{SHmax} along great circles, small circles, and
+#' \eqn{\sigma_{Hmax}}{SHmax} along great circles, small circles, and
 #' loxodromes at a given point or points according to the relative plate motion
 #' in the geographical coordinate reference system.
 #'
@@ -53,23 +53,23 @@ get_azimuth <- function(a, b) {
 #' (\code{lat}, \code{lon}).
 #' @param euler \code{data.frame} containing the coordinates of the Euler pole
 #' for the plate boundary (\code{lat}, \code{lon}).
-#' @details \eqn{\sigma_\text{Hmax}}{SHmax} following *great circles* is the
+#' @details \eqn{\sigma_{Hmax}}{SHmax} following *great circles* is the
 #' (initial) bearing between the given point and the pole of relative plate
-#' motion. \eqn{\sigma_\text{Hmax}}{SHmax} along *small circles*, clockwise, and
+#' motion. \eqn{\sigma_{Hmax}}{SHmax} along *small circles*, clockwise, and
 #' counter-clockwise *loxodromes* is 90\eqn{^{\circ}}{ degree},
 #' +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree}
 #' (-45\eqn{^{\circ}}{ degree}) to this great circle bearing, respectively.
 #' @return \code{data.frame}
 #' \describe{
-#'   \item{gc}{Azimuth of modeled \eqn{\sigma_\text{Hmax}}{SHmax} following
+#'   \item{gc}{Azimuth of modeled \eqn{\sigma_{Hmax}}{SHmax} following
 #'   great circles}
 #'   \item{sc}{Small circles}
 #'   \item{ld.cw}{Clockwise loxodromes}
 #'   \item{ld.ccw}{Counter-clockwise loxodromes}
 #'  }
 #' @seealso [misfit_shmax()] to compute the deviation of the modeled direction
-#'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
-#'  [PoR_shmax()] to calculate the azimuth of \eqn{\sigma_\text{Hmax}}{SHmax}
+#'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
+#'  [PoR_shmax()] to calculate the azimuth of \eqn{\sigma_{Hmax}}{SHmax}
 #'  in the pole of rotation reference system.
 #' @export
 #' @examples
@@ -149,28 +149,28 @@ deviation_norm <- function(x) {
 #' Deviation of Observed and Predicted Directions of Maximum Horizontal Stress
 #'
 #' Calculate the angular difference between the observed and modeled direction
-#' of maximum horizontal stresses (\eqn{\sigma_\text{Hmax}}{SHmax}) along
+#' of maximum horizontal stresses (\eqn{\sigma_{Hmax}}{SHmax}) along
 #' great circles, small circles, and
 #' loxodromes of the relative plate motion's Euler pole
 #'
 #' @author Tobias Stephan
 #' @param prd \code{data.frame} containing the modeled azimuths of
-#' \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
+#' \eqn{\sigma_{Hmax}}{SHmax}, i.e.
 #' the return object from \code{model_shmax()}
 #' @param obs Numeric vector containing the observed azimuth of
-#' \eqn{\sigma_\text{Hmax}}{SHmax},
+#' \eqn{\sigma_{Hmax}}{SHmax},
 #' same length as \code{prd}
 #' @return An object of class \code{data.frame}
 #' \describe{
 #'   \item{dev.gc}{Deviation of observed stress from modeled
-#'   \eqn{\sigma_\text{Hmax}}{SHmax} following
+#'   \eqn{\sigma_{Hmax}}{SHmax} following
 #'   great circles}
 #'   \item{dev.sc}{Small circles}
 #'   \item{dev.ld.cw}{Clockwise loxodromes}
 #'   \item{dev.ld.ccw}{Counter-clockwise loxodromes}
 #' }
 #' @seealso [model_shmax()] to calculate the theoretical direction of
-#' \eqn{\sigma_\text{Hmax}}{SHmax}.
+#' \eqn{\sigma_{Hmax}}{SHmax}.
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -200,14 +200,14 @@ misfit_shmax <- function(prd, obs) {
 #' @title Theoretical Direction of Maximum Horizontal Stress in PoR reference system
 #'
 #' @description Models the direction of maximum horizontal stress
-#' \eqn{\sigma_\text{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
+#' \eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
 #' coordinate reference system. When type of plate boundary is given, it also
 #' gives the deviation from the theoretically predicted azimuth of
-#' \eqn{\sigma_\text{Hmax}}{SHmax}, the deviation, and the normalized
+#' \eqn{\sigma_{Hmax}}{SHmax}, the deviation, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #' @param df \code{data.frame} containing the coordinates of the point(s)
 #' (\code{lat}, \code{lon}), the orientation of
-#' \eqn{\sigma_\text{Hmax}}{SHmax} \code{azi} and its standard deviation
+#' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
 #' @param euler \code{data.frame} containing the coordinates of the Euler pole
 #' for the plate boundary  (\code{lat}, \code{lon})
@@ -224,16 +224,16 @@ misfit_shmax <- function(prd, obs) {
 #' \item{\code{"nchisq"}}{the normalized \eqn{\chi^2}{chi-squared} statistics.}
 #' }
 #' @seealso [model_shmax()] to compute the theoretical orientation of
-#' \eqn{\sigma_\text{Hmax}}{SHmax} in the geographical reference system.
+#' \eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
 #' [misfit_shmax()] to compute the deviation of the modeled direction
-#'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
+#'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
 #'  [norm_chisq()] to calculate the normalized \eqn{\chi^2}{chi-squared}
 #'  statistics.
 #' @details According to the theory, the azimuth of
-#' \eqn{\sigma_\text{Hmax}}{SHmax} in the pole of rotation reference system is
+#' \eqn{\sigma_{Hmax}}{SHmax} in the pole of rotation reference system is
 #' approximate 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
 #' outward, sinistral, inward, or dextral moving plate boundary, respectively.
-#' directions of \eqn{\sigma_\text{Hmax}}{SHmax} with respect to the four
+#' directions of \eqn{\sigma_{Hmax}}{SHmax} with respect to the four
 #' plate boundary types.
 #' @export
 #' @examples

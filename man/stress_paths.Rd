@@ -38,7 +38,7 @@ counterclockwise loxodromes (left-lateral displaced plate boundaries).}
 \code{sf} object
 }
 \description{
-Construct \eqn{\sigma_\text{Hmax}}{SHmax} lines that are
+Construct \eqn{\sigma_{Hmax}}{SHmax} lines that are
 following small circles, great circles, or loxodromes of an Euler pole for
 the relative plate motion.
 }
