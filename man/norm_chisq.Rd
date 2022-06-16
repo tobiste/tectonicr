@@ -53,5 +53,5 @@ norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
 \references{
 Wdowinski, S., 1998, A theory of intraplate
 tectonics. \emph{Journal of Geophysical Research: Solid Earth}, v. 103, p.
-5037--5059, \doi{10.1029/97JB03390}.
+5037-5059, \doi{10.1029/97JB03390}.
 }

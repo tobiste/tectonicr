@@ -6,7 +6,7 @@
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, v. 103, p.
-#'   5037--5059, \doi{10.1029/97JB03390}.
+#'   5037-5059, \doi{10.1029/97JB03390}.
 #' @inheritParams misfit_shmax
 #' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
 #' numeric vector or a number

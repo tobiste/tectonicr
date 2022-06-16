@@ -8,7 +8,7 @@
 An object of class \code{"sf"}
 }
 \source{
-\url{http://https://www.world-stress-map.org/}
+\url{https://www.world-stress-map.org/}
 }
 \usage{
 data('san_andreas')

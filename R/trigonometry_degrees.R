@@ -6,7 +6,6 @@
 #' @param deg	 (array of) angles in degrees.
 #' @param rad (array of) angles in radians.
 #' @return The angle in degrees or radians.
-#' @source [pracma::deg2rad()], [pracma::rad2deg()] from the package "pracma".
 #' @examples
 #' deg2rad(seq(-90, 90, 15))
 #' rad2deg(seq(-pi / 2, pi / 2, length = 13))
@@ -32,9 +31,6 @@ deg2rad <- function(deg) {
 #' @param x,x1,x2 Numeric or complex vectors.
 #' @return Returns a scalar or vector of numeric values.
 #' @keywords internal
-#' @source [pracma::sind()], [pracma::cosd()], [pracma::tand()],
-#' [pracma::asind()], [pracma::acosd()], [pracma::atand()], and
-#' [pracma::atan2d()] from the package "pracma".
 #' @name trigon
 NULL
 
