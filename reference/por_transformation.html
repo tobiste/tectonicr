@@ -91,7 +91,7 @@ or PoR coordinate system</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The PoR coordinate reference system is oblique transformation of the
-geographical coordinate system with the Euler pole coordinates being the the
+geographical coordinate system with the Euler pole coordinates being the
 translation factors.</p>
     </div>
 
@@ -99,15 +99,13 @@ translation factors.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span>
-<span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
-<span class="r-in"></span>
 <span class="r-in"><span class="va">san_andreas.por</span> <span class="op">&lt;-</span> <span class="fu">geographical_to_PoR</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">PoR_to_geographical</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">PoR_to_geographical</span><span class="op">(</span><span class="va">san_andreas.por</span>, <span class="va">euler</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 1082 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -125.82 ymin: 23.08 xmax: -108 ymax: 39.94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -38.26307 ymin: -42.27284 xmax: -20.68387 ymax: -27.90979</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,082 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id         lat   lon   azi   unc type  depth quality regime</span>
