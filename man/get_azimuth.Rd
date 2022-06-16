@@ -3,11 +3,14 @@
 \name{get_azimuth}
 \alias{get_azimuth}
 \title{Azimuth Between two Points}
+\source{
+\url{http://www.movable-type.co.uk/scripts/latlong.html}
+}
 \usage{
 get_azimuth(a, b)
 }
 \arguments{
-\item{a, b}{Latitude/longitude of start and end point(s).
+\item{a, b}{Coordinates of start and end point(s).
 Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)}
 }
 \value{
@@ -15,13 +18,13 @@ Azimuth in degrees
 }
 \description{
 Calculate initial bearing (or forward azimuth/direction) to go
-from point \code{p1} to point \code{p2} following great circle arc on a
+from point \code{a} to point \code{b} following great circle arc on a
 sphere.
 }
 \details{
 This formula is for the initial bearing (sometimes referred to as
 forward azimuth) which if followed in a straight line along a great circle
-arc will take you from the start point to the end point:
+arc will lead from the start point a to the end point b.
 \deqn{\theta = \arctan2 (\sin \Delta\lambda *
 \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)}
 where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
@@ -32,7 +35,4 @@ longitude)
 berlin <- c(52.517, 13.4) # Berlin
 tokyo <- c(35.7, 139.767) # Tokyo
 get_azimuth(berlin, tokyo)
-}
-\references{
-\url{http://www.movable-type.co.uk/scripts/latlong.html}
 }

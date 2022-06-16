@@ -15,7 +15,7 @@ euler_pole(x, y, z = NA, geo = TRUE, angle = NA)
 
 \item{geo}{logical,\code{TRUE} (the default) if Euler pole axis is given in
 geographical coordinates (latitude, longitude). \code{FALSE} if given in
-cartesian coordinates (x, y, z)}
+Cartesian coordinates (x, y, z)}
 
 \item{angle}{(optional) Angle of rotation in degrees (CCW rotation if angle
 is positive)}

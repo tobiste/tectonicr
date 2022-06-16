@@ -5,7 +5,7 @@
 #' @param z z coordinate
 #' @param geo logical,\code{TRUE} (the default) if Euler pole axis is given in
 #' geographical coordinates (latitude, longitude). \code{FALSE} if given in
-#' cartesian coordinates (x, y, z)
+#' Cartesian coordinates (x, y, z)
 #' @param angle (optional) Angle of rotation in degrees (CCW rotation if angle
 #' is positive)
 #' @return An object of class \code{"euler.pole"} containing the Euler pole

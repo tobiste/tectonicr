@@ -1,20 +1,20 @@
 #' @title Azimuth Between two Points
 #'
 #' @description Calculate initial bearing (or forward azimuth/direction) to go
-#' from point \code{p1} to point \code{p2} following great circle arc on a
+#' from point \code{a} to point \code{b} following great circle arc on a
 #' sphere.
 #'
-#' @param a,b Latitude/longitude of start and end point(s).
+#' @param a,b Coordinates of start and end point(s).
 #' Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)
 #' @details This formula is for the initial bearing (sometimes referred to as
 #' forward azimuth) which if followed in a straight line along a great circle
-#' arc will take you from the start point to the end point:
+#' arc will lead from the start point a to the end point b.
 #' \deqn{\theta = \arctan2 (\sin \Delta\lambda *
 #' \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)}
 #' where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
 #' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
 #' longitude)
-#' @references \url{http://www.movable-type.co.uk/scripts/latlong.html}
+#' @source \url{http://www.movable-type.co.uk/scripts/latlong.html}
 #' @return Azimuth in degrees
 #' @export
 #' @examples
@@ -38,7 +38,6 @@ get_azimuth <- function(a, b) {
   # Normalize result to a compass bearing (0-360)
   (theta + 360) %% 360
 }
-
 
 
 #' @title Theoretical Direction of Maximum Horizontal Stress in the
