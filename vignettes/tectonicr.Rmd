@@ -26,9 +26,9 @@ relative motion of neighboring plates.
 # Theory
 
 The theory of intraplate tectonics 
-([Wdowinski 1998](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/97JB03390)) allows for
-calculating the first-order intraplate deformation induced by horizontal
-displacement of deformable plate boundaries. It is based on empirical
+([Wdowinski 1998](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/97JB03390)) 
+allows for calculating the first-order intraplate deformation induced by 
+horizontal displacement of deformable plate boundaries. It is based on empirical
 link between the directions of relative plate motion and the
 displacement and deformation fields within a plate interior adjacent to
 three types of deformable plate boundaries: inward-, outward-, and
@@ -71,7 +71,9 @@ thickened crust through, e.g., gravitational collapse.
 
 Along transform boundaries (**tangential displaced boundaries**), the
 two neighboring plates exert shear tractions tangential to the
-orientation of the boundary ([Forsyth and Uyeda, 1975](https://academic.oup.com/gji/article-lookup/doi/10.1111/j.1365-246X.1975.tb00631.x)). Faulting and displacement adjacent to these plate boundaries are characterized 
+orientation of the boundary 
+([Forsyth and Uyeda, 1975](https://academic.oup.com/gji/article-lookup/doi/10.1111/j.1365-246X.1975.tb00631.x)). 
+Faulting and displacement adjacent to these plate boundaries are characterized 
 by strike-slip parallel to the plate motion, and thus, the principal axes
 of maximum and minimum stress are orientated at an angle of c. 45$^{\circ}$ to
 the plate motion trajectory. 
@@ -165,9 +167,10 @@ between predicted and observed directions of about 90$^{\circ}$. Random
 distribution of $\sigma_{Hmax}$ directions results in Norm $\chi^2 = 0.33$
 
 The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a numeric
-vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted $\sigma_{Hmax}$
-(vector must be of length of `obs`); and `unc` is the uncertainty of
-observed $\sigma_{Hmax}$ (either numeric vector of length of `obs` or a number).
+vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted 
+$\sigma_{Hmax}$ (vector must be of length of `obs`); and `unc` is the 
+uncertainty of observed $\sigma_{Hmax}$ (either numeric vector of length of 
+`obs` or a number).
 
 ```{r shmax_test, echo=TRUE}
 data("nuvel1") # import example data set for Euler rotations
@@ -179,8 +182,8 @@ prd <- model_shmax(point, euler)
 norm_chisq(obs = 90, prd$sc, unc = 10)
 ```
 The plate motions relative to the Pacific plate according to the 
-[NUVEL-1A](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/91GL01532/) model are included in the package
-and can be imported through:
+[NUVEL-1A](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/91GL01532/) 
+model are included in the package and can be imported through:
 
 ```{r nuvel1, eval=FALSE, include=TRUE}
 data("nuvel1")
