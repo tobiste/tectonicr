@@ -18,17 +18,16 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="../articles/tectonicr.html">Get started</a>
-</li>
-<li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/datasets.html">Handling large datasets</a>
-    <a class="dropdown-item" href="../articles/stress_trajectories.html">Plotting trajectories of theoretic stress directions</a>
+    <a class="dropdown-item" href="../articles/1_tectonicr.html">1. Introduction to tectonicr</a>
+    <a class="dropdown-item" href="../articles/2_datasets.html">2. Handling large datasets</a>
+    <a class="dropdown-item" href="../articles/3_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
+    <a class="dropdown-item" href="../articles/4_statistics.html">4. Circular statistics</a>
   </div>
 </li>
 <li class="nav-item">
@@ -51,7 +50,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Stress2Grid</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/R/statistics.R" class="external-link"><code>R/statistics.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/R/interpolation.R" class="external-link"><code>R/interpolation.R</code></a></small>
       <div class="d-none name"><code>stress2grid.Rd</code></div>
     </div>
 
@@ -63,14 +62,15 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">stress2grid</span><span class="op">(</span>
   <span class="va">x</span>,
-  <span class="va">lon.range</span>,
-  <span class="va">lat.range</span>,
+  stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>,
+  lon_range <span class="op">=</span> <span class="cn">NULL</span>,
+  lat_range <span class="op">=</span> <span class="cn">NULL</span>,
   gridsize <span class="op">=</span> <span class="fl">2.5</span>,
   min_data <span class="op">=</span> <span class="fl">3</span>,
   threshold <span class="op">=</span> <span class="fl">25</span>,
   arte_thres <span class="op">=</span> <span class="fl">200</span>,
-  apply_mw <span class="op">=</span> <span class="cn">FALSE</span>,
-  apply_qw <span class="op">=</span> <span class="cn">TRUE</span>,
+  method_weighting <span class="op">=</span> <span class="cn">FALSE</span>,
+  quality_weighting <span class="op">=</span> <span class="cn">TRUE</span>,
   dist_weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inverse"</span>, <span class="st">"linear"</span>, <span class="st">"none"</span><span class="op">)</span>,
   dist_threshold <span class="op">=</span> <span class="fl">0.1</span>,
   R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">1000</span>, <span class="fl">50</span><span class="op">)</span>
@@ -79,7 +79,7 @@
 
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>https://github.com/MorZieg/Stress2Grid</p>
+    <p><a href="https://github.com/MorZieg/Stress2Grid" class="external-link">https://github.com/MorZieg/Stress2Grid</a></p>
     </div>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
@@ -97,7 +97,13 @@
 </dl></dd>
 
 
-<dt>lon.range, lat.range</dt>
+<dt>stat</dt>
+<dd><p>Should the orientation of interpolated SHmax be based  on the
+circular mean and standard deviation (<code>"mean"</code>, the default) or on the circular median
+and interquartile range (<code>"median"</code>)?</p></dd>
+
+
+<dt>lon_range, lat_range</dt>
 <dd><p>(optional) numeric vector specifying the minimum
 and maximum longitudes and latitudes.</p></dd>
 
@@ -107,7 +113,7 @@ and maximum longitudes and latitudes.</p></dd>
 
 
 <dt>min_data</dt>
-<dd><p>Numeric. Minimum number of data per bin. Default is 3</p></dd>
+<dd><p>Integer. Minimum number of data per bin. Default is 3</p></dd>
 
 
 <dt>threshold</dt>
@@ -119,14 +125,14 @@ and maximum longitudes and latitudes.</p></dd>
 datapoint. Default is 200</p></dd>
 
 
-<dt>apply_mw</dt>
+<dt>method_weighting</dt>
 <dd><p>Logical. If a method weighting should be applied:
-Default is FALSE</p></dd>
+Default is <code>FALSE</code>.</p></dd>
 
 
-<dt>apply_qw</dt>
+<dt>quality_weighting</dt>
 <dd><p>Logical. If a quality weighting should be applied: Default is
-TRUE</p></dd>
+<code>TRUE</code>.</p></dd>
 
 
 <dt>dist_weight</dt>
@@ -182,26 +188,26 @@ Matlab Script Stress2Grid v1.1. GFZ Data Services. <a href="https://doi.org/10.5
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">stress2grid</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 799 features and 7 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 671 features and 7 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -124.57 ymin: 24.33 xmax: -107.07 ymax: 39.33</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 799 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 671 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   R [20]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      lon   lat   azi    sd     R    mdr     N        geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;POINT [°]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0    50 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0   100 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0   150 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0   200 <span style="color: #BB0000;">NA</span>         1 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">115.</span>  24.3  179.  -<span style="color: #BB0000;">Inf</span>   250  0.820     3 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">115.</span>  24.3  170.  -<span style="color: #BB0000;">Inf</span>   300  0.743     4 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">115.</span>  24.3  175.  -<span style="color: #BB0000;">Inf</span>   350  0.796     9 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">115.</span>  24.3  170.  -<span style="color: #BB0000;">Inf</span>   400  0.816    18 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">115.</span>  24.3  172.  -<span style="color: #BB0000;">Inf</span>   450  0.884    56 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">115.</span>  24.3  172.  -<span style="color: #BB0000;">Inf</span>   500  0.876   107 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 789 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">115.</span>  24.3  <span style="color: #BB0000;">NA</span>    0       50 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">115.</span>  24.3  <span style="color: #BB0000;">NA</span>    0      100 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">115.</span>  24.3  <span style="color: #BB0000;">NA</span>    0      150 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">115.</span>  24.3  <span style="color: #BB0000;">NA</span>    0      200 <span style="color: #BB0000;">NA</span>         1 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">115.</span>  24.3 142.   5.32   250  0.820     3 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">115.</span>  24.3 167.  25.0    350  0.796     9 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">115.</span>  24.3  29.7 19.3    400  0.816    18 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">115.</span>  24.3  16.3 14.8    450  0.884    56 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">115.</span>  24.3  49.1 16.3    500  0.876   107 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">115.</span>  24.3  46.0 15.5    550  0.832   139 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 661 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

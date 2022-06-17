@@ -40,16 +40,15 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="articles/tectonicr.html">Get started</a>
-</li>
-<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/datasets.html">Handling large datasets</a>
-    <a class="dropdown-item" href="articles/stress_trajectories.html">Plotting trajectories of theoretic stress directions</a>
+    <a class="dropdown-item" href="articles/1_tectonicr.html">1. Introduction to tectonicr</a>
+    <a class="dropdown-item" href="articles/2_datasets.html">2. Handling large datasets</a>
+    <a class="dropdown-item" href="articles/3_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
+    <a class="dropdown-item" href="articles/4_statistics.html">4. Circular statistics</a>
   </div>
 </li>
 <li class="nav-item">
@@ -90,6 +89,8 @@
 <strong>Relative rotations from a given set of plate motion parameters</strong>: <code><a href="reference/equivalent_rotation.html">equivalent_rotation()</a></code> transfers a set of plate motion parameters into the relative plate motions among the given plates.</li>
 <li>
 <strong>Average direction of a set of SHmax data</strong> using the (weighted) mean or median for pi-directional data.</li>
+<li>
+<strong>Spatial interpolation of of SHmax</strong>: <code><a href="reference/stress2grid.html">stress2grid()</a></code> uses distance, method, and quality-weighted mean direction of stress data</li>
 </ul>
 <div class="section level2">
 <h2 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
