@@ -41,10 +41,10 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/1_tectonicr.html">1. Introduction to tectonicr</a>
-    <a class="dropdown-item" href="../articles/2_datasets.html">2. Handling large datasets</a>
-    <a class="dropdown-item" href="../articles/3_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
-    <a class="dropdown-item" href="../articles/4_statistics.html">4. Circular statistics</a>
+    <a class="dropdown-item" href="../articles/A_tectonicr.html">1. Introduction to tectonicr</a>
+    <a class="dropdown-item" href="../articles/B_datasets.html">2. Handling large datasets</a>
+    <a class="dropdown-item" href="../articles/C_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
+    <a class="dropdown-item" href="../articles/D_statistics.html">4. Circular statistics</a>
   </div>
 </li>
 <li class="nav-item">
@@ -71,13 +71,13 @@
 
 
 
-<script src="2_datasets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+<script src="B_datasets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>2. Handling large datasets</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/2_datasets.Rmd" class="external-link"><code>vignettes/2_datasets.Rmd</code></a></small>
-      <div class="d-none name"><code>2_datasets.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
+      <div class="d-none name"><code>B_datasets.Rmd</code></div>
     </div>
 
     
@@ -182,9 +182,10 @@
 <span class="op">)</span>
 <span class="co">#&gt; [1] 0.03296388</span></code></pre></div>
 <p>The value is <span class="math inline">\(\leq\)</span> 0.15, indicating a significantly good fit of the model. Thus, the traction of the transform plate boundary explain the stress direction of the area.</p>
-<div class="section level3">
-<h3 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary"></a>
+</h2>
 <p>The orientation of the maximum horizontal stress correlates with plate motion direction at the plate boundary zone. Towards the plate interior, plate boundary forces become weaker and other stress sources will probably dominate.</p>
 <p>To visualize the variation of the <span class="math inline">\(\sigma_{Hmax}\)</span> wrt to the distance to the plate boundary, we need to transfer the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> from the geographic reference system (i.e. azimuth is the deviation of a direction from geographic North pole) to the <strong>Pole of Rotation (PoR)</strong> reference system (i.e. azimuth is the deviation from the Euler pole).</p>
 <blockquote>
@@ -263,7 +264,6 @@
 <blockquote>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> vs. distance plot allows to specify the width of the plate boundary zone.</p>
 </blockquote>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

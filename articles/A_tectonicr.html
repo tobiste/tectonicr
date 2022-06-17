@@ -41,10 +41,10 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/1_tectonicr.html">1. Introduction to tectonicr</a>
-    <a class="dropdown-item" href="../articles/2_datasets.html">2. Handling large datasets</a>
-    <a class="dropdown-item" href="../articles/3_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
-    <a class="dropdown-item" href="../articles/4_statistics.html">4. Circular statistics</a>
+    <a class="dropdown-item" href="../articles/A_tectonicr.html">1. Introduction to tectonicr</a>
+    <a class="dropdown-item" href="../articles/B_datasets.html">2. Handling large datasets</a>
+    <a class="dropdown-item" href="../articles/C_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
+    <a class="dropdown-item" href="../articles/D_statistics.html">4. Circular statistics</a>
   </div>
 </li>
 <li class="nav-item">
@@ -71,21 +71,21 @@
 
 
 
-<script src="1_tectonicr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+<script src="A_tectonicr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>1. Introduction to tectonicr</h1>
                         <h4 data-toc-skip class="author">Tobias Stephan</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/1_tectonicr.Rmd" class="external-link"><code>vignettes/1_tectonicr.Rmd</code></a></small>
-      <div class="d-none name"><code>1_tectonicr.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/A_tectonicr.Rmd" class="external-link"><code>vignettes/A_tectonicr.Rmd</code></a></small>
+      <div class="d-none name"><code>A_tectonicr.Rmd</code></div>
     </div>
 
     
     
 <p><strong>tectonicr</strong> is a free and open-source R package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.</p>
 <div class="section level2">
-<h2 id="theory">Theory<a class="anchor" aria-label="anchor" href="#theory"></a>
+<h2 id="theoretical-background">Theoretical background<a class="anchor" aria-label="anchor" href="#theoretical-background"></a>
 </h2>
 <p>The theory of intraplate tectonics (<a href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/97JB03390" class="external-link">Wdowinski 1998</a>) allows for calculating the first-order intraplate deformation induced by horizontal displacement of deformable plate boundaries. It is based on empirical link between the directions of relative plate motion and the displacement and deformation fields within a plate interior adjacent to three types of deformable plate boundaries: inward-, outward-, and tangential-displaced boundaries. The model predicts the direction of intraplate displacement, displacement rate, strain, and stress fields in terms of small circles, great circles, and 45<span class="math inline">\(^{\circ}\)</span> loxodromes around the pole of rotation of two adjacent plates. According to the theory, the principal axis of the maximum horizontal stress follows small circles for inward-displaced boundaries, great circles for outward-displaced boundaries, and loxodromes for tangential-displaced boundaries.</p>
 <p>The theory assumes that the first-order intraplate deformation is predominantly induced by horizontal forces acting on plate boundaries and by buoyancy forces that arise from lateral density variations between mid-ocean ridges and plate interiors (ridge push).</p>
@@ -96,9 +96,10 @@
 <p><strong>Outward moving plate boundaries</strong> produce tensional tractions and displacements directed away from the plate interior. Along spreading ridges and intracontinental rifting stresses are dominated by normal faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{vertical}\)</span>, <span class="math inline">\(\sigma_2 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> trending perpendicular to the plate motion trajectories (i.e. along <em>great circles</em>). In the case of intracontinental setting, stresses and displacements may be associated to slab-retreat, back-arc extension, or the release of the excess of gravitational potential energy stored in thickened crust through, e.g., gravitational collapse.</p>
 <p>Along transform boundaries (<strong>tangential displaced boundaries</strong>), the two neighboring plates exert shear tractions tangential to the orientation of the boundary (<a href="https://academic.oup.com/gji/article-lookup/doi/10.1111/j.1365-246X.1975.tb00631.x" class="external-link">Forsyth and Uyeda, 1975</a>). Faulting and displacement adjacent to these plate boundaries are characterized by strike-slip parallel to the plate motion, and thus, the principal axes of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> orientation follows along 45<span class="math inline">\(^{\circ}\)</span> <em>loxodromes</em> (lines of constant bearing) which diverge —depending on the sense of the transform boundary— clockwise or counterclockwise from the relative Euler pole and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
 </div>
-<div class="section level3">
-<h3 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
+</h2>
 <p><strong>tectonicr</strong> basically calculates the bearing from a point of interest to a given Euler pole of the relative plate motion by the formula:</p>
 <span class="math display">\[\begin{equation} 
   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)
@@ -130,9 +131,9 @@
 <span class="co">#&gt;   dev.gc dev.sc dev.ld.cw dev.ld.ccw</span>
 <span class="co">#&gt; 1    -90      0       -45         45</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress">Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress<a class="anchor" aria-label="anchor" href="#quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress"></a>
-</h3>
+<div class="section level2">
+<h2 id="quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress">Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress<a class="anchor" aria-label="anchor" href="#quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress"></a>
+</h2>
 <p>The <strong>normalized</strong> <span class="math inline">\(\chi^2\)</span> test quantitatively compares the predicted (<code><a href="../reference/model_shmax.html">model_shmax()</a></code>) and observed <span class="math inline">\(\sigma_{Hmax}\)</span> azimuth relative to the reported <span class="math inline">\(\sigma\)</span> standard deviation (Wdowinski 1999).</p>
 <span class="math display">\[\begin{equation} 
   \textrm{Norm} \chi^2_i = 
@@ -154,7 +155,6 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nuvel1</span><span class="op">)</span></code></pre></div>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

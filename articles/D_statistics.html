@@ -41,10 +41,10 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/1_tectonicr.html">1. Introduction to tectonicr</a>
-    <a class="dropdown-item" href="../articles/2_datasets.html">2. Handling large datasets</a>
-    <a class="dropdown-item" href="../articles/3_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
-    <a class="dropdown-item" href="../articles/4_statistics.html">4. Circular statistics</a>
+    <a class="dropdown-item" href="../articles/A_tectonicr.html">1. Introduction to tectonicr</a>
+    <a class="dropdown-item" href="../articles/B_datasets.html">2. Handling large datasets</a>
+    <a class="dropdown-item" href="../articles/C_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
+    <a class="dropdown-item" href="../articles/D_statistics.html">4. Circular statistics</a>
   </div>
 </li>
 <li class="nav-item">
@@ -71,13 +71,13 @@
 
 
 
-<script src="4_statistics_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+<script src="D_statistics_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>4. Circular statistics</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/4_statistics.Rmd" class="external-link"><code>vignettes/4_statistics.Rmd</code></a></small>
-      <div class="d-none name"><code>4_statistics.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/D_statistics.Rmd" class="external-link"><code>vignettes/D_statistics.Rmd</code></a></small>
+      <div class="d-none name"><code>D_statistics.Rmd</code></div>
     </div>
 
     
@@ -89,7 +89,7 @@
 <div class="section level2">
 <h2 id="mean-orientation">Mean orientation<a class="anchor" aria-label="anchor" href="#mean-orientation"></a>
 </h2>
-<p>Because orientation data is pi-periodical, i.e. the average of 35 degrees and 355 degrees should be 15 degree. <code><a href="../reference/circle_median.html">circular_mean()</a></code> and <code><a href="../reference/circle_median.html">circular_quasi_median()</a></code> are the metrics that express the average orientation:</p>
+<p>Orientation data is pi-periodical. Thus, for the calculation of mean, the average of 35 degrees and 355 degrees should be 15 degree instead of 195. <strong>tectonicr</strong> provides the circular mean (<code><a href="../reference/circle_median.html">circular_mean()</a></code>) and the quasi-median on the circle (<code><a href="../reference/circle_median.html">circular_quasi_median()</a></code>) as metrics to describe average orientation:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/circle_median.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span>
@@ -98,9 +98,9 @@
 <span class="co">#&gt; [1] 36</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="inverse-quality-weighted-mean-orientation">Inverse quality weighted mean orientation<a class="anchor" aria-label="anchor" href="#inverse-quality-weighted-mean-orientation"></a>
+<h2 id="quality-weighted-mean-orientation">Quality weighted mean orientation<a class="anchor" aria-label="anchor" href="#quality-weighted-mean-orientation"></a>
 </h2>
-<p>Because the stress data is heteroscedastic, the data with less precise orientation should have less impact on the final mean orientation. The weighted mean or median uses the reported uncertainties of the measurements and weights the final average value by the inverse of the precision:</p>
+<p>Because the stress data is heteroscedastic, the data with less precise orientation should have less impact on the final mean orientation. The weighted mean or median uses the reported uncertainties of the measurements and weights the final average value by the inverse of the uncertainties:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span>
 <span class="co">#&gt; [1] 9.781831</span>
@@ -114,7 +114,7 @@
 <span class="co">#&gt; [1] 33.27273</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="statistics-in-the-eule-rpole-reference-frame">Statistics in the Eule rpole reference frame<a class="anchor" aria-label="anchor" href="#statistics-in-the-eule-rpole-reference-frame"></a>
+<h2 id="statistics-in-the-euler-pole-reference-frame">Statistics in the Euler pole reference frame<a class="anchor" aria-label="anchor" href="#statistics-in-the-euler-pole-reference-frame"></a>
 </h2>
 <p>The same statistics can also be applied for stress data that has been transferred into the Euler pole reference frame:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">

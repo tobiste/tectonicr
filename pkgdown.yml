@@ -2,11 +2,11 @@ pandoc: 2.7.3
 pkgdown: 2.0.4
 pkgdown_sha: ~
 articles:
-  1_tectonicr: 1_tectonicr.html
-  2_datasets: 2_datasets.html
-  3_stress_trajectories: 3_stress_trajectories.html
-  4_statistics: 4_statistics.html
-last_built: 2022-06-17T21:55Z
+  A_tectonicr: A_tectonicr.html
+  B_datasets: B_datasets.html
+  C_stress_trajectories: C_stress_trajectories.html
+  D_statistics: D_statistics.html
+last_built: 2022-06-17T22:32Z
 urls:
   reference: https://tobiste.github.io/tectonicr/reference
   article: https://tobiste.github.io/tectonicr/articles
