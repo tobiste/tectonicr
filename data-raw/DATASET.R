@@ -21,7 +21,7 @@ san_andreas <- filter(
   ) %>%
   arrange(quality, unc) %>%
   filter(quality != "E") %>%
-  sf::st_as_sf(coords = c("x", "y"), crs = "WSG84") %>%
+  sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs("WGS84")) %>%
   select(id, lat, lon, azi, unc, type, depth, quality, regime)
 
 usethis::use_data(san_andreas, overwrite = TRUE)
