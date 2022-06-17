@@ -142,7 +142,7 @@ The value is $\leq$ 0.15, indicating a significantly good fit of the
 model. Thus, the traction of the transform plate boundary explain the
 stress direction of the area.
 
-### Variation of the Orientation of the Maximum Horizontal Stress wrt to the Distance to the Plate Boundary
+## Variation of the Orientation of the Maximum Horizontal Stress wrt to the Distance to the Plate Boundary
 
 The orientation of the maximum horizontal stress correlates with plate motion 
 direction at the plate boundary zone. Towards the plate interior, plate boundary 

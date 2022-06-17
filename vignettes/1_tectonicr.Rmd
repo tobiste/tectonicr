@@ -23,7 +23,7 @@ direction of the maximum horizontal stress based on the empirical link
 between the orientation of intraplate stress and the direction of the
 relative motion of neighboring plates.
 
-# Theory
+## Theoretical background
 
 The theory of intraplate tectonics 
 ([Wdowinski 1998](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/97JB03390)) 
@@ -45,7 +45,7 @@ predominantly induced by horizontal forces acting on plate boundaries
 and by buoyancy forces that arise from lateral density variations
 between mid-ocean ridges and plate interiors (ridge push).
 
-## Inward, Outward and Tangential Displaced Boundaries
+### Inward, Outward and Tangential Displaced Boundaries
 
 **Inward-moving plate boundaries** induce compressional horizontal
 tractions from the plate boundary towards the plate's interior along the
