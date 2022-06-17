@@ -589,3 +589,189 @@ circular_weighted_IQR <- function(x, w = NULL, na.rm = TRUE) {
   quantiles <- circular_weighted_quantiles(x, w)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
 }
+
+
+
+
+
+
+
+#' Stress2Grid
+#'
+#' Stress pattern and wavelength analysis
+#'
+#' @param x \code{sf} object containing
+#' \describe{
+#' \item{azi}{SHmax in degree}
+#' \item{unc}{Uncertainties of SHmax in degree}
+#' \item{type}{Methods used for the determination of the orientation of SHmax}
+#' }
+#' @param lon.range,lat.range (optional) numeric vector specifying the minimum
+#' and maximum longitudes and latitudes.
+#' @param gridsize Numeric. Spacing of the regular grid in decimal degree.
+#' @param min_data Numeric. Minimum number of data per bin. Default is 3
+#' @param threshold Numeric. Threshold for deviation of orientation. Default is 25
+#' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the next
+#' datapoint. Default is 200
+#' @param apply_mw Logical. If a method weighting should be applied:
+#' Default is FALSE
+#' @param apply_qw Logical. If a quality weighting should be applied: Default is
+#' TRUE
+#' @param dist_weight Distance weighting method which should be used. One of
+#' "none", "linear", or "inverse" (the default).
+#' @param dist_threshold Numeric. Distance weight to prevent overweight of data nearby
+#' (0 to 1). Default is 0.1
+#' @param R_range Numeric value or vector specifying the search radius (im km).
+#' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_distance st_as_sf
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by mutate
+#' @returns \code{sf} object containing
+#' \describe{
+#' \item{lon,lat}{longitude and latitude in degree}
+#' \item{azi}{Mean SHmax in degree}
+#' \item{sd}{Standard deviation of SHmax in degree}
+#' \item{R}{Search radius in km}
+#' \item{mdr}{Mean distance of datapoint per search radius}
+#' \item{N}{Number of data points in search radius}
+#' }
+#' @details Calculates the weighted mean and standard deviation of the stress
+#' data
+#' @source https://github.com/MorZieg/Stress2Grid
+#' @references Ziegler, M. O. and Heidbach, O. (2019).
+#' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
+#' @export
+#' @examples
+#' data("san_andreas")
+#' stress2grid(san_andreas)
+stress2grid <- function(x,
+                        lon.range, lat.range,
+                        gridsize = 2.5,
+                        min_data = 3,
+                        threshold = 25,
+                        arte_thres = 200,
+                        apply_mw = FALSE,
+                        apply_qw = TRUE,
+                        dist_weight = c("inverse", "linear", "none"),
+                        dist_threshold = 0.1,
+                        R_range = seq(50, 1000, 50)) {
+
+  stopifnot(inherits(x, "sf"))
+  dist_weight <- match.arg(dist_weight)
+  azi <- unc <- type <- lat <- lon <- R <- NULL
+
+  num_r <- length(R_range)
+
+  # WSM method weighting (from 0 to 5)
+  if (apply_mw) {
+    method.weights <- data.frame(
+      type = c("FMS", "FMF", "BO", "DIF", "HF", "GF", "GV", "OC", NA),
+      w.method = c(4, 5, 5, 5, 4, 5, 4, 2, 1)
+    )
+    x <- dplyr::left_join(x, method.weights)
+  } else {
+    x$w.method <- rep(1, length(x$azi))
+  }
+
+  x.coords <- sf::st_coordinates(x) %>% as.data.frame()
+
+  datas <- data.frame(
+    lon = x.coords$X,
+    lat = x.coords$Y,
+    sin2 = sind(2 * x$azi),
+    cos2 = cosd(2 * x$azi),
+    w.method = x$w.method,
+    w.qual = 1 / x$unc#,
+    #pb_dist = 1 # rep(1, length(lat))
+  )
+
+  # Regular grid
+  if (missing(lon.range) | missing(lat.range)) {
+    lon.range <- range(x.coords$X, na.rm = TRUE)
+    lat.range <- range(x.coords$Y, na.rm = TRUE)
+  }
+
+  G <- sf::st_bbox(c(xmin = lon.range[1], xmax = lon.range[2], ymin = lat.range[1], ymax = lat.range[2]), crs = sf::st_crs(x)) %>%
+    sf::st_make_grid(cellsize = gridsize, what = "centers")
+
+  G_coords <- sf::st_coordinates(G) %>% as.data.frame()
+  XG <- G_coords$X
+  YG <- G_coords$Y
+  n_G <- length(XG)
+
+  SH <- c()
+
+  for (i in 1:n_G) {
+    distij <- sf::st_distance(x, G[i], which = "Great Circle") %>% # in meter
+      as.numeric() / 1000 # in km
+
+    if (arte_thres > 0 & min(distij) <= arte_thres) {
+      for (k in 1:length(R_range)) {
+        R_search <- R_range[k]
+        ids_R <- which(distij <= R_search) # select those that are in search radius
+
+        N_in_R <- length(ids_R)
+        # sq_R  <-  sum(datas$pb_dist[ids_R])
+
+        if (N_in_R < min_data) {
+          # not enough data within search radius
+          sd <- 0
+          meanSH <- NA
+          mdr <- NA
+        } else if (N_in_R == 1) {
+          sd <- 0
+          meanSH <- datas$w.qual[ids_R]
+          mdr <- distij[ids_R] / R_search
+        } else {
+          mdr <- mean(distij[ids_R]) / R_search
+
+          dist_threshold_scal <- R_search * dist_threshold
+
+          if (dist_weight == "inverse") {
+            wd_R <- 1. / max(dist_threshold_scal, distij[ids_R])
+          } else if (dist_weight == "linear") {
+            wd_R <- R_search + 1 - max(dist_threshold_scal, distij[ids_R])
+          } else {
+            wd_R <- rep(1, length(ids_R))
+          }
+
+          sw_R <- sum(wd_R * datas$w.qual[ids_R] * datas$w.method[ids_R])
+          array_sin2 <-
+            wd_R * #datas$pb_dist[ids_R] *
+            datas$w.method[ids_R] * datas$sin2[ids_R]
+          array_cos2 <-
+            wd_R * #datas$pb_dist[ids_R] *
+            datas$w.method[ids_R] * datas$cos2[ids_R]
+
+          # mean value
+          sumsin2 <- sum(array_sin2)
+          sumcos2 <- sum(array_cos2)
+          meansin2 <- sumsin2 / sw_R
+          meancos2 <- sumcos2 / sw_R
+          meanR <- sqrt(meansin2^2 + meancos2^2)
+
+          if (meanR > 1) {
+            sd <- -Inf
+          } else {
+            sd <- rad2deg(sqrt(-2 * log(meanR)) / 2)
+          }
+
+          meanSH<- (atan2d(meansin2, meancos2) / 2) %% 180
+          #meanSH <- rad2deg(meanSH_rad)
+        }
+
+        SH.ik <- c(lon = XG[i], lat = YG[i], azi = meanSH, sd = sd, R = R_search, mdr = mdr, N = N_in_R)
+
+        if(sd <= threshold){
+          SH <- rbind(SH, SH.ik)
+        }
+      }
+    }
+  }
+
+  res <- as.data.frame(SH) %>%
+    mutate(x = lon, y = lat) %>%
+    sf::st_as_sf(coords = c('x', 'y'), crs = sf::st_crs(x)) %>%
+    group_by(R)
+
+  return(res)
+}
