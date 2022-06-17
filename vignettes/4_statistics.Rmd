@@ -1,0 +1,93 @@
+---
+title: "4. Circular statistics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{4. Circular statistics}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette teaches you how to retrieve the mean orientation of stress datasets. 
+
+```{r setup, echo=TRUE}
+library(tectonicr)
+library(ggplot2) # load ggplot library
+```
+
+## Mean orientation
+Because orientation data is pi-periodical, i.e. the average of 35 degrees and 355 degrees should be 15 degree. 
+`circular_mean()` and `circular_quasi_median()` are the metrics that express the average orientation:
+
+```{r mean, echo=TRUE}
+data("san_andreas")
+circular_mean(san_andreas$azi)
+circular_quasi_median(san_andreas$azi)
+```
+## Inverse quality weighted mean orientation
+Because the stress data is heteroscedastic, the data with less precise orientation should have less impact on the final mean orientation. The weighted mean or median uses the reported uncertainties of the measurements and weights the final average value by the inverse of the precision:
+```{r weighted}
+circular_weighted_mean(san_andreas$azi, san_andreas$unc)
+circular_weighted_median(san_andreas$azi, san_andreas$unc)
+```
+The spread of directional data can be expressed by the standard deviation (for the mean) or the interquartile range (for the median):
+```{r weighted_spread}
+circular_weighted_sd(san_andreas$azi, san_andreas$unc) # standard deviation
+circular_weighted_IQR(san_andreas$azi, san_andreas$unc) # interquartile range
+```
+
+
+## Statistics in the Eule rpole reference frame
+
+The same statistics can also be applied for stress data that has been transferred into the Euler pole reference frame:
+```{r por}
+data("nuvel1")
+euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+san_andreas.por <- PoR_shmax(san_andreas, euler, type = "right")
+```
+
+
+```{r por_stats}
+circular_weighted_mean(san_andreas.por$azi, san_andreas$unc)
+circular_weighted_sd(san_andreas.por$azi, san_andreas$unc)
+
+circular_weighted_median(san_andreas.por$azi, san_andreas$unc)
+circular_weighted_IQR(san_andreas.por$azi, san_andreas$unc) 
+```
+
+## Interpolation
+Spatial interpolation of stress data is based on the aforementioned metrics:
+```{r interpolation}
+mean_SH <- stress2grid(san_andreas, gridsize = 2, R_range = seq(500, 800, 100))
+```
+
+The defaults use quality and inverse distance weighting of the mean, as well as a 25% cut-off for the standard deviation. 
+
+The data can now be visualized:  
+```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
+ggplot(mean_SH) +
+  borders(fill = 'grey80') +
+  geom_sf(data= trajectories, lty = 2) +
+  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90-azi)), radius = .5, color = 'grey30', position = "center_spoke") +
+  geom_spoke(aes(lon, lat, angle = deg2rad(90-azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", size = 1) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) + 
+  scale_alpha(name = "Standard deviation", range = c(1, .25)) +
+  scale_color_continuous(
+    type = "viridis",
+    limits = c(0, 1),
+    name = "R-Normalized mean distance",
+    breaks = seq(0, 1, .25)
+  ) +
+  facet_wrap(~R)
+```
+![](interpolation.png)

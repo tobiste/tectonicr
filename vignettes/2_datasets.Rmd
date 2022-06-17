@@ -1,8 +1,8 @@
 ---
-title: "Handling large datasets"
+title: "2. Handling large datasets"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Handling large datasets}
+  %\VignetteIndexEntry{2. Handling large datasets}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -40,6 +40,7 @@ Modeling the stress directions (wrt to the geographic North pole) using the
 Euler pole of the motion of North America relative to the Pacific Pate.
 
 ```{r san_andreas, echo=TRUE}
+data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 san_andreas.prd <- model_shmax(san_andreas, euler)
 san_andreas.deviation <- misfit_shmax(san_andreas.prd, san_andreas$azi)

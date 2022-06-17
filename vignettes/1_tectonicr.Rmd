@@ -1,6 +1,6 @@
 ---
-title: "Introduction to tectonicr"
-author: "Tobias Stephan, PhD"
+title: "1. Introduction to tectonicr"
+author: "Tobias Stephan"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to tectonicr}

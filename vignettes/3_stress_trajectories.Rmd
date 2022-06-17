@@ -1,8 +1,8 @@
 ---
-title: "Plotting trajectories of theoretic stress directions"
+title: "3. Plotting trajectories of theoretic stress directions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Plotting trajectories of theoretic stress directions}
+  %\VignetteIndexEntry{3. Plotting trajectories of theoretic stress directions}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
