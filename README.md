@@ -12,7 +12,8 @@
 - **Distance to plate boundary**: `distance_from_pb()`measures the proper distance between the stress data point and the plate boundary along the stress trajectories.
 - **Visualization of the trajectories of the theoretical stress field** in terms of small circles, great circles, and lines of constant bearing. The `eulerpole_paths()` functions generates an  `sf` object containing spatial information that is suitable to plot with, for instance, `ggplot()`. 
 - **Relative rotations from a given set of plate motion parameters**: `equivalent_rotation()` transfers a set of plate motion parameters into the relative plate motions among the given plates. 
-- **Average direction of a set of SHmax data** using the (weighted) mean or median for pi-directional data.
+- **Average direction of a set of SHmax data** using the (weighted) mean or median for pi-directional data. 
+- **Spatial interpolation of of SHmax**: `stress2grid()` uses distance, method, and quality-weighted mean direction of stress data
 
 ## Prerequisites
 
