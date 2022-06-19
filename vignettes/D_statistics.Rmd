@@ -63,7 +63,7 @@ circular_weighted_mean(san_andreas.por$azi, san_andreas$unc)
 circular_weighted_sd(san_andreas.por$azi, san_andreas$unc)
 
 circular_weighted_median(san_andreas.por$azi, san_andreas$unc)
-circular_weighted_IQR(san_andreas.por$azi, san_andreas$unc) 
+circular_weighted_IQR(san_andreas.por$azi, san_andreas$unc)
 ```
 
 ## Interpolation
@@ -78,11 +78,11 @@ The data can now be visualized:
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
 trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
 ggplot(mean_SH) +
-  borders(fill = 'grey80') +
-  geom_sf(data= trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90-azi)), radius = .5, color = 'grey30', position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90-azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", size = 1) +
-  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) + 
+  borders(fill = "grey80") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
+  geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", size = 1) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
   scale_alpha(name = "Standard deviation", range = c(1, .25)) +
   scale_color_continuous(
     type = "viridis",
@@ -93,3 +93,13 @@ ggplot(mean_SH) +
   facet_wrap(~R)
 ```
 ![](interpolation.png)
+
+## Rose diagram
+**tectonicr** offers a rose diagram, i.e. histogram for angular data. 
+```{r rose1}
+rose(san_andreas$azi, col = "grey", main = "North pole")
+```
+
+```{r rose2}
+rose(san_andreas.por$azi, col = "grey", main = "Euler pole")
+```

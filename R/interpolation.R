@@ -24,8 +24,8 @@ wcmedian <- function(x, w) {
     iqr_s <- ceiling(
       abs(
         deviation_norm(max(x)) - deviation_norm(min(x))
-        ) / 2
-      )
+      ) / 2
+    )
   }
   c(median_s, iqr_s)
 }
@@ -107,7 +107,7 @@ stress2grid <- function(x,
 
   dist_weight <- match.arg(dist_weight)
   stat <- match.arg(stat)
-  azi <- unc <- type <- lat <- lon <- R <- NULL
+  azi <- unc <- type <- lat <- lon <- R <- w_method <- w_quality <- NULL
 
   num_r <- length(R_range)
 
@@ -143,11 +143,11 @@ stress2grid <- function(x,
     # pb_dist = 1 # rep(1, length(lat))
   ) %>%
     mutate(
-      w_method = ifelse(is.na(w_method), 1/5, w_method)
+      w_method = ifelse(is.na(w_method), 1 / 5, w_method)
     ) %>%
     sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x))
 
-  if(quality_weighting){
+  if (quality_weighting) {
     datas <- filter(datas, !is.na(w_quality))
   }
 
