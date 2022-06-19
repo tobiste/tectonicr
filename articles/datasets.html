@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="tectonicr">
-<title>2. Handling large datasets • tectonicr</title>
+<title>Handling large datasets • tectonicr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="2. Handling large datasets">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Handling large datasets">
 <meta property="og:description" content="tectonicr">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -72,13 +72,13 @@
 
 
 
-<script src="B_datasets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+<script src="datasets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>2. Handling large datasets</h1>
+      <img src="" class="logo" alt=""><h1>Handling large datasets</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
-      <div class="d-none name"><code>B_datasets.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/datasets.Rmd" class="external-link"><code>vignettes/datasets.Rmd</code></a></small>
+      <div class="d-none name"><code>datasets.Rmd</code></div>
     </div>
 
     
@@ -111,8 +111,7 @@
 <span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: geometry &lt;POINT [°]&gt;</span></span></code></pre></div>
 <p>Modeling the stress directions (wrt to the geographic North pole) using the Euler pole of the motion of North America relative to the Pacific Pate.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span>
-<span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span>
 <span class="va">san_andreas.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span><span class="op">)</span>
 <span class="va">san_andreas.deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/misfit_shmax.html">misfit_shmax</a></span><span class="op">(</span><span class="va">san_andreas.prd</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></code></pre></div>
 <p>Combine the model results with the coordinates of the observed data</p>
@@ -183,10 +182,9 @@
 <span class="op">)</span>
 <span class="co">#&gt; [1] 0.03296388</span></code></pre></div>
 <p>The value is <span class="math inline">\(\leq\)</span> 0.15, indicating a significantly good fit of the model. Thus, the traction of the transform plate boundary explain the stress direction of the area.</p>
-</div>
-<div class="section level2">
-<h2 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary"></a>
-</h2>
+<div class="section level3">
+<h3 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt-to-the-distance-to-the-plate-boundary"></a>
+</h3>
 <p>The orientation of the maximum horizontal stress correlates with plate motion direction at the plate boundary zone. Towards the plate interior, plate boundary forces become weaker and other stress sources will probably dominate.</p>
 <p>To visualize the variation of the <span class="math inline">\(\sigma_{Hmax}\)</span> wrt to the distance to the plate boundary, we need to transfer the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> from the geographic reference system (i.e. azimuth is the deviation of a direction from geographic North pole) to the <strong>Pole of Rotation (PoR)</strong> reference system (i.e. azimuth is the deviation from the Euler pole).</p>
 <blockquote>
@@ -265,6 +263,7 @@
 <blockquote>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> vs. distance plot allows to specify the width of the plate boundary zone.</p>
 </blockquote>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
