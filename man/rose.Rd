@@ -34,7 +34,8 @@ counter-clockwise direction (clockwise=FALSE).}
 \item{unit}{The unit in which the angles are expressed. "degrees" the default,
 or "radians".}
 
-\item{sub}{Character string specifying the subtitle of the plot (If NUL, it will show the bin width)}
+\item{main, sub}{Character string specifying the title and subtitle of the
+plot. If \code{sub = NULL}, it will show the bin width.}
 
 \item{...}{Additional arguments passed to \code{spatstat::rose()}.}
 }
