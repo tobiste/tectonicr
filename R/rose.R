@@ -14,7 +14,8 @@
 #' counter-clockwise direction (clockwise=FALSE).
 #' @param unit The unit in which the angles are expressed. "degrees" the default,
 #' or "radians".
-#' @param sub Character string specifying the subtitle of the plot (If NUL, it will show the bin width)
+#' @param main,sub Character string specifying the title and subtitle of the
+#' plot. If \code{sub = NULL}, it will show the bin width.
 #' @param ... Additional arguments passed to \code{spatstat::rose()}.
 #' @note If bins and binwidth are NULL, an optimal bin width will be calculated using:
 #' \deqn{ \frac{2 IQR(x)}{n^{\frac{1}{3}}}
