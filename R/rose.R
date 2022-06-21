@@ -4,9 +4,9 @@
 #' histogram or density plot for angular data.
 #'
 #' @param x Data to be plotted. A numeric vector containing angles.
+#' @param binwidth The width of the bins.
 #' @param bins number of arcs to partition the circle width.
 #' Overridden by \code{binwidth}.
-#' @param binwidth The width of the bins.
 #' @param axial Logical. Whether data are uniaxial (axial=FALSE)
 #' or biaxial (axial=TRUE, the default).
 #' @param clockwise Logical. Whether angles increase in the
@@ -32,24 +32,23 @@
 #'
 #' data("san_andreas")
 #' rose(san_andreas$azi, col = "grey", axial = TRUE)
-rose <- function(x, bins = NULL, binwidth = NULL, axial = TRUE, clockwise = TRUE, unit = c("degree", "radian"), main = "N", sub, ...) {
+rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE, unit = c("degree", "radian"), main = "N", sub, ...) {
   x <- as.vector(x %% 360)
 
 
-  if (is.null(bins) & is.null(binwidth)) {
+  if (!is.null(bins) & is.null(binwidth)) {
+    bins <- round(bins)
+    stopifnot(bins > 0)
+    binwidth <- 360 / bins # bin width
+  } else if (is.null(bins) & is.null(binwidth)) {
     # bins <- length(x)
     binwidth <- 2 * circular_quasi_IQR(x) / length(stats::na.omit(x))^(1 / 3)
-    breaks <- seq(0, 360, binwidth)
-    if (!(360 %in% breaks)) {
-      breaks <- c(breaks, 360)
-    }
-  } else {
-    bins <- round(bins)
-    stopifnot(x > 0)
-    binwidth <- 360 / bins # bin width
-    breaks <- seq(0, 360, binwidth)
   }
-
+  stopifnot(binwidth > 0)
+  breaks <- seq(0, 360, binwidth)
+  if (!(360 %in% breaks)) {
+    breaks <- c(breaks, 360)
+  }
 
   if (axial) {
     x2 <- (x + 180) %% 360 # add data to the other side of the circle

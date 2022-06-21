@@ -6,8 +6,8 @@
 \usage{
 rose(
   x,
-  bins = NULL,
   binwidth = NULL,
+  bins = NULL,
   axial = TRUE,
   clockwise = TRUE,
   unit = c("degree", "radian"),
@@ -19,10 +19,10 @@ rose(
 \arguments{
 \item{x}{Data to be plotted. A numeric vector containing angles.}
 
+\item{binwidth}{The width of the bins.}
+
 \item{bins}{number of arcs to partition the circle width.
 Overridden by \code{binwidth}.}
-
-\item{binwidth}{The width of the bins.}
 
 \item{axial}{Logical. Whether data are uniaxial (axial=FALSE)
 or biaxial (axial=TRUE, the default).}
