@@ -17,6 +17,7 @@ Imports:
     ggplot2,
     magrittr,
     sf,
+    terra,
     spatstat.core
 Suggests: 
     covr,

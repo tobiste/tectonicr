@@ -83,7 +83,6 @@ PoR_crs <- function(x) {
     x$lat <- -x$lat
     x$lon <- longitude_modulo(x$lon + 180)
   }
-
   sf::st_crs(
     paste0(
       "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
@@ -94,18 +93,59 @@ PoR_crs <- function(x) {
   )
 }
 
+#' Conversion between PoR to geographical coordinate system of raster data
+#'
+#' Helper function to transform raster dataset from PoR to geographical
+#' coordinate system
+#'
+#' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
+#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' (\code{lat}, \code{lon})
+#' @returns "SpatRaster"
+#' @importFrom terra crs project rast
+#' @name raster_transformation
+NULL
+
+#' @rdname raster_transformation
+geographical_to_PoR_raster <- function(x, ep){
+  if(inherits(x, "RasterLayer")){
+    x <- terra::rast(x)
+  }
+  stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
+  crs.wgs84 <-"epsg:4326"
+  crs.ep <- PoR_crs(ep)
+  terra::crs(x)  <-  crs.ep$wkt
+  x.por <- terra::project(x, crs.wgs84)
+  terra::crs(x.por) <- crs.ep$wkt
+  return(x.por)
+}
+
+#' @rdname raster_transformation
+PoR_to_geographical_raster <- function(x, ep){
+  if(inherits(x, "RasterLayer")){
+    x <- terra::rast(x)
+  }
+  stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
+  crs.wgs84 <-"epsg:4326"
+  crs.ep <- PoR_crs(ep)
+  terra::crs(x)  <-  crs.wgs84
+  x.geo <- terra::project(x, crs.ep$wkt)
+  terra::crs(x.geo) <- crs.wgs84
+  return(x.geo)
+}
+
 
 #' Conversion between PoR to geographical coordinate system
 #'
 #' Transform spherical objects from PoR to geographical coordinate system and
 #' vice versa.
 #'
-#' @param x \code{sf} object of the data points in geographical or PoR
-#' coordinate system
+#' @param x \code{sf}, \code{SpatRast}, or \code{raster} object of the data
+#' points in geographical or PoR coordinate system
 #' @param ep \code{data.frame} of the geographical coordinates of the Euler
 #' pole (\code{lat}, \code{lon})
-#' @return \code{sf} object of the data points in the transformed geographical
-#' or PoR coordinate system
+#' @return \code{sf} or \code{SpatRast} object of the data points in the
+#' transformed geographical or PoR coordinate system
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the
 #' translation factors.
@@ -123,15 +163,12 @@ NULL
 #' @rdname por_transformation
 #' @export
 PoR_to_geographical <- function(x, ep) {
+  if(inherits(x, "RasterLayer") | inherits(x, "SpatRaster")){
+    x.por <- geographical_to_PoR_raster(x, ep)
+  } else {
   stopifnot(inherits(x, "sf") & is.data.frame(ep))
-
-  crs.wgs84 <-
-    sf::st_crs(
-      "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-    )
-
+  crs.wgs84 <- sf::st_crs("epsg:4326")
   crs.ep <- PoR_crs(ep)
-
   suppressMessages(
     suppressWarnings(
       x.por <- x %>%
@@ -141,31 +178,30 @@ PoR_to_geographical <- function(x, ep) {
         sf::st_wrap_dateline()
     )
   )
+  }
   return(x.por)
 }
 
 #' @rdname por_transformation
 #' @export
 geographical_to_PoR <- function(x, ep) {
-  stopifnot(inherits(x, "sf") & is.data.frame(ep))
-
-  crs.wgs84 <-
-    sf::st_crs(
-      "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  if(inherits(x, "RasterLayer") | inherits(x, "SpatRaster")){
+    x.geo <- geographical_to_PoR_raster(x, ep)
+  } else {
+    stopifnot(inherits(x, "sf") & is.data.frame(ep))
+    crs.wgs84 <- sf::st_crs("epsg:4326")
+    crs.ep <- PoR_crs(ep)
+    suppressMessages(
+      suppressWarnings(
+        x.geo <- x %>%
+          sf::st_set_crs(crs.ep) %>%
+          sf::st_transform(crs.wgs84) %>%
+          sf::st_set_crs(crs.ep) %>%
+          sf::st_wrap_dateline(
+            options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
+          )
+      )
     )
-
-  crs.ep <- PoR_crs(ep)
-
-  suppressMessages(
-    suppressWarnings(
-      x.geo <- x %>%
-        sf::st_set_crs(crs.ep) %>%
-        sf::st_transform(crs.wgs84) %>%
-        sf::st_set_crs(crs.ep) %>%
-        sf::st_wrap_dateline(
-          options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
-        )
-    )
-  )
+  }
   return(x.geo)
 }
