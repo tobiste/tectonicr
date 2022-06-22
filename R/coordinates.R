@@ -103,12 +103,13 @@ PoR_crs <- function(x) {
 #' (\code{lat}, \code{lon})
 #' @returns "SpatRaster"
 #' @importFrom terra crs project rast
+#' @importFrom methods extends
 #' @name raster_transformation
 NULL
 
 #' @rdname raster_transformation
 geographical_to_PoR_raster <- function(x, ep){
-  if(inherits(x, "RasterLayer")){
+  if(methods::extends(class(x), "BasicRaster")){
     x <- terra::rast(x)
   }
   stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
@@ -122,7 +123,7 @@ geographical_to_PoR_raster <- function(x, ep){
 
 #' @rdname raster_transformation
 PoR_to_geographical_raster <- function(x, ep){
-  if(inherits(x, "RasterLayer")){
+  if(methods::extends(class(x), "BasicRaster")){
     x <- terra::rast(x)
   }
   stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
@@ -140,7 +141,7 @@ PoR_to_geographical_raster <- function(x, ep){
 #' Transform spherical objects from PoR to geographical coordinate system and
 #' vice versa.
 #'
-#' @param x \code{sf}, \code{SpatRast}, or \code{raster} object of the data
+#' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 #' points in geographical or PoR coordinate system
 #' @param ep \code{data.frame} of the geographical coordinates of the Euler
 #' pole (\code{lat}, \code{lon})
@@ -151,6 +152,7 @@ PoR_to_geographical_raster <- function(x, ep){
 #' translation factors.
 #' @importFrom magrittr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
+#' @importFrom methods extends
 #' @examples
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
@@ -163,7 +165,7 @@ NULL
 #' @rdname por_transformation
 #' @export
 PoR_to_geographical <- function(x, ep) {
-  if(inherits(x, "RasterLayer") | inherits(x, "SpatRaster")){
+  if(methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")){
     x.por <- geographical_to_PoR_raster(x, ep)
   } else {
   stopifnot(inherits(x, "sf") & is.data.frame(ep))
@@ -185,7 +187,7 @@ PoR_to_geographical <- function(x, ep) {
 #' @rdname por_transformation
 #' @export
 geographical_to_PoR <- function(x, ep) {
-  if(inherits(x, "RasterLayer") | inherits(x, "SpatRaster")){
+  if(methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")){
     x.geo <- geographical_to_PoR_raster(x, ep)
   } else {
     stopifnot(inherits(x, "sf") & is.data.frame(ep))

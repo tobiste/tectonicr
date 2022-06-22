@@ -18,7 +18,8 @@ Imports:
     magrittr,
     sf,
     terra,
-    spatstat.core
+    spatstat.core,
+    methods
 Suggests: 
     covr,
     knitr,

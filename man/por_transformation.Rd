@@ -11,7 +11,7 @@ PoR_to_geographical(x, ep)
 geographical_to_PoR(x, ep)
 }
 \arguments{
-\item{x}{\code{sf}, \code{SpatRast}, or \code{raster} object of the data
+\item{x}{\code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 points in geographical or PoR coordinate system}
 
 \item{ep}{\code{data.frame} of the geographical coordinates of the Euler
