@@ -71,8 +71,8 @@ vice versa.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p><code>sf</code> object of the data points in geographical or PoR
-coordinate system</p></dd>
+<dd><p><code>sf</code>, <code>SpatRast</code>, or <code>Raster*</code> object of the data
+points in geographical or PoR coordinate system</p></dd>
 
 
 <dt>ep</dt>
@@ -84,8 +84,8 @@ pole (<code>lat</code>, <code>lon</code>)</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p><code>sf</code> object of the data points in the transformed geographical
-or PoR coordinate system</p>
+<p><code>sf</code> or <code>SpatRast</code> object of the data points in the
+transformed geographical or PoR coordinate system</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -104,8 +104,10 @@ translation factors.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 1082 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -38.26307 ymin: -42.27284 xmax: -20.68387 ymax: -27.90979</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -72 ymin: -156.92 xmax: -54.18 ymax: -140.06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>bounding box has potentially an invalid value range for longlat data</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>bounding box has potentially an invalid value range for longlat data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,082 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id         lat   lon   azi   unc type  depth quality regime</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
