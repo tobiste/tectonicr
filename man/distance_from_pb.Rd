@@ -4,7 +4,7 @@
 \alias{distance_from_pb}
 \title{Distance from plate boundary}
 \usage{
-distance_from_pb(x, ep, pb, tangential = FALSE)
+distance_from_pb(x, ep, pb, tangential = FALSE, ...)
 }
 \arguments{
 \item{x, pb}{\code{sf} objects of the data points and the plate boundary
@@ -13,8 +13,11 @@ geometries in the geographical coordinate system}
 \item{ep}{\code{data.frame} of the geographical coordinates of the Euler pole
 (\code{lat}, \code{lon})}
 
-\item{tangential}{Logical. \code{TRUE} for tangential boundaries and
-\code{FALSE} (the default) for inward and outward boundaries.}
+\item{tangential}{Logical. Whether the plate boundary is a tangential
+boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the
+default).}
+
+\item{...}{optional arguments passed to \code{\link[smoothr:densify]{smoothr::densify()}}}
 }
 \value{
 Numeric vector of the great circle distances in degree

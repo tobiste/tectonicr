@@ -135,8 +135,8 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' between curves: 180 / n)
 #' @param angle Direction of loxodromes; angle = 45 by default.
 #' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
-#' loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
-#' counterclockwise loxodromes (left-lateral displaced plate boundaries).
+#' loxodromes (left-lateral displaced plate boundaries). \code{FALSE} for
+#' counterclockwise loxodromes (right-lateral displaced plate boundaries).
 #' @param type Character string specifying the type of curves to export. Either
 #' \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 #' \code{"ld"} for loxodromes.
@@ -147,7 +147,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' \item{Small circles}{Lines that have a constant distance to the Euler pole.
 #' If x contains \code{angle}, output additionally gives absolute
 #' velocity on small circle (degree/Myr -> km/Myr).}
-#' \item{Great circles}{Paths of the the shortest distance between the Euler
+#' \item{Great circles}{Paths of the shortest distance between the Euler
 #' pole and its antipodal position.}
 #'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
 #'  circles at a constant angle.}
@@ -155,8 +155,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @importFrom dplyr mutate select summarise group_by rename
 #' @importFrom magrittr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
-#' @note If package "smoothr" is installed, the sf objects will be "densified"
-#' via [smoothr::densify()].
+#' @importFrom smoothr densify
 #' @name stress_paths
 #' @examples
 #' data("nuvel1")
@@ -199,12 +198,9 @@ eulerpole_smallcircles <-
       sf::st_as_sf(coords = c("lon", "lat")) %>%
       dplyr::group_by(small_circle) %>%
       dplyr::summarise(do_union = FALSE) %>%
-      sf::st_cast("MULTILINESTRING")
+      sf::st_cast("MULTILINESTRING") %>%
+      smoothr::densify()
 
-    # If "smoothr" is installed, the object will be densified
-    if (requireNamespace("smoothr", quietly = TRUE)) {
-      sm.sf <- smoothr::densify(sm.sf)
-    }
     sm.sf <- dplyr::mutate(sm.sf, d = ifelse(
       small_circle < 90, -1 * small_circle, 180 - small_circle
     ))
@@ -258,12 +254,8 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
     sf::st_as_sf(coords = c("lon", "lat")) %>%
     dplyr::group_by(loxodrome) %>%
     dplyr::summarise(do_union = FALSE) %>%
-    sf::st_cast("MULTILINESTRING")
-
-  # If "smoothr" is installed, the object will be densified
-  if (requireNamespace("smoothr", quietly = TRUE)) {
-    ld.sf <- smoothr::densify(ld.sf)
-  }
+    sf::st_cast("MULTILINESTRING") %>%
+    smoothr::densify()
 
   ld.sf <- ld.sf %>%
     dplyr::mutate(loxodrome = loxodrome %% 180) %>%

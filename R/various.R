@@ -78,8 +78,10 @@ distance_mod <- function(x) {
 #' geometries in the geographical coordinate system
 #' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
 #' (\code{lat}, \code{lon})
-#' @param tangential Logical. \code{TRUE} for tangential boundaries and
-#' \code{FALSE} (the default) for inward and outward boundaries.
+#' @param tangential Logical. Whether the plate boundary is a tangential
+#' boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the
+#' default).
+#' @param ... optional arguments passed to [smoothr::densify()]
 #' @return Numeric vector of the great circle distances in degree
 #' @details The distance to the plate boundary is the longitudinal or
 #' latitudinal difference between the data point and the plate boundary
@@ -87,6 +89,8 @@ distance_mod <- function(x) {
 #' plate boundaries, respectively.
 #' @export
 #' @importFrom sf st_geometry_type st_cast st_coordinates
+#' @importFrom magrittr %>%
+#' @importFrom smoothr densify
 #' @examples
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -99,7 +103,7 @@ distance_mod <- function(x) {
 #'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
-distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
+distance_from_pb <- function(x, ep, pb, tangential = FALSE, ...) {
   stopifnot(
     inherits(x, "sf") &
       inherits(pb, "sf") & is.data.frame(ep) &
@@ -107,7 +111,9 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE) {
   )
 
   x.por <- geographical_to_PoR(x, ep)
-  pb.por <- geographical_to_PoR(pb, ep) %>% sf::st_cast(to = "LINESTRING")
+  pb.por <- geographical_to_PoR(pb, ep) %>%
+    sf::st_cast(to = "LINESTRING") %>%
+    smoothr::densify(...)
 
   pb.coords <- sf::st_coordinates(pb.por)
   x.coords <- sf::st_coordinates(x.por)

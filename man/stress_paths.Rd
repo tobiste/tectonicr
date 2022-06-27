@@ -31,8 +31,8 @@ between curves: 180 / n)}
 \item{angle}{Direction of loxodromes; angle = 45 by default.}
 
 \item{cw}{logical. Sense of loxodromes: \code{TRUE} for clockwise
-loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
-counterclockwise loxodromes (left-lateral displaced plate boundaries).}
+loxodromes (left-lateral displaced plate boundaries). \code{FALSE} for
+counterclockwise loxodromes (right-lateral displaced plate boundaries).}
 }
 \value{
 \code{sf} object
@@ -54,10 +54,6 @@ pole and its antipodal position.}
 \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
 circles at a constant angle.}
 }
-}
-\note{
-If package "smoothr" is installed, the sf objects will be "densified"
-via \code{\link[smoothr:densify]{smoothr::densify()}}.
 }
 \examples{
 data("nuvel1")

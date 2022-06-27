@@ -17,6 +17,7 @@ Imports:
     ggplot2,
     magrittr,
     sf,
+    smoothr,
     terra,
     spatstat.core,
     methods
@@ -24,7 +25,6 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    smoothr,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
