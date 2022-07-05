@@ -49,7 +49,7 @@ related to relative plate motion:
 \item{Small circles}{Lines that have a constant distance to the Euler pole.
 If x contains \code{angle}, output additionally gives absolute
 velocity on small circle (degree/Myr -> km/Myr).}
-\item{Great circles}{Paths of the the shortest distance between the Euler
+\item{Great circles}{Paths of the shortest distance between the Euler
 pole and its antipodal position.}
 \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
 circles at a constant angle.}
