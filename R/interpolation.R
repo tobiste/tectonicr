@@ -285,6 +285,9 @@ stress2grid <- function(x,
 #' @description The data is transformed into the PoR system before the
 #' interpolation. The interpolation grid is returned in geographical coordinates
 #'  and azimuths.
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate
+#' @importFrom sf st_as_sf st_coordinates
 #' @export
 #' @examples
 #' data("san_andreas")
