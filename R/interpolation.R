@@ -292,6 +292,7 @@ stress2grid <- function(x,
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' PoR_stress2grid(san_andreas, ep)
 PoR_stress2grid <- function(x, ep, ...){
+  azi <- NULL
   azi_por <- PoR_shmax(x, ep, type = "in")
   x_por <- geographical_to_PoR(x, ep) %>%
     mutate(azi = azi_por$azi.PoR)
