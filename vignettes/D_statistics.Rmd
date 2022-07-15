@@ -87,12 +87,41 @@ ggplot(mean_SH) +
   scale_color_continuous(
     type = "viridis",
     limits = c(0, 1),
-    name = "R-Normalized mean distance",
+    name = "Wavelength\n(R-normalized mean distance)",
     breaks = seq(0, 1, .25)
   ) +
   facet_wrap(~R)
 ```
 ![](interpolation.png)
+The interpolated orientation of far apart data points will suffer from  
+distortions due to the underlying projection. In order to prevent such effects, 
+the interpolation can be done in the PoR reference frame where orientation stays 
+constant no matter the distance between the data points. Assuming that the stress field is sourced by the plate boundary force, the model-based interpolation allows more reliable results for areas close to plate boundaries.
+
+```{r interpolation_PoR}
+mean_SH_PoR <- PoR_stress2grid(san_andreas, ep = euler, gridsize = 2, R_range = seq(500, 800, 100))
+```
+
+```{r plot2, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+ggplot(mean_SH_PoR) +
+  borders(fill = "grey80") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
+  geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", size = 1) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
+  scale_alpha(name = "Standard deviation", range = c(1, .25)) +
+  scale_color_continuous(
+    type = "viridis",
+    limits = c(0, 1),
+    name = "Wavelength\n(R-normalized mean distance)",
+    breaks = seq(0, 1, .25)
+  ) +
+  facet_wrap(~R)
+```
+
+![](interpolation_PoR.png)
+
+
 
 ## Rose diagram
 **tectonicr** offers a rose diagram, i.e. histogram for angular data. 
