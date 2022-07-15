@@ -268,3 +268,57 @@ stress2grid <- function(x,
 
   return(res)
 }
+
+
+#' Stress2Grid in PoR system
+#'
+#' Stress field interpolation in PoR system
+#'
+#' @param x \code{sf} object containing
+#' \describe{
+#' \item{azi}{SHmax in degree}
+#' \item{unc}{Uncertainties of SHmax in degree}
+#' \item{type}{Methods used for the determination of the orientation of SHmax}
+#' }
+#' @param ep Euler pole coordinates
+#' @param ... Arguments passed to [stress2grid()]
+#' @description The data is transformed into the PoR system before the
+#' interpolation. The interpolation grid is returned in geographical coordinates
+#'  and azimuths.
+#' @export
+#' @examples
+#' data("san_andreas")
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' PoR_stress2grid(san_andreas, ep)
+PoR_stress2grid <- function(x, ep, ...){
+  azi_por <- PoR_shmax(x, ep, type = "in")
+  x_por <- geographical_to_PoR(x, ep) %>%
+    mutate(azi = azi_por$azi.PoR)
+  coords <- x_por %>% sf::st_coordinates()
+  x_por$lon <- coords[, 1]
+  x_por$lat <- coords[, 2]
+
+  int <- stress2grid(x_por, ...) %>%
+    PoR_to_geographical(ep) %>%
+    mutate(azi.PoR = azi)
+
+  NP_por <- data.frame(lat = 90, lon = 0) %>%
+    sf::st_as_sf(coords = c("lon", 'lat')) %>%
+    geographical_to_PoR(ep) %>%
+    sf::st_coordinates()
+
+  beta <- c()
+  for (i in seq_along(int$lat)) {
+    beta[i] <- (get_azimuth(
+      c(int$lat[i], int$lon[i]),
+      c(NP_por[2], NP_por[1])
+    ) + 180) %% 180
+  }
+  int$azi <- (int$azi.PoR - beta + 180) %% 180
+
+  coords <- int %>% sf::st_coordinates()
+  int$lon <- coords[, 1]
+  int$lat <- coords[, 2]
+  return(int)
+}
