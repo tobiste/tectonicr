@@ -13,7 +13,7 @@
 #' in radians.
 #' @export
 #' @examples
-#' euler_pole(90, 0, 45)
+#' euler_pole(90, 0, angle = 45)
 #' euler_pole(0, 0, 1, geo = FALSE)
 euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
   stopifnot(is.logical(geo))
@@ -71,7 +71,7 @@ vcross <- function(x, y) {
 #' (Eds.), *Encyclopedia of Mathematical Geosciences. Encyclopedia of Earth Sciences Series*
 #' (pp. 1--7). Springer Nature Switzerland AG 2021.
 #' \doi{10.1007/978-3-030-26050-7_435-1}
-#' @returns \code{list}. Infinitesimal and the finite approach Euler axes
+#' @returns \code{list}. Euler axes
 #' (geographical coordinates) and Euler angles (in degrees)
 #' @aliases rotation quaternion
 #' @seealso [euler_pole()] for class \code{"euler.pole"}

@@ -13,7 +13,7 @@ relative_rotation(r1, r2)
 \code{r1}, followed rotation \code{r2}.}
 }
 \value{
-\code{list}. Infinitesimal and the finite approach Euler axes
+\code{list}. Euler axes
 (geographical coordinates) and Euler angles (in degrees)
 }
 \description{

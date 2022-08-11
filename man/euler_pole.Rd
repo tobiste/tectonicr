@@ -29,6 +29,6 @@ in radians.
 Creates an object of the orientation of the Euler pole axis
 }
 \examples{
-euler_pole(90, 0, 45)
+euler_pole(90, 0, angle = 45)
 euler_pole(0, 0, 1, geo = FALSE)
 }
