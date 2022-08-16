@@ -326,3 +326,33 @@ PoR_stress2grid <- function(x, ep, ...){
   int$lat <- coords[, 2]
   return(int)
 }
+
+#' Compact smoothed stress field
+#'
+#' Filter smoothed stress field to lowest R per coordinate
+#'
+#' @param x output of \code{stress2grid()} or \code{PoR_stress2grid()}
+#' @return \code{sf} object
+#' @importFrom magrittr %>%
+#' @importFrom dplyr ungroup mutate row_number group_by filter summarise first select left_join
+#' @importFrom sf st_as_sf
+#' @export
+#' @examples
+#' data("san_andreas")
+#' stress2grid(san_andreas) %>% compact_grid()
+compact_grid <- function(x){
+  data <- x %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(id = dplyr::row_number())
+
+  data %>%
+    as.data.frame() %>%
+    dplyr::mutate(group = paste(lon, lat)) %>%
+    dplyr::group_by(group) %>%
+    dplyr::filter(!is.na(azi)) %>%
+    dplyr::summarise(id = dplyr::first(id), R = min(R, na.rm = TRUE)) %>%
+    dplyr::select(id) %>%
+    dplyr::left_join(data) %>%
+    dplyr::select(-id) %>%
+    sf::st_as_sf()
+}
