@@ -1,17 +1,21 @@
 wcmean <- function(x, w) {
-  Z <- sum(w)
-  meansin2 <- sum(w * sind(2 * x)) / Z
-  meancos2 <- sum(w * cosd(2 * x)) / Z
-  meanR <- sqrt(meansin2^2 + meancos2^2)
+  Z <- sum(w, na.rm = TRUE)
+  if(Z!=0){
+    meansin2 <- sum(w * sind(2 * x), na.rm = TRUE) / Z
+    meancos2 <- sum(w * cosd(2 * x), na.rm = TRUE) / Z
+    meanR <- sqrt(meansin2^2 + meancos2^2)
 
-  if (meanR > 1) {
-    sd_s <- 0
+    if (meanR > 1) {
+      sd_s <- 0
+    } else {
+      sd_s <- sqrt(-2 * log(meanR)) / 2
+    }
+
+    mean_s <- atan2d(meansin2, meancos2) / 2
+    rad2deg(c(mean_s, sd_s))
   } else {
-    sd_s <- sqrt(-2 * log(meanR)) / 2
+    c(NA, NA)
   }
-
-  mean_s <- atan2d(meansin2, meancos2) / 2
-  rad2deg(c(mean_s, sd_s))
 }
 
 wcmedian <- function(x, w) {
@@ -41,25 +45,33 @@ wcmedian <- function(x, w) {
 #' \item{type}{Methods used for the determination of the orientation of SHmax}
 #' }
 #' @param stat Should the orientation of interpolated SHmax be based  on the
-#' circular mean and standard deviation (\code{"mean"}, the default) or on the circular median
+#' circular mean and standard deviation (\code{"mean"}, the default) or on the
+#' circular median
 #' and interquartile range (\code{"median"})?
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes.
 #' @param gridsize Numeric. Spacing of the regular grid in decimal degree.
+#' Default is 2.5
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
-#' @param threshold Numeric. Threshold for deviation of orientation. Default is 25
-#' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the next
+#' @param threshold Numeric. Threshold for deviation of orientation. Default is
+#' 25
+#' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the
+#' next
 #' datapoint. Default is 200
 #' @param method_weighting Logical. If a method weighting should be applied:
 #' Default is \code{FALSE}.
-#' @param quality_weighting Logical. If a quality weighting should be applied: Default is
+#' @param quality_weighting Logical. If a quality weighting should be applied:
+#' Default is
 #' \code{TRUE}.
 #' @param dist_weight Distance weighting method which should be used. One of
 #' "none", "linear", or "inverse" (the default).
-#' @param dist_threshold Numeric. Distance weight to prevent overweight of data nearby
+#' @param dist_threshold Numeric. Distance weight to prevent overweight of data
+#' nearby
 #' (0 to 1). Default is 0.1
 #' @param R_range Numeric value or vector specifying the search radius (im km).
-#' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_distance st_as_sf
+#' Default is \code{seq(50, 1000, 50)}
+#' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_distance
+#' st_as_sf
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by mutate
 #' @returns

@@ -32,34 +32,41 @@ stress2grid(
 }}
 
 \item{stat}{Should the orientation of interpolated SHmax be based  on the
-circular mean and standard deviation (\code{"mean"}, the default) or on the circular median
+circular mean and standard deviation (\code{"mean"}, the default) or on the
+circular median
 and interquartile range (\code{"median"})?}
 
 \item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
 and maximum longitudes and latitudes.}
 
-\item{gridsize}{Numeric. Spacing of the regular grid in decimal degree.}
+\item{gridsize}{Numeric. Spacing of the regular grid in decimal degree.
+Default is 2.5}
 
 \item{min_data}{Integer. Minimum number of data per bin. Default is 3}
 
-\item{threshold}{Numeric. Threshold for deviation of orientation. Default is 25}
+\item{threshold}{Numeric. Threshold for deviation of orientation. Default is
+25}
 
-\item{arte_thres}{Numeric. Maximum distance (in km) of the gridpoint to the next
+\item{arte_thres}{Numeric. Maximum distance (in km) of the gridpoint to the
+next
 datapoint. Default is 200}
 
 \item{method_weighting}{Logical. If a method weighting should be applied:
 Default is \code{FALSE}.}
 
-\item{quality_weighting}{Logical. If a quality weighting should be applied: Default is
+\item{quality_weighting}{Logical. If a quality weighting should be applied:
+Default is
 \code{TRUE}.}
 
 \item{dist_weight}{Distance weighting method which should be used. One of
 "none", "linear", or "inverse" (the default).}
 
-\item{dist_threshold}{Numeric. Distance weight to prevent overweight of data nearby
+\item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
+nearby
 (0 to 1). Default is 0.1}
 
-\item{R_range}{Numeric value or vector specifying the search radius (im km).}
+\item{R_range}{Numeric value or vector specifying the search radius (im km).
+Default is \code{seq(50, 1000, 50)}}
 }
 \value{
 \code{sf} object containing
