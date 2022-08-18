@@ -69,7 +69,7 @@ circular_weighted_IQR(san_andreas.por$azi, san_andreas$unc)
 ## Interpolation
 Spatial interpolation of stress data is based on the aforementioned metrics:
 ```{r interpolation}
-mean_SH <- stress2grid(san_andreas, gridsize = 2, R_range = seq(500, 800, 100))
+mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(500, 800, 100))
 ```
 
 The defaults use quality and inverse distance weighting of the mean, as well as a 25% cut-off for the standard deviation. 
@@ -99,7 +99,7 @@ the interpolation can be done in the PoR reference frame where orientation stays
 constant no matter the distance between the data points. Assuming that the stress field is sourced by the plate boundary force, the model-based interpolation allows more reliable results for areas close to plate boundaries.
 
 ```{r interpolation_PoR}
-mean_SH_PoR <- PoR_stress2grid(san_andreas, ep = euler, gridsize = 2, R_range = seq(500, 800, 100))
+mean_SH_PoR <- PoR_stress2grid(san_andreas, ep = euler, gridsize = 1, R_range = seq(500, 800, 100))
 ```
 
 ```{r plot2, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}

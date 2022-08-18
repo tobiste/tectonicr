@@ -17,5 +17,6 @@ Filter smoothed stress field to lowest R per coordinate
 }
 \examples{
 data("san_andreas")
-stress2grid(san_andreas) \%>\% compact_grid()
+res <- stress2grid(san_andreas)
+compact_grid(res)
 }

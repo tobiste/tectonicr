@@ -70,9 +70,9 @@ norm_chisq <- function(obs, prd, unc) {
       y[i] <- NA
     } else {
       if (!is.na(unc[i]) & unc[i] == 0) {
-        unc[i] <- 0.01
+        unc[i] <- 1
       } # uncertainty cannot be 0
-      w[i] <- deviation_norm(obs[i] - prd[i])
+      w[i] <- obs[i] - prd[i]
       x[i] <- (w[i] / unc[i])^2
       y[i] <- (90 / unc[i])^2
     }

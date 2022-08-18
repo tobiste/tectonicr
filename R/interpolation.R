@@ -1,8 +1,9 @@
 wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
-  if(Z!=0){
-    meansin2 <- sum(w * sind(2 * x), na.rm = TRUE) / Z
-    meancos2 <- sum(w * cosd(2 * x), na.rm = TRUE) / Z
+  if (Z != 0) {
+    x <- deg2rad(x)
+    meansin2 <- sum(w * sin(2 * x), na.rm = TRUE) / Z
+    meancos2 <- sum(w * cos(2 * x), na.rm = TRUE) / Z
     meanR <- sqrt(meansin2^2 + meancos2^2)
 
     if (meanR > 1) {
@@ -11,7 +12,7 @@ wcmean <- function(x, w) {
       sd_s <- sqrt(-2 * log(meanR)) / 2
     }
 
-    mean_s <- atan2d(meansin2, meancos2) / 2
+    mean_s <- atan2(meansin2, meancos2) / 2
     rad2deg(c(mean_s, sd_s))
   } else {
     c(NA, NA)
@@ -33,6 +34,33 @@ wcmedian <- function(x, w) {
   }
   c(median_s, iqr_s)
 }
+
+#' Helper function for distance of coordinates to grid point
+#'
+#' Returns the distance between a locations and a grid point in km
+#'
+#' @param lat_g,lon_g coordinate of grid point (degree)
+#' @param lat,lon coordinates of points (degree)
+#' @examples
+#' ddistance(lat_g = 20, lon_g = 12, lat = c(50, 30), lon = c(40, 32))
+ddistance <- function(lat_g, lon_g, lat, lon) {
+  r <- 6371.00887714 # earth radius in km
+
+  phi1 <- deg2rad(lon_g) # azimuthal angle
+  phi2 <- deg2rad(lon)
+  theta1 <- deg2rad(90 - lat_g) # polar angle / colatitude
+  theta2 <- deg2rad(90 - lat)
+
+  x1 <- r * sin(theta1) * cos(phi1)
+  y1 <- r * sin(theta1) * sin(phi1)
+  z1 <- r * cos(theta1)
+  x2 <- r * sin(theta2) * cos(phi2)
+  y2 <- r * sin(theta2) * sin(phi2)
+  z2 <- r * cos(theta2)
+
+  sqrt((x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2) # distance in km
+}
+
 
 #' Stress2Grid
 #'
@@ -70,8 +98,7 @@ wcmedian <- function(x, w) {
 #' (0 to 1). Default is 0.1
 #' @param R_range Numeric value or vector specifying the search radius (im km).
 #' Default is \code{seq(50, 1000, 50)}
-#' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_distance
-#' st_as_sf
+#' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by mutate
 #' @returns
@@ -189,9 +216,10 @@ stress2grid <- function(x,
   SH <- c()
 
   for (i in 1:n_G) {
-    distij <-
-      sf::st_distance(datas, G[i], which = "Great Circle") %>% # in meter
-      as.numeric() / 1000 # in km
+    distij <- ddistance(YG[i], XG[i], datas$lat, datas$lon)
+    # distij <-
+    #   sf::st_distance(datas, G[i], which = "Great Circle") %>% # in meter
+    #   as.numeric() / 1000 # in km
 
     if (min(distij) <= arte_thres) {
       for (k in 1:length(R_range)) {
@@ -263,7 +291,7 @@ stress2grid <- function(x,
           sd = sd,
           R = R_search,
           mdr = mdr,
-          N = as.integer(N_in_R)
+          N = N_in_R
         )
 
         if (SH.ik[4] <= threshold) {
@@ -274,7 +302,7 @@ stress2grid <- function(x,
   }
 
   res <- as.data.frame(SH) %>%
-    mutate(x = lon, y = lat) %>%
+    mutate(x = lon, y = lat, N = as.integer(N)) %>%
     sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x)) %>%
     group_by(R)
 
@@ -306,7 +334,7 @@ stress2grid <- function(x,
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' PoR_stress2grid(san_andreas, ep)
-PoR_stress2grid <- function(x, ep, ...){
+PoR_stress2grid <- function(x, ep, ...) {
   azi <- NULL
   azi_por <- PoR_shmax(x, ep, type = "in")
   x_por <- geographical_to_PoR(x, ep) %>%
@@ -320,7 +348,7 @@ PoR_stress2grid <- function(x, ep, ...){
     mutate(azi.PoR = azi)
 
   NP_por <- data.frame(lat = 90, lon = 0) %>%
-    sf::st_as_sf(coords = c("lon", 'lat')) %>%
+    sf::st_as_sf(coords = c("lon", "lat")) %>%
     geographical_to_PoR(ep) %>%
     sf::st_coordinates()
 
@@ -346,25 +374,25 @@ PoR_stress2grid <- function(x, ep, ...){
 #' @param x output of \code{stress2grid()} or \code{PoR_stress2grid()}
 #' @return \code{sf} object
 #' @importFrom magrittr %>%
-#' @importFrom dplyr ungroup mutate row_number group_by filter summarise first select left_join
+#' @importFrom dplyr ungroup mutate group_by filter summarise select left_join
 #' @importFrom sf st_as_sf
 #' @export
 #' @examples
 #' data("san_andreas")
-#' stress2grid(san_andreas) %>% compact_grid()
-compact_grid <- function(x){
+#' res <- stress2grid(san_andreas)
+#' compact_grid(res)
+compact_grid <- function(x) {
+  lon <- lat <- group <- azi <- R <- NULL
   data <- x %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(id = dplyr::row_number())
+    as.data.frame() %>%
+    dplyr::filter(!is.na(azi)) %>%
+    dplyr::mutate(group = paste(lon, lat)) %>%
+    dplyr::group_by(group)
 
   data %>%
-    as.data.frame() %>%
-    dplyr::mutate(group = paste(lon, lat)) %>%
-    dplyr::group_by(group) %>%
-    dplyr::filter(!is.na(azi)) %>%
-    dplyr::summarise(id = dplyr::first(id), R = min(R, na.rm = TRUE)) %>%
-    dplyr::select(id) %>%
-    dplyr::left_join(data) %>%
-    dplyr::select(-id) %>%
+    dplyr::summarise(R = min(R, na.rm = TRUE)) %>%
+    dplyr::left_join(data, by = c("group", "R")) %>%
+    dplyr::select(-group) %>%
     sf::st_as_sf()
 }

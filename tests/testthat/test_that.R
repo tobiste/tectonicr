@@ -1,6 +1,6 @@
 data("pb2002")
-data("pb2002_plates")
-data("wsm2016")
+data("plates")
+#data("wsm2016")
 data("nuvel1")
 data("nuvel1_plates")
 data("san_andreas")
@@ -113,7 +113,7 @@ test_that("type of object returned is as expected", {
 
 # test message -----------------------------------------------------------------
 test_that("Message expected", {
-  expect_message(circular_quasi_quantile(c(12, NA)))
+  expect_message(circular_quasi_quantile(c(12, NA, 10, 11, 9)))
   expect_message(norm_chisq(c(12, NA), 1, 1))
 })
 
@@ -140,7 +140,7 @@ test_that("Error message if incorrect type argument", {
   # expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
   expect_error(euler_pole(90, 0, NA, "test"))
   # expect_error(euler_from_rot(C(1, 2, 3)))
-  expect_error(circular_quasi_IQR(c(12, NA)))
+  expect_error(circular_quasi_IQR(c(12, NA, 10, 9, "Inf", 7)))
   expect_error(PoR_shmax(stress, 10))
   # expect_error(euler_rot(c(90, 0), "test"))
   expect_error(distance_from_pb(san_andreas, euler, plate_boundary, tangential = "typo"))
@@ -152,3 +152,4 @@ test_that("Error message if incorrect type argument", {
   expect_error(eulerpole_loxodromes(ep1, angle = 90, cw = FALSE))
   expect_error(eulerpole_paths(ep3))
 })
+
