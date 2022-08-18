@@ -1,9 +1,17 @@
+#' Earth's radius in km
+#'
+#' IERS mean radius of Earth in km (based on WGS 84)
+#' @export
+earth_radius <- function(){
+  6371.0087714
+}
+
 wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
   if (Z != 0) {
-    x <- deg2rad(x)
-    meansin2 <- sum(w * sin(2 * x), na.rm = TRUE) / Z
-    meancos2 <- sum(w * cos(2 * x), na.rm = TRUE) / Z
+    xrad <- deg2rad(x)
+    meansin2 <- sum(w * sin(2 * xrad), na.rm = TRUE) / Z
+    meancos2 <- sum(w * cos(2 * xrad), na.rm = TRUE) / Z
     meanR <- sqrt(meansin2^2 + meancos2^2)
 
     if (meanR > 1) {
@@ -42,11 +50,13 @@ wcmedian <- function(x, w) {
 #' @param lat_g,lon_g coordinate of grid point (degree)
 #' @param lat,lon coordinates of points (degree)
 #' @examples
-#' ddistance(lat_g = 20, lon_g = 12, lat = c(50, 30), lon = c(40, 32))
+#' \dontrun{
+#'   ddistance(lat_g = 20, lon_g = 12, lat = c(50, 30), lon = c(40, 32))
+#' }
 ddistance <- function(lat_g, lon_g, lat, lon) {
-  r <- 6371.00887714 # earth radius in km
+  r <- earth_radius() # earth radius in km
 
-  phi1 <- deg2rad(lon_g) # azimuthal angle
+  phi1 <- deg2rad(lon_g) # azimuth angle
   phi2 <- deg2rad(lon)
   theta1 <- deg2rad(90 - lat_g) # polar angle / colatitude
   theta2 <- deg2rad(90 - lat)
@@ -99,6 +109,7 @@ ddistance <- function(lat_g, lon_g, lat, lon) {
 #' @param R_range Numeric value or vector specifying the search radius (im km).
 #' Default is \code{seq(50, 1000, 50)}
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
+#' st_distance
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by mutate
 #' @returns
@@ -146,7 +157,7 @@ stress2grid <- function(x,
 
   dist_weight <- match.arg(dist_weight)
   stat <- match.arg(stat)
-  azi <- unc <- type <- lat <- lon <- R <- w_method <- w_quality <- NULL
+  azi <- unc <- type <- lat <- lon <- R <- w_method <- w_quality <- N <- NULL
 
   num_r <- length(R_range)
 
@@ -216,10 +227,10 @@ stress2grid <- function(x,
   SH <- c()
 
   for (i in 1:n_G) {
-    distij <- ddistance(YG[i], XG[i], datas$lat, datas$lon)
-    # distij <-
-    #   sf::st_distance(datas, G[i], which = "Great Circle") %>% # in meter
-    #   as.numeric() / 1000 # in km
+    #distij <- ddistance(YG[i], XG[i], datas$lat, datas$lon)
+    distij <-
+      sf::st_distance(datas, G[i], which = "Great Circle", radius = earth_radius()) %>% # in kilometer
+      as.numeric()
 
     if (min(distij) <= arte_thres) {
       for (k in 1:length(R_range)) {

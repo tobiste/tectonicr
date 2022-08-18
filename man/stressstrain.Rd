@@ -36,6 +36,7 @@ and the components of the displacement vector or the stress matrix.
 Displacement vector and stress matrix in PoR
 }
 \examples{
+\dontrun{
 data("nuvel1")
 na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 
@@ -48,6 +49,7 @@ head(res)
 
 res2 <- stress_matrix(x = san_andreas, ep = na_pa, tangential = TRUE, positive = FALSE)
 head(res2)
+}
 }
 \references{
 Wdowinski, S., 1998, A theory of intraplate

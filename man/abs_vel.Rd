@@ -4,14 +4,14 @@
 \alias{abs_vel}
 \title{Absolute Plate Velocity}
 \usage{
-abs_vel(w, alpha, r = 6371.00887714)
+abs_vel(w, alpha, r = earth_radius())
 }
 \arguments{
 \item{w}{Angular velocity or rate or angle of rotation}
 
 \item{alpha}{Angular distance to Euler pole or small circle around Euler pole}
 
-\item{r}{Radius. Default is Earth's radius (6371.00887714 km)}
+\item{r}{Radius. Default is WGS84 Earth's radius (6371.0087714 km)}
 }
 \value{
 Number (in km/Myr)

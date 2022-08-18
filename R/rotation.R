@@ -182,14 +182,14 @@ equivalent_rotation <- function(x, fixed) {
 #' @description Calculates the absolute angular velocity of plate motion
 #' @param w Angular velocity or rate or angle of rotation
 #' @param alpha Angular distance to Euler pole or small circle around Euler pole
-#' @param r Radius. Default is Earth's radius (6371.00887714 km)
+#' @param r Radius. Default is WGS84 Earth's radius (6371.0087714 km)
 #' @return Number (in km/Myr)
 #' @export
 #' @examples
 #' abs_vel(0.21, 0)
 #' abs_vel(0.21, 45)
 #' abs_vel(0.21, 90)
-abs_vel <- function(w, alpha, r = 6371.00887714) {
+abs_vel <- function(w, alpha, r = earth_radius()) {
   stopifnot(is.numeric(w) & is.numeric(alpha))
   deg2rad(w) * r * sind(alpha)
 }

@@ -15,5 +15,7 @@ ddistance(lat_g, lon_g, lat, lon)
 Returns the distance between a locations and a grid point in km
 }
 \examples{
-ddistance(lat_g = 20, lon_g = 12, lat = c(50, 30), lon = c(40, 32))
+\dontrun{
+  ddistance(lat_g = 20, lon_g = 12, lat = c(50, 30), lon = c(40, 32))
+}
 }

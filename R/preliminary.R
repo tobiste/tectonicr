@@ -21,6 +21,7 @@
 #' @importFrom sf st_coordinates st_as_sf
 #' @name stressstrain
 #' @examples
+#' \dontrun{
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
@@ -33,6 +34,7 @@
 #'
 #' res2 <- stress_matrix(x = san_andreas, ep = na_pa, tangential = TRUE, positive = FALSE)
 #' head(res2)
+#' }
 NULL
 
 #' @rdname stressstrain
