@@ -39,7 +39,7 @@ and interquartile range (\code{"median"})?}
 \item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
 and maximum longitudes and latitudes.}
 
-\item{gridsize}{Numeric. Spacing of the regular grid in decimal degree.
+\item{gridsize}{Numeric. Target spacing of the regular grid in decimal degree.
 Default is 2.5}
 
 \item{min_data}{Integer. Minimum number of data per bin. Default is 3}

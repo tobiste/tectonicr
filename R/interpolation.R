@@ -88,7 +88,7 @@ ddistance <- function(lat_g, lon_g, lat, lon) {
 #' and interquartile range (\code{"median"})?
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes.
-#' @param gridsize Numeric. Spacing of the regular grid in decimal degree.
+#' @param gridsize Numeric. Target spacing of the regular grid in decimal degree.
 #' Default is 2.5
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
 #' @param threshold Numeric. Threshold for deviation of orientation. Default is
@@ -143,7 +143,8 @@ stress2grid <- function(x,
                         quality_weighting = TRUE,
                         dist_weight = c("inverse", "linear", "none"),
                         dist_threshold = 0.1,
-                        R_range = seq(50, 1000, 50)) {
+                        R_range = seq(50, 1000, 50)
+                        ) {
   stopifnot(inherits(x, "sf"))
   stopifnot(is.numeric(gridsize))
   stopifnot(is.numeric(threshold))
@@ -217,7 +218,7 @@ stress2grid <- function(x,
       ),
       crs = sf::st_crs(x)
     ) %>%
-    sf::st_make_grid(cellsize = gridsize, what = "centers")
+    sf::st_make_grid(cellsize = gridsize, what = "centers", offset = c(lon_range[1], lat_range[1]))
 
   G_coords <- sf::st_coordinates(G) %>% as.data.frame()
   XG <- G_coords$X
