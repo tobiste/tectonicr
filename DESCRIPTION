@@ -26,6 +26,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
+LinkingTo: Rcpp
+Imports: methods, Rcpp
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
