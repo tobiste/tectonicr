@@ -19,7 +19,7 @@ Imports:
     sf,
     smoothr,
     spatstat.core,
-    terra (>=1.6-7),
+    terra,
     methods
 Suggests: 
     covr,
