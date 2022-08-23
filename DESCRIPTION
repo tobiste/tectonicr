@@ -12,18 +12,17 @@ URL: https://tobiste.github.io/tectonicr/
 BugReports: https://github.com/tobiste/tectonicr/issues
 Depends: 
     R (>= 3.5.0)
-SystemRequirements: C++11, GDAL (>= 2.2.3), GEOS (>= 3.4.0), PROJ (>= 4.9.3), sqlite3
 Imports: 
     dplyr,
     ggplot2,
     magrittr,
     sf,
     smoothr,
-    terra,
     spatstat.core,
     methods
 Suggests: 
     covr,
+    terra,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
