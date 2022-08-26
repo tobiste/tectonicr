@@ -11,7 +11,7 @@ abs_vel(w, alpha, r = earth_radius())
 
 \item{alpha}{Angular distance to Euler pole or small circle around Euler pole}
 
-\item{r}{Radius. Default is WGS84 Earth's radius (6371.0087714 km)}
+\item{r}{Radius. Default is WGS84 Earth's radius (6371.009 km)}
 }
 \value{
 Number (in km/Myr)
@@ -23,4 +23,7 @@ Calculates the absolute angular velocity of plate motion
 abs_vel(0.21, 0)
 abs_vel(0.21, 45)
 abs_vel(0.21, 90)
+}
+\seealso{
+\code{\link[=earth_radius]{earth_radius()}}
 }

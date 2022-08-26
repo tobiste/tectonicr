@@ -121,6 +121,7 @@ relative_rotation <- function(r1, r2) {
 #' \code{x$plate.fix}
 #' @return sequence of plate rotations in new reference system. Same object
 #' class as \code{x}
+#' @seealso [relative_rotation()]
 #' @export
 #' @examples
 #' data(nuvel1) # load the NUVEL1 rotation parameters
@@ -182,8 +183,9 @@ equivalent_rotation <- function(x, fixed) {
 #' @description Calculates the absolute angular velocity of plate motion
 #' @param w Angular velocity or rate or angle of rotation
 #' @param alpha Angular distance to Euler pole or small circle around Euler pole
-#' @param r Radius. Default is WGS84 Earth's radius (6371.0087714 km)
+#' @param r Radius. Default is WGS84 Earth's radius (6371.009 km)
 #' @return Number (in km/Myr)
+#' @seealso [earth_radius()]
 #' @export
 #' @examples
 #' abs_vel(0.21, 0)
