@@ -32,3 +32,6 @@ data(nuvel1) # load the NUVEL1 rotation parameters
 # all nuvel1 rotation equivalent to fixed Africa:
 equivalent_rotation(nuvel1, fixed = "af")
 }
+\seealso{
+\code{\link[=relative_rotation]{relative_rotation()}}
+}
