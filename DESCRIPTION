@@ -18,8 +18,8 @@ Imports:
     magrittr,
     sf,
     smoothr,
-    terra,
     spatstat.core,
+    terra,
     methods
 Suggests: 
     covr,
