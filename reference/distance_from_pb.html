@@ -60,7 +60,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">distance_from_pb</span><span class="op">(</span><span class="va">x</span>, <span class="va">ep</span>, <span class="va">pb</span>, tangential <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">distance_from_pb</span><span class="op">(</span><span class="va">x</span>, <span class="va">ep</span>, <span class="va">pb</span>, tangential <span class="op">=</span> <span class="cn">FALSE</span>, km <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,6 +81,11 @@ boundary (<code>TRUE</code>) or an inward and outward boundary (<code>FALSE</cod
 default).</p></dd>
 
 
+<dt>km</dt>
+<dd><p>Logical. Whether the distance is expressed in kilometers
+(<code>TRUE</code>) or in degrees (<code>FALSE</code>, the default).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>optional arguments passed to <code><a href="https://strimas.com/smoothr/reference/densify.html" class="external-link">smoothr::densify()</a></code></p></dd>
 
@@ -89,7 +94,7 @@ default).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Numeric vector of the great circle distances in degree</p>
+<p>Numeric vector of the great circle distances</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -114,6 +119,13 @@ plate boundaries, respectively.</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>keeping first linestring only</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 19.6647608  3.5919319  0.4361861 27.1903665  6.0973185  1.5567019</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res.km</span> <span class="op">&lt;-</span> <span class="fu">distance_from_pb</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">san_andreas</span>, ep <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">plate_boundary</span>, tangential <span class="op">=</span> <span class="cn">TRUE</span>, km <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>keeping first linestring only</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res.km</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2186.62465  399.40516   48.50175 3023.43497  677.99182  173.09759</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
