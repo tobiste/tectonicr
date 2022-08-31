@@ -192,6 +192,6 @@ equivalent_rotation <- function(x, fixed) {
 #' abs_vel(0.21, 45)
 #' abs_vel(0.21, 90)
 abs_vel <- function(w, alpha, r = earth_radius()) {
-  stopifnot(is.numeric(w) & is.numeric(alpha))
+  stopifnot(is.numeric(r))
   deg2rad(w) * r * sind(alpha)
 }

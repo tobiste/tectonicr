@@ -13,7 +13,6 @@ NULL
 #' @rdname coordinate_mod
 #' @export
 longitude_modulo <- function(x) {
-  stopifnot(is.numeric(x))
   # longitude.mod <- (longitude %% 360 + 540) %% 360 - 180
   (x + 540) %% 360 - 180
 }
@@ -21,7 +20,6 @@ longitude_modulo <- function(x) {
 #' @rdname coordinate_mod
 #' @export
 latitude_modulo <- function(x) {
-  stopifnot(is.numeric(x))
   asind(sind(x))
 }
 
@@ -45,7 +43,7 @@ NULL
 #' @rdname coordinates
 #' @export
 cartesian_to_geographical <- function(n) {
-  stopifnot(is.numeric(n) & length(n) == 3)
+  stopifnot(length(n) == 3)
   r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
   lat <- rad2deg(asin(n[3] / r))
   lon <- rad2deg(atan2(n[2], n[1]))
@@ -60,7 +58,7 @@ cartesian_to_geographical <- function(n) {
 #' @rdname coordinates
 #' @export
 geographical_to_cartesian <- function(p) {
-  stopifnot(is.numeric(p) & length(p) == 2)
+  stopifnot(length(p) == 2)
   x <- c()
   x[1] <- cosd(p[1]) * cosd(p[2])
   x[2] <- cosd(p[1]) * sind(p[2])
@@ -78,7 +76,6 @@ geographical_to_cartesian <- function(p) {
 #' geographical coordinate system with the Euler pole coordinates being the the
 #' translation factors.
 PoR_crs <- function(x) {
-  stopifnot(is.numeric(x$lat) | is.numeric(x$lon))
   if (x$lat < 0) {
     x$lat <- -x$lat
     x$lon <- longitude_modulo(x$lon + 180)
@@ -108,28 +105,28 @@ PoR_crs <- function(x) {
 NULL
 
 #' @rdname raster_transformation
-geographical_to_PoR_raster <- function(x, ep){
-  if(methods::extends(class(x), "BasicRaster")){
+geographical_to_PoR_raster <- function(x, ep) {
+  if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
   stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
-  crs.wgs84 <-"epsg:4326"
+  crs.wgs84 <- "epsg:4326"
   crs.ep <- PoR_crs(ep)
-  terra::crs(x)  <-  crs.ep$wkt
+  terra::crs(x) <- crs.ep$wkt
   x.por <- terra::project(x, crs.wgs84)
   terra::crs(x.por) <- crs.ep$wkt
   return(x.por)
 }
 
 #' @rdname raster_transformation
-PoR_to_geographical_raster <- function(x, ep){
-  if(methods::extends(class(x), "BasicRaster")){
+PoR_to_geographical_raster <- function(x, ep) {
+  if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
   stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
-  crs.wgs84 <-"epsg:4326"
+  crs.wgs84 <- "epsg:4326"
   crs.ep <- PoR_crs(ep)
-  terra::crs(x)  <-  crs.wgs84
+  terra::crs(x) <- crs.wgs84
   x.geo <- terra::project(x, crs.ep$wkt)
   terra::crs(x.geo) <- crs.wgs84
   return(x.geo)
@@ -165,21 +162,21 @@ NULL
 #' @rdname por_transformation
 #' @export
 PoR_to_geographical <- function(x, ep) {
-  if(methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")){
+  if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     x.por <- geographical_to_PoR_raster(x, ep)
   } else {
-  stopifnot(inherits(x, "sf") & is.data.frame(ep))
-  crs.wgs84 <- sf::st_crs("epsg:4326")
-  crs.ep <- PoR_crs(ep)
-  suppressMessages(
-    suppressWarnings(
-      x.por <- x %>%
-        sf::st_set_crs(crs.wgs84) %>%
-        sf::st_transform(crs.ep) %>%
-        sf::st_set_crs(crs.wgs84) %>%
-        sf::st_wrap_dateline()
+    stopifnot(inherits(x, "sf") & is.data.frame(ep))
+    crs.wgs84 <- sf::st_crs("epsg:4326")
+    crs.ep <- PoR_crs(ep)
+    suppressMessages(
+      suppressWarnings(
+        x.por <- x %>%
+          sf::st_set_crs(crs.wgs84) %>%
+          sf::st_transform(crs.ep) %>%
+          sf::st_set_crs(crs.wgs84) %>%
+          sf::st_wrap_dateline()
+      )
     )
-  )
   }
   return(x.por)
 }
@@ -187,7 +184,7 @@ PoR_to_geographical <- function(x, ep) {
 #' @rdname por_transformation
 #' @export
 geographical_to_PoR <- function(x, ep) {
-  if(methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")){
+  if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     x.geo <- geographical_to_PoR_raster(x, ep)
   } else {
     stopifnot(inherits(x, "sf") & is.data.frame(ep))

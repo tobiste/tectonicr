@@ -112,7 +112,6 @@ atan2d_spec <- function(x, y) {
 #' v <- c(-2, 1, 1)
 #' angle_vectors(u, v)
 angle_vectors <- function(x, y) {
-  stopifnot(is.numeric(x) & is.numeric(y))
   if (length(x) == length(y)) {
     angle.d <- rad2deg(
       acos(sum(x * y) / (sqrt(sum(x * x)) * sqrt(sum(y * y))))
@@ -120,3 +119,133 @@ angle_vectors <- function(x, y) {
     return(angle.d)
   }
 }
+
+hav <- function(x) {
+  sin(x / 2)^2
+}
+
+ahav <- function(x) {
+  2 * asin(sqrt(x))
+}
+
+#' Angle along great circle on spherical surface
+#'
+#' Smallest angle between two points on the surface of a sphere, measured along
+#' the surface of the sphere
+#'
+#' @param lat1,lat2 numeric vector; latitudes of point 1 and 2 (in radians)
+#' @param lon1,lon2 numeric vector; longitudes of point 1 and 2 (in radians)
+#' @details \describe{
+#' \item{"orthodrome_haversine"}{uses Haversine formula (the default)}
+#' \item{"orthodrome_haversine2"}{ uses Haversine formula optimized for 64-bit
+#' floating-point numbers}
+#' \item{"orthodrome_vincenty"}{uses Vincenty formula for an ellipsoid with
+#' equal major and minor axes}
+#' }
+#' @return angle in radians
+#' @name spherical_angle
+#' @examples
+#' berlin <- c(52.52, 13.41)
+#' calgary <- c(51.04, -114.072)
+#' orthodrome_haversine(berlin, calgary)
+#' orthodrome_haversine2(berlin, calgary)
+#' orthodrome_vincenty(berlin, calgary)
+NULL
+
+#' @rdname spherical_angle
+#' @export
+orthodrome_haversine <- function(lat1, lon1, lat2, lon2) {
+  dlon <- lon2 - lon1
+
+  acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(dlon))
+}
+
+#' @rdname spherical_angle
+#' @export
+orthodrome_haversine2 <- function(lat1, lon1, lat2, lon2) {
+  dlon <- lon2 - lon1
+  havdlat <- hav(lat2 - lat1)
+
+  ahav(
+    havdlat + (1 - havdlat - hav(lat2 + lat1)) * hav(dlon)
+  )
+}
+
+#' @rdname spherical_angle
+#' @export
+orthodrome_vincenty <- function(lat1, lon1, lat2, lon2) {
+  dlon <- lon2 - lon1
+
+  y <- sqrt(
+    (cos(lat2) * sin(dlon))^2 + (cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dlon))^2
+  )
+  x <- sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(dlon)
+  atan2(y, x)
+}
+
+
+#' Distance between points
+#'
+#' Returns the great-circle distance between a location and all grid point in km
+#'
+#' @param grid_lat,grid_lon coordinate of grid point (degrees).
+#' @param point_lat,point_lon coordinates of points (degrees). Must be of
+#' length = 1.
+#' @param r radius of the sphere (default = 6371.0087714 km, i.e. the radius of
+#' the Earth)
+#' @param method Formula for calculating great circle distance:
+#' \describe{
+#' \item{"haversine"}{Haversine formula (the default)}
+#' \item{"haversine2"}{Haversine formula optimized for 64-bit floating-point numbers}
+#' \item{"vincenty"}{Vincenty formula for an ellipsoid with equal major and minor axes}
+#' }
+#' @export
+#' @seealso [orthodrome_haversine()], [orthodrome_haversine2()], [orthodrome_vincenty()]
+#' @examples
+#' dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
+#' point_lon = c(40, 32))
+#' dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
+#' point_lon = c(40, 32), method = "haversine2")
+#' dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
+#' point_lon = c(40, 32), method = "vincenty")
+dist_greatcircle <- function(lats, lons, point_lat, point_lon,
+                             r = earth_radius(),
+                             method = c("haversine", "haversine2", "vincenty")) {
+  method <- match.arg(method)
+  stopifnot(is.numeric(r))
+  stopifnot(length(point_lat) == length(point_lon))
+  stopifnot(length(lats) == length(lons))
+
+  point_lat <- point_lat * pi / 180
+  point_lon <- point_lon * pi / 180
+  lats <- lats * pi / 180
+  lons <- lons * pi / 180
+
+  if (method == "haversine") {
+    d <- orthodrome_haversine(point_lat, point_lon, lats, lons)
+  }
+  if (method == "haversine2") {
+    d <- orthodrome_haversine2(point_lat, point_lon, lats, lons)
+  }
+  if (method == "vincenty") {
+    d <- orthodrome_vincenty(point_lat, point_lon, lats, lons)
+  }
+  d * r
+}
+
+# Method after to Ziegler & Heidbach:
+# ddistance <- function(grid_lat, gird_lon, point_lat, point_lon, r = earth_radius()) {
+#   phi1 <- gird_lon * pi / 180 # azimuth angle
+#   phi2 <- point_lon * pi / 180
+#   theta1 <- grid_lat * pi / 180 # polar angle / latitude
+#   theta2 <- point_lat * pi / 180
+#
+#   x1 <- r * cos(theta1) * cos(phi1)
+#   y1 <- r * cos(theta1) * sin(phi1)
+#   z1 <- r * sin(theta1)
+#   x2 <- r * cos(theta2) * cos(phi2)
+#   y2 <- r * cos(theta2) * sin(phi2)
+#   z2 <- r * sin(theta2)
+#
+#   sqrt((x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2) # distance in km
+# }

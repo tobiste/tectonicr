@@ -20,7 +20,8 @@ stress2grid(
   quality_weighting = TRUE,
   dist_weight = c("inverse", "linear", "none"),
   dist_threshold = 0.1,
-  R_range = seq(50, 1000, 50)
+  R_range = seq(50, 1000, 50),
+  ...
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ nearby
 
 \item{R_range}{Numeric value or vector specifying the search radius (im km).
 Default is \code{seq(50, 1000, 50)}}
+
+\item{...}{optional arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
 }
 \value{
 \code{sf} object containing
@@ -93,4 +96,7 @@ stress2grid(san_andreas)
 \references{
 Ziegler, M. O. and Heidbach, O. (2019).
 Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
+}
+\seealso{
+\code{\link[=dist_greatcircle]{dist_greatcircle()}}
 }

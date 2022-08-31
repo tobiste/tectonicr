@@ -4,7 +4,7 @@
 \alias{distance_from_pb}
 \title{Distance from plate boundary}
 \usage{
-distance_from_pb(x, ep, pb, tangential = FALSE, ...)
+distance_from_pb(x, ep, pb, tangential = FALSE, km = FALSE, ...)
 }
 \arguments{
 \item{x, pb}{\code{sf} objects of the data points and the plate boundary
@@ -17,10 +17,13 @@ geometries in the geographical coordinate system}
 boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the
 default).}
 
+\item{km}{Logical. Whether the distance is expressed in kilometers
+(\code{TRUE}) or in degrees (\code{FALSE}, the default).}
+
 \item{...}{optional arguments passed to \code{\link[smoothr:densify]{smoothr::densify()}}}
 }
 \value{
-Numeric vector of the great circle distances in degree
+Numeric vector of the great circle distances
 }
 \description{
 Absolute distance of data points from the nearest plate boundary in degree
@@ -43,4 +46,9 @@ res <- distance_from_pb(
   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
 )
 head(res)
+
+res.km <- distance_from_pb(
+  x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
+)
+head(res.km)
 }

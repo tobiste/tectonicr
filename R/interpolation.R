@@ -2,7 +2,7 @@
 #'
 #' IERS mean radius of Earth in km (based on WGS 84)
 #' @export
-earth_radius <- function(){
+earth_radius <- function() {
   6371.0087714
 }
 
@@ -43,35 +43,6 @@ wcmedian <- function(x, w) {
   c(median_s, iqr_s)
 }
 
-#' Helper function for distance of coordinates to grid point
-#'
-#' Returns the distance between a locations and a grid point in km
-#'
-#' @param lat_g,lon_g coordinate of grid point (degree)
-#' @param lat,lon coordinates of points (degree)
-#' @examples
-#' \dontrun{
-#'   ddistance(lat_g = 20, lon_g = 12, lat = c(50, 30), lon = c(40, 32))
-#' }
-ddistance <- function(lat_g, lon_g, lat, lon) {
-  r <- earth_radius() # earth radius in km
-
-  phi1 <- deg2rad(lon_g) # azimuth angle
-  phi2 <- deg2rad(lon)
-  theta1 <- deg2rad(90 - lat_g) # polar angle / colatitude
-  theta2 <- deg2rad(90 - lat)
-
-  x1 <- r * sin(theta1) * cos(phi1)
-  y1 <- r * sin(theta1) * sin(phi1)
-  z1 <- r * cos(theta1)
-  x2 <- r * sin(theta2) * cos(phi2)
-  y2 <- r * sin(theta2) * sin(phi2)
-  z2 <- r * cos(theta2)
-
-  sqrt((x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2) # distance in km
-}
-
-
 #' Stress2Grid
 #'
 #' Stress pattern and wavelength analysis
@@ -108,8 +79,8 @@ ddistance <- function(lat_g, lon_g, lat, lon) {
 #' (0 to 1). Default is 0.1
 #' @param R_range Numeric value or vector specifying the search radius (im km).
 #' Default is \code{seq(50, 1000, 50)}
+#' @param ... optional arguments to [dist_greatcircle()]
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
-#' st_distance
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by mutate
 #' @returns
@@ -124,6 +95,7 @@ ddistance <- function(lat_g, lon_g, lat, lon) {
 #' }
 #' @details Calculates the weighted mean and standard deviation of the stress
 #' data
+#' @seealso [dist_greatcircle()]
 #' @source \url{https://github.com/MorZieg/Stress2Grid}
 #' @references Ziegler, M. O. and Heidbach, O. (2019).
 #' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
@@ -143,8 +115,8 @@ stress2grid <- function(x,
                         quality_weighting = TRUE,
                         dist_weight = c("inverse", "linear", "none"),
                         dist_threshold = 0.1,
-                        R_range = seq(50, 1000, 50)
-                        ) {
+                        R_range = seq(50, 1000, 50),
+                        ...) {
   stopifnot(inherits(x, "sf"))
   stopifnot(is.numeric(gridsize))
   stopifnot(is.numeric(threshold))
@@ -228,10 +200,10 @@ stress2grid <- function(x,
   SH <- c()
 
   for (i in 1:n_G) {
-    #distij <- ddistance(YG[i], XG[i], datas$lat, datas$lon)
-    distij <-
-      sf::st_distance(datas, G[i], which = "Great Circle", radius = earth_radius()) %>% # in kilometer
-      as.numeric()
+    distij <- dist_greatcircle(YG[i], XG[i], datas$lat, datas$lon, ...)
+    # distij <-
+    #   sf::st_distance(datas, G[i], which = "Great Circle", radius = earth_radius()) %>% # in kilometer
+    #   as.numeric()
 
     if (min(distij) <= arte_thres) {
       for (k in 1:length(R_range)) {
@@ -340,6 +312,7 @@ stress2grid <- function(x,
 #' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
 #' @importFrom sf st_as_sf st_coordinates
+#' @seealso [stress2grid()]
 #' @export
 #' @examples
 #' data("san_andreas")

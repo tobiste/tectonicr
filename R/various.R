@@ -40,6 +40,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' data("san_andreas")
 #' quantise_wsm_quality(san_andreas$quality[1:20])
 quantise_wsm_quality <- function(x) {
+  stopifnot(is.character(x))
   unc <- c()
   for (i in seq_along(x)) {
     unc[i] <- ifelse(x[i] == "A", 15,
@@ -81,8 +82,10 @@ distance_mod <- function(x) {
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the
 #' default).
+#' @param km Logical. Whether the distance is expressed in kilometers
+#' (\code{TRUE}) or in degrees (\code{FALSE}, the default).
 #' @param ... optional arguments passed to [smoothr::densify()]
-#' @return Numeric vector of the great circle distances in degree
+#' @return Numeric vector of the great circle distances
 #' @details The distance to the plate boundary is the longitudinal or
 #' latitudinal difference between the data point and the plate boundary
 #' (along the closest latitude or longitude) for inward/outward or tangential
@@ -103,11 +106,17 @@ distance_mod <- function(x) {
 #'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
-distance_from_pb <- function(x, ep, pb, tangential = FALSE, ...) {
+#'
+#' res.km <- distance_from_pb(
+#'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
+#' )
+#' head(res.km)
+distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
     inherits(x, "sf") &
       inherits(pb, "sf") & is.data.frame(ep) &
-      is.logical(tangential)
+      is.logical(tangential) &
+      is.logical(km)
   )
 
   x.por <- geographical_to_PoR(x, ep)
@@ -127,12 +136,18 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, ...) {
       # latitudinal differences for tangential plate boundaries and
       # select the one with the closest longitude
       q <- which.min(delta.lon)
-      dist[i] <- delta.lat[q]
+      dist[i] <- delta.lat[q] # latitudinal difference in degree
+      if (km) {
+        dist[i] <- deg2rad(dist[i]) * earth_radius() # great circle distance
+      }
     } else {
       # longitudinal differences for inward/outward plate boundaries and
       # select the one with the closest latitude
       q <- which.min(delta.lat)
-      dist[i] <- delta.lon[q]
+      dist[i] <- delta.lon[q] # longitudinal difference in degree
+      if (km) {
+        dist[i] <- deg2rad(dist[i]) * earth_radius() * cosd(x.coords[i, 2]) # small circle distance
+      }
     }
   }
   dist

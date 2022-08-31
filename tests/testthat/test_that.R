@@ -1,6 +1,6 @@
 data("pb2002")
 data("plates")
-#data("wsm2016")
+# data("wsm2016")
 data("nuvel1")
 data("nuvel1_plates")
 data("san_andreas")
@@ -69,6 +69,10 @@ distance_from_pb(
   x = san_andreas, ep = euler, pb = plate_boundary, tangential = TRUE
 )
 
+distance_from_pb(
+  x = san_andreas, ep = euler, pb = plate_boundary, tangential = TRUE, km = TRUE
+)
+
 test.vals <- c(175, 179, 2, 4)
 test.weights <- 1 / c(5, 1, 2, 4)
 
@@ -125,8 +129,6 @@ test_that("Message expected", {
 # test error -------------------------------------------------------------------
 test_that("Error message if incorrect type argument", {
   expect_error(misfit_shmax(c(1, 2), c(1)))
-  expect_error(angle_vectors(NA, NA))
-  expect_error(angle_vectors(c(1, 0), NA))
   expect_error(cartesian_to_geographical(1))
   expect_error(geographical_to_cartesian(1))
   expect_error(cartesian_to_geographical(NA))
@@ -152,4 +154,3 @@ test_that("Error message if incorrect type argument", {
   expect_error(eulerpole_loxodromes(ep1, angle = 90, cw = FALSE))
   expect_error(eulerpole_paths(ep3))
 })
-
