@@ -66,7 +66,7 @@
 <span>  <span class="va">lat2</span>,</span>
 <span>  <span class="va">lon2</span>,</span>
 <span>  r <span class="op">=</span> <span class="fu"><a href="earth_radius.html">earth_radius</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"haversine"</span>, <span class="st">"haversine2"</span>, <span class="st">"vincenty"</span>, <span class="st">"euclidean"</span><span class="op">)</span></span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"haversine"</span>, <span class="st">"orthodrome"</span>, <span class="st">"vincenty"</span>, <span class="st">"euclidean"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -81,22 +81,22 @@
 
 
 <dt>r</dt>
-<dd><p>numeric. radius of the sphere (default = 6371.0087714 km, i.e. the radius of
-the Earth)</p></dd>
+<dd><p>numeric. radius of the sphere (default = 6371.0087714 km, i.e. the
+radius of the Earth)</p></dd>
 
 
 <dt>method</dt>
-<dd><p>Character. Formulae for calculating great circle distance is
-one of:</p><dl><dt><code>"orthodrome_haversine"</code></dt>
-<dd><p>uses Haversine formula (the default)</p></dd>
+<dd><p>Character. Formula for calculating great circle distance,
+one of:</p><dl><dt><code>"haversine"</code></dt>
+<dd><p>great circle distance based on the haversine
+formula that is optimized for 64-bit floating-point numbers (the default)</p></dd>
 
-<dt><code>"orthodrome_haversine2"</code></dt>
-<dd><p>uses Haversine formula optimized for 64-bit
-floating-point numbers</p></dd>
+<dt><code>"orthodrome"</code></dt>
+<dd><p>great circle distance based on the spherical law of cosines</p></dd>
 
-<dt><code>"orthodrome_vincenty"</code></dt>
-<dd><p>uses Vincenty formula for an ellipsoid with
-equal major and minor axes</p></dd>
+<dt><code>"vincenty"</code></dt>
+<dd><p>distance based on the Vincenty formula for an
+ellipsoid with equal major and minor axes</p></dd>
 
 <dt>"euclidean"</dt>
 <dd><p>Euclidean distance (not great circle distance!)</p></dd>
@@ -107,7 +107,7 @@ equal major and minor axes</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="spherical_angle.html">orthodrome_haversine()</a></code>, <code><a href="spherical_angle.html">orthodrome_haversine2()</a></code>, <code><a href="spherical_angle.html">orthodrome_vincenty()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="spherical_angle.html">orthodrome()</a></code>, <code><a href="spherical_angle.html">haversine()</a></code>, <code><a href="spherical_angle.html">vincenty()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -116,7 +116,7 @@ equal major and minor axes</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4149.157 2296.583</span>
 <span class="r-in"><span><span class="fu">dist_greatcircle</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  lat1 <span class="op">=</span> <span class="fl">20</span>, lon1 <span class="op">=</span> <span class="fl">12</span>, lat2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">30</span><span class="op">)</span>, lon2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">32</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"haversine2"</span></span></span>
+<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"orthodrome"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4149.157 2296.583</span>
 <span class="r-in"><span><span class="fu">dist_greatcircle</span><span class="op">(</span></span></span>

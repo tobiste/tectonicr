@@ -63,11 +63,11 @@ the surface of the sphere</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">orthodrome_haversine</span><span class="op">(</span><span class="va">lat1</span>, <span class="va">lon1</span>, <span class="va">lat2</span>, <span class="va">lon2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">orthodrome</span><span class="op">(</span><span class="va">lat1</span>, <span class="va">lon1</span>, <span class="va">lat2</span>, <span class="va">lon2</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">orthodrome_haversine2</span><span class="op">(</span><span class="va">lat1</span>, <span class="va">lon1</span>, <span class="va">lat2</span>, <span class="va">lon2</span><span class="op">)</span></span>
+<span><span class="fu">haversine</span><span class="op">(</span><span class="va">lat1</span>, <span class="va">lon1</span>, <span class="va">lat2</span>, <span class="va">lon2</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">orthodrome_vincenty</span><span class="op">(</span><span class="va">lat1</span>, <span class="va">lon1</span>, <span class="va">lat2</span>, <span class="va">lon2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">vincenty</span><span class="op">(</span><span class="va">lat1</span>, <span class="va">lon1</span>, <span class="va">lat2</span>, <span class="va">lon2</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -89,26 +89,32 @@ the surface of the sphere</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     
-<dl><dt><code>"orthodrome_haversine"</code></dt>
-<dd><p>uses Haversine formula (the default)</p></dd>
+<dl><dt><code>"orthodrome"</code></dt>
+<dd><p>based on the spherical law of cosines</p></dd>
 
-<dt><code>"orthodrome_haversine2"</code></dt>
-<dd><p>uses Haversine formula optimized for 64-bit
-floating-point numbers</p></dd>
+<dt><code>"haversine"</code></dt>
+<dd><p>uses haversine formula that is
+optimized for 64-bit floating-point numbers</p></dd>
 
-<dt><code>"orthodrome_vincenty"</code></dt>
-<dd><p>uses Vincenty formula for an ellipsoid with
-equal major and minor axes</p></dd>
+<dt><code>"vincenty"</code></dt>
+<dd><p>uses Vincenty formula for an ellipsoid
+with equal major and minor axes</p></dd>
 
 
 </dl></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     
-<ul><li><p>Imboden, C. &amp; Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei der
-Berechnung von Richtung und Distanz zwischen Beringungs- und Wiederfundort.
+<ul><li><p>Imboden, C. &amp; Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
+der Berechnung von Richtung und Distanz zwischen Beringungs- und
+Wiederfundort.
 <em>Die Vogelwarte</em> <strong>26</strong>, 336-346.</p></li>
-<li><p>Sinnott, Roger W. (1984). Virtues of the Haversine. <em>Sky and telescope</em> <strong>68</strong>(2), 158.</p></li>
+<li><p>Sinnott, Roger W. (1984). Virtues of the Haversine. <em>Sky and telescope</em>
+<strong>68</strong>(2), 158.
+Vincenty, T. (1975). Direct and inverse solutions of geodesics on the
+ellipsoid with application of nested equations. <em>Survey Review</em>, <strong>23</strong>(176),
+88–93. <a href="https://doi.org/10.1179/sre.1975.23.176.88" class="external-link">doi:10.1179/sre.1975.23.176.88</a>
+.</p></li>
 <li><p><a href="http://www.movable-type.co.uk/scripts/latlong.html" class="external-link">http://www.movable-type.co.uk/scripts/latlong.html</a></p></li>
 <li><p><a href="http://www.edwilliams.org/avform147.htm" class="external-link">http://www.edwilliams.org/avform147.htm</a></p></li>
 </ul></div>
@@ -117,11 +123,11 @@ Berechnung von Richtung und Distanz zwischen Beringungs- und Wiederfundort.
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">berlin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">52.52</span>, <span class="fl">13.41</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">calgary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">51.04</span>, <span class="op">-</span><span class="fl">114.072</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">orthodrome_haversine</span><span class="op">(</span><span class="va">berlin</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">berlin</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">orthodrome</span><span class="op">(</span><span class="va">berlin</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">berlin</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8595483</span>
-<span class="r-in"><span><span class="fu">orthodrome_haversine2</span><span class="op">(</span><span class="va">berlin</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">berlin</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">haversine</span><span class="op">(</span><span class="va">berlin</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">berlin</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8595483</span>
-<span class="r-in"><span><span class="fu">orthodrome_vincenty</span><span class="op">(</span><span class="va">berlin</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">berlin</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vincenty</span><span class="op">(</span><span class="va">berlin</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">berlin</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">calgary</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8595483</span>
 </code></pre></div>
     </div>
