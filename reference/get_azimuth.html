@@ -70,10 +70,6 @@ sphere.</p>
     </div>
 
     <div class="section level2">
-    <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p><a href="http://www.movable-type.co.uk/scripts/latlong.html" class="external-link">http://www.movable-type.co.uk/scripts/latlong.html</a></p>
-    </div>
-    <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>a, b</dt>
 <dd><p>Coordinates of start and end point(s).
@@ -90,12 +86,16 @@ Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This formula is for the initial bearing (sometimes referred to as
 forward azimuth) which if followed in a straight line along a great circle
-arc will lead from the start point a to the end point b.
+arc will lead from the start point <code>a</code> to the end point <code>b</code>.
 $$\theta = \arctan2 (\sin \Delta\lambda *
 \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)$$
 where  \(\psi_1, \lambda_1\) is the start point, \(\psi_2\),
 \(\lambda_2\) the end point (\(\Delta\lambda\) is the difference in
 longitude)</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p><a href="http://www.movable-type.co.uk/scripts/latlong.html" class="external-link">http://www.movable-type.co.uk/scripts/latlong.html</a></p>
     </div>
 
     <div class="section level2">

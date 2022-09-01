@@ -73,11 +73,11 @@ the surface of the sphere</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>lat1, lat2</dt>
-<dd><p>numeric vector; latitudes of point 1 and 2 (in radians)</p></dd>
+<dd><p>numeric vector. latitudes of point 1 and 2 (in radians)</p></dd>
 
 
 <dt>lon1, lon2</dt>
-<dd><p>numeric vector; longitudes of point 1 and 2 (in radians)</p></dd>
+<dd><p>numeric vector. longitudes of point 1 and 2 (in radians)</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -89,19 +89,29 @@ the surface of the sphere</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     
-<dl><dt>"orthodrome_haversine"</dt>
+<dl><dt><code>"orthodrome_haversine"</code></dt>
 <dd><p>uses Haversine formula (the default)</p></dd>
 
-<dt>"orthodrome_haversine2"</dt>
+<dt><code>"orthodrome_haversine2"</code></dt>
 <dd><p>uses Haversine formula optimized for 64-bit
 floating-point numbers</p></dd>
 
-<dt>"orthodrome_vincenty"</dt>
+<dt><code>"orthodrome_vincenty"</code></dt>
 <dd><p>uses Vincenty formula for an ellipsoid with
 equal major and minor axes</p></dd>
 
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    
+<ul><li><p>Imboden, C. &amp; Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei der
+Berechnung von Richtung und Distanz zwischen Beringungs- und Wiederfundort.
+<em>Die Vogelwarte</em> <strong>26</strong>, 336-346.</p></li>
+<li><p>Sinnott, Roger W. (1984). Virtues of the Haversine. <em>Sky and telescope</em> <strong>68</strong>(2), 158.</p></li>
+<li><p><a href="http://www.movable-type.co.uk/scripts/latlong.html" class="external-link">http://www.movable-type.co.uk/scripts/latlong.html</a></p></li>
+<li><p><a href="http://www.edwilliams.org/avform147.htm" class="external-link">http://www.edwilliams.org/avform147.htm</a></p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

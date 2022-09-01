@@ -92,19 +92,19 @@ Overridden by <code>binwidth</code>.</p></dd>
 
 
 <dt>axial</dt>
-<dd><p>Logical. Whether data are uniaxial (axial=FALSE)
-or biaxial (axial=TRUE, the default).</p></dd>
+<dd><p>Logical. Whether data are uniaxial (<code>axial=FALSE</code>)
+or biaxial (<code>TRUE</code>, the default).</p></dd>
 
 
 <dt>clockwise</dt>
 <dd><p>Logical. Whether angles increase in the
-clockwise direction (clockwise=TRUE, the default) or anti-clockwise,
-counter-clockwise direction (clockwise=FALSE).</p></dd>
+clockwise direction (<code>clockwise=TRUE</code>, the default) or anti-clockwise,
+counter-clockwise direction (<code>FALSE</code>).</p></dd>
 
 
 <dt>unit</dt>
-<dd><p>The unit in which the angles are expressed. "degrees" the default,
-or "radians".</p></dd>
+<dd><p>The unit in which the angles are expressed.
+<code>"degrees"</code> (the default), or <code>"radians"</code>.</p></dd>
 
 
 <dt>main, sub</dt>
@@ -113,21 +113,22 @@ plot. If <code>sub = NULL</code>, it will show the bin width.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Additional arguments passed to <code>spatstat::rose()</code>.</p></dd>
+<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/spatstat.core/man/rose.html" class="external-link">spatstat.core::rose()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A window (class "owin") containing the plotted region.</p>
+<p>A window (class <code>"owin"</code>) containing the plotted region.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>If bins and binwidth are NULL, an optimal bin width will be calculated using:
+    <p>If <code>bins</code> and <code>binwidth</code> are <code>NULL</code>, an optimal bin width will be
+calculated using:
 $$ \frac{2 IQR(x)}{n^{\frac{1}{3}}}
 $$
-with n being the length of x.</p>
+with n being the length of <code>x</code>.</p>
     </div>
 
     <div class="section level2">
