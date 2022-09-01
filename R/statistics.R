@@ -5,8 +5,8 @@
 #' azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**, p.
-#'   5037-5059, \doi{10.1029/97JB03390}.
+#'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
+#'   5037-5059, doi: 10.1029/97JB03390.
 #' @inheritParams misfit_shmax
 #' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 #' numeric vector or a number

@@ -25,8 +25,8 @@ containing coordinates of Euler pole in lat, lon, and rotation angle
 \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 \code{"ld"} for loxodromes.}
 
-\item{n}{Number of equally spaced curves; \code{n = 10} by default (angular distance
-between curves: \code{180 / n})}
+\item{n}{Number of equally spaced curves; \code{n = 10} by default (angular
+distance between curves: \code{180 / n})}
 
 \item{angle}{Direction of loxodromes; \code{angle = 45} by default.}
 

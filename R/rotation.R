@@ -70,7 +70,7 @@ vcross <- function(x, y) {
 #' Tectonic Plates. In B. S. Daza Sagar, Q. Cheng, J. McKinley and F. Agterberg
 #' (Eds.), *Encyclopedia of Mathematical Geosciences. Encyclopedia of Earth Sciences Series*
 #' (pp. 1--7). Springer Nature Switzerland AG 2021.
-#' \doi{10.1007/978-3-030-26050-7_435-1}
+#' doi: 10.1007/978-3-030-26050-7_435-1.
 #' @returns \code{list}. Euler axes
 #' (geographical coordinates) and Euler angles (in degrees)
 #' @aliases rotation quaternion

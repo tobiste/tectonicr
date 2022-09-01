@@ -2,7 +2,8 @@
 % Please edit documentation in R/model_shmax.R
 \name{PoR_shmax}
 \alias{PoR_shmax}
-\title{Theoretical Direction of Maximum Horizontal Stress in PoR reference system}
+\title{Theoretical Direction of Maximum Horizontal Stress in PoR reference
+system}
 \usage{
 PoR_shmax(df, euler, type = c("in", "out", "right", "left"))
 }

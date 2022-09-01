@@ -59,8 +59,8 @@ wcmedian <- function(x, w) {
 #' and interquartile range (\code{"median"})?
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes.
-#' @param gridsize Numeric. Target spacing of the regular grid in decimal degree.
-#' Default is 2.5
+#' @param gridsize Numeric. Target spacing of the regular grid in decimal
+#' degree. Default is 2.5
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
 #' @param threshold Numeric. Threshold for deviation of orientation. Default is
 #' 25
@@ -190,19 +190,27 @@ stress2grid <- function(x,
       ),
       crs = sf::st_crs(x)
     ) %>%
-    sf::st_make_grid(cellsize = gridsize, what = "centers", offset = c(lon_range[1], lat_range[1]))
+    sf::st_make_grid(
+      cellsize = gridsize,
+      what = "centers",
+      offset = c(lon_range[1], lat_range[1])
+      )
 
   G_coords <- sf::st_coordinates(G) %>% as.data.frame()
   XG <- G_coords$X
   YG <- G_coords$Y
-  n_G <- length(XG)
+  #n_G <- length(XG)
 
   SH <- c()
 
-  for (i in 1:n_G) {
+  for (i in seq_along(XG)) {
     distij <- dist_greatcircle(YG[i], XG[i], datas$lat, datas$lon, ...)
     # distij <-
-    #   sf::st_distance(datas, G[i], which = "Great Circle", radius = earth_radius()) %>% # in kilometer
+    #   sf::st_distance(
+    #   datas, G[i],
+    #   which = "Great Circle",
+    #   radius = earth_radius()
+    #   ) %>% # in kilometer
     #   as.numeric()
 
     if (min(distij) <= arte_thres) {

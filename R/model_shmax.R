@@ -197,7 +197,8 @@ misfit_shmax <- function(prd, obs) {
 }
 
 
-#' @title Theoretical Direction of Maximum Horizontal Stress in PoR reference system
+#' @title Theoretical Direction of Maximum Horizontal Stress in PoR reference
+#' system
 #'
 #' @description Models the direction of maximum horizontal stress
 #' \eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
@@ -266,7 +267,9 @@ PoR_shmax <- function(df, euler, type = c("in", "out", "right", "left")) {
     dev <- azi.por - prd
     nchisq.i <- (deviation_norm(dev) / df$unc)^2 / (90 / df$unc)^2
 
-    data.frame("azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchisq" = nchisq.i)
+    data.frame(
+      "azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchisq" = nchisq.i
+      )
   } else {
     azi.por
   }

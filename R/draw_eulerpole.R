@@ -131,8 +131,8 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @param x Either an object of class \code{"euler.pole"} or \code{"data.frame"}
 #' containing coordinates of Euler pole in lat, lon, and rotation angle
 #' (optional).
-#' @param n Number of equally spaced curves; `n = 10` by default (angular distance
-#' between curves: `180 / n`)
+#' @param n Number of equally spaced curves; `n = 10` by default (angular
+#' distance between curves: `180 / n`)
 #' @param angle Direction of loxodromes; `angle = 45` by default.
 #' @param cw logical. Sense of loxodromes: `TRUE` for clockwise
 #' loxodromes (left-lateral displaced plate boundaries). `FALSE` for
