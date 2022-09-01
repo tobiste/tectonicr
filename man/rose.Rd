@@ -24,33 +24,34 @@ rose(
 \item{bins}{number of arcs to partition the circle width.
 Overridden by \code{binwidth}.}
 
-\item{axial}{Logical. Whether data are uniaxial (axial=FALSE)
-or biaxial (axial=TRUE, the default).}
+\item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
+or biaxial (\code{TRUE}, the default).}
 
 \item{clockwise}{Logical. Whether angles increase in the
-clockwise direction (clockwise=TRUE, the default) or anti-clockwise,
-counter-clockwise direction (clockwise=FALSE).}
+clockwise direction (\code{clockwise=TRUE}, the default) or anti-clockwise,
+counter-clockwise direction (\code{FALSE}).}
 
-\item{unit}{The unit in which the angles are expressed. "degrees" the default,
-or "radians".}
+\item{unit}{The unit in which the angles are expressed.
+\code{"degrees"} (the default), or \code{"radians"}.}
 
 \item{main, sub}{Character string specifying the title and subtitle of the
 plot. If \code{sub = NULL}, it will show the bin width.}
 
-\item{...}{Additional arguments passed to \code{spatstat::rose()}.}
+\item{...}{Additional arguments passed to \code{\link[spatstat.core:rose]{spatstat.core::rose()}}.}
 }
 \value{
-A window (class "owin") containing the plotted region.
+A window (class \code{"owin"}) containing the plotted region.
 }
 \description{
 Plots a rose diagram (rose of directions), the analogue of a
 histogram or density plot for angular data.
 }
 \note{
-If bins and binwidth are NULL, an optimal bin width will be calculated using:
+If \code{bins} and \code{binwidth} are \code{NULL}, an optimal bin width will be
+calculated using:
 \deqn{ \frac{2 IQR(x)}{n^{\frac{1}{3}}}
 }
-with n being the length of x.
+with n being the length of \code{x}.
 }
 \examples{
 x <- runif(100, 60, 210)

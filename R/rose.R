@@ -6,22 +6,23 @@
 #' @param x Data to be plotted. A numeric vector containing angles.
 #' @param binwidth The width of the bins.
 #' @param bins number of arcs to partition the circle width.
-#' Overridden by \code{binwidth}.
-#' @param axial Logical. Whether data are uniaxial (axial=FALSE)
-#' or biaxial (axial=TRUE, the default).
+#' Overridden by `binwidth`.
+#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' or biaxial (`TRUE`, the default).
 #' @param clockwise Logical. Whether angles increase in the
-#' clockwise direction (clockwise=TRUE, the default) or anti-clockwise,
-#' counter-clockwise direction (clockwise=FALSE).
-#' @param unit The unit in which the angles are expressed. "degrees" the default,
-#' or "radians".
+#' clockwise direction (`clockwise=TRUE`, the default) or anti-clockwise,
+#' counter-clockwise direction (`FALSE`).
+#' @param unit The unit in which the angles are expressed.
+#' `"degrees"` (the default), or `"radians"`.
 #' @param main,sub Character string specifying the title and subtitle of the
-#' plot. If \code{sub = NULL}, it will show the bin width.
-#' @param ... Additional arguments passed to \code{spatstat::rose()}.
-#' @note If bins and binwidth are NULL, an optimal bin width will be calculated using:
+#' plot. If `sub = NULL`, it will show the bin width.
+#' @param ... Additional arguments passed to [spatstat.core::rose()].
+#' @note If `bins` and `binwidth` are `NULL`, an optimal bin width will be
+#' calculated using:
 #' \deqn{ \frac{2 IQR(x)}{n^{\frac{1}{3}}}
 #' }
-#' with n being the length of x.
-#' @return A window (class "owin") containing the plotted region.
+#' with n being the length of `x`.
+#' @return A window (class `"owin"`) containing the plotted region.
 #' @importFrom spatstat.core rose
 #' @importFrom graphics hist title
 #' @importFrom stats na.omit

@@ -18,6 +18,6 @@ respectively.}
 returns the quadrant specific inverse of the tangent
 }
 \references{
-Jammalamadaka, S. Rao, and Ambar Sengupta. Topics in circular
-statistics. Vol. 5. world scientific, 2001.
+Jammalamadaka, S. Rao, and Ambar Sengupta (2001). Topics in
+circular statistics. Vol. 5. world scientific.
 }

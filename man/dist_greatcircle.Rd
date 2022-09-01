@@ -10,33 +10,45 @@ dist_greatcircle(
   lat2,
   lon2,
   r = earth_radius(),
-  method = c("haversine", "haversine2", "vincenty")
+  method = c("haversine", "haversine2", "vincenty", "euclidean")
 )
 }
 \arguments{
-\item{lat1, lon1}{coordinate of point(s) 1 (degrees).}
+\item{lat1, lon1}{numeric vector. coordinate of point(s) 1 (degrees).}
 
-\item{lat2, lon2}{coordinates of point(s) 2 (degrees).}
+\item{lat2, lon2}{numeric vector. coordinates of point(s) 2 (degrees).}
 
-\item{r}{radius of the sphere (default = 6371.0087714 km, i.e. the radius of
+\item{r}{numeric. radius of the sphere (default = 6371.0087714 km, i.e. the radius of
 the Earth)}
 
-\item{method}{Formula for calculating great circle distance:
+\item{method}{Character. Formulae for calculating great circle distance is
+one of:
 \describe{
-\item{"haversine"}{Haversine formula (the default)}
-\item{"haversine2"}{Haversine formula optimized for 64-bit floating-point numbers}
-\item{"vincenty"}{Vincenty formula for an ellipsoid with equal major and minor axes}
+\item{\code{"orthodrome_haversine"}}{uses Haversine formula (the default)}
+\item{\code{"orthodrome_haversine2"}}{ uses Haversine formula optimized for 64-bit
+floating-point numbers}
+\item{\code{"orthodrome_vincenty"}}{uses Vincenty formula for an ellipsoid with
+equal major and minor axes}
+\item{"euclidean"}{Euclidean distance (not great circle distance!)}
 }}
 }
 \description{
-Returns the great-circle distance between a location and all grid point in km
+Returns the great circle distance between a location and all grid point in km
 }
 \examples{
 dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
-dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
-method = "haversine2")
-dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
-method = "vincenty")
+dist_greatcircle(
+  lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
+  method = "haversine2"
+)
+dist_greatcircle(
+  lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
+  method = "vincenty"
+)
+dist_greatcircle(
+  lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
+  method = "euclidean"
+)
 }
 \seealso{
 \code{\link[=orthodrome_haversine]{orthodrome_haversine()}}, \code{\link[=orthodrome_haversine2]{orthodrome_haversine2()}}, \code{\link[=orthodrome_vincenty]{orthodrome_vincenty()}}

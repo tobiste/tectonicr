@@ -2,7 +2,7 @@
 % Please edit documentation in R/various.R
 \name{quantise_wsm_quality}
 \alias{quantise_wsm_quality}
-\title{Quantize World Stress Map Quality Ranking}
+\title{Numerical values to World Stress Map Quality Ranking}
 \usage{
 quantise_wsm_quality(x)
 }
@@ -13,8 +13,8 @@ quantise_wsm_quality(x)
 \code{"integer"} or vector of type \code{"integer"}
 }
 \description{
-Relates the categorical quality ranking of the World Stress Map (A, B, C, D)
-to numeric values of the precision of each measurement.
+Assigns numeric values of the precision of each measurement to the
+categorical quality ranking of the World Stress Map (A, B, C, D).
 }
 \examples{
 quantise_wsm_quality(c("A", "B", "C", "D", NA))
@@ -22,9 +22,9 @@ data("san_andreas")
 quantise_wsm_quality(san_andreas$quality[1:20])
 }
 \references{
-Heidbach, O.; Barth, A.; Müller, B.; Reinecker, J.;
-Stephansson, O.; Tingay, M.; Zang, A. (2016). WSM quality
+Heidbach, O., Barth, A., Müller, B., Reinecker, J.,
+Stephansson, O., Tingay, M., Zang, A. (2016). WSM quality
 ranking scheme, database description and analysis guidelines for stress
-indicator. World Stress Map Technical Report 16-01, GFZ German Research
+indicator. \emph{World Stress Map Technical Report} \strong{16-01}, GFZ German Research
 Centre for Geosciences. \doi{10.2312/wsm.2016.001}
 }

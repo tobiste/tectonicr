@@ -73,11 +73,11 @@ wcmedian <- function(x, w) {
 #' Default is
 #' \code{TRUE}.
 #' @param dist_weight Distance weighting method which should be used. One of
-#' "none", "linear", or "inverse" (the default).
+#' `"none"`, `"linear"`, or `"inverse"` (the default).
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
 #' nearby
 #' (0 to 1). Default is 0.1
-#' @param R_range Numeric value or vector specifying the search radius (im km).
+#' @param R_range Numeric value or vector specifying the search radius (in km).
 #' Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
@@ -354,9 +354,9 @@ PoR_stress2grid <- function(x, ep, ...) {
 
 #' Compact smoothed stress field
 #'
-#' Filter smoothed stress field to lowest R per coordinate
+#' Filter smoothed stress field to smallest wavelength (R) for each coordinate
 #'
-#' @param x output of \code{stress2grid()} or \code{PoR_stress2grid()}
+#' @param x output of [stress2grid()] or [PoR_stress2grid()]
 #' @return \code{sf} object
 #' @importFrom magrittr %>%
 #' @importFrom dplyr ungroup mutate group_by filter summarise select left_join

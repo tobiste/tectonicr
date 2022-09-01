@@ -17,7 +17,7 @@ eulerpole_greatcircles(x, n = 10)
 eulerpole_loxodromes(x, n = 10, angle = 45, cw)
 }
 \arguments{
-\item{x}{Either an object of class \code{"euler.pole"} or \code{data.frame}
+\item{x}{Either an object of class \code{"euler.pole"} or \code{"data.frame"}
 containing coordinates of Euler pole in lat, lon, and rotation angle
 (optional).}
 
@@ -25,10 +25,10 @@ containing coordinates of Euler pole in lat, lon, and rotation angle
 \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 \code{"ld"} for loxodromes.}
 
-\item{n}{Number of equally spaced curves; n = 10 by default (angular distance
-between curves: 180 / n)}
+\item{n}{Number of equally spaced curves; \code{n = 10} by default (angular distance
+between curves: \code{180 / n})}
 
-\item{angle}{Direction of loxodromes; angle = 45 by default.}
+\item{angle}{Direction of loxodromes; \code{angle = 45} by default.}
 
 \item{cw}{logical. Sense of loxodromes: \code{TRUE} for clockwise
 loxodromes (left-lateral displaced plate boundaries). \code{FALSE} for
@@ -47,7 +47,7 @@ Maximum horizontal stress can be aligned to three types of curves
 related to relative plate motion:
 \describe{
 \item{Small circles}{Lines that have a constant distance to the Euler pole.
-If x contains \code{angle}, output additionally gives absolute
+If \code{x} contains \code{angle}, output additionally gives absolute
 velocity on small circle (degree/Myr -> km/Myr).}
 \item{Great circles}{Paths of the shortest distance between the Euler
 pole and its antipodal position.}

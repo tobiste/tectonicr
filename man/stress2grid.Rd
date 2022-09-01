@@ -60,13 +60,13 @@ Default is
 \code{TRUE}.}
 
 \item{dist_weight}{Distance weighting method which should be used. One of
-"none", "linear", or "inverse" (the default).}
+\code{"none"}, \code{"linear"}, or \code{"inverse"} (the default).}
 
 \item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
 nearby
 (0 to 1). Default is 0.1}
 
-\item{R_range}{Numeric value or vector specifying the search radius (im km).
+\item{R_range}{Numeric value or vector specifying the search radius (in km).
 Default is \code{seq(50, 1000, 50)}}
 
 \item{...}{optional arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}

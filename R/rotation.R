@@ -3,9 +3,9 @@
 #' @param x latitude or x coordinate of Euler pole axis
 #' @param y longitude or y
 #' @param z z coordinate
-#' @param geo logical,\code{TRUE} (the default) if Euler pole axis is given in
-#' geographical coordinates (latitude, longitude). \code{FALSE} if given in
-#' Cartesian coordinates (x, y, z)
+#' @param geo logical, `TRUE` (the default) if Euler pole axis is given in
+#' geographical coordinates (latitude, longitude). `FALSE` if given in
+#' Cartesian coordinates (`x`, `y`, `z`)
 #' @param angle (optional) Angle of rotation in degrees (CCW rotation if angle
 #' is positive)
 #' @return An object of class \code{"euler.pole"} containing the Euler pole
@@ -65,7 +65,7 @@ vcross <- function(x, y) {
 #' difference from rotation 1 to rotation 2.
 #'
 #' @param r1,r2 Objects of class \code{"euler.pole"}. First rotation is
-#' \code{r1}, followed rotation \code{r2}.
+#' `r1`, followed rotation `r2`.
 #' @references Schaeben, H., Kroner, U. and Stephan, T. (2021). Euler Poles of
 #' Tectonic Plates. In B. S. Daza Sagar, Q. Cheng, J. McKinley and F. Agterberg
 #' (Eds.), *Encyclopedia of Mathematical Geosciences. Encyclopedia of Earth Sciences Series*

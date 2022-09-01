@@ -5,8 +5,8 @@
 #' azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics. *Journal of Geophysical Research: Solid Earth*, v. 103, p.
-#'   5037-5059, doi: 10.1029/97JB03390.
+#'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**, p.
+#'   5037-5059, \doi{10.1029/97JB03390}.
 #' @inheritParams misfit_shmax
 #' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 #' numeric vector or a number
@@ -87,8 +87,8 @@ norm_chisq <- function(obs, prd, unc) {
 #' variance, deviation, and error of orientation data.
 #'
 #' @param x Numeric vector in degrees.
-#' @param quiet logical. If false, a warning message is printed if there are NA
-#' values.
+#' @param quiet logical. If false, a warning message is printed if there are
+#' `NA` values.
 #'
 #' @return Numeric vector
 #'
@@ -101,11 +101,11 @@ norm_chisq <- function(obs, prd, unc) {
 #' @references
 #' * Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
 #' A New Estimator of a Circular Median. *Communications in Statistics -
-#' Simulation and Computation*, 38(6), 1269--1291.
+#' Simulation and Computation*, **38**(6), 1269-1291.
 #' \doi{10.1080/03610910902899950}.
 #' * Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M., & Moeck, I.
 #' (2014). A revised crustal stress orientation database for Canada.
-#' *Tectonophysics*, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}
+#' *Tectonophysics*, **636**, 111-124. \doi{10.1016/j.tecto.2014.08.006}
 #'
 #' @importFrom stats median
 #' @examples
@@ -333,11 +333,11 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
 #' Mathematical Statistics. London: Academic Press.
 #' * Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
-#' Stress2Grid v1.1. (WSM Technical Report; 19-02),
+#' Stress2Grid v1.1. *WSM Technical Report* 19-02,
 #' GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}
-#' * Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfeß, D., & Müller,
+#' * Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfess, D., & Mueller,
 #' B. (2010). Global crustal stress pattern based on the World Stress Map
-#' database release 2008. *Tectonophysics* 482, 3–-15,
+#' database release 2008. *Tectonophysics* **482**, 3–15,
 #' \doi{10.1016/j.tecto.2009.07.023}
 #' @examples
 #' x <- c(175, 179, 0, 2, 4) + 90

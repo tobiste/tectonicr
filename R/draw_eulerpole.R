@@ -128,24 +128,24 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' the relative plate motion.
 #'
 #' @author Tobias Stephan
-#' @param x Either an object of class \code{"euler.pole"} or \code{data.frame}
+#' @param x Either an object of class \code{"euler.pole"} or \code{"data.frame"}
 #' containing coordinates of Euler pole in lat, lon, and rotation angle
 #' (optional).
-#' @param n Number of equally spaced curves; n = 10 by default (angular distance
-#' between curves: 180 / n)
-#' @param angle Direction of loxodromes; angle = 45 by default.
-#' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
-#' loxodromes (left-lateral displaced plate boundaries). \code{FALSE} for
+#' @param n Number of equally spaced curves; `n = 10` by default (angular distance
+#' between curves: `180 / n`)
+#' @param angle Direction of loxodromes; `angle = 45` by default.
+#' @param cw logical. Sense of loxodromes: `TRUE` for clockwise
+#' loxodromes (left-lateral displaced plate boundaries). `FALSE` for
 #' counterclockwise loxodromes (right-lateral displaced plate boundaries).
 #' @param type Character string specifying the type of curves to export. Either
 #' \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 #' \code{"ld"} for loxodromes.
-#' @return \code{sf} object
+#' @return `sf` object
 #' @details Maximum horizontal stress can be aligned to three types of curves
 #' related to relative plate motion:
 #' \describe{
 #' \item{Small circles}{Lines that have a constant distance to the Euler pole.
-#' If x contains \code{angle}, output additionally gives absolute
+#' If `x` contains `angle`, output additionally gives absolute
 #' velocity on small circle (degree/Myr -> km/Myr).}
 #' \item{Great circles}{Paths of the shortest distance between the Euler
 #' pole and its antipodal position.}

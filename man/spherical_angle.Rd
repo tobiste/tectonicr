@@ -14,9 +14,9 @@ orthodrome_haversine2(lat1, lon1, lat2, lon2)
 orthodrome_vincenty(lat1, lon1, lat2, lon2)
 }
 \arguments{
-\item{lat1, lat2}{numeric vector; latitudes of point 1 and 2 (in radians)}
+\item{lat1, lat2}{numeric vector. latitudes of point 1 and 2 (in radians)}
 
-\item{lon1, lon2}{numeric vector; longitudes of point 1 and 2 (in radians)}
+\item{lon1, lon2}{numeric vector. longitudes of point 1 and 2 (in radians)}
 }
 \value{
 angle in radians
@@ -27,10 +27,10 @@ the surface of the sphere
 }
 \details{
 \describe{
-\item{"orthodrome_haversine"}{uses Haversine formula (the default)}
-\item{"orthodrome_haversine2"}{ uses Haversine formula optimized for 64-bit
+\item{\code{"orthodrome_haversine"}}{uses Haversine formula (the default)}
+\item{\code{"orthodrome_haversine2"}}{ uses Haversine formula optimized for 64-bit
 floating-point numbers}
-\item{"orthodrome_vincenty"}{uses Vincenty formula for an ellipsoid with
+\item{\code{"orthodrome_vincenty"}}{uses Vincenty formula for an ellipsoid with
 equal major and minor axes}
 }
 }
@@ -40,4 +40,14 @@ calgary <- c(51.04, -114.072)
 orthodrome_haversine(berlin[1], berlin[2], calgary[1], calgary[2])
 orthodrome_haversine2(berlin[1], berlin[2], calgary[1], calgary[2])
 orthodrome_vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
+}
+\references{
+\itemize{
+\item Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei der
+Berechnung von Richtung und Distanz zwischen Beringungs- und Wiederfundort.
+\emph{Die Vogelwarte} \strong{26}, 336-346.
+\item Sinnott, Roger W. (1984). Virtues of the Haversine. \emph{Sky and telescope} \strong{68}(2), 158.
+\item \url{http://www.movable-type.co.uk/scripts/latlong.html}
+\item \url{http://www.edwilliams.org/avform147.htm}
+}
 }

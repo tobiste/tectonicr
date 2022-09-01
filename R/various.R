@@ -22,17 +22,17 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
   }
 )
 
-#' Quantize World Stress Map Quality Ranking
+#' Numerical values to World Stress Map Quality Ranking
 #'
-#' Relates the categorical quality ranking of the World Stress Map (A, B, C, D)
-#' to numeric values of the precision of each measurement.
+#' Assigns numeric values of the precision of each measurement to the
+#' categorical quality ranking of the World Stress Map (A, B, C, D).
 #'
 #' @param x Either a string or a character vector of WSM quality ranking
 #' @return \code{"integer"} or vector of type \code{"integer"}
-#' @references Heidbach, O.; Barth, A.; Müller, B.; Reinecker, J.;
-#' Stephansson, O.; Tingay, M.; Zang, A. (2016). WSM quality
+#' @references Heidbach, O., Barth, A., Müller, B., Reinecker, J.,
+#' Stephansson, O., Tingay, M., Zang, A. (2016). WSM quality
 #' ranking scheme, database description and analysis guidelines for stress
-#' indicator. World Stress Map Technical Report 16-01, GFZ German Research
+#' indicator. *World Stress Map Technical Report* **16-01**, GFZ German Research
 #' Centre for Geosciences. \doi{10.2312/wsm.2016.001}
 #' @export
 #' @examples
@@ -74,15 +74,15 @@ distance_mod <- function(x) {
 #'
 #' Absolute distance of data points from the nearest plate boundary in degree
 #'
-#' @param x,pb \code{sf} objects of the data points and the plate boundary
+#' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
 #' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
-#' (\code{lat}, \code{lon})
+#' (`lat`, `lon`)
 #' @param tangential Logical. Whether the plate boundary is a tangential
-#' boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the
+#' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
 #' default).
 #' @param km Logical. Whether the distance is expressed in kilometers
-#' (\code{TRUE}) or in degrees (\code{FALSE}, the default).
+#' (`TRUE`) or in degrees (`FALSE`, the default).
 #' @param ... optional arguments passed to [smoothr::densify()]
 #' @return Numeric vector of the great circle distances
 #' @details The distance to the plate boundary is the longitudinal or

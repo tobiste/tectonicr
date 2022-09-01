@@ -35,8 +35,8 @@ circular_mean_error(x, quiet = TRUE)
 \arguments{
 \item{x}{Numeric vector in degrees.}
 
-\item{quiet}{logical. If false, a warning message is printed if there are NA
-values.}
+\item{quiet}{logical. If false, a warning message is printed if there are
+\code{NA} values.}
 }
 \value{
 Numeric vector
@@ -67,10 +67,10 @@ circular_quasi_median(san_andreas$azi)
 \itemize{
 \item Ratanaruamkarn, S., Niewiadomska-Bugaj, M., Wang, J.-C. (2009).
 A New Estimator of a Circular Median. \emph{Communications in Statistics -
-Simulation and Computation}, 38(6), 1269--1291.
+Simulation and Computation}, \strong{38}(6), 1269-1291.
 \doi{10.1080/03610910902899950}.
 \item Reiter, K., Heidbach, O., Schmitt, D., Haug, K., Ziegler, M., & Moeck, I.
 (2014). A revised crustal stress orientation database for Canada.
-\emph{Tectonophysics}, 636, 111-124. \doi{10.1016/j.tecto.2014.08.006}
+\emph{Tectonophysics}, \strong{636}, 111-124. \doi{10.1016/j.tecto.2014.08.006}
 }
 }

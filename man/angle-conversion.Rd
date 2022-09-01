@@ -16,7 +16,7 @@ deg2rad(deg)
 \item{deg}{(array of) angles in degrees.}
 }
 \value{
-The angle in degrees or radians.
+angle in degrees or radians.
 }
 \description{
 Helper functions to transform between angles in degrees and

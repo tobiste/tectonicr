@@ -32,6 +32,6 @@ atan2d(x1, x2)
 Returns a scalar or vector of numeric values.
 }
 \description{
-Trigonometric functions expecting input in degrees, not radians.
+Trigonometric functions expecting input in degrees.
 }
 \keyword{internal}

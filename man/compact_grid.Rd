@@ -7,13 +7,13 @@
 compact_grid(x)
 }
 \arguments{
-\item{x}{output of \code{stress2grid()} or \code{PoR_stress2grid()}}
+\item{x}{output of \code{\link[=stress2grid]{stress2grid()}} or \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}}
 }
 \value{
 \code{sf} object
 }
 \description{
-Filter smoothed stress field to lowest R per coordinate
+Filter smoothed stress field to smallest wavelength (R) for each coordinate
 }
 \examples{
 data("san_andreas")
