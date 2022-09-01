@@ -147,9 +147,9 @@ ahav <- function(x) {
 #' @examples
 #' berlin <- c(52.52, 13.41)
 #' calgary <- c(51.04, -114.072)
-#' orthodrome_haversine(berlin, calgary)
-#' orthodrome_haversine2(berlin, calgary)
-#' orthodrome_vincenty(berlin, calgary)
+#' orthodrome_haversine(berlin[1], berlin[2], calgary[1], calgary[2])
+#' orthodrome_haversine2(berlin[1], berlin[2], calgary[1], calgary[2])
+#' orthodrome_vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
 NULL
 
 #' @rdname spherical_angle
@@ -188,9 +188,8 @@ orthodrome_vincenty <- function(lat1, lon1, lat2, lon2) {
 #'
 #' Returns the great-circle distance between a location and all grid point in km
 #'
-#' @param grid_lat,grid_lon coordinate of grid point (degrees).
-#' @param point_lat,point_lon coordinates of points (degrees). Must be of
-#' length = 1.
+#' @param lat1,lon1 coordinate of point(s) 1 (degrees).
+#' @param lat2,lon2 coordinates of point(s) 2 (degrees).
 #' @param r radius of the sphere (default = 6371.0087714 km, i.e. the radius of
 #' the Earth)
 #' @param method Formula for calculating great circle distance:
@@ -202,33 +201,32 @@ orthodrome_vincenty <- function(lat1, lon1, lat2, lon2) {
 #' @export
 #' @seealso [orthodrome_haversine()], [orthodrome_haversine2()], [orthodrome_vincenty()]
 #' @examples
-#' dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
-#' point_lon = c(40, 32))
-#' dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
-#' point_lon = c(40, 32), method = "haversine2")
-#' dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
-#' point_lon = c(40, 32), method = "vincenty")
-dist_greatcircle <- function(lats, lons, point_lat, point_lon,
+#' dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
+#' dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
+#' method = "haversine2")
+#' dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
+#' method = "vincenty")
+dist_greatcircle <- function(lat1, lon1, lat2, lon2,
                              r = earth_radius(),
                              method = c("haversine", "haversine2", "vincenty")) {
   method <- match.arg(method)
   stopifnot(is.numeric(r))
-  stopifnot(length(point_lat) == length(point_lon))
-  stopifnot(length(lats) == length(lons))
+  stopifnot(length(lat1) == length(lon1))
+  stopifnot(length(lat2) == length(lat2))
 
-  point_lat <- point_lat * pi / 180
-  point_lon <- point_lon * pi / 180
-  lats <- lats * pi / 180
-  lons <- lons * pi / 180
+  lat1 <- lat1 * pi / 180
+  lon1 <- lon1 * pi / 180
+  lat2 <- lat2 * pi / 180
+  lon2 <- lon2 * pi / 180
 
   if (method == "haversine") {
-    d <- orthodrome_haversine(point_lat, point_lon, lats, lons)
+    d <- orthodrome_haversine(lat1, lon1, lat2, lon2)
   }
   if (method == "haversine2") {
-    d <- orthodrome_haversine2(point_lat, point_lon, lats, lons)
+    d <- orthodrome_haversine2(lat1, lon1, lat2, lon2)
   }
   if (method == "vincenty") {
-    d <- orthodrome_vincenty(point_lat, point_lon, lats, lons)
+    d <- orthodrome_vincenty(lat1, lon1, lat2, lon2)
   }
   d * r
 }

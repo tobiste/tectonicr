@@ -40,7 +40,6 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' data("san_andreas")
 #' quantise_wsm_quality(san_andreas$quality[1:20])
 quantise_wsm_quality <- function(x) {
-  stopifnot(is.character(x))
   unc <- c()
   for (i in seq_along(x)) {
     unc[i] <- ifelse(x[i] == "A", 15,

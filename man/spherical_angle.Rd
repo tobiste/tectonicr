@@ -37,7 +37,7 @@ equal major and minor axes}
 \examples{
 berlin <- c(52.52, 13.41)
 calgary <- c(51.04, -114.072)
-orthodrome_haversine(berlin, calgary)
-orthodrome_haversine2(berlin, calgary)
-orthodrome_vincenty(berlin, calgary)
+orthodrome_haversine(berlin[1], berlin[2], calgary[1], calgary[2])
+orthodrome_haversine2(berlin[1], berlin[2], calgary[1], calgary[2])
+orthodrome_vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
 }

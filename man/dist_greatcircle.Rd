@@ -5,17 +5,18 @@
 \title{Distance between points}
 \usage{
 dist_greatcircle(
-  lats,
-  lons,
-  point_lat,
-  point_lon,
+  lat1,
+  lon1,
+  lat2,
+  lon2,
   r = earth_radius(),
   method = c("haversine", "haversine2", "vincenty")
 )
 }
 \arguments{
-\item{point_lat, point_lon}{coordinates of points (degrees). Must be of
-length = 1.}
+\item{lat1, lon1}{coordinate of point(s) 1 (degrees).}
+
+\item{lat2, lon2}{coordinates of point(s) 2 (degrees).}
 
 \item{r}{radius of the sphere (default = 6371.0087714 km, i.e. the radius of
 the Earth)}
@@ -26,19 +27,16 @@ the Earth)}
 \item{"haversine2"}{Haversine formula optimized for 64-bit floating-point numbers}
 \item{"vincenty"}{Vincenty formula for an ellipsoid with equal major and minor axes}
 }}
-
-\item{grid_lat, grid_lon}{coordinate of grid point (degrees).}
 }
 \description{
 Returns the great-circle distance between a location and all grid point in km
 }
 \examples{
-dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
-point_lon = c(40, 32))
-dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
-point_lon = c(40, 32), method = "haversine2")
-dist_greatcircle(grid_lat = 20, gird_lon = 12, point_lat = c(50, 30),
-point_lon = c(40, 32), method = "vincenty")
+dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
+dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
+method = "haversine2")
+dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
+method = "vincenty")
 }
 \seealso{
 \code{\link[=orthodrome_haversine]{orthodrome_haversine()}}, \code{\link[=orthodrome_haversine2]{orthodrome_haversine2()}}, \code{\link[=orthodrome_vincenty]{orthodrome_vincenty()}}
