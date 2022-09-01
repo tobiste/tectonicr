@@ -2,16 +2,16 @@
 % Please edit documentation in R/trigonometry_degrees.R
 \name{spherical_angle}
 \alias{spherical_angle}
-\alias{orthodrome_haversine}
-\alias{orthodrome_haversine2}
-\alias{orthodrome_vincenty}
+\alias{orthodrome}
+\alias{haversine}
+\alias{vincenty}
 \title{Angle along great circle on spherical surface}
 \usage{
-orthodrome_haversine(lat1, lon1, lat2, lon2)
+orthodrome(lat1, lon1, lat2, lon2)
 
-orthodrome_haversine2(lat1, lon1, lat2, lon2)
+haversine(lat1, lon1, lat2, lon2)
 
-orthodrome_vincenty(lat1, lon1, lat2, lon2)
+vincenty(lat1, lon1, lat2, lon2)
 }
 \arguments{
 \item{lat1, lat2}{numeric vector. latitudes of point 1 and 2 (in radians)}
@@ -27,26 +27,31 @@ the surface of the sphere
 }
 \details{
 \describe{
-\item{\code{"orthodrome_haversine"}}{uses Haversine formula (the default)}
-\item{\code{"orthodrome_haversine2"}}{ uses Haversine formula optimized for 64-bit
-floating-point numbers}
-\item{\code{"orthodrome_vincenty"}}{uses Vincenty formula for an ellipsoid with
-equal major and minor axes}
+\item{\code{"orthodrome"}}{based on the spherical law of cosines}
+\item{\code{"haversine"}}{uses haversine formula that is
+optimized for 64-bit floating-point numbers}
+\item{\code{"vincenty"}}{uses Vincenty formula for an ellipsoid
+with equal major and minor axes}
 }
 }
 \examples{
 berlin <- c(52.52, 13.41)
 calgary <- c(51.04, -114.072)
-orthodrome_haversine(berlin[1], berlin[2], calgary[1], calgary[2])
-orthodrome_haversine2(berlin[1], berlin[2], calgary[1], calgary[2])
-orthodrome_vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
+orthodrome(berlin[1], berlin[2], calgary[1], calgary[2])
+haversine(berlin[1], berlin[2], calgary[1], calgary[2])
+vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
 }
 \references{
 \itemize{
-\item Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei der
-Berechnung von Richtung und Distanz zwischen Beringungs- und Wiederfundort.
+\item Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
+der Berechnung von Richtung und Distanz zwischen Beringungs- und
+Wiederfundort.
 \emph{Die Vogelwarte} \strong{26}, 336-346.
-\item Sinnott, Roger W. (1984). Virtues of the Haversine. \emph{Sky and telescope} \strong{68}(2), 158.
+\item Sinnott, Roger W. (1984). Virtues of the Haversine. \emph{Sky and telescope}
+\strong{68}(2), 158.
+Vincenty, T. (1975). Direct and inverse solutions of geodesics on the
+ellipsoid with application of nested equations. \emph{Survey Review}, \strong{23}(176),
+88–93. \doi{10.1179/sre.1975.23.176.88}.
 \item \url{http://www.movable-type.co.uk/scripts/latlong.html}
 \item \url{http://www.edwilliams.org/avform147.htm}
 }

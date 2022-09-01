@@ -136,32 +136,37 @@ ahav <- function(x) {
 #' @param lat1,lat2 numeric vector. latitudes of point 1 and 2 (in radians)
 #' @param lon1,lon2 numeric vector. longitudes of point 1 and 2 (in radians)
 #' @details \describe{
-#' \item{\code{"orthodrome_haversine"}}{uses Haversine formula (the default)}
-#' \item{\code{"orthodrome_haversine2"}}{ uses Haversine formula optimized for 64-bit
-#' floating-point numbers}
-#' \item{\code{"orthodrome_vincenty"}}{uses Vincenty formula for an ellipsoid with
-#' equal major and minor axes}
+#' \item{\code{"orthodrome"}}{based on the spherical law of cosines}
+#' \item{\code{"haversine"}}{uses haversine formula that is
+#' optimized for 64-bit floating-point numbers}
+#' \item{\code{"vincenty"}}{uses Vincenty formula for an ellipsoid
+#' with equal major and minor axes}
 #' }
 #' @return angle in radians
 #' @references
-#' * Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei der
-#' Berechnung von Richtung und Distanz zwischen Beringungs- und Wiederfundort.
+#' * Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
+#' der Berechnung von Richtung und Distanz zwischen Beringungs- und
+#' Wiederfundort.
 #' *Die Vogelwarte* **26**, 336-346.
-#' * Sinnott, Roger W. (1984). Virtues of the Haversine. *Sky and telescope* **68**(2), 158.
+#' * Sinnott, Roger W. (1984). Virtues of the Haversine. *Sky and telescope*
+#' **68**(2), 158.
+#' Vincenty, T. (1975). Direct and inverse solutions of geodesics on the
+#' ellipsoid with application of nested equations. *Survey Review*, **23**(176),
+#' 88–93. \doi{10.1179/sre.1975.23.176.88}.
 #' * \url{http://www.movable-type.co.uk/scripts/latlong.html}
 #' * \url{http://www.edwilliams.org/avform147.htm}
 #' @name spherical_angle
 #' @examples
 #' berlin <- c(52.52, 13.41)
 #' calgary <- c(51.04, -114.072)
-#' orthodrome_haversine(berlin[1], berlin[2], calgary[1], calgary[2])
-#' orthodrome_haversine2(berlin[1], berlin[2], calgary[1], calgary[2])
-#' orthodrome_vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
+#' orthodrome(berlin[1], berlin[2], calgary[1], calgary[2])
+#' haversine(berlin[1], berlin[2], calgary[1], calgary[2])
+#' vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
 NULL
 
 #' @rdname spherical_angle
 #' @export
-orthodrome_haversine <- function(lat1, lon1, lat2, lon2) {
+orthodrome <- function(lat1, lon1, lat2, lon2) {
   dlon <- lon2 - lon1
 
   acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(dlon))
@@ -169,7 +174,7 @@ orthodrome_haversine <- function(lat1, lon1, lat2, lon2) {
 
 #' @rdname spherical_angle
 #' @export
-orthodrome_haversine2 <- function(lat1, lon1, lat2, lon2) {
+haversine <- function(lat1, lon1, lat2, lon2) {
   dlon <- lon2 - lon1
   havdlat <- hav(lat2 - lat1)
 
@@ -180,7 +185,7 @@ orthodrome_haversine2 <- function(lat1, lon1, lat2, lon2) {
 
 #' @rdname spherical_angle
 #' @export
-orthodrome_vincenty <- function(lat1, lon1, lat2, lon2) {
+vincenty <- function(lat1, lon1, lat2, lon2) {
   dlon <- lon2 - lon1
 
   y <- sqrt(
@@ -212,25 +217,25 @@ ddistance <- function(theta1, phi1, theta2, phi2, r = earth_radius()) {
 #'
 #' @param lat1,lon1 numeric vector. coordinate of point(s) 1 (degrees).
 #' @param lat2,lon2 numeric vector. coordinates of point(s) 2 (degrees).
-#' @param r numeric. radius of the sphere (default = 6371.0087714 km, i.e. the radius of
-#' the Earth)
-#' @param method Character. Formulae for calculating great circle distance is
+#' @param r numeric. radius of the sphere (default = 6371.0087714 km, i.e. the
+#' radius of the Earth)
+#' @param method Character. Formula for calculating great circle distance,
 #' one of:
 #' \describe{
-#' \item{\code{"orthodrome_haversine"}}{uses Haversine formula (the default)}
-#' \item{\code{"orthodrome_haversine2"}}{ uses Haversine formula optimized for 64-bit
-#' floating-point numbers}
-#' \item{\code{"orthodrome_vincenty"}}{uses Vincenty formula for an ellipsoid with
-#' equal major and minor axes}
+#' \item{\code{"haversine"}}{great circle distance based on the haversine
+#' formula that is optimized for 64-bit floating-point numbers (the default)}
+#' \item{\code{"orthodrome"}}{great circle distance based on the spherical law of cosines}
+#' \item{\code{"vincenty"}}{distance based on the Vincenty formula for an
+#' ellipsoid with equal major and minor axes}
 #' \item{"euclidean"}{Euclidean distance (not great circle distance!)}
 #' }
 #' @export
-#' @seealso [orthodrome_haversine()], [orthodrome_haversine2()], [orthodrome_vincenty()]
+#' @seealso [orthodrome()], [haversine()], [vincenty()]
 #' @examples
 #' dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
 #' dist_greatcircle(
 #'   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
-#'   method = "haversine2"
+#'   method = "orthodrome"
 #' )
 #' dist_greatcircle(
 #'   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
@@ -242,7 +247,7 @@ ddistance <- function(theta1, phi1, theta2, phi2, r = earth_radius()) {
 #' )
 dist_greatcircle <- function(lat1, lon1, lat2, lon2,
                              r = earth_radius(),
-                             method = c("haversine", "haversine2", "vincenty", "euclidean")) {
+                             method = c("haversine", "orthodrome", "vincenty", "euclidean")) {
   method <- match.arg(method)
   stopifnot(is.numeric(r))
   stopifnot(length(lat1) == length(lon1))
@@ -254,11 +259,11 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
   lon2 <- lon2 * pi / 180
 
   if (method == "haversine") {
-    d <- orthodrome_haversine(lat1, lon1, lat2, lon2) * r
-  } else if (method == "haversine2") {
-    d <- orthodrome_haversine2(lat1, lon1, lat2, lon2) * r
+    d <- haversine(lat1, lon1, lat2, lon2) * r
+  } else if (method == "orthodrome") {
+    d <- orthodrome(lat1, lon1, lat2, lon2) * r
   } else if (method == "vincenty") {
-    d <- orthodrome_vincenty(lat1, lon1, lat2, lon2) * r
+    d <- vincenty(lat1, lon1, lat2, lon2) * r
   } else {
     d <- ddistance(lat1, lon1, lat2, lon2, r)
   }

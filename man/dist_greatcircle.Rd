@@ -10,7 +10,7 @@ dist_greatcircle(
   lat2,
   lon2,
   r = earth_radius(),
-  method = c("haversine", "haversine2", "vincenty", "euclidean")
+  method = c("haversine", "orthodrome", "vincenty", "euclidean")
 )
 }
 \arguments{
@@ -18,17 +18,17 @@ dist_greatcircle(
 
 \item{lat2, lon2}{numeric vector. coordinates of point(s) 2 (degrees).}
 
-\item{r}{numeric. radius of the sphere (default = 6371.0087714 km, i.e. the radius of
-the Earth)}
+\item{r}{numeric. radius of the sphere (default = 6371.0087714 km, i.e. the
+radius of the Earth)}
 
-\item{method}{Character. Formulae for calculating great circle distance is
+\item{method}{Character. Formula for calculating great circle distance,
 one of:
 \describe{
-\item{\code{"orthodrome_haversine"}}{uses Haversine formula (the default)}
-\item{\code{"orthodrome_haversine2"}}{ uses Haversine formula optimized for 64-bit
-floating-point numbers}
-\item{\code{"orthodrome_vincenty"}}{uses Vincenty formula for an ellipsoid with
-equal major and minor axes}
+\item{\code{"haversine"}}{great circle distance based on the haversine
+formula that is optimized for 64-bit floating-point numbers (the default)}
+\item{\code{"orthodrome"}}{great circle distance based on the spherical law of cosines}
+\item{\code{"vincenty"}}{distance based on the Vincenty formula for an
+ellipsoid with equal major and minor axes}
 \item{"euclidean"}{Euclidean distance (not great circle distance!)}
 }}
 }
@@ -39,7 +39,7 @@ Returns the great circle distance between a location and all grid point in km
 dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
 dist_greatcircle(
   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
-  method = "haversine2"
+  method = "orthodrome"
 )
 dist_greatcircle(
   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
@@ -51,5 +51,5 @@ dist_greatcircle(
 )
 }
 \seealso{
-\code{\link[=orthodrome_haversine]{orthodrome_haversine()}}, \code{\link[=orthodrome_haversine2]{orthodrome_haversine2()}}, \code{\link[=orthodrome_vincenty]{orthodrome_vincenty()}}
+\code{\link[=orthodrome]{orthodrome()}}, \code{\link[=haversine]{haversine()}}, \code{\link[=vincenty]{vincenty()}}
 }
