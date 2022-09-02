@@ -1,8 +1,7 @@
 <!-- badges: start -->
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/tectonicr/actions)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360893.svg)](https://doi.org/10.5281/zenodo.6360893)
-[![Travis build status](https://travis-ci.com/tobiste/tectonicr.svg?branch=main)](https://travis-ci.com/tobiste/tectonicr)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7042082.svg)](https://doi.org/10.5281/zenodo.7042082)
 <!-- badges: end -->
 
 # tectonicr
@@ -40,7 +39,7 @@ https://tobiste.github.io/tectonicr/articles/tectonicr.html
 Tobias Stephan
 
 ## How to cite
-When referencing this package, please cite the package DOI: [10.5281/zenodo.6360893](https://doi.org/10.5281/zenodo.6360893).
+When referencing this package, please cite the package DOI: [10.5281/zenodo.7042082](https://doi.org/10.5281/zenodo.7042082).
 
 
 ## Useful References
