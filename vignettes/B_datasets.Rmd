@@ -28,7 +28,7 @@ library(ggplot2) # load ggplot library
 ## Larger Data Sets
 
 **tectonicr** also handles larger data sets. A subset of the
-[World Stress map (WSM2016)](http://www.world-stress-map.org/) data compilation
+[World Stress map (WSM2016)](https://www.world-stress-map.org/) data compilation
 is included as an example data set and can be imported through:
 
 ```{r load_wsm2016, echo=TRUE}
@@ -67,7 +67,7 @@ coded. `deviation_norm()` yields the normalized value of the deviation,
 i.e. values between 0 and 90$^{\circ}$.
 
 Also included are the plate boundary geometries after 
-[Bird (2003)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2001GC000252): 
+[Bird (2003)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2001GC000252/): 
 
 ```{r plates, echo=TRUE}
 data("plates") # load plate boundary data set
