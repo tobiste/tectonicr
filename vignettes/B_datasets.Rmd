@@ -28,8 +28,8 @@ library(ggplot2) # load ggplot library
 
 ## Larger Data Sets
 
-**tectonicr** also handles larger data sets. A subset of the
-@WSM2016 data compilation
+**tectonicr** also handles larger data sets. A subset of the World Stress Map 
+data compilation [@WSM2016]
 is included as an example data set and can be imported through:
 
 ```{r load_wsm2016, echo=TRUE}
@@ -148,7 +148,7 @@ The orientation of the maximum horizontal stress correlates with plate motion
 direction at the plate boundary zone. Towards the plate interior, plate boundary 
 forces become weaker and other stress sources will probably dominate.
 
-To visualize the variation of the $\sigma_{Hmax}$ wrt to the distance to the 
+To visualize the variation of the $\sigma_{Hmax}$ wrt. to the distance to the 
 plate boundary, we need to transfer the orientation of $\sigma_{Hmax}$ from the
 geographic reference system (i.e. azimuth is the deviation of a direction from 
 geographic North pole) to the **Pole of Rotation (PoR)** reference system
@@ -270,3 +270,5 @@ approx. 4--6° (ca. 440--670 km) wide.
 
 > The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
 plate boundary zone.
+
+# References

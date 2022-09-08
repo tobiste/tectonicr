@@ -33,9 +33,10 @@ Relative plate motions from a set of (global) plate motions can be retrieved by
 transforming the set of the Euler rotations parameters to equivalent rotations.
 
 The NUVEL1 data set offers the global plate motions relative to the Pacific 
-plate. In order to extract the plate motions between two other plates 
+plate [@DeMets1990]. In order to extract the plate motions between two other plates 
 (e.g. all plates relative to Eurasia), one has to transform the rotations in to 
-a new, equivalent reference system (i.e. all rotation with respect to Eurasia). 
+a new, equivalent reference system (i.e. all rotation with respect to (wrt.)
+Eurasia). 
 
 In **tectonicr** this can be done with \code{equivalent_rotation}:
 
@@ -239,3 +240,6 @@ ggplot() +
 ```
 
 ![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.](loxodromes.png)
+
+# References
+

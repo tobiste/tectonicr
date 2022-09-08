@@ -28,8 +28,8 @@ library(ggplot2) # load ggplot library
 
 ## Mean orientation
 Orientation data is pi-periodical. 
-Thus, for the calculation of mean, the average of 35 degrees and 355 degrees 
-should be 15 degree instead of 195. 
+Thus, for the calculation of mean, the average of 35° and 355° 
+should be 15° instead of 195°. 
 **tectonicr** provides the circular mean (`circular_mean()`) and the 
 quasi-median on the circle (`circular_quasi_median()`)
 as metrics to describe average orientation:
@@ -77,7 +77,8 @@ circular_weighted_IQR(san_andreas.por$azi, san_andreas$unc)
 
 ## Interpolation
 Spatial interpolation of stress data is based on the aforementioned metrics (the
-algorithm is based on the MATLAB script 'stress2grid' by @Ziegler2017).
+algorithm is a modified version of the MATLAB script 'stress2grid' by 
+@Ziegler2017).
 ```{r interpolation}
 mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 ```
@@ -144,3 +145,5 @@ rose(san_andreas$azi, col = "grey", main = "North pole")
 ```{r rose2}
 rose(san_andreas.por$azi, col = "grey", main = "Euler pole")
 ```
+
+# References
