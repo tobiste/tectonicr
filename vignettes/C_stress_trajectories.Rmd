@@ -1,6 +1,7 @@
 ---
 title: "3. Plotting trajectories of theoretic stress directions"
 output: rmarkdown::html_vignette
+bibliography: tectonicr_references.bib  
 vignette: >
   %\VignetteIndexEntry{3. Plotting trajectories of theoretic stress directions}
   %\VignetteEncoding{UTF-8}
@@ -44,7 +45,7 @@ nuvel1.eu <- equivalent_rotation(nuvel1, fixed = "eu")
 head(nuvel1.eu)
 ```
 
-Alternatively, the PB2002 model by Bird (2003) is also provided as an ready-to 
+Alternatively, the PB2002 model by @Bird2003 is also provided as an ready-to 
 use example dataset for global plate motions.
 
 ```{r pb2002_eq, echo=TRUE}

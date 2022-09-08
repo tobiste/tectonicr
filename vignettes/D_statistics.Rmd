@@ -1,6 +1,7 @@
 ---
 title: "4. Circular statistics"
 output: rmarkdown::html_vignette
+bibliography: tectonicr_references.bib  
 vignette: >
   %\VignetteIndexEntry{4. Circular statistics}
   %\VignetteEncoding{UTF-8}
@@ -17,7 +18,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette teaches you how to retrieve the mean orientation of stress datasets. 
+This vignette teaches you how to retrieve the mean orientation of stress 
+datasets. 
 
 ```{r setup, echo=TRUE}
 library(tectonicr)
@@ -26,8 +28,10 @@ library(ggplot2) # load ggplot library
 
 ## Mean orientation
 Orientation data is pi-periodical. 
-Thus, for the calculation of mean, the average of 35 degrees and 355 degrees should be 15 degree instead of 195. 
-**tectonicr** provides the circular mean (`circular_mean()`) and the quasi-median on the circle (`circular_quasi_median()`)
+Thus, for the calculation of mean, the average of 35 degrees and 355 degrees 
+should be 15 degree instead of 195. 
+**tectonicr** provides the circular mean (`circular_mean()`) and the 
+quasi-median on the circle (`circular_quasi_median()`)
 as metrics to describe average orientation:
 
 ```{r mean, echo=TRUE}
@@ -36,12 +40,16 @@ circular_mean(san_andreas$azi)
 circular_quasi_median(san_andreas$azi)
 ```
 ## Quality weighted mean orientation
-Because the stress data is heteroscedastic, the data with less precise orientation should have less impact on the final mean orientation. The weighted mean or median uses the reported uncertainties of the measurements and weights the final average value by the inverse of the uncertainties:
+Because the stress data is heteroscedastic, the data with less precise 
+orientation should have less impact on the final mean orientation. The weighted 
+mean or median uses the reported uncertainties of the measurements and weights 
+the final average value by the inverse of the uncertainties:
 ```{r weighted}
 circular_weighted_mean(san_andreas$azi, san_andreas$unc)
 circular_weighted_median(san_andreas$azi, san_andreas$unc)
 ```
-The spread of directional data can be expressed by the standard deviation (for the mean) or the interquartile range (for the median):
+The spread of directional data can be expressed by the standard deviation (for 
+the mean) or the interquartile range (for the median):
 ```{r weighted_spread}
 circular_weighted_sd(san_andreas$azi, san_andreas$unc) # standard deviation
 circular_weighted_IQR(san_andreas$azi, san_andreas$unc) # interquartile range
@@ -50,7 +58,8 @@ circular_weighted_IQR(san_andreas$azi, san_andreas$unc) # interquartile range
 
 ## Statistics in the Euler pole reference frame
 
-The same statistics can also be applied for stress data that has been transferred into the Euler pole reference frame:
+The same statistics can also be applied for stress data that has been 
+transferred into the Euler pole reference frame:
 ```{r por}
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -67,12 +76,14 @@ circular_weighted_IQR(san_andreas.por$azi, san_andreas$unc)
 ```
 
 ## Interpolation
-Spatial interpolation of stress data is based on the aforementioned metrics:
+Spatial interpolation of stress data is based on the aforementioned metrics (the
+algorithm is based on the MATLAB script 'stress2grid' by @Ziegler2017).
 ```{r interpolation}
 mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
-The defaults use quality and inverse distance weighting of the mean, as well as a 25% cut-off for the standard deviation. 
+The defaults use quality and inverse distance weighting of the mean, as well as 
+a 25% cut-off for the standard deviation. 
 
 The data can now be visualized:  
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
@@ -96,7 +107,9 @@ ggplot(mean_SH) +
 The interpolated orientation of far apart data points will suffer from  
 distortions due to the underlying projection. In order to prevent such effects, 
 the interpolation can be done in the PoR reference frame where orientation stays 
-constant no matter the distance between the data points. Assuming that the stress field is sourced by the plate boundary force, the model-based interpolation allows more reliable results for areas close to plate boundaries.
+constant no matter the distance between the data points. Assuming that the 
+stress field is sourced by the plate boundary force, the model-based 
+interpolation allows more reliable results for areas close to plate boundaries.
 
 ```{r interpolation_PoR}
 mean_SH_PoR <- PoR_stress2grid(san_andreas, ep = euler, gridsize = 1, R_range = seq(50, 350, 100))
