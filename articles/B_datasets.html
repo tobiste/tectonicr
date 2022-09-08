@@ -86,10 +86,10 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="larger-data-sets">Larger Data Sets<a class="anchor" aria-label="anchor" href="#larger-data-sets"></a>
-</h2>
-<p><strong>tectonicr</strong> also handles larger data sets. A subset of the <span class="citation">Heidbach et al. (2016)</span> data compilation is included as an example data set and can be imported through:</p>
+<div class="section level3">
+<h3 id="larger-data-sets">Larger Data Sets<a class="anchor" aria-label="anchor" href="#larger-data-sets"></a>
+</h3>
+<p><strong>tectonicr</strong> also handles larger data sets. A subset of the World Stress Map data compilation <span class="citation">(Heidbach et al. 2016)</span> is included as an example data set and can be imported through:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span>
@@ -183,11 +183,11 @@
 <span><span class="co">#&gt; [1] 1.115582</span></span></code></pre></div>
 <p>The value is <span class="math inline">\(\leq\)</span> 0.15, indicating a significantly good fit of the model. Thus, the traction of the transform plate boundary explain the stress direction of the area.</p>
 </div>
-<div class="section level2">
-<h2 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt. to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary"></a>
-</h2>
+<div class="section level3">
+<h3 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt. to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary"></a>
+</h3>
 <p>The orientation of the maximum horizontal stress correlates with plate motion direction at the plate boundary zone. Towards the plate interior, plate boundary forces become weaker and other stress sources will probably dominate.</p>
-<p>To visualize the variation of the <span class="math inline">\(\sigma_{Hmax}\)</span> wrt to the distance to the plate boundary, we need to transfer the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> from the geographic reference system (i.e. azimuth is the deviation of a direction from geographic North pole) to the <strong>Pole of Rotation (PoR)</strong> reference system (i.e. azimuth is the deviation from the Euler pole).</p>
+<p>To visualize the variation of the <span class="math inline">\(\sigma_{Hmax}\)</span> wrt. to the distance to the plate boundary, we need to transfer the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> from the geographic reference system (i.e. azimuth is the deviation of a direction from geographic North pole) to the <strong>Pole of Rotation (PoR)</strong> reference system (i.e. azimuth is the deviation from the Euler pole).</p>
 <blockquote>
 <p>The <em>PoR coordinate reference system</em> is the oblique transformation of the geographical coordinate system with the Euler pole coordinates being the the translation factors.</p>
 </blockquote>
@@ -264,6 +264,10 @@
 <blockquote>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span> vs. distance plot allows to specify the width of the plate boundary zone.</p>
 </blockquote>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references">
 <div id="ref-Bird2003">
 <p>Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries.” <em>Geochemistry, Geophysics, Geosystems</em> 4 (3). <a href="https://doi.org/10.1029/2001gc000252" class="external-link">https://doi.org/10.1029/2001gc000252</a>.</p>

@@ -84,22 +84,22 @@
     
     
 <p><strong>tectonicr</strong> is a free and open-source R package for modeling and analyzing the direction of the maximum horizontal stress based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates.</p>
-<div class="section level2">
-<h2 id="theoretical-background">Theoretical background<a class="anchor" aria-label="anchor" href="#theoretical-background"></a>
-</h2>
-<p>The theory of intraplate tectonics [Wdowinski1998] allows for calculating the first-order intraplate deformation induced by horizontal displacement of deformable plate boundaries. It is based on empirical link between the directions of relative plate motion and the displacement and deformation fields within a plate interior adjacent to three types of deformable plate boundaries: inward-, outward-, and tangential-displaced boundaries. The model predicts the direction of intraplate displacement, displacement rate, strain, and stress fields in terms of small circles, great circles, and 45<span class="math inline">\(^{\circ}\)</span> loxodromes around the pole of rotation of two adjacent plates. According to the theory, the principal axis of the maximum horizontal stress follows small circles for inward-displaced boundaries, great circles for outward-displaced boundaries, and loxodromes for tangential-displaced boundaries.</p>
-<p>The theory assumes that the first-order intraplate deformation is predominantly induced by horizontal forces acting on plate boundaries and by buoyancy forces that arise from lateral density variations between mid-ocean ridges and plate interiors (ridge push).</p>
 <div class="section level3">
-<h3 id="inward-outward-and-tangential-displaced-boundaries">Inward, Outward and Tangential Displaced Boundaries<a class="anchor" aria-label="anchor" href="#inward-outward-and-tangential-displaced-boundaries"></a>
+<h3 id="theoretical-background">Theoretical background<a class="anchor" aria-label="anchor" href="#theoretical-background"></a>
 </h3>
+<p>The theory of intraplate tectonics <span class="citation">(Wdowinski 1998)</span> allows for calculating the first-order intraplate deformation induced by horizontal displacement of deformable plate boundaries. It is based on empirical link between the directions of relative plate motion and the displacement and deformation fields within a plate interior adjacent to three types of deformable plate boundaries: inward-, outward-, and tangential-displaced boundaries. The model predicts the direction of intraplate displacement, displacement rate, strain, and stress fields in terms of small circles, great circles, and 45<span class="math inline">\(^{\circ}\)</span> loxodromes around the pole of rotation of two adjacent plates. According to the theory, the principal axis of the maximum horizontal stress follows small circles for inward-displaced boundaries, great circles for outward-displaced boundaries, and loxodromes for tangential-displaced boundaries.</p>
+<p>The theory assumes that the first-order intraplate deformation is predominantly induced by horizontal forces acting on plate boundaries and by buoyancy forces that arise from lateral density variations between mid-ocean ridges and plate interiors (ridge push).</p>
+<div class="section level4">
+<h4 id="inward-outward-and-tangential-displaced-boundaries">Inward, Outward and Tangential Displaced Boundaries<a class="anchor" aria-label="anchor" href="#inward-outward-and-tangential-displaced-boundaries"></a>
+</h4>
 <p><strong>Inward-moving plate boundaries</strong> induce compressional horizontal tractions from the plate boundary towards the plate’s interior along the direction of relative plate motion. These compressional tractions are produced by forces related to subduction, collision, or ridge-push. Thus, stresses across convergent plate boundaries are characterized by the dominance of thrusting or strike-slip faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> (maximum horizontal stress) trending parallel to the plate convergence, i.e. parallel to <em>small circles</em> around the Euler pole of the relative plate motion.</p>
 <p><strong>Outward moving plate boundaries</strong> produce tensional tractions and displacements directed away from the plate interior. Along spreading ridges and intracontinental rifting stresses are dominated by normal faulting (<span class="math inline">\(\sigma_1 \approx \sigma_{vertical}\)</span>, <span class="math inline">\(\sigma_2 \approx \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> trending perpendicular to the plate motion trajectories (i.e. along <em>great circles</em>). In the case of intracontinental setting, stresses and displacements may be associated to slab-retreat, back-arc extension, or the release of the excess of gravitational potential energy stored in thickened crust through, e.g., gravitational collapse.</p>
-<p>Along transform boundaries (<strong>tangential displaced boundaries</strong>), the two neighboring plates exert shear tractions tangential to the orientation of the boundary [Forsyth1975]. Faulting and displacement adjacent to these plate boundaries are characterized by strike-slip parallel to the plate motion, and thus, the principal axes of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> orientation follows along 45<span class="math inline">\(^{\circ}\)</span> <em>loxodromes</em> (lines of constant bearing) which diverge —depending on the sense of the transform boundary— clockwise or counterclockwise from the relative Euler pole and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
+<p>Along transform boundaries (<strong>tangential displaced boundaries</strong>), the two neighboring plates exert shear tractions tangential to the orientation of the boundary <span class="citation">(Forsyth and Uyeda 1975)</span>. Faulting and displacement adjacent to these plate boundaries are characterized by strike-slip parallel to the plate motion, and thus, the principal axes of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> orientation follows along 45<span class="math inline">\(^{\circ}\)</span> <em>loxodromes</em> (lines of constant bearing) which diverge —depending on the sense of the transform boundary— clockwise or counterclockwise from the relative Euler pole and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
-</h2>
+<div class="section level3">
+<h3 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
+</h3>
 <p><strong>tectonicr</strong> basically calculates the bearing from a point of interest to a given Euler pole of the relative plate motion by the formula:</p>
 <span class="math display">\[\begin{equation} 
   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)
@@ -131,10 +131,10 @@
 <span><span class="co">#&gt;   dev.gc dev.sc dev.ld.cw dev.ld.ccw</span></span>
 <span><span class="co">#&gt; 1    -90      0       -45         45</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress">Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress<a class="anchor" aria-label="anchor" href="#quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress"></a>
-</h2>
-<p>The <strong>normalized</strong> <span class="math inline">\(\chi^2\)</span> test quantitatively compares the predicted (<code><a href="../reference/model_shmax.html">model_shmax()</a></code>) and observed <span class="math inline">\(\sigma_{Hmax}\)</span> azimuth relative to the reported <span class="math inline">\(\sigma\)</span> standard deviation (Wdowinski 1999).</p>
+<div class="section level3">
+<h3 id="quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress">Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress<a class="anchor" aria-label="anchor" href="#quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress"></a>
+</h3>
+<p>The <strong>normalized</strong> <span class="math inline">\(\chi^2\)</span> test quantitatively compares the predicted (<code><a href="../reference/model_shmax.html">model_shmax()</a></code>) and observed <span class="math inline">\(\sigma_{Hmax}\)</span> azimuth relative to the reported <span class="math inline">\(\sigma\)</span> standard deviation <span class="citation">(<span class="citeproc-not-found" data-reference-id="Wdowinski1999"><strong>???</strong></span>)</span>.</p>
 <span class="math display">\[\begin{equation} 
   \textrm{Norm} \chi^2_i = 
  \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2}
@@ -142,6 +142,9 @@
 <p>with <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\alpha_{predicted}\)</span> are the observed and predicted directions of <span class="math inline">\(\sigma_{Hmax}\)</span> with respect to the pole of rotation,respectively. The <span class="math inline">\(\sigma_i\)</span> parameter is the reported uncertainty of the observed azimuth and <span class="math inline">\(M\)</span> is the number of observations that are used in each test.</p>
 <p>The normalized <span class="math inline">\(\chi^2\)</span> test yields a number in the range between 0-1 which indicates the quality of the fit. Low values of the normalized <span class="math inline">\(\chi^2\)</span> test (<span class="math inline">\(\leq\)</span> 0.15 indicate good agreement between predicted and observed directions. High values (<span class="math inline">\(&gt;\)</span> 0.7) indicate a systematic misfit between predicted and observed directions of about 90<span class="math inline">\(^{\circ}\)</span>. Random distribution of <span class="math inline">\(\sigma_{Hmax}\)</span> directions results in Norm <span class="math inline">\(\chi^2 = 0.33\)</span></p>
 <p>The test can be run using <code>norm_chisq(obs, prd, unc)</code>. <code>obs</code> is a numeric vector with the observed <span class="math inline">\(\sigma_{Hmax}\)</span>; <code>prd</code> is a vector with the predicted <span class="math inline">\(\sigma_{Hmax}\)</span> (vector must be of length of <code>obs</code>); and <code>unc</code> is the uncertainty of observed <span class="math inline">\(\sigma_{Hmax}\)</span> (either numeric vector of length of <code>obs</code> or a number).</p>
+</div>
+<div class="section level2">
+<h2 id="section"></h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span> <span class="co"># import example data set for Euler rotations</span></span>
 <span><span class="va">euler</span> <span class="op">&lt;-</span></span>
@@ -151,13 +154,19 @@
 <span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">euler</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span>obs <span class="op">=</span> <span class="fl">90</span>, <span class="va">prd</span><span class="op">$</span><span class="va">sc</span>, unc <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.2790849</span></span></code></pre></div>
-<p>The plate motions relative to the Pacific plate according to the NUVEL-1A model <span class="citation">DeMets et al. (1990)</span> are included in the package and can be imported through:</p>
+<p>The plate motions relative to the Pacific plate according to the NUVEL-1A model <span class="citation">(DeMets et al. 1990)</span> are included in the package and can be imported through:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nuvel1</span><span class="op">)</span></span></code></pre></div>
 <div id="refs" class="references">
 <div id="ref-DeMets1990">
 <p>DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” <em>Geophysical Journal International</em> 101 (2): 425–78. <a href="https://doi.org/10.1111/j.1365-246x.1990.tb06579.x" class="external-link">https://doi.org/10.1111/j.1365-246x.1990.tb06579.x</a>.</p>
+</div>
+<div id="ref-Forsyth1975">
+<p>Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the Driving Forces of Plate Motion.” <em>Geophysical Journal International</em> 43 (1): 163–200. <a href="https://doi.org/10.1111/j.1365-246x.1975.tb00631.x" class="external-link">https://doi.org/10.1111/j.1365-246x.1975.tb00631.x</a>.</p>
+</div>
+<div id="ref-Wdowinski1998">
+<p>Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics.” <em>Journal of Geophysical Research: Solid Earth</em> 103 (B3): 5037–59. <a href="https://doi.org/10.1029/97jb03390" class="external-link">https://doi.org/10.1029/97jb03390</a>.</p>
 </div>
 </div>
 </div>
