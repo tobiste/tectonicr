@@ -105,6 +105,7 @@ ggplot(mean_SH) +
   facet_wrap(~R)
 ```
 ![](interpolation.png)
+
 The interpolated orientation of far apart data points will suffer from  
 distortions due to the underlying projection. In order to prevent such effects, 
 the interpolation can be done in the PoR reference frame where orientation stays 
