@@ -153,7 +153,8 @@ $\sigma$ standard deviation [@Wdowinski1999].
  {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation}
 ```
 with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted
-directions of $\sigma_{Hmax}$ with respect to the pole of rotation,respectively.
+directions of $\sigma_{Hmax}$ with respect to the pole of rotation, 
+respectively.
 The $\sigma_i$ parameter is the reported uncertainty of the observed
 azimuth and $M$ is the number of observations that are used in each
 test.
@@ -171,8 +172,6 @@ $\sigma_{Hmax}$ (vector must be of length of `obs`); and `unc` is the
 uncertainty of observed $\sigma_{Hmax}$ (either numeric vector of length of 
 `obs` or a number).
 
-# 
-
 ```{r shmax_test, echo=TRUE}
 data("nuvel1") # import example data set for Euler rotations
 euler <-
@@ -182,6 +181,7 @@ point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
 norm_chisq(obs = 90, prd$sc, unc = 10)
 ```
+
 The plate motions relative to the Pacific plate according to the 
 NUVEL-1A model [@DeMets1990] are included in the package and can be imported 
 through:
@@ -190,3 +190,5 @@ through:
 data("nuvel1")
 head(nuvel1)
 ```
+
+# References
