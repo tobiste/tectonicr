@@ -1,6 +1,7 @@
 ---
 title: "3. Plotting trajectories of theoretic stress directions"
 output: rmarkdown::html_vignette
+bibliography: tectonicr_references.bib  
 vignette: >
   %\VignetteIndexEntry{3. Plotting trajectories of theoretic stress directions}
   %\VignetteEncoding{UTF-8}
@@ -32,9 +33,10 @@ Relative plate motions from a set of (global) plate motions can be retrieved by
 transforming the set of the Euler rotations parameters to equivalent rotations.
 
 The NUVEL1 data set offers the global plate motions relative to the Pacific 
-plate. In order to extract the plate motions between two other plates 
+plate [@DeMets1990]. In order to extract the plate motions between two other plates 
 (e.g. all plates relative to Eurasia), one has to transform the rotations in to 
-a new, equivalent reference system (i.e. all rotation with respect to Eurasia). 
+a new, equivalent reference system (i.e. all rotation with respect to (wrt.)
+Eurasia). 
 
 In **tectonicr** this can be done with \code{equivalent_rotation}:
 
@@ -44,7 +46,7 @@ nuvel1.eu <- equivalent_rotation(nuvel1, fixed = "eu")
 head(nuvel1.eu)
 ```
 
-Alternatively, the PB2002 model by Bird (2003) is also provided as an ready-to 
+Alternatively, the PB2002 model by @Bird2003 is also provided as an ready-to 
 use example dataset for global plate motions.
 
 ```{r pb2002_eq, echo=TRUE}
@@ -238,3 +240,6 @@ ggplot() +
 ```
 
 ![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.](loxodromes.png)
+
+# References
+

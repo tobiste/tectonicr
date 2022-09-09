@@ -1,3 +1,5 @@
 *.html
 *.R
 *.pdf
+*.bib.bak
+*.bib.sav.tmp
