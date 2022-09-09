@@ -20,7 +20,8 @@ Imports:
     sf,
     smoothr,
     spatstat.core,
-    terra
+    terra,
+    tidyr
 Suggests: 
     covr,
     knitr,

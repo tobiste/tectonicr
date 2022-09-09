@@ -49,7 +49,7 @@ plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") %>%
   rename(plate.pair = plat_pr, pb.type = type) %>%
   mutate(pb = paste0(plate.pair, "_", pb.type)) %>%
   left_join(pbty.def) %>%
-  filter(!is.na(pb.type)) %>%
+  tidyr::drop_na(pb.type) %>%
   tidyr::separate(plate.pair, into = c("PlateA", "PlateB"), sep = "-", remove = FALSE) %>%
   left_join(plate.names, by = c("PlateA" = "plate.rot")) %>%
   left_join(plate.names, by = c("PlateB" = "plate.rot"), suffix = c("A", "B")) %>%

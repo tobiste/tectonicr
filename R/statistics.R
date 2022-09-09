@@ -26,6 +26,8 @@
 #' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 #' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
+#' @importFrom magrittr %>%
+#' @importFrom tidyr drop_na
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -46,9 +48,10 @@ norm_chisq <- function(obs, prd, unc) {
   }
 
   if (anyNA(obs)) {
-    x <- subset(data.frame(
+    x <- data.frame(
       obs = obs, prd = prd, unc = unc
-    ), !is.na(obs) | !is.na(prd))
+    ) %>%
+      tidyr::drop_na(obs, prd)
     obs <- x[, 1]
     prd <- x[, 2]
     unc <- x[, 3]
@@ -87,8 +90,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' variance, deviation, and error of orientation data.
 #'
 #' @param x Numeric vector in degrees.
-#' @param quiet logical. If false, a warning message is printed if there are
-#' `NA` values.
+#' @param na.rm logical. Should missing values (including `NaN`) be removed?
 #'
 #' @return Numeric vector
 #'
@@ -109,7 +111,7 @@ norm_chisq <- function(obs, prd, unc) {
 #'
 #' @importFrom stats median
 #' @examples
-#' x <- c(0, 45, 55, 40 + 180, 50 + 180)
+#' x <- c(0, 45, 55, 40 + 180, 50 + 180, NA)
 #' circular_mean(x)
 #' circular_quasi_median(x)
 #' circular_quasi_quantile(x)
@@ -126,13 +128,13 @@ NULL
 
 #' @rdname circle_median
 #' @export
-circular_quasi_median <- function(x, quiet = TRUE) {
+circular_quasi_median <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
-  if (NA %in% x & quiet) {
-    message("NA values have been dropped")
+  if(na.rm){
+    x <- as.numeric(na.omit(x))
   }
-
   x <- deg2rad(x) %% pi
   x <- sort(x[!is.na(x)])
   n <- length(x)
@@ -158,30 +160,18 @@ circular_quasi_median <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_mean <- function(x) {
-  # stopifnot(any(is.numeric(x)))
-  #
-  # data <- data.frame(x)
-  # if (quiet) {
-  #   data <- subset(data, !is.na(x))
-  # }
-  #
-  # x <- deg2rad(data$x)
-  #
-  # s.m <- sum(sin(2 * x))
-  # c.m <- sum(cos(2 * x))
-  #
-  # (atan2d_spec(s.m, c.m) / 2) %% 180
-  circular_weighted_mean(x, w = 1, na.rm = TRUE)
+circular_mean <- function(x, na.rm = TRUE) {
+  circular_weighted_mean(x, w = 1, na.rm)
 }
 
 #' @rdname circle_median
 #' @export
-circular_quasi_quantile <- function(x, quiet = TRUE) {
+circular_quasi_quantile <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
-  if (NA %in% x & quiet) {
-    message("NA values have been dropped")
+  if(na.rm){
+    x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
   x <- sort(x[!is.na(x)])
@@ -200,8 +190,7 @@ circular_quasi_quantile <- function(x, quiet = TRUE) {
       uq <- atand(
         sind(x[3 * m + 1]) / cosd(x[3 * m + 1])
       )
-    }
-    if (n %% 4 == 1) {
+    } else if (n %% 4 == 1) {
       m <- (n - 1) / 4
       lq <- atand(
         (3 * sind(x[m]) + sind(x[m + 1])) /
@@ -211,15 +200,13 @@ circular_quasi_quantile <- function(x, quiet = TRUE) {
         (3 * sind(x[3 * m]) + sind(x[3 * m + 1])) /
           (3 * cosd(x[3 * m]) + cosd(x[3 * m + 1]))
       )
-    }
-    if (n %% 4 == 2) {
+    } else if (n %% 4 == 2) {
       m <- (n - 2) / 4
       lq <- atand((sind(x[m]) + sind(x[m + 1])) /
         (cosd(x[m]) + cosd(x[m + 1])))
       uq <- atand((sind(x[3 * m]) + sind(x[3 * m + 1])) /
         (cosd(x[3 * m]) + cosd(x[3 * m + 1])))
-    }
-    if (n %% 4 == 3) {
+    } else {#if (n %% 4 == 3) {
       m <- (n - 2) / 4
       lq <- atand((sind(x[m]) + 3 * sind(x[m + 1])) /
         (cosd(x[m]) + 3 * cosd(x[m + 1])))
@@ -228,7 +215,6 @@ circular_quasi_quantile <- function(x, quiet = TRUE) {
         (cosd(x[3 * m]) +
           3 * cosd(x[3 * m + 1])))
     }
-
 
     quantiles <- c(x[1], lq, med, uq, x[length(x)])
     names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
@@ -241,37 +227,37 @@ circular_quasi_quantile <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_quasi_IQR <- function(x, quiet = TRUE) {
-  quantiles <- circular_quasi_quantile(x)
+circular_quasi_IQR <- function(x, na.rm = TRUE) {
+  quantiles <- circular_quasi_quantile(x, na.rm)
   deviation_norm(quantiles[4] - quantiles[2])
 }
 
 #' @rdname circle_median
 #' @export
-circular_var <- function(x, quiet = TRUE) {
+circular_var <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
-  if (NA %in% x & quiet) {
-    message("NA values have been dropped")
+  if(na.rm){
+    x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
-  n <- length(x)
 
-  for (i in 1:n) {
-    cs <- cosd(x[i])
-    ss <- sind(x[i])
-  }
+  cs <- cosd(x)
+  ss <- sind(x)
+
   R <- sqrt(sum(cs)^2 + sum(ss)^2)
-  1 - R / n
+  1 - R / length(x)
 }
 
 #' @rdname circle_median
 #' @export
-circular_mean_deviation <- function(x, quiet = TRUE) {
+circular_mean_deviation <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
-  if (NA %in% x & quiet) {
-    message("NA values have been dropped\n")
+  if(na.rm){
+    x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
   n <- length(x)
@@ -286,11 +272,12 @@ circular_mean_deviation <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_median_deviation <- function(x, quiet = TRUE) {
+circular_median_deviation <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
-  if (NA %in% x & quiet) {
-    message("NA values have been dropped\n")
+  if(na.rm){
+    x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
 
@@ -302,12 +289,14 @@ circular_median_deviation <- function(x, quiet = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_mean_error <- function(x, quiet = TRUE) {
+circular_mean_error <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
-  if (NA %in% x & quiet) {
-    message("NA values have been dropped\n")
+  if(na.rm){
+    x <- as.numeric(na.omit(x))
   }
+
   x <- x %% 180
   n <- length(x)
 
@@ -329,6 +318,8 @@ circular_mean_error <- function(x, quiet = TRUE) {
 #' \code{x}.
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
+#' @importFrom dplyr arrange
+#' @importFrom tidyr drop_na
 #' @references
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
 #' Mathematical Statistics. London: Academic Press.
@@ -358,18 +349,17 @@ NULL
 #' @export
 circular_weighted_mean <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   } else {
     w <- as.double(w)
   }
-  na.rm <- as.logical(na.rm)
-  if (is.na(na.rm)) na.rm <- FALSE
 
   data <- data.frame(x, w)
   if (na.rm) {
-    data <- subset(data, !is.na(x) & !is.na(w))
+    data <- tidyr::drop_na(data)
   }
 
   x <- deg2rad(data$x) %% pi
@@ -398,19 +388,17 @@ circular_weighted_var <- function(x, w = NULL, na.rm = TRUE) {
 #' @export
 circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   } else {
     w <- as.double(w)
   }
-  na.rm <- as.logical(na.rm)
-  if (is.na(na.rm)) na.rm <- FALSE
-
 
   data <- data.frame(x, w)
   if (na.rm) {
-    data <- subset(data, !is.na(x) & !is.na(w))
+    data <- tidyr::drop_na(data)
   }
 
   x <- deg2rad(data$x) %% pi
@@ -435,19 +423,18 @@ circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
 #' @export
 circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   } else {
     w <- as.double(w)
   }
-  na.rm <- as.logical(na.rm)
-  if (is.na(na.rm)) na.rm <- FALSE
 
   data <- data.frame(x = x %% 180, w)
 
   if (na.rm) {
-    data <- subset(data, !is.na(x) & !is.na(w))
+    data <- tidyr::drop_na(data)
   }
 
   data <- dplyr::arrange(data, x)
@@ -484,19 +471,18 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
 #' @export
 circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)))
+  stopifnot(is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   } else {
     w <- as.double(w)
   }
-  na.rm <- as.logical(na.rm)
-  if (is.na(na.rm)) na.rm <- FALSE
 
   data <- data.frame(x = x %% 180, w)
 
   if (na.rm) {
-    data <- subset(data, !is.na(x) & !is.na(w))
+    data <- tidyr::drop_na(data)
   }
 
   data <- dplyr::arrange(data, x)
@@ -518,8 +504,7 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
       sum.cos.uq <- cosd(x[3 * m + 1])
 
       Zu <- Zl <- 1
-    }
-    if (n %% 4 == 1) {
+    } else if (n %% 4 == 1) {
       m <- (n - 1) / 4
 
       sum.sin.lq <- 3 * w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
@@ -532,8 +517,7 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
-    }
-    if (n %% 4 == 2) {
+    } else if (n %% 4 == 2) {
       m <- (n - 2) / 4
 
       sum.sin.lq <- w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
@@ -546,8 +530,7 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
-    }
-    if (n %% 4 == 3) {
+    } else {#if (n %% 4 == 3) {
       m <- (n - 2) / 4
 
       sum.sin.lq <- w[m] * sind(x[m]) + 3 * w[m + 1] * sind(x[m + 1])

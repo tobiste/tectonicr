@@ -16,27 +16,26 @@
 equivalents for non-periodic data.
 }
 \usage{
-circular_quasi_median(x, quiet = TRUE)
+circular_quasi_median(x, na.rm = TRUE)
 
-circular_mean(x)
+circular_mean(x, na.rm = TRUE)
 
-circular_quasi_quantile(x, quiet = TRUE)
+circular_quasi_quantile(x, na.rm = TRUE)
 
-circular_quasi_IQR(x, quiet = TRUE)
+circular_quasi_IQR(x, na.rm = TRUE)
 
-circular_var(x, quiet = TRUE)
+circular_var(x, na.rm = TRUE)
 
-circular_mean_deviation(x, quiet = TRUE)
+circular_mean_deviation(x, na.rm = TRUE)
 
-circular_median_deviation(x, quiet = TRUE)
+circular_median_deviation(x, na.rm = TRUE)
 
-circular_mean_error(x, quiet = TRUE)
+circular_mean_error(x, na.rm = TRUE)
 }
 \arguments{
 \item{x}{Numeric vector in degrees.}
 
-\item{quiet}{logical. If false, a warning message is printed if there are
-\code{NA} values.}
+\item{na.rm}{logical. Should missing values (including \code{NaN}) be removed?}
 }
 \value{
 Numeric vector
@@ -50,7 +49,7 @@ Quasi median on the circle, quasi quartiles on a circle, quasi
 interquartile range on a circle.
 }
 \examples{
-x <- c(0, 45, 55, 40 + 180, 50 + 180)
+x <- c(0, 45, 55, 40 + 180, 50 + 180, NA)
 circular_mean(x)
 circular_quasi_median(x)
 circular_quasi_quantile(x)

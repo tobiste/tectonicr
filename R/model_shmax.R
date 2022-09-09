@@ -84,11 +84,7 @@ get_azimuth <- function(a, b) {
 model_shmax <- function(df, euler) {
   stopifnot(is.data.frame(df) & is.data.frame(euler))
 
-  beta <- c()
-  sc <- c()
-  gc <- c()
-  ld.cw <- c()
-  ld.ccw <- c()
+  beta <- sc <- gc <- ld.cw <- ld.ccw <-  c()
   for (i in seq_along(df$lat)) {
     beta[i] <- get_azimuth(
       c(df$lat[i], df$lon[i]),

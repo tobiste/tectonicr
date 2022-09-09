@@ -83,6 +83,7 @@ wcmedian <- function(x, w) {
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by mutate
+#' @importFrom tidyr drop_na
 #' @returns
 #' \code{sf} object containing
 #' \describe{
@@ -171,7 +172,7 @@ stress2grid <- function(x,
     sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x))
 
   if (quality_weighting) {
-    datas <- filter(datas, !is.na(w_quality))
+    datas <- tidyr::drop_na(datas, w_quality)
   }
 
   # Regular grid
@@ -194,17 +195,16 @@ stress2grid <- function(x,
       cellsize = gridsize,
       what = "centers",
       offset = c(lon_range[1], lat_range[1])
-      )
-
-  G_coords <- sf::st_coordinates(G) %>% as.data.frame()
-  XG <- G_coords$X
-  YG <- G_coords$Y
+      ) %>%
+    sf::st_coordinates() %>%
+    as.data.frame()
+  #XG <- G_coords$X
+  #YG <- G_coords$Y
   #n_G <- length(XG)
 
   SH <- c()
-
-  for (i in seq_along(XG)) {
-    distij <- dist_greatcircle(YG[i], XG[i], datas$lat, datas$lon, ...)
+  for (i in seq_along(G$X)) {
+    distij <- dist_greatcircle(G$Y[i], G$X[i], datas$lat, datas$lon, ...)
     # distij <-
     #   sf::st_distance(
     #   datas, G[i],
@@ -220,13 +220,11 @@ stress2grid <- function(x,
           which(distij <= R_search) # select those that are in search radius
 
         N_in_R <- length(ids_R)
-        # sq_R  <-  sum(datas$pb_dist[ids_R])
 
         if (N_in_R < min_data) {
           # not enough data within search radius
           sd <- 0
-          meanSH <- NA
-          mdr <- NA
+          meanSH <- mdr <- NA
         } else if (N_in_R == 1) {
           sd <- 0
           meanSH <- datas$azi[ids_R]
@@ -277,8 +275,8 @@ stress2grid <- function(x,
           # }
         }
         SH.ik <- c(
-          lon = XG[i],
-          lat = YG[i],
+          lon = G$X[i],
+          lat = G$Y[i],
           azi = meanSH,
           sd = sd,
           R = R_search,
@@ -367,7 +365,8 @@ PoR_stress2grid <- function(x, ep, ...) {
 #' @param x output of [stress2grid()] or [PoR_stress2grid()]
 #' @return \code{sf} object
 #' @importFrom magrittr %>%
-#' @importFrom dplyr ungroup mutate group_by filter summarise select left_join
+#' @importFrom dplyr ungroup mutate group_by summarise select left_join
+#' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
 #' @export
 #' @examples
@@ -379,7 +378,7 @@ compact_grid <- function(x) {
   data <- x %>%
     dplyr::ungroup() %>%
     as.data.frame() %>%
-    dplyr::filter(!is.na(azi)) %>%
+    tidyr::drop_na(azi) %>%
     dplyr::mutate(group = paste(lon, lat)) %>%
     dplyr::group_by(group)
 
