@@ -50,6 +50,7 @@ plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") %>%
   mutate(pb = paste0(plate.pair, "_", pb.type)) %>%
   left_join(pbty.def) %>%
   tidyr::drop_na(pb.type) %>%
+  sf::st_as_sf() %>%
   tidyr::separate(plate.pair, into = c("PlateA", "PlateB"), sep = "-", remove = FALSE) %>%
   left_join(plate.names, by = c("PlateA" = "plate.rot")) %>%
   left_join(plate.names, by = c("PlateB" = "plate.rot"), suffix = c("A", "B")) %>%
@@ -57,14 +58,16 @@ plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") %>%
   select(pair, plateA, plateB, type, displacement, name, nameA, nameB) %>%
   arrange(pair, displacement) %>%
   group_by(pair)
+plot(plates)
 usethis::use_data(plates, overwrite = TRUE)
 
 
 ## NUVEL1 plates -------------
-nuvel1_plates <- sf::st_read("E:/Global_data/Plate Boundaries/NUVEL1/nuvel1_plates.shp", quiet = TRUE) %>%
-  sf::st_make_valid() %>%
-  rename(plateA = PlateA, plateB = PlateB)
-usethis::use_data(nuvel1_plates, overwrite = TRUE)
+# nuvel1_plates <- sf::st_read("E:/Global_data/Plate Boundaries/NUVEL1/nuvel1_plates.shp", quiet = TRUE) %>%
+#   sf::st_make_valid() %>%
+#   rename(plateA = PlateA, plateB = PlateB)
+# plot(nuvel1_plates)
+# usethis::use_data(nuvel1_plates, overwrite = TRUE)
 
 ## Rotation parameters --------------
 ### NUVEL 1
