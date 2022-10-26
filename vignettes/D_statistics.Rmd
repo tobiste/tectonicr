@@ -45,14 +45,14 @@ orientation should have less impact on the final mean orientation. The weighted
 mean or median uses the reported uncertainties of the measurements and weights 
 the final average value by the inverse of the uncertainties:
 ```{r weighted}
-circular_weighted_mean(san_andreas$azi, san_andreas$unc)
-circular_weighted_median(san_andreas$azi, san_andreas$unc)
+circular_weighted_mean(san_andreas$azi, 1/san_andreas$unc)
+circular_weighted_median(san_andreas$azi, 1/san_andreas$unc)
 ```
 The spread of directional data can be expressed by the standard deviation (for 
 the mean) or the interquartile range (for the median):
 ```{r weighted_spread}
-circular_weighted_sd(san_andreas$azi, san_andreas$unc) # standard deviation
-circular_weighted_IQR(san_andreas$azi, san_andreas$unc) # interquartile range
+circular_weighted_sd(san_andreas$azi, 1/san_andreas$unc) # standard deviation
+circular_weighted_IQR(san_andreas$azi, 1/san_andreas$unc) # interquartile range
 ```
 
 
