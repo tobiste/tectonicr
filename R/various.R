@@ -151,3 +151,81 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
   }
   dist
 }
+
+
+#' Strike of the plate boundary projected on data point
+#'
+#' The fault's strike in the PoR CRS projected on the data point along the predicted
+#' stress trajectories. Useful to calculate the beta angle, i.e. the angle
+#' between SHmax orientation (in PoR CRS!) and the fault's strike.
+#'
+#' @param x,pb `sf` objects of the data points and the plate boundary
+#' geometries in the geographical coordinate system
+#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' (`lat`, `lon`)
+#' @param tangential Logical. Whether the plate boundary is a tangential
+#' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
+#' default).
+#' @param ... optional arguments passed to [smoothr::densify()]
+#' @return Numeric vector of the strike direction of the plate boundary
+#' (in degree)
+#' @export
+#' @importFrom sf st_geometry_type st_cast st_coordinates
+#' @importFrom magrittr %>%
+#' @importFrom smoothr densify
+#' @examples
+#' data("nuvel1")
+#' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
+#'
+#' data("plates")
+#' plate_boundary <- subset(plates, plates$pair == "na-pa")
+#'
+#' data("san_andreas")
+#' res <- projected_pb_strike(
+#'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
+#' )
+#' head(res)
+#' head(san_andreas$azi - res)
+projected_pb_strike <- function(x, ep, pb, tangential = FALSE, ...){
+  stopifnot(
+    inherits(x, "sf") &
+      inherits(pb, "sf") & is.data.frame(ep) &
+      is.logical(tangential)
+  )
+
+  x.por <- geographical_to_PoR(x, ep)
+  pb.por <- geographical_to_PoR(pb, ep) %>%
+    sf::st_cast(to = "LINESTRING") %>%
+    smoothr::densify(...)
+
+  pb.coords <- sf::st_coordinates(pb.por)
+  x.coords <- sf::st_coordinates(x.por)
+
+  pb.bearing <- c()
+  for(i in 1:nrow(pb.coords)){
+    if(i == nrow(pb.coords)){
+      pb.bearing[i] <- NA
+    } else {
+      pb.bearing[i] <- get_azimuth(c(pb.coords[i,2], pb.coords[i,1]), c(pb.coords[i+1,2], pb.coords[i+1,1]))
+    }
+  }
+  pb.bearing <- pb.bearing %% 180
+
+  x_pb.bearing <- c()
+  for (i in seq_along(x.coords[, 1])) {
+    delta.lat <- distance_mod(pb.coords[, 2] - x.coords[i, 2])
+    delta.lon <- distance_mod(pb.coords[, 1] - x.coords[i, 1])
+
+    if (tangential) {
+      # select the one with the closest longitude
+      q <- which.min(delta.lon)
+      x_pb.bearing[i] <- pb.bearing[q] #
+    } else {
+      # select the one with the closest latitude
+      q <- which.min(delta.lat)
+      x_pb.bearing[i] <- pb.bearing[q] #
+    }
+  }
+  x_pb.bearing
+}
+
