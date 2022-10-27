@@ -102,16 +102,16 @@
 </h3>
 <p>Because the stress data is heteroscedastic, the data with less precise orientation should have less impact on the final mean orientation. The weighted mean or median uses the reported uncertainties of the measurements and weights the final average value by the inverse of the uncertainties:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 9.781831</span></span>
-<span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_median</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span><span class="op">/</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 9.971235</span></span>
+<span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_median</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span><span class="op">/</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 36</span></span></code></pre></div>
 <p>The spread of directional data can be expressed by the standard deviation (for the mean) or the interquartile range (for the median):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_sd</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># standard deviation</span></span>
-<span><span class="co">#&gt; [1] 28.37981</span></span>
-<span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_IQR</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># interquartile range</span></span>
-<span><span class="co">#&gt; [1] 33.27273</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_sd</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span><span class="op">/</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># standard deviation</span></span>
+<span><span class="co">#&gt; [1] 19.21959</span></span>
+<span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_IQR</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span><span class="op">/</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># interquartile range</span></span>
+<span><span class="co">#&gt; [1] 33.72727</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="statistics-in-the-euler-pole-reference-frame">Statistics in the Euler pole reference frame<a class="anchor" aria-label="anchor" href="#statistics-in-the-euler-pole-reference-frame"></a>
