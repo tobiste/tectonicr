@@ -155,9 +155,8 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
 
 #' Strike of the plate boundary projected on data point
 #'
-#' The fault's strike in the PoR CRS projected on the data point along the predicted
-#' stress trajectories. Useful to calculate the beta angle, i.e. the angle
-#' between SHmax orientation (in PoR CRS!) and the fault's strike.
+#' The fault's strike in the PoR CRS projected on the data point along the
+#' predicted stress trajectories.
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
@@ -167,6 +166,13 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
 #' default).
 #' @param ... optional arguments passed to [smoothr::densify()]
+#' @details Useful to calculate the beta angle, i.e. the angle
+#' between SHmax orientation (in PoR CRS!) and the fault's strike (in PoR CRS).
+#' The beta angle is the same in geographical and PoR coordinates.
+#' @note The algorithm calculates the great circle bearing between line
+#' vertices. Since transform plate boundaries represent small circle lines in
+#' the PoR system, this great-circle azimuth is only a approximation of the
+#' true (small-circle) azimuth.
 #' @return Numeric vector of the strike direction of the plate boundary
 #' (in degree)
 #' @export
@@ -185,7 +191,7 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
 #'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
-#' head(san_andreas$azi - res)
+#' head(san_andreas$azi - res) # beta angle
 projected_pb_strike <- function(x, ep, pb, tangential = FALSE, ...){
   stopifnot(
     inherits(x, "sf") &

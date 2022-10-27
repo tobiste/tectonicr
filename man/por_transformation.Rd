@@ -4,7 +4,7 @@
 \alias{por_transformation}
 \alias{PoR_to_geographical}
 \alias{geographical_to_PoR}
-\title{Conversion between PoR to geographical coordinate system}
+\title{Conversion between PoR to geographical coordinates}
 \usage{
 PoR_to_geographical(x, ep)
 
@@ -22,8 +22,8 @@ pole (\code{lat}, \code{lon})}
 transformed geographical or PoR coordinate system
 }
 \description{
-Transform spherical objects from PoR to geographical coordinate system and
-vice versa.
+Transform spherical objects from PoR to geographical coordinate reference
+system and vice versa.
 }
 \details{
 The PoR coordinate reference system is oblique transformation of the

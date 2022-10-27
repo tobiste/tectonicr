@@ -10,11 +10,16 @@ PoR_crs(x)
 \item{x}{\code{data.frame} of the geographical coordinates of the Euler pole}
 }
 \description{
-Helper function to create the reference system transformed in Euler pole
+Create the reference system transformed in Euler pole
 coordinate
 }
 \details{
 The PoR coordinate reference system is oblique transformation of the
 geographical coordinate system with the Euler pole coordinates being the the
 translation factors.
+}
+\examples{
+data("nuvel1")
+euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+PoR_crs(euler)
 }

@@ -1,3 +1,83 @@
+#' Transformations into PoR spherical Coordinates
+#'
+#' Helper functions for coordinate transformations
+#'
+#' @param x angle
+#' @return matrix
+#' @name transform_matrices
+NULL
+
+#' @rdname transform_matrices
+tmat1 <- function(x) {
+  stopifnot(is.numeric(x))
+  x <- as.numeric(x) * pi/180
+  cbind(
+    c(1, 0, 0),
+    c(0, cos(x), sin(x)),
+    c(0, -sin(x), cos(x))
+  )
+}
+
+#' @rdname transform_matrices
+tmat2 <- function(x) {
+  stopifnot(is.numeric(x))
+  x <- as.numeric(x) * pi/180
+  cbind(
+    c(cos(x), 0, -sin(x)),
+    c(0, 1, 0),
+    c(sin(x), 0, cos(x))
+  )
+}
+
+#' @rdname transform_matrices
+tmat3 <- function(x){
+  stopifnot(is.numeric(x))
+  x <- as.numeric(x) * pi/180
+  cbind(
+    c(cos(x), sin(x), 0),
+    c(-sin(x), cos(x), 0),
+    c(0, 0, 1)
+  )
+}
+
+#' Conversion between PoR to geographical coordinate system
+#'
+#' Transformation from PoR to geographical coordinate system or vice versa
+#'
+#' @param ep two-colum Numeric vector containing the geographic location of the Euler
+#' pole (latitude, longitude)
+#' @param x two-colum vector of the Point in the PoR system (colatitude, azimuth) or the geographical coordinate system (latitude, longitude)
+#' @return two-colum vector of the transformed latitude, longtitude or colatitude, azimuth in geographical or PoR coordinate system, respectively
+#' @name por_conversion
+#' @references Wdowinski, S., 1998, A theory of intraplate
+#'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
+#'   5037-5059, \doi{10.1029/97JB03390}.
+#' @examples
+#' \dontrun{
+#' ep.geo <- c(52, 50)
+#' q.geo <- c(10, 45)
+#' q.por <- geographical_to_PoR2(q.por, ep.geo)
+#' PoR_to_geographical2(q.por, ep.geo)
+#' }
+NULL
+
+#' @rdname por_conversion
+PoR_to_geographical2 <- function(x, ep) {
+  stopifnot(is.numeric(ep) & is.numeric(x))
+  x.por.cart <- spherical_to_cartesian(x)
+  x.cart <- tmat3(180 - ep[2]) %*%  tmat2(90-ep[1]) %*% x.por.cart
+  cartesian_to_geographical(x.cart)
+}
+
+#' @rdname por_conversion
+geographical_to_PoR2 <- function(x, ep){
+  stopifnot(is.numeric(ep) & is.numeric(x))
+  x.cart <-  geographical_to_cartesian(x)
+  x.cart.por <- tmat2(90-ep[1]) %*% tmat3(180-ep[2]) %*% x.cart
+  cartesian_to_spherical(x.cart.por)
+}
+
+
 #' Displacement vector and stress matrix in PoR
 #'
 #' @param x \code{sf} object of the data points in the geographical coordinate

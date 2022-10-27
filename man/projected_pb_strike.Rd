@@ -20,12 +20,23 @@ default).}
 \item{...}{optional arguments passed to \code{\link[smoothr:densify]{smoothr::densify()}}}
 }
 \value{
-Numeric vector of the strike direction of the  plate boundary (in degree)
+Numeric vector of the strike direction of the plate boundary
+(in degree)
 }
 \description{
-The fault's strike in the PoR CRS projected on the data point along the predicted
-stress trajectories. Useful to calculate the beta angle, i.e. the angle
-between SHmax orientation and the fault's strike.
+The fault's strike in the PoR CRS projected on the data point along the
+predicted stress trajectories.
+}
+\details{
+Useful to calculate the beta angle, i.e. the angle
+between SHmax orientation (in PoR CRS!) and the fault's strike (in PoR CRS).
+The beta angle is the same in geographical and PoR coordinates.
+}
+\note{
+The algorithm calculates the great circle bearing between line
+vertices. Since transform plate boundaries represent small circle lines in
+the PoR system, this great-circle azimuth is only a approximation of the
+true (small-circle) azimuth.
 }
 \examples{
 data("nuvel1")
@@ -39,5 +50,5 @@ res <- projected_pb_strike(
   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
 )
 head(res)
-head(san_andreas$azi - res)
+head(san_andreas$azi - res) # beta angle
 }

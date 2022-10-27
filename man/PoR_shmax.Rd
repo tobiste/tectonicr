@@ -5,7 +5,7 @@
 \title{Theoretical Direction of Maximum Horizontal Stress in PoR reference
 system}
 \usage{
-PoR_shmax(df, euler, type = c("in", "out", "right", "left"))
+PoR_shmax(df, euler, type = c("none", "in", "out", "right", "left"))
 }
 \arguments{
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
@@ -19,7 +19,8 @@ for the plate boundary  (\code{lat}, \code{lon})}
 \item{type}{Character. Type of plate boundary (optional). Can be
 \code{"out"}, \code{"in"}, \code{"right"}, or
 \code{"left"} for outward, inward, right-lateral, or left-lateral
-moving plate boundaries, respectively.}
+moving plate boundaries, respectively. If \code{"none"} (the default), only
+the PoR-equivalent azimuth is returned.}
 }
 \value{
 Either a numeric vector of the azimuths in the transformed coordinate

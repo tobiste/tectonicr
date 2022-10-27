@@ -211,7 +211,8 @@ misfit_shmax <- function(prd, obs) {
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
-#' moving plate boundaries, respectively.
+#' moving plate boundaries, respectively. If \code{"none"} (the default), only
+#' the PoR-equivalent azimuth is returned.
 #' @return Either a numeric vector of the azimuths in the transformed coordinate
 #' system, or a \code{"data.frame"} with
 #' \describe{
@@ -241,7 +242,7 @@ misfit_shmax <- function(prd, obs) {
 #' data("san_andreas")
 #' res <- PoR_shmax(san_andreas, euler, type = "right")
 #' head(res)
-PoR_shmax <- function(df, euler, type = c("in", "out", "right", "left")) {
+PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left")) {
   stopifnot(is.data.frame(df) & is.data.frame(euler))
   type <- match.arg(type)
   beta <- c()
@@ -253,7 +254,7 @@ PoR_shmax <- function(df, euler, type = c("in", "out", "right", "left")) {
   }
   azi.por <- (df$azi - beta + 180) %% 180
 
-  if (!missing(type) & !is.null(df$unc)) {
+  if (type != "none" & !is.null(df$unc)) {
     prd <- NA
     prd <- ifelse(type == "out", 180, prd)
     prd <- ifelse(type == "right", 135, prd)
@@ -269,4 +270,82 @@ PoR_shmax <- function(df, euler, type = c("in", "out", "right", "left")) {
   } else {
     azi.por
   }
+}
+
+#' Azimuth relative to PoR
+#'
+#' Transform azimuth from geographical to PoR system according to Wdowinski 1998
+#'
+#' @param x \code{"data.frame"}. coordinates of data point (lat, lon) and the azimuth
+#' @param ep \code{"data.frame"}. coordinates of Euler pole (PoR)
+#' @return \code{"numeric"}. Transformed azimuth relative to PoR
+#' @export
+#' @examples
+#' data("nuvel1")
+#' # North America relative to Pacific plate:
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#'
+#' data("san_andreas")
+#' res <- PoR_azimuth(san_andreas, euler)
+#' head(res)
+PoR_azimuth <- function(x, ep) {
+  # convert latitude to colatitude and to radians
+  x <- data.frame(lat = x$lat, lon = x$lon, azi = x$azi) * pi / 180
+  ep <- data.frame(lat = ep$lat, lon = ep$lon) * pi / 180
+
+  S <-
+    cos(ep$lat)*cos(ep$lon) * cos(x$lat)*cos(x$lon) +
+    cos(ep$lat)*sin(ep$lon) * cos(x$lat)*sin(x$lon) +
+    sin(ep$lat)             * sin(x$lat)
+
+  beta <- acos(
+    (sin(ep$lat) - S * sin(x$lat)) /
+      (sqrt(1-S*S) * abs(cos(x$lat)))
+  )
+
+  azi.por <- x$azi - beta
+  (azi.por* 180/pi + 180) %% 180
+}
+
+
+
+
+#' Azimuth conversion from PoR to geographical coordinate reference system
+#'
+#' Helper function to convert PoR azimuths into geographical azimuths
+#'
+#' @param df \code{data.frame} containing the PoR-equivalent coordinates of the
+#' point(s) (\code{lat.PoR}, \code{lon.PoR}) and the PoR-equivalent azimuth
+#' (\code{azi.PoR})
+#' @param euler \code{data.frame} containing the geographical location of
+#' the Euler pole (\code{lat}, \code{lon})
+#' @examples
+#' \dontrun{
+#' data("nuvel1")
+#' # North America relative to Pacific plate:
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' data("san_andreas")
+#' head(san_andreas$azi)
+#' azi.PoR <- PoR_shmax(san_andreas, euler)
+#' res.PoR <- data.frame(azi.PoR = azi.PoR, PoR_coordinates(san_andreas, euler))
+#' res.geo <- PoR2geo_shmax(res.PoR, euler)
+#' head(res.geo)
+#' }
+PoR2geo_shmax <- function(df, euler){
+  stopifnot(is.data.frame(df) & is.data.frame(euler))
+  northpole.por <- PoR_coordinates(data.frame(lat = 0, lon = 0), euler)
+  # df.por <- sf::st_as_sf(df, coords = c("lon.PoR", "lat.PoR"))
+  # df.geo <- PoR_to_geographical(df.por, euler) %>%
+  #   sf::st_coordinates() %>%
+  #   as.data.frame() %>%
+  #   rename(lon = X, lat = Y)
+
+  beta <- c()
+  for (i in seq_along(df$lat.PoR)) {
+    beta[i] <- get_azimuth(
+      c(df$lat.PoR[i], df$lon.PoR[i]),
+      c(northpole.por$lat.PoR[1], northpole.por$lon.PoR[1])
+    )
+  }
+  df$azi.PoR - beta
 }

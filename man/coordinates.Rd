@@ -4,11 +4,14 @@
 \alias{coordinates}
 \alias{cartesian_to_geographical}
 \alias{geographical_to_cartesian}
+\alias{geographical_to_spherical}
 \title{Coordinate Transformations}
 \usage{
 cartesian_to_geographical(n)
 
 geographical_to_cartesian(p)
+
+geographical_to_spherical(p)
 }
 \arguments{
 \item{n}{Cartesian coordinates (x, y, z) as vector}
@@ -28,4 +31,8 @@ n <- c(1, -2, 3)
 cartesian_to_geographical(n)
 p <- c(50, 10)
 geographical_to_cartesian(p)
+}
+\seealso{
+\code{\link[=cartesian_to_spherical]{cartesian_to_spherical()}} and \code{\link[=spherical_to_cartesian]{spherical_to_cartesian()}} for
+conversions to spherical coordinates
 }

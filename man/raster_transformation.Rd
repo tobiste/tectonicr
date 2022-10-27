@@ -4,7 +4,8 @@
 \alias{raster_transformation}
 \alias{geographical_to_PoR_raster}
 \alias{PoR_to_geographical_raster}
-\title{Conversion between PoR to geographical coordinate system of raster data}
+\title{Conversion between PoR to geographical coordinate reference system of raster
+data}
 \usage{
 geographical_to_PoR_raster(x, ep)
 
@@ -20,6 +21,6 @@ PoR_to_geographical_raster(x, ep)
 "SpatRaster"
 }
 \description{
-Helper function to transform raster dataset from PoR to geographical
-coordinate system
+Helper function to transform raster data set from PoR to geographical
+coordinates
 }

@@ -32,6 +32,8 @@ latitude_modulo <- function(x) {
 #' @param p Geographical coordinates (latitude, longitude) as vector
 #' @return Functions return a (2- or 3-dimensional) vector representing a
 #' point in the requested coordinate system.
+#' @seealso [cartesian_to_spherical()] and [spherical_to_cartesian()] for
+#' conversions to spherical coordinates
 #' @examples
 #' n <- c(1, -2, 3)
 #' cartesian_to_geographical(n)
@@ -45,15 +47,15 @@ NULL
 cartesian_to_geographical <- function(n) {
   stopifnot(length(n) == 3)
   r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
-  lat <- rad2deg(asin(n[3] / r))
-  lon <- rad2deg(atan2(n[2], n[1]))
+  p <- c()
+  p[1] <- asind(n[3] / r) # lat
+  p[2] <- atan2d(n[2], n[1]) # lon
   # if (abs(lat) > 90) {
   #   lat <- latitude_modulo(lat)
   #   lon <- longitude_modulo(lon + 180)
   # }
-  c(lat, lon)
+  p
 }
-
 
 #' @rdname coordinates
 #' @export
@@ -66,15 +68,74 @@ geographical_to_cartesian <- function(p) {
   x
 }
 
+#' @rdname coordinates
+#' @export
+geographical_to_spherical <- function(p){
+  geographical_to_cartesian(p) %>% cartesian_to_spherical()
+}
+
+
+#' @title Coordinate Transformations
+#'
+#' @description Converts vector between Cartesian and spherical coordinate
+#' systems
+#' @param n Cartesian coordinates (x, y, z) as three-column vector
+#' @param p Spherical coordinates (colatitude, azimuth) as two-column vector
+#' @return Functions return a (2- or 3-dimensional) vector representing a
+#' point in the requested coordinate system.
+#' @seealso [cartesian_to_geographical()] and [geographical_to_cartesian()] for
+#' conversions to geographical coordinates
+#' @examples
+#' n <- c(1, -2, 3)
+#' cartesian_to_spherical(n)
+#' p <- c(50, 10)
+#' spherical_to_cartesian(p)
+#' @name coordinates2
+NULL
+
+#' @rdname coordinates2
+#' @export
+cartesian_to_spherical <- function(n){
+  stopifnot(length(n) == 3)
+  r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
+  p <- c()
+  p[1] <- acosd(n[3]/r) # colat/inclination
+  p[2] <- atan2d(n[2],n[1]) # azimuth
+  p
+}
+
+#' @rdname coordinates2
+#' @export
+spherical_to_cartesian <- function(p){
+  stopifnot(length(p) == 2)
+  x <- c()
+  x[1] <- sind(p[1]) * cosd(p[2])
+  x[2] <- sind(p[1]) * sind(p[2])
+  x[3] <- cosd(p[1])
+  x
+}
+
+#' @rdname coordinates2
+#' @export
+spherical_to_geographical <- function(p){
+  spherical_to_cartesian(p ) %>% cartesian_to_geographical()
+}
+
+
 #' PoR coordinate reference system
 #'
-#' Helper function to create the reference system transformed in Euler pole
+#' Create the reference system transformed in Euler pole
 #' coordinate
 #'
 #' @param x \code{data.frame} of the geographical coordinates of the Euler pole
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the the
 #' translation factors.
+#' @export
+#' @examples
+#' data("nuvel1")
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' PoR_crs(euler)
 PoR_crs <- function(x) {
   if (x$lat < 0) {
     x$lat <- -x$lat
@@ -90,10 +151,42 @@ PoR_crs <- function(x) {
   )
 }
 
-#' Conversion between PoR to geographical coordinate system of raster data
+#' PoR coordinates
 #'
-#' Helper function to transform raster dataset from PoR to geographical
-#' coordinate system
+#' Retrieve the PoR equivalent coordinates of an object
+#'
+#' @param x \code{sf} or \code{data.frame} containing lat and lon coordinates
+#' (\code{lat}, \code{lon})
+#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' (\code{lat}, \code{lon})
+#' @return \code{data.frame} with the PoR coordinates
+#' (\code{lat.PoR}, \code{lon.PoR})
+#' @export
+#' @examples
+#' data("nuvel1")
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' data("san_andreas")
+#' san_andreas.por <- PoR_coordinates(san_andreas, euler)
+#' head(san_andreas.por)
+PoR_coordinates <- function(x, ep) {
+  if(is.data.frame(x)){
+    x <- sf::st_as_sf(x, coords = c("lon", "lat"))
+  }
+  if(is.data.frame("x")){
+    x <- sf::st_as_sf(x, coords = c("lon", "lat"))
+  }
+   x %>% tectonicr::geographical_to_PoR(ep = ep) %>%
+     sf::st_coordinates() %>%
+     as.data.frame() %>%
+     rename("lon.PoR" = "X", "lat.PoR" = "Y")
+}
+
+
+#' Conversion between PoR to geographical coordinate reference system of raster
+#' data
+#'
+#' Helper function to transform raster data set from PoR to geographical
+#' coordinates
 #'
 #' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
 #' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
@@ -133,10 +226,10 @@ PoR_to_geographical_raster <- function(x, ep) {
 }
 
 
-#' Conversion between PoR to geographical coordinate system
+#' Conversion between PoR to geographical coordinates
 #'
-#' Transform spherical objects from PoR to geographical coordinate system and
-#' vice versa.
+#' Transform spherical objects from PoR to geographical coordinate reference
+#' system and vice versa.
 #'
 #' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 #' points in geographical or PoR coordinate system
