@@ -221,6 +221,9 @@ geographical_to_PoR2 <- function(x, ep, spherical = TRUE) {
 #' @param x,ep two-column vectors containing the (co)lat and lon coordinates
 #' @param spherical logical. Whether x or the return are in spherical
 #' coordinates
+#' @references Wdowinski, S., 1998, A theory of intraplate
+#'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
+#'   5037-5059, \doi{10.1029/97JB03390}.
 #' @name por_conversion_vec
 #' @examples
 #' \dontrun{
@@ -274,7 +277,7 @@ geographical_to_PoR_vec <- function(x, ep, spherical = TRUE) {
 #' san_andreas.por <- PoR_coordinates(san_andreas, euler)
 #' head(san_andreas.por)
 PoR_coordinates <- function(x, ep) {
-  .Deprecated("geographical_to_PoR2")
+  #.Deprecated("geographical_to_PoR2")
 
   if (is.data.frame(x)) {
     x <- sf::st_as_sf(x, coords = c("lon", "lat"))
