@@ -192,7 +192,7 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
 #' )
 #' head(res)
 #' head(san_andreas$azi - res) # beta angle
-projected_pb_strike <- function(x, ep, pb, tangential = FALSE, ...){
+projected_pb_strike <- function(x, ep, pb, tangential = FALSE, ...) {
   stopifnot(
     inherits(x, "sf") &
       inherits(pb, "sf") & is.data.frame(ep) &
@@ -208,11 +208,11 @@ projected_pb_strike <- function(x, ep, pb, tangential = FALSE, ...){
   x.coords <- sf::st_coordinates(x.por)
 
   pb.bearing <- c()
-  for(i in 1:nrow(pb.coords)){
-    if(i == nrow(pb.coords)){
+  for (i in 1:nrow(pb.coords)) {
+    if (i == nrow(pb.coords)) {
       pb.bearing[i] <- NA
     } else {
-      pb.bearing[i] <- get_azimuth(c(pb.coords[i,2], pb.coords[i,1]), c(pb.coords[i+1,2], pb.coords[i+1,1]))
+      pb.bearing[i] <- get_azimuth(c(pb.coords[i, 2], pb.coords[i, 1]), c(pb.coords[i + 1, 2], pb.coords[i + 1, 1]))
     }
   }
   pb.bearing <- pb.bearing %% 180
@@ -234,4 +234,3 @@ projected_pb_strike <- function(x, ep, pb, tangential = FALSE, ...){
   }
   x_pb.bearing
 }
-

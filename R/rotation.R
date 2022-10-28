@@ -195,3 +195,43 @@ abs_vel <- function(w, alpha, r = earth_radius()) {
   stopifnot(is.numeric(r))
   deg2rad(w) * r * sind(alpha)
 }
+
+#' Basic rotation matrices
+#'
+#' Helper functions for constructing the matrices for rotations about the
+#' x-, y-, and z angles with the angle x
+#'
+#' @param x angle (in degree)
+#' @return matrix
+#' @name transform_matrices
+NULL
+
+#' @rdname transform_matrices
+rotmat_x <- function(x) {
+  x <- deg2rad(as.numeric(x))
+  rbind(
+    c(1, 0, 0),
+    c(0, cos(x), -sin(x)),
+    c(0, sin(x), cos(x))
+  )
+}
+
+#' @rdname transform_matrices
+rotmat_y <- function(x) {
+  x <- deg2rad(as.numeric(x))
+  rbind(
+    c(cos(x), 0, sin(x)),
+    c(0, 1, 0),
+    c(-sin(x), 0, cos(x))
+  )
+}
+
+#' @rdname transform_matrices
+rotmat_z <- function(x) {
+  x <- deg2rad(as.numeric(x))
+  rbind(
+    c(cos(x), -sin(x), 0),
+    c(sin(x), cos(x), 0),
+    c(0, 0, 1)
+  )
+}

@@ -195,12 +195,12 @@ stress2grid <- function(x,
       cellsize = gridsize,
       what = "centers",
       offset = c(lon_range[1], lat_range[1])
-      ) %>%
+    ) %>%
     sf::st_coordinates() %>%
     as.data.frame()
-  #XG <- G_coords$X
-  #YG <- G_coords$Y
-  #n_G <- length(XG)
+  # XG <- G_coords$X
+  # YG <- G_coords$Y
+  # n_G <- length(XG)
 
   SH <- c()
   for (i in seq_along(G$X)) {
