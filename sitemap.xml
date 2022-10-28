@@ -127,7 +127,10 @@
     <loc>https://tobiste.github.io/tectonicr/reference/plates.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/por_conversion.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/por_conversion_df.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/por_conversion_vec.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/por_transformation.html</loc>
