@@ -6,15 +6,15 @@
 \alias{geographical_to_PoR2}
 \title{Conversion between spherical PoR to geographical coordinate system}
 \usage{
-PoR_to_geographical2(x, ep, spherical = TRUE)
+PoR_to_geographical2(x, euler, spherical = TRUE)
 
-geographical_to_PoR2(x, ep, spherical = TRUE)
+geographical_to_PoR2(x, euler, spherical = TRUE)
 }
 \arguments{
 \item{x}{\code{sf} or \code{data.frame} containing (co)lat and lon coordinates
 (\code{lat}, \code{lon}) of the points to be transformed}
 
-\item{ep}{\code{data.frame} of the geographical coordinates of the Euler pole
+\item{euler}{\code{data.frame} of the geographical coordinates of the Euler pole
 (\code{(co)lat}, \code{lon})}
 
 \item{spherical}{logical. Whether x or the return are in spherical

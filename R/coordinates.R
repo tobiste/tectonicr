@@ -160,7 +160,7 @@ PoR_crs <- function(x) {
 #'
 #' @param x \code{sf} or \code{data.frame} containing (co)lat and lon coordinates
 #' (\code{lat}, \code{lon}) of the points to be transformed
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
 #' (\code{(co)lat}, \code{lon})
 #' @return \code{data.frame} with the PoR coordinates
 #' (\code{colat.PoR}, \code{lon.PoR} or \code{lat.PoR}, \code{lon.PoR})
@@ -181,14 +181,14 @@ NULL
 
 #' @rdname por_conversion_df
 #' @export
-PoR_to_geographical2 <- function(x, ep, spherical = TRUE) {
-  ep.geo <- c(ep$lat, ep$lon)
+PoR_to_geographical2 <- function(x, euler, spherical = TRUE) {
+  ep.geo <- c(euler$lat, euler$lon)
   lat <- lon <- c()
   for(i in seq_along(x$lon)){
     if(spherical){
-      x_geo.i <- PoR_to_geographical_vec(c(x$colat.PoR[i], x$lon.PoR[i]), ep = ep.geo, spherical = TRUE)
+      x_geo.i <- PoR_to_geographical_vec(c(x$colat.PoR[i], x$lon.PoR[i]), euler = ep.geo, spherical = TRUE)
     } else {
-      x_geo.i <- PoR_to_geographical_vec(c(x$lat.PoR[i], x$lon.PoR[i]), ep = ep.geo, spherical = FALSE)
+      x_geo.i <- PoR_to_geographical_vec(c(x$lat.PoR[i], x$lon.PoR[i]), euler = ep.geo, spherical = FALSE)
     }
     lat[i] <- x_geo.i[1]
     lon[i] <- x_geo.i[2]
@@ -198,11 +198,11 @@ PoR_to_geographical2 <- function(x, ep, spherical = TRUE) {
 
 #' @rdname por_conversion_df
 #' @export
-geographical_to_PoR2 <- function(x, ep, spherical = TRUE) {
-  ep.geo <- c(ep$lat, ep$lon)
+geographical_to_PoR2 <- function(x, euler, spherical = TRUE) {
+  ep.geo <- c(euler$lat, euler$lon)
   colat.PoR <- lon.PoR <- c()
   for(i in seq_along(x$lon)){
-    x_por.i <- geographical_to_PoR_vec(c(x$lat[i], x$lon[i]), ep = ep.geo, spherical)
+    x_por.i <- geographical_to_PoR_vec(c(x$lat[i], x$lon[i]), euler = ep.geo, spherical)
     colat.PoR[i] <- x_por.i[1]
     lon.PoR[i] <- x_por.i[2]
   }
@@ -218,7 +218,7 @@ geographical_to_PoR2 <- function(x, ep, spherical = TRUE) {
 #' Helper function for the transformation from PoR to geographical coordinate
 #' system or vice versa
 #'
-#' @param x,ep two-column vectors containing the (co)lat and lon coordinates
+#' @param x,euler two-column vectors containing the (co)lat and lon coordinates
 #' @param spherical logical. Whether x or the return are in spherical
 #' coordinates
 #' @references Wdowinski, S., 1998, A theory of intraplate
@@ -236,21 +236,21 @@ geographical_to_PoR2 <- function(x, ep, spherical = TRUE) {
 NULL
 
 #' @rdname por_conversion_vec
-PoR_to_geographical_vec <- function(x, ep, spherical = TRUE) {
+PoR_to_geographical_vec <- function(x, euler, spherical = TRUE) {
   if(spherical){
     x.por.cart <- spherical_to_cartesian(x)
   } else {
     x.por.cart <- geographical_to_cartesian(x)
   }
-  x.cart <- t(rotmat_z(180 - ep[2])) %*% t(rotmat_y(90 - ep[1])) %*% x.por.cart
+  x.cart <- t(rotmat_z(180 - euler[2])) %*% t(rotmat_y(90 - euler[1])) %*% x.por.cart
   cartesian_to_geographical(x.cart)
 
 }
 
 #' @rdname por_conversion_vec
-geographical_to_PoR_vec <- function(x, ep, spherical = TRUE) {
+geographical_to_PoR_vec <- function(x, euler, spherical = TRUE) {
   x.cart <- geographical_to_cartesian(x)
-  x.cart.por <- rotmat_y(90 - ep[1]) %*% rotmat_z(180 - ep[2]) %*% x.cart
+  x.cart.por <- rotmat_y(90 - euler[1]) %*% rotmat_z(180 - euler[2]) %*% x.cart
   if(spherical){
     cartesian_to_spherical(x.cart.por)
   } else {
@@ -265,7 +265,7 @@ geographical_to_PoR_vec <- function(x, ep, spherical = TRUE) {
 #'
 #' @param x \code{sf} or \code{data.frame} containing lat and lon coordinates
 #' (\code{lat}, \code{lon})
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
 #' (\code{lat}, \code{lon})
 #' @return \code{data.frame} with the PoR coordinates
 #' (\code{lat.PoR}, \code{lon.PoR})
@@ -276,7 +276,7 @@ geographical_to_PoR_vec <- function(x, ep, spherical = TRUE) {
 #' data("san_andreas")
 #' san_andreas.por <- PoR_coordinates(san_andreas, euler)
 #' head(san_andreas.por)
-PoR_coordinates <- function(x, ep) {
+PoR_coordinates <- function(x, euler) {
   #.Deprecated("geographical_to_PoR2")
 
   if (is.data.frame(x)) {
@@ -286,7 +286,7 @@ PoR_coordinates <- function(x, ep) {
     x <- sf::st_as_sf(x, coords = c("lon", "lat"))
   }
   x %>%
-    tectonicr::geographical_to_PoR(ep = ep) %>%
+    tectonicr::geographical_to_PoR(euler = euler) %>%
     sf::st_coordinates() %>%
     as.data.frame() %>%
     rename("lon.PoR" = "X", "lat.PoR" = "Y")
@@ -300,7 +300,7 @@ PoR_coordinates <- function(x, ep) {
 #' coordinates
 #'
 #' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
 #' (\code{lat}, \code{lon})
 #' @returns "SpatRaster"
 #' @importFrom terra crs project rast
@@ -309,13 +309,13 @@ PoR_coordinates <- function(x, ep) {
 NULL
 
 #' @rdname raster_transformation
-geographical_to_PoR_raster <- function(x, ep) {
+geographical_to_PoR_raster <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
-  stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
+  stopifnot(is.data.frame(euler) & inherits(x, "SpatRaster"))
   crs.wgs84 <- "epsg:4326"
-  crs.ep <- PoR_crs(ep)
+  crs.ep <- PoR_crs(euler)
   terra::crs(x) <- crs.ep$wkt
   x.por <- terra::project(x, crs.wgs84)
   terra::crs(x.por) <- crs.ep$wkt
@@ -323,13 +323,13 @@ geographical_to_PoR_raster <- function(x, ep) {
 }
 
 #' @rdname raster_transformation
-PoR_to_geographical_raster <- function(x, ep) {
+PoR_to_geographical_raster <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
-  stopifnot(is.data.frame(ep) & inherits(x, "SpatRaster"))
+  stopifnot(is.data.frame(euler) & inherits(x, "SpatRaster"))
   crs.wgs84 <- "epsg:4326"
-  crs.ep <- PoR_crs(ep)
+  crs.ep <- PoR_crs(euler)
   terra::crs(x) <- crs.wgs84
   x.geo <- terra::project(x, crs.ep$wkt)
   terra::crs(x.geo) <- crs.wgs84
@@ -344,7 +344,7 @@ PoR_to_geographical_raster <- function(x, ep) {
 #'
 #' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 #' points in geographical or PoR coordinate system
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler
+#' @param euler \code{data.frame} of the geographical coordinates of the Euler
 #' pole (\code{lat}, \code{lon})
 #' @return \code{sf} or \code{SpatRast} object of the data points in the
 #' transformed geographical or PoR coordinate system
@@ -365,13 +365,13 @@ NULL
 
 #' @rdname por_transformation
 #' @export
-PoR_to_geographical <- function(x, ep) {
+PoR_to_geographical <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
-    x.por <- geographical_to_PoR_raster(x, ep)
+    x.por <- geographical_to_PoR_raster(x, euler)
   } else {
-    stopifnot(inherits(x, "sf") & is.data.frame(ep))
+    stopifnot(inherits(x, "sf") & is.data.frame(euler))
     crs.wgs84 <- sf::st_crs("epsg:4326")
-    crs.ep <- PoR_crs(ep)
+    crs.ep <- PoR_crs(euler)
     suppressMessages(
       suppressWarnings(
         x.por <- x %>%
@@ -387,13 +387,13 @@ PoR_to_geographical <- function(x, ep) {
 
 #' @rdname por_transformation
 #' @export
-geographical_to_PoR <- function(x, ep) {
+geographical_to_PoR <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
-    x.geo <- geographical_to_PoR_raster(x, ep)
+    x.geo <- geographical_to_PoR_raster(x, euler)
   } else {
-    stopifnot(inherits(x, "sf") & is.data.frame(ep))
+    stopifnot(inherits(x, "sf") & is.data.frame(euler))
     crs.wgs84 <- sf::st_crs("epsg:4326")
-    crs.ep <- PoR_crs(ep)
+    crs.ep <- PoR_crs(euler)
     suppressMessages(
       suppressWarnings(
         x.geo <- x %>%

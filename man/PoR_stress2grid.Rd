@@ -4,7 +4,7 @@
 \alias{PoR_stress2grid}
 \title{Stress2Grid in PoR system}
 \usage{
-PoR_stress2grid(x, ep, ...)
+PoR_stress2grid(x, euler, ...)
 }
 \arguments{
 \item{x}{\code{sf} object containing
@@ -14,7 +14,7 @@ PoR_stress2grid(x, ep, ...)
 \item{type}{Methods used for the determination of the orientation of SHmax}
 }}
 
-\item{ep}{Euler pole coordinates}
+\item{euler}{Euler pole coordinates}
 
 \item{...}{Arguments passed to \code{\link[=stress2grid]{stress2grid()}}}
 }

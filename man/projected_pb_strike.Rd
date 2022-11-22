@@ -4,13 +4,13 @@
 \alias{projected_pb_strike}
 \title{Strike of the plate boundary projected on data point}
 \usage{
-projected_pb_strike(x, ep, pb, tangential = FALSE, ...)
+projected_pb_strike(x, euler, pb, tangential = FALSE, ...)
 }
 \arguments{
 \item{x, pb}{\code{sf} objects of the data points and the plate boundary
 geometries in the geographical coordinate system}
 
-\item{ep}{\code{data.frame} of the geographical coordinates of the Euler pole
+\item{euler}{\code{data.frame} of the geographical coordinates of the Euler pole
 (\code{lat}, \code{lon})}
 
 \item{tangential}{Logical. Whether the plate boundary is a tangential
@@ -47,7 +47,7 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 data("san_andreas")
 res <- projected_pb_strike(
-  x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
+  x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE
 )
 head(res)
 head(san_andreas$azi - res) # beta angle

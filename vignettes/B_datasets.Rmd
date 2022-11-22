@@ -196,7 +196,7 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 san_andreas.res$distance <-
   distance_from_pb(
     x = san_andreas,
-    ep = euler,
+    euler = euler,
     pb = plate_boundary,
     tangential = TRUE
   )

@@ -76,7 +76,7 @@ distance_mod <- function(x) {
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
 #' (`lat`, `lon`)
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
@@ -102,24 +102,24 @@ distance_mod <- function(x) {
 #'
 #' data("san_andreas")
 #' res <- distance_from_pb(
-#'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
+#'   x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
 #'
 #' res.km <- distance_from_pb(
-#'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
+#'   x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
 #' )
 #' head(res.km)
-distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
+distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
     inherits(x, "sf") &
-      inherits(pb, "sf") & is.data.frame(ep) &
+      inherits(pb, "sf") & is.data.frame(euler) &
       is.logical(tangential) &
       is.logical(km)
   )
 
-  x.por <- geographical_to_PoR(x, ep)
-  pb.por <- geographical_to_PoR(pb, ep) %>%
+  x.por <- geographical_to_PoR(x, euler)
+  pb.por <- geographical_to_PoR(pb, euler) %>%
     sf::st_cast(to = "LINESTRING") %>%
     smoothr::densify(...)
 
@@ -160,7 +160,7 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
 #' (`lat`, `lon`)
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
@@ -188,19 +188,19 @@ distance_from_pb <- function(x, ep, pb, tangential = FALSE, km = FALSE, ...) {
 #'
 #' data("san_andreas")
 #' res <- projected_pb_strike(
-#'   x = san_andreas, ep = na_pa, pb = plate_boundary, tangential = TRUE
+#'   x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
 #' head(san_andreas$azi - res) # beta angle
-projected_pb_strike <- function(x, ep, pb, tangential = FALSE, ...) {
+projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
   stopifnot(
     inherits(x, "sf") &
-      inherits(pb, "sf") & is.data.frame(ep) &
+      inherits(pb, "sf") & is.data.frame(euler) &
       is.logical(tangential)
   )
 
-  x.por <- geographical_to_PoR(x, ep)
-  pb.por <- geographical_to_PoR(pb, ep) %>%
+  x.por <- geographical_to_PoR(x, euler)
+  pb.por <- geographical_to_PoR(pb, euler) %>%
     sf::st_cast(to = "LINESTRING") %>%
     smoothr::densify(...)
 
