@@ -79,7 +79,7 @@ pb2002 <-
   mutate(plate.rot = tolower(plate.rot), source = ifelse(source=="this paper", "Bird [2003]", source), model = "PB2002") %>%
   rename(area = Area) %>%
   select(plate.name,plate.rot, lon, lat, angle, plate.fix, model)
-#usethis::use_data(pb2002, overwrite = TRUE)
+usethis::use_data(pb2002, overwrite = TRUE)
 
 morvel56 <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "NNR-MORVEL56") %>%
