@@ -6,15 +6,15 @@
 \alias{geographical_to_PoR}
 \title{Conversion between PoR to geographical coordinates}
 \usage{
-PoR_to_geographical(x, ep)
+PoR_to_geographical(x, euler)
 
-geographical_to_PoR(x, ep)
+geographical_to_PoR(x, euler)
 }
 \arguments{
 \item{x}{\code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 points in geographical or PoR coordinate system}
 
-\item{ep}{\code{data.frame} of the geographical coordinates of the Euler
+\item{euler}{\code{data.frame} of the geographical coordinates of the Euler
 pole (\code{lat}, \code{lon})}
 }
 \value{

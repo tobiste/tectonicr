@@ -119,6 +119,8 @@ relative_rotation <- function(r1, r2) {
 #'   }
 #' @param fixed plate that will be regarded as fixed. Has to be one out of
 #' \code{x$plate.fix}
+#' @param rot (optional) plate that will be regarded as rotating. Has to be one out of
+#' \code{x$plate.rot}.
 #' @return sequence of plate rotations in new reference system. Same object
 #' class as \code{x}
 #' @seealso [relative_rotation()]
@@ -128,8 +130,11 @@ relative_rotation <- function(r1, r2) {
 #'
 #' # all nuvel1 rotation equivalent to fixed Africa:
 #' equivalent_rotation(nuvel1, fixed = "af")
-equivalent_rotation <- function(x, fixed) {
+#' # relative plate motion between Eurasia and India:
+#' equivalent_rotation(nuvel1, "eu", "in")
+equivalent_rotation <- function(x, fixed, rot) {
   stopifnot(fixed %in% x$plate.rot)
+  plate.rot <- NULL
 
   lat.eq <- c()
   lon.eq <- c()
@@ -169,13 +174,19 @@ equivalent_rotation <- function(x, fixed) {
       angle.eq[i] <- equivalent$angle
     }
   }
-  data.frame(
+  res <- data.frame(
     plate.rot = x$plate.rot,
     lat = lat.eq,
     lon = lon.eq,
     angle = angle.eq,
     plate.fix = fixed
   )
+  if(!missing(rot)){
+    stopifnot(rot %in% res$plate.rot)
+
+    res <- subset(res, plate.rot == rot)
+  }
+  return(res)
 }
 
 #' @title Absolute Plate Velocity

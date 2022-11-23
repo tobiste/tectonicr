@@ -6,12 +6,12 @@
 \alias{geographical_to_PoR_vec}
 \title{Conversion between PoR to geographical coordinate system}
 \usage{
-PoR_to_geographical_vec(x, ep, spherical = TRUE)
+PoR_to_geographical_vec(x, euler, spherical = TRUE)
 
-geographical_to_PoR_vec(x, ep, spherical = TRUE)
+geographical_to_PoR_vec(x, euler, spherical = TRUE)
 }
 \arguments{
-\item{x, ep}{two-column vectors containing the (co)lat and lon coordinates}
+\item{x, euler}{two-column vectors containing the (co)lat and lon coordinates}
 
 \item{spherical}{logical. Whether x or the return are in spherical
 coordinates}

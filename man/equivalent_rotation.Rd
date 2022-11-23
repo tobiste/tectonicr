@@ -4,7 +4,7 @@
 \alias{equivalent_rotation}
 \title{Equivalent rotation}
 \usage{
-equivalent_rotation(x, fixed)
+equivalent_rotation(x, fixed, rot)
 }
 \arguments{
 \item{x}{Object of class \code{"data.frame"} containing the Euler poles of
@@ -18,6 +18,9 @@ plate rotations:
 
 \item{fixed}{plate that will be regarded as fixed. Has to be one out of
 \code{x$plate.fix}}
+
+\item{rot}{(optional) plate that will be regarded as rotating. Has to be one out of
+\code{x$plate.rot}.}
 }
 \value{
 sequence of plate rotations in new reference system. Same object
@@ -31,6 +34,8 @@ data(nuvel1) # load the NUVEL1 rotation parameters
 
 # all nuvel1 rotation equivalent to fixed Africa:
 equivalent_rotation(nuvel1, fixed = "af")
+# relative plate motion between Eurasia and India:
+equivalent_rotation(nuvel1, "eu", "in")
 }
 \seealso{
 \code{\link[=relative_rotation]{relative_rotation()}}

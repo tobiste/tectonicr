@@ -4,13 +4,13 @@
 \alias{PoR_coordinates}
 \title{PoR coordinates}
 \usage{
-PoR_coordinates(x, ep)
+PoR_coordinates(x, euler)
 }
 \arguments{
 \item{x}{\code{sf} or \code{data.frame} containing lat and lon coordinates
 (\code{lat}, \code{lon})}
 
-\item{ep}{\code{data.frame} of the geographical coordinates of the Euler pole
+\item{euler}{\code{data.frame} of the geographical coordinates of the Euler pole
 (\code{lat}, \code{lon})}
 }
 \value{

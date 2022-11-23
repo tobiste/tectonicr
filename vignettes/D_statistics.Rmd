@@ -114,7 +114,7 @@ stress field is sourced by the plate boundary force, the model-based
 interpolation allows more reliable results for areas close to plate boundaries.
 
 ```{r interpolation_PoR}
-mean_SH_PoR <- PoR_stress2grid(san_andreas, ep = euler, gridsize = 1, R_range = seq(50, 350, 100))
+mean_SH_PoR <- PoR_stress2grid(san_andreas, euler = euler, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
 ```{r plot2, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
