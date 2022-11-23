@@ -118,14 +118,9 @@ stress2grid <- function(x,
                         dist_threshold = 0.1,
                         R_range = seq(50, 1000, 50),
                         ...) {
-  stopifnot(inherits(x, "sf"))
-  stopifnot(is.numeric(gridsize))
-  stopifnot(is.numeric(threshold))
-  stopifnot(is.numeric(arte_thres) & arte_thres > 0)
-  stopifnot(is.numeric(dist_threshold))
-  stopifnot(is.numeric(R_range))
-  stopifnot(is.logical(method_weighting))
-  stopifnot(is.logical(quality_weighting))
+  stopifnot(inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
+            arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range), is.logical(method_weighting),
+            is.logical(quality_weighting))
 
   min_data <- as.integer(ceiling(min_data))
 

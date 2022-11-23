@@ -137,6 +137,7 @@ spherical_to_geographical <- function(p) {
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' PoR_crs(euler)
 PoR_crs <- function(x) {
+  x <- as.data.frame(x)
   if (x$lat < 0) {
     x$lat <- -x$lat
     x$lon <- longitude_modulo(x$lon + 180)
@@ -278,11 +279,7 @@ geographical_to_PoR_vec <- function(x, euler, spherical = TRUE) {
 #' head(san_andreas.por)
 PoR_coordinates <- function(x, euler) {
   #.Deprecated("geographical_to_PoR2")
-
   if (is.data.frame(x)) {
-    x <- sf::st_as_sf(x, coords = c("lon", "lat"))
-  }
-  if (is.data.frame("x")) {
     x <- sf::st_as_sf(x, coords = c("lon", "lat"))
   }
   x %>%
@@ -313,7 +310,7 @@ geographical_to_PoR_raster <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
-  stopifnot(is.data.frame(euler) & inherits(x, "SpatRaster"))
+  stopifnot(inherits(x, "SpatRaster"))
   crs.wgs84 <- "epsg:4326"
   crs.ep <- PoR_crs(euler)
   terra::crs(x) <- crs.ep$wkt
@@ -327,7 +324,7 @@ PoR_to_geographical_raster <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
-  stopifnot(is.data.frame(euler) & inherits(x, "SpatRaster"))
+  stopifnot(inherits(x, "SpatRaster"))
   crs.wgs84 <- "epsg:4326"
   crs.ep <- PoR_crs(euler)
   terra::crs(x) <- crs.wgs84
@@ -369,7 +366,7 @@ PoR_to_geographical <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     x.por <- geographical_to_PoR_raster(x, euler)
   } else {
-    stopifnot(inherits(x, "sf") & is.data.frame(euler))
+    #stopifnot(inherits(x, "sf"))
     crs.wgs84 <- sf::st_crs("epsg:4326")
     crs.ep <- PoR_crs(euler)
     suppressMessages(
@@ -391,7 +388,7 @@ geographical_to_PoR <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     x.geo <- geographical_to_PoR_raster(x, euler)
   } else {
-    stopifnot(inherits(x, "sf") & is.data.frame(euler))
+    #stopifnot(inherits(x, "sf"))
     crs.wgs84 <- sf::st_crs("epsg:4326")
     crs.ep <- PoR_crs(euler)
     suppressMessages(

@@ -66,11 +66,11 @@ plate_boundary <- subset(plates, plates$plateA %in% c("na", "pa") &
   plates$plateB %in% c("na", "pa"))
 
 distance_from_pb(
-  x = san_andreas, ep = euler, pb = plate_boundary, tangential = TRUE
+  x = san_andreas, euler = euler, pb = plate_boundary, tangential = TRUE
 )
 
 distance_from_pb(
-  x = san_andreas, ep = euler, pb = plate_boundary, tangential = TRUE, km = TRUE
+  x = san_andreas, euler = euler, pb = plate_boundary, tangential = TRUE, km = TRUE
 )
 
 test.vals <- c(175, 179, 2, 4)
@@ -154,3 +154,4 @@ test_that("Error message if incorrect type argument", {
   expect_error(eulerpole_loxodromes(ep1, angle = 90, cw = FALSE))
   expect_error(eulerpole_paths(ep3))
 })
+

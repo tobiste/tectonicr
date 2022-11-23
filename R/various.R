@@ -112,11 +112,11 @@ distance_mod <- function(x) {
 #' head(res.km)
 distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
-    inherits(x, "sf") &
-      inherits(pb, "sf") & is.data.frame(euler) &
-      is.logical(tangential) &
-      is.logical(km)
-  )
+    inherits(x, "sf"),
+    inherits(pb, "sf"),
+    is.logical(tangential),
+    is.logical(km)
+    )
 
   x.por <- geographical_to_PoR(x, euler)
   pb.por <- geographical_to_PoR(pb, euler) %>%
@@ -194,9 +194,9 @@ distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) 
 #' head(san_andreas$azi - res) # beta angle
 projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
   stopifnot(
-    inherits(x, "sf") &
-      inherits(pb, "sf") & is.data.frame(euler) &
-      is.logical(tangential)
+    inherits(x, "sf"),
+    inherits(pb, "sf"),
+    is.logical(tangential)
   )
 
   x.por <- geographical_to_PoR(x, euler)

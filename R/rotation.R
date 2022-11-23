@@ -50,8 +50,7 @@ euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
 #' @examples
 #' vcross(c(1, 2, 3), c(4, 5, 6))
 vcross <- function(x, y) {
-  stopifnot(is.numeric(x) & is.numeric(y))
-  stopifnot(length(x) == length(y) && length(x) == 3)
+  stopifnot(is.numeric(x), is.numeric(y), length(x) == length(y), length(x) == 3)
 
   c(x[2] * y[3] - x[3] * y[2], x[3] * y[1] -
     x[1] * y[3], x[1] * y[2] - x[2] * y[1])

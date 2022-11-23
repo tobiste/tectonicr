@@ -249,9 +249,7 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
                              r = earth_radius(),
                              method = c("haversine", "orthodrome", "vincenty", "euclidean")) {
   method <- match.arg(method)
-  stopifnot(is.numeric(r))
-  stopifnot(length(lat1) == length(lon1))
-  stopifnot(length(lat2) == length(lat2))
+  stopifnot(is.numeric(r), length(lat1) == length(lon1), length(lat2) == length(lat2))
 
   lat1 <- lat1 * pi / 180
   lon1 <- lon1 * pi / 180

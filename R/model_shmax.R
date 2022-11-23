@@ -22,7 +22,7 @@
 #' tokyo <- c(35.7, 139.767) # Tokyo
 #' get_azimuth(berlin, tokyo)
 get_azimuth <- function(a, b) {
-  stopifnot(is.numeric(a) & is.numeric(b))
+  stopifnot(is.numeric(a), is.numeric(b))
 
   # convert deg into rad
   phi1 <- pi / 180 * a[1]
@@ -82,7 +82,7 @@ get_azimuth <- function(a, b) {
 #'
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
-  stopifnot(is.data.frame(df) & is.data.frame(euler))
+  stopifnot(is.data.frame(df), is.data.frame(euler))
 
   beta <- sc <- gc <- ld.cw <- ld.ccw <- c()
   for (i in seq_along(df$lat)) {
@@ -243,7 +243,7 @@ misfit_shmax <- function(prd, obs) {
 #' res <- PoR_shmax(san_andreas, euler, type = "right")
 #' head(res)
 PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left")) {
-  stopifnot(is.data.frame(df) & is.data.frame(euler))
+  stopifnot(is.data.frame(df), is.data.frame(euler))
   type <- match.arg(type)
   beta <- c()
   for (i in seq_along(df$lat)) {

@@ -37,7 +37,7 @@
 #' prd <- model_shmax(point, euler)
 #' norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
 norm_chisq <- function(obs, prd, unc) {
-  stopifnot(is.numeric(obs) & is.numeric(prd) & is.numeric(unc))
+  stopifnot(is.numeric(obs), is.numeric(prd), is.numeric(unc))
 
   if (length(prd) == 1) {
     prd <- rep(prd, length(obs))
@@ -129,8 +129,7 @@ NULL
 #' @rdname circle_median
 #' @export
 circular_quasi_median <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if(na.rm){
     x <- as.numeric(na.omit(x))
@@ -167,8 +166,7 @@ circular_mean <- function(x, na.rm = TRUE) {
 #' @rdname circle_median
 #' @export
 circular_quasi_quantile <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if(na.rm){
     x <- as.numeric(na.omit(x))
@@ -235,8 +233,7 @@ circular_quasi_IQR <- function(x, na.rm = TRUE) {
 #' @rdname circle_median
 #' @export
 circular_var <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if(na.rm){
     x <- as.numeric(na.omit(x))
@@ -253,8 +250,7 @@ circular_var <- function(x, na.rm = TRUE) {
 #' @rdname circle_median
 #' @export
 circular_mean_deviation <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if(na.rm){
     x <- as.numeric(na.omit(x))
@@ -273,8 +269,7 @@ circular_mean_deviation <- function(x, na.rm = TRUE) {
 #' @rdname circle_median
 #' @export
 circular_median_deviation <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if(na.rm){
     x <- as.numeric(na.omit(x))
@@ -290,8 +285,7 @@ circular_median_deviation <- function(x, na.rm = TRUE) {
 #' @rdname circle_median
 #' @export
 circular_mean_error <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if(na.rm){
     x <- as.numeric(na.omit(x))
@@ -348,8 +342,7 @@ NULL
 #' @rdname weighted_circle_stats
 #' @export
 circular_weighted_mean <- function(x, w = NULL, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
@@ -387,8 +380,7 @@ circular_weighted_var <- function(x, w = NULL, na.rm = TRUE) {
 #' @rdname weighted_circle_stats
 #' @export
 circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
@@ -422,8 +414,7 @@ circular_weighted_sd <- function(x, w = NULL, na.rm = TRUE) {
 #' @rdname weighted_circle_stats
 #' @export
 circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
@@ -470,8 +461,7 @@ circular_weighted_median <- function(x, w = NULL, na.rm = TRUE) {
 #' @rdname weighted_circle_stats
 #' @export
 circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)))
-  stopifnot(is.logical(na.rm))
+  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
