@@ -72,13 +72,13 @@ usethis::use_data(plates, overwrite = TRUE)
 ## Rotation parameters --------------
 ### NUVEL 1
 data("nuvel1")
-nuvel1
+#nuvel1
 
 pb2002 <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "Bird") %>%
   mutate(plate.rot = tolower(plate.rot), source = ifelse(source=="this paper", "Bird [2003]", source), model = "PB2002") %>%
   rename(area = Area) %>%
-  select(plate.name,plate.rot, lon, lat, angle, plate.fix, model)
+  select(plate.name,plate.rot, lon, lat, angle, plate.fix, model) %>% as.data.frame()
 usethis::use_data(pb2002, overwrite = TRUE)
 
 morvel56 <-
@@ -125,7 +125,6 @@ cpm_models <- rbind(
   hsnuvel1a,
   revel,
   pb2002
-  ) %>%
-  group_by(model)
+  ) #%>%  group_by(model)
 usethis::use_data(cpm_models, overwrite = TRUE)
 
