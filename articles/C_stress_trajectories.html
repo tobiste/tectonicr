@@ -71,7 +71,8 @@
 
 
 
-<script src="C_stress_trajectories_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>3. Plotting trajectories of theoretic stress directions</h1>
             
@@ -82,7 +83,8 @@
 
     
     
-<p>This vignette teaches you how to plot the trajectories of the predicted stress directions.</p>
+<p>This vignette teaches you how to plot the trajectories of the
+predicted stress directions.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span>
@@ -91,8 +93,15 @@
 <div class="section level3">
 <h3 id="equivalent-rotations">Equivalent rotations<a class="anchor" aria-label="anchor" href="#equivalent-rotations"></a>
 </h3>
-<p>Relative plate motions from a set of (global) plate motions can be retrieved by transforming the set of the Euler rotations parameters to equivalent rotations.</p>
-<p>The NUVEL1 data set offers the global plate motions relative to the Pacific plate <span class="citation">(DeMets et al. 1990)</span>. In order to extract the plate motions between two other plates (e.g. all plates relative to Eurasia), one has to transform the rotations in to a new, equivalent reference system (i.e. all rotation with respect to (wrt.) Eurasia).</p>
+<p>Relative plate motions from a set of (global) plate motions can be
+retrieved by transforming the set of the Euler rotations parameters to
+equivalent rotations.</p>
+<p>The NUVEL1 data set offers the global plate motions relative to the
+Pacific plate <span class="citation">(DeMets et al. 1990)</span>. In
+order to extract the plate motions between two other plates (e.g. all
+plates relative to Eurasia), one has to transform the rotations in to a
+new, equivalent reference system (i.e. all rotation with respect to
+(wrt.) Eurasia).</p>
 <p>In <strong>tectonicr</strong> this can be done with :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
@@ -105,7 +114,9 @@
 <span><span class="co">#&gt; 4        au  15.28437   40.87794 0.71935116        eu</span></span>
 <span><span class="co">#&gt; 5        ca -50.85213  -50.33611 0.12128773        eu</span></span>
 <span><span class="co">#&gt; 6        co  19.84642 -115.85295 1.36455727        eu</span></span></code></pre></div>
-<p>Alternatively, the PB2002 model by <span class="citation">Bird (2003)</span> is also provided as an ready-to use example dataset for global plate motions.</p>
+<p>Alternatively, the PB2002 model by <span class="citation">Bird
+(2003)</span> is also provided as an ready-to use example dataset for
+global plate motions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pb2002"</span><span class="op">)</span></span>
 <span><span class="va">pb2002.eu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">pb2002</span>, fixed <span class="op">=</span> <span class="st">"eu"</span><span class="op">)</span></span>
@@ -121,17 +132,36 @@
 <div class="section level3">
 <h3 id="plotting-pole-of-rotation-grids">Plotting Pole of Rotation Grids<a class="anchor" aria-label="anchor" href="#plotting-pole-of-rotation-grids"></a>
 </h3>
-<p>To visualize the theoretical trajectories of the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> (great circles, small circles, and loxodomes), we need to transform the locations from the geographical coordinate system into the <em>PoR</em> coordinate system. The transformations are done through the function functions <code><a href="../reference/por_transformation.html">geographical_to_PoR()</a></code> and <code><a href="../reference/por_transformation.html">PoR_to_geographical()</a></code>. They are the base of the functions <code><a href="../reference/stress_paths.html">eulerpole_smallcircles()</a></code>, <code><a href="../reference/stress_paths.html">eulerpole_greatcircles()</a></code>, and <code><a href="../reference/stress_paths.html">eulerpole_loxodromes()</a></code> that allow to draw the theoretical trajectories in geographical coordinates.</p>
+<p>To visualize the theoretical trajectories of the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> (great circles, small
+circles, and loxodomes), we need to transform the locations from the
+geographical coordinate system into the <em>PoR</em> coordinate system.
+The transformations are done through the function functions
+<code><a href="../reference/por_transformation.html">geographical_to_PoR()</a></code> and
+<code><a href="../reference/por_transformation.html">PoR_to_geographical()</a></code>. They are the base of the functions
+<code><a href="../reference/stress_paths.html">eulerpole_smallcircles()</a></code>,
+<code><a href="../reference/stress_paths.html">eulerpole_greatcircles()</a></code>, and
+<code><a href="../reference/stress_paths.html">eulerpole_loxodromes()</a></code> that allow to draw the theoretical
+trajectories in geographical coordinates.</p>
 <div class="section level4">
 <h4 id="small-circles">Small Circles<a class="anchor" aria-label="anchor" href="#small-circles"></a>
 </h4>
-<p>Function <code>eulerpole_smallcircles(x, gridsize)</code> returns Small circles as as simple feature(<code>sf</code>) by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the number of small circles (<code>n</code>).</p>
-<p>For example the small circles around the Euler pole of the relative motion of the Indian plate relative to the Eurasian plate (transformed from the from the NUVEL1 model).</p>
+<p>Function <code>eulerpole_smallcircles(x, gridsize)</code> returns
+Small circles as as simple feature(<code>sf</code>) by giving a
+<code>data.frame</code> of the Euler pole coordinates in lat and lon
+(<code>x</code>) and the number of small circles (<code>n</code>).</p>
+<p>For example the small circles around the Euler pole of the relative
+motion of the Indian plate relative to the Eurasian plate (transformed
+from the from the NUVEL1 model).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">euler</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1.eu</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"in"</span><span class="op">)</span> <span class="co"># India relative to Eurasia</span></span></code></pre></div>
-<p>The <code>returnclass</code> option in <code><a href="../reference/stress_paths.html">eulerpole_smallcircles()</a></code> provides the output types <code>"sf"</code> (for a simple feature) and <code>"sp"</code> (<code>Spatial*</code> object) for the small circles.</p>
-<p>To eventually plot the small circles with <code>ggplot</code>, I recommend to extract a <code>sf</code> feature and plot the it with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code>:</p>
+<p>The <code>returnclass</code> option in
+<code><a href="../reference/stress_paths.html">eulerpole_smallcircles()</a></code> provides the output types
+<code>"sf"</code> (for a simple feature) and <code>"sp"</code>
+(<code>Spatial*</code> object) for the small circles.</p>
+<p>To eventually plot the small circles with <code>ggplot</code>, I
+recommend to extract a <code>sf</code> feature and plot the it with
+<code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">euler.sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_smallcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"plates"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></span>
@@ -171,13 +201,19 @@
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="smallcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are small circles around the In-Eu Euler pole.</p>
+<img src="smallcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are small circles
+around the In-Eu Euler pole.</p>
 </div>
 </div>
 <div class="section level4">
 <h4 id="great-circles">Great Circles<a class="anchor" aria-label="anchor" href="#great-circles"></a>
 </h4>
-<p>Great circles are lines that cut the small circles at 90<span class="math inline">\(^{\circ}\)</span> and the Euler pole. Function <code>eulerpole_greatcircles(x, n)</code> returns great circles as <code>sf</code> object by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the number of great circles <code>n</code>, or the great circle angles (<code>360/d</code>).</p>
+<p>Great circles are lines that cut the small circles at 90<span class="math inline">\(^{\circ}\)</span> and the Euler pole. Function
+<code>eulerpole_greatcircles(x, n)</code> returns great circles as
+<code>sf</code> object by giving a <code>data.frame</code> of the Euler
+pole coordinates in lat and lon (<code>x</code>) and the number of great
+circles <code>n</code>, or the great circle angles
+(<code>360/d</code>).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">euler.gm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_greatcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span>
 <span></span>
@@ -220,14 +256,19 @@
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="greatcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are great circles passing through the In-Eu Euler pole.</p>
+<img src="greatcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are great circles
+passing through the In-Eu Euler pole.</p>
 </div>
 </div>
 <div class="section level4">
 <h4 id="loxodromes">Loxodromes<a class="anchor" aria-label="anchor" href="#loxodromes"></a>
 </h4>
-<p>Loxodrome (also called Rhumb Line) is a curve cutting the small circles at a constant angle. Thus, small and great circles are 0<span class="math inline">\(^{\circ}\)</span> and 90<span class="math inline">\(^{\circ}\)</span> loxodromes, respectively.</p>
-<p>Function <code>eulerpole_loxodromes(x, n)</code> returns loxodromes as <code>sf</code> object by giving a <code>data.frame</code> of the Euler pole coordinates in lat and lon (<code>x</code>) and the angle between the loxodromes, the direction, and the sense.</p>
+<p>Loxodrome (also called Rhumb Line) is a curve cutting the small
+circles at a constant angle. Thus, small and great circles are 0<span class="math inline">\(^{\circ}\)</span> and 90<span class="math inline">\(^{\circ}\)</span> loxodromes, respectively.</p>
+<p>Function <code>eulerpole_loxodromes(x, n)</code> returns loxodromes
+as <code>sf</code> object by giving a <code>data.frame</code> of the
+Euler pole coordinates in lat and lon (<code>x</code>) and the angle
+between the loxodromes, the direction, and the sense.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">euler.ld</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, cw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -270,19 +311,24 @@
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="loxodromes.png" alt=""><p class="caption">Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.</p>
+<img src="loxodromes.png" alt=""><p class="caption">Predicted SHmax trajectories that are 45-degree
+loxodromes circles directed towards the In-Eu Euler pole.</p>
 </div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-Bird2003">
-<p>Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries.” <em>Geochemistry, Geophysics, Geosystems</em> 4 (3). <a href="https://doi.org/10.1029/2001gc000252" class="external-link">https://doi.org/10.1029/2001gc000252</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Bird2003" class="csl-entry">
+Bird, Peter. 2003. <span>“An Updated Digital Model of Plate
+Boundaries.”</span> <em>Geochemistry, Geophysics, Geosystems</em> 4 (3).
+<a href="https://doi.org/10.1029/2001gc000252" class="external-link">https://doi.org/10.1029/2001gc000252</a>.
 </div>
-<div id="ref-DeMets1990">
-<p>DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” <em>Geophysical Journal International</em> 101 (2): 425–78. <a href="https://doi.org/10.1111/j.1365-246x.1990.tb06579.x" class="external-link">https://doi.org/10.1111/j.1365-246x.1990.tb06579.x</a>.</p>
+<div id="ref-DeMets1990" class="csl-entry">
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990.
+<span>“Current Plate Motions.”</span> <em>Geophysical Journal
+International</em> 101 (2): 425–78. <a href="https://doi.org/10.1111/j.1365-246x.1990.tb06579.x" class="external-link">https://doi.org/10.1111/j.1365-246x.1990.tb06579.x</a>.
 </div>
 </div>
 </div>
