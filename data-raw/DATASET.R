@@ -76,7 +76,56 @@ nuvel1
 
 pb2002 <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "Bird") %>%
-  mutate(plate.rot = tolower(plate.rot)) %>%
+  mutate(plate.rot = tolower(plate.rot), source = ifelse(source=="this paper", "Bird [2003]", source), model = "PB2002") %>%
   rename(area = Area) %>%
-  select(plate.name, plate.rot, lat, lon, angle, plate.fix, source, area)
-usethis::use_data(pb2002, overwrite = TRUE)
+  select(plate.name,plate.rot, lon, lat, angle, plate.fix, model)
+#usethis::use_data(pb2002, overwrite = TRUE)
+
+morvel56 <-
+  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "NNR-MORVEL56") %>%
+  mutate(plate.rot = tolower(plate.rot), model = "NNR-MORVEL56") %>%
+  rename(area = Area) %>%
+  select(plate.name,plate.rot, lon, lat, angle, plate.fix, model)
+
+gsrm2 <-
+  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "GSRM") %>%
+  mutate(
+    plate.rot = tolower(plate.rot),
+    lat = lat_NNR,
+    lon = lon_NNR,
+    angle = angle_NNR,
+    plate.fix = "NNR",
+    model = "GSRM2.1"
+  ) %>%
+  select(plate.name,plate.rot, lon, lat, angle, plate.fix, model)
+
+hsnuvel1a <- nuvel.hs <-
+  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "HS3-NUVEL1A") %>%
+  mutate(
+    plate.rot = tolower(plate.rot),
+    angle = rate,
+    plate.fix = "hs",
+    model = "HS3-NUVEL1A"
+  ) %>%
+  select(plate.name,plate.rot, lon, lat, angle, plate.fix, model)
+
+revel <-
+  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "REVEL") %>%
+  mutate(
+    plate.rot = tolower(plate.rot),
+    plate.fix = "itrf97",
+    model = "REVEL"
+  ) %>%
+  select(plate.name,plate.rot, lon, lat, angle, plate.fix, model)
+
+cpm_models <- rbind(
+  nuvel1 %>% mutate(model = "NNR-MORVEL56") %>% select(-source),
+  morvel56,
+  gsrm2,
+  hsnuvel1a,
+  revel,
+  pb2002
+  ) %>%
+  group_by(model)
+usethis::use_data(cpm_models, overwrite = TRUE)
+

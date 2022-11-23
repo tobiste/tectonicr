@@ -3,7 +3,7 @@
 \docType{data}
 \name{nuvel1}
 \alias{nuvel1}
-\title{Global model of current plate motions}
+\title{NUVEL-1 Global model of current plate motions}
 \format{
 An object of class \code{data.frame}
 \describe{
@@ -20,7 +20,7 @@ to  \code{plate.fix}}
 data('nuvel1')
 }
 \description{
-NUVEL-1 global model of current plate motions by DeMets et al. 1990
+NNR-NUVEL-1 global model of current plate motions by DeMets et al. 1990
 }
 \examples{
 data("nuvel1")
