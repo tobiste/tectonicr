@@ -4,7 +4,7 @@ author: "Tobias Stephan"
 output: rmarkdown::html_vignette
 bibliography: tectonicr_references.bib  
 vignette: >
-  %\VignetteIndexEntry{Introduction to tectonicr}
+  %\VignetteIndexEntry{1. Introduction to tectonicr}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
