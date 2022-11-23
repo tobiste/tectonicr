@@ -60,7 +60,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">equivalent_rotation</span><span class="op">(</span><span class="va">x</span>, <span class="va">fixed</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">equivalent_rotation</span><span class="op">(</span><span class="va">x</span>, <span class="va">fixed</span>, <span class="va">rot</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -86,6 +86,11 @@ plate rotations:</p><dl><dt><code>plate.rot</code></dt>
 <dt>fixed</dt>
 <dd><p>plate that will be regarded as fixed. Has to be one out of
 <code>x$plate.fix</code></p></dd>
+
+
+<dt>rot</dt>
+<dd><p>(optional) plate that will be regarded as rotating. Has to be one out of
+<code>x$plate.rot</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -123,6 +128,10 @@ class as <code>x</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12        jf -36.503136   69.97118 0.8851710        af</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13        ph -54.222891  -24.76214 1.0236334        af</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14        pa -59.160000  106.82600 0.9695000        af</span>
+<span class="r-in"><span><span class="co"># relative plate motion between Eurasia and India:</span></span></span>
+<span class="r-in"><span><span class="fu">equivalent_rotation</span><span class="op">(</span><span class="va">nuvel1</span>, <span class="st">"eu"</span>, <span class="st">"in"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   plate.rot      lat      lon     angle plate.fix</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8        in 24.57682 18.07207 0.5281698        eu</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
