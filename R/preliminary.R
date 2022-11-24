@@ -3,7 +3,7 @@
 #' Transform azimuth from geographical to PoR system according to Wdowinski 1998
 #'
 #' @param x \code{"data.frame"}. coordinates of data point (lat, lon) and the azimuth
-#' @param ep \code{"data.frame"}. coordinates of Euler pole (PoR)
+#' @param euler \code{"data.frame"}. coordinates of Euler pole (PoR)
 #' @return \code{"numeric"}. Transformed azimuth relative to PoR
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
@@ -18,11 +18,11 @@
 #' res <- PoR_azimuth(san_andreas, euler)
 #' head(res)
 #' }
-PoR_azimuth <- function(x, ep) {
+PoR_azimuth <- function(x, euler) {
   # .Deprecated("PoR_shmax")
   # convert latitude to colatitude and to radians
   x <- data.frame(lat = x$lat, lon = x$lon, azi = x$azi) * pi / 180
-  ep <- data.frame(lat = ep$lat, lon = ep$lon) * pi / 180
+  ep <- data.frame(lat = euler$lat, lon = euler$lon) * pi / 180
 
   S <-
     cos(ep$lat) * cos(ep$lon) * cos(x$lat) * cos(x$lon) +
@@ -66,7 +66,7 @@ PoR_azimuth <- function(x, ep) {
 #' head(res.geo)
 #' }
 PoR2geo_shmax <- function(df, euler, spherical = FALSE) {
-  stopifnot(is.data.frame(df) & is.data.frame(euler))
+  stopifnot(is.data.frame(df))
   northpole.por <- geographical_to_PoR2(
     data.frame(lat = 0, lon = 0),
     euler,
@@ -95,7 +95,7 @@ PoR2geo_shmax <- function(df, euler, spherical = FALSE) {
 #'
 #' @param x \code{sf} object of the data points in the geographical coordinate
 #' system
-#' @param ep \code{data.frame} of the geographical coordinates of the Euler pole
+#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
 #' (\code{lat}, \code{lon})
 #' @param positive Numeric. Equatorial relative plate boundary motion
 #' (displacement).
@@ -131,19 +131,19 @@ PoR2geo_shmax <- function(df, euler, spherical = FALSE) {
 #' res <- displacement_vector(x = san_andreas, ep = na_pa, tangential = TRUE, positive = FALSE)
 #' head(res)
 #'
-#' res2 <- stress_matrix(x = san_andreas, ep = na_pa, tangential = TRUE, positive = FALSE)
+#' res2 <- stress_matrix(x = san_andreas, euler = na_pa, tangential = TRUE, positive = FALSE)
 #' head(res2)
 #' }
 NULL
 
 #' @rdname stressstrain
-displacement_vector <- function(x, ep, tangential = FALSE, positive = TRUE) {
+displacement_vector <- function(x, euler, tangential = FALSE, positive = TRUE) {
   if (positive) {
-    u <- abs(ep$angle)
+    u <- abs(euler$angle)
   } else {
-    u <- -abs(ep$angle)
+    u <- -abs(euler$angle)
   }
-  x.por <- geographical_to_PoR(x, ep) %>%
+  x.por <- geographical_to_PoR(x, euler) %>%
     sf::st_coordinates()
 
   lon1 <- min(x.por[, 1])
@@ -168,18 +168,18 @@ displacement_vector <- function(x, ep, tangential = FALSE, positive = TRUE) {
   sf::st_as_sf(
     x = data.frame(x.por, d_sc = u_lon, d_gc = u_lat),
     coords = c(1, 2),
-    crs = PoR_crs(ep)
+    crs = PoR_crs(euler)
   )
 }
 
 #' @rdname stressstrain
-stress_matrix <- function(x, ep, tangential = FALSE, positive = FALSE, v = .25, E = 50) {
+stress_matrix <- function(x, euler, tangential = FALSE, positive = FALSE, v = .25, E = 50) {
   if (positive) {
-    u <- abs(ep$angle)
+    u <- abs(euler$angle)
   } else {
-    u <- -abs(ep$angle)
+    u <- -abs(euler$angle)
   }
-  x.por <- geographical_to_PoR(x, ep) %>%
+  x.por <- geographical_to_PoR(x, euler) %>%
     sf::st_coordinates()
 
   lon1 <- min(x.por[, 1])
@@ -232,7 +232,7 @@ stress_matrix <- function(x, ep, tangential = FALSE, positive = FALSE, v = .25, 
   sf::st_as_sf(
     x = data.frame(x.por, s_xx, s_xz, s_zx, s_zz),
     coords = c(1, 2),
-    crs = PoR_crs(ep)
+    crs = PoR_crs(euler)
   )
 }
 
@@ -253,39 +253,32 @@ stress_matrix <- function(x, ep, tangential = FALSE, positive = FALSE, v = .25, 
 #' geographical_to_PoR_quat(q.por, ep.geo)
 geographical_to_PoR_quat <- function(x, euler) {
   p <- geographical_to_cartesian(x)
-  wy <- deg2rad(90-euler[1])
-  wz <- deg2rad(180-euler[2])
 
-  y <- c(0, 1, 0)
-  z <- c(0, 0, 1)
-  qy <- as.quaterion(wy, y) #
-  qz <- as.quaterion(wz, z) #
-  # qy <- cos(wy / 2) + sin(wy / 2) * y
-  # qz <- cos(wz / 2) + sin(wz / 2) * z
-  qyt <- as.quaterion(-wy, y) #
-  qzt <- as.quaterion(-wz, z) #
-  # qyt <- cos(wy / 2) - sin(wy / 2) * y
-  # qzt <- cos(wz / 2) - sin(wz / 2) * z
+  euler::normalize_vector(rotmat_y(90 - euler[1]) %*% rotmat_z(180 - euler[2]) %*% p)
 
-  q <- qy * qz
-  qt <- qzt * qyt
-  #(q * p * t(q)) %>%
-  (q * p * qt) %>%
-    cartesian_to_geographical()
+  angle_y <- deg2rad(90-euler[1])
+  angle_z <- deg2rad(180-euler[2])
+  axis_y <- c(0, 1, 0)
+  axis_z <- c(0, 0, 1)
+  qy <- as.Q4(angle = angle_y, axis = axis_y)
+  qz <- as.Q4(angle = angle_z, axis = axis_z)
+
+  qq <- product_Q4(q1 = qz, q2 = qy)
+  rotation_Q4(q=qq, p=p) %>% euler::normalize_vector()
 }
 
 PoR_to_geographical_quat <- function(x, euler) {
   p_trans <- geographical_to_cartesian(x)
-  wy <- deg2rad(90 - euler[1])
-  wz <- deg2rad(180 - euler[2])
 
-  y <- c(0, 1, 0)
-  z <- c(0, 0, 1)
-  qy <- as.quaterion(wy, y)
-  qz <- as.quaterion(wz, z)
+  angle_y <- deg2rad(90-euler[1])
+  angle_z <- deg2rad(180-euler[2])
+  axis_y <- c(0, 1, 0)
+  axis_z <- c(0, 0, 1)
+  qy <- as.Q4(angle = angle_y, axis = axis_y)
+  qz <- as.Q4(angle = angle_z, axis = axis_z)
 
-  q <- qz * qy
-  (q * p_trans * t(q)) %>%
+  qq <- product_Q4(q1 = qy, q2 = qz)
+  rotation_Q4(q=qq, p=p_trans) %>%
     cartesian_to_geographical()
 }
 
@@ -301,10 +294,100 @@ geographical_to_PoR3 <- function(x, euler) {
   data.frame(lat.PoR = lat.PoR, lon.PoR = lon.PoR)
 }
 
-as.quaterion <- function(angle, vector) {
-  cos(angle / 2) + (vector * sin(angle / 2))
+
+#' Quaternion from angle-axis representation for rotations
+#'
+#' @param angle angle in radians
+#' @param axis,p three-column vector of unit length
+#' @param q,q1,q2 quaternion (list)
+# as.quaternion <- function(angle, axis) {
+#   cos(angle / 2) + (axis * sin(angle / 2))
+# }
+as.Q4 <- function(angle, axis) {
+  Sc <- cos(angle / 2)
+  Vec <- axis * sin(angle / 2)
+  normalize_Q4(list(Sc = c(Sc), Vec = Vec))
 }
 
+# normalize_Q4 <- function(q){
+#   q4 <- Q4(q)
+#   q.norm <- q4/sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
+#   list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4]))
+# }
+
+#' Product of quaternions
+#'
+#' Multiplication of two quaternions is not commutative.
+#' Concatenation of two rotations R1 followed by R2
+#'
+#' @param q1,q2 quaternion (list). first rotation R1 expressed by q1 followed by second rotation R2 expressed by q2
+#' @returns quaternion
+product_Q4 <- function(q1, q2) {
+  Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
+  Vec <- q1$Sc * q2$Vec + q2$Sc * q1$Vec + vcross(q2$Vec, q1$Vec)
+  list(Sc = c(Sc), Vec = Vec)
+}
+
+#' Angle/axis extraction from quaternion
+#' @param q quaternion (list)
+#' @returns list with the angle (in radians) and the axis (Cartesian coordinates).
+angleaxis_Q4 <- function(q) {
+  angle <- 2 * acos(q$Sc)
+  axis <- (1 / sin(angle / 2)) * (q$Vec)
+  list(angle = angle, axis = axis)
+}
+
+conjugate_Q4 <- function(q) {
+  list(Sc = q$Sc, Vec = -q$Vec)
+}
+
+Q4 <- function(q) {
+  q$Sc + q$Vec
+}
+
+#' Rotation of a vector by a quaternion
+#' @param q quaternion (list)
+#' @param p three-column vector (Cartesian coordinates) of unit length
+#' @returns three-column vector (Cartesian coordinates) of unit length
+rotation_Q4 <- function(q, p) {
+  Q4(q) * p * Q4(conjugate_Q4(q))
+}
+
+rotmat2Q4 <- function(x){
+  q0 <- sqrt((1 + x[1,1] + x[2,2] + x[3, 3])/4)
+  q1 <- sqrt((1 + x[1,1] - x[2,2] - x[3, 3])/4)
+  q2 <- sqrt((1 - x[1,1] + x[2,2] - x[3, 3])/4)
+  q3 <- sqrt((1 - x[1,1] - x[2,2] + x[3, 3])/4)
+
+  maxq <- max(c(q0, q1, q2, q3))
+
+  if(maxq == q0){
+    q1 = (x[3,2] - x[2,3]) / 4* q0
+    q2 = (x[1,3]-x[3,1]) / 4* q0
+    q3 = (x[2,1]-x[1,2]) / 4* q0
+  } else if(maxq == q1){
+    q0 = (x[3,2] - x[2,3]) / 4* q1
+    q2 = (x[1,2]+x[2,1]) / 4* q1
+    q3 = (x[1,3]+x[3,1]) / 4* q1
+  } else if(maxq == q2){
+    q0 = (x[1,3] - x[3,1]) / 4* q2
+    q1 = (x[1,2]+x[2,1]) / 4* q2
+    q3 = (x[2,3]+x[3,2]) / 4* q2
+  } else if(maxq == q3) {
+    q0 = (x[2,1] - x[1,2]) / 4* q3
+    q1 = (x[1,3]+x[3,1]) / 4* q3
+    q2 = (x[2,3]+x[3,2]) / 4* q3
+  }
+  list(Sc =q0, Vec = c(q1, q2, q3))
+}
+
+Q42rotmat <- function(x){
+  rbind(
+    c(q[1]^2 + q[2]^2 - q[3]^2 - q[4]^2, 2*q[2]*q[3]-2*q[1]*q[4], 2*q[2]*q[3] + 2*q[1]*q[3]),
+    c(),
+    c()
+  )
+  }
 
 # microbenchmark::microbenchmark(
 #   geographical_to_PoR_quat(q.geo, ep.geo),
