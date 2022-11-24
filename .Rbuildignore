@@ -15,3 +15,4 @@
 ^CRAN-SUBMISSION$
 ^revdep$
 ^\.travis\.yml$
+^R/preliminary\.R$

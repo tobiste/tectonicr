@@ -19,7 +19,7 @@
 #' head(res)
 #' }
 PoR_azimuth <- function(x, ep) {
-  #.Deprecated("PoR_shmax")
+  # .Deprecated("PoR_shmax")
   # convert latitude to colatitude and to radians
   x <- data.frame(lat = x$lat, lon = x$lon, azi = x$azi) * pi / 180
   ep <- data.frame(lat = ep$lat, lon = ep$lon) * pi / 180
@@ -57,9 +57,10 @@ PoR_azimuth <- function(x, ep) {
 #' head(san_andreas$azi)
 #' azi.PoR <- PoR_shmax(san_andreas, euler)
 #' res.PoR <- data.frame(
-#' azi.PoR = azi.PoR,
-#' geographical_to_PoR2(san_andreas, euler,
-#' spherical = FALSE)
+#'   azi.PoR = azi.PoR,
+#'   geographical_to_PoR2(san_andreas, euler,
+#'     spherical = FALSE
+#'   )
 #' )
 #' res.geo <- PoR2geo_shmax(res.PoR, euler, spherical = FALSE)
 #' head(res.geo)
@@ -234,3 +235,79 @@ stress_matrix <- function(x, ep, tangential = FALSE, positive = FALSE, v = .25, 
     crs = PoR_crs(ep)
   )
 }
+
+
+#' Conversion between PoR to geographical coordinate system using quaternions
+#'
+#' Helper function for the transformation from PoR to geographical coordinate
+#' system or vice versa
+#'
+#' @param x,euler two-column vectors containing the lat and lon coordinates
+#' @examples
+#' ep.geo <- c(20, 33)
+#' q.geo <- c(10, 45)
+#' q.por <- geographical_to_PoR_quat(q.geo, ep.geo)
+#' q.por
+#' geographical_to_PoR_vec(q.geo, ep.geo, spherical = FALSE)
+#' geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords = c("lon", "lat")), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
+#' geographical_to_PoR_quat(q.por, ep.geo)
+geographical_to_PoR_quat <- function(x, euler) {
+  p <- geographical_to_cartesian(x)
+  wy <- deg2rad(90-euler[1])
+  wz <- deg2rad(180-euler[2])
+
+  y <- c(0, 1, 0)
+  z <- c(0, 0, 1)
+  qy <- as.quaterion(wy, y) #
+  qz <- as.quaterion(wz, z) #
+  # qy <- cos(wy / 2) + sin(wy / 2) * y
+  # qz <- cos(wz / 2) + sin(wz / 2) * z
+  qyt <- as.quaterion(-wy, y) #
+  qzt <- as.quaterion(-wz, z) #
+  # qyt <- cos(wy / 2) - sin(wy / 2) * y
+  # qzt <- cos(wz / 2) - sin(wz / 2) * z
+
+  q <- qy * qz
+  qt <- qzt * qyt
+  #(q * p * t(q)) %>%
+  (q * p * qt) %>%
+    cartesian_to_geographical()
+}
+
+PoR_to_geographical_quat <- function(x, euler) {
+  p_trans <- geographical_to_cartesian(x)
+  wy <- deg2rad(90 - euler[1])
+  wz <- deg2rad(180 - euler[2])
+
+  y <- c(0, 1, 0)
+  z <- c(0, 0, 1)
+  qy <- as.quaterion(wy, y)
+  qz <- as.quaterion(wz, z)
+
+  q <- qz * qy
+  (q * p_trans * t(q)) %>%
+    cartesian_to_geographical()
+}
+
+geographical_to_PoR3 <- function(x, euler) {
+  ep.geo <- c(euler$lat, euler$lon)
+  lat.PoR <- lon.PoR <- c()
+
+  for (i in seq_along(x$lon)) {
+    x_por.i <- geographical_to_PoR_quat(c(x$lat[i], x$lon[i]), euler = ep.geo)
+    lat.PoR[i] <- x_por.i[1]
+    lon.PoR[i] <- x_por.i[2]
+  }
+  data.frame(lat.PoR = lat.PoR, lon.PoR = lon.PoR)
+}
+
+as.quaterion <- function(angle, vector) {
+  cos(angle / 2) + (vector * sin(angle / 2))
+}
+
+
+# microbenchmark::microbenchmark(
+#   geographical_to_PoR_quat(q.geo, ep.geo),
+#   geographical_to_PoR_vec(q.geo, ep.geo, spherical = FALSE),
+#   geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords=c('lon', 'lat')), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
+# )
