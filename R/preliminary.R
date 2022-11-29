@@ -250,35 +250,36 @@ stress_matrix <- function(x, euler, tangential = FALSE, positive = FALSE, v = .2
 #' q.por
 #' geographical_to_PoR_vec(q.geo, ep.geo, spherical = FALSE)
 #' geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords = c("lon", "lat")), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
-#' geographical_to_PoR_quat(q.por, ep.geo)
+#' PoR_to_geographical_quat(q.por, ep.geo)
+#' geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords = c("lon", "lat")), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2])) %>% PoR_to_geographical(euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
 geographical_to_PoR_quat <- function(x, euler) {
   p <- geographical_to_cartesian(x)
-
-  euler::normalize_vector(rotmat_y(90 - euler[1]) %*% rotmat_z(180 - euler[2]) %*% p)
-
-  angle_y <- deg2rad(90-euler[1])
-  angle_z <- deg2rad(180-euler[2])
+  angle_y <- deg2rad(90 - euler[1])
+  angle_z <- deg2rad(180 - euler[2])
   axis_y <- c(0, 1, 0)
   axis_z <- c(0, 0, 1)
-  qy <- as.Q4(angle = angle_y, axis = axis_y)
-  qz <- as.Q4(angle = angle_z, axis = axis_z)
-
+  qy <- euler_to_Q4(angle = angle_y, axis = axis_y)
+  qz <- euler_to_Q4(angle = angle_z, axis = axis_z)
   qq <- product_Q4(q1 = qz, q2 = qy)
-  rotation_Q4(q=qq, p=p) %>% euler::normalize_vector()
+  p_trans = rotation_Q4(q = qq, p = p) %>%
+    cartesian_to_geographical()
+  p_trans[2] <- longitude_modulo(p_trans[2] + 180)
+  return(p_trans)
 }
 
 PoR_to_geographical_quat <- function(x, euler) {
+  x[2] <- longitude_modulo(x[2] - 180)
   p_trans <- geographical_to_cartesian(x)
 
-  angle_y <- deg2rad(90-euler[1])
-  angle_z <- deg2rad(180-euler[2])
+  angle_y <- deg2rad(90 - euler[1])
+  angle_z <- deg2rad(180 - euler[2])
   axis_y <- c(0, 1, 0)
   axis_z <- c(0, 0, 1)
-  qy <- as.Q4(angle = angle_y, axis = axis_y)
-  qz <- as.Q4(angle = angle_z, axis = axis_z)
+  qy <- euler_to_Q4(angle = angle_y, axis = axis_y)  %>% conjugate_Q4()
+  qz <- euler_to_Q4(angle = angle_z, axis = axis_z)  %>% conjugate_Q4()
 
-  qq <- product_Q4(q1 = qy, q2 = qz)
-  rotation_Q4(q=qq, p=p_trans) %>%
+  product_Q4(q1 = qy, q2 = qz) %>%
+    rotation_Q4(p = p_trans) %>%
     cartesian_to_geographical()
 }
 
@@ -295,7 +296,7 @@ geographical_to_PoR3 <- function(x, euler) {
 }
 
 
-#' Quaternion from angle-axis representation for rotations
+#' Quaternion from Euler angle-axis representation for rotations
 #'
 #' @param angle angle in radians
 #' @param axis,p three-column vector of unit length
@@ -303,17 +304,26 @@ geographical_to_PoR3 <- function(x, euler) {
 # as.quaternion <- function(angle, axis) {
 #   cos(angle / 2) + (axis * sin(angle / 2))
 # }
-as.Q4 <- function(angle, axis) {
+euler_to_Q4 <- function(angle, axis, normalize = FALSE) {
   Sc <- cos(angle / 2)
   Vec <- axis * sin(angle / 2)
-  normalize_Q4(list(Sc = c(Sc), Vec = Vec))
+  q <- (list(Sc = c(Sc), Vec = Vec))
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
 }
 
-# normalize_Q4 <- function(q){
-#   q4 <- Q4(q)
-#   q.norm <- q4/sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
-#   list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4]))
-# }
+
+normalize_Q4 <- function(q) {
+  q4 <- Q4_2(q)
+
+  q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
+  q.norm <- list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4]))
+  class(q.norm) <- "quaternion"
+  return(q.norm)
+}
 
 #' Product of quaternions
 #'
@@ -322,27 +332,43 @@ as.Q4 <- function(angle, axis) {
 #'
 #' @param q1,q2 quaternion (list). first rotation R1 expressed by q1 followed by second rotation R2 expressed by q2
 #' @returns quaternion
-product_Q4 <- function(q1, q2) {
+product_Q4 <- function(q1, q2, normalize = FALSE) {
   Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
   Vec <- q1$Sc * q2$Vec + q2$Sc * q1$Vec + vcross(q2$Vec, q1$Vec)
-  list(Sc = c(Sc), Vec = Vec)
+  q <- list(Sc = c(Sc), Vec = Vec)
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
 }
 
-#' Angle/axis extraction from quaternion
+#' Euler angle/axis from quaternion
 #' @param q quaternion (list)
 #' @returns list with the angle (in radians) and the axis (Cartesian coordinates).
-angleaxis_Q4 <- function(q) {
+Q4_to_euler <- function(q) {
+  stopifnot(is.Q4(q))
   angle <- 2 * acos(q$Sc)
-  axis <- (1 / sin(angle / 2)) * (q$Vec)
+  axis <- q$Vec / sin(angle / 2)
   list(angle = angle, axis = axis)
 }
 
-conjugate_Q4 <- function(q) {
-  list(Sc = q$Sc, Vec = -q$Vec)
+conjugate_Q4 <- function(q, normalize = FALSE) {
+  q <- list(Sc = q$Sc, Vec = -q$Vec)
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
 }
 
 Q4 <- function(q) {
+  stopifnot(is.Q4(q))
   q$Sc + q$Vec
+}
+
+is.Q4 <- function(q) {
+  class(q) == "quaternion"
 }
 
 #' Rotation of a vector by a quaternion
@@ -350,44 +376,88 @@ Q4 <- function(q) {
 #' @param p three-column vector (Cartesian coordinates) of unit length
 #' @returns three-column vector (Cartesian coordinates) of unit length
 rotation_Q4 <- function(q, p) {
-  Q4(q) * p * Q4(conjugate_Q4(q))
+  stopifnot(is.Q4(q))
+  #Q4(q) * p * Q4(conjugate_Q4(q))
+
+  # Rodrigues Formula
+  q.euler <- Q4_to_euler(q)
+  #p * cos(q.euler$angle) + vcross(q.euler$axis, p) * sin(q.euler$angle) + q.euler$axis * as.numeric(q.euler$axis %*% p) * (1 - cos(q.euler$axis))
+  p + vcross(q.euler$axis, p) * sin(q.euler$angle) + vcross(q.euler$axis, vcross(q.euler$axis, p)) * 2 * (sin(q.euler$angle/2))^2
 }
 
-rotmat2Q4 <- function(x){
-  q0 <- sqrt((1 + x[1,1] + x[2,2] + x[3, 3])/4)
-  q1 <- sqrt((1 + x[1,1] - x[2,2] - x[3, 3])/4)
-  q2 <- sqrt((1 - x[1,1] + x[2,2] - x[3, 3])/4)
-  q3 <- sqrt((1 - x[1,1] - x[2,2] + x[3, 3])/4)
+rotmat_to_Q4 <- function(x, normalize = FALSE) {
+  stopifnot(is.matrix(x))
+  q0 <- sqrt(abs((1 + x[1, 1] + x[2, 2] + x[3, 3]) / 4))
+  q1 <- sqrt(abs((1 + x[1, 1] - x[2, 2] - x[3, 3]) / 4))
+  q2 <- sqrt(abs((1 - x[1, 1] + x[2, 2] - x[3, 3]) / 4))
+  q3 <- sqrt(abs((1 - x[1, 1] - x[2, 2] + x[3, 3]) / 4))
 
   maxq <- max(c(q0, q1, q2, q3))
 
-  if(maxq == q0){
-    q1 = (x[3,2] - x[2,3]) / 4* q0
-    q2 = (x[1,3]-x[3,1]) / 4* q0
-    q3 = (x[2,1]-x[1,2]) / 4* q0
-  } else if(maxq == q1){
-    q0 = (x[3,2] - x[2,3]) / 4* q1
-    q2 = (x[1,2]+x[2,1]) / 4* q1
-    q3 = (x[1,3]+x[3,1]) / 4* q1
-  } else if(maxq == q2){
-    q0 = (x[1,3] - x[3,1]) / 4* q2
-    q1 = (x[1,2]+x[2,1]) / 4* q2
-    q3 = (x[2,3]+x[3,2]) / 4* q2
-  } else if(maxq == q3) {
-    q0 = (x[2,1] - x[1,2]) / 4* q3
-    q1 = (x[1,3]+x[3,1]) / 4* q3
-    q2 = (x[2,3]+x[3,2]) / 4* q3
+  if (maxq == q0) {
+    q1 <- (x[3, 2] - x[2, 3]) / 4 * q0
+    q2 <- (x[1, 3] - x[3, 1]) / 4 * q0
+    q3 <- (x[2, 1] - x[1, 2]) / 4 * q0
+  } else if (maxq == q1) {
+    q0 <- (x[3, 2] - x[2, 3]) / 4 * q1
+    q2 <- (x[1, 2] + x[2, 1]) / 4 * q1
+    q3 <- (x[1, 3] + x[3, 1]) / 4 * q1
+  } else if (maxq == q2) {
+    q0 <- (x[1, 3] - x[3, 1]) / 4 * q2
+    q1 <- (x[1, 2] + x[2, 1]) / 4 * q2
+    q3 <- (x[2, 3] + x[3, 2]) / 4 * q2
+  } else if (maxq == q3) {
+    q0 <- (x[2, 1] - x[1, 2]) / 4 * q3
+    q1 <- (x[1, 3] + x[3, 1]) / 4 * q3
+    q2 <- (x[2, 3] + x[3, 2]) / 4 * q3
   }
-  list(Sc =q0, Vec = c(q1, q2, q3))
+  Q4_to_QScVec(c(q0, q1, q2, q3, q4), normalize)
 }
 
-Q42rotmat <- function(x){
-  rbind(
-    c(q[1]^2 + q[2]^2 - q[3]^2 - q[4]^2, 2*q[2]*q[3]-2*q[1]*q[4], 2*q[2]*q[3] + 2*q[1]*q[3]),
-    c(),
-    c()
+Q4_to_rotmat <- function(x, normalize = TRUE) {
+  q <- QScVec_to_Q4(x)
+
+  m <- rbind(
+    c(q[1]^2 + q[2]^2 - q[3]^2 - q[4]^2, 2 * q[2] * q[3] - 2 * q[1] * q[4], 2 * q[2] * q[4] + 2 * q[1] * q[3]),
+    c(2 * q[2] * q[3] + 2 * q[1] * q[4], q[1]^2 - q[2]^2 + q[3]^2 - q[4]^2, 2 * q[3] * q[4] - 2 * q[1] * q[2]),
+    c(2 * q[2] * q[4] - 2 * q[1] * q[3], 2 * q[3] * q[4] + 2 * q[1] * q[2], q[1]^2 - q[2]^2 - q[3]^2 + q[4]^2)
   )
+  if (normalize) {
+    m <- normalize_matrix(m)
   }
+  return(m)
+}
+
+normalize_matrix <- function(x) {
+  x / max(x)
+}
+
+QScVec_to_Q4 <- function(x) {
+  stopifnot(x$Sc != 0)
+  x.euler <- Q4_to_euler(x)
+  q <- c()
+  q[1] <- x$Sc
+  q[2] <- x.euler$axis[1] * sin(x.euler$angle / 2)
+  q[3] <- x.euler$axis[2] * sin(x.euler$angle / 2)
+  q[4] <- x.euler$axis[3] * sin(x.euler$angle / 2)
+  q
+}
+
+Q4_to_QScVec <- function(x, normalize = FALSE){
+  stopifnot(x[1] != 0)
+  angle <- 2 * acos(x[1])
+  q1 <- x[2]/sin(angle/2)
+  q2 <- x[3]/sin(angle/2)
+  q3 <- x[4]/sin(angle/2)
+
+  q <- list(Sc = x[1], Vec = c(q1, q2, q3))
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
+}
+
 
 # microbenchmark::microbenchmark(
 #   geographical_to_PoR_quat(q.geo, ep.geo),
