@@ -238,6 +238,8 @@ NULL
 
 #' @rdname por_conversion_vec
 PoR_to_geographical_vec <- function(x, euler, spherical = TRUE) {
+  x[2] <- longitude_modulo(x[2]+180)
+
   if(spherical){
     x.por.cart <- spherical_to_cartesian(x)
   } else {
@@ -252,11 +254,14 @@ PoR_to_geographical_vec <- function(x, euler, spherical = TRUE) {
 geographical_to_PoR_vec <- function(x, euler, spherical = TRUE) {
   x.cart <- geographical_to_cartesian(x)
   x.cart.por <- rotmat_y(90 - euler[1]) %*% rotmat_z(180 - euler[2]) %*% x.cart
+
   if(spherical){
-    cartesian_to_spherical(x.cart.por)
+    res <- cartesian_to_spherical(x.cart.por)
   } else {
-    cartesian_to_geographical(x.cart.por)
+    res <- cartesian_to_geographical(x.cart.por)
   }
+  res[2] <- longitude_modulo(res[2]-180)
+  return(res)
 }
 
 
