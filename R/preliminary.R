@@ -237,6 +237,7 @@ stress_matrix <- function(x, euler, tangential = FALSE, positive = FALSE, v = .2
 }
 
 
+
 #' Conversion between PoR to geographical coordinate system using quaternions
 #'
 #' Helper function for the transformation from PoR to geographical coordinate
@@ -251,7 +252,6 @@ stress_matrix <- function(x, euler, tangential = FALSE, positive = FALSE, v = .2
 #' geographical_to_PoR_vec(q.geo, ep.geo, spherical = FALSE)
 #' geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords = c("lon", "lat")), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
 #' PoR_to_geographical_quat(q.por, ep.geo)
-#' geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords = c("lon", "lat")), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2])) %>% PoR_to_geographical(euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
 geographical_to_PoR_quat <- function(x, euler) {
   p <- geographical_to_cartesian(x)
   angle_y <- deg2rad(90 - euler[1])
@@ -275,8 +275,8 @@ PoR_to_geographical_quat <- function(x, euler) {
   angle_z <- deg2rad(180 - euler[2])
   axis_y <- c(0, 1, 0)
   axis_z <- c(0, 0, 1)
-  qy <- euler_to_Q4(angle = angle_y, axis = axis_y)  %>% conjugate_Q4()
-  qz <- euler_to_Q4(angle = angle_z, axis = axis_z)  %>% conjugate_Q4()
+  qy <- euler_to_Q4(angle = angle_y, axis = -axis_y) #%>% conjugate_Q4()
+  qz <- euler_to_Q4(angle = angle_z, axis = -axis_z) #%>% conjugate_Q4()
 
   product_Q4(q1 = qy, q2 = qz) %>%
     rotation_Q4(p = p_trans) %>%
@@ -318,7 +318,6 @@ euler_to_Q4 <- function(angle, axis, normalize = FALSE) {
 
 normalize_Q4 <- function(q) {
   q4 <- Q4_2(q)
-
   q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
   q.norm <- list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4]))
   class(q.norm) <- "quaternion"
@@ -458,9 +457,8 @@ Q4_to_QScVec <- function(x, normalize = FALSE){
   return(q)
 }
 
-
-# microbenchmark::microbenchmark(
-#   geographical_to_PoR_quat(q.geo, ep.geo),
-#   geographical_to_PoR_vec(q.geo, ep.geo, spherical = FALSE),
-#   geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords=c('lon', 'lat')), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
-# )
+microbenchmark::microbenchmark(
+  geographical_to_PoR_quat(q.geo, ep.geo),
+  geographical_to_PoR_vec(q.geo, ep.geo, spherical = FALSE),
+  geographical_to_PoR(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords=c('lon', 'lat')), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
+)
