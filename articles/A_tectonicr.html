@@ -87,7 +87,7 @@ Stephan</h4>
     
 <p><strong>tectonicr</strong> is a free and open-source R package for
 modeling and analyzing the direction of the maximum horizontal stress
-based on the empirical link between the orientation of intraplate stress
+based on the empirical link between the direction of intraplate stress
 and the direction of the relative motion of neighboring plates.</p>
 <div class="section level3">
 <h3 id="theoretical-background">Theoretical background<a class="anchor" aria-label="anchor" href="#theoretical-background"></a>
@@ -141,10 +141,11 @@ displacement adjacent to these plate boundaries are characterized by
 strike-slip parallel to the plate motion, and thus, the principal axes
 of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory.
 Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span>
-orientation follows along 45<span class="math inline">\(^{\circ}\)</span> <em>loxodromes</em> (lines of
-constant bearing) which diverge —depending on the sense of the transform
-boundary— clockwise or counterclockwise from the relative Euler pole and
-intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
+direction follows along 45<span class="math inline">\(^{\circ}\)</span>
+<em>loxodromes</em> (lines of constant bearing) which diverge —depending
+on the sense of the transform boundary— clockwise or counterclockwise
+from the relative Euler pole and intersect both small and great circles
+at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -190,9 +191,9 @@ circles and loxodromes geometries can be modeled with
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   sc ld.ccw gc ld.cw</span></span>
 <span><span class="co">#&gt; 1 90    135  0    45</span></span></code></pre></div>
-<p>If there is an observed stress orientation at the point, e.g. azimuth
+<p>If there is an observed stress direction at the point, e.g. azimuth
 of <span class="math inline">\(\sigma_{Hmax}\)</span> is 90<span class="math inline">\(^{\circ}\)</span>, the deviation from the modeled
-stress orientations can be achieved via <code><a href="../reference/misfit_shmax.html">misfit_shmax()</a></code>:</p>
+stress directions can be achieved via <code><a href="../reference/misfit_shmax.html">misfit_shmax()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/misfit_shmax.html">misfit_shmax</a></span><span class="op">(</span><span class="va">model</span>, <span class="fl">90</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deviation</span><span class="op">)</span></span>

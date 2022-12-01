@@ -191,7 +191,7 @@ deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</
 <p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled
 stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes.</p>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span>
-test quantifies the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> orientation the observed
+test quantifies the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> direction the observed
 stress direction considering the reported uncertainties of the
 measurement.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -207,15 +207,15 @@ the transform plate boundary explain the stress direction of the
 area.</p>
 </div>
 <div class="section level3">
-<h3 id="variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary">Variation of the Orientation of the Maximum Horizontal Stress wrt.
-to the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-orientation-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary"></a>
+<h3 id="variation-of-the-direction-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary">Variation of the Direction of the Maximum Horizontal Stress wrt. to
+the Distance to the Plate Boundary<a class="anchor" aria-label="anchor" href="#variation-of-the-direction-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary"></a>
 </h3>
-<p>The orientation of the maximum horizontal stress correlates with
-plate motion direction at the plate boundary zone. Towards the plate
-interior, plate boundary forces become weaker and other stress sources
-will probably dominate.</p>
+<p>The direction of the maximum horizontal stress correlates with plate
+motion direction at the plate boundary zone. Towards the plate interior,
+plate boundary forces become weaker and other stress sources will
+probably dominate.</p>
 <p>To visualize the variation of the <span class="math inline">\(\sigma_{Hmax}\)</span> wrt. to the distance to the
-plate boundary, we need to transfer the orientation of <span class="math inline">\(\sigma_{Hmax}\)</span> from the geographic
+plate boundary, we need to transfer the direction of <span class="math inline">\(\sigma_{Hmax}\)</span> from the geographic
 reference system (i.e. azimuth is the deviation of a direction from
 geographic North pole) to the <strong>Pole of Rotation (PoR)</strong>
 reference system (i.e. azimuth is the deviation from the Euler
@@ -234,7 +234,7 @@ the great circle that passes through the data point and the Euler pole
 \end{equation}\]</span>
 <p>The function <code><a href="../reference/PoR_shmax.html">PoR_shmax()</a></code> returns the transformed azimuth
 of <span class="math inline">\(\sigma_{Hmax}\)</span> and, if given, the
-deviation from the predicted <span class="math inline">\(\sigma_{Hmax}\)</span> orientation related to the
+deviation from the predicted <span class="math inline">\(\sigma_{Hmax}\)</span> direction related to the
 plate boundary type:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">san_andreas.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
@@ -260,7 +260,7 @@ returns the angular distances.</p>
 <span>    tangential <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in st_cast.MULTILINESTRING(X[[i]], ...): keeping first linestring only</span></span></code></pre></div>
-<p>Finally, we visualize the the <span class="math inline">\(\sigma_{Hmax}\)</span> orientation wrt to the
+<p>Finally, we visualize the the <span class="math inline">\(\sigma_{Hmax}\)</span> direction wrt. to the
 distance to the plate boundary:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -288,8 +288,8 @@ distance to the plate boundary:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="azimuth.png"></p>
 <p>Close to the here dextral plate boundary, the majority of the stress
-data have a strike-slip fault regime and are oriented around 135° wrt to
-the Euler pole. Thus, the date are parallel to the predicted stress
+data have a strike-slip fault regime and are oriented around 135° wrt.
+to the Euler pole. Thus, the date are parallel to the predicted stress
 sourced by a right-lateral displaced plate boundary. Away from the plate
 boundary, the data becomes more noisy.</p>
 <blockquote>
@@ -299,7 +299,7 @@ displaced boundary.</p>
 </blockquote>
 <p>The relationship between the azimuth and the distance can be better
 visualized by using the deviation (normalized by the data precision)
-from the the predicted stress orientation, i.e. the <em>normalized</em>
+from the the predicted stress direction, i.e. the <em>normalized</em>
 <span class="math inline">\(\chi^2\)</span>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">nchisq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>

@@ -83,20 +83,20 @@
 
     
     
-<p>This vignette teaches you how to retrieve the mean orientation of
+<p>This vignette teaches you how to retrieve the mean direction of
 stress datasets.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="mean-orientation">Mean orientation<a class="anchor" aria-label="anchor" href="#mean-orientation"></a>
+<h3 id="mean-direction">Mean direction<a class="anchor" aria-label="anchor" href="#mean-direction"></a>
 </h3>
-<p>Orientation data is pi-periodical. Thus, for the calculation of mean,
+<p>Directional data is pi-periodical. Thus, for the calculation of mean,
 the average of 35° and 355° should be 15° instead of 195°.
 <strong>tectonicr</strong> provides the circular mean
 (<code><a href="../reference/circle_median.html">circular_mean()</a></code>) and the quasi-median on the circle
 (<code><a href="../reference/circle_median.html">circular_quasi_median()</a></code>) as metrics to describe average
-orientation:</p>
+direction:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/circle_median.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span>
@@ -105,13 +105,13 @@ orientation:</p>
 <span><span class="co">#&gt; [1] 36</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="quality-weighted-mean-orientation">Quality weighted mean orientation<a class="anchor" aria-label="anchor" href="#quality-weighted-mean-orientation"></a>
+<h3 id="quality-weighted-mean-direction">Quality weighted mean direction<a class="anchor" aria-label="anchor" href="#quality-weighted-mean-direction"></a>
 </h3>
 <p>Because the stress data is heteroscedastic, the data with less
-precise orientation should have less impact on the final mean
-orientation. The weighted mean or median uses the reported uncertainties
-of the measurements and weights the final average value by the inverse
-of the uncertainties:</p>
+precise direction should have less impact on the final mean direction
+The weighted mean or median uses the reported uncertainties of the
+measurements and weights the final average value by the inverse of the
+uncertainties:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_circle_stats.html">circular_weighted_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 9.971235</span></span>
@@ -175,11 +175,11 @@ as well as a 25% cut-off for the standard deviation.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">R</span><span class="op">)</span></span></code></pre></div>
 <p><img src="interpolation.png"></p>
-<p>The interpolated orientation of far apart data points will suffer
+<p>The interpolated direction of far apart data points will suffer
 from<br>
 distortions due to the underlying projection. In order to prevent such
 effects, the interpolation can be done in the PoR reference frame where
-orientation stays constant no matter the distance between the data
+the direction stays constant no matter the distance between the data
 points. Assuming that the stress field is sourced by the plate boundary
 force, the model-based interpolation allows more reliable results for
 areas close to plate boundaries.</p>
