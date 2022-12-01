@@ -6,7 +6,7 @@
 
 # tectonicr
 
-**tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the orientation of intraplate stress and the direction of the relative motion of neighboring plates. The following methods are available:
+**tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates. The following methods are available:
 
 - **Theoretical direction of SHmax**: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the  neighboring plates using the function `model_shmax()`. The deviation or misfit of the prediction to the observation can be obtained from the function `misfit_shmax()` and statistically evaluated by applying `norm_chisq()`.
 - **Distance to plate boundary**: `distance_from_pb()` gives the distance between the stress data point and the plate boundary measured along the stress trajectories.

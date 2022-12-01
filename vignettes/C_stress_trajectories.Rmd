@@ -57,7 +57,7 @@ head(pb2002.eu)
 
 ## Plotting Pole of Rotation Grids
 
-To visualize the theoretical trajectories of the orientation of $\sigma_{Hmax}$ 
+To visualize the theoretical trajectories of the direction of $\sigma_{Hmax}$ 
 (great circles, small circles, and loxodomes), we need to transform the 
 locations from the geographical coordinate system into the *PoR* coordinate 
 system. The transformations are done through the function functions 

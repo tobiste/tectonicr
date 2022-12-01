@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette teaches you how to retrieve the mean orientation of stress 
+This vignette teaches you how to retrieve the mean direction of stress 
 datasets. 
 
 ```{r setup, echo=TRUE}
@@ -26,22 +26,22 @@ library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
 
-## Mean orientation
-Orientation data is pi-periodical. 
+## Mean direction
+Directional data is pi-periodical. 
 Thus, for the calculation of mean, the average of 35° and 355° 
 should be 15° instead of 195°. 
 **tectonicr** provides the circular mean (`circular_mean()`) and the 
 quasi-median on the circle (`circular_quasi_median()`)
-as metrics to describe average orientation:
+as metrics to describe average direction:
 
 ```{r mean, echo=TRUE}
 data("san_andreas")
 circular_mean(san_andreas$azi)
 circular_quasi_median(san_andreas$azi)
 ```
-## Quality weighted mean orientation
+## Quality weighted mean direction
 Because the stress data is heteroscedastic, the data with less precise 
-orientation should have less impact on the final mean orientation. The weighted 
+direction should have less impact on the final mean direction The weighted 
 mean or median uses the reported uncertainties of the measurements and weights 
 the final average value by the inverse of the uncertainties:
 ```{r weighted}
@@ -106,11 +106,11 @@ ggplot(mean_SH) +
 ```
 ![](interpolation.png)
 
-The interpolated orientation of far apart data points will suffer from  
+The interpolated direction of far apart data points will suffer from  
 distortions due to the underlying projection. In order to prevent such effects, 
-the interpolation can be done in the PoR reference frame where orientation stays 
-constant no matter the distance between the data points. Assuming that the 
-stress field is sourced by the plate boundary force, the model-based 
+the interpolation can be done in the PoR reference frame where the direction 
+stays constant no matter the distance between the data points. Assuming that 
+the stress field is sourced by the plate boundary force, the model-based 
 interpolation allows more reliable results for areas close to plate boundaries.
 
 ```{r interpolation_PoR}

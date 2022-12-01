@@ -51,9 +51,9 @@ wcmedian <- function(x, w) {
 #' \describe{
 #' \item{azi}{SHmax in degree}
 #' \item{unc}{Uncertainties of SHmax in degree}
-#' \item{type}{Methods used for the determination of the orientation of SHmax}
+#' \item{type}{Methods used for the determination of the direction of SHmax}
 #' }
-#' @param stat Should the orientation of interpolated SHmax be based  on the
+#' @param stat Should the direction of interpolated SHmax be based  on the
 #' circular mean and standard deviation (\code{"mean"}, the default) or on the
 #' circular median
 #' and interquartile range (\code{"median"})?
@@ -62,7 +62,7 @@ wcmedian <- function(x, w) {
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
 #' degree. Default is 2.5
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
-#' @param threshold Numeric. Threshold for deviation of orientation. Default is
+#' @param threshold Numeric. Threshold for deviation of direction. Default is
 #' 25
 #' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the
 #' next

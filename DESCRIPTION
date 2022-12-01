@@ -6,7 +6,7 @@ Authors@R:
     person("Tobias", "Stephan", , "tobias.stephan1@yahoo.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9290-014X"))
 Description: Models and analyzes the direction of the maximum horizontal
-    stress direction using relative plate motion parameters.
+    stress using relative plate motion parameters.
 License: GPL (>= 3)
 URL: https://tobiste.github.io/tectonicr/
 BugReports: https://github.com/tobiste/tectonicr/issues

@@ -126,7 +126,7 @@ directions from the modeled stress direction using counter-clockwise
 45$^{\circ}$ loxodromes. 
 
 The *normalized* $\chi^2$ test quantifies the fit between the
-modeled $\sigma_{Hmax}$ orientation the observed stress direction
+modeled $\sigma_{Hmax}$ direction the observed stress direction
 considering the reported uncertainties of the measurement.
 
 
@@ -142,14 +142,14 @@ The value is $\leq$ 0.15, indicating a significantly good fit of the
 model. Thus, the traction of the transform plate boundary explain the
 stress direction of the area.
 
-## Variation of the Orientation of the Maximum Horizontal Stress wrt. to the Distance to the Plate Boundary
+## Variation of the Direction of the Maximum Horizontal Stress wrt. to the Distance to the Plate Boundary
 
-The orientation of the maximum horizontal stress correlates with plate motion 
+The direction of the maximum horizontal stress correlates with plate motion 
 direction at the plate boundary zone. Towards the plate interior, plate boundary 
 forces become weaker and other stress sources will probably dominate.
 
 To visualize the variation of the $\sigma_{Hmax}$ wrt. to the distance to the 
-plate boundary, we need to transfer the orientation of $\sigma_{Hmax}$ from the
+plate boundary, we need to transfer the direction of $\sigma_{Hmax}$ from the
 geographic reference system (i.e. azimuth is the deviation of a direction from 
 geographic North pole) to the **Pole of Rotation (PoR)** reference system
 (i.e. azimuth is the deviation from the Euler pole). 
@@ -170,7 +170,7 @@ that passes through the data point and the Euler pole $\theta$:
 ```
 
 The function `PoR_shmax()` returns the transformed azimuth of $\sigma_{Hmax}$ 
-and, if given, the deviation from the predicted $\sigma_{Hmax}$ orientation 
+and, if given, the deviation from the predicted $\sigma_{Hmax}$ direction 
 related to the plate boundary type:
 
 ```{r san_andreas_por, echo=TRUE}
@@ -202,7 +202,7 @@ san_andreas.res$distance <-
   )
 ```
 
-Finally, we visualize the the $\sigma_{Hmax}$ orientation wrt to the distance to
+Finally, we visualize the the $\sigma_{Hmax}$ direction wrt. to the distance to
 the plate boundary:
 ```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
@@ -232,7 +232,7 @@ ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
 ![](azimuth.png)
 
 Close to the here dextral plate boundary, the majority of the stress data have 
-a strike-slip fault regime and are oriented around 135° wrt to the Euler 
+a strike-slip fault regime and are oriented around 135° wrt. to the Euler 
 pole. Thus, the date are parallel to the predicted stress sourced by a 
 right-lateral displaced plate boundary. 
 Away from the plate boundary, the data becomes more noisy.
@@ -243,7 +243,7 @@ boundary.
 
 The relationship between the azimuth and the distance can be better visualized 
 by using the deviation (normalized by the data precision) from the the predicted
-stress orientation, i.e. the *normalized* $\chi^2$:
+stress direction, i.e. the *normalized* $\chi^2$:
 
 ```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +

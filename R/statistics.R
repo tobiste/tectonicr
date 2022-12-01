@@ -87,7 +87,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' @title Median and statistics on Pi-periodic Data
 #'
 #' @description Calculate the mean, median, quartile, interquartile range,
-#' variance, deviation, and error of orientation data.
+#' variance, deviation, and error of directional data.
 #'
 #' @param x Numeric vector in degrees.
 #' @param na.rm logical. Should missing values (including `NaN`) be removed?

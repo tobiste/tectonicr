@@ -203,7 +203,7 @@ misfit_shmax <- function(prd, obs) {
 #' \eqn{\sigma_{Hmax}}{SHmax}, the deviation, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #' @param df \code{data.frame} containing the coordinates of the point(s)
-#' (\code{lat}, \code{lon}), the orientation of
+#' (\code{lat}, \code{lon}), the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
 #' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
@@ -221,7 +221,7 @@ misfit_shmax <- function(prd, obs) {
 #' \item{\code{"dev"}}{the deviation, and}
 #' \item{\code{"nchisq"}}{the normalized \eqn{\chi^2}{chi-squared} statistics.}
 #' }
-#' @seealso [model_shmax()] to compute the theoretical orientation of
+#' @seealso [model_shmax()] to compute the theoretical direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
 #' [misfit_shmax()] to compute the deviation of the modeled direction
 #'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.

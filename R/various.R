@@ -170,7 +170,7 @@ distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) 
 #' default).
 #' @param ... optional arguments passed to [smoothr::densify()]
 #' @details Useful to calculate the beta angle, i.e. the angle
-#' between SHmax orientation (in PoR CRS!) and the fault's strike (in PoR CRS).
+#' between SHmax direction (in PoR CRS!) and the fault's strike (in PoR CRS).
 #' The beta angle is the same in geographical and PoR coordinates.
 #' @note The algorithm calculates the great circle bearing between line
 #' vertices. Since transform plate boundaries represent small circle lines in
@@ -250,7 +250,7 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
 #' statistics of the model, and some plots.
 #'
 #' @param x \code{data.frame} or `sf` object containing the coordinates of the point(s)
-#' (\code{lat}, \code{lon}), the orientation of
+#' (\code{lat}, \code{lon}), the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
 #' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
@@ -265,7 +265,7 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
 #' @param plot (logical). Whether to produce a plot additional to output.
 #' @param ... optional arguments to [distance_from_pb()]
 #' @return list. results of the coordinate and azimuth conversion, deviation,
-#' misfit to predicted stress orientation and, if given, distance to tested
+#' misfit to predicted stress direction and, if given, distance to tested
 #' plate boundary as well as the normalized Chi-squared test statistic.
 #' @export
 #' @seealso [PoR_shmax()], [distance_from_pb()], [norm_chisq()], [PoR_plot()]
