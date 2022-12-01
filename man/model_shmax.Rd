@@ -11,8 +11,8 @@ model_shmax(df, euler)
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
 (\code{lat}, \code{lon}).}
 
-\item{euler}{\code{data.frame} containing the coordinates of the Euler pole
-for the plate boundary (\code{lat}, \code{lon}).}
+\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+containing the geographical coordinates of the Euler  pole}
 }
 \value{
 \code{data.frame}

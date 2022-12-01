@@ -14,8 +14,8 @@ PoR_to_geographical_raster(x, euler)
 \arguments{
 \item{x}{\code{"SpatRaster"} or \code{"RasterLayer"}}
 
-\item{euler}{\code{data.frame} of the geographical coordinates of the Euler pole
-(\code{lat}, \code{lon})}
+\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+containing the geographical coordinates of the Euler pole}
 }
 \value{
 "SpatRaster"

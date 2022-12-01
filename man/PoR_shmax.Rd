@@ -13,8 +13,8 @@ PoR_shmax(df, euler, type = c("none", "in", "out", "right", "left"))
 \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 \code{unc} (optional)}
 
-\item{euler}{\code{data.frame} containing the coordinates of the Euler pole
-for the plate boundary  (\code{lat}, \code{lon})}
+\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+containing the geographical coordinates of the Euler  pole}
 
 \item{type}{Character. Type of plate boundary (optional). Can be
 \code{"out"}, \code{"in"}, \code{"right"}, or

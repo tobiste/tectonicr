@@ -51,8 +51,8 @@ get_azimuth <- function(a, b) {
 #' @author Tobias Stephan
 #' @param df \code{data.frame} containing the coordinates of the point(s)
 #' (\code{lat}, \code{lon}).
-#' @param euler \code{data.frame} containing the coordinates of the Euler pole
-#' for the plate boundary (\code{lat}, \code{lon}).
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler  pole
 #' @details \eqn{\sigma_{Hmax}}{SHmax} following *great circles* is the
 #' (initial) bearing between the given point and the pole of relative plate
 #' motion. \eqn{\sigma_{Hmax}}{SHmax} along *small circles*, clockwise, and
@@ -82,7 +82,7 @@ get_azimuth <- function(a, b) {
 #'
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
-  stopifnot(is.data.frame(df), is.data.frame(euler))
+  stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
 
   beta <- sc <- gc <- ld.cw <- ld.ccw <- c()
   for (i in seq_along(df$lat)) {
@@ -206,8 +206,8 @@ misfit_shmax <- function(prd, obs) {
 #' (\code{lat}, \code{lon}), the orientation of
 #' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
-#' @param euler \code{data.frame} containing the coordinates of the Euler pole
-#' for the plate boundary  (\code{lat}, \code{lon})
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler  pole
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
@@ -243,7 +243,7 @@ misfit_shmax <- function(prd, obs) {
 #' res <- PoR_shmax(san_andreas, euler, type = "right")
 #' head(res)
 PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left")) {
-  stopifnot(is.data.frame(df), is.data.frame(euler))
+  stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
   type <- match.arg(type)
   beta <- c()
   for (i in seq_along(df$lat)) {

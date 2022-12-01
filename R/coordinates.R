@@ -127,7 +127,8 @@ spherical_to_geographical <- function(p) {
 #' Create the reference system transformed in Euler pole
 #' coordinate
 #'
-#' @param x \code{data.frame} of the geographical coordinates of the Euler pole
+#' @param x \code{"data.frame"} or \code{"euler.pole"} object containing the
+#' geographical coordinates of the Euler pole
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the the
 #' translation factors.
@@ -137,6 +138,7 @@ spherical_to_geographical <- function(p) {
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' PoR_crs(euler)
 PoR_crs <- function(x) {
+  stopifnot(is.data.frame(x) | is.euler(x))
   x <- as.data.frame(x)
   if (x$lat < 0) {
     x$lat <- -x$lat
@@ -153,115 +155,102 @@ PoR_crs <- function(x) {
 }
 
 
+#' Conversion between PoR to geographical coordinate system using quaternions
+#'
+#' Helper function for the transformation from PoR to geographical coordinate
+#' system or vice versa
+#'
+#' @param x,euler two-column vectors containing the lat and lon coordinates
+#' @name por_transformation_quat
+#' @examples
+#' ep.geo <- c(20, 33)
+#' q.geo <- c(10, 45)
+#' q.por <- geographical_to_PoR_quat(q.geo, ep.geo)
+#' q.por
+#' PoR_to_geographical_quat(q.por, ep.geo)
+NULL
+
+#' @name por_transformation_quat
+#' @export
+geographical_to_PoR_quat <- function(x, euler) {
+  p <- geographical_to_cartesian(x)
+  euler_y <- euler_pole(0, 1, 0, angle = 90 - euler[1], geo = FALSE)
+  euler_z <- euler_pole(0, 0, 1, angle = 180 - euler[2], geo = FALSE)
+  qy <- euler_to_Q4(euler_y)
+  qz <- euler_to_Q4(euler_z)
+  qq <- product_Q4(q1 = qz, q2 = qy)
+  p_trans <- rotation_Q4(q = qq, p = p) %>%
+    cartesian_to_geographical()
+  p_trans[2] <- longitude_modulo(p_trans[2] + 180)
+  return(p_trans)
+}
+
+#' @name por_transformation_quat
+#' @export
+PoR_to_geographical_quat <- function(x, euler) {
+  x[2] <- longitude_modulo(x[2] - 180)
+  p_trans <- geographical_to_cartesian(x)
+  euler_yt <- euler_pole(0, -1, 0, angle = 90 - euler[1], geo = FALSE)
+  euler_zt <- euler_pole(0, 0, -1, angle = 180 - euler[2], geo = FALSE)
+  qy <- euler_to_Q4(euler_yt) # %>% conjugate_Q4()
+  qz <- euler_to_Q4(euler_zt) # %>% conjugate_Q4()
+
+  product_Q4(q1 = qy, q2 = qz) %>%
+    rotation_Q4(p = p_trans) %>%
+    cartesian_to_geographical()
+}
 
 #' Conversion between spherical PoR to geographical coordinate system
 #'
 #' Transformation from spherical PoR to geographical coordinate system and
 #' vice versa
 #'
-#' @param x \code{sf} or \code{data.frame} containing (co)lat and lon coordinates
-#' (\code{lat}, \code{lon}) of the points to be transformed
-#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
-#' (\code{(co)lat}, \code{lon})
-#' @return \code{data.frame} with the PoR coordinates
-#' (\code{colat.PoR}, \code{lon.PoR} or \code{lat.PoR}, \code{lon.PoR})
-#' @param spherical logical. Whether x or the return are in spherical
-#' coordinates, i.e. colat-lon (TRUE, the default), or in lat-lon (FALSE)
-#' @name por_conversion_df
-#' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-#'   5037-5059, \doi{10.1029/97JB03390}.
+#' @param x \code{"data.frame"} containing \code{lat} and \code{lon}
+#' coordinates of a point in the geographical CRS or the \code{lat.PoR},
+#' \code{lon.PoR}) of the point in the PoR CRS.
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
+#' @return \code{"data.frame"} with the transformed coordinates
+#' (\code{lat.PoR} and \code{lon.PoR} for PoR CRS,
+#' or \code{lat} and \code{lon} for geographical CRS).
+#' @name por_transformation_df
 #' @examples
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' data("san_andreas")
-#' san_andreas.por <- geographical_to_PoR2(san_andreas, euler)
+#' san_andreas.por <- geographical_to_PoR(san_andreas, euler)
 #' head(san_andreas.por)
-#' head(PoR_to_geographical2(san_andreas.por, euler))
+#' head(PoR_to_geographical(san_andreas.por, euler))
 NULL
 
-#' @rdname por_conversion_df
+#' @name por_transformation_df
 #' @export
-PoR_to_geographical2 <- function(x, euler, spherical = TRUE) {
+geographical_to_PoR <- function(x, euler) {
+  stopifnot(is.data.frame(euler) | is.euler(euler))
+  ep.geo <- c(euler$lat, euler$lon)
+  lat.PoR <- lon.PoR <- c()
+
+  for (i in seq_along(x$lon)) {
+    x_por.i <- geographical_to_PoR_quat(c(x$lat[i], x$lon[i]), euler = ep.geo)
+    lat.PoR[i] <- x_por.i[1]
+    lon.PoR[i] <- x_por.i[2]
+  }
+  data.frame(lat.PoR = lat.PoR, lon.PoR = lon.PoR)
+}
+
+#' @name por_transformation_df
+#' @export
+PoR_to_geographical <- function(x, euler) {
+  stopifnot(is.data.frame(euler) | is.euler(euler))
   ep.geo <- c(euler$lat, euler$lon)
   lat <- lon <- c()
-  for(i in seq_along(x$lon)){
-    if(spherical){
-      x_geo.i <- PoR_to_geographical_vec(c(x$colat.PoR[i], x$lon.PoR[i]), euler = ep.geo, spherical = TRUE)
-    } else {
-      x_geo.i <- PoR_to_geographical_vec(c(x$lat.PoR[i], x$lon.PoR[i]), euler = ep.geo, spherical = FALSE)
-    }
+
+  for (i in seq_along(x$lon.PoR)) {
+    x_geo.i <- PoR_to_geographical_quat(c(x$lat.PoR[i], x$lon.PoR[i]), euler = ep.geo)
     lat[i] <- x_geo.i[1]
     lon[i] <- x_geo.i[2]
   }
   data.frame(lat = lat, lon = lon)
-}
-
-#' @rdname por_conversion_df
-#' @export
-geographical_to_PoR2 <- function(x, euler, spherical = TRUE) {
-  ep.geo <- c(euler$lat, euler$lon)
-  colat.PoR <- lon.PoR <- c()
-  for(i in seq_along(x$lon)){
-    x_por.i <- geographical_to_PoR_vec(c(x$lat[i], x$lon[i]), euler = ep.geo, spherical)
-    colat.PoR[i] <- x_por.i[1]
-    lon.PoR[i] <- x_por.i[2]
-  }
-  if(spherical){
-    data.frame(colat.PoR = colat.PoR, lon.PoR = lon.PoR)
-  } else {
-    data.frame(lat.PoR = colat.PoR, lon.PoR = lon.PoR)
-  }
-}
-
-#' Conversion between PoR to geographical coordinate system
-#'
-#' Helper function for the transformation from PoR to geographical coordinate
-#' system or vice versa
-#'
-#' @param x,euler two-column vectors containing the (co)lat and lon coordinates
-#' @param spherical logical. Whether x or the return are in spherical
-#' coordinates
-#' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-#'   5037-5059, \doi{10.1029/97JB03390}.
-#' @name por_conversion_vec
-#' @examples
-#' \dontrun{
-#' ep.geo <- c(20, 33)
-#' q.geo <- c(10, 45)
-#' q.por <- geographical_to_PoR_vec(q.geo, ep.geo)
-#' q.por
-#' PoR_to_geographical_vec(q.por, ep.geo)
-#' }
-NULL
-
-#' @rdname por_conversion_vec
-PoR_to_geographical_vec <- function(x, euler, spherical = TRUE) {
-  x[2] <- longitude_modulo(x[2]+180)
-
-  if(spherical){
-    x.por.cart <- spherical_to_cartesian(x)
-  } else {
-    x.por.cart <- geographical_to_cartesian(x)
-  }
-  x.cart <- t(rotmat_z(180 - euler[2])) %*% t(rotmat_y(90 - euler[1])) %*% x.por.cart
-  cartesian_to_geographical(x.cart)
-
-}
-
-#' @rdname por_conversion_vec
-geographical_to_PoR_vec <- function(x, euler, spherical = TRUE) {
-  x.cart <- geographical_to_cartesian(x)
-  x.cart.por <- rotmat_y(90 - euler[1]) %*% rotmat_z(180 - euler[2]) %*% x.cart
-
-  if(spherical){
-    res <- cartesian_to_spherical(x.cart.por)
-  } else {
-    res <- cartesian_to_geographical(x.cart.por)
-  }
-  res[2] <- longitude_modulo(res[2]-180)
-  return(res)
 }
 
 
@@ -271,8 +260,8 @@ geographical_to_PoR_vec <- function(x, euler, spherical = TRUE) {
 #'
 #' @param x \code{sf} or \code{data.frame} containing lat and lon coordinates
 #' (\code{lat}, \code{lon})
-#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
-#' (\code{lat}, \code{lon})
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
 #' @return \code{data.frame} with the PoR coordinates
 #' (\code{lat.PoR}, \code{lon.PoR})
 #' @export
@@ -280,18 +269,21 @@ geographical_to_PoR_vec <- function(x, euler, spherical = TRUE) {
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' data("san_andreas")
-#' san_andreas.por <- PoR_coordinates(san_andreas, euler)
-#' head(san_andreas.por)
+#' san_andreas.por_sf <- PoR_coordinates(san_andreas, euler)
+#' head(san_andreas.por_sf)
+#' san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), euler)
+#' head(san_andreas.por_df)
 PoR_coordinates <- function(x, euler) {
-  #.Deprecated("geographical_to_PoR2")
   if (is.data.frame(x)) {
-    x <- sf::st_as_sf(x, coords = c("lon", "lat"))
+    # x <- sf::st_as_sf(x, coords = c("lon", "lat"))
+    geographical_to_PoR(x, euler)
+  } else {
+    x %>%
+      tectonicr::geographical_to_PoR_sf(euler = euler) %>%
+      sf::st_coordinates() %>%
+      sf::st_drop_geometry() %>%
+      rename("lon.PoR" = "X", "lat.PoR" = "Y")
   }
-  x %>%
-    tectonicr::geographical_to_PoR(euler = euler) %>%
-    sf::st_coordinates() %>%
-    as.data.frame() %>%
-    rename("lon.PoR" = "X", "lat.PoR" = "Y")
 }
 
 
@@ -302,8 +294,8 @@ PoR_coordinates <- function(x, euler) {
 #' coordinates
 #'
 #' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
-#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
-#' (\code{lat}, \code{lon})
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
 #' @returns "SpatRaster"
 #' @importFrom terra crs project rast
 #' @importFrom methods extends
@@ -339,15 +331,15 @@ PoR_to_geographical_raster <- function(x, euler) {
 }
 
 
-#' Conversion between PoR to geographical coordinates
+#' Conversion between PoR to geographical coordinates of spatial data
 #'
-#' Transform spherical objects from PoR to geographical coordinate reference
+#' Transform spatial objects from PoR to geographical coordinate reference
 #' system and vice versa.
 #'
 #' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 #' points in geographical or PoR coordinate system
-#' @param euler \code{data.frame} of the geographical coordinates of the Euler
-#' pole (\code{lat}, \code{lon})
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
 #' @return \code{sf} or \code{SpatRast} object of the data points in the
 #' transformed geographical or PoR coordinate system
 #' @details The PoR coordinate reference system is oblique transformation of the
@@ -360,18 +352,17 @@ PoR_to_geographical_raster <- function(x, euler) {
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' data("san_andreas")
-#' san_andreas.por <- geographical_to_PoR(san_andreas, euler)
-#' PoR_to_geographical(san_andreas.por, euler)
-#' @name por_transformation
+#' san_andreas.por <- geographical_to_PoR_sf(san_andreas, euler)
+#' PoR_to_geographical_sf(san_andreas.por, euler)
+#' @name por_transformation_sf
 NULL
 
-#' @rdname por_transformation
+#' @rdname por_transformation_sf
 #' @export
-PoR_to_geographical <- function(x, euler) {
+PoR_to_geographical_sf <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     x.por <- geographical_to_PoR_raster(x, euler)
   } else {
-    #stopifnot(inherits(x, "sf"))
     crs.wgs84 <- sf::st_crs("epsg:4326")
     crs.ep <- PoR_crs(euler)
     suppressMessages(
@@ -387,13 +378,12 @@ PoR_to_geographical <- function(x, euler) {
   return(x.por)
 }
 
-#' @rdname por_transformation
+#' @rdname por_transformation_sf
 #' @export
-geographical_to_PoR <- function(x, euler) {
+geographical_to_PoR_sf <- function(x, euler) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     x.geo <- geographical_to_PoR_raster(x, euler)
   } else {
-    #stopifnot(inherits(x, "sf"))
     crs.wgs84 <- sf::st_crs("epsg:4326")
     crs.ep <- PoR_crs(euler)
     suppressMessages(

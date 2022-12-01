@@ -21,7 +21,8 @@ Imports:
     smoothr,
     spatstat.core,
     terra,
-    tidyr
+    tidyr,
+    zoo
 Suggests: 
     covr,
     knitr,

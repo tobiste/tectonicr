@@ -40,6 +40,13 @@ euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
   return(ep)
 }
 
+#' Check if object is euler.pole
+#' @param x object of class \code{"euler.pole"}
+#' @returns logical
+is.euler <- function(x) {
+  inherits(x, "euler.pole")
+}
+
 #' Vector cross product
 #'
 #' Vector or cross product
@@ -180,7 +187,7 @@ equivalent_rotation <- function(x, fixed, rot) {
     angle = angle.eq,
     plate.fix = fixed
   )
-  if(!missing(rot)){
+  if (!missing(rot)) {
     stopifnot(rot %in% res$plate.rot)
 
     res <- subset(res, plate.rot == rot)
@@ -206,42 +213,131 @@ abs_vel <- function(w, alpha, r = earth_radius()) {
   deg2rad(w) * r * sind(alpha)
 }
 
-#' Basic rotation matrices
-#'
-#' Helper functions for constructing the matrices for rotations about the
-#' x-, y-, and z angles with the angle x
-#'
-#' @param x angle (in degree)
-#' @return matrix
-#' @name transform_matrices
-NULL
 
-#' @rdname transform_matrices
-rotmat_x <- function(x) {
-  x <- deg2rad(as.numeric(x))
-  rbind(
-    c(1, 0, 0),
-    c(0, cos(x), -sin(x)),
-    c(0, sin(x), cos(x))
-  )
+#' Quaternion from Euler angle-axis representation for rotations
+#'
+#' @param x \code{"euler.pole"} object
+#' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
+#' @return object of class \code{"quaternion"}
+euler_to_Q4 <- function(x, normalize = FALSE) {
+  axis <- c(x$x, x$y, x$z)
+  Sc <- cos(x$angle / 2)
+  Vec <- axis * sin(x$angle / 2)
+  q <- (list(Sc = c(Sc), Vec = Vec))
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
 }
 
-#' @rdname transform_matrices
-rotmat_y <- function(x) {
-  x <- deg2rad(as.numeric(x))
-  rbind(
-    c(cos(x), 0, sin(x)),
-    c(0, 1, 0),
-    c(-sin(x), 0, cos(x))
-  )
+#' Euler angle/axis from quaternion
+#' @param q object of class \code{"quaternion"}
+#' @returns \code{"euler.pole"} object
+Q4_to_euler <- function(q) {
+  stopifnot(is.Q4(q))
+  angle <- 2 * acos(q$Sc)
+  axis <- q$Vec / sin(angle / 2)
+  # list(angle = angle, axis = axis)
+  euler_pole(x = axis[1], y = axis[2], z = axis[3], angle = rad2deg(angle), geo = FALSE)
 }
 
-#' @rdname transform_matrices
-rotmat_z <- function(x) {
-  x <- deg2rad(as.numeric(x))
-  rbind(
-    c(cos(x), -sin(x), 0),
-    c(sin(x), cos(x), 0),
-    c(0, 0, 1)
-  )
+QScVec_to_Q4 <- function(x) {
+  stopifnot(is.Q4(x), x$Sc != 0)
+  x.euler <- Q4_to_euler(x)
+  q <- c()
+  q[1] <- x$Sc
+  q[2] <- x.euler$axis[1] * sin(x.euler$angle / 2)
+  q[3] <- x.euler$axis[2] * sin(x.euler$angle / 2)
+  q[4] <- x.euler$axis[3] * sin(x.euler$angle / 2)
+  q
+}
+
+Q4_to_QScVec <- function(x, normalize = FALSE) {
+  stopifnot(x[1] != 0, is.logical(normalize))
+  angle <- 2 * acos(x[1])
+  q1 <- x[2] / sin(angle / 2)
+  q2 <- x[3] / sin(angle / 2)
+  q3 <- x[4] / sin(angle / 2)
+
+  q <- list(Sc = x[1], Vec = c(q1, q2, q3))
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
+}
+
+
+#' Quaternion normalization
+#' @param q quaternion
+#' @return object of class \code{"quaternion"}
+normalize_Q4 <- function(q) {
+  q4 <- QScVec_to_Q4(q)
+  q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
+  q.norm <- list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4]))
+  class(q.norm) <- "quaternion"
+  return(q.norm)
+}
+
+#' Product of quaternions
+#'
+#' Helper function for multiplication of two quaternions.
+#' Concatenation of two rotations R1 followed by R2
+#'
+#' @note Multiplication is not commutative.
+#'
+#' @param q1,q2 two objects of class \code{"quaternion"}. first rotation R1 expressed by q1 followed by second rotation R2 expressed by q2
+#' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
+#' @returns object of class \code{"quaternion"}
+product_Q4 <- function(q1, q2, normalize = FALSE) {
+  stopifnot(is.Q4(q1), is.Q4(q2), is.logical(normalize))
+  Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
+  Vec <- q1$Sc * q2$Vec + q2$Sc * q1$Vec + vcross(q2$Vec, q1$Vec)
+  q <- list(Sc = c(Sc), Vec = Vec)
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
+}
+
+
+#' Conjugation of a Quaternion
+#'
+#' Inverse rotation given by conjugated quaternion
+#'
+#' @param q object of class \code{"quaternion"}
+#' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
+#' @return object of class \code{"quaternion"}
+conjugate_Q4 <- function(q, normalize = FALSE) {
+  stopifnot(is.Q4(q), is.logical(normalize))
+  q <- list(Sc = q$Sc, Vec = -q$Vec)
+  class(q) <- "quaternion"
+  if (normalize) {
+    q <- normalize_Q4(q)
+  }
+  return(q)
+}
+
+#' Check if object is quaternion
+#' @param x object of class \code{"quaternion"}
+#' @returns logical
+is.Q4 <- function(x) {
+  class(x) == "quaternion"
+}
+
+#' Rotation of a vector by a quaternion
+#' @param q object of class \code{"quaternion"}
+#' @param p three-column vector (Cartesian coordinates) of unit length
+#' @returns three-column vector (Cartesian coordinates) of unit length
+rotation_Q4 <- function(q, p) {
+  stopifnot(is.Q4(q))
+
+  # Rodrigues Formula
+  q.euler <- Q4_to_euler(q)
+  axis <- c(q.euler$x, q.euler$y, q.euler$z)
+  angle <- q.euler$angle
+  # p * cos(q.euler$angle) + vcross(q.euler$axis, p) * sin(q.euler$angle) + q.euler$axis * as.numeric(q.euler$axis %*% p) * (1 - cos(q.euler$axis))
+  p + vcross(axis, p) * sin(angle) + vcross(axis, vcross(axis, p)) * 2 * (sin(angle / 2))^2
 }

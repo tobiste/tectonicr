@@ -7,7 +7,8 @@
 PoR_crs(x)
 }
 \arguments{
-\item{x}{\code{data.frame} of the geographical coordinates of the Euler pole}
+\item{x}{\code{"data.frame"} or \code{"euler.pole"} object containing the
+geographical coordinates of the Euler pole}
 }
 \description{
 Create the reference system transformed in Euler pole

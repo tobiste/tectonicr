@@ -10,8 +10,8 @@ projected_pb_strike(x, euler, pb, tangential = FALSE, ...)
 \item{x, pb}{\code{sf} objects of the data points and the plate boundary
 geometries in the geographical coordinate system}
 
-\item{euler}{\code{data.frame} of the geographical coordinates of the Euler pole
-(\code{lat}, \code{lon})}
+\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+containing the geographical coordinates of the Euler pole}
 
 \item{tangential}{Logical. Whether the plate boundary is a tangential
 boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the

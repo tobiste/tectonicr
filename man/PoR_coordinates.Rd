@@ -10,8 +10,8 @@ PoR_coordinates(x, euler)
 \item{x}{\code{sf} or \code{data.frame} containing lat and lon coordinates
 (\code{lat}, \code{lon})}
 
-\item{euler}{\code{data.frame} of the geographical coordinates of the Euler pole
-(\code{lat}, \code{lon})}
+\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+containing the geographical coordinates of the Euler pole}
 }
 \value{
 \code{data.frame} with the PoR coordinates
@@ -24,6 +24,8 @@ Retrieve the PoR equivalent coordinates of an object
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 data("san_andreas")
-san_andreas.por <- PoR_coordinates(san_andreas, euler)
-head(san_andreas.por)
+san_andreas.por_sf <- PoR_coordinates(san_andreas, euler)
+head(san_andreas.por_sf)
+san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), euler)
+head(san_andreas.por_df)
 }

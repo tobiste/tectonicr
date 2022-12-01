@@ -131,7 +131,7 @@ NULL
 circular_quasi_median <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  if(na.rm){
+  if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
   x <- deg2rad(x) %% pi
@@ -168,7 +168,7 @@ circular_mean <- function(x, na.rm = TRUE) {
 circular_quasi_quantile <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  if(na.rm){
+  if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
@@ -204,7 +204,7 @@ circular_quasi_quantile <- function(x, na.rm = TRUE) {
         (cosd(x[m]) + cosd(x[m + 1])))
       uq <- atand((sind(x[3 * m]) + sind(x[3 * m + 1])) /
         (cosd(x[3 * m]) + cosd(x[3 * m + 1])))
-    } else {#if (n %% 4 == 3) {
+    } else { # if (n %% 4 == 3) {
       m <- (n - 2) / 4
       lq <- atand((sind(x[m]) + 3 * sind(x[m + 1])) /
         (cosd(x[m]) + 3 * cosd(x[m + 1])))
@@ -235,7 +235,7 @@ circular_quasi_IQR <- function(x, na.rm = TRUE) {
 circular_var <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  if(na.rm){
+  if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
@@ -252,7 +252,7 @@ circular_var <- function(x, na.rm = TRUE) {
 circular_mean_deviation <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  if(na.rm){
+  if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
@@ -271,7 +271,7 @@ circular_mean_deviation <- function(x, na.rm = TRUE) {
 circular_median_deviation <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  if(na.rm){
+  if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
   x <- x %% 180
@@ -287,7 +287,7 @@ circular_median_deviation <- function(x, na.rm = TRUE) {
 circular_mean_error <- function(x, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  if(na.rm){
+  if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
 
@@ -520,7 +520,7 @@ circular_weighted_quantiles <- function(x, w = NULL, na.rm = TRUE) {
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
-    } else {#if (n %% 4 == 3) {
+    } else { # if (n %% 4 == 3) {
       m <- (n - 2) / 4
 
       sum.sin.lq <- w[m] * sind(x[m]) + 3 * w[m + 1] * sind(x[m + 1])

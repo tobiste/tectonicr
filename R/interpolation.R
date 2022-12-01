@@ -118,9 +118,11 @@ stress2grid <- function(x,
                         dist_threshold = 0.1,
                         R_range = seq(50, 1000, 50),
                         ...) {
-  stopifnot(inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
-            arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range), is.logical(method_weighting),
-            is.logical(quality_weighting))
+  stopifnot(
+    inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
+    arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range), is.logical(method_weighting),
+    is.logical(quality_weighting)
+  )
 
   min_data <- as.integer(ceiling(min_data))
 
@@ -305,14 +307,15 @@ stress2grid <- function(x,
 #' \item{unc}{Uncertainties of SHmax in degree}
 #' \item{type}{Methods used for the determination of the orientation of SHmax}
 #' }
-#' @param euler Euler pole coordinates
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler  pole
 #' @param ... Arguments passed to [stress2grid()]
 #' @description The data is transformed into the PoR system before the
 #' interpolation. The interpolation grid is returned in geographical coordinates
 #'  and azimuths.
 #' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
-#' @importFrom sf st_as_sf st_coordinates
+#' @importFrom sf st_coordinates
 #' @seealso [stress2grid()]
 #' @export
 #' @examples
@@ -323,26 +326,27 @@ stress2grid <- function(x,
 PoR_stress2grid <- function(x, euler, ...) {
   azi <- NULL
   azi_por <- PoR_shmax(x, euler, type = "in")
-  x_por <- geographical_to_PoR(x, euler) %>%
+  x_por <- geographical_to_PoR_sf(x, euler) %>%
     mutate(azi = azi_por$azi.PoR)
   coords <- x_por %>% sf::st_coordinates()
   x_por$lon <- coords[, 1]
   x_por$lat <- coords[, 2]
 
   int <- stress2grid(x_por, ...) %>%
-    PoR_to_geographical(euler) %>%
+    PoR_to_geographical_sf(euler) %>%
     mutate(azi.PoR = azi)
 
   NP_por <- data.frame(lat = 90, lon = 0) %>%
-    sf::st_as_sf(coords = c("lon", "lat")) %>%
-    geographical_to_PoR(euler) %>%
-    sf::st_coordinates()
+    geographical_to_PoR(euler)
+  # sf::st_as_sf(coords = c("lon", "lat")) %>%
+  # geographical_to_PoR_sf(euler) %>%
+  # sf::st_coordinates()
 
   beta <- c()
   for (i in seq_along(int$lat)) {
     beta[i] <- (get_azimuth(
       c(int$lat[i], int$lon[i]),
-      c(NP_por[2], NP_por[1])
+      c(NP_por$lat.PoR[1], NP_por$lon.PoR[1])
     ) + 180) %% 180
   }
   int$azi <- (int$azi.PoR - beta + 180) %% 180

@@ -76,8 +76,8 @@ distance_mod <- function(x) {
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
-#' (`lat`, `lon`)
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
 #' default).
@@ -90,7 +90,7 @@ distance_mod <- function(x) {
 #' (along the closest latitude or longitude) for inward/outward or tangential
 #' plate boundaries, respectively.
 #' @export
-#' @importFrom sf st_geometry_type st_cast st_coordinates
+#' @importFrom sf st_geometry st_cast st_coordinates
 #' @importFrom magrittr %>%
 #' @importFrom smoothr densify
 #' @examples
@@ -115,16 +115,19 @@ distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) 
     inherits(x, "sf"),
     inherits(pb, "sf"),
     is.logical(tangential),
-    is.logical(km)
-    )
+    is.logical(km),
+    is.data.frame(euler) | is.euler(euler)
+  )
 
-  x.por <- geographical_to_PoR(x, euler)
-  pb.por <- geographical_to_PoR(pb, euler) %>%
+  x.coords <- sf::st_geometry(x) %>%
+    geographical_to_PoR_sf(euler = euler) %>%
+    sf::st_coordinates()
+  pb.coords <-
+    sf::st_geometry(pb) %>%
+    geographical_to_PoR_sf(euler = euler) %>%
     sf::st_cast(to = "LINESTRING") %>%
-    smoothr::densify(...)
-
-  pb.coords <- sf::st_coordinates(pb.por)
-  x.coords <- sf::st_coordinates(x.por)
+    smoothr::densify(...) %>%
+    sf::st_coordinates()
 
   dist <- c()
   for (i in seq_along(x.coords[, 1])) {
@@ -160,8 +163,8 @@ distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) 
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param euler \code{data.frame} of the geographical coordinates of the Euler pole
-#' (`lat`, `lon`)
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
 #' default).
@@ -176,7 +179,7 @@ distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) 
 #' @return Numeric vector of the strike direction of the plate boundary
 #' (in degree)
 #' @export
-#' @importFrom sf st_geometry_type st_cast st_coordinates
+#' @importFrom sf st_cast st_coordinates st_geometry
 #' @importFrom magrittr %>%
 #' @importFrom smoothr densify
 #' @examples
@@ -196,16 +199,19 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
   stopifnot(
     inherits(x, "sf"),
     inherits(pb, "sf"),
-    is.logical(tangential)
+    is.logical(tangential),
+    is.data.frame(euler) | is.euler(euler)
   )
 
-  x.por <- geographical_to_PoR(x, euler)
-  pb.por <- geographical_to_PoR(pb, euler) %>%
+  x.coords <- sf::st_geometry(x) %>%
+    geographical_to_PoR_sf(euler = euler) %>%
+    sf::st_coordinates()
+  pb.coords <-
+    sf::st_geometry(pb) %>%
+    geographical_to_PoR_sf(euler = euler) %>%
     sf::st_cast(to = "LINESTRING") %>%
-    smoothr::densify(...)
-
-  pb.coords <- sf::st_coordinates(pb.por)
-  x.coords <- sf::st_coordinates(x.por)
+    smoothr::densify(...) %>%
+    sf::st_coordinates()
 
   pb.bearing <- c()
   for (i in 1:nrow(pb.coords)) {
@@ -233,4 +239,60 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
     }
   }
   x_pb.bearing
+}
+
+
+
+
+#' Quick analysis of a stress data set
+#'
+#' Returns the converted azimuths, distances to the plate boundary,
+#' statistics of the model, and some plots.
+#'
+#' @param x \code{data.frame} or `sf` object containing the coordinates of the point(s)
+#' (\code{lat}, \code{lon}), the orientation of
+#' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
+#' \code{unc} (optional)
+#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
+#' @param type Character. Type of plate boundary (optional). Can be
+#' \code{"out"}, \code{"in"}, \code{"right"}, or
+#' \code{"left"} for outward, inward, right-lateral, or left-lateral
+#' moving plate boundaries, respectively. If \code{"none"} (the default), only
+#' the PoR-equivalent azimuth is returned.
+#' @param pb (optional) `sf` object of the plate boundary geometries in the geographical
+#' coordinate system
+#' @param plot (logical). Whether to produce a plot additional to output.
+#' @param ... optional arguments to [distance_from_pb()]
+#' @return list. results of the coordinate and azimuth conversion, deviation,
+#' misfit to predicted stress orientation and, if given, distance to tested
+#' plate boundary as well as the normalized Chi-squared test statistic.
+#' @export
+#' @seealso [PoR_shmax()], [distance_from_pb()], [norm_chisq()], [PoR_plot()]
+#' @examples
+#' data("nuvel1")
+#' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
+#'
+#' data("plates")
+#' plate_boundary <- subset(plates, plates$pair == "na-pa")
+#'
+#' data("san_andreas")
+#'
+#' quick_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = FALSE)
+quick_analysis <- function(x, euler, type = c("none", "in", "out", "right", "left"), pb, plot = TRUE, ...) {
+  type <- match.arg(type)
+  stopifnot(is.logical(plot))
+  tangential <- ifelse(type %in% c("right", "left"), TRUE, FALSE)
+  res <- PoR_shmax(x, euler, type)
+  res <- cbind(res, PoR_coordinates(x, euler))
+  if (!missing(pb)) {
+    res$distance <- distance_from_pb(x, euler, pb, tangential, ...)
+  }
+  nchisq <- norm_chisq(res$azi.PoR, res$prd, x$unc)
+
+  if(plot){
+    PoR_plot(azi = res$azi.PoR, distance = res$distance, unc = x$unc, regime = x$regime, prd = res$prd)
+  }
+
+  list(result = res, norm_chisq = nchisq)
 }

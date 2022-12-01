@@ -14,7 +14,8 @@ PoR_stress2grid(x, euler, ...)
 \item{type}{Methods used for the determination of the orientation of SHmax}
 }}
 
-\item{euler}{Euler pole coordinates}
+\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+containing the geographical coordinates of the Euler  pole}
 
 \item{...}{Arguments passed to \code{\link[=stress2grid]{stress2grid()}}}
 }
