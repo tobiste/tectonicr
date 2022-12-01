@@ -278,8 +278,8 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
 #'
 #' data("san_andreas")
 #'
-#' quick_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = FALSE)
-quick_analysis <- function(x, euler, type = c("none", "in", "out", "right", "left"), pb, plot = TRUE, ...) {
+#' stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = FALSE)
+stress_analysis <- function(x, euler, type = c("none", "in", "out", "right", "left"), pb, plot = TRUE, ...) {
   type <- match.arg(type)
   stopifnot(is.logical(plot))
   tangential <- ifelse(type %in% c("right", "left"), TRUE, FALSE)
