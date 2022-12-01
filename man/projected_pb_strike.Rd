@@ -29,7 +29,7 @@ predicted stress trajectories.
 }
 \details{
 Useful to calculate the beta angle, i.e. the angle
-between SHmax orientation (in PoR CRS!) and the fault's strike (in PoR CRS).
+between SHmax direction (in PoR CRS!) and the fault's strike (in PoR CRS).
 The beta angle is the same in geographical and PoR coordinates.
 }
 \note{

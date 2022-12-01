@@ -15,7 +15,7 @@ quick_analysis(
 }
 \arguments{
 \item{x}{\code{data.frame} or \code{sf} object containing the coordinates of the point(s)
-(\code{lat}, \code{lon}), the orientation of
+(\code{lat}, \code{lon}), the direction of
 \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 \code{unc} (optional)}
 
@@ -37,7 +37,7 @@ coordinate system}
 }
 \value{
 list. results of the coordinate and azimuth conversion, deviation,
-misfit to predicted stress orientation and, if given, distance to tested
+misfit to predicted stress direction and, if given, distance to tested
 plate boundary as well as the normalized Chi-squared test statistic.
 }
 \description{

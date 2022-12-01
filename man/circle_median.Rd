@@ -42,7 +42,7 @@ Numeric vector
 }
 \description{
 Calculate the mean, median, quartile, interquartile range,
-variance, deviation, and error of orientation data.
+variance, deviation, and error of directional data.
 }
 \details{
 Quasi median on the circle, quasi quartiles on a circle, quasi
