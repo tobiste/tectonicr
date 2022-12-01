@@ -75,6 +75,11 @@
         <dd>PoR coordinate reference system</dd>
       </dl><dl><dt>
           
+          <code><a href="PoR_plot.html">PoR_plot()</a></code> 
+        </dt>
+        <dd>Plotting the \(\sigma_{Hmax}\) azimuth</dd>
+      </dl><dl><dt>
+          
           <code><a href="PoR_shmax.html">PoR_shmax()</a></code> 
         </dt>
         <dd>Theoretical Direction of Maximum Horizontal Stress in PoR reference
@@ -89,6 +94,11 @@ system</dd>
           <code><a href="PositionCenterSpoke.html">PositionCenterSpoke</a></code> 
         </dt>
         <dd>Centrically aligned geom_spoke marker</dd>
+      </dl><dl><dt>
+          
+          <code><a href="Q4_to_euler.html">Q4_to_euler()</a></code> 
+        </dt>
+        <dd>Euler angle/axis from quaternion</dd>
       </dl><dl><dt>
           
           <code><a href="abs_vel.html">abs_vel()</a></code> 
@@ -114,6 +124,11 @@ system</dd>
           <code><a href="compact_grid.html">compact_grid()</a></code> 
         </dt>
         <dd>Compact smoothed stress field</dd>
+      </dl><dl><dt>
+          
+          <code><a href="conjugate_Q4.html">conjugate_Q4()</a></code> 
+        </dt>
+        <dd>Conjugation of a Quaternion</dd>
       </dl><dl><dt>
           
           <code><a href="coordinate_mod.html">longitude_modulo()</a></code> <code><a href="coordinate_mod.html">latitude_modulo()</a></code> 
@@ -166,9 +181,24 @@ system</dd>
         <dd>Euler pole object</dd>
       </dl><dl><dt>
           
+          <code><a href="euler_to_Q4.html">euler_to_Q4()</a></code> 
+        </dt>
+        <dd>Quaternion from Euler angle-axis representation for rotations</dd>
+      </dl><dl><dt>
+          
           <code><a href="get_azimuth.html">get_azimuth()</a></code> 
         </dt>
         <dd>Azimuth Between two Points</dd>
+      </dl><dl><dt>
+          
+          <code><a href="is.Q4.html">is.Q4()</a></code> 
+        </dt>
+        <dd>Check if object is quaternion</dd>
+      </dl><dl><dt>
+          
+          <code><a href="is.euler.html">is.euler()</a></code> 
+        </dt>
+        <dd>Check if object is euler.pole</dd>
       </dl><dl><dt>
           
           <code><a href="misfit_shmax.html">misfit_shmax()</a></code> 
@@ -185,6 +215,11 @@ geographical reference system.</dd>
           <code><a href="norm_chisq.html">norm_chisq()</a></code> 
         </dt>
         <dd>Normalized Chi-Squared Test</dd>
+      </dl><dl><dt>
+          
+          <code><a href="normalize_Q4.html">normalize_Q4()</a></code> 
+        </dt>
+        <dd>Quaternion normalization</dd>
       </dl><dl><dt>
           
           <code><a href="nuvel1.html">nuvel1</a></code> 
@@ -207,19 +242,24 @@ geographical reference system.</dd>
         <dd>Plate Boundaries on the Earth</dd>
       </dl><dl><dt>
           
-          <code><a href="por_conversion_df.html">PoR_to_geographical2()</a></code> <code><a href="por_conversion_df.html">geographical_to_PoR2()</a></code> 
+          <code><a href="por_transformation_df.html">geographical_to_PoR()</a></code> <code><a href="por_transformation_df.html">PoR_to_geographical()</a></code> 
         </dt>
         <dd>Conversion between spherical PoR to geographical coordinate system</dd>
       </dl><dl><dt>
           
-          <code><a href="por_conversion_vec.html">PoR_to_geographical_vec()</a></code> <code><a href="por_conversion_vec.html">geographical_to_PoR_vec()</a></code> 
+          <code><a href="por_transformation_quat.html">geographical_to_PoR_quat()</a></code> <code><a href="por_transformation_quat.html">PoR_to_geographical_quat()</a></code> 
         </dt>
-        <dd>Conversion between PoR to geographical coordinate system</dd>
+        <dd>Conversion between PoR to geographical coordinate system using quaternions</dd>
       </dl><dl><dt>
           
-          <code><a href="por_transformation.html">PoR_to_geographical()</a></code> <code><a href="por_transformation.html">geographical_to_PoR()</a></code> 
+          <code><a href="por_transformation_sf.html">PoR_to_geographical_sf()</a></code> <code><a href="por_transformation_sf.html">geographical_to_PoR_sf()</a></code> 
         </dt>
-        <dd>Conversion between PoR to geographical coordinates</dd>
+        <dd>Conversion between PoR to geographical coordinates of spatial data</dd>
+      </dl><dl><dt>
+          
+          <code><a href="product_Q4.html">product_Q4()</a></code> 
+        </dt>
+        <dd>Product of quaternions</dd>
       </dl><dl><dt>
           
           <code><a href="projected_pb_strike.html">projected_pb_strike()</a></code> 
@@ -230,6 +270,11 @@ geographical reference system.</dd>
           <code><a href="quantise_wsm_quality.html">quantise_wsm_quality()</a></code> 
         </dt>
         <dd>Numerical values to World Stress Map Quality Ranking</dd>
+      </dl><dl><dt>
+          
+          <code><a href="quick_analysis.html">quick_analysis()</a></code> 
+        </dt>
+        <dd>Quick analysis of a stress data set</dd>
       </dl><dl><dt>
           
           <code><a href="raster_transformation.html">geographical_to_PoR_raster()</a></code> <code><a href="raster_transformation.html">PoR_to_geographical_raster()</a></code> 
@@ -246,6 +291,11 @@ data</dd>
           <code><a href="rose.html">rose()</a></code> 
         </dt>
         <dd>Rose Diagram</dd>
+      </dl><dl><dt>
+          
+          <code><a href="rotation_Q4.html">rotation_Q4()</a></code> 
+        </dt>
+        <dd>Rotation of a vector by a quaternion</dd>
       </dl><dl><dt>
           
           <code><a href="san_andreas.html">san_andreas</a></code> 
@@ -276,11 +326,6 @@ data</dd>
           <code><a href="tectonicr.html">tectonicr</a></code> <code><a href="tectonicr.html">_PACKAGE</a></code> <code><a href="tectonicr.html">tectonicr-package</a></code> 
         </dt>
         <dd>library(tectonicr)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="transform_matrices.html">rotmat_x()</a></code> <code><a href="transform_matrices.html">rotmat_y()</a></code> <code><a href="transform_matrices.html">rotmat_z()</a></code> 
-        </dt>
-        <dd>Basic rotation matrices</dd>
       </dl><dl><dt>
           
           <code><a href="vcross.html">vcross()</a></code> 
