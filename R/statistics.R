@@ -160,7 +160,7 @@ mean_resultant <- function(x, w, na.rm) {
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_sd(sa.por$azi.PoR, 1 / san_andreas$unc)
-
+#'
 #' @name circle_stats
 NULL
 
@@ -193,7 +193,7 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 
   R <- mean_resultant(x = x, w = w, na.rm = na.rm)
   V <- 1 - R
-  #rad2deg(V / f)
+  # rad2deg(V / f)
   V
 }
 
@@ -409,8 +409,8 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
     x <- na.omit(x)
   }
 
-  cdist <- 1 - cosd(f*(x - y))
-  cdist #/ f
+  cdist <- 1 - cosd(f * (x - y))
+  cdist # / f
 }
 
 #' Circular dispersion
@@ -463,6 +463,6 @@ circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = 
 
   w <- data$w
   Z <- sum(w)
-  cosf <- w * cosd(f*(data$x - from))
+  cosf <- w * cosd(f * (data$x - from))
   sum(1 - cosf) / Z
 }

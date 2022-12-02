@@ -125,7 +125,8 @@ distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) 
   pb.coords <-
     sf::st_geometry(pb) %>%
     geographical_to_PoR_sf(euler = euler) %>%
-    sf::st_cast(to = "LINESTRING") %>%
+    sf::st_cast(to = "MULTILINESTRING", warn = FALSE) %>%
+    sf::st_cast(to = "LINESTRING", warn = FALSE) %>%
     smoothr::densify(...) %>%
     sf::st_coordinates()
 
@@ -209,7 +210,8 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
   pb.coords <-
     sf::st_geometry(pb) %>%
     geographical_to_PoR_sf(euler = euler) %>%
-    sf::st_cast(to = "LINESTRING") %>%
+    sf::st_cast(to = "MULTILINESTRING", warn = FALSE) %>%
+    sf::st_cast(to = "LINESTRING", warn = FALSE) %>%
     smoothr::densify(...) %>%
     sf::st_coordinates()
 

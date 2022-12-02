@@ -90,11 +90,9 @@ test_that("Output of functions is as expected", {
 })
 
 # test output is NULL ----------------------------------------------------------
-
-test_that("Statistics return NULL when too few numbers", {
-  expect_null(circular_quantiles(c(15, 16)))
-  expect_null(circular_quantiles(c(15, 15, 16)))
-})
+# test_that("Statistics return NULL when too few numbers", {
+#   expect_null(circular_quantiles(c(15, 16)))
+# })
 
 # test type --------------------------------------------------------------------
 
@@ -108,6 +106,8 @@ test_that("type of object returned is as expected", {
 # test message -----------------------------------------------------------------
 test_that("Message expected", {
   expect_message(norm_chisq(c(12, NA), 1, 1))
+  expect_message(circular_quantiles(c(15, 16)))
+  expect_message(circular_quantiles(c(15, 15, 16)))
 })
 
 # test warning -----------------------------------------------------------------
