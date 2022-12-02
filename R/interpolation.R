@@ -9,10 +9,8 @@ earth_radius <- function() {
 wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
   if (Z != 0) {
-    xrad <- deg2rad(x)
-    meansin2 <- sum(w * sin(2 * xrad), na.rm = TRUE) / Z
-    meancos2 <- sum(w * cos(2 * xrad), na.rm = TRUE) / Z
-    meanR <- sqrt(meansin2^2 + meancos2^2)
+    m <- mean_SC(2*x, w=w, na.rm = TRUE)
+    meanR <- sqrt(m$C^2 + m$S^2)
 
     if (meanR > 1) {
       sd_s <- 0
@@ -20,8 +18,8 @@ wcmean <- function(x, w) {
       sd_s <- sqrt(-2 * log(meanR)) / 2
     }
 
-    mean_s <- atan2(meansin2, meancos2) / 2
-    rad2deg(c(mean_s, sd_s))
+    mean_s <- atan2(m$S, m$C) / 2
+    rad2deg(c(mean_s, sd_s)) %% 180
   } else {
     c(NA, NA)
   }
@@ -29,11 +27,11 @@ wcmean <- function(x, w) {
 
 wcmedian <- function(x, w) {
   if (length(x) > 3) {
-    quantiles <- circular_weighted_quantiles(x, w)
+    quantiles <- circular_quantiles(x, w)
     median_s <- quantiles[3]
     iqr_s <- deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
   } else {
-    median_s <- circular_weighted_median(x, w)
+    median_s <- circular_median(x, w)
     iqr_s <- ceiling(
       abs(
         deviation_norm(max(x)) - deviation_norm(min(x))
@@ -247,7 +245,7 @@ stress2grid <- function(x,
           } else {
             stats <- wcmean(datas$azi[ids_R], w)
           }
-          meanSH <- stats[1] %% 180
+          meanSH <- stats[1]
           sd <- stats[2]
           #   sw_R <- sum(w_R)
           #

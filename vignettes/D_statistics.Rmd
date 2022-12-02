@@ -31,13 +31,13 @@ Directional data is pi-periodical.
 Thus, for the calculation of mean, the average of 35° and 355° 
 should be 15° instead of 195°. 
 **tectonicr** provides the circular mean (`circular_mean()`) and the 
-quasi-median on the circle (`circular_quasi_median()`)
+quasi-median on the circle (`circular_median()`)
 as metrics to describe average direction:
 
 ```{r mean, echo=TRUE}
 data("san_andreas")
 circular_mean(san_andreas$azi)
-circular_quasi_median(san_andreas$azi)
+circular_median(san_andreas$azi)
 ```
 ## Quality weighted mean direction
 Because the stress data is heteroscedastic, the data with less precise 
@@ -45,14 +45,14 @@ direction should have less impact on the final mean direction The weighted
 mean or median uses the reported uncertainties of the measurements and weights 
 the final average value by the inverse of the uncertainties:
 ```{r weighted}
-circular_weighted_mean(san_andreas$azi, 1 / san_andreas$unc)
-circular_weighted_median(san_andreas$azi, 1 / san_andreas$unc)
+circular_mean(san_andreas$azi, 1 / san_andreas$unc)
+circular_median(san_andreas$azi, 1 / san_andreas$unc)
 ```
 The spread of directional data can be expressed by the standard deviation (for 
 the mean) or the interquartile range (for the median):
 ```{r weighted_spread}
-circular_weighted_sd(san_andreas$azi, 1 / san_andreas$unc) # standard deviation
-circular_weighted_IQR(san_andreas$azi, 1 / san_andreas$unc) # interquartile range
+circular_sd(san_andreas$azi, 1 / san_andreas$unc) # standard deviation
+circular_IQR(san_andreas$azi, 1 / san_andreas$unc) # interquartile range
 ```
 
 
@@ -68,11 +68,11 @@ san_andreas.por <- PoR_shmax(san_andreas, euler, type = "right")
 
 
 ```{r por_stats}
-circular_weighted_mean(san_andreas.por$azi, san_andreas$unc)
-circular_weighted_sd(san_andreas.por$azi, san_andreas$unc)
+circular_mean(san_andreas.por$azi, 1/san_andreas$unc)
+circular_sd(san_andreas.por$azi, 1/san_andreas$unc)
 
-circular_weighted_median(san_andreas.por$azi, san_andreas$unc)
-circular_weighted_IQR(san_andreas.por$azi, san_andreas$unc)
+circular_median(san_andreas.por$azi, 1/san_andreas$unc)
+circular_IQR(san_andreas.por$azi, 1/san_andreas$unc)
 ```
 
 ## Interpolation

@@ -81,43 +81,32 @@ test_that("Output of functions is as expected", {
   expect_equal(longitude_modulo(-361), -1)
   expect_equal(abs_vel(0.21, 0, r = 1), 0)
   expect_equal(quantise_wsm_quality(c("A", "E", "F", "G", 5)), c(15, NA, NA, NA, NA))
-  expect_equal(circular_quasi_median(c(15, 16)), 15.5)
-  expect_equal(circular_quasi_median(c(15, 15, 16)), 15)
-  expect_equal(circular_quasi_IQR(c(15, 16, 15, 15)), 1)
+  expect_equal(circular_median(c(15, 16)), 15.5)
+  expect_equal(circular_median(c(15, 15, 16)), 15)
+  expect_equal(circular_IQR(c(15, 16, 15, 15)), 1)
   expect_equal(deviation_norm(91), 89)
-  # expect_equal(circular_quasi_median(c(12, NA)), 12)
-  # expect_equal(circular_quasi_median(c(180, 0)), 0)
-  # expect_equal(circular_weighted_mean(c(180, 0)), 0)
-  expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
+   expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
   expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
-  # expect_equal(circular_quasi_median(test.vals), circular_weighted_median(test.vals))
-  # expect_equal(circular_quasi_IQR(test.vals), circular_weighted_IQR(test.vals))
-  # expect_equal(circular_mean(test.vals), circular_weighted_mean(test.vals))
 })
 
 # test output is NULL ----------------------------------------------------------
 
 test_that("Statistics return NULL when too few numbers", {
-  expect_null(circular_quasi_quantile(c(15, 16)))
-  expect_null(circular_quasi_quantile(c(15, 15, 16)))
+  expect_null(circular_quantiles(c(15, 16)))
+  expect_null(circular_quantiles(c(15, 15, 16)))
 })
 
 # test type --------------------------------------------------------------------
 
 test_that("type of object returned is as expected", {
   expect_vector(get_azimuth(p1, p2), ptype = double(), size = 1)
-  # expect_type(rotation_matrix(c(0, 1, 0), 90), "double")
   expect_s3_class(sm.sf, "sf")
   expect_s3_class(gc.sf, "sf")
   expect_s3_class(ld.sf, "sf")
-  # expect_s4_class(sm.sp, "SpatialLinesDataFrame")
-  # expect_s4_class(gc.sp, "SpatialLinesDataFrame")
-  # expect_s4_class(ld.sp, "SpatialLinesDataFrame")
 })
 
 # test message -----------------------------------------------------------------
 test_that("Message expected", {
-  # expect_message(circular_quasi_quantile(c(12, NA, 10, 11, 9)))
   expect_message(norm_chisq(c(12, NA), 1, 1))
 })
 
@@ -137,14 +126,9 @@ test_that("Error message if incorrect type argument", {
   expect_error(norm_chisq(NA, NA, NA))
   expect_error(norm_chisq(2, 3, 3, na.rm = "typo"))
   expect_error(norm_chisq(obs = c(1, 2), prd = 1, unc = c(1, 2, 3)))
-  # expect_error(rotation_angle(as.character(rotation_matrix(c(0, 0, 1))), 1))
-  # expect_error(as.character(rotation_axis(c(0, 0, 1)), 1))
-  # expect_error(as.character(rotation_matrix(c(0, 0, 1)), 1))
   expect_error(euler_pole(90, 0, NA, "test"))
-  # expect_error(euler_from_rot(C(1, 2, 3)))
   expect_error(circular_quasi_IQR(c(12, NA, 10, 9, "Inf", 7)))
   expect_error(PoR_shmax(stress, 10))
-  # expect_error(euler_rot(c(90, 0), "test"))
   expect_error(distance_from_pb(san_andreas, euler, plate_boundary, tangential = "typo"))
   expect_error(distance_from_pb(x = stress, ep = euler, pb = san_andreas, tangential = TRUE))
   expect_error(equivalent_rotation(nuvel1, fixed = "test"))
