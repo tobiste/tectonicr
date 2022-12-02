@@ -154,13 +154,15 @@ mean_resultant <- function(x, w, na.rm) {
 #'
 #' data("san_andreas")
 #' circular_mean(san_andreas$azi, 1 / san_andreas$unc)
+#' circular_var(san_andreas$azi, 1 / san_andreas$unc)
+#' circular_quantiles(san_andreas$azi, 1 / san_andreas$unc)
 #'
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
-#' circular_sd(sa.por$azi.PoR, 1 / san_andreas$unc)
-#'
+#' circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
+#' circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' @name circle_stats
 NULL
 
