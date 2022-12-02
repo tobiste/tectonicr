@@ -61,9 +61,6 @@
     <loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/circle_median.html</loc>
-  </url>
-  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/circle_stats.html</loc>
   </url>
   <url>
@@ -166,9 +163,6 @@
     <loc>https://tobiste.github.io/tectonicr/reference/quantise_wsm_quality.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/quick_analysis.html</loc>
-  </url>
-  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/raster_transformation.html</loc>
   </url>
   <url>
@@ -194,6 +188,9 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/stress2grid.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/stress_analysis.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/stress_paths.html</loc>
