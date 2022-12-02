@@ -29,7 +29,7 @@ mean, median or standard deviation are required.}
 \item{w}{(optional) Weights. A vector of positive numbers, of the same length as
 \code{x}.}
 
-\item{axial}{logical. Whether the data are axial, i.e. pi-periodial
+\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
@@ -54,6 +54,12 @@ circular_IQR(x, 1 / unc)
 
 data("san_andreas")
 circular_mean(san_andreas$azi, 1 / san_andreas$unc)
+
+data("nuvel1")
+ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+sa.por <- PoR_shmax(san_andreas, ep, "right")
+circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
+circular_sd(sa.por$azi.PoR, 1 / san_andreas$unc)
 }
 \references{
 \itemize{

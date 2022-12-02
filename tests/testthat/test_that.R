@@ -85,7 +85,7 @@ test_that("Output of functions is as expected", {
   expect_equal(circular_median(c(15, 15, 16)), 15)
   expect_equal(circular_IQR(c(15, 16, 15, 15)), 1)
   expect_equal(deviation_norm(91), 89)
-   expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
+  expect_equal(cartesian_to_geographical(c(10, 0, 0)), c(0, 0))
   expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
 })
 

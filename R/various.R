@@ -290,7 +290,7 @@ stress_analysis <- function(x, euler, type = c("none", "in", "out", "right", "le
   }
   nchisq <- norm_chisq(res$azi.PoR, res$prd, x$unc)
 
-  if(plot){
+  if (plot) {
     PoR_plot(azi = res$azi.PoR, distance = res$distance, unc = x$unc, regime = x$regime, prd = res$prd)
   }
 

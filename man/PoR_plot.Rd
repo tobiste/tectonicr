@@ -39,7 +39,7 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 data("san_andreas")
 res <- PoR_shmax(san_andreas, na_pa, "right")
-d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential=TRUE)
+d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
 PoR_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
 }
 \seealso{

@@ -9,7 +9,7 @@ earth_radius <- function() {
 wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
   if (Z != 0) {
-    m <- mean_SC(2*x, w=w, na.rm = TRUE)
+    m <- mean_SC(2 * x, w = w, na.rm = TRUE)
     meanR <- sqrt(m$C^2 + m$S^2)
 
     if (meanR > 1) {

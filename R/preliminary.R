@@ -594,14 +594,14 @@ circular_quasi_IQR <- function(x, na.rm = TRUE) {
 
 #' @rdname circle_median
 #' @export
-circular_var <- function(x, na.rm = TRUE, Batschelet=FALSE) {
+circular_var <- function(x, na.rm = TRUE, Batschelet = FALSE) {
   weighted_circular_variance(x, w = NULL, na.rm, Batschelet)
 }
 
 #' @rdname circle_median
 #' @export
-circular_standard_deviation <- function(x, na.rm=TRUE){
-  circular_weighted_sd(x, w = NULL, na.rm=TRUE)
+circular_standard_deviation <- function(x, na.rm = TRUE) {
+  circular_weighted_sd(x, w = NULL, na.rm = TRUE)
 }
 
 #' @rdname circle_median

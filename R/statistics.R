@@ -127,7 +127,7 @@ mean_resultant <- function(x, w, na.rm) {
 #' \code{x}.
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodial
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).
 #' @importFrom dplyr arrange
 #' @importFrom tidyr drop_na
@@ -154,6 +154,13 @@ mean_resultant <- function(x, w, na.rm) {
 #'
 #' data("san_andreas")
 #' circular_mean(san_andreas$azi, 1 / san_andreas$unc)
+#'
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
+#' circular_sd(sa.por$azi.PoR, 1 / san_andreas$unc)
+
 #' @name circle_stats
 NULL
 
@@ -185,12 +192,9 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x %% mod) * f
 
   R <- mean_resultant(x = x, w = w, na.rm = na.rm)
-  # if (Batschelet) {
-  #   V <- 2 * (1 - R)
-  # } else {
-    V <- 1 - R
-  # }
-  V / f
+  V <- 1 - R
+  #rad2deg(V / f)
+  V
 }
 
 #' @rdname circle_stats
@@ -214,13 +218,13 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  meanx = circular_mean(x, w, axial=TRUE, na.rm)
+  meanx <- circular_mean(x, w, axial = TRUE, na.rm)
 
-  if(meanx <= 25 | meanx >= 155){
+  if (meanx <= 25 | meanx >= 155) {
     sub <- 90
     x <- x + sub
   } else {
-    sub = 0
+    sub <- 0
   }
 
   if (is.null(w)) {
@@ -268,11 +272,11 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if(circular_mean(x, w, axial=TRUE, na.rm) < 10){
+  if (circular_mean(x, w, axial = TRUE, na.rm) < 10) {
     sub <- 90
     x <- x + sub
   } else {
-    sub = 0
+    sub <- 0
   }
 
   med <- circular_median(x, w, axial, na.rm)
@@ -370,7 +374,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
       x_first, rad2deg(lq), med, rad2deg(uq), x_last
     )
     names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
-    return(quantiles-sub)
+    return(quantiles - sub)
   } else {
     message("x needs more than 3 values")
     return(NULL)
@@ -382,4 +386,83 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   quantiles <- circular_quantiles(x, w, axial, na.rm)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
+}
+
+
+
+
+#' Circular distance between two angles
+#'
+#' @param x,y vector of numeric values in degrees
+#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).
+circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+
+  if (na.rm) {
+    x <- na.omit(x)
+  }
+
+  cdist <- 1 - cosd(f*(x - y))
+  cdist #/ f
+}
+
+#' Circular dispersion
+#'
+#' Dispersion of angles about a given angle.
+#'
+#' @param x Data values. A vector of numeric values in degrees
+#' @param from numeric. the angle (in degree) for which the dispersion should be measured.
+#' If NULL, the circular median is used.
+#' @param w (optional) Weights. A vector of positive numbers, of the same length as
+#' \code{x}.
+#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).
+#' @importFrom tidyr drop_na
+#' @examples
+#' \dontrun{
+#' data("san_andreas")
+#' circular_dispersion(san_andreas$azi)
+#'
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' circular_dispersion(sa.por$azi.PoR, from = 135)
+#' }
+circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
+  stopifnot(any(is.numeric(x)), is.logical(na.rm), is.logical(axial))
+
+  if (is.null(from)) {
+    from <- circular_mean(x, w, axial, na.rm)
+  }
+
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  } else {
+    w <- as.double(w)
+  }
+
+  data <- data.frame(x, w)
+  if (na.rm) {
+    data <- tidyr::drop_na(data)
+  }
+
+  w <- data$w
+  Z <- sum(w)
+  cosf <- w * cosd(f*(data$x - from))
+  sum(1 - cosf) / Z
 }
