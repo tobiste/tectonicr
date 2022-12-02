@@ -43,7 +43,7 @@ rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE
     binwidth <- 360 / bins # bin width
   } else if (is.null(bins) & is.null(binwidth)) {
     # bins <- length(x)
-    binwidth <- 2 * circular_quasi_IQR(x) / length(stats::na.omit(x))^(1 / 3)
+    binwidth <- 2 * circular_IQR(x) / length(stats::na.omit(x))^(1 / 3)
   }
   stopifnot(binwidth > 0)
   breaks <- seq(0, 360, binwidth)
@@ -81,9 +81,9 @@ rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE
 #' regime (following the classification of the World Stress Map)
 #' @param k integer. window width (in number of observations) for rolling
 #' statistics. Has to be an odd number.
-#' @param ... optional arguments to `zoo::rollapply()`
+#' @param ... optional arguments to `zoo::rollapply()`, [rose()], or `plot()`
 #' @importFrom zoo rollapply rollmedian
-#' @seealso [PoR_shmax()], [distance_from_pb()], [circular_weighted_median()], [circular_weighted_IQR()], [norm_chisq()]
+#' @seealso [PoR_shmax()], [distance_from_pb()], [circular_median()], [circular_IQR()], [norm_chisq()]
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -106,15 +106,15 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...){
   t <- data.frame(azi, distance, prd, unc, regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) %>%
     arrange(distance) %>%
     mutate(nchisq_i =  (deviation_norm(azi - prd)/unc)^2 / (90/unc)^2,
-           azi.rmedian = zoo::rollapply(azi, width = k, FUN = circular_weighted_median, align = "center", fill = NA, ...),
-           azi.riqr = zoo::rollapply(azi, width = k, FUN = circular_weighted_IQR, align = "center", fill = NA, ...),
+           azi.rmedian = zoo::rollapply(azi, width = k, FUN = circular_median, align = "center", fill = NA, ...),
+           azi.riqr = zoo::rollapply(azi, width = k, FUN = circular_IQR, align = "center", fill = NA, ...),
            nchi2.rmedian = zoo::rollmedian(nchisq_i, k = k, align = "center", fill = NA, ...),
            nchi2.rmad = zoo::rollapply(nchisq_i, width = k, FUN = stats::mad, align = "center", fill = NA, na.rm = TRUE, ...)
     )
 
   nchisq <- norm_chisq(azi, prd, unc)
-  azi.PoR.median <- circular_weighted_median(azi, 1 / unc)
-  azi.PoR.IQR <- circular_weighted_IQR(azi, 1 / unc)
+  azi.PoR.median <- circular_median(azi, 1 / unc)
+  azi.PoR.IQR <- circular_IQR(azi, 1 / unc)
 
   subtitle <- paste0(
     "N: ", length(azi),
@@ -128,7 +128,7 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...){
        xlab = "Distance from plate boundary", ylab = "Azimuth wrt. EP (\u00B0)",
        sub = subtitle,
        xlim = range(distance),
-       ylim = c(0, 180), yaxp = c(0, 180, 8)
+       ylim = c(0, 180), yaxp = c(0, 180, 8), ...
   )
   graphics::arrows(y0=t$azi-t$unc, x0=t$distance, y1=t$azi+t$unc, x1=t$distance, code=0, lwd=.25, col = t$regime)
   graphics::points(azi ~ distance, data = t, col = t$regime)
@@ -144,7 +144,7 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...){
        xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi[i]^2),
        #sub = subtitle,
        xlim = range(distance),
-       ylim = c(0, 1), yaxp = c(0, 1, 4)
+       ylim = c(0, 1), yaxp = c(0, 1, 4), ...
   )
   graphics::lines(nchi2.rmedian+t$nchi2.rmad ~ distance, data = t, type = "S", col = "#85112A7D", lty=3)
   graphics::lines(nchi2.rmedian-t$nchi2.rmad ~ distance, data = t, type = "S", col = "#85112A7D", lty=3)
@@ -152,5 +152,5 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...){
   graphics::abline(h = .15, col = 'black', lty = 2)
 
   grDevices::dev.new()
-  rose(azi, main = "Euler pole")
+  rose(azi, main = "Euler pole", ...)
 }

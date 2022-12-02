@@ -29,10 +29,10 @@ stress2grid(
 \describe{
 \item{azi}{SHmax in degree}
 \item{unc}{Uncertainties of SHmax in degree}
-\item{type}{Methods used for the determination of the orientation of SHmax}
+\item{type}{Methods used for the determination of the direction of SHmax}
 }}
 
-\item{stat}{Should the orientation of interpolated SHmax be based  on the
+\item{stat}{Should the direction of interpolated SHmax be based  on the
 circular mean and standard deviation (\code{"mean"}, the default) or on the
 circular median
 and interquartile range (\code{"median"})?}
@@ -45,7 +45,7 @@ degree. Default is 2.5}
 
 \item{min_data}{Integer. Minimum number of data per bin. Default is 3}
 
-\item{threshold}{Numeric. Threshold for deviation of orientation. Default is
+\item{threshold}{Numeric. Threshold for deviation of direction. Default is
 25}
 
 \item{arte_thres}{Numeric. Maximum distance (in km) of the gridpoint to the

@@ -9,7 +9,7 @@ PoR_shmax(df, euler, type = c("none", "in", "out", "right", "left"))
 }
 \arguments{
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
-(\code{lat}, \code{lon}), the orientation of
+(\code{lat}, \code{lon}), the direction of
 \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 \code{unc} (optional)}
 
@@ -58,7 +58,7 @@ res <- PoR_shmax(san_andreas, euler, type = "right")
 head(res)
 }
 \seealso{
-\code{\link[=model_shmax]{model_shmax()}} to compute the theoretical orientation of
+\code{\link[=model_shmax]{model_shmax()}} to compute the theoretical direction of
 \eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
 \code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
 from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
