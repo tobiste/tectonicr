@@ -60,6 +60,7 @@ ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
 circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_sd(sa.por$azi.PoR, 1 / san_andreas$unc)
+
 }
 \references{
 \itemize{
