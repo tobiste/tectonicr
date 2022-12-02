@@ -92,8 +92,8 @@ wcmedian <- function(x, w) {
 #' \item{mdr}{Mean distance of datapoint per search radius}
 #' \item{N}{Number of data points in search radius}
 #' }
-#' @details Calculates the weighted mean and standard deviation of the stress
-#' data
+#' @details Calculates the weighted mean/median and standard deviation/IQR of
+#' stress data
 #' @seealso [dist_greatcircle()]
 #' @source \url{https://github.com/MorZieg/Stress2Grid}
 #' @references Ziegler, M. O. and Heidbach, O. (2019).

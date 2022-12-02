@@ -214,8 +214,6 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm))
-  m <- NULL
   meanx = circular_mean(x, w, axial=TRUE, na.rm)
 
   if(meanx <= 25 | meanx >= 155){
@@ -270,8 +268,6 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm))
-  m <- NULL
   if(circular_mean(x, w, axial=TRUE, na.rm) < 10){
     sub <- 90
     x <- x + sub

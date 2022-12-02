@@ -86,8 +86,8 @@ Default is \code{seq(50, 1000, 50)}}
 Stress pattern and wavelength analysis
 }
 \details{
-Calculates the weighted mean and standard deviation of the stress
-data
+Calculates the weighted mean/median and standard deviation/IQR of
+stress data
 }
 \examples{
 data("san_andreas")

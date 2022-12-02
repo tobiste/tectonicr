@@ -106,20 +106,20 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...){
   t <- data.frame(azi, distance, prd, unc, regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) %>%
     arrange(distance) %>%
     mutate(nchisq_i =  (deviation_norm(azi - prd)/unc)^2 / (90/unc)^2,
-           azi.rmedian = zoo::rollapply(azi, width = k, FUN = circular_median, align = "center", fill = NA, ...),
-           azi.riqr = zoo::rollapply(azi, width = k, FUN = circular_IQR, align = "center", fill = NA, ...),
+           azi.rmean = zoo::rollapply(azi, width = k, FUN = circular_mean, align = "center", fill = NA, ...),
+           azi.sd = zoo::rollapply(azi, width = k, FUN = circular_sd, align = "center", fill = NA, ...),
            nchi2.rmedian = zoo::rollmedian(nchisq_i, k = k, align = "center", fill = NA, ...),
            nchi2.rmad = zoo::rollapply(nchisq_i, width = k, FUN = stats::mad, align = "center", fill = NA, na.rm = TRUE, ...)
     )
 
   nchisq <- norm_chisq(azi, prd, unc)
-  azi.PoR.median <- circular_median(azi, 1 / unc)
-  azi.PoR.IQR <- circular_IQR(azi, 1 / unc)
+  azi.PoR.mean <- circular_mean(azi, 1 / unc)
+  azi.PoR.sd <- circular_sd(azi, 1 / unc)
 
   subtitle <- paste0(
     "N: ", length(azi),
-    " | Median azimuth: ", round(azi.PoR.median, 1), "\u00B0 \u00B1 ", round(azi.PoR.IQR / 2, 1),
-    "\u00B0 | Norm \u03C7\u00B2:", round(nchisq, 2)
+    " | Mean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(azi.PoR.sd, 1),
+    "\u00B0 | Norm \u03C7\u00B2: ", round(nchisq, 2)
   )
 
   grDevices::palette(c("grey60","#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2"))
@@ -133,9 +133,9 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...){
   graphics::arrows(y0=t$azi-t$unc, x0=t$distance, y1=t$azi+t$unc, x1=t$distance, code=0, lwd=.25, col = t$regime)
   graphics::points(azi ~ distance, data = t, col = t$regime)
 
-  graphics::lines(azi.rmedian-azi.PoR.IQR/2 ~ distance, data = t, type = "S", col = "#85112A7D", lty =3)
-  graphics::lines(azi.rmedian+azi.PoR.IQR/2 ~ distance, data = t, type = "S", col = "#85112A7D", lty =3)
-  graphics::lines(azi.rmedian ~ distance, data = t, type = "S", col = "#85112AFF")
+  graphics::lines(azi.rmean-azi.sd ~ distance, data = t, type = "S", col = "#85112A7D", lty =3)
+  graphics::lines(azi.rmean+azi.sd ~ distance, data = t, type = "S", col = "#85112A7D", lty =3)
+  graphics::lines(azi.rmean ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = unique(prd), col = 'black', lty = 2)
   graphics::legend("bottomright", inset = .05, cex = .5, legend=c("N", "NS", "S", "TS", "T", "U"), title = "Stress regime", fill=c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60" ))
 
