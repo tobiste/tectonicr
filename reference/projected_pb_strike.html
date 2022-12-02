@@ -121,7 +121,6 @@ true (small-circle) azimuth.</p>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">projected_pb_strike</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="va">san_andreas</span>, euler <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">plate_boundary</span>, tangential <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>keeping first linestring only</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]   4.736758 168.012393 155.621546 170.744568 123.422221 157.447480</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span> <span class="op">-</span> <span class="va">res</span><span class="op">)</span> <span class="co"># beta angle</span></span></span>
