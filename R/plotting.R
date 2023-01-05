@@ -55,7 +55,7 @@ rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE
     x2 <- (x + 180) %% 360 # add data to the other side of the circle
     x <- graphics::hist(x = c(x, x2), plot = FALSE, breaks = breaks)
   }
-  spatstat.core::rose(
+  spatstat.explore::rose(
     x,
     breaks = breaks,
     clockwise = clockwise, start = "N", unit = unit, main = main, xlab = NULL, ...
