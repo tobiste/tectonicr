@@ -194,9 +194,7 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x %% mod) * f
 
   R <- mean_resultant(x = x, w = w, na.rm = na.rm)
-  V <- 1 - R
-  # rad2deg(V / f)
-  V
+  1 - R
 }
 
 #' @rdname circle_stats
@@ -212,7 +210,7 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x %% mod) * f
 
   R <- mean_resultant(x = x, w = w, na.rm = na.rm)
-  sd <- sqrt(-2 * log(R)) / f
+  sd <- sqrt(-2 * log(R)) #/ f
   rad2deg(sd) %% mod
 }
 
