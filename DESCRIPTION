@@ -19,7 +19,7 @@ Imports:
     methods,
     sf,
     smoothr,
-    spatstat.core,
+    spatstat.explore,
     terra,
     tidyr,
     zoo

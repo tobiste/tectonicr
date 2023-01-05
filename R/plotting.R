@@ -16,14 +16,14 @@
 #' `"degrees"` (the default), or `"radians"`.
 #' @param main,sub Character string specifying the title and subtitle of the
 #' plot. If `sub = NULL`, it will show the bin width.
-#' @param ... Additional arguments passed to [spatstat.core::rose()].
+#' @param ... Additional arguments passed to [spatstat.explore::rose()].
 #' @note If `bins` and `binwidth` are `NULL`, an optimal bin width will be
 #' calculated using:
 #' \deqn{ \frac{2 IQR(x)}{n^{\frac{1}{3}}}
 #' }
 #' with n being the length of `x`.
 #' @return A window (class `"owin"`) containing the plotted region.
-#' @importFrom spatstat.core rose
+#' @importFrom spatstat.explore rose
 #' @importFrom graphics hist title
 #' @importFrom stats na.omit
 #' @export

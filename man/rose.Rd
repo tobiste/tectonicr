@@ -37,7 +37,7 @@ counter-clockwise direction (\code{FALSE}).}
 \item{main, sub}{Character string specifying the title and subtitle of the
 plot. If \code{sub = NULL}, it will show the bin width.}
 
-\item{...}{Additional arguments passed to \code{\link[spatstat.core:rose]{spatstat.core::rose()}}.}
+\item{...}{Additional arguments passed to \code{\link[spatstat.explore:rose]{spatstat.explore::rose()}}.}
 }
 \value{
 A window (class \code{"owin"}) containing the plotted region.
