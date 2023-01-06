@@ -19,10 +19,10 @@ san_andreas <- filter(
     unc = ifelse(unc > quality.quant, quality.quant, unc),
     unc = ifelse(unc == 0, 15, unc),
 
-   id = stringi::stri_enc_toascii(id),
-   type = stringi::stri_enc_toascii(type),
-   quality = stringi::stri_enc_toascii(quality),
-   regime = stringi::stri_enc_toascii(regime)
+   #id = stringi::stri_enc_toascii(id),
+   #type = stringi::stri_enc_toascii(type),
+   #quality = stringi::stri_enc_toascii(quality),
+   #regime = stringi::stri_enc_toascii(regime)
    ) %>%
   arrange(quality, unc) %>%
   filter(quality != "E") %>%
@@ -143,11 +143,11 @@ cpm_models <- rbind(
   hsnuvel1a,
   revel,
   pb2002
-) %>%
-  mutate(plate.name = stringi::stri_enc_toascii(plate.name),
-         plate.rot = stringi::stri_enc_toascii(plate.rot),
-         plate.rot = stringi::stri_enc_toascii(plate.rot),
-         plate.fix = stringi::stri_enc_toascii(plate.fix),
-         model = stringi::stri_enc_toascii(model)
-  ) #%>% group_by(model)
+) #%>%
+  # mutate(plate.name = stringi::stri_enc_toascii(plate.name),
+  #        plate.rot = stringi::stri_enc_toascii(plate.rot),
+  #        plate.rot = stringi::stri_enc_toascii(plate.rot),
+  #        plate.fix = stringi::stri_enc_toascii(plate.fix),
+  #        model = stringi::stri_enc_toascii(model)
+  # ) #%>% group_by(model)
 usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)

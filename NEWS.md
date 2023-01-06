@@ -1,4 +1,11 @@
-# tectonicr 0.2
+# tectonicr 0.2.6 _2023-01-06_
+
+* distance to plate boundary in km
+* coordinate transformation using quaternions
+* plot the transformed azimuth vs. distance to plate boundary
+* quick plotting
+
+# tectonicr 0.2.5
 
 * Calculation of rotation replaced by quaternions to boost performance
 * "sp" class output for small circles, great circles and loxodromes deprecated

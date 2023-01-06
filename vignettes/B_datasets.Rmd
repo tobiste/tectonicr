@@ -121,9 +121,7 @@ ggplot(san_andreas.res) +
 ```
 ![](san_andreas_map.png)
 
-The map shows generally low deviation of the observed $\sigma_{Hmax}$
-directions from the modeled stress direction using counter-clockwise 
-45$^{\circ}$ loxodromes. 
+The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions from the modeled stress direction using counter-clockwise 45$^{\circ}$ loxodromes. 
 
 The *normalized* $\chi^2$ test quantifies the fit between the
 modeled $\sigma_{Hmax}$ direction the observed stress direction
