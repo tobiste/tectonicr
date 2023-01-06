@@ -146,18 +146,18 @@ The **normalized** $\chi^2$ test quantitatively compares the predicted
 (`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the reported
 $\sigma$ standard deviation [@Wdowinski1998].
 
-```{=tex}
-\begin{equation} 
-  \textrm{Norm} \chi^2_i = 
- \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2}
- {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation}
-```
-with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted
-directions of $\sigma_{Hmax}$ with respect to the pole of rotation, 
-respectively.
-The $\sigma_i$ parameter is the reported uncertainty of the observed
-azimuth and $M$ is the number of observations that are used in each
-test.
+<!-- ```{=tex} -->
+<!-- \begin{equation}  -->
+<!--   \textrm{Norm} \chi^2_i =  -->
+<!--  \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} -->
+<!--  {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation} -->
+<!-- ``` -->
+<!-- with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted -->
+<!-- directions of $\sigma_{Hmax}$ with respect to the pole of rotation,  -->
+<!-- respectively. -->
+<!-- The $\sigma_i$ parameter is the reported uncertainty of the observed -->
+<!-- azimuth and $M$ is the number of observations that are used in each -->
+<!-- test. -->
 
 The normalized $\chi^2$ test yields a number in the range between 0-1
 which indicates the quality of the fit. Low values of the normalized
