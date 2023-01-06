@@ -84,26 +84,26 @@ great circles at an angle of 45$^{\circ}$.
 
 ## Theoretical direction of Horizontal Stress and Deviation From the Measured Stress
 
-**tectonicr** basically calculates the bearing from a point of 
-interest to a given Euler pole of the relative plate motion by the formula:
+<!-- **tectonicr** basically calculates the bearing from a point of  -->
+<!-- interest to a given Euler pole of the relative plate motion by the formula: -->
 
-```{=tex}
-\begin{equation} 
-  \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)
-\end{equation}
-```
+<!-- ```{=tex} -->
+<!-- \begin{equation}  -->
+<!--   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda) -->
+<!-- \end{equation} -->
+<!-- ``` -->
 
-where $\psi_1$, $\lambda_1$ are the longitude and latitude of the point, 
-$\psi_2$, $\lambda_2$ the longitude and latitude of the Euler pole 
-($\Delta\lambda$ is the difference in longitude). 
+<!-- where $\psi_1$, $\lambda_1$ are the longitude and latitude of the point,  -->
+<!-- $\psi_2$, $\lambda_2$ the longitude and latitude of the Euler pole  -->
+<!-- ($\Delta\lambda$ is the difference in longitude).  -->
 
-> The bearing $\theta$ is the orientation of a great circle that passes through 
-the point and the Euler pole. Thus, it reflects the theoretical direction of 
-$\sigma_{Hmax}$ that follows great circles trajectories. 
-Small circle directions then are $90^{\circ}$ and loxodrome directions 
-are $\pm45^{\circ}$ to $\theta$.
+<!-- > The bearing $\theta$ is the orientation of a great circle that passes through  -->
+<!-- the point and the Euler pole. Thus, it reflects the theoretical direction of  -->
+<!-- $\sigma_{Hmax}$ that follows great circles trajectories.  -->
+<!-- Small circle directions then are $90^{\circ}$ and loxodrome directions  -->
+<!-- are $\pm45^{\circ}$ to $\theta$. 
 
----
+<!-- --- -->
 
 In **tectonicr**, these directions can modeled by the following 
 steps:

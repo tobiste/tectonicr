@@ -108,7 +108,7 @@ ggplot(san_andreas.res) +
   scale_color_continuous(
     type = "viridis",
     limits = c(0, 90),
-    name = "|Deviation| in °",
+    name = "|Deviation| in B0",
     breaks = seq(0, 90, 22.5)
   ) +
   coord_sf(
@@ -159,13 +159,13 @@ translation factors.
 The azimuth in the *PoR reference system* $\alpha_{PoR}$ is the angular 
 difference between the azimuth in geographic reference system $\alpha_{geo}$ 
 and the (initial) bearing of the great circle 
-that passes through the data point and the Euler pole $\theta$:
+that passes through the data point and the Euler pole $\theta$.
 
-```{=tex}
-\begin{equation} 
-  \alpha_{PoR} = \alpha_{geo} - \theta
-\end{equation}
-```
+<!-- ```{=tex} -->
+<!-- \begin{equation}  -->
+<!--   \alpha_{PoR} = \alpha_{geo} - \theta -->
+<!-- \end{equation} -->
+<!-- ``` -->
 
 The function `PoR_shmax()` returns the transformed azimuth of $\sigma_{Hmax}$ 
 and, if given, the deviation from the predicted $\sigma_{Hmax}$ direction 
@@ -205,7 +205,7 @@ the plate boundary:
 ```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
-  labs(x = "Distance from plate boundary (°)", y = "Azimuth in PoR (°)") +
+  labs(x = "Distance from plate boundary (B0)", y = "Azimuth in PoR (B0)") +
   geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
   geom_pointrange(
     aes(
@@ -230,7 +230,7 @@ ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
 ![](azimuth.png)
 
 Close to the here dextral plate boundary, the majority of the stress data have 
-a strike-slip fault regime and are oriented around 135° wrt. to the Euler 
+a strike-slip fault regime and are oriented around 135B0 wrt. to the Euler 
 pole. Thus, the date are parallel to the predicted stress sourced by a 
 right-lateral displaced plate boundary. 
 Away from the plate boundary, the data becomes more noisy.
@@ -246,7 +246,7 @@ stress direction, i.e. the *normalized* $\chi^2$:
 ```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Distance from plate boundary (°)", y = expression(Norm ~ chi^2)) +
+  labs(x = "Distance from plate boundary (B0)", y = expression(Norm ~ chi^2)) +
   geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +
   geom_smooth() +
   geom_point(aes(color = san_andreas$regime)) +
@@ -261,10 +261,10 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
 ![](nchisq.png)
 
 We can see that the data in fact starts to scatter notably 
-beyond a distance of 4° and becomes random at ca. 8° away from the plate 
+beyond a distance of 4B0 and becomes random at ca. 8B0 away from the plate 
 boundary. 
 Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is 
-approx. 4--6° (ca. 440--670 km) wide. 
+approx. 4--6B0 (ca. 440--670 km) wide. 
 
 > The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
 plate boundary zone.

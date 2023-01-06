@@ -28,8 +28,8 @@ library(ggplot2) # load ggplot library
 
 ## Mean direction
 Directional data is pi-periodical. 
-Thus, for the calculation of mean, the average of 35° and 355° 
-should be 15° instead of 195°. 
+Thus, for the calculation of mean, the average of 35B0 and 355B0 
+should be 15B0 instead of 195B0. 
 **tectonicr** provides the circular mean (`circular_mean()`) and the 
 quasi-median on the circle (`circular_median()`)
 as metrics to describe average direction:
