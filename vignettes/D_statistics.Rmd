@@ -140,11 +140,11 @@ ggplot(mean_SH_PoR) +
 ## Rose diagram
 **tectonicr** offers a rose diagram, i.e. histogram for angular data. 
 ```{r rose1}
-tectonicr::rose(san_andreas$azi, col = "grey", main = "North pole")
+rose(san_andreas$azi, col = "grey", main = "North pole")
 ```
 
 ```{r rose2}
-tectonicr::rose(san_andreas.por$azi, col = "grey", main = "Euler pole")
+rose(san_andreas.por$azi, col = "grey", main = "Euler pole")
 ```
 
 # References
