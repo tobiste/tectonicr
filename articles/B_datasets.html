@@ -177,7 +177,7 @@ deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">scale_color_continuous</a></span><span class="op">(</span></span>
 <span>    type <span class="op">=</span> <span class="st">"viridis"</span>,</span>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">90</span><span class="op">)</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"|Deviation| in °"</span>,</span>
+<span>    name <span class="op">=</span> <span class="st">"|Deviation| in B0"</span>,</span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">90</span>, <span class="fl">22.5</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
@@ -228,10 +228,12 @@ coordinates being the the translation factors.</p>
 <p>The azimuth in the <em>PoR reference system</em> <span class="math inline">\(\alpha_{PoR}\)</span> is the angular difference
 between the azimuth in geographic reference system <span class="math inline">\(\alpha_{geo}\)</span> and the (initial) bearing of
 the great circle that passes through the data point and the Euler pole
-<span class="math inline">\(\theta\)</span>:</p>
-<span class="math display">\[\begin{equation}
-  \alpha_{PoR} = \alpha_{geo} - \theta
-\end{equation}\]</span>
+<span class="math inline">\(\theta\)</span>.</p>
+<!-- ```{=tex} -->
+<!-- \begin{equation}  -->
+<!--   \alpha_{PoR} = \alpha_{geo} - \theta -->
+<!-- \end{equation} -->
+<!-- ``` -->
 <p>The function <code><a href="../reference/PoR_shmax.html">PoR_shmax()</a></code> returns the transformed azimuth
 of <span class="math inline">\(\sigma_{Hmax}\)</span> and, if given, the
 deviation from the predicted <span class="math inline">\(\sigma_{Hmax}\)</span> direction related to the
@@ -264,7 +266,7 @@ distance to the plate boundary:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (°)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (°)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (B0)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (B0)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_pointrange</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
@@ -287,7 +289,7 @@ distance to the plate boundary:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="azimuth.png"></p>
 <p>Close to the here dextral plate boundary, the majority of the stress
-data have a strike-slip fault regime and are oriented around 135° wrt.
+data have a strike-slip fault regime and are oriented around 135B0 wrt.
 to the Euler pole. Thus, the date are parallel to the predicted stress
 sourced by a right-lateral displaced plate boundary. Away from the plate
 boundary, the data becomes more noisy.</p>
@@ -303,7 +305,7 @@ from the the predicted stress direction, i.e. the <em>normalized</em>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">nchisq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (°)"</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">Norm</span> <span class="op">~</span> <span class="va">chi</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (B0)"</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">Norm</span> <span class="op">~</span> <span class="va">chi</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">.33</span>, <span class="fl">.7</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">regime</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -316,9 +318,9 @@ from the the predicted stress direction, i.e. the <em>normalized</em>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nchisq.png"></p>
 <p>We can see that the data in fact starts to scatter notably beyond a
-distance of 4° and becomes random at ca. 8° away from the plate
+distance of 4B0 and becomes random at ca. 8B0 away from the plate
 boundary. Thus, the North American-Pacific plate boundary zone at the
-San Andreas Fault is approx. 4–6° (ca. 440–670 km) wide.</p>
+San Andreas Fault is approx. 4–6B0 (ca. 440–670 km) wide.</p>
 <blockquote>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span>
 vs. distance plot allows to specify the width of the plate boundary

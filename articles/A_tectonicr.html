@@ -152,25 +152,23 @@ at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
 <h3 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the
 Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
 </h3>
-<p><strong>tectonicr</strong> basically calculates the bearing from a
-point of interest to a given Euler pole of the relative plate motion by
-the formula:</p>
-<span class="math display">\[\begin{equation}
-  \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1
-\sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)
-\end{equation}\]</span>
-<p>where <span class="math inline">\(\psi_1\)</span>, <span class="math inline">\(\lambda_1\)</span> are the longitude and latitude
-of the point, <span class="math inline">\(\psi_2\)</span>, <span class="math inline">\(\lambda_2\)</span> the longitude and latitude of
-the Euler pole (<span class="math inline">\(\Delta\lambda\)</span> is
-the difference in longitude).</p>
-<blockquote>
-<p>The bearing <span class="math inline">\(\theta\)</span> is the
-orientation of a great circle that passes through the point and the
-Euler pole. Thus, it reflects the theoretical direction of <span class="math inline">\(\sigma_{Hmax}\)</span> that follows great circles
-trajectories. Small circle directions then are <span class="math inline">\(90^{\circ}\)</span> and loxodrome directions are
-<span class="math inline">\(\pm45^{\circ}\)</span> to <span class="math inline">\(\theta\)</span>.</p>
-</blockquote>
-<hr>
+<!-- **tectonicr** basically calculates the bearing from a point of  -->
+<!-- interest to a given Euler pole of the relative plate motion by the formula: -->
+<!-- ```{=tex} -->
+<!-- \begin{equation}  -->
+<!--   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda) -->
+<!-- \end{equation} -->
+<!-- ``` -->
+<!-- where $\psi_1$, $\lambda_1$ are the longitude and latitude of the point,  -->
+<!-- $\psi_2$, $\lambda_2$ the longitude and latitude of the Euler pole  -->
+<!-- ($\Delta\lambda$ is the difference in longitude).  -->
+<!-- > The bearing $\theta$ is the orientation of a great circle that passes through  -->
+<!-- the point and the Euler pole. Thus, it reflects the theoretical direction of  -->
+<!-- $\sigma_{Hmax}$ that follows great circles trajectories.  -->
+<!-- Small circle directions then are $90^{\circ}$ and loxodrome directions  -->
+<!-- are $\pm45^{\circ}$ to $\theta$. 
+
+<!-- --- -->
 <p>In <strong>tectonicr</strong>, these directions can modeled by the
 following steps:</p>
 <p>First, load the package:</p>
