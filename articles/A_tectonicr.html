@@ -206,17 +206,18 @@ Horizontal Stress<a class="anchor" aria-label="anchor" href="#quantitative-compa
 predicted (<code><a href="../reference/model_shmax.html">model_shmax()</a></code>) and observed <span class="math inline">\(\sigma_{Hmax}\)</span> azimuth relative to the
 reported <span class="math inline">\(\sigma\)</span> standard deviation
 <span class="citation">(Wdowinski 1998)</span>.</p>
-<span class="math display">\[\begin{equation}
-  \textrm{Norm} \chi^2_i =
-\frac{\sum_{i=1}^{n} \left(\frac{\alpha_i -
-\alpha_{predict}}{\sigma_i}\right)^2}
-{\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2}
-\end{equation}\]</span>
-<p>with <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\alpha_{predicted}\)</span> are the observed and
-predicted directions of <span class="math inline">\(\sigma_{Hmax}\)</span> with respect to the pole of
-rotation, respectively. The <span class="math inline">\(\sigma_i\)</span> parameter is the reported
-uncertainty of the observed azimuth and <span class="math inline">\(M\)</span> is the number of observations that are
-used in each test.</p>
+<!-- ```{=tex} -->
+<!-- \begin{equation}  -->
+<!--   \textrm{Norm} \chi^2_i =  -->
+<!--  \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} -->
+<!--  {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation} -->
+<!-- ``` -->
+<!-- with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted -->
+<!-- directions of $\sigma_{Hmax}$ with respect to the pole of rotation,  -->
+<!-- respectively. -->
+<!-- The $\sigma_i$ parameter is the reported uncertainty of the observed -->
+<!-- azimuth and $M$ is the number of observations that are used in each -->
+<!-- test. -->
 <p>The normalized <span class="math inline">\(\chi^2\)</span> test
 yields a number in the range between 0-1 which indicates the quality of
 the fit. Low values of the normalized <span class="math inline">\(\chi^2\)</span> test (<span class="math inline">\(\leq\)</span> 0.15 indicate good agreement between
