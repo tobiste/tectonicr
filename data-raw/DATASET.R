@@ -17,14 +17,18 @@ san_andreas <- filter(
     quality.quant = tectonicr::quantise_wsm_quality(quality),
     unc = ifelse(is.na(sd), quality.quant, sd),
     unc = ifelse(unc > quality.quant, quality.quant, unc),
-    unc = ifelse(unc == 0, 15, unc)
-  ) %>%
+    unc = ifelse(unc == 0, 15, unc),
+
+   id = stringi::stri_enc_toascii(id),
+   type = stringi::stri_enc_toascii(type),
+   quality = stringi::stri_enc_toascii(quality),
+   regime = stringi::stri_enc_toascii(regime)
+   ) %>%
   arrange(quality, unc) %>%
   filter(quality != "E") %>%
   sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs("WGS84")) %>%
   select(id, lat, lon, azi, unc, type, depth, quality, regime)
-
-usethis::use_data(san_andreas, overwrite = TRUE)
+usethis::use_data(san_andreas, overwrite = TRUE, ascii = TRUE)
 
 
 ## PB2002 plates --------------
@@ -58,29 +62,42 @@ plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") %>%
   select(pair, plateA, plateB, type, displacement, name, nameA, nameB) %>%
   arrange(pair, displacement) %>%
   group_by(pair)
-plot(plates)
-usethis::use_data(plates, overwrite = TRUE)
+#plot(plates)
+
+usethis::use_data(plates, overwrite = TRUE, ascii = TRUE)
 
 
 ## NUVEL1 plates -------------
 # nuvel1_plates <- sf::st_read("E:/Global_data/Plate Boundaries/NUVEL1/nuvel1_plates.shp", quiet = TRUE) %>%
 #   sf::st_make_valid() %>%
 #   rename(plateA = PlateA, plateB = PlateB)
-# plot(nuvel1_plates)
-# usethis::use_data(nuvel1_plates, overwrite = TRUE)
+# #data("nuvel1_plates")
+# #plot(nuvel1_plates)
+# usethis::use_data(nuvel1_plates, overwrite = TRUE, ascii = TRUE)
 
 ## Rotation parameters --------------
 ### NUVEL 1
 data("nuvel1")
-# nuvel1
+nuvel1$plate.name <- stringi::stri_enc_toascii(nuvel1$plate.name)
+nuvel1$plate.rot <- stringi::stri_enc_toascii(nuvel1$plate.rot)
+nuvel1$plate.fix <- stringi::stri_enc_toascii(nuvel1$plate.fix)
+nuvel1$source <- stringi::stri_enc_toascii(nuvel1$source)
+usethis::use_data(nuvel1, overwrite = TRUE, ascii = TRUE)
+
 
 pb2002 <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "Bird") %>%
   mutate(plate.rot = tolower(plate.rot), source = ifelse(source == "this paper", "Bird [2003]", source), model = "PB2002") %>%
   rename(area = Area) %>%
   select(plate.name, plate.rot, lon, lat, angle, plate.fix, model) %>%
+  mutate(plate.name = stringi::stri_enc_toascii(plate.name),
+         plate.rot = stringi::stri_enc_toascii(plate.rot),
+         plate.rot = stringi::stri_enc_toascii(plate.rot),
+         plate.fix = stringi::stri_enc_toascii(plate.fix),
+         model = stringi::stri_enc_toascii(model)
+         ) %>%
   as.data.frame()
-usethis::use_data(pb2002, overwrite = TRUE)
+usethis::use_data(pb2002, overwrite = TRUE, ascii = TRUE)
 
 morvel56 <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "NNR-MORVEL56") %>%
@@ -126,5 +143,11 @@ cpm_models <- rbind(
   hsnuvel1a,
   revel,
   pb2002
-) # %>%  group_by(model)
-usethis::use_data(cpm_models, overwrite = TRUE)
+) %>%
+  mutate(plate.name = stringi::stri_enc_toascii(plate.name),
+         plate.rot = stringi::stri_enc_toascii(plate.rot),
+         plate.rot = stringi::stri_enc_toascii(plate.rot),
+         plate.fix = stringi::stri_enc_toascii(plate.fix),
+         model = stringi::stri_enc_toascii(model)
+  ) #%>% group_by(model)
+usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
