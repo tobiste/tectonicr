@@ -68,11 +68,11 @@ san_andreas.por <- PoR_shmax(san_andreas, euler, type = "right")
 
 
 ```{r por_stats}
-circular_mean(san_andreas.por$azi, 1/san_andreas$unc)
-circular_sd(san_andreas.por$azi, 1/san_andreas$unc)
+circular_mean(san_andreas.por$azi, 1 / san_andreas$unc)
+circular_sd(san_andreas.por$azi, 1 / san_andreas$unc)
 
-circular_median(san_andreas.por$azi, 1/san_andreas$unc)
-circular_IQR(san_andreas.por$azi, 1/san_andreas$unc)
+circular_median(san_andreas.por$azi, 1 / san_andreas$unc)
+circular_IQR(san_andreas.por$azi, 1 / san_andreas$unc)
 ```
 
 ## Interpolation

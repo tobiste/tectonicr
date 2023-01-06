@@ -254,7 +254,7 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
   }
   azi.por <- (df$azi - beta + 180) %% 180
 
-  if (type != "none" & !is.null(df$unc)) {
+  if (type != "none" && !is.null(df$unc)) {
     prd <- NA
     prd <- ifelse(type == "out", 180, prd)
     prd <- ifelse(type == "right", 135, prd)

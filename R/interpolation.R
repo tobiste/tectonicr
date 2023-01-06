@@ -131,7 +131,7 @@ stress2grid <- function(x,
   num_r <- length(R_range)
 
   # WSM method weighting (from 0 to 5)
-  if (method_weighting & "type" %in% colnames(x)) {
+  if (method_weighting && "type" %in% colnames(x)) {
     method_weights <- data.frame(
       type = c("FMS", "FMF", "BO", "DIF", "HF", "GF", "GV", "OC", NA),
       w_method = c(4, 5, 5, 5, 4, 5, 4, 2, 1) / 5
@@ -141,7 +141,7 @@ stress2grid <- function(x,
     x$w_method <- rep(1, length(x$azi))
   }
 
-  if (quality_weighting & "unc" %in% colnames(x)) {
+  if (quality_weighting && "unc" %in% colnames(x)) {
     x$w_quality <- 1 / x$unc
   } else {
     x$w_quality <- rep(1, length(x$azi))
@@ -171,7 +171,7 @@ stress2grid <- function(x,
   }
 
   # Regular grid
-  if (missing(lon_range) | missing(lat_range)) {
+  if (missing(lon_range) || missing(lat_range)) {
     lon_range <- range(datas$lon, na.rm = TRUE)
     lat_range <- range(datas$lat, na.rm = TRUE)
   }
@@ -209,7 +209,7 @@ stress2grid <- function(x,
     #   as.numeric()
 
     if (min(distij) <= arte_thres) {
-      for (k in 1:length(R_range)) {
+      for (k in seq_along(R_range)) {
         R_search <- R_range[k]
         ids_R <-
           which(distij <= R_search) # select those that are in search radius

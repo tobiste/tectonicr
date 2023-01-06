@@ -37,11 +37,11 @@ rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE
   x <- as.vector(x %% 360)
 
 
-  if (!is.null(bins) & is.null(binwidth)) {
+  if (!is.null(bins) && is.null(binwidth)) {
     bins <- round(bins)
     stopifnot(bins > 0)
     binwidth <- 360 / bins # bin width
-  } else if (is.null(bins) & is.null(binwidth)) {
+  } else if (is.null(bins) && is.null(binwidth)) {
     # bins <- length(x)
     binwidth <- 2 * circular_IQR(x) / length(stats::na.omit(x))^(1 / 3)
   }

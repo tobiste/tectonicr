@@ -19,11 +19,11 @@ san_andreas <- filter(
     unc = ifelse(unc > quality.quant, quality.quant, unc),
     unc = ifelse(unc == 0, 15, unc),
 
-   #id = stringi::stri_enc_toascii(id),
-   #type = stringi::stri_enc_toascii(type),
-   #quality = stringi::stri_enc_toascii(quality),
-   #regime = stringi::stri_enc_toascii(regime)
-   ) %>%
+    # id = stringi::stri_enc_toascii(id),
+    # type = stringi::stri_enc_toascii(type),
+    # quality = stringi::stri_enc_toascii(quality),
+    # regime = stringi::stri_enc_toascii(regime)
+  ) %>%
   arrange(quality, unc) %>%
   filter(quality != "E") %>%
   sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs("WGS84")) %>%
@@ -62,7 +62,7 @@ plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") %>%
   select(pair, plateA, plateB, type, displacement, name, nameA, nameB) %>%
   arrange(pair, displacement) %>%
   group_by(pair)
-#plot(plates)
+# plot(plates)
 
 usethis::use_data(plates, overwrite = TRUE, ascii = TRUE)
 
@@ -90,12 +90,13 @@ pb2002 <-
   mutate(plate.rot = tolower(plate.rot), source = ifelse(source == "this paper", "Bird [2003]", source), model = "PB2002") %>%
   rename(area = Area) %>%
   select(plate.name, plate.rot, lon, lat, angle, plate.fix, model) %>%
-  mutate(plate.name = stringi::stri_enc_toascii(plate.name),
-         plate.rot = stringi::stri_enc_toascii(plate.rot),
-         plate.rot = stringi::stri_enc_toascii(plate.rot),
-         plate.fix = stringi::stri_enc_toascii(plate.fix),
-         model = stringi::stri_enc_toascii(model)
-         ) %>%
+  mutate(
+    plate.name = stringi::stri_enc_toascii(plate.name),
+    plate.rot = stringi::stri_enc_toascii(plate.rot),
+    plate.rot = stringi::stri_enc_toascii(plate.rot),
+    plate.fix = stringi::stri_enc_toascii(plate.fix),
+    model = stringi::stri_enc_toascii(model)
+  ) %>%
   as.data.frame()
 usethis::use_data(pb2002, overwrite = TRUE, ascii = TRUE)
 
@@ -143,11 +144,11 @@ cpm_models <- rbind(
   hsnuvel1a,
   revel,
   pb2002
-) #%>%
-  # mutate(plate.name = stringi::stri_enc_toascii(plate.name),
-  #        plate.rot = stringi::stri_enc_toascii(plate.rot),
-  #        plate.rot = stringi::stri_enc_toascii(plate.rot),
-  #        plate.fix = stringi::stri_enc_toascii(plate.fix),
-  #        model = stringi::stri_enc_toascii(model)
-  # ) #%>% group_by(model)
+) # %>%
+# mutate(plate.name = stringi::stri_enc_toascii(plate.name),
+#        plate.rot = stringi::stri_enc_toascii(plate.rot),
+#        plate.rot = stringi::stri_enc_toascii(plate.rot),
+#        plate.fix = stringi::stri_enc_toascii(plate.fix),
+#        model = stringi::stri_enc_toascii(model)
+# ) #%>% group_by(model)
 usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)

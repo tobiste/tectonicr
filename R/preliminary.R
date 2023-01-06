@@ -153,7 +153,7 @@ displacement_vector <- function(x, euler, tangential = FALSE, positive = TRUE) {
   lat2 <- max(x.por[, 2])
 
   u_lat <- u_lon <- c()
-  for (i in 1:length(x.por[, 1])) {
+  for (i in seq_along(x.por[, 1])) {
     if (!tangential) {
       u_lat[i] <- 0
       u_lon[i] <- u * sind(90 - x.por[i, 2])^2 * (lon1 - x.por[i, 1]) / (lon2 - lon1)
@@ -199,7 +199,7 @@ stress_matrix <- function(x, euler, tangential = FALSE, positive = FALSE, v = .2
 
     Q <- E / (1 + v) * A
 
-    for (i in 1:length(x.por[, 1])) {
+    for (i in seq_along(x.por[, 1])) {
       S <- -(u * sind(90 - x.por[i, 2])^2 / d) * Q
 
       s_xx[i] <- S[1, 1]
@@ -219,7 +219,7 @@ stress_matrix <- function(x, euler, tangential = FALSE, positive = FALSE, v = .2
 
     Q <- E / (1 + v) * A
 
-    for (i in 1:length(x.por[, 1])) {
+    for (i in seq_along(x.por[, 1])) {
       S <- -(u * sind(90 - x.por[i, 2])^2 / 2 * d) * Q
 
       s_xx[i] <- S[1, 1]
@@ -422,7 +422,7 @@ rotmat_to_QScVec <- function(x, normalize = FALSE) {
     q1 <- (x[1, 3] + x[3, 1]) / 4 * q3
     q2 <- (x[2, 3] + x[3, 2]) / 4 * q3
   }
-  Q4_to_QScVec(c(q0, q1, q2, q3, q4), normalize)
+  Q4_to_QScVec(c(q0, q1, q2, q3), normalize)
 }
 
 QScVec_to_rotmat <- function(x, normalize = TRUE) {

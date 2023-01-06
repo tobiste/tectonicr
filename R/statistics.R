@@ -72,7 +72,7 @@ norm_chisq <- function(obs, prd, unc) {
       x[i] <- NA
       y[i] <- NA
     } else {
-      if (!is.na(unc[i]) & unc[i] == 0) {
+      if (!is.na(unc[i]) && unc[i] == 0) {
         unc[i] <- 1
       } # uncertainty cannot be 0
       w[i] <- obs[i] - prd[i]
@@ -210,7 +210,7 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x %% mod) * f
 
   R <- mean_resultant(x = x, w = w, na.rm = na.rm)
-  sd <- sqrt(-2 * log(R)) #/ f
+  sd <- sqrt(-2 * log(R)) # / f
   rad2deg(sd) %% mod
 }
 
@@ -220,7 +220,7 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   meanx <- circular_mean(x, w, axial = TRUE, na.rm)
 
-  if (meanx <= 25 | meanx >= 155) {
+  if (meanx <= 25 || meanx >= 155) {
     sub <- 90
     x <- x + sub
   } else {
