@@ -312,7 +312,7 @@ PoR2Geo_shmax <- function(x, euler) {
       c(euler$lat[1], euler$lon[1])
     ) + 360) %% 180
   }
-  #}
+  # }
 
   azi.geo <- x$azi.PoR + beta
   (azi.geo + 360) %% 180
