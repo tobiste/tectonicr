@@ -44,7 +44,7 @@ Euler pole of the motion of North America relative to the Pacific Pate.
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
 san_andreas.prd <- model_shmax(san_andreas, euler)
-san_andreas.deviation <- misfit_shmax(san_andreas.prd, san_andreas$azi)
+san_andreas.deviation <- deviation_shmax(san_andreas.prd, san_andreas$azi)
 ```
 
 Combine the model results with the coordinates of the observed data

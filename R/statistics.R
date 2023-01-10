@@ -7,7 +7,7 @@
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
 #'   5037-5059, doi: 10.1029/97JB03390.
-#' @inheritParams misfit_shmax
+#' @inheritParams deviation_shmax
 #' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 #' numeric vector or a number
 #' @return Numeric vector
@@ -179,7 +179,7 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x %% mod) * f
   m <- mean_SC(x, w, na.rm)
   meanx_rad <- atan2(m$S, m$C) / f
-  rad2deg(meanx_rad) %% mod
+  rad2deg(meanx_rad + 2 * pi) %% mod
 }
 #' @rdname circle_stats
 #' @export
@@ -211,7 +211,7 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 
   R <- mean_resultant(x = x, w = w, na.rm = na.rm)
   sd <- sqrt(-2 * log(R)) # / f
-  rad2deg(sd) %% mod
+  rad2deg(sd + 2 * pi) %% mod
 }
 
 

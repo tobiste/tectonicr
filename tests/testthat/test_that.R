@@ -14,13 +14,13 @@ point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
 
 # test mistfit_shmax
-misfit1 <- misfit_shmax(prd, obs = 90)
+misfit1 <- deviation_shmax(prd, obs = 90)
 
 # test with data.frames
 set.seed(12)
 points <- dplyr::slice_sample(san_andreas, n = 10)
 prd2 <- model_shmax(points, euler)
-misfits2 <- misfit_shmax(prd2, points$azi)
+misfits2 <- deviation_shmax(prd2, points$azi)
 test2 <- norm_chisq(obs = points$azi, prd = prd2$sc, unc = 10)
 
 ep1 <- data.frame(lat = 91, lon = 0, angle = 1)
@@ -117,7 +117,7 @@ test_that("Message expected", {
 
 # test error -------------------------------------------------------------------
 test_that("Error message if incorrect type argument", {
-  expect_error(misfit_shmax(c(1, 2), c(1)))
+  expect_error(deviation_shmax(c(1, 2), c(1)))
   expect_error(cartesian_to_geographical(1))
   expect_error(geographical_to_cartesian(1))
   expect_error(cartesian_to_geographical(NA))

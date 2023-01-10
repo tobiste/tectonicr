@@ -49,7 +49,7 @@ point <- data.frame(lat = 45, lon = 20)
 model_shmax(point, euler)
 }
 \seealso{
-\code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
+\code{\link[=deviation_shmax]{deviation_shmax()}} to compute the deviation of the modeled direction
 from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
 \code{\link[=PoR_shmax]{PoR_shmax()}} to calculate the azimuth of \eqn{\sigma_{Hmax}}{SHmax}
 in the pole of rotation reference system.

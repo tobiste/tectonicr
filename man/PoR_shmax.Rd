@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_shmax.R
 \name{PoR_shmax}
 \alias{PoR_shmax}
-\title{Theoretical Direction of Maximum Horizontal Stress in PoR reference
+\title{Direction of Maximum Horizontal Stress in PoR reference
 system}
 \usage{
 PoR_shmax(df, euler, type = c("none", "in", "out", "right", "left"))
@@ -60,7 +60,7 @@ head(res)
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to compute the theoretical direction of
 \eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
-\code{\link[=misfit_shmax]{misfit_shmax()}} to compute the deviation of the modeled direction
+\code{\link[=deviation_shmax]{deviation_shmax()}} to compute the deviation of the modeled direction
 from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
 \code{\link[=norm_chisq]{norm_chisq()}} to calculate the normalized \eqn{\chi^2}{chi-squared}
 statistics.

@@ -67,7 +67,7 @@ get_azimuth <- function(a, b) {
 #'   \item{ld.cw}{Clockwise loxodromes}
 #'   \item{ld.ccw}{Counter-clockwise loxodromes}
 #'  }
-#' @seealso [misfit_shmax()] to compute the deviation of the modeled direction
+#' @seealso [deviation_shmax()] to compute the deviation of the modeled direction
 #'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
 #'  [PoR_shmax()] to calculate the azimuth of \eqn{\sigma_{Hmax}}{SHmax}
 #'  in the pole of rotation reference system.
@@ -92,16 +92,16 @@ model_shmax <- function(df, euler) {
     )
 
     # great circles
-    gc[i] <- (beta[i] + 180) %% 180
+    gc[i] <- (beta[i] + 360) %% 180
 
     # small circles
-    sc[i] <- (beta[i] + 90 + 180) %% 180
+    sc[i] <- (beta[i] + 90 + 360) %% 180
 
     # counterclockwise loxodrome
-    ld.ccw[i] <- (beta[i] + 135 + 180) %% 180
+    ld.ccw[i] <- (beta[i] + 135 + 360) %% 180
 
     # clockwise loxodrome
-    ld.cw[i] <- (beta[i] + 45 + 180) %% 180
+    ld.cw[i] <- (beta[i] + 45 + 360) %% 180
   }
   data.frame(sc, ld.ccw, gc, ld.cw)
 }
@@ -177,12 +177,12 @@ deviation_norm <- function(x) {
 #' point <- data.frame(lat = 45, lon = 20)
 #'
 #' prd <- model_shmax(point, euler)
-#' misfit_shmax(prd, obs = 90)
-misfit_shmax <- function(prd, obs) {
+#' deviation_shmax(prd, obs = 90)
+deviation_shmax <- function(prd, obs) {
   stopifnot(length(obs) == length(seq_along(prd$gc)))
 
   # normalize azimuth
-  obs <- (obs + 180) %% 180
+  obs <- (obs + 360) %% 180
 
   dev.gc <- prd$gc - obs
   dev.sc <- prd$sc - obs
@@ -193,7 +193,7 @@ misfit_shmax <- function(prd, obs) {
 }
 
 
-#' @title Theoretical Direction of Maximum Horizontal Stress in PoR reference
+#' @title Direction of Maximum Horizontal Stress in PoR reference
 #' system
 #'
 #' @description Models the direction of maximum horizontal stress
@@ -223,7 +223,7 @@ misfit_shmax <- function(prd, obs) {
 #' }
 #' @seealso [model_shmax()] to compute the theoretical direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
-#' [misfit_shmax()] to compute the deviation of the modeled direction
+#' [deviation_shmax()] to compute the deviation of the modeled direction
 #'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
 #'  [norm_chisq()] to calculate the normalized \eqn{\chi^2}{chi-squared}
 #'  statistics.
@@ -250,9 +250,9 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
     beta[i] <- (get_azimuth(
       c(df$lat[i], df$lon[i]),
       c(euler$lat[1], euler$lon[1])
-    ) + 180) %% 180
+    ) + 360) %% 180
   }
-  azi.por <- (df$azi - beta + 180) %% 180
+  azi.por <- (df$azi - beta + 360) %% 180
 
   if (type != "none" && !is.null(df$unc)) {
     prd <- NA
@@ -270,4 +270,50 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
   } else {
     azi.por
   }
+}
+
+#' Azimuth conversion from PoR to geographical coordinate reference system
+#'
+#' Helper function to convert PoR azimuths into geographical azimuths
+#'
+#' @param x \code{data.frame} containing the geographical coordinates of the
+#' point(s) and the PoR-equivalent azimuths (\code{azi.PoR})
+#' @param euler \code{data.frame} containing the geographical location of
+#' the Euler pole (\code{lat}, \code{lon})
+#' @export
+#' @examples
+#' data("nuvel1")
+#' # North America relative to Pacific plate:
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' data("san_andreas")
+#' head(san_andreas$azi)
+#' san_andreas$azi.PoR <- PoR_shmax(san_andreas, euler)
+#' res.geo <- PoR2Geo_shmax(san_andreas, euler)
+#' head(res.geo)
+PoR2Geo_shmax <- function(x, euler) {
+  beta <- c()
+  # if (!is.null(x$lat.PoR) && !is.null(x$lon.PoR)) {
+  #   northpole <- geographical_to_PoR(
+  #     data.frame(lat = 90, lon = 0),
+  #     euler
+  #   )
+  #
+  #   for (i in seq_along(x$lat.PoR)) {
+  #     beta[i] <- (get_azimuth(
+  #       c(x$lat.PoR[i], x$lon.PoR[i]),
+  #       c(northpole$lat.PoR[1], northpole$lon.PoR[1])
+  #     ) + 360) %% 180
+  #   }
+  # } else {
+  #
+  for (i in seq_along(x$lat)) {
+    beta[i] <- (get_azimuth(
+      c(x$lat[i], x$lon[i]),
+      c(euler$lat[1], euler$lon[1])
+    ) + 360) %% 180
+  }
+  #}
+
+  azi.geo <- x$azi.PoR + beta
+  (azi.geo + 360) %% 180
 }

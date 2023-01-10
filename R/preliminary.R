@@ -35,61 +35,9 @@ PoR_azimuth <- function(x, euler) {
   )
 
   azi.por <- x$azi - beta
-  (azi.por * 180 / pi + 180) %% 180
+  (azi.por * 180 / pi + 360) %% 180
 }
 
-#' Azimuth conversion from PoR to geographical coordinate reference system
-#'
-#' Helper function to convert PoR azimuths into geographical azimuths
-#'
-#' @param df \code{data.frame} containing the PoR-equivalent coordinates of the
-#' point(s) (\code{lat.PoR}, \code{lon.PoR}) and the PoR-equivalent azimuth
-#' (\code{azi.PoR})
-#' @param euler \code{data.frame} containing the geographical location of
-#' the Euler pole (\code{lat}, \code{lon})
-#' @param spherical logical
-#' @examples
-#' \dontrun{
-#' data("nuvel1")
-#' # North America relative to Pacific plate:
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' data("san_andreas")
-#' head(san_andreas$azi)
-#' azi.PoR <- PoR_shmax(san_andreas, euler)
-#' res.PoR <- data.frame(
-#'   azi.PoR = azi.PoR,
-#'   geographical_to_PoR2(san_andreas, euler,
-#'     spherical = FALSE
-#'   )
-#' )
-#' res.geo <- PoR2geo_shmax(res.PoR, euler, spherical = FALSE)
-#' head(res.geo)
-#' }
-PoR2geo_shmax <- function(df, euler, spherical = FALSE) {
-  stopifnot(is.data.frame(df))
-  northpole.por <- geographical_to_PoR2(
-    data.frame(lat = 0, lon = 0),
-    euler,
-    spherical = spherical
-  ) %>%
-    as.numeric()
-
-  beta <- c()
-  if (spherical) {
-    p <- cbind(df$colat.PoR, df$lon.PoR)
-  } else {
-    p <- cbind(df$lat.PoR, df$lon.PoR)
-  }
-
-  for (i in 1:nrow(p)) {
-    beta[i] <- get_azimuth(
-      p[i, ],
-      northpole.por
-    )
-  }
-
-  (df$azi.PoR - beta + 180) %% 180
-}
 
 #' Displacement vector and stress matrix in PoR
 #'
@@ -656,3 +604,92 @@ circular_mean_error <- function(x, na.rm = TRUE) {
   }
   180 - (1 / n * sum(k))
 }
+
+# Distribution ####
+## von Mises distribution density for axial data ####
+axial_vonmises <- function(x, mu, kappa) {
+  x_rad <- deg2rad(x)
+  mu_rad <- deg2rad(mu)
+  I0k <- besselI(x = kappa, nu = 0, expon.scaled = TRUE)
+  1 / (pi * I0k) * exp(kappa * cos(l * (x_rad - mu_rad)))
+}
+
+
+A1 <- function(kappa) {
+  besselI(kappa, nu = 1, expon.scaled = TRUE) / besselI(kappa, nu = 0, expon.scaled = TRUE)
+}
+
+## estimate kappa from circular variance ####
+kappa_estimate <- function(x){
+  circ_var <- tectonicr::circular_var(sa.por)
+
+  # function to return difference in variances between
+  diff_vars2 <- function(kappa) {
+
+    # squaring to make the function convex
+    (1 - A1(kappa) - circ_var)^2
+  }
+
+  # solving for kappa by matching the variances
+  kappa_solution <- optim(par = 1, fn = diff_vars2, lower = 0, method = "L-BFGS-B")
+  kappa_solution$par
+}
+
+# axial_vonmises(
+#   as.numeric(sa.por),
+#   mu = tectonicr::circular_mean(as.numeric(sa.por)),
+#   kappa = kappa_estimate(as.numeric(sa.por))
+# )
+#
+# plot(
+#   as.numeric(sa.por),
+#   axial_vonmises(
+#     as.numeric(sa.por),
+#     mu = tectonicr::circular_mean(as.numeric(sa.por)),
+#     kappa = kappa_estimate(as.numeric(sa.por))
+#   ))
+
+## Maximum density
+# sa.por[which.max(axial_vonmises(
+#   as.numeric(sa.por),
+#   mu = tectonicr::circular_mean(as.numeric(sa.por)),
+#   kappa = kappa_estimate(as.numeric(sa.por))
+# )
+# )
+# ]
+
+
+## Rayleigh test  ####
+r.test <- function (x, mu = NULL)
+{
+  n <- length(x)
+  if (is.null(mu)) {
+    ss <- sum(sin(x))
+    cc <- sum(cos(x))
+    rbar <- (sqrt(ss^2 + cc^2))/n
+    z <- (n * rbar^2)
+    p.value <- exp(-z)
+    if (n < 50)
+      temp <- 1 + (2 * z - z^2)/(4 * n) - (24 * z - 132 *
+                                             z^2 + 76 * z^3 - 9 * z^4)/(288 * n^2)
+    else temp <- 1
+    p.value <- min(max(p.value * temp, 0), 1)
+    result <- list(statistic = rbar, p.value = p.value, mu = NA)
+  }
+  else {
+    r0.bar <- (sum(cos(x - mu)))/n
+    z0 <- sqrt(2 * n) * r0.bar
+    pz <- pnorm(z0)
+    fz <- dnorm(z0)
+    p.value <- 1 - pz + fz * ((3 * z0 - z0^3)/(16 * n) +
+                                (15 * z0 + 305 * z0^3 - 125 * z0^5 + 9 * z0^7)/(4608 *
+                                                                                  n^2))
+    p.value <- min(max(p.value, 0), 1)
+    result <- list(statistic = r0.bar, p.value = p.value,
+                   mu = mu)
+  }
+  return(result)
+}
+
+
+

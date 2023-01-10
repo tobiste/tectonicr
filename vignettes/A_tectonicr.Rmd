@@ -133,10 +133,10 @@ print(model)
 
 If there is an observed stress direction at the point, e.g. azimuth of
 $\sigma_{Hmax}$ is 90$^{\circ}$, the deviation from the modeled stress
-directions can be achieved via `misfit_shmax()`:
+directions can be calculated through `deviation_shmax()`:
 
 ```{r deviation_of_plate_motion, echo=TRUE}
-deviation <- misfit_shmax(model, 90)
+deviation <- deviation_shmax(model, 90)
 print(deviation)
 ```
 

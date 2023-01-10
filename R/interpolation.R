@@ -334,20 +334,19 @@ PoR_stress2grid <- function(x, euler, ...) {
     PoR_to_geographical_sf(euler) %>%
     mutate(azi.PoR = azi)
 
-  NP_por <- data.frame(lat = 90, lon = 0) %>%
-    geographical_to_PoR(euler)
-  # sf::st_as_sf(coords = c("lon", "lat")) %>%
-  # geographical_to_PoR_sf(euler) %>%
-  # sf::st_coordinates()
+  int$azi <- PoR2Geo_shmax(int, euler)
 
-  beta <- c()
-  for (i in seq_along(int$lat)) {
-    beta[i] <- (get_azimuth(
-      c(int$lat[i], int$lon[i]),
-      c(NP_por$lat.PoR[1], NP_por$lon.PoR[1])
-    ) + 180) %% 180
-  }
-  int$azi <- (int$azi.PoR - beta + 180) %% 180
+  # NP_por <- data.frame(lat = 90, lon = 0) %>%
+  #   geographical_to_PoR(euler)
+  #
+  # beta <- c()
+  # for (i in seq_along(int$lat)) {
+  #   beta[i] <- (get_azimuth(
+  #     c(int$lat[i], int$lon[i]),
+  #     c(NP_por$lat.PoR[1], NP_por$lon.PoR[1])
+  #   ) + 180) %% 180
+  # }
+  # int$azi <- (int$azi.PoR - beta + 180) %% 180
 
   coords <- int %>% sf::st_coordinates()
   int$lon <- coords[, 1]
