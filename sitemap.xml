@@ -31,6 +31,9 @@
     <loc>https://tobiste.github.io/tectonicr/news/index.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/PoR2Geo_shmax.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/PoR_coordinates.html</loc>
   </url>
   <url>
@@ -91,6 +94,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/deviation_norm.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/deviation_shmax.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/dist_greatcircle.html</loc>
   </url>
   <url>
@@ -125,9 +131,6 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/misfit_shmax.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/model_shmax.html</loc>
