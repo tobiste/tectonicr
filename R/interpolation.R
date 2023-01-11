@@ -10,7 +10,7 @@ wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
   if (Z != 0) {
     m <- mean_SC(2 * x, w = w, na.rm = TRUE)
-    meanR <- sqrt(m$C^2 + m$S^2)
+    meanR <- sqrt(m[, "C"]^2 + m[, "S"]^2)
 
     if (meanR > 1) {
       sd_s <- 0
@@ -18,7 +18,7 @@ wcmean <- function(x, w) {
       sd_s <- sqrt(-2 * log(meanR)) / 2
     }
 
-    mean_s <- atan2(m$S, m$C) / 2
+    mean_s <- atan2(m[, "S"], m[, "C"]) / 2
     rad2deg(c(mean_s, sd_s)) %% 180
   } else {
     c(NA, NA)
@@ -322,35 +322,40 @@ stress2grid <- function(x,
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' PoR_stress2grid(san_andreas, ep)
 PoR_stress2grid <- function(x, euler, ...) {
-  azi <- NULL
-  azi_por <- PoR_shmax(x, euler, type = "in")
-  x_por <- geographical_to_PoR_sf(x, euler) %>%
-    mutate(azi = azi_por$azi.PoR)
-  coords <- x_por %>% sf::st_coordinates()
-  x_por$lon <- coords[, 1]
-  x_por$lat <- coords[, 2]
+  # azi <- NULL
+  # x_por <- geographical_to_PoR_sf(x, euler)
+  # coords <- sf::st_coordinates(x_por)
+  # x_por$lon <- coords[, 1]
+  # x_por$lat <- coords[, 2]
+  # x_por$azi <- PoR_shmax(x, euler)
+  #
+  # int <- stress2grid(x_por, ...) %>%
+  #   PoR_to_geographical_sf(euler) %>%
+  #   mutate(lat.PoR = lat, lon.PoR = lon, azi.PoR = azi)
+  # coords <-  sf::st_coordinates(int)
+  # int$lon <- coords[, 1]
+  # int$lat <- coords[, 2]
+  #
+  # int$azi <- PoR2Geo_shmax(int, euler)
+  # return(int)
+  azi <- lat <- lon <- lat.PoR <- lon.PoR <- NULL
+  x_por <- cbind(
+    x %>% sf::st_drop_geometry() %>% select(-lat, -lon, -azi),
+    geographical_to_PoR(x, euler)
+  ) %>%
+    rename(lat = lat.PoR, lon = lon.PoR) %>%
+    sf::st_as_sf(coords = c("lon", "lat"))
+  x_por$azi <- PoR_shmax(x, euler)
 
   int <- stress2grid(x_por, ...) %>%
-    PoR_to_geographical_sf(euler) %>%
-    mutate(lat.PoR = lat, lon.PoR = lon, azi.PoR = azi)
-  coords <- int %>% sf::st_coordinates()
-  int$lon <- coords[, 1]
-  int$lat <- coords[, 2]
+    rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
+    sf::st_drop_geometry()
 
+  int <- cbind(int, PoR_to_geographical(int, euler))
   int$azi <- PoR2Geo_shmax(int, euler)
-
-  # NP_por <- data.frame(lat = 90, lon = 0) %>%
-  #   geographical_to_PoR(euler)
-  #
-  # beta <- c()
-  # for (i in seq_along(int$lat.PoR)) {
-  #   beta[i] <- (get_azimuth(
-  #     c(int$lat.PoR[i], int$lon.PoR[i]),
-  #     c(NP_por$lat.PoR[1], NP_por$lon.PoR[1])
-  #   ) + 180) %% 180
-  # }
-  # int$azi <- (int$azi.PoR - beta + 180) %% 180
-  return(int)
+  int %>%
+    mutate(x = lon, y = lat) %>%
+    sf::st_as_sf(coords = c("x", "y"), crs = "WGS84")
 }
 
 #' Compact smoothed stress field

@@ -108,12 +108,12 @@ mean_SC <- function(x, w, na.rm) {
   sumcos2 <- sum(cos2)
   meansin2 <- sumsin2 / Z
   meancos2 <- sumcos2 / Z
-  data.frame(C = meancos2, S = meansin2)
+  cbind(C = meancos2, S = meansin2)
 }
 
 mean_resultant <- function(x, w, na.rm) {
   m <- mean_SC(x, w, na.rm)
-  sqrt(m$C^2 + m$S^2)
+  sqrt(m[, "C"]^2 + m[, "S"]^2)
 }
 
 #' @title Summary statistics of directional data
@@ -178,7 +178,7 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
   x <- (x %% mod) * f
   m <- mean_SC(x, w, na.rm)
-  meanx_rad <- atan2(m$S, m$C) / f
+  meanx_rad <- atan2(m[, "S"], m[, "C"]) / f
   rad2deg(meanx_rad + 2 * pi) %% mod
 }
 #' @rdname circle_stats
