@@ -304,16 +304,15 @@ PoR2Geo_shmax <- function(x, euler) {
         c(northpole$lat.PoR[1], northpole$lon.PoR[1])
       )
     }
-  azi.geo <- x$azi.PoR - beta
+    azi.geo <- x$azi.PoR - beta
   } else {
-
-  for (i in seq_along(x$lat)) {
-    beta[i] <- get_azimuth(
-      c(x$lat[i], x$lon[i]),
-      c(euler$lat[1], euler$lon[1])
-    )
-  }
-  azi.geo <- x$azi.PoR + beta
+    for (i in seq_along(x$lat)) {
+      beta[i] <- get_azimuth(
+        c(x$lat[i], x$lon[i]),
+        c(euler$lat[1], euler$lon[1])
+      )
     }
+    azi.geo <- x$azi.PoR + beta
+  }
   azi.geo %% 180
 }

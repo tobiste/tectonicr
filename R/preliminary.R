@@ -620,12 +620,11 @@ A1 <- function(kappa) {
 }
 
 ## estimate kappa from circular variance ####
-kappa_estimate <- function(x){
+kappa_estimate <- function(x) {
   circ_var <- tectonicr::circular_var(sa.por)
 
   # function to return difference in variances between
   diff_vars2 <- function(kappa) {
-
     # squaring to make the function convex
     (1 - A1(kappa) - circ_var)^2
   }
@@ -660,36 +659,35 @@ kappa_estimate <- function(x){
 
 
 ## Rayleigh test  ####
-r.test <- function (x, mu = NULL)
-{
+r.test <- function(x, mu = NULL) {
   n <- length(x)
   if (is.null(mu)) {
     ss <- sum(sin(x))
     cc <- sum(cos(x))
-    rbar <- (sqrt(ss^2 + cc^2))/n
+    rbar <- (sqrt(ss^2 + cc^2)) / n
     z <- (n * rbar^2)
     p.value <- exp(-z)
-    if (n < 50)
-      temp <- 1 + (2 * z - z^2)/(4 * n) - (24 * z - 132 *
-                                             z^2 + 76 * z^3 - 9 * z^4)/(288 * n^2)
-    else temp <- 1
+    if (n < 50) {
+      temp <- 1 + (2 * z - z^2) / (4 * n) - (24 * z - 132 *
+        z^2 + 76 * z^3 - 9 * z^4) / (288 * n^2)
+    } else {
+      temp <- 1
+    }
     p.value <- min(max(p.value * temp, 0), 1)
     result <- list(statistic = rbar, p.value = p.value, mu = NA)
-  }
-  else {
-    r0.bar <- (sum(cos(x - mu)))/n
+  } else {
+    r0.bar <- (sum(cos(x - mu))) / n
     z0 <- sqrt(2 * n) * r0.bar
     pz <- pnorm(z0)
     fz <- dnorm(z0)
-    p.value <- 1 - pz + fz * ((3 * z0 - z0^3)/(16 * n) +
-                                (15 * z0 + 305 * z0^3 - 125 * z0^5 + 9 * z0^7)/(4608 *
-                                                                                  n^2))
+    p.value <- 1 - pz + fz * ((3 * z0 - z0^3) / (16 * n) +
+      (15 * z0 + 305 * z0^3 - 125 * z0^5 + 9 * z0^7) / (4608 *
+        n^2))
     p.value <- min(max(p.value, 0), 1)
-    result <- list(statistic = r0.bar, p.value = p.value,
-                   mu = mu)
+    result <- list(
+      statistic = r0.bar, p.value = p.value,
+      mu = mu
+    )
   }
   return(result)
 }
-
-
-
