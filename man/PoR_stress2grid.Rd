@@ -34,5 +34,5 @@ ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 PoR_stress2grid(san_andreas, ep)
 }
 \seealso{
-\code{\link[=stress2grid]{stress2grid()}}
+\code{\link[=stress2grid]{stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}}
 }

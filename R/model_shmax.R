@@ -247,12 +247,12 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
   type <- match.arg(type)
   beta <- c()
   for (i in seq_along(df$lat)) {
-    beta[i] <- (get_azimuth(
+    beta[i] <- get_azimuth(
       c(df$lat[i], df$lon[i]),
       c(euler$lat[1], euler$lon[1])
-    ) + 360) %% 180
+    )
   }
-  azi.por <- (df$azi - beta + 360) %% 180
+  azi.por <- (df$azi - beta) %% 180
 
   if (type != "none" && !is.null(df$unc)) {
     prd <- NA
@@ -276,8 +276,9 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
 #'
 #' Helper function to convert PoR azimuths into geographical azimuths
 #'
-#' @param x \code{data.frame} containing the geographical coordinates of the
-#' point(s) and the PoR-equivalent azimuths (\code{azi.PoR})
+#' @param x \code{data.frame} containing the PoR-equivalent azimuths
+#' (\code{azi.PoR}), and either the geographical coordinates of the
+#' point(s) or the PoR-equivalent coordinates.
 #' @param euler \code{data.frame} containing the geographical location of
 #' the Euler pole (\code{lat}, \code{lon})
 #' @export
@@ -292,28 +293,27 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
 #' head(res.geo)
 PoR2Geo_shmax <- function(x, euler) {
   beta <- c()
-  # if (!is.null(x$lat.PoR) && !is.null(x$lon.PoR)) {
-  #   northpole <- geographical_to_PoR(
-  #     data.frame(lat = 90, lon = 0),
-  #     euler
-  #   )
-  #
-  #   for (i in seq_along(x$lat.PoR)) {
-  #     beta[i] <- (get_azimuth(
-  #       c(x$lat.PoR[i], x$lon.PoR[i]),
-  #       c(northpole$lat.PoR[1], northpole$lon.PoR[1])
-  #     ) + 360) %% 180
-  #   }
-  # } else {
-  #
+  if (!is.null(x$lat.PoR) && !is.null(x$lon.PoR)) {
+    northpole <- geographical_to_PoR(
+      data.frame(lat = 90, lon = 0),
+      euler
+    )
+    for (i in seq_along(x$lat.PoR)) {
+      beta[i] <- get_azimuth(
+        c(x$lat.PoR[i], x$lon.PoR[i]),
+        c(northpole$lat.PoR[1], northpole$lon.PoR[1])
+      )
+    }
+  azi.geo <- x$azi.PoR - beta
+  } else {
+
   for (i in seq_along(x$lat)) {
-    beta[i] <- (get_azimuth(
+    beta[i] <- get_azimuth(
       c(x$lat[i], x$lon[i]),
       c(euler$lat[1], euler$lon[1])
-    ) + 360) %% 180
+    )
   }
-  #}
-
   azi.geo <- x$azi.PoR + beta
-  (azi.geo + 360) %% 180
+    }
+  azi.geo %% 180
 }

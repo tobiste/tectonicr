@@ -7,8 +7,9 @@
 PoR2Geo_shmax(x, euler)
 }
 \arguments{
-\item{x}{\code{data.frame} containing the geographical coordinates of the
-point(s) and the PoR-equivalent azimuths (\code{azi.PoR})}
+\item{x}{\code{data.frame} containing the PoR-equivalent azimuths
+(\code{azi.PoR}), and either the geographical coordinates of the
+point(s) or the PoR-equivalent coordinates.}
 
 \item{euler}{\code{data.frame} containing the geographical location of
 the Euler pole (\code{lat}, \code{lon})}

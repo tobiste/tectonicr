@@ -94,7 +94,7 @@ wcmedian <- function(x, w) {
 #' }
 #' @details Calculates the weighted mean/median and standard deviation/IQR of
 #' stress data
-#' @seealso [dist_greatcircle()]
+#' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()]
 #' @source \url{https://github.com/MorZieg/Stress2Grid}
 #' @references Ziegler, M. O. and Heidbach, O. (2019).
 #' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
@@ -314,7 +314,7 @@ stress2grid <- function(x,
 #' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
 #' @importFrom sf st_coordinates
-#' @seealso [stress2grid()]
+#' @seealso [stress2grid()], [compact_grid()]
 #' @export
 #' @examples
 #' data("san_andreas")
@@ -332,7 +332,10 @@ PoR_stress2grid <- function(x, euler, ...) {
 
   int <- stress2grid(x_por, ...) %>%
     PoR_to_geographical_sf(euler) %>%
-    mutate(azi.PoR = azi)
+    mutate(lat.PoR = lat, lon.PoR = lon, azi.PoR = azi)
+  coords <- int %>% sf::st_coordinates()
+  int$lon <- coords[, 1]
+  int$lat <- coords[, 2]
 
   int$azi <- PoR2Geo_shmax(int, euler)
 
@@ -340,17 +343,13 @@ PoR_stress2grid <- function(x, euler, ...) {
   #   geographical_to_PoR(euler)
   #
   # beta <- c()
-  # for (i in seq_along(int$lat)) {
+  # for (i in seq_along(int$lat.PoR)) {
   #   beta[i] <- (get_azimuth(
-  #     c(int$lat[i], int$lon[i]),
+  #     c(int$lat.PoR[i], int$lon.PoR[i]),
   #     c(NP_por$lat.PoR[1], NP_por$lon.PoR[1])
   #   ) + 180) %% 180
   # }
   # int$azi <- (int$azi.PoR - beta + 180) %% 180
-
-  coords <- int %>% sf::st_coordinates()
-  int$lon <- coords[, 1]
-  int$lat <- coords[, 2]
   return(int)
 }
 

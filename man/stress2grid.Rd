@@ -98,5 +98,5 @@ Ziegler, M. O. and Heidbach, O. (2019).
 Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
 }
 \seealso{
-\code{\link[=dist_greatcircle]{dist_greatcircle()}}
+\code{\link[=dist_greatcircle]{dist_greatcircle()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}}
 }
