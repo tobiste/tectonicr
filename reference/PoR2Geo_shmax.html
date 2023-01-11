@@ -66,8 +66,9 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p><code>data.frame</code> containing the geographical coordinates of the
-point(s) and the PoR-equivalent azimuths (<code>azi.PoR</code>)</p></dd>
+<dd><p><code>data.frame</code> containing the PoR-equivalent azimuths
+(<code>azi.PoR</code>), and either the geographical coordinates of the
+point(s) or the PoR-equivalent coordinates.</p></dd>
 
 
 <dt>euler</dt>
@@ -86,6 +87,7 @@ the Euler pole (<code>lat</code>, <code>lon</code>)</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  36   7 169   1  23 160</span>
 <span class="r-in"><span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi.PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res.geo</span> <span class="op">&lt;-</span> <span class="fu">PoR2Geo_shmax</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `lat.PoR`.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res.geo</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  36   7 169   1  23 160</span>
 </code></pre></div>
