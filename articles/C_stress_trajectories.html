@@ -161,45 +161,45 @@ from the from the NUVEL1 model).</p>
 (<code>Spatial*</code> object) for the small circles.</p>
 <p>To eventually plot the small circles with <code>ggplot</code>, I
 recommend to extract a <code>sf</code> feature and plot the it with
-<code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code>:</p>
+<code><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">euler.sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_smallcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"plates"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></span>
 <span><span class="va">world</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu">ne_countries</span><span class="op">(</span>scale <span class="op">=</span> <span class="st">"small"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">plates</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"India relative to Eurasia"</span>, subtitle <span class="op">=</span> <span class="st">"source: NUVEL1"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"India relative to Eurasia"</span>, subtitle <span class="op">=</span> <span class="st">"source: NUVEL1"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler.sm</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"small circles"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"small circles"</span><span class="op">)</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"darkblue"</span>, fill <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>,</span>
 <span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>    colour <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span> <span class="op">+</span> <span class="fl">180</span>, <span class="op">-</span><span class="va">lat</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span> <span class="op">+</span> <span class="fl">180</span>, <span class="op">-</span><span class="va">lat</span><span class="op">)</span>,</span>
 <span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>    colour <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="smallcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are small circles
 around the In-Eu Euler pole.</p>
@@ -217,44 +217,44 @@ circles <code>n</code>, or the great circle angles
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">euler.gm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_greatcircles</a></span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">plates</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"India relative to Eurasia"</span>, subtitle <span class="op">=</span> <span class="st">"source: NUVEL1"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"India relative to Eurasia"</span>, subtitle <span class="op">=</span> <span class="st">"source: NUVEL1"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler.sm</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"small circles"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"small circles"</span><span class="op">)</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler.gm</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"great circles"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"great circles"</span><span class="op">)</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"darkblue"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>,</span>
 <span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>    colour <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span> <span class="op">+</span> <span class="fl">180</span>, <span class="op">-</span><span class="va">lat</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span> <span class="op">+</span> <span class="fl">180</span>, <span class="op">-</span><span class="va">lat</span><span class="op">)</span>,</span>
 <span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>    colour <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="greatcircles.png" alt=""><p class="caption">Predicted SHmax trajectories that are great circles
 passing through the In-Eu Euler pole.</p>
@@ -272,44 +272,44 @@ between the loxodromes, the direction, and the sense.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">euler.ld</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, cw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"India relative to Eurasia"</span>, subtitle <span class="op">=</span> <span class="st">"source: NUVEL1"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"India relative to Eurasia"</span>, subtitle <span class="op">=</span> <span class="st">"source: NUVEL1"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">plates</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler.sm</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"small circles"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"small circles"</span><span class="op">)</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler.ld</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"clockwise loxodromes"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="st">"clockwise loxodromes"</span><span class="op">)</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"darkblue"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>,</span>
 <span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>    colour <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">euler</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span> <span class="op">+</span> <span class="fl">180</span>, <span class="op">-</span><span class="va">lat</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span> <span class="op">+</span> <span class="fl">180</span>, <span class="op">-</span><span class="va">lat</span><span class="op">)</span>,</span>
 <span>    shape <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>    colour <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="loxodromes.png" alt=""><p class="caption">Predicted SHmax trajectories that are 45-degree
 loxodromes circles directed towards the In-Eu Euler pole.</p>
