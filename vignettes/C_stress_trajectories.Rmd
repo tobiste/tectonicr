@@ -242,4 +242,3 @@ ggplot() +
 ![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu Euler pole.](loxodromes.png)
 
 # References
-

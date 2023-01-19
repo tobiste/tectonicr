@@ -230,7 +230,7 @@ ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
 ![](azimuth.png)
 
 Close to the here dextral plate boundary, the majority of the stress data have 
-a strike-slip fault regime and are oriented around 135B0 wrt. to the Euler 
+a strike-slip fault regime and are oriented around 135$^{\circ}$ wrt. to the Euler 
 pole. Thus, the date are parallel to the predicted stress sourced by a 
 right-lateral displaced plate boundary. 
 Away from the plate boundary, the data becomes more noisy.
@@ -264,7 +264,7 @@ We can see that the data in fact starts to scatter notably
 beyond a distance of 4B0 and becomes random at ca. 8B0 away from the plate 
 boundary. 
 Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is 
-approx. 4--6B0 (ca. 440--670 km) wide. 
+approx. 4--6$^{\circ}$ (ca. 440--670 km) wide. 
 
 > The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
 plate boundary zone.
