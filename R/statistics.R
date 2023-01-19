@@ -89,7 +89,7 @@ mean_SC <- function(x, w, na.rm) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   } else {
-    w <- as.double(w)
+    w <- as.numeric(w)
   }
 
   data <- data.frame(x, w)
@@ -113,7 +113,8 @@ mean_SC <- function(x, w, na.rm) {
 
 mean_resultant <- function(x, w, na.rm) {
   m <- mean_SC(x, w, na.rm)
-  sqrt(m[, "C"]^2 + m[, "S"]^2)
+  R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
+  as.numeric(R)
 }
 
 #' @title Summary statistics of directional data
@@ -179,7 +180,8 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x %% mod) * f
   m <- mean_SC(x, w, na.rm)
   meanx_rad <- atan2(m[, "S"], m[, "C"]) / f
-  rad2deg(meanx_rad + 2 * pi) %% mod
+  meanx_deg <- rad2deg(meanx_rad + 2 * pi) %% mod
+  as.numeric(meanx_deg)
 }
 #' @rdname circle_stats
 #' @export
@@ -230,7 +232,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   } else {
-    w <- as.double(w)
+    w <- as.numeric(w)
   }
 
   if (axial) {
@@ -284,7 +286,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   } else {
-    w <- as.double(w)
+    w <- as.numeric(w)
   }
 
   if (axial) {
@@ -386,83 +388,4 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   quantiles <- circular_quantiles(x, w, axial, na.rm)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
-}
-
-
-
-
-#' Circular distance between two angles
-#'
-#' @param x,y vector of numeric values in degrees
-#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).
-circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
-  } else {
-    f <- 1
-  }
-
-  if (na.rm) {
-    x <- na.omit(x)
-  }
-
-  cdist <- 1 - cosd(f * (x - y))
-  cdist # / f
-}
-
-#' Circular dispersion
-#'
-#' Dispersion of angles about a given angle.
-#'
-#' @param x Data values. A vector of numeric values in degrees
-#' @param from numeric. the angle (in degree) for which the dispersion should be measured.
-#' If NULL, the circular median is used.
-#' @param w (optional) Weights. A vector of positive numbers, of the same length as
-#' \code{x}.
-#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).
-#' @importFrom tidyr drop_na
-#' @examples
-#' \dontrun{
-#' data("san_andreas")
-#' circular_dispersion(san_andreas$azi)
-#'
-#' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' circular_dispersion(sa.por$azi.PoR, from = 135)
-#' }
-circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm), is.logical(axial))
-
-  if (is.null(from)) {
-    from <- circular_mean(x, w, axial, na.rm)
-  }
-
-  if (axial) {
-    f <- 2
-  } else {
-    f <- 1
-  }
-
-  if (is.null(w)) {
-    w <- rep(1, times = length(x))
-  } else {
-    w <- as.double(w)
-  }
-
-  data <- data.frame(x, w)
-  if (na.rm) {
-    data <- tidyr::drop_na(data)
-  }
-
-  w <- data$w
-  Z <- sum(w)
-  cosf <- w * cosd(f * (data$x - from))
-  sum(1 - cosf) / Z
 }

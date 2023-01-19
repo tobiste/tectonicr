@@ -245,8 +245,8 @@ stress2grid <- function(x,
           } else {
             stats <- wcmean(datas$azi[ids_R], w)
           }
-          meanSH <- stats[1]
-          sd <- stats[2]
+          meanSH <- as.numeric(stats[1])
+          sd <- as.numeric(stats[2])
           #   sw_R <- sum(w_R)
           #
           #
