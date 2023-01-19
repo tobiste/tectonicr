@@ -288,9 +288,9 @@ stress2grid <- function(x,
   }
 
   res <- as.data.frame(SH) %>%
-    mutate(x = lon, y = lat, N = as.integer(N)) %>%
+    dplyr::mutate(x = lon, y = lat, N = as.integer(N)) %>%
     sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x)) %>%
-    group_by(R)
+    dplyr::group_by(R)
 
   return(res)
 }
@@ -313,7 +313,7 @@ stress2grid <- function(x,
 #' interpolation. The interpolation grid is returned in geographical coordinates
 #'  and azimuths.
 #' @importFrom magrittr %>%
-#' @importFrom dplyr mutate
+#' @importFrom dplyr mutate select rename
 #' @importFrom sf st_coordinates
 #' @seealso [stress2grid()], [compact_grid()]
 #' @export
@@ -341,21 +341,21 @@ PoR_stress2grid <- function(x, euler, ...) {
   # return(int)
   azi <- lat <- lon <- lat.PoR <- lon.PoR <- NULL
   x_por <- cbind(
-    x %>% sf::st_drop_geometry() %>% select(-lat, -lon, -azi),
+    x %>% sf::st_drop_geometry() %>% dplyr::select(-lat, -lon, -azi),
     geographical_to_PoR(x, euler)
   ) %>%
-    rename(lat = lat.PoR, lon = lon.PoR) %>%
+    dplyr::rename(lat = lat.PoR, lon = lon.PoR) %>%
     sf::st_as_sf(coords = c("lon", "lat"))
   x_por$azi <- PoR_shmax(x, euler)
 
   int <- stress2grid(x_por, ...) %>%
-    rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
+    dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
     sf::st_drop_geometry()
 
   int <- cbind(int, PoR_to_geographical(int, euler))
   int$azi <- PoR2Geo_shmax(int, euler)
   int %>%
-    mutate(x = lon, y = lat) %>%
+    dplyr::mutate(x = lon, y = lat) %>%
     sf::st_as_sf(coords = c("x", "y"), crs = "WGS84")
 }
 
