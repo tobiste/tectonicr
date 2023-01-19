@@ -106,14 +106,14 @@ ggplot(mean_SH) +
 ```
 ![](interpolation.png)
 
-The interpolated direction of far apart data points will suffer from  
-distortions due to the underlying projection. In order to prevent such effects, 
-the interpolation can be done in the PoR reference frame where the direction 
-stays constant no matter the distance between the data points. Assuming that 
-the stress field is sourced by the plate boundary force, the model-based 
+The interpolated direction of far apart data points will suffer from distortions
+due to the underlying projection. In order to prevent such effects, the 
+interpolation can be done in the PoR reference frame where the direction stays 
+constant no matter the distance between the data points. Assuming that the 
+stress field is sourced by the plate boundary force, the model-based 
 interpolation allows more reliable results for areas close to plate boundaries.
 
-```{r interpolation_PoR}
+```{r interpolation_PoR, eval=FALSE}
 mean_SH_PoR <- PoR_stress2grid(san_andreas, euler = euler, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
