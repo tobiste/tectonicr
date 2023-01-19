@@ -261,7 +261,7 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
 ![](nchisq.png)
 
 We can see that the data in fact starts to scatter notably 
-beyond a distance of 4B0 and becomes random at ca. 8B0 away from the plate 
+beyond a distance of 4$^{\circ}$ and becomes random at ca. 8$^{\circ}$ away from the plate 
 boundary. 
 Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is 
 approx. 4--6$^{\circ}$ (ca. 440--670 km) wide. 
