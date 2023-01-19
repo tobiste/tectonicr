@@ -2,7 +2,7 @@
 % Please edit documentation in R/interpolation.R
 \name{PoR_stress2grid}
 \alias{PoR_stress2grid}
-\title{Stress2Grid in PoR system}
+\title{Spatial interpolation of SHmax in PoR coordinate reference system}
 \usage{
 PoR_stress2grid(x, euler, ...)
 }
@@ -25,7 +25,7 @@ interpolation. The interpolation grid is returned in geographical coordinates
 and azimuths.
 }
 \details{
-Stress field interpolation in PoR system
+Stress field and wavelength analysis in PoR system and back-transformed
 }
 \examples{
 data("san_andreas")

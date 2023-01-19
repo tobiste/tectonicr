@@ -41,9 +41,10 @@ wcmedian <- function(x, w) {
   c(median_s, iqr_s)
 }
 
-#' Stress2Grid
+#' Spatial interpolation of SHmax
 #'
-#' Stress pattern and wavelength analysis
+#' Stress field and wavelength analysis using (weighted) mean/median and
+#' standard deviation/IQR of stress data
 #'
 #' @param x \code{sf} object containing
 #' \describe{
@@ -92,9 +93,9 @@ wcmedian <- function(x, w) {
 #' \item{mdr}{Mean distance of datapoint per search radius}
 #' \item{N}{Number of data points in search radius}
 #' }
-#' @details Calculates the weighted mean/median and standard deviation/IQR of
-#' stress data
-#' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()]
+#' @details Updated version of the MATLAB script "stress2grid"
+#' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()],
+#' [circular_mean()], [circular_median()], [circular_sd()]
 #' @source \url{https://github.com/MorZieg/Stress2Grid}
 #' @references Ziegler, M. O. and Heidbach, O. (2019).
 #' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
@@ -295,9 +296,9 @@ stress2grid <- function(x,
 }
 
 
-#' Stress2Grid in PoR system
+#' Spatial interpolation of SHmax in PoR coordinate reference system
 #'
-#' Stress field interpolation in PoR system
+#' Stress field and wavelength analysis in PoR system and back-transformed
 #'
 #' @param x \code{sf} object containing
 #' \describe{

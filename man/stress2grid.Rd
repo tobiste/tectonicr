@@ -2,7 +2,7 @@
 % Please edit documentation in R/interpolation.R
 \name{stress2grid}
 \alias{stress2grid}
-\title{Stress2Grid}
+\title{Spatial interpolation of SHmax}
 \source{
 \url{https://github.com/MorZieg/Stress2Grid}
 }
@@ -83,11 +83,11 @@ Default is \code{seq(50, 1000, 50)}}
 }
 }
 \description{
-Stress pattern and wavelength analysis
+Stress field and wavelength analysis using (weighted) mean/median and
+standard deviation/IQR of stress data
 }
 \details{
-Calculates the weighted mean/median and standard deviation/IQR of
-stress data
+Updated version of the MATLAB script "stress2grid"
 }
 \examples{
 data("san_andreas")
@@ -98,5 +98,6 @@ Ziegler, M. O. and Heidbach, O. (2019).
 Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
 }
 \seealso{
-\code{\link[=dist_greatcircle]{dist_greatcircle()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}}
+\code{\link[=dist_greatcircle]{dist_greatcircle()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}},
+\code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=circular_sd]{circular_sd()}}
 }
