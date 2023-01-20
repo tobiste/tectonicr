@@ -182,6 +182,7 @@ prd <- model_shmax(point, euler)
 norm_chisq(obs = 90, prd$sc, unc = 10)
 ```
 
+# Models of current plate motion
 The plate motions relative to the Pacific plate according to the 
 NUVEL-1A model [@DeMets1990] are included in the package and can be imported 
 through:
@@ -191,4 +192,15 @@ data("nuvel1")
 head(nuvel1)
 ```
 
+Other current plate motion models, in particulars NNR-MORVEL-56, GSRM2.1, REVEL, PB2002, and HS3-NUVEL1A, are available through
+```{r cpm_models, eval=FALSE, include=TRUE}
+data("cpm_models")
+head(cpm_models)
+```
+
+Any desired relative plate motion can be extracted via the following:
+```{r equivalent_rotation, eval=FALSE, include=TRUE}
+gsrm <- subset(cpm_models, model == "GSRM2.1")
+equivalent_rotation(gsrm, rot = "na", fixed = "eu")
+```
 # References
