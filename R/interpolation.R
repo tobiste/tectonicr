@@ -350,11 +350,13 @@ PoR_stress2grid <- function(x, euler, ...) {
 
   int <- stress2grid(x_por, ...) %>%
     dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
-    sf::st_drop_geometry()
+    sf::st_drop_geometry() %>%
+    as.data.frame()
 
   int <- cbind(int, PoR_to_geographical(int, euler))
   int$azi <- PoR2Geo_shmax(int, euler)
   int %>%
+    dplyr::as_tibble() %>%
     dplyr::mutate(x = lon, y = lat) %>%
     sf::st_as_sf(coords = c("x", "y"), crs = "WGS84")
 }
