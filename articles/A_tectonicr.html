@@ -240,12 +240,26 @@ numeric vector of length of <code>obs</code> or a number).</p>
 <span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">euler</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span>obs <span class="op">=</span> <span class="fl">90</span>, <span class="va">prd</span><span class="op">$</span><span class="va">sc</span>, unc <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.2790849</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="models-of-current-plate-motion">Models of current plate motion<a class="anchor" aria-label="anchor" href="#models-of-current-plate-motion"></a>
+</h2>
 <p>The plate motions relative to the Pacific plate according to the
 NUVEL-1A model <span class="citation">(DeMets et al. 1990)</span> are
 included in the package and can be imported through:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nuvel1</span><span class="op">)</span></span></code></pre></div>
+<p>Other current plate motion models, in particulars NNR-MORVEL-56,
+GSRM2.1, REVEL, PB2002, and HS3-NUVEL1A, are available through</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cpm_models"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cpm_models</span><span class="op">)</span></span></code></pre></div>
+<p>Any desired relative plate motion can be extracted via the
+following:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gsrm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">cpm_models</span>, <span class="va">model</span> <span class="op">==</span> <span class="st">"GSRM2.1"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">gsrm</span>, rot <span class="op">=</span> <span class="st">"na"</span>, fixed <span class="op">=</span> <span class="st">"eu"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
