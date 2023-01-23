@@ -92,19 +92,18 @@ and the direction of the relative motion of neighboring plates.</p>
 <div class="section level3">
 <h3 id="theoretical-background">Theoretical background<a class="anchor" aria-label="anchor" href="#theoretical-background"></a>
 </h3>
-<p>The theory of intraplate tectonics <span class="citation">(Wdowinski
-1998)</span> allows for calculating the first-order intraplate
-deformation induced by horizontal displacement of deformable plate
-boundaries. It is based on empirical link between the directions of
-relative plate motion and the displacement and deformation fields within
-a plate interior adjacent to three types of deformable plate boundaries:
-inward-, outward-, and tangential-displaced boundaries. The model
-predicts the direction of intraplate displacement, displacement rate,
-strain, and stress fields in terms of small circles, great circles, and
-45<span class="math inline">\(^{\circ}\)</span> loxodromes around the
-pole of rotation of two adjacent plates. According to the theory, the
-principal axis of the maximum horizontal stress follows small circles
-for inward-displaced boundaries, great circles for outward-displaced
+<p>The theory of intraplate tectonics (Wdowinski 1998) allows for
+calculating the first-order intraplate deformation induced by horizontal
+displacement of deformable plate boundaries. It is based on empirical
+link between the directions of relative plate motion and the
+displacement and deformation fields within a plate interior adjacent to
+three types of deformable plate boundaries: inward-, outward-, and
+tangential-displaced boundaries. The model predicts the direction of
+intraplate displacement, displacement rate, strain, and stress fields in
+terms of small circles, great circles, and 45<span class="math inline">\(^{\circ}\)</span> loxodromes around the pole of
+rotation of two adjacent plates. According to the theory, the principal
+axis of the maximum horizontal stress follows small circles for
+inward-displaced boundaries, great circles for outward-displaced
 boundaries, and loxodromes for tangential-displaced boundaries.</p>
 <p>The theory assumes that the first-order intraplate deformation is
 predominantly induced by horizontal forces acting on plate boundaries
@@ -136,16 +135,17 @@ excess of gravitational potential energy stored in thickened crust
 through, e.g., gravitational collapse.</p>
 <p>Along transform boundaries (<strong>tangential displaced
 boundaries</strong>), the two neighboring plates exert shear tractions
-tangential to the orientation of the boundary <span class="citation">(Forsyth and Uyeda 1975)</span>. Faulting and
-displacement adjacent to these plate boundaries are characterized by
-strike-slip parallel to the plate motion, and thus, the principal axes
-of maximum and minimum stress are orientated at an angle of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate motion trajectory.
-Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span>
-direction follows along 45<span class="math inline">\(^{\circ}\)</span>
-<em>loxodromes</em> (lines of constant bearing) which diverge —depending
-on the sense of the transform boundary— clockwise or counterclockwise
-from the relative Euler pole and intersect both small and great circles
-at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
+tangential to the orientation of the boundary (Forsyth and Uyeda, 1975).
+Faulting and displacement adjacent to these plate boundaries are
+characterized by strike-slip parallel to the plate motion, and thus, the
+principal axes of maximum and minimum stress are orientated at an angle
+of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate
+motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> direction follows along
+45<span class="math inline">\(^{\circ}\)</span> <em>loxodromes</em>
+(lines of constant bearing) which diverge —depending on the sense of the
+transform boundary— clockwise or counterclockwise from the relative
+Euler pole and intersect both small and great circles at an angle of
+45<span class="math inline">\(^{\circ}\)</span>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -206,7 +206,7 @@ Horizontal Stress<a class="anchor" aria-label="anchor" href="#quantitative-compa
 <p>The <strong>normalized</strong> <span class="math inline">\(\chi^2\)</span> test quantitatively compares the
 predicted (<code><a href="../reference/model_shmax.html">model_shmax()</a></code>) and observed <span class="math inline">\(\sigma_{Hmax}\)</span> azimuth relative to the
 reported <span class="math inline">\(\sigma\)</span> standard deviation
-<span class="citation">(Wdowinski 1998)</span>.</p>
+(wdowinski 1998).</p>
 <!-- ```{=tex} -->
 <!-- \begin{equation}  -->
 <!--   \textrm{Norm} \chi^2_i =  -->
@@ -245,8 +245,8 @@ numeric vector of length of <code>obs</code> or a number).</p>
 <h2 id="models-of-current-plate-motion">Models of current plate motion<a class="anchor" aria-label="anchor" href="#models-of-current-plate-motion"></a>
 </h2>
 <p>The plate motions relative to the Pacific plate according to the
-NUVEL-1A model <span class="citation">(DeMets et al. 1990)</span> are
-included in the package and can be imported through:</p>
+NUVEL-1A model (DeMets et al. 1990) are included in the package and can
+be imported through:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nuvel1</span><span class="op">)</span></span></code></pre></div>
@@ -262,25 +262,17 @@ following:</p>
 <span><span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">gsrm</span>, rot <span class="op">=</span> <span class="st">"na"</span>, fixed <span class="op">=</span> <span class="st">"eu"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-DeMets1990" class="csl-entry">
-DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990.
-<span>“Current Plate Motions.”</span> <em>Geophysical Journal
-International</em> 101 (2): 425–78. <a href="https://doi.org/10.1111/j.1365-246x.1990.tb06579.x" class="external-link">https://doi.org/10.1111/j.1365-246x.1990.tb06579.x</a>.
-</div>
-<div id="ref-Forsyth1975" class="csl-entry">
-Forsyth, D., and S. Uyeda. 1975. <span>“On the Relative Importance of
-the Driving Forces of Plate Motion.”</span> <em>Geophysical Journal
-International</em> 43 (1): 163–200. <a href="https://doi.org/10.1111/j.1365-246x.1975.tb00631.x" class="external-link">https://doi.org/10.1111/j.1365-246x.1975.tb00631.x</a>.
-</div>
-<div id="ref-Wdowinski1998" class="csl-entry">
-Wdowinski, Shimon. 1998. <span>“A Theory of Intraplate
-Tectonics.”</span> <em>Journal of Geophysical Research: Solid Earth</em>
-103 (B3): 5037–59. <a href="https://doi.org/10.1029/97jb03390" class="external-link">https://doi.org/10.1029/97jb03390</a>.
-</div>
-</div>
+<p>DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current
+Plate Motions.” <em>Geophysical Journal International</em> 101 (2):
+425–78. <a href="https://doi.org/10.1111/j.1365-246x.1990.tb06579.x" class="external-link uri">https://doi.org/10.1111/j.1365-246x.1990.tb06579.x</a>.</p>
+<p>Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the
+Driving Forces of Plate Motion.” <em>Geophysical Journal
+International</em> 43 (1): 163–200. <a href="https://doi.org/10.1111/j.1365-246x.1975.tb00631.x" class="external-link uri">https://doi.org/10.1111/j.1365-246x.1975.tb00631.x</a>.</p>
+<p>Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics.”
+<em>Journal of Geophysical Research: Solid Earth</em> 103 (B3): 5037–59.
+<a href="https://doi.org/10.1029/97jb03390" class="external-link uri">https://doi.org/10.1029/97jb03390</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

@@ -151,8 +151,7 @@ transferred into the Euler pole reference frame:</p>
 </h3>
 <p>Spatial interpolation of stress data is based on the aforementioned
 metrics (the algorithm is a modified version of the MATLAB script
-‘stress2grid’ by <span class="citation">Ziegler and Heidbach
-(2017)</span>).</p>
+‘stress2grid’ by Ziegler and Heidbach (2017).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The defaults use quality and inverse distance weighting of the mean,
@@ -214,16 +213,11 @@ angular data.</p>
 <p><img src="D_statistics_files/figure-html/rose2-1.png" width="700"></p>
 </div>
 <div class="section level2">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Ziegler2017" class="csl-entry">
-Ziegler, Moritz O., and Oliver Heidbach. 2017. <span>“Manual of the
-<span>M</span>atlab Script <span>Stress2Grid</span>.”</span> GFZ German
-Research Centre for Geosciences; World Stress Map Technical Report
-17-02. <a href="https://doi.org/10.5880/wsm.2017.002" class="external-link">https://doi.org/10.5880/wsm.2017.002</a>.
-</div>
-</div>
+<p>Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab
+Script Stress2Grid.” GFZ German Research Centre for Geosciences; World
+Stress Map Technical Report 17-02. <a href="https://doi.org/10.5880/wsm.2017.002" class="external-link uri">https://doi.org/10.5880/wsm.2017.002</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
