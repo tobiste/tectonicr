@@ -1,7 +1,6 @@
 ---
 title: "2. Handling large datasets"
 output: rmarkdown::html_vignette
-bibliography: tectonicr_references.bib  
 vignette: >
   %\VignetteIndexEntry{2. Handling large datasets}
   %\VignetteEncoding{UTF-8}
@@ -29,7 +28,7 @@ library(ggplot2) # load ggplot library
 ## Larger Data Sets
 
 **tectonicr** also handles larger data sets. A subset of the World Stress Map 
-data compilation [@WSM2016]
+data compilation (Heidbach et al. 2016)
 is included as an example data set and can be imported through:
 
 ```{r load_wsm2016, echo=TRUE}
@@ -67,13 +66,13 @@ the marker symbol at the center of the point. The deviation can be color
 coded. `deviation_norm()` yields the normalized value of the deviation,
 i.e. values between 0 and 90$^{\circ}$.
 
-Also included are the plate boundary geometries after @Bird2003
+Also included are the plate boundary geometries after Bird (2003)
 
 ```{r plates, echo=TRUE}
 data("plates") # load plate boundary data set
 ```
 
-Alternatively, there is also the NUVEL1 plate boundary model by @DeMets1990
+Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. (1990)
 stored under `data("nuvel1_plates")`.
 
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
@@ -270,3 +269,9 @@ approx. 4--6$^{\circ}$ (ca. 440--670 km) wide.
 plate boundary zone.
 
 # References
+
+Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries.” *Geochemistry, Geophysics, Geosystems* 4 (3). https://doi.org/10.1029/2001gc000252.
+
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” *Geophysical Journal International* 101 (2): 425–78. https://doi.org/10.1111/j.1365-246x.1990.tb06579.x.
+
+Heidbach, Oliver, Mojtaba Rajabi, Karsten Reiter, Moritz Ziegler, and WSM Team. 2016. “World Stress Map Database Release 2016. V. 1.1.” GFZ Data Services. https://doi.org/10.5880/WSM.2016.001.

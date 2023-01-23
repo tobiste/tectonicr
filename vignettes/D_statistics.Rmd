@@ -1,7 +1,6 @@
 ---
 title: "4. Circular statistics"
 output: rmarkdown::html_vignette
-bibliography: tectonicr_references.bib  
 vignette: >
   %\VignetteIndexEntry{4. Circular statistics}
   %\VignetteEncoding{UTF-8}
@@ -77,8 +76,7 @@ circular_IQR(san_andreas.por$azi, 1 / san_andreas$unc)
 
 ## Interpolation
 Spatial interpolation of stress data is based on the aforementioned metrics (the
-algorithm is a modified version of the MATLAB script 'stress2grid' by 
-@Ziegler2017).
+algorithm is a modified version of the MATLAB script 'stress2grid' by Ziegler and Heidbach (2017).
 ```{r interpolation}
 mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 ```
@@ -148,3 +146,5 @@ rose(san_andreas.por$azi, col = "grey", main = "Euler pole")
 ```
 
 # References
+
+Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab Script Stress2Grid.” GFZ German Research Centre for Geosciences; World Stress Map Technical Report 17-02. https://doi.org/10.5880/wsm.2017.002. 
