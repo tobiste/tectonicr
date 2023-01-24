@@ -38,24 +38,19 @@ head(san_andreas)
 
 Modeling the stress directions (wrt. to the geographic North pole) using the 
 Euler pole of the motion of North America relative to the Pacific Pate.
-
+We test the dataset against a right-laterally tangential displacement type.
 ```{r san_andreas, echo=TRUE}
 data("nuvel1")
 euler <- subset(nuvel1, nuvel1$plate.rot == "na")
-san_andreas.prd <- model_shmax(san_andreas, euler)
-san_andreas.deviation <- deviation_shmax(san_andreas.prd, san_andreas$azi)
+san_andreas.prd <- PoR_shmax(san_andreas, euler, type = "right")
 ```
 
 Combine the model results with the coordinates of the observed data
 
 ```{r san_andreas2, echo=TRUE}
 san_andreas.res <- cbind(
-  lat = san_andreas$lat,
-  lon = san_andreas$lon,
-  azi = san_andreas$azi,
-  unc = san_andreas$unc,
-  san_andreas.prd,
-  san_andreas.deviation
+  san_andreas,
+  san_andreas.prd
 )
 ```
 
@@ -98,7 +93,7 @@ ggplot(san_andreas.res) +
       y = lat,
       radius = 1,
       angle = deg2rad(-azi + 90),
-      color = deviation_norm(dev.ld.ccw),
+      color = deviation_norm(dev),
       alpha = san_andreas$quality
     ),
     position = "center_spoke",
@@ -129,9 +124,9 @@ considering the reported uncertainties of the measurement.
 
 ```{r san_andreas_nchisq}
 norm_chisq(
-  obs = san_andreas$azi,
-  prd = san_andreas.prd$ld.ccw,
-  unc = san_andreas$unc
+  obs = san_andreas.res$azi.PoR,
+  prd = san_andreas.res$prd,
+  unc = san_andreas.res$unc
 )
 ```
 
@@ -166,16 +161,6 @@ that passes through the data point and the Euler pole $\theta$.
 <!-- \end{equation} -->
 <!-- ``` -->
 
-The function `PoR_shmax()` returns the transformed azimuth of $\sigma_{Hmax}$ 
-and, if given, the deviation from the predicted $\sigma_{Hmax}$ direction 
-related to the plate boundary type:
-
-```{r san_andreas_por, echo=TRUE}
-san_andreas.res <- cbind(
-  san_andreas.res,
-  PoR_shmax(san_andreas, euler, type = "right")
-)
-```
 
 To calculate the distance to the plate boundary, both the plate boundary 
 geometries and the data points (in geographical coordinates) will be 
@@ -192,7 +177,7 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 san_andreas.res$distance <-
   distance_from_pb(
-    x = san_andreas,
+    x = san_andreas.res,
     euler = euler,
     pb = plate_boundary,
     tangential = TRUE
@@ -204,7 +189,7 @@ the plate boundary:
 ```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
-  labs(x = "Distance from plate boundary (B0)", y = "Azimuth in PoR (B0)") +
+  labs(x = "Distance from plate boundary (degree)", y = "Azimuth in PoR (degree)") +
   geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
   geom_pointrange(
     aes(
@@ -245,7 +230,7 @@ stress direction, i.e. the *normalized* $\chi^2$:
 ```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Distance from plate boundary (B0)", y = expression(Norm ~ chi^2)) +
+  labs(x = "Distance from plate boundary (degree)", y = expression(Norm ~ chi^2)) +
   geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +
   geom_smooth() +
   geom_point(aes(color = san_andreas$regime)) +
@@ -267,6 +252,14 @@ approx. 4--6$^{\circ}$ (ca. 440--670 km) wide.
 
 > The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
 plate boundary zone.
+
+
+# Quick analysis
+A quick analysis including visualization of the results can be obtained by
+```{r quick, warning=FALSE, message=FALSE, eval=FALSE}
+stress_analysis(san_andreas, euler, type = "right", plate_boundary, plot = TRUE)
+```
+
 
 # References
 

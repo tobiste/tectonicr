@@ -48,9 +48,14 @@ nchisq_eq <- function(obs, prd, unc) {
 #' data("nuvel1")
 #' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 #' # Pacific plate
+#' data(san_andreas)
 #' point <- data.frame(lat = 45, lon = 20)
 #' prd <- model_shmax(point, euler)
 #' norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
+#'
+#' data(san_andreas)
+#' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
+#' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
 norm_chisq <- function(obs, prd, unc) {
   stopifnot(is.numeric(obs), is.numeric(prd), is.numeric(unc))
 
