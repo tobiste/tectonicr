@@ -112,6 +112,31 @@ relative_rotation <- function(r1, r2) {
   )
 }
 
+#' Helper function to Equivalent rotation
+#'
+#' @param plate.rot,fixed character or numeric
+#' @param lat,lon,angle numeric
+#' @param fixed.ep data.frame
+#'
+#' @seealso [equivalent_rotation()]
+get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep){
+  if (plate.rot == fixed) {
+    # fixed plate has no rotation
+    lat.eq <- 90
+    lon.eq <- 0
+    angle.eq <- 0
+  } else {
+    xi.ep <- euler_pole(lat, lon, angle = angle)
+    equivalent <- relative_rotation(fixed.ep, xi.ep)
+
+    lat.eq <- equivalent$axis[1]
+    lon.eq <- equivalent$axis[2]
+    angle.eq <- equivalent$angle
+  }
+  return(c(lat.eq, lon.eq, angle.eq))
+}
+
+
 
 #' @title Equivalent rotation
 #' @description Transforms a sequence of rotations into a new reference system
@@ -142,10 +167,6 @@ equivalent_rotation <- function(x, fixed, rot) {
   stopifnot(fixed %in% x$plate.rot)
   plate.rot <- NULL
 
-  lat.eq <- c()
-  lon.eq <- c()
-  angle.eq <- c()
-
   fixed.plate <- subset(x, x$plate.rot == fixed)
   fixed.ep <- euler_pole(
     fixed.plate$lat,
@@ -165,26 +186,13 @@ equivalent_rotation <- function(x, fixed, rot) {
     fixed.ep <- euler_pole(temp$axis[1], temp$axis[2], angle = temp$angle)
   }
 
-  for (i in seq_along(x$plate.rot)) {
-    if (x$plate.rot[i] == fixed) {
-      # fixed plate has no rotation
-      lat.eq[i] <- 90
-      lon.eq[i] <- 0
-      angle.eq[i] <- 0
-    } else {
-      xi.ep <- euler_pole(x$lat[i], x$lon[i], angle = x$angle[i])
-      equivalent <- relative_rotation(fixed.ep, xi.ep)
+  eq <- mapply(get_relrot, plate.rot=x$plate.rot, lat=x$lat, lon=x$lon, angle=x$angle, MoreArgs = list(fixed=fixed, fixed.ep=fixed.ep))
 
-      lat.eq[i] <- equivalent$axis[1]
-      lon.eq[i] <- equivalent$axis[2]
-      angle.eq[i] <- equivalent$angle
-    }
-  }
   res <- data.frame(
     plate.rot = x$plate.rot,
-    lat = lat.eq,
-    lon = lon.eq,
-    angle = angle.eq,
+    lat = eq[1, ],
+    lon = eq[2, ],
+    angle = eq[3, ],
     plate.fix = fixed
   )
   if (!missing(rot)) {

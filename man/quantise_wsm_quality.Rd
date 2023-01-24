@@ -4,10 +4,10 @@
 \alias{quantise_wsm_quality}
 \title{Numerical values to World Stress Map Quality Ranking}
 \usage{
-quantise_wsm_quality(x)
+quantise_wsm_quality(regime)
 }
 \arguments{
-\item{x}{Either a string or a character vector of WSM quality ranking}
+\item{regime}{Either a string or a character vector of WSM quality ranking}
 }
 \value{
 \code{"integer"} or vector of type \code{"integer"}
@@ -19,7 +19,7 @@ categorical quality ranking of the World Stress Map (A, B, C, D).
 \examples{
 quantise_wsm_quality(c("A", "B", "C", "D", NA))
 data("san_andreas")
-quantise_wsm_quality(san_andreas$quality[1:20])
+quantise_wsm_quality(san_andreas$quality)
 }
 \references{
 Heidbach, O., Barth, A., Müller, B., Reinecker, J.,

@@ -27,7 +27,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' Assigns numeric values of the precision of each measurement to the
 #' categorical quality ranking of the World Stress Map (A, B, C, D).
 #'
-#' @param x Either a string or a character vector of WSM quality ranking
+#' @param regime Either a string or a character vector of WSM quality ranking
 #' @return \code{"integer"} or vector of type \code{"integer"}
 #' @references Heidbach, O., Barth, A., Müller, B., Reinecker, J.,
 #' Stephansson, O., Tingay, M., Zang, A. (2016). WSM quality
@@ -38,37 +38,74 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' @examples
 #' quantise_wsm_quality(c("A", "B", "C", "D", NA))
 #' data("san_andreas")
-#' quantise_wsm_quality(san_andreas$quality[1:20])
-quantise_wsm_quality <- function(x) {
-  unc <- c()
-  for (i in seq_along(x)) {
-    unc[i] <- ifelse(x[i] == "A", 15,
-      ifelse(x[i] == "B", 20,
-        ifelse(x[i] == "C", 25,
-          ifelse(x[i] == "D", 40, NA)
-        )
-      )
-    )
+#' quantise_wsm_quality(san_andreas$quality)
+quantise_wsm_quality <- function(regime) {
+  as.numeric(sapply(X = regime, FUN = regime2unc))
+}
+
+regime2unc <- function(x) {
+  c(
+    "A" = 15,
+    "B" = 20,
+    "C" = 25,
+    "D" = 40
+  )[x]
+}
+
+#' Helper funtcion to get normalized distance from plate boundary
+#'
+#' @param x numeric
+#' @seealso [distance_from_pb()]
+get_distance_mod <- function(x) {
+  while (x > 180) {
+    x <- 360 - (x %% 360)
   }
-  return(unc)
+  return(x)
 }
 
 #' @title Normalize angular distance on a sphere distance
 #'
 #' @description  Helper function to express angular distance on the sphere in
-#' the range of
-#' -180 to 180 degrees
+#' the range of 0 to 180 degrees
 #'
 #' @param x numeric, angular distance (in degrees)
 #' @returns numeric vector
 #' @keywords internal
 distance_mod <- function(x) {
-  x <- abs(x)
-  for (i in seq_along(x)) {
-    while (x[i] > 180) x[i] <- 360 - (x[i] %% 360)
-  }
-  x
+  sapply(X = abs(x), FUN = get_distance_mod)
 }
+
+#' Helper funtion to Distance from plate boundary
+#'
+#' @param lon,lat numeric vectors
+#' @param pb.coords matrix
+#' @param tangential,km logical
+#'
+#' @seealso [distance_from_pb()]
+get_distance <- function(lon, lat, pb.coords, tangential, km) {
+  delta.lat <- distance_mod(pb.coords[, 2] - lat)
+  delta.lon <- distance_mod(pb.coords[, 1] - lon)
+
+  if (tangential) {
+    # latitudinal differences for tangential plate boundaries and
+    # select the one with the closest longitude
+    q <- which.min(delta.lon)
+    dist <- delta.lat[q] # latitudinal difference in degree
+    if (km) {
+      dist <- deg2rad(dist) * earth_radius() # great circle distance
+    }
+  } else {
+    # longitudinal differences for inward/outward plate boundaries and
+    # select the one with the closest latitude
+    q <- which.min(delta.lat)
+    dist <- delta.lon[q] # longitudinal difference in degree
+    if (km) {
+      dist <- deg2rad(dist) * earth_radius() * cosd(lat) # small circle distance
+    }
+  }
+  dist
+}
+
 
 #' Distance from plate boundary
 #'
@@ -130,30 +167,34 @@ distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) 
     smoothr::densify(...) %>%
     sf::st_coordinates()
 
-  dist <- c()
-  for (i in seq_along(x.coords[, 1])) {
-    delta.lat <- distance_mod(pb.coords[, 2] - x.coords[i, 2])
-    delta.lon <- distance_mod(pb.coords[, 1] - x.coords[i, 1])
+  mapply(
+    FUN = get_distance,
+    lon = x.coords[, 1], lat = x.coords[, 2],
+    MoreArgs = list(pb.coords = pb.coords, tangential = tangential, km = km)
+  )
+}
 
-    if (tangential) {
-      # latitudinal differences for tangential plate boundaries and
-      # select the one with the closest longitude
-      q <- which.min(delta.lon)
-      dist[i] <- delta.lat[q] # latitudinal difference in degree
-      if (km) {
-        dist[i] <- deg2rad(dist[i]) * earth_radius() # great circle distance
-      }
-    } else {
-      # longitudinal differences for inward/outward plate boundaries and
-      # select the one with the closest latitude
-      q <- which.min(delta.lat)
-      dist[i] <- delta.lon[q] # longitudinal difference in degree
-      if (km) {
-        dist[i] <- deg2rad(dist[i]) * earth_radius() * cosd(x.coords[i, 2]) # small circle distance
-      }
-    }
+#' Helper function to get Distance from plate boundary
+#'
+#' @param lon,lat,pb.bearing numeric vectors
+#' @param pb.coords matrix
+#' @param tangential logical
+#'
+#' @seealso [projected_pb_strike()]
+get_projected_pb_strike <- function(lon, lat, pb.coords, pb.bearing, tangential) {
+  delta.lat <- distance_mod(pb.coords[, 2] - lat)
+  delta.lon <- distance_mod(pb.coords[, 1] - lon)
+
+  if (tangential) {
+    # select the one with the closest longitude
+    q <- which.min(delta.lon)
+    x_pb.bearing <- pb.bearing[q]
+  } else {
+    # select the one with the closest latitude
+    q <- which.min(delta.lat)
+    x_pb.bearing <- pb.bearing[q]
   }
-  dist
+  x_pb.bearing
 }
 
 
@@ -223,28 +264,13 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
       pb.bearing[i] <- get_azimuth(c(pb.coords[i, 2], pb.coords[i, 1]), c(pb.coords[i + 1, 2], pb.coords[i + 1, 1]))
     }
   }
-  pb.bearing <- pb.bearing %% 180
 
-  x_pb.bearing <- c()
-  for (i in seq_along(x.coords[, 1])) {
-    delta.lat <- distance_mod(pb.coords[, 2] - x.coords[i, 2])
-    delta.lon <- distance_mod(pb.coords[, 1] - x.coords[i, 1])
-
-    if (tangential) {
-      # select the one with the closest longitude
-      q <- which.min(delta.lon)
-      x_pb.bearing[i] <- pb.bearing[q] #
-    } else {
-      # select the one with the closest latitude
-      q <- which.min(delta.lat)
-      x_pb.bearing[i] <- pb.bearing[q] #
-    }
-  }
-  x_pb.bearing
+  mapply(
+    FUN = get_projected_pb_strike,
+    lon = x.coords[, 1], lat = x.coords[, 2],
+    MoreArgs = list(pb.coords = pb.coords, pb.bearing = pb.bearing %% 180, tangential = tangential)
+  )
 }
-
-
-
 
 #' Quick analysis of a stress data set
 #'
