@@ -7,7 +7,7 @@
 PoR2Geo_shmax(x, euler)
 }
 \arguments{
-\item{x}{\code{data.frame} containing the PoR-equivalent azimuths
+\item{x}{\code{data.frame} containing the PoR equivalent azimuths
 (\code{azi.PoR}), and either the geographical coordinates of the
 point(s) or the PoR-equivalent coordinates.}
 

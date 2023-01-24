@@ -39,6 +39,12 @@ get_azimuth <- function(a, b) {
   (theta + 360) %% 360
 }
 
+gc_angle <- function(lat, lon, euler_lat, euler_lon) {
+  get_azimuth(
+    c(lat, lon),
+    c(euler_lat, euler_lon)
+  )
+}
 
 #' @title Theoretical Direction of Maximum Horizontal Stress in the
 #' geographical reference system.
@@ -83,28 +89,22 @@ get_azimuth <- function(a, b) {
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
   stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
+  beta <- mapply(FUN = gc_angle, lat = df$lat, lon = df$lon, euler_lat = euler$lat, euler_lon = euler$lon)
+  # great circles
+  gc <- (beta + 360) %% 180
 
-  beta <- sc <- gc <- ld.cw <- ld.ccw <- c()
-  for (i in seq_along(df$lat)) {
-    beta[i] <- get_azimuth(
-      c(df$lat[i], df$lon[i]),
-      c(euler$lat[1], euler$lon[1])
-    )
+  # small circles
+  sc <- (beta + 90 + 360) %% 180
 
-    # great circles
-    gc[i] <- (beta[i] + 360) %% 180
+  # counterclockwise loxodrome
+  ld.ccw <- (beta + 135 + 360) %% 180
 
-    # small circles
-    sc[i] <- (beta[i] + 90 + 360) %% 180
+  # clockwise loxodrome
+  ld.cw <- (beta + 45 + 360) %% 180
 
-    # counterclockwise loxodrome
-    ld.ccw[i] <- (beta[i] + 135 + 360) %% 180
-
-    # clockwise loxodrome
-    ld.cw[i] <- (beta[i] + 45 + 360) %% 180
-  }
   data.frame(sc, ld.ccw, gc, ld.cw)
 }
+
 
 #' @title Normalize Angle Between Two Directions
 #'
@@ -245,13 +245,8 @@ deviation_shmax <- function(prd, obs) {
 PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left")) {
   stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
   type <- match.arg(type)
-  beta <- c()
-  for (i in seq_along(df$lat)) {
-    beta[i] <- get_azimuth(
-      c(df$lat[i], df$lon[i]),
-      c(euler$lat[1], euler$lon[1])
-    )
-  }
+
+  beta <- mapply(FUN = gc_angle, lat = df$lat, lon = df$lon, euler_lat = euler$lat, euler_lon = euler$lon)
   azi.por <- (df$azi - beta) %% 180
 
   if (type != "none" && !is.null(df$unc)) {
@@ -276,7 +271,7 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
 #'
 #' Helper function to convert PoR azimuths into geographical azimuths
 #'
-#' @param x \code{data.frame} containing the PoR-equivalent azimuths
+#' @param x \code{data.frame} containing the PoR equivalent azimuths
 #' (\code{azi.PoR}), and either the geographical coordinates of the
 #' point(s) or the PoR-equivalent coordinates.
 #' @param euler \code{data.frame} containing the geographical location of
@@ -292,26 +287,15 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
 #' res.geo <- PoR2Geo_shmax(san_andreas, euler)
 #' head(res.geo)
 PoR2Geo_shmax <- function(x, euler) {
-  beta <- c()
   if (!is.null(x$lat.PoR) && !is.null(x$lon.PoR)) {
     northpole <- geographical_to_PoR(
       data.frame(lat = 90, lon = 0),
       euler
     )
-    for (i in seq_along(x$lat.PoR)) {
-      beta[i] <- get_azimuth(
-        c(x$lat.PoR[i], x$lon.PoR[i]),
-        c(northpole$lat.PoR[1], northpole$lon.PoR[1])
-      )
-    }
+    beta <- mapply(FUN = gc_angle, lat = x$lat.PoR, lon = x$lon.PoR, euler_lat = northpole$lat.PoR, euler_lon = northpole$lon.PoR)
     azi.geo <- x$azi.PoR - beta
   } else {
-    for (i in seq_along(x$lat)) {
-      beta[i] <- get_azimuth(
-        c(x$lat[i], x$lon[i]),
-        c(euler$lat[1], euler$lon[1])
-      )
-    }
+    beta <- mapply(FUN = gc_angle, lat = x$lat, lon = x$lon, euler_lat = euler$lat, euler_lon = euler$lon)
     azi.geo <- x$azi.PoR + beta
   }
   azi.geo %% 180

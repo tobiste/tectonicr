@@ -9,7 +9,7 @@ data("san_andreas")
 
 
 # test model_shmax
-euler <- subset(nuvel1, nuvel1$ID == "na") # North America relative to Pacific
+euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific
 point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, euler)
 

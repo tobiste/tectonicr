@@ -16,6 +16,24 @@ rotate_lines <- function(theta, p, centre) {
   matrix(c(new_x, new_y), ncol = 2)
 }
 
+get_loxodromes <- function(lon, lat, line, theta) {
+  line.dummy.rot <-
+    rotate_lines(
+      theta = theta,
+      p = cbind(
+        lon,
+        lat
+      ),
+      centre = c(lon, 0)
+    )
+  loxodrome.dummy <- data.frame(
+    lon = line.dummy.rot[, 1],
+    lat = line.dummy.rot[, 2],
+    loxodrome = line
+  )
+  loxodrome.dummy
+}
+
 
 #' @title Plate Stress Dummy Grid
 #' @description Helper functions to create a dummy grid for small circles,
@@ -78,28 +96,31 @@ loxodrome_dummy <- function(n, angle, cw) {
     lat = lats,
     line = 0
   )
-  for (j in seq_along(line.dummy$lon)) {
-    line.dummy.rot <-
-      rotate_lines(
-        theta = s * angle,
-        p = cbind(
-          line.dummy$lon[j],
-          line.dummy$lat[j]
-        ),
-        centre = c(line.dummy$lon[j], 0)
-      )
-    loxodrome.dummy.j <- data.frame(
-      lon = line.dummy.rot[, 1],
-      lat = line.dummy.rot[, 2],
-      loxodrome = line.dummy$line[j]
-    )
 
-    if (j == 1) {
-      loxodrome.dummy <- loxodrome.dummy.j
-    } else {
-      loxodrome.dummy <- rbind(loxodrome.dummy, loxodrome.dummy.j)
-    }
-  }
+  lx <- mapply(FUN = get_loxodromes, lon = line.dummy$lon, lat = line.dummy$lat, line = line.dummy$line, theta = s * angle)
+  loxodrome.dummy <- data.frame(lon = as.numeric(lx[1, ]), lat = as.numeric(lx[2, ]), loxodrome = as.numeric(lx[3, ]))
+  # for (j in seq_along(line.dummy$lon)) {
+  #   line.dummy.rot <-
+  #     rotate_lines(
+  #       theta = s * angle,
+  #       p = cbind(
+  #         line.dummy$lon[j],
+  #         line.dummy$lat[j]
+  #       ),
+  #       centre = c(line.dummy$lon[j], 0)
+  #     )
+  #   loxodrome.dummy.j <- data.frame(
+  #     lon = line.dummy.rot[, 1],
+  #     lat = line.dummy.rot[, 2],
+  #     loxodrome = line.dummy$line[j]
+  #   )
+  #
+  #   if (j == 1) {
+  #     loxodrome.dummy <- loxodrome.dummy.j
+  #   } else {
+  #     loxodrome.dummy <- rbind(loxodrome.dummy, loxodrome.dummy.j)
+  #   }
+  # }
 
   for (i in seq(-360, 360, 360 / n)) {
     line.i <- loxodrome.dummy %>%

@@ -1,3 +1,18 @@
+nchisq_eq <- function(obs, prd, unc) {
+  if (is.na(obs)) {
+    x <- NA
+    y <- NA
+  } else {
+    if (!is.na(unc) && unc == 0) {
+      unc <- 1
+    } # uncertainty cannot be 0
+    w <- obs - prd
+    x <- (w / unc)^2
+    y <- (90 / unc)^2
+  }
+  return(c(x, y))
+}
+
 #' Normalized Chi-Squared Test
 #'
 #' A quantitative comparison between the predicted and observed directions of
@@ -64,23 +79,8 @@ norm_chisq <- function(obs, prd, unc) {
       length(unc) == length(prd)
   )
 
-  w <- c()
-  x <- c()
-  y <- c()
-  for (i in seq_along(obs)) {
-    if (is.na(obs[i])) {
-      x[i] <- NA
-      y[i] <- NA
-    } else {
-      if (!is.na(unc[i]) && unc[i] == 0) {
-        unc[i] <- 1
-      } # uncertainty cannot be 0
-      w[i] <- obs[i] - prd[i]
-      x[i] <- (w[i] / unc[i])^2
-      y[i] <- (90 / unc[i])^2
-    }
-  }
-  sum(x, na.rm = TRUE) / sum(y, na.rm = TRUE)
+  xy <- mapply(FUN = nchisq_eq, obs = obs, prd = prd, unc = unc)
+  sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
 }
 
 mean_SC <- function(x, w, na.rm) {
