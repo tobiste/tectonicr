@@ -240,7 +240,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
-  data <- data[order(data$x),]
+  data <- data[order(data$x), ]
 
   x <- f * deg2rad(data$x)
   w <- data$w
@@ -294,7 +294,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
-  data <- data[order(data$x),]
+  data <- data[order(data$x), ]
 
   x_first <- data$x[1]
   x_last <- data$x[length(data$x)]
