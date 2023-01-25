@@ -225,11 +225,6 @@ coordinates being the the translation factors.</p>
 between the azimuth in geographic reference system <span class="math inline">\(\alpha_{geo}\)</span> and the (initial) bearing of
 the great circle that passes through the data point and the Euler pole
 <span class="math inline">\(\theta\)</span>.</p>
-<!-- ```{=tex} -->
-<!-- \begin{equation}  -->
-<!--   \alpha_{PoR} = \alpha_{geo} - \theta -->
-<!-- \end{equation} -->
-<!-- ``` -->
 <p>To calculate the distance to the plate boundary, both the plate
 boundary geometries and the data points (in geographical coordinates)
 will be transformed in to the <em>PoR</em> reference system. In the
@@ -321,7 +316,7 @@ zone.</p>
 <p>A quick analysis including visualization of the results can be
 obtained by</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span>, type <span class="op">=</span> <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
