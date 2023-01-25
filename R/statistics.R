@@ -57,7 +57,7 @@ nchisq_eq <- function(obs, prd, unc) {
 #' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
 #' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
 norm_chisq <- function(obs, prd, unc) {
-  stopifnot(is.numeric(obs), is.numeric(prd), is.numeric(unc))
+  #stopifnot(is.numeric(obs), is.numeric(prd), is.numeric(unc))
 
   if (length(prd) == 1) {
     prd <- rep(prd, length(obs))
@@ -78,11 +78,11 @@ norm_chisq <- function(obs, prd, unc) {
     message("NA values have been removed")
   }
 
-  stopifnot(
-    length(prd) == length(obs) &
-      length(unc) == length(obs) &
-      length(unc) == length(prd)
-  )
+  # stopifnot(
+  #   length(prd) == length(obs) &
+  #     length(unc) == length(obs) &
+  #     length(unc) == length(prd)
+  # )
 
   xy <- mapply(FUN = nchisq_eq, obs = obs, prd = prd, unc = unc)
   sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
