@@ -3,7 +3,7 @@ nchisq_eq <- function(obs, prd, unc) {
     x <- NA
     y <- NA
   } else {
-    if (!is.na(unc) && unc == 0) {
+    if (is.na(unc) || unc == 0) {
       unc <- 1
     } # uncertainty cannot be 0
     w <- obs - prd
@@ -41,8 +41,8 @@ nchisq_eq <- function(obs, prd, unc) {
 #' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 #' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
-#' @importFrom magrittr %>%
 #' @importFrom tidyr drop_na
+#' @importFrom stats complete.cases
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -57,7 +57,6 @@ nchisq_eq <- function(obs, prd, unc) {
 #' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
 #' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
 norm_chisq <- function(obs, prd, unc) {
-  #stopifnot(is.numeric(obs), is.numeric(prd), is.numeric(unc))
   if (length(prd) == 1) {
     prd <- rep(prd, length(obs))
   }
@@ -66,16 +65,10 @@ norm_chisq <- function(obs, prd, unc) {
     unc <- rep(unc, length(obs))
   }
 
-  #if (anyNA(obs)) {
-    x <- data.frame(
-      obs = obs, prd = prd, unc = unc
-    ) %>%
-      tidyr::drop_na(obs, prd)
-    #obs <- x[, 1]
-    #prd <- x[, 2]
-    #unc <- x[, 3]
-    #message("NA values have been removed")
-  #}
+  x <- data.frame(
+    obs = obs, prd = prd, unc = unc
+  ) %>%
+    tidyr::drop_na(obs, prd)
 
   xy <- mapply(FUN = nchisq_eq, obs = x[, 1], prd = x[, 2], unc = x[, 3])
   sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
@@ -92,7 +85,7 @@ mean_SC <- function(x, w, na.rm) {
 
   data <- data.frame(x, w)
   if (na.rm) {
-    data <- tidyr::drop_na(data)
+    data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
   x <- deg2rad(data$x)
@@ -128,8 +121,7 @@ mean_resultant <- function(x, w, na.rm) {
 #' should be stripped before the computation proceeds.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).
-#' @importFrom dplyr arrange
-#' @importFrom tidyr drop_na
+#' @importFrom stats complete.cases
 #' @note Weighting may be the reciprocal of the data uncertainties.
 #' @references
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
@@ -245,10 +237,10 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 
 
   if (na.rm) {
-    data <- tidyr::drop_na(data)
+    data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
-  data <- dplyr::arrange(data, x)
+  data <- data[order(data$x),]
 
   x <- f * deg2rad(data$x)
   w <- data$w
@@ -299,10 +291,10 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   data <- data.frame(x = x, w)
 
   if (na.rm) {
-    data <- tidyr::drop_na(data)
+    data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
-  data <- dplyr::arrange(data, x)
+  data <- data[order(data$x),]
 
   x_first <- data$x[1]
   x_last <- data$x[length(data$x)]

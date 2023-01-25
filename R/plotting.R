@@ -82,6 +82,7 @@ rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE
 #' @param k integer. window width (in number of observations) for rolling
 #' statistics. Has to be an odd number.
 #' @param ... optional arguments to `zoo::rollapply()`, [rose()], or `plot()`
+#' @importFrom dplyr arrange mutate
 #' @importFrom zoo rollapply rollmedian
 #' @seealso [PoR_shmax()], [distance_from_pb()], [circular_median()], [circular_IQR()], [norm_chisq()]
 #' @export
@@ -104,8 +105,8 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...) {
   nchisq_i <- NULL
   regime <- ifelse(is.na(regime), "U", regime)
   t <- data.frame(azi, distance, prd, unc, regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) %>%
-    arrange(distance) %>%
-    mutate(
+    dplyr::arrange(distance) %>%
+    dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
       azi.rmean = zoo::rollapply(azi, width = k, FUN = circular_mean, align = "center", fill = NA, ...),
       azi.sd = zoo::rollapply(azi, width = k, FUN = circular_sd, align = "center", fill = NA, ...),
