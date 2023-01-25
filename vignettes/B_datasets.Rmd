@@ -121,7 +121,6 @@ The *normalized* $\chi^2$ test quantifies the fit between the
 modeled $\sigma_{Hmax}$ direction the observed stress direction
 considering the reported uncertainties of the measurement.
 
-
 ```{r san_andreas_nchisq}
 norm_chisq(
   obs = san_andreas.res$azi.PoR,
@@ -154,13 +153,6 @@ The azimuth in the *PoR reference system* $\alpha_{PoR}$ is the angular
 difference between the azimuth in geographic reference system $\alpha_{geo}$ 
 and the (initial) bearing of the great circle 
 that passes through the data point and the Euler pole $\theta$.
-
-<!-- ```{=tex} -->
-<!-- \begin{equation}  -->
-<!--   \alpha_{PoR} = \alpha_{geo} - \theta -->
-<!-- \end{equation} -->
-<!-- ``` -->
-
 
 To calculate the distance to the plate boundary, both the plate boundary 
 geometries and the data points (in geographical coordinates) will be 
@@ -257,7 +249,7 @@ plate boundary zone.
 # Quick analysis
 A quick analysis including visualization of the results can be obtained by
 ```{r quick, warning=FALSE, message=FALSE, eval=FALSE}
-stress_analysis(san_andreas, euler, type = "right", plate_boundary, plot = TRUE)
+stress_analysis(san_andreas, euler, "right", plate_boundary, plot = TRUE)
 ```
 
 
