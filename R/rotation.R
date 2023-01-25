@@ -119,7 +119,7 @@ relative_rotation <- function(r1, r2) {
 #' @param fixed.ep data.frame
 #'
 #' @seealso [equivalent_rotation()]
-get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep){
+get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep) {
   if (plate.rot == fixed) {
     # fixed plate has no rotation
     lat.eq <- 90
@@ -186,7 +186,7 @@ equivalent_rotation <- function(x, fixed, rot) {
     fixed.ep <- euler_pole(temp$axis[1], temp$axis[2], angle = temp$angle)
   }
 
-  eq <- mapply(get_relrot, plate.rot=x$plate.rot, lat=x$lat, lon=x$lon, angle=x$angle, MoreArgs = list(fixed=fixed, fixed.ep=fixed.ep))
+  eq <- mapply(get_relrot, plate.rot = x$plate.rot, lat = x$lat, lon = x$lon, angle = x$angle, MoreArgs = list(fixed = fixed, fixed.ep = fixed.ep))
 
   res <- data.frame(
     plate.rot = x$plate.rot,
