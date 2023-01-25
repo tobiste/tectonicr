@@ -57,7 +57,7 @@ nchisq_eq <- function(obs, prd, unc) {
 #' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
 #' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
 norm_chisq <- function(obs, prd, unc) {
-  #stopifnot(is.numeric(obs), is.numeric(prd), is.numeric(unc))
+  # stopifnot(is.numeric(obs), is.numeric(prd), is.numeric(unc))
   if (length(prd) == 1) {
     prd <- rep(prd, length(obs))
   }
@@ -66,16 +66,16 @@ norm_chisq <- function(obs, prd, unc) {
     unc <- rep(unc, length(obs))
   }
 
-  #if (anyNA(obs)) {
-    x <- data.frame(
-      obs = obs, prd = prd, unc = unc
-    ) %>%
-      tidyr::drop_na(obs, prd)
-    #obs <- x[, 1]
-    #prd <- x[, 2]
-    #unc <- x[, 3]
-    #message("NA values have been removed")
-  #}
+  # if (anyNA(obs)) {
+  x <- data.frame(
+    obs = obs, prd = prd, unc = unc
+  ) %>%
+    tidyr::drop_na(obs, prd)
+  # obs <- x[, 1]
+  # prd <- x[, 2]
+  # unc <- x[, 3]
+  # message("NA values have been removed")
+  # }
 
   xy <- mapply(FUN = nchisq_eq, obs = x[, 1], prd = x[, 2], unc = x[, 3])
   sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
