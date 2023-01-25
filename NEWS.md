@@ -1,3 +1,8 @@
+# tectonicr 0.2.7 _2023-01-25_
+
+* optimized some functions for better performance
+* bug fixes
+
 # tectonicr 0.2.6 _2023-01-06_
 
 * distance to plate boundary in km
