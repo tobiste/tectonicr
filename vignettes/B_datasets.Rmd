@@ -92,7 +92,7 @@ ggplot(san_andreas.res) +
       x = lon,
       y = lat,
       radius = 1,
-      angle = deg2rad(-azi + 90),
+      angle = deg2rad(90-azi),
       color = deviation_norm(dev),
       alpha = san_andreas$quality
     ),
@@ -111,7 +111,7 @@ ggplot(san_andreas.res) +
     expand = FALSE,
     default_crs = "WGS84"
   ) +
-  scale_alpha_discrete(name = "Quality rank")
+  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1))
 ```
 ![](san_andreas_map.png)
 
@@ -166,7 +166,6 @@ distances.
 
 ```{r san_andreas_distance, echo=TRUE}
 plate_boundary <- subset(plates, plates$pair == "na-pa")
-
 san_andreas.res$distance <-
   distance_from_pb(
     x = san_andreas.res,
@@ -200,7 +199,7 @@ ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
       labels = c("Outward", "Tan (L)", "Inward", "Tan (R)", "Outward")
     )
   ) +
-  scale_alpha_discrete(name = "Quality rank") +
+  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1)) +
   scale_color_discrete(name = "Tectonic regime")
 ```
 ![](azimuth.png)
@@ -251,7 +250,6 @@ A quick analysis including visualization of the results can be obtained by
 ```{r quick, warning=FALSE, message=FALSE, eval=FALSE}
 stress_analysis(san_andreas, euler, "right", plate_boundary, plot = TRUE)
 ```
-
 
 # References
 

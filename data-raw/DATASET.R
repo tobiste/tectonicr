@@ -9,7 +9,7 @@ san_andreas <- filter(
 ) %>%
   mutate(
     x = lon, y = lat,
-    quality = forcats::fct_relevel(quality, "E", "D", "C", "B", "A"),
+    quality = forcats::fct_relevel(quality, "A", "B", "C", "D", "E"),
     regime = ifelse(regime == "NF", "N", regime),
     regime = ifelse(regime == "TF", "T", regime),
     regime = ifelse(regime == "SS", "S", regime),
@@ -18,17 +18,32 @@ san_andreas <- filter(
     unc = ifelse(is.na(sd), quality.quant, sd),
     unc = ifelse(unc > quality.quant, quality.quant, unc),
     unc = ifelse(unc == 0, 15, unc),
-
-    # id = stringi::stri_enc_toascii(id),
-    # type = stringi::stri_enc_toascii(type),
-    # quality = stringi::stri_enc_toascii(quality),
-    # regime = stringi::stri_enc_toascii(regime)
   ) %>%
   arrange(quality, unc) %>%
   filter(quality != "E") %>%
   sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs("WGS84")) %>%
   select(id, lat, lon, azi, unc, type, depth, quality, regime)
 usethis::use_data(san_andreas, overwrite = TRUE, ascii = TRUE)
+
+# ggplot(san_andreas) +
+#   geom_spoke(
+#     aes(
+#       x = lon,
+#       y = lat,
+#       radius = 1,
+#       angle = deg2rad(90-azi),
+#       alpha = san_andreas$quality
+#     ),
+#     position = "center_spoke",
+#     na.rm = TRUE
+#   ) +
+#   coord_sf(
+#     xlim = range(san_andreas.res$lon),
+#     ylim = range(san_andreas.res$lat),
+#     expand = FALSE,
+#     default_crs = "WGS84"
+#   ) +
+#   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1))
 
 
 ## PB2002 plates --------------
