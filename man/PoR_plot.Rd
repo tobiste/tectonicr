@@ -4,7 +4,7 @@
 \alias{PoR_plot}
 \title{Plotting the \eqn{\sigma_{Hmax}}{SHmax} azimuth}
 \usage{
-PoR_plot(azi, distance, prd, unc, regime, k = 51, ...)
+PoR_plot(azi, distance, prd, unc = NULL, regime, k = 51, ...)
 }
 \arguments{
 \item{azi}{numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}}

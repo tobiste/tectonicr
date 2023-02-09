@@ -691,60 +691,149 @@ circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = 
 
 
 # Distribution ####
-## von Mises distribution density for axial data ####
-axial_vonmises <- function(x, mu, kappa) {
-  x_rad <- deg2rad(x)
-  mu_rad <- deg2rad(mu)
-  I0k <- besselI(x = kappa, nu = 0, expon.scaled = TRUE)
-  1 / (pi * I0k) * exp(kappa * cos(l * (x_rad - mu_rad)))
-}
 
 
-A1 <- function(kappa) {
-  besselI(kappa, nu = 1, expon.scaled = TRUE) / besselI(kappa, nu = 0, expon.scaled = TRUE)
-}
 
-## estimate kappa from circular variance ####
-kappa_estimate <- function(x) {
-  circ_var <- tectonicr::circular_var(sa.por)
-
-  # function to return difference in variances between
-  diff_vars2 <- function(kappa) {
-    # squaring to make the function convex
-    (1 - A1(kappa) - circ_var)^2
+pvm <- function(theta, mu, kappa, acc = 1e-20) {
+  theta <- theta %% (2 * pi)
+  mu <- mu %% (2 * pi)
+  pvm.mu0 <- function(theta, kappa, acc) {
+    flag <- "true"
+    p <- 1
+    sum <- 0
+    while (flag == "true") {
+      term <- (besselI(x = kappa, nu = p, expon.scaled = FALSE) *
+        sin(p * theta)) / p
+      sum <- sum + term
+      p <- p + 1
+      if (abs(term) < acc) {
+        flag <- "false"
+      }
+    }
+    theta / (2 * pi) + sum / (pi * besselI(
+      x = kappa, nu = 0,
+      expon.scaled = FALSE
+    ))
   }
-
-  # solving for kappa by matching the variances
-  kappa_solution <- optim(par = 1, fn = diff_vars2, lower = 0, method = "L-BFGS-B")
-  kappa_solution$par
+  if (mu == 0) {
+    result <- pvm.mu0(theta, kappa, acc)
+  } else {
+    if (theta <= mu) {
+      upper <- (theta - mu) %% (2 * pi)
+      if (upper == 0) {
+        upper <- 2 * pi
+      }
+      lower <- (-mu) %% (2 * pi)
+      result <- pvm.mu0(upper, kappa, acc) - pvm.mu0(
+        lower,
+        kappa, acc
+      )
+    } else {
+      upper <- theta - mu
+      lower <- mu %% (2 * pi)
+      result <- pvm.mu0(upper, kappa, acc) + pvm.mu0(
+        lower,
+        kappa, acc
+      )
+    }
+  }
+  result
 }
 
-# axial_vonmises(
-#   as.numeric(sa.por),
-#   mu = tectonicr::circular_mean(as.numeric(sa.por)),
-#   kappa = kappa_estimate(as.numeric(sa.por))
-# )
-#
-# plot(
-#   as.numeric(sa.por),
-#   axial_vonmises(
-#     as.numeric(sa.por),
-#     mu = tectonicr::circular_mean(as.numeric(sa.por)),
-#     kappa = kappa_estimate(as.numeric(sa.por))
-#   ))
+A1inv <- function(x) {
+  ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
+    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
+  )
+}
 
-## Maximum density
-# sa.por[which.max(axial_vonmises(
-#   as.numeric(sa.por),
-#   mu = tectonicr::circular_mean(as.numeric(sa.por)),
-#   kappa = kappa_estimate(as.numeric(sa.por))
-# )
-# )
-# ]
+est.kappa <- function(x, bias = FALSE) {
+  mean.dir <- tectonicr::circular_mean(x)
+  kappa <- A1inv(mean(cos(x - mean.dir)))
+  if (bias == TRUE) {
+    kappa.ml <- kappa
+    n <- length(x)
+    if (kappa.ml < 2) {
+      kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
+    }
+    if (kappa.ml >= 2) {
+      kappa <- ((n - 1)^3 * kappa.ml) / (n^3 + n)
+    }
+  }
+  kappa
+}
+
+#' Kuiper test of uniformity
+#'
+#' Hypothesis tests of uniformity for circular data.
+#'
+#' @param x numeric vector containing the circular data which are expressed in degrees
+#' @details Kuiper test of uniformity,
+#' @returns the test statistic
+#' @examples
+#' data(san_andreas)
+#' kuiper_statistics(san_andreas$azi)
+kuiper_statistics <- function(x) {
+  x <- na.omit(x)
+  u <- sort(deg2rad(x) %% (2 * pi)) / (2 * pi)
+  n <- length(u)
+  i <- 1:n
+  D.P <- max(i / n - u)
+  D.M <- max(u - (i - 1) / n)
+  sqrt_n <- sqrt(n)
+  V <- D.P + D.M
+  V * (sqrt_n + 0.155 + 0.24 / sqrt_n)
+}
+
+#' Watson's goodness of fit test for the von Mises or circular uniform distribution, Rayleigh Test of Uniformity
+#'
+#' Watson's goodness of fit test for the von Mises or circular uniform distribution.
+#'
+#' @param x numeric vector containing the circular data which are expressed in degrees
+#' @param dist Distribution to test for. The default is the uniform distribution (\code{"uniform"}), and \code{"vm"} to test for the von Mises distribution.
+#' @param ... optional parameter for [circular_mean()]
+#' @returns the test statistic
+#' @examples
+#' data(san_andreas)
+#' watson_statistics(san_andreas$azi)
+watson_statistics <- function(x, dist = c("uniform", "vm"), ...) {
+  dist <- match.arg(dist)
+  x <- na.omit(x)
+  n <- length(x)
+
+  if (dist == "uniform") {
+    u <- sort(deg2rad(x)) / (2 * pi)
+    u.bar <- mean(u)
+    i <- 1:n
+    sum.terms <- (u - u.bar - (2 * i - 1) / (2 * n) + 0.5)^2
+    u2 <- sum(sum.terms) + 1 / (12 * n)
+    (u2 - 0.1 / n + 0.1 / (n^2)) * (1 + 0.8 / n)
+  } else if (dist == "vm") {
+    mu.hat <- tectonicr::circular_mean(x, ...) %>% deg2rad()
+    kappa.hat <- est.kappa(deg2rad(x))
+    x <- (deg2rad(x) - mu.hat) %% (2 * pi)
+    x <- matrix(x, ncol = 1)
+    z <- apply(x, 1, pvm, 0, kappa.hat)
+    z <- sort(z)
+    z.bar <- mean(z)
+    i <- 1:n
+    sum.terms <- (z - (2 * i - 1) / (2 * n))^2
+    sum(sum.terms) - n * (z.bar - 0.5)^2 + 1 / (12 * n)
+  }
+}
 
 
-## Rayleigh test  ####
-r.test <- function(x, mu = NULL) {
+#' Rayleigh Test of Uniformity
+#'
+#' Performs a Rayleigh test of uniformity, assessing the significance of the mean resultant length.
+#' The alternative hypothesis is a unimodal distribution with unknown mean direction and unknown mean resultant length.
+#' @param x numeric vector containing the circular data which are expressed in degrees
+#' @param mu true value, if NULL the mean is used
+#' @returns a list with two components: the mean resultant length, r.bar, and the p-value of the test statistic, p.value.
+#' @examples
+#' data(san_andreas)
+#' rayleigh_test(san_andreas$azi)
+rayleigh_test <- function(x, mu = NULL) {
+  x <- deg2rad(x)
   n <- length(x)
   if (is.null(mu)) {
     ss <- sum(sin(x))

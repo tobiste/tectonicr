@@ -1,30 +1,75 @@
+#' @title Selecting optimal number of bins and width for rose diagrams
+#'
+#' @param n Integer. number of data
+#' @param round Logical. Whether bin width is round to zero digits (`round=TRUE`, the default)
+#' or as is (`FALSE`).
+#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' or biaxial (`TRUE`, the default).
+#' @param ... Additional arguments passed to [rose_bw()].
+#' @name rose_bw
+NULL
+
+#' @rdname rose_bw
+rose_bins <- function(n, round = TRUE) {
+  b <- 2 * n^(1 / 3) # bins
+  if (round) {
+    round(b)
+  } else {
+    b
+  }
+}
+
+#' @rdname rose_bw
+rose_binwidth <- function(n, axial = TRUE, ...) {
+  if (axial) {
+    r <- 180
+  } else {
+    r <- 360
+  }
+  r / rose_bins(n, ...)
+}
+
+
+
 #' @title Rose Diagram
 #'
 #' @description Plots a rose diagram (rose of directions), the analogue of a
 #' histogram or density plot for angular data.
 #'
 #' @param x Data to be plotted. A numeric vector containing angles.
+#' @param weights Optional vector of numeric weights associated with x.
 #' @param binwidth The width of the bins.
 #' @param bins number of arcs to partition the circle width.
 #' Overridden by `binwidth`.
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
+#' @param equal_area Logical. Whether the radii of the bins are proportional to
+#' the frequencies (`equal_area=FALSE`, i.e. equal-angle) or proportional to the
+#' square-root of the frequencies (`equal_area=TRUE`, the default).
 #' @param clockwise Logical. Whether angles increase in the
 #' clockwise direction (`clockwise=TRUE`, the default) or anti-clockwise,
 #' counter-clockwise direction (`FALSE`).
 #' @param unit The unit in which the angles are expressed.
 #' `"degrees"` (the default), or `"radians"`.
+#' @param round_binwidth Logical. Whether bin width is round to zero digits
+#' (`round_binwidth=TRUE`, the default) or as is (`FALSE`).
 #' @param main,sub Character string specifying the title and subtitle of the
 #' plot. If `sub = NULL`, it will show the bin width.
+#' @param at Optional vector of angles at which tick marks should be plotted.
+#' Set `at=numeric(0)` to suppress tick marks.
+#' @param add_pts logical. Whether a circular dot plot should be added
+#' (`FALSE` is the default).
+#' @param pts_cex,pts_pch,pts_col Plotting arguments for circular dot plot
 #' @param ... Additional arguments passed to [spatstat.explore::rose()].
 #' @note If `bins` and `binwidth` are `NULL`, an optimal bin width will be
-#' calculated using:
-#' \deqn{ \frac{2 IQR(x)}{n^{\frac{1}{3}}}
+#' calculated using Scott (1979):
+#' \deqn{ \frac{R}{n^{\frac{1}{3}}}
 #' }
-#' with n being the length of `x`.
+#' with n being the length of `x`, and the range R being either 180 or 360
+#' degree for axial or directional data, respectively.
 #' @return A window (class `"owin"`) containing the plotted region.
 #' @importFrom spatstat.explore rose
-#' @importFrom graphics hist title
+#' @importFrom graphics hist title points
 #' @importFrom stats na.omit
 #' @export
 #' @examples
@@ -32,19 +77,27 @@
 #' rose(x)
 #'
 #' data("san_andreas")
-#' rose(san_andreas$azi, col = "grey", axial = TRUE)
-rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE, unit = c("degree", "radian"), main = "N", sub, ...) {
-  x <- as.vector(x %% 360)
+#' rose(san_andreas$azi, col = "grey", axial = TRUE, stack = TRUE)
+#' rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", axial = TRUE)
+rose <- function(
+  x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
+  equal_area = TRUE, clockwise = TRUE, unit = c("degree", "radian"),
+  round_binwidth = TRUE, main = "N", sub, at = seq(0, 360 - 45, 45),
+  add_pts = FALSE, pts_pch = 1, pts_cex = 1, pts_col = "grey", ...) {
 
+  x <- as.vector(x %% 360)
 
   if (!is.null(bins) && is.null(binwidth)) {
     bins <- round(bins)
     stopifnot(bins > 0)
     binwidth <- 360 / bins # bin width
   } else if (is.null(bins) && is.null(binwidth)) {
-    # bins <- length(x)
-    binwidth <- 2 * circular_IQR(x) / length(stats::na.omit(x))^(1 / 3)
+    # binwidth <- 2 * circular_IQR(x) / length(stats::na.omit(x))^(1 / 3)
+    binwidth <- rose_binwidth(length(stats::na.omit(x)), axial = axial)
   }
+
+  if (round_binwidth) binwidth <- round(binwidth)
+
   stopifnot(binwidth > 0)
   breaks <- seq(0, 360, binwidth)
   if (!(360 %in% breaks)) {
@@ -53,13 +106,55 @@ rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE
 
   if (axial) {
     x2 <- (x + 180) %% 360 # add data to the other side of the circle
-    x <- graphics::hist(x = c(x, x2), plot = FALSE, breaks = breaks)
+    # x <- graphics::hist(x = c(x, x2), plot = FALSE, breaks = breaks)
+    x <- c(x, x2)
+    weights <- c(weights, weights)
   }
+
+  freqs <- graphics::hist(x = x, plot = FALSE, breaks = breaks)
+
+  if (equal_area) {
+    freqs$density <- sqrt(freqs$density)
+  }
+
   spatstat.explore::rose(
-    x,
+    freqs,
+    weights = weights,
     breaks = breaks,
-    clockwise = clockwise, start = "N", unit = unit, main = main, xlab = NULL, ...
+    clockwise = clockwise, start = "N", unit = unit, main = main, xlab = NULL,
+    at = seq(0, 360 - 45, 45),
+    ...
   )
+
+  if (add_pts) {
+    scale <- 1.1 * max(freqs$density)
+    u <- deg2rad(90 - x)
+    n <- length(x)
+    z <- cos(u) * scale
+    y <- sin(u) * scale
+    #if (stack == FALSE) {
+    graphics::points(z, y, cex = pts_cex, pch = pts_pch, col = pts_col)
+    # } else {
+    #   bins <- 180/binwidth
+    #   bins.count <- c(1:bins)
+    #   arc <- (2 * pi) / bins
+    #   for (i in 1:bins) {
+    #     bins.count[i] <- sum(u <= i * arc & u > (i - 1) * arc)
+    #   }
+    #   mids <- seq(arc / 2, 2 * pi - pi / bins, length = bins)
+    #   index <- pts_cex / dotsep
+    #   for (i in 1:bins) {
+    #     if (bins.count[i] != 0) {
+    #       for (j in 0:(bins.count[i] - 1)) {
+    #         r <- 1 + j * index
+    #         z <- r * cos(mids[i]) * scale
+    #         y <- r * sin(mids[i]) * scale
+    #         points(z, y, cex = pts_cex, pch = pts_pch)
+    #       }
+    #     }
+    #   }
+    # }
+  }
 
   if (missing(sub)) sub <- paste0("Bin width: ", binwidth)
   graphics::title(sub = sub, ylab = NULL)
@@ -97,7 +192,7 @@ rose <- function(x, binwidth = NULL, bins = NULL, axial = TRUE, clockwise = TRUE
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
 #' PoR_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
-PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...) {
+PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
   stopifnot(k >= 3, k %% 2 == 1)
   if (missing(regime)) {
     regime <- rep(NA, length(azi))
@@ -156,5 +251,5 @@ PoR_plot <- function(azi, distance, prd, unc, regime, k = 51, ...) {
   graphics::abline(h = .15, col = "black", lty = 2)
 
   grDevices::dev.new()
-  rose(azi, main = "Euler pole", ...)
+  rose(azi, weights = 1 / unc, main = "Euler pole", ...)
 }

@@ -6,7 +6,7 @@ nchisq_eq <- function(obs, prd, unc) {
     if (is.na(unc) || unc == 0) {
       unc <- 1
     } # uncertainty cannot be 0
-    w <- obs - prd
+    w <- deviation_norm(obs - prd)
     x <- (w / unc)^2
     y <- (90 / unc)^2
   }

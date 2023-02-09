@@ -84,11 +84,7 @@ greatcircle_dummy <- function(n) {
 loxodrome_dummy <- function(n, angle, cw) {
   stopifnot(is.logical(cw))
   lon <- lat <- NULL
-  if (cw) {
-    s <- -1
-  } else {
-    s <- 1
-  }
+  s <- ifelse(cw, -1, 1)
   lats <- seq(-180, 180, 1)
 
   line.dummy <- data.frame(
@@ -99,29 +95,6 @@ loxodrome_dummy <- function(n, angle, cw) {
 
   lx <- mapply(FUN = get_loxodromes, lon = line.dummy$lon, lat = line.dummy$lat, line = line.dummy$line, theta = s * angle)
   loxodrome.dummy <- data.frame(lon = as.numeric(lx[1, ]), lat = as.numeric(lx[2, ]), loxodrome = as.numeric(lx[3, ]))
-  # for (j in seq_along(line.dummy$lon)) {
-  #   line.dummy.rot <-
-  #     rotate_lines(
-  #       theta = s * angle,
-  #       p = cbind(
-  #         line.dummy$lon[j],
-  #         line.dummy$lat[j]
-  #       ),
-  #       centre = c(line.dummy$lon[j], 0)
-  #     )
-  #   loxodrome.dummy.j <- data.frame(
-  #     lon = line.dummy.rot[, 1],
-  #     lat = line.dummy.rot[, 2],
-  #     loxodrome = line.dummy$line[j]
-  #   )
-  #
-  #   if (j == 1) {
-  #     loxodrome.dummy <- loxodrome.dummy.j
-  #   } else {
-  #     loxodrome.dummy <- rbind(loxodrome.dummy, loxodrome.dummy.j)
-  #   }
-  # }
-
   for (i in seq(-360, 360, 360 / n)) {
     line.i <- loxodrome.dummy %>%
       mutate(

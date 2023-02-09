@@ -6,18 +6,28 @@
 \usage{
 rose(
   x,
+  weights = NULL,
   binwidth = NULL,
   bins = NULL,
   axial = TRUE,
+  equal_area = TRUE,
   clockwise = TRUE,
   unit = c("degree", "radian"),
+  round_binwidth = TRUE,
   main = "N",
   sub,
+  at = seq(0, 360 - 45, 45),
+  add_pts = FALSE,
+  pts_pch = 1,
+  pts_cex = 1,
+  pts_col = "grey",
   ...
 )
 }
 \arguments{
 \item{x}{Data to be plotted. A numeric vector containing angles.}
+
+\item{weights}{Optional vector of numeric weights associated with x.}
 
 \item{binwidth}{The width of the bins.}
 
@@ -27,6 +37,10 @@ Overridden by \code{binwidth}.}
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
+\item{equal_area}{Logical. Whether the radii of the bins are proportional to
+the frequencies (\code{equal_area=FALSE}, i.e. equal-angle) or proportional to the
+square-root of the frequencies (\code{equal_area=TRUE}, the default).}
+
 \item{clockwise}{Logical. Whether angles increase in the
 clockwise direction (\code{clockwise=TRUE}, the default) or anti-clockwise,
 counter-clockwise direction (\code{FALSE}).}
@@ -34,8 +48,19 @@ counter-clockwise direction (\code{FALSE}).}
 \item{unit}{The unit in which the angles are expressed.
 \code{"degrees"} (the default), or \code{"radians"}.}
 
+\item{round_binwidth}{Logical. Whether bin width is round to zero digits
+(\code{round_binwidth=TRUE}, the default) or as is (\code{FALSE}).}
+
 \item{main, sub}{Character string specifying the title and subtitle of the
 plot. If \code{sub = NULL}, it will show the bin width.}
+
+\item{at}{Optional vector of angles at which tick marks should be plotted.
+Set \code{at=numeric(0)} to suppress tick marks.}
+
+\item{add_pts}{logical. Whether a circular dot plot should be added
+(\code{FALSE} is the default).}
+
+\item{pts_cex, pts_pch, pts_col}{Plotting arguments for circular dot plot}
 
 \item{...}{Additional arguments passed to \code{\link[spatstat.explore:rose]{spatstat.explore::rose()}}.}
 }
@@ -48,15 +73,17 @@ histogram or density plot for angular data.
 }
 \note{
 If \code{bins} and \code{binwidth} are \code{NULL}, an optimal bin width will be
-calculated using:
-\deqn{ \frac{2 IQR(x)}{n^{\frac{1}{3}}}
+calculated using Scott (1979):
+\deqn{ \frac{R}{n^{\frac{1}{3}}}
 }
-with n being the length of \code{x}.
+with n being the length of \code{x}, and the range R being either 180 or 360
+degree for axial or directional data, respectively.
 }
 \examples{
 x <- runif(100, 60, 210)
 rose(x)
 
 data("san_andreas")
-rose(san_andreas$azi, col = "grey", axial = TRUE)
+rose(san_andreas$azi, col = "grey", axial = TRUE, stack = TRUE)
+rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", axial = TRUE)
 }
