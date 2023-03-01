@@ -14,7 +14,7 @@ sphere."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ sphere."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Azimuth Between two Points</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/R/model_shmax.R" class="external-link"><code>R/model_shmax.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/R/trigonometry_degrees.R" class="external-link"><code>R/trigonometry_degrees.R</code></a></small>
       <div class="d-none name"><code>get_azimuth.Rd</code></div>
     </div>
 
@@ -66,14 +66,17 @@ sphere.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">lat_a</span>, <span class="va">lon_a</span>, <span class="va">lat_b</span>, <span class="va">lon_b</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>a, b</dt>
-<dd><p>Coordinates of start and end point(s).
-Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)</p></dd>
+    <dl><dt>lat_a, lat_b</dt>
+<dd><p>Numeric. Latitudes of a and b (in degrees).</p></dd>
+
+
+<dt>lon_a, lon_b</dt>
+<dd><p>Numeric. Longitudes of a and b (in degrees).</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -84,14 +87,15 @@ Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This formula is for the initial bearing (sometimes referred to as
+    <p><code>get_azimuth()</code> is based on the spherical law of tangents.
+This formula is for the initial bearing (sometimes referred to as
 forward azimuth) which if followed in a straight line along a great circle
 arc will lead from the start point <code>a</code> to the end point <code>b</code>.
-$$\theta = \arctan2 (\sin \Delta\lambda *
+$$\theta = \arctan2 (\sin \Delta\lambda
 \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)$$
 where  \(\psi_1, \lambda_1\) is the start point, \(\psi_2\),
 \(\lambda_2\) the end point (\(\Delta\lambda\) is the difference in
-longitude)</p>
+longitude).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -102,7 +106,7 @@ longitude)</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">berlin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">52.517</span>, <span class="fl">13.4</span><span class="op">)</span> <span class="co"># Berlin</span></span></span>
 <span class="r-in"><span><span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35.7</span>, <span class="fl">139.767</span><span class="op">)</span> <span class="co"># Tokyo</span></span></span>
-<span class="r-in"><span><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">berlin</span>, <span class="va">tokyo</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get_azimuth</span><span class="op">(</span><span class="va">berlin</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">berlin</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">tokyo</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">tokyo</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 41.57361</span>
 </code></pre></div>
     </div>

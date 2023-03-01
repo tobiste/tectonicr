@@ -64,9 +64,6 @@
     <loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/bearing.html</loc>
-  </url>
-  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/circle_stats.html</loc>
   </url>
   <url>
@@ -116,6 +113,9 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/euler_to_Q4.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/get_azimuth.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/get_distance.html</loc>
@@ -170,6 +170,9 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/por_transformation_sf.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/prd_err.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/product_Q4.html</loc>
