@@ -379,3 +379,25 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   quantiles <- circular_quantiles(x, w, axial, na.rm)
   deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
 }
+
+#' Error of model's prediction
+#'
+#' The maximum error in the model's predicted azimuth given the Pole of
+#' rotations uncertainty and distance of the data point to the pole.
+#'
+#' @param dist_PoR Distance to Euler pole (great circle distance, in degree)
+#' @param sigma_PoR uncertainty of the position of the Pole of rotation
+#' (in degree).
+#' @references Ramsay, J.A. Folding and fracturing of rocks. McGraw-Hill, New York, 1967.
+#' @returns The maximum error for azimuths prediction (in degree)
+#' @seealso  [PoR_shmax()] and [model_shmax()] for the model's prediction, and
+#' [orthodrome()] for great circle distances.
+#' @export
+#' @examples
+#' prd_err(67, 1)
+prd_err <- function(dist_PoR, sigma_PoR = 1) {
+  x <- 2 * sind(sigma_PoR)^2
+  y <- 1 + cosd(dist_PoR)
+  acos_beta <- sqrt(1 - x / (sind(dist_PoR)^2) * y)
+  acosd(acos_beta) / 2
+}

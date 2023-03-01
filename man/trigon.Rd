@@ -9,6 +9,8 @@
 \alias{acosd}
 \alias{atand}
 \alias{atan2d}
+\alias{cot}
+\alias{cotd}
 \title{Trigonometric Functions in Degrees}
 \usage{
 sind(x)
@@ -24,6 +26,10 @@ acosd(x)
 atand(x)
 
 atan2d(x1, x2)
+
+cot(x)
+
+cotd(x)
 }
 \arguments{
 \item{x, x1, x2}{Numeric or complex vectors.}

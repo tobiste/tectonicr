@@ -1,3 +1,8 @@
+# tectonicr 0.2.8 _2023-03-01_
+
+* estimator for the error of predictions
+* area-weighted rose diagrams
+
 # tectonicr 0.2.7 _2023-01-25_
 
 * optimized some functions for better performance

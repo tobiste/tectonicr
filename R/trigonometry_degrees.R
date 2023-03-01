@@ -65,6 +65,17 @@ atan2d <- function(x1, x2) {
   atan2(x1, x2) * 180 / pi
 }
 
+#' @rdname trigon
+cot <- function(x) {
+  1 / tan(x)
+}
+
+#' @rdname trigon
+cotd <- function(x) {
+  1 / tand(x)
+}
+
+
 #' Quadrant-specific inverse of the tangent
 #'
 #' returns the quadrant specific inverse of the tangent
@@ -98,6 +109,7 @@ atan2_spec <- function(x, y) {
 atan2d_spec <- function(x, y) {
   atan2_spec(x, y) * 180 / pi
 }
+
 
 
 #' @title Angle Between Two Vectors
@@ -168,7 +180,6 @@ NULL
 #' @export
 orthodrome <- function(lat1, lon1, lat2, lon2) {
   dlon <- lon2 - lon1
-
   acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(dlon))
 }
 
@@ -276,87 +287,33 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
 #'
 #' @param lat_a,lat_b Numeric. Latitudes of a and b (in degrees).
 #' @param lon_a,lon_b Numeric. Longitudes of a and b (in degrees).
-#' @param gc character. How is the great circle angle computated. Either
-#' `"orthodrome"` for the spherical law of cosines, "`"haversine"` for the
-#' haversine formula (the default), or `"vincenty"` for the  Vincenty formula.
-#' @details [get_azimuth()] is based on the spherical law of tangents and is
-#' computational faster. This formula is for the initial bearing (sometimes referred to as
+#' @details [get_azimuth()] is based on the spherical law of tangents.
+#' This formula is for the initial bearing (sometimes referred to as
 #' forward azimuth) which if followed in a straight line along a great circle
 #' arc will lead from the start point `a` to the end point `b`.
 #' \deqn{\theta = \arctan2 (\sin \Delta\lambda
 #' \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)}
 #' where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
 #' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
-#' longitude)
-#'
-#' [get_azimuth2()] uses the the great circle distance is computational slower.
-#' If \eqn{\cos \gamma > \sin \lambda_1 \sin \lambda_2}, then
-#'  \deqn{\theta = \arcsin (\frac{\sin \Delta\lambda
-#' \cos\psi_2}{\sin \gamma})}
-#' If not, then
-#'  \deqn{\theta = \arcsin (\frac{\sin(\pi - \Delta\lambda)
-#'  \cos\psi_2}{\sin \gamma})}
-#' where  \eqn{\gamma} is the great-circle distance between the points.
-#'
-#' @seealso [orthodrome()], [haversine()], [vincenty()]
-#' @references \url{http://www.movable-type.co.uk/scripts/latlong.html}
+#' longitude).
 #' @return Azimuth in degrees
-#' @name bearing
+#' @references \url{http://www.movable-type.co.uk/scripts/latlong.html}
+#' @export
 #' @examples
 #' berlin <- c(52.517, 13.4) # Berlin
 #' tokyo <- c(35.7, 139.767) # Tokyo
 #' get_azimuth(berlin[1], berlin[2], tokyo[1], tokyo[2])
-NULL
-
-#' @rdname bearing
-#' @export
 get_azimuth <- function(lat_a, lon_a, lat_b, lon_b) {
-  # stopifnot(is.numeric(lat_a), is.numeric(lat_b), is.numeric(lon_a), is.numeric(lon_b))
+  la <- pi / 180 * lat_a
+  lb <- pi / 180 * lat_b
 
-  # convert deg into rad
-  phi1 <- pi / 180 * lat_a
-  phi2 <- pi / 180 * lat_b
+  dphi <- (lon_b - lon_a) * (pi / 180)
+  cos_lb <- cos(lb)
 
-  d.lambda <- (lon_b - lon_a) * (pi / 180)
+  y <- sin(dphi) * cos_lb
+  x <- cos(la) * sin(lb) - sin(la) * cos_lb * cos(dphi)
+  # theta <- atan2d(y, x)
+  theta <- atand(y / x) + 360
 
-  y <- sin(d.lambda) * cos(phi2)
-  x <- cos(phi1) * sin(phi2) -
-    sin(phi1) * cos(phi2) * cos(d.lambda)
-  theta <- atan2d(y, x)
-
-  # Normalize result to a compass bearing (0-360)
-  (theta + 360) %% 360
-}
-
-#' @rdname bearing
-#' @export
-get_azimuth2 <- function(lat_a, lon_a, lat_b, lon_b, gc = c("haversine", "orthodrome", "vincenty")) {
-  # stopifnot(is.numeric(lat_a), is.numeric(lat_b), is.numeric(lon_a), is.numeric(lon_b))
-
-  # convert deg into rad
-  lat_a <- pi / 180 * lat_a
-  lon_a <- pi / 180 * lon_a
-  lat_b <- pi / 180 * lat_b
-  lon_b <- pi / 180 * lon_b
-
-  gc <- match.arg(gc)
-  if (gc == "haversine") {
-    gamma <- haversine(lat_a, lon_a, lat_b, lon_b)
-  } else if (gc == "vincenty") {
-    gamma <- vincenty(lat_a, lon_a, lat_b, lon_b)
-  } else {
-    gamma <- orthodrome(lat_a, lon_a, lat_b, lon_b)
-  }
-
-  if (cos(gamma) > sin(lat_a) * sin(lat_b)) {
-    x <- sin(lon_b - lon_a) * cos(lat_b)
-  } else {
-    x <- sin(pi + lon_a - lon_b) * cos(lat_b)
-  }
-  y <- sin(gamma)
-
-  theta <- asind(x / y)
-
-  # Normalize result to a compass bearing (0-360)
   (theta + 360) %% 360
 }
