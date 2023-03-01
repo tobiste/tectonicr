@@ -55,7 +55,7 @@ ep3 <- data.frame()
 p1 <- c(35, 45) # Baghdad
 p2 <- c(35, 135) # Osaka
 p3 <- c(35, NA) # add NA values
-get_azimuth(p3, p2)
+get_azimuth(p3[1], p3[2], p2[1], p2[2])
 
 
 
@@ -97,7 +97,7 @@ test_that("Output of functions is as expected", {
 # test type --------------------------------------------------------------------
 
 test_that("type of object returned is as expected", {
-  expect_vector(get_azimuth(p1, p2), ptype = double(), size = 1)
+  expect_vector(get_azimuth(p1[1], p1[2], p2[1], p2[2]), ptype = double(), size = 1)
   expect_s3_class(sm.sf, "sf")
   expect_s3_class(gc.sf, "sf")
   expect_s3_class(ld.sf, "sf")

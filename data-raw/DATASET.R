@@ -2,12 +2,8 @@
 library(dplyr)
 
 data("wsm2016", package = "ptrotR")
-san_andreas <- filter(
-  wsm2016,
-  between(lat, 23, 40) &
-    between(lon, -126, -108)
-) %>%
-  mutate(
+wsm2016 <-
+  mutate(wsm2016,
     x = lon, y = lat,
     quality = forcats::fct_relevel(quality, "A", "B", "C", "D", "E"),
     regime = ifelse(regime == "NF", "N", regime),
@@ -23,7 +19,22 @@ san_andreas <- filter(
   filter(quality != "E") %>%
   sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs("WGS84")) %>%
   select(id, lat, lon, azi, unc, type, depth, quality, regime)
+
+san_andreas <- filter(
+  wsm2016,
+  between(lat, 23, 40) &
+    between(lon, -126, -108)
+)
 usethis::use_data(san_andreas, overwrite = TRUE, ascii = TRUE)
+
+frame_iceland <- readRDS("~/GIT_repos/europe-tectonics/data-raw/iceland_frame.rds")
+iceland <- sf::st_intersection(wsm2016, frame_iceland)
+usethis::use_data(iceland, overwrite = TRUE, ascii = TRUE)
+
+zoom_asia <- readRDS("~/GIT_repos/europe-tectonics/data-raw/asia_zoom.rds")
+tibet <- sf::st_intersection(wsm2016, zoom_asia)
+usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
+
 
 # ggplot(san_andreas) +
 #   geom_spoke(

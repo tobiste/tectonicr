@@ -1,51 +1,3 @@
-#' @title Azimuth Between two Points
-#'
-#' @description Calculate initial bearing (or forward azimuth/direction) to go
-#' from point `a` to point `b` following great circle arc on a
-#' sphere.
-#'
-#' @param a,b Coordinates of start and end point(s).
-#' Can be vectors of two numbers or a matrix of 2 columns (latitude, longitude)
-#' @details This formula is for the initial bearing (sometimes referred to as
-#' forward azimuth) which if followed in a straight line along a great circle
-#' arc will lead from the start point `a` to the end point `b`.
-#' \deqn{\theta = \arctan2 (\sin \Delta\lambda *
-#' \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda)}
-#' where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
-#' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
-#' longitude)
-#' @references \url{http://www.movable-type.co.uk/scripts/latlong.html}
-#' @return Azimuth in degrees
-#' @export
-#' @examples
-#' berlin <- c(52.517, 13.4) # Berlin
-#' tokyo <- c(35.7, 139.767) # Tokyo
-#' get_azimuth(berlin, tokyo)
-get_azimuth <- function(a, b) {
-  stopifnot(is.numeric(a), is.numeric(b))
-
-  # convert deg into rad
-  phi1 <- pi / 180 * a[1]
-  phi2 <- pi / 180 * b[1]
-
-  d.lambda <- (b[2] - a[2]) * (pi / 180)
-
-  y <- sin(d.lambda) * cos(phi2)
-  x <- cos(phi1) * sin(phi2) -
-    sin(phi1) * cos(phi2) * cos(d.lambda)
-  theta <- atan2(y, x) * 180 / pi
-
-  # Normalize result to a compass bearing (0-360)
-  (theta + 360) %% 360
-}
-
-gc_angle <- function(lat, lon, euler_lat, euler_lon) {
-  get_azimuth(
-    c(lat, lon),
-    c(euler_lat, euler_lon)
-  )
-}
-
 #' @title Theoretical Direction of Maximum Horizontal Stress in the
 #' geographical reference system.
 #'
@@ -89,18 +41,18 @@ gc_angle <- function(lat, lon, euler_lat, euler_lon) {
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
   stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
-  beta <- mapply(FUN = gc_angle, lat = df$lat, lon = df$lon, euler_lat = euler$lat, euler_lon = euler$lon)
+  beta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = euler$lat, lon_b = euler$lon)
   # great circles
-  gc <- (beta + 360) %% 180
+  gc <- beta %% 180
 
   # small circles
-  sc <- (beta + 90 + 360) %% 180
+  sc <- (beta + 90) %% 180
 
   # counterclockwise loxodrome
-  ld.ccw <- (beta + 135 + 360) %% 180
+  ld.ccw <- (beta + 135) %% 180
 
   # clockwise loxodrome
-  ld.cw <- (beta + 45 + 360) %% 180
+  ld.cw <- (beta + 45) %% 180
 
   data.frame(sc, ld.ccw, gc, ld.cw)
 }
@@ -246,7 +198,7 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
   stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
   type <- match.arg(type)
 
-  beta <- mapply(FUN = gc_angle, lat = df$lat, lon = df$lon, euler_lat = euler$lat, euler_lon = euler$lon)
+  beta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = euler$lat, lon_b = euler$lon)
   azi.por <- (df$azi - beta) %% 180
 
   if (type != "none" && !is.null(df$unc)) {
@@ -292,10 +244,10 @@ PoR2Geo_shmax <- function(x, euler) {
       data.frame(lat = 90, lon = 0),
       euler
     )
-    beta <- mapply(FUN = gc_angle, lat = x$lat.PoR, lon = x$lon.PoR, euler_lat = northpole$lat.PoR, euler_lon = northpole$lon.PoR)
+    beta <- mapply(FUN = get_azimuth, lat_a = x$lat.PoR, lon_a = x$lon.PoR, lat_b = northpole$lat.PoR, lon_b = northpole$lon.PoR)
     azi.geo <- x$azi.PoR - beta
   } else {
-    beta <- mapply(FUN = gc_angle, lat = x$lat, lon = x$lon, euler_lat = euler$lat, euler_lon = euler$lon)
+    beta <- mapply(FUN = get_azimuth, lat_a = x$lat, lon_a = x$lon, lat_b = euler$lat, lon_b = euler$lon)
     azi.geo <- x$azi.PoR + beta
   }
   azi.geo %% 180

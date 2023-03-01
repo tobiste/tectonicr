@@ -79,12 +79,10 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 #' data("san_andreas")
 #' rose(san_andreas$azi, col = "grey", axial = TRUE, stack = TRUE)
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", axial = TRUE)
-rose <- function(
-  x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
-  equal_area = TRUE, clockwise = TRUE, unit = c("degree", "radian"),
-  round_binwidth = TRUE, main = "N", sub, at = seq(0, 360 - 45, 45),
-  add_pts = FALSE, pts_pch = 1, pts_cex = 1, pts_col = "grey", ...) {
-
+rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
+                 equal_area = TRUE, clockwise = TRUE, unit = c("degree", "radian"),
+                 round_binwidth = TRUE, main = "N", sub, at = seq(0, 360 - 45, 45),
+                 add_pts = FALSE, pts_pch = 1, pts_cex = 1, pts_col = "grey", ...) {
   x <- as.vector(x %% 360)
 
   if (!is.null(bins) && is.null(binwidth)) {
@@ -132,7 +130,7 @@ rose <- function(
     n <- length(x)
     z <- cos(u) * scale
     y <- sin(u) * scale
-    #if (stack == FALSE) {
+    # if (stack == FALSE) {
     graphics::points(z, y, cex = pts_cex, pch = pts_pch, col = pts_col)
     # } else {
     #   bins <- 180/binwidth
@@ -223,7 +221,7 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
 
   plot(0,
     type = "n",
-    xlab = "Distance from plate boundary", ylab = "Azimuth wrt. EP (\u00B0)",
+    xlab = "Distance from plate boundary", ylab = "Azimuth wrt. PoR (\u00B0)",
     sub = subtitle,
     xlim = range(distance),
     ylim = c(0, 180), yaxp = c(0, 180, 8), ...
@@ -251,5 +249,5 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
   graphics::abline(h = .15, col = "black", lty = 2)
 
   grDevices::dev.new()
-  rose(azi, weights = 1 / unc, main = "Euler pole", ...)
+  rose(azi, weights = 1 / unc, main = "PoR", ...)
 }

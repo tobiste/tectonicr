@@ -2,7 +2,7 @@
 % Please edit documentation in R/various.R
 \name{get_distance}
 \alias{get_distance}
-\title{Helper funtion to Distance from plate boundary}
+\title{Helper function to Distance from plate boundary}
 \usage{
 get_distance(lon, lat, pb.coords, tangential, km)
 }
@@ -14,7 +14,7 @@ get_distance(lon, lat, pb.coords, tangential, km)
 \item{tangential, km}{logical}
 }
 \description{
-Helper funtion to Distance from plate boundary
+Helper function to Distance from plate boundary
 }
 \seealso{
 \code{\link[=distance_from_pb]{distance_from_pb()}}

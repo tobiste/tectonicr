@@ -11,7 +11,7 @@ distance_from_pb(x, euler, pb, tangential = FALSE, km = FALSE, ...)
 geometries in the geographical coordinate system}
 
 \item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler pole}
+containing the geographical coordinates of the Pole of Rotation}
 
 \item{tangential}{Logical. Whether the plate boundary is a tangential
 boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the

@@ -75,7 +75,7 @@ distance_mod <- function(x) {
   sapply(X = abs(x), FUN = get_distance_mod)
 }
 
-#' Helper funtion to Distance from plate boundary
+#' Helper function to Distance from plate boundary
 #'
 #' @param lon,lat numeric vectors
 #' @param pb.coords matrix
@@ -114,7 +114,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
 #' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
+#' containing the geographical coordinates of the Pole of Rotation
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
 #' default).
@@ -261,7 +261,7 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
     if (i == nrow(pb.coords)) {
       pb.bearing[i] <- NA
     } else {
-      pb.bearing[i] <- get_azimuth(c(pb.coords[i, 2], pb.coords[i, 1]), c(pb.coords[i + 1, 2], pb.coords[i + 1, 1]))
+      pb.bearing[i] <- get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
     }
   }
 
