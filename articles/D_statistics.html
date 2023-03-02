@@ -206,10 +206,10 @@ areas close to plate boundaries.</p>
 <p><strong>tectonicr</strong> offers a rose diagram, i.e. histogram for
 angular data.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"North pole"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"North pole"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="D_statistics_files/figure-html/rose1-1.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"Euler pole"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"Euler pole"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="D_statistics_files/figure-html/rose2-1.png" width="700"></p>
 </div>
 <div class="section level2">
