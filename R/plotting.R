@@ -206,30 +206,36 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
     )
 
-  t$roll_mean = zoo::rollapply(
+  t$roll_mean <- zoo::rollapply(
     t %>% select(azi, unc),
     width = k,
-    FUN = function(x){circular_mean(x[,"azi"],1/x[,"unc"])},
+    FUN = function(x) {
+      circular_mean(x[, "azi"], 1 / x[, "unc"])
+    },
     by.column = FALSE,
     partial = TRUE,
     align = "center",
     fill = NA,
     ...
-    )
-  t$roll_sd = zoo::rollapply(
+  )
+  t$roll_sd <- zoo::rollapply(
     t %>% select(azi, unc),
     width = k,
-    FUN = function(x){circular_sd(x[,"azi"],1/x[,"unc"])},
+    FUN = function(x) {
+      circular_sd(x[, "azi"], 1 / x[, "unc"])
+    },
     by.column = FALSE,
     partial = TRUE,
     align = "center",
     fill = NA,
     ...
-    )
+  )
   t$roll_nchisq <- zoo::rollapply(
     t %>% select(azi, prd, unc),
     width = k,
-    FUN = function(x){norm_chisq(x[,"azi"],x[,"prd"],x[,"unc"])},
+    FUN = function(x) {
+      norm_chisq(x[, "azi"], x[, "prd"], x[, "unc"])
+    },
     by.column = FALSE,
     partial = TRUE,
     align = "center",
