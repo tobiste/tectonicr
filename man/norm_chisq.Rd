@@ -11,7 +11,7 @@ norm_chisq(obs, prd, unc)
 \eqn{\sigma_{Hmax}}{SHmax},
 same length as \code{prd}}
 
-\item{prd}{\code{data.frame} containing the modeled azimuths of
+\item{prd}{Numeric vector containing the modeled azimuths of
 \eqn{\sigma_{Hmax}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 

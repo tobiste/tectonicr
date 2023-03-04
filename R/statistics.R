@@ -22,7 +22,12 @@ nchisq_eq <- function(obs, prd, unc) {
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
 #'   5037-5059, doi: 10.1029/97JB03390.
-#' @inheritParams deviation_shmax
+#' @param prd Numeric vector containing the modeled azimuths of
+#' \eqn{\sigma_{Hmax}}{SHmax}, i.e.
+#' the return object from \code{model_shmax()}
+#' @param obs Numeric vector containing the observed azimuth of
+#' \eqn{\sigma_{Hmax}}{SHmax},
+#' same length as \code{prd}
 #' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 #' numeric vector or a number
 #' @return Numeric vector

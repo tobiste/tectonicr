@@ -197,15 +197,45 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
   }
   nchisq_i <- NULL
   regime <- ifelse(is.na(regime), "U", regime)
+
+
+
   t <- data.frame(azi, distance, prd, unc, regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) %>%
     dplyr::arrange(distance) %>%
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
-      azi.rmean = zoo::rollapply(azi, width = k, FUN = circular_mean, align = "center", fill = NA, ...),
-      azi.sd = zoo::rollapply(azi, width = k, FUN = circular_sd, align = "center", fill = NA, ...),
-      nchi2.rmedian = zoo::rollmedian(nchisq_i, k = k, align = "center", fill = NA, ...),
-      nchi2.rmad = zoo::rollapply(nchisq_i, width = k, FUN = stats::mad, align = "center", fill = NA, na.rm = TRUE, ...)
     )
+
+  t$roll_mean = zoo::rollapply(
+    t %>% select(azi, unc),
+    width = k,
+    FUN = function(x){circular_mean(x[,"azi"],1/x[,"unc"])},
+    by.column = FALSE,
+    partial = TRUE,
+    align = "center",
+    fill = NA,
+    ...
+    )
+  t$roll_sd = zoo::rollapply(
+    t %>% select(azi, unc),
+    width = k,
+    FUN = function(x){circular_sd(x[,"azi"],1/x[,"unc"])},
+    by.column = FALSE,
+    partial = TRUE,
+    align = "center",
+    fill = NA,
+    ...
+    )
+  t$roll_nchisq <- zoo::rollapply(
+    t %>% select(azi, prd, unc),
+    width = k,
+    FUN = function(x){norm_chisq(x[,"azi"],x[,"prd"],x[,"unc"])},
+    by.column = FALSE,
+    partial = TRUE,
+    align = "center",
+    fill = NA,
+    ...
+  )
 
   nchisq <- norm_chisq(azi, prd, unc)
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
@@ -229,23 +259,21 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
   graphics::arrows(y0 = t$azi - t$unc, x0 = t$distance, y1 = t$azi + t$unc, x1 = t$distance, code = 0, lwd = .25, col = t$regime)
   graphics::points(azi ~ distance, data = t, col = t$regime)
 
-  graphics::lines(azi.rmean - azi.sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  graphics::lines(azi.rmean + azi.sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  graphics::lines(azi.rmean ~ distance, data = t, type = "S", col = "#85112AFF")
+  graphics::lines(roll_mean - roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
+  graphics::lines(roll_mean + roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
+  graphics::lines(roll_mean ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = unique(prd), col = "black", lty = 2)
   graphics::legend("bottomright", inset = .05, cex = .5, legend = c("N", "NS", "S", "TS", "T", "U"), title = "Stress regime", fill = c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60"))
 
   grDevices::dev.new()
   plot(nchisq_i ~ distance,
     data = t, col = t$regime,
-    xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi[i]^2),
+    xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi^2),
     # sub = subtitle,
     xlim = range(distance),
     ylim = c(0, 1), yaxp = c(0, 1, 4), ...
   )
-  graphics::lines(nchi2.rmedian + t$nchi2.rmad ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  graphics::lines(nchi2.rmedian - t$nchi2.rmad ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  graphics::lines(nchi2.rmedian ~ distance, data = t, type = "S", col = "#85112AFF")
+  graphics::lines(roll_nchisq ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = .15, col = "black", lty = 2)
 
   grDevices::dev.new()
