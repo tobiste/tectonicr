@@ -317,26 +317,26 @@ PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = 
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
   } else {
-    if(!PoR_grid){
-    if (is.null(lon_range) || is.null(lat_range)) {
-      coords <- sf::st_coordinates(x)
-      lon_range <- range(coords[, 1], na.rm = TRUE)
-      lat_range <- range(coords[, 2], na.rm = TRUE)
-    }
+    if (!PoR_grid) {
+      if (is.null(lon_range) || is.null(lat_range)) {
+        coords <- sf::st_coordinates(x)
+        lon_range <- range(coords[, 1], na.rm = TRUE)
+        lat_range <- range(coords[, 2], na.rm = TRUE)
+      }
 
-    grid <- sf::st_bbox(
-      c(
-        xmin = lon_range[1],
-        xmax = lon_range[2],
-        ymin = lat_range[1],
-        ymax = lat_range[2]
-      )
-    ) %>%
-      sf::st_make_grid(
-        cellsize = gridsize,
-        what = "centers",
-        offset = c(lon_range[1], lat_range[1])
-      )
+      grid <- sf::st_bbox(
+        c(
+          xmin = lon_range[1],
+          xmax = lon_range[2],
+          ymin = lat_range[1],
+          ymax = lat_range[2]
+        )
+      ) %>%
+        sf::st_make_grid(
+          cellsize = gridsize,
+          what = "centers",
+          offset = c(lon_range[1], lat_range[1])
+        )
     }
   }
 
