@@ -66,6 +66,7 @@ standard deviation/IQR of stress data</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">stress2grid</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>,</span>
+<span>  grid <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lon_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gridsize <span class="op">=</span> <span class="fl">2.5</span>,</span>
@@ -108,14 +109,18 @@ circular median
 and interquartile range (<code>"median"</code>)?</p></dd>
 
 
+<dt>grid</dt>
+<dd><p>(optional) Point object of class <code>sf</code>.</p></dd>
+
+
 <dt>lon_range, lat_range</dt>
 <dd><p>(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes.</p></dd>
+and maximum longitudes and latitudes (are ignored if <code>"grid"</code> is specified).</p></dd>
 
 
 <dt>gridsize</dt>
 <dd><p>Numeric. Target spacing of the regular grid in decimal
-degree. Default is 2.5</p></dd>
+degree. Default is 2.5. (is ignored if <code>"grid"</code> is specified)</p></dd>
 
 
 <dt>min_data</dt>
