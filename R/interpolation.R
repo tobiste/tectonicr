@@ -179,7 +179,7 @@ stress2grid <- function(x,
 
   if (is.null(grid)) {
     # Regular grid
-    if (missing(lon_range) || missing(lat_range)) {
+    if (is.null(lon_range) || is.null(lat_range)) {
       lon_range <- range(datas$lon, na.rm = TRUE)
       lat_range <- range(datas$lat, na.rm = TRUE)
     }
@@ -289,10 +289,13 @@ stress2grid <- function(x,
 #' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler  pole
 #' @param grid (optional) Point object of class \code{sf}.
+#' @param PoR_grid logical. Whether the grid should be generated based on the
+#' coordinate range in the PoR (`"TRUE`, the default) CRS or the geographical CRS
+#' (`"FALSE`). Is ignored if `"grid"` is specified.
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
-#' degree. Default is 2.5. (is ignored if `"grid"` is specified)
+#' degree. Default is 2.5 (is ignored if `"grid"` is specified)
 #' @param ... Arguments passed to [stress2grid()]
 #' @description The data is transformed into the PoR system before the
 #' interpolation. The interpolation grid is returned in geographical coordinates
@@ -307,10 +310,14 @@ stress2grid <- function(x,
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' PoR_stress2grid(san_andreas, ep)
-PoR_stress2grid <- function(x, euler, grid = NULL, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
+PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
   azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric()
 
-  if (is.null(grid)) {
+  if (!is.null(grid)) {
+    lon_range <- lat_range <- gridsize <- NULL
+    PoR_grid <- FALSE
+  } else {
+    if(!PoR_grid){
     if (is.null(lon_range) || is.null(lat_range)) {
       coords <- sf::st_coordinates(x)
       lon_range <- range(coords[, 1], na.rm = TRUE)
@@ -330,10 +337,15 @@ PoR_stress2grid <- function(x, euler, grid = NULL, lon_range = NULL, lat_range =
         what = "centers",
         offset = c(lon_range[1], lat_range[1])
       )
+    }
   }
 
-  grid_PoR <- sf::st_as_sf(grid) %>%
-    geographical_to_PoR_sf(euler) # %>% sf::st_set_crs("WGS84")
+  if (!PoR_grid) {
+    grid_PoR <- sf::st_as_sf(grid) %>%
+      geographical_to_PoR_sf(euler) # %>% sf::st_set_crs("WGS84")
+  } else {
+    grid_PoR <- NULL
+  }
 
   x_PoR <- geographical_to_PoR_sf(x, euler) # %>% sf::st_set_crs("WGS84")
   x_PoR_coords <- sf::st_coordinates(x_PoR) %>%
@@ -343,7 +355,7 @@ PoR_stress2grid <- function(x, euler, grid = NULL, lon_range = NULL, lat_range =
   x_PoR$lon <- x_PoR_coords$lon
   x_PoR$azi <- PoR_shmax(x, euler)
 
-  int <- stress2grid(x_PoR, grid = grid_PoR, ...) %>%
+  int <- stress2grid(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) %>%
     dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
     PoR_to_geographical_sf(euler) %>%
     dplyr::group_by(R)
@@ -363,7 +375,7 @@ PoR_stress2grid <- function(x, euler, grid = NULL, lon_range = NULL, lat_range =
 #' @param x output of [stress2grid()] or [PoR_stress2grid()]
 #' @return \code{sf} object
 #' @importFrom magrittr %>%
-#' @importFrom dplyr ungroup mutate group_by summarise select left_join
+#' @importFrom dplyr ungroup mutate group_by summarise select left_join as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
 #' @export
@@ -372,10 +384,12 @@ PoR_stress2grid <- function(x, euler, grid = NULL, lon_range = NULL, lat_range =
 #' res <- stress2grid(san_andreas)
 #' compact_grid(res)
 compact_grid <- function(x) {
-  lon <- lat <- group <- azi <- R <- NULL
+  lon <- lat <- azi <- R <- numeric()
+  group <- character()
+
   data <- x %>%
     dplyr::ungroup() %>%
-    as.data.frame() %>%
+    dplyr::as_tibble() %>%
     tidyr::drop_na(azi) %>%
     dplyr::mutate(group = paste(lon, lat)) %>%
     dplyr::group_by(group)

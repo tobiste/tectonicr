@@ -151,9 +151,14 @@ mean_resultant <- function(x, w, na.rm) {
 #' circular_IQR(x, 1 / unc)
 #'
 #' data("san_andreas")
+#' circular_mean(san_andreas$azi)
 #' circular_mean(san_andreas$azi, 1 / san_andreas$unc)
-#' circular_var(san_andreas$azi, 1 / san_andreas$unc)
+#' circular_median(san_andreas$azi)
+#' circular_median(san_andreas$azi, 1 / san_andreas$unc)
+#' circular_quantiles(san_andreas$azi)
 #' circular_quantiles(san_andreas$azi, 1 / san_andreas$unc)
+#' circular_var(san_andreas$azi)
+#' circular_var(san_andreas$azi, 1 / san_andreas$unc)
 #'
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -228,8 +233,6 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
-  } else {
-    w <- as.numeric(w)
   }
 
   if (axial) {
@@ -282,8 +285,6 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
-  } else {
-    w <- as.numeric(w)
   }
 
   if (axial) {
@@ -295,7 +296,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
   x <- x %% mod
 
-  data <- cbind(x = x, w)
+  data <- cbind(x = x, w = w)
 
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
