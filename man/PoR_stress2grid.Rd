@@ -4,7 +4,15 @@
 \alias{PoR_stress2grid}
 \title{Spatial interpolation of SHmax in PoR coordinate reference system}
 \usage{
-PoR_stress2grid(x, euler, ...)
+PoR_stress2grid(
+  x,
+  euler,
+  grid = NULL,
+  lon_range = NULL,
+  lat_range = NULL,
+  gridsize = 2.5,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{sf} object containing
@@ -16,6 +24,14 @@ PoR_stress2grid(x, euler, ...)
 
 \item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler  pole}
+
+\item{grid}{(optional) Point object of class \code{sf}.}
+
+\item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
+and maximum longitudes and latitudes (are ignored if \code{"grid"} is specified).}
+
+\item{gridsize}{Numeric. Target spacing of the regular grid in decimal
+degree. Default is 2.5. (is ignored if \code{"grid"} is specified)}
 
 \item{...}{Arguments passed to \code{\link[=stress2grid]{stress2grid()}}}
 }

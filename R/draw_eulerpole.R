@@ -83,7 +83,7 @@ greatcircle_dummy <- function(n) {
 #' @rdname dummy
 loxodrome_dummy <- function(n, angle, cw) {
   stopifnot(is.logical(cw))
-  lon <- lat <- NULL
+  lon <- lat <- numeric()
   s <- ifelse(cw, -1, 1)
   lats <- seq(-180, 180, 1)
 
@@ -182,7 +182,7 @@ eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle, cw) {
 eulerpole_smallcircles <-
   function(x, n = 10) {
     stopifnot(is.data.frame(x), dim(x)[1] > 0)
-    small_circle <- NULL
+    small_circle <- numeric()
     # d <- NULL
     sm.df <- smallcircle_dummy(n)
 
@@ -229,7 +229,7 @@ eulerpole_greatcircles <- function(x, n = 10) {
 #' @export
 eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
   stopifnot(is.data.frame(x), dim(x)[1] > 0, abs(angle) != 90, is.logical(cw))
-  loxodrome <- NULL
+  loxodrome <- numeric()
 
   ld.df <-
     loxodrome_dummy(

@@ -10,6 +10,7 @@
 stress2grid(
   x,
   stat = c("mean", "median"),
+  grid = NULL,
   lon_range = NULL,
   lat_range = NULL,
   gridsize = 2.5,
@@ -37,11 +38,13 @@ circular mean and standard deviation (\code{"mean"}, the default) or on the
 circular median
 and interquartile range (\code{"median"})?}
 
+\item{grid}{(optional) Point object of class \code{sf}.}
+
 \item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes.}
+and maximum longitudes and latitudes (are ignored if \code{"grid"} is specified).}
 
 \item{gridsize}{Numeric. Target spacing of the regular grid in decimal
-degree. Default is 2.5}
+degree. Default is 2.5. (is ignored if \code{"grid"} is specified)}
 
 \item{min_data}{Integer. Minimum number of data per bin. Default is 3}
 

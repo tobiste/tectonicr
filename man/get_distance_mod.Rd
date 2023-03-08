@@ -2,7 +2,7 @@
 % Please edit documentation in R/various.R
 \name{get_distance_mod}
 \alias{get_distance_mod}
-\title{Helper funtcion to get normalized distance from plate boundary}
+\title{Helper function to get normalized distance from plate boundary}
 \usage{
 get_distance_mod(x)
 }
@@ -10,7 +10,7 @@ get_distance_mod(x)
 \item{x}{numeric}
 }
 \description{
-Helper funtcion to get normalized distance from plate boundary
+Helper function to get normalized distance from plate boundary
 }
 \seealso{
 \code{\link[=distance_from_pb]{distance_from_pb()}}

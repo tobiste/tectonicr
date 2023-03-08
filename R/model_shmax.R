@@ -239,6 +239,12 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
 #' res.geo <- PoR2Geo_shmax(san_andreas, euler)
 #' head(res.geo)
 PoR2Geo_shmax <- function(x, euler) {
+  # Northern Hemisphere euler pole
+  if (euler$lat < 0) {
+    euler$lat <- -euler$lat
+    euler$lon <- longitude_modulo(180 + euler$lon)
+  }
+
   if (!is.null(x$lat.PoR) && !is.null(x$lon.PoR)) {
     northpole <- geographical_to_PoR(
       data.frame(lat = 90, lon = 0),

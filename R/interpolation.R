@@ -52,14 +52,15 @@ wcmedian <- function(x, w) {
 #' \item{unc}{Uncertainties of SHmax in degree}
 #' \item{type}{Methods used for the determination of the direction of SHmax}
 #' }
+#' @param grid (optional) Point object of class \code{sf}.
+#' @param lon_range,lat_range (optional) numeric vector specifying the minimum
+#' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
+#' @param gridsize Numeric. Target spacing of the regular grid in decimal
+#' degree. Default is 2.5. (is ignored if `"grid"` is specified)
 #' @param stat Should the direction of interpolated SHmax be based  on the
 #' circular mean and standard deviation (\code{"mean"}, the default) or on the
 #' circular median
 #' and interquartile range (\code{"median"})?
-#' @param lon_range,lat_range (optional) numeric vector specifying the minimum
-#' and maximum longitudes and latitudes.
-#' @param gridsize Numeric. Target spacing of the regular grid in decimal
-#' degree. Default is 2.5
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
 #' @param threshold Numeric. Threshold for deviation of direction. Default is
 #' 25
@@ -105,6 +106,7 @@ wcmedian <- function(x, w) {
 #' stress2grid(san_andreas)
 stress2grid <- function(x,
                         stat = c("mean", "median"),
+                        grid = NULL,
                         lon_range = NULL,
                         lat_range = NULL,
                         gridsize = 2.5,
@@ -127,87 +129,85 @@ stress2grid <- function(x,
 
   dist_weight <- match.arg(dist_weight)
   stat <- match.arg(stat)
-  azi <- unc <- type <- lat <- lon <- R <- w_method <- w_quality <- N <- NULL
+
+  unc <- lat <- lon <- R <- N <- numeric()
+  type <- character()
+
+  azi <- x$azi
+  colnames_x <- colnames(x)
 
   num_r <- length(R_range)
 
   # WSM method weighting (from 0 to 5)
-  if (method_weighting && "type" %in% colnames(x)) {
+  if (method_weighting && "type" %in% colnames_x) {
     method_weights <- data.frame(
       type = c("FMS", "FMF", "BO", "DIF", "HF", "GF", "GV", "OC", NA),
       w_method = c(4, 5, 5, 5, 4, 5, 4, 2, 1) / 5
     )
     x <- dplyr::left_join(x, method_weights)
   } else {
-    x$w_method <- rep(1, length(x$azi))
+    w_method <- rep(1, length(azi))
   }
 
-  if (quality_weighting && "unc" %in% colnames(x)) {
-    x$w_quality <- 1 / x$unc
+  if (quality_weighting && "unc" %in% colnames_x) {
+    w_quality <- 1 / x$unc
   } else {
-    x$w_quality <- rep(1, length(x$azi))
+    w_quality <- rep(1, length(azi))
   }
 
-  x_coords <- sf::st_coordinates(x) %>% as.data.frame()
+  x_coords <- # sf::st_transform(x, crs = "WGS84") %>%
+    sf::st_coordinates(x) %>%
+    as.data.frame()
 
   datas <- data.frame(
     lon = x_coords$X,
     lat = x_coords$Y,
-    x = x_coords$X,
-    y = x_coords$Y,
-    azi = x$azi,
+    # x = x_coords$X,
+    # y = x_coords$Y,
+    azi = azi,
     # sin2 = sind(2 * x$azi),
     # cos2 = cosd(2 * x$azi),
-    w_method = x$w_method,
-    w_quality = x$w_quality # ,
+    w_method = ifelse(is.na(w_method), 1 / 5, w_method),
+    w_quality = w_quality # ,
     # pb_dist = 1 # rep(1, length(lat))
-  ) %>%
-    mutate(
-      w_method = ifelse(is.na(w_method), 1 / 5, w_method)
-    ) %>%
-    sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x))
+  ) # %>%
+  # sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x))
 
   if (quality_weighting) {
     datas <- tidyr::drop_na(datas, w_quality)
   }
 
-  # Regular grid
-  if (missing(lon_range) || missing(lat_range)) {
-    lon_range <- range(datas$lon, na.rm = TRUE)
-    lat_range <- range(datas$lat, na.rm = TRUE)
-  }
+  if (is.null(grid)) {
+    # Regular grid
+    if (missing(lon_range) || missing(lat_range)) {
+      lon_range <- range(datas$lon, na.rm = TRUE)
+      lat_range <- range(datas$lat, na.rm = TRUE)
+    }
 
-  G <-
-    sf::st_bbox(
+    grid <- sf::st_bbox(
       c(
         xmin = lon_range[1],
         xmax = lon_range[2],
         ymin = lat_range[1],
         ymax = lat_range[2]
       ),
-      crs = sf::st_crs(x)
+      crs = sf::st_crs("WGS84")
     ) %>%
-    sf::st_make_grid(
-      cellsize = gridsize,
-      what = "centers",
-      offset = c(lon_range[1], lat_range[1])
-    ) %>%
-    sf::st_coordinates() %>%
-    as.data.frame()
-  # XG <- G_coords$X
-  # YG <- G_coords$Y
-  # n_G <- length(XG)
+      sf::st_make_grid(
+        cellsize = gridsize,
+        what = "centers",
+        offset = c(lon_range[1], lat_range[1])
+      ) %>%
+      sf::st_as_sf()
+  }
+  stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
+  G <- grid %>%
+    # sf::st_transform("WGS84") %>%
+    sf::st_coordinates()
 
   SH <- c()
-  for (i in seq_along(G$X)) {
-    distij <- dist_greatcircle(G$Y[i], G$X[i], datas$lat, datas$lon, ...)
-    # distij <-
-    #   sf::st_distance(
-    #   datas, G[i],
-    #   which = "Great Circle",
-    #   radius = earth_radius()
-    #   ) %>% # in kilometer
-    #   as.numeric()
+  for (i in seq_along(G[, 1])) {
+    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas$lat, datas$lon, ...)
 
     if (min(distij) <= arte_thres) {
       for (k in seq_along(R_range)) {
@@ -248,31 +248,10 @@ stress2grid <- function(x,
           }
           meanSH <- as.numeric(stats[1])
           sd <- as.numeric(stats[2])
-          #   sw_R <- sum(w_R)
-          #
-          #
-          #   array_sin2 <- w_R * datas$sin2[ids_R]
-          #   array_cos2 <- w_R * datas$cos2[ids_R]
-          #
-          #   sumsin2 <- sum(array_sin2)
-          #   sumcos2 <- sum(array_cos2)
-          #   meansin2 <- sumsin2 / sw_R
-          #   meancos2 <- sumcos2 / sw_R
-          #   meanR <- sqrt(meansin2^2 + meancos2^2)
-          #
-          #   if (meanR > 1) {
-          #     sd <- -Inf
-          #   } else {
-          #     sd <- rad2deg(sqrt(-2 * log(meanR)) / 2)
-          #   }
-          #
-          #   meanSH <- (atan2d(meansin2, meancos2) / 2) %% 180
-          #   #meanSH <- rad2deg(meanSH_rad)
-          # }
         }
         SH.ik <- c(
-          lon = G$X[i],
-          lat = G$Y[i],
+          lon = G[i, 1],
+          lat = G[i, 2],
           azi = meanSH,
           sd = sd,
           R = R_search,
@@ -287,13 +266,14 @@ stress2grid <- function(x,
     }
   }
 
-  res <- as.data.frame(SH) %>%
+  res <- dplyr::as_tibble(SH) %>%
     dplyr::mutate(x = lon, y = lat, N = as.integer(N)) %>%
     sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x)) %>%
     dplyr::group_by(R)
 
   return(res)
 }
+
 
 
 #' Spatial interpolation of SHmax in PoR coordinate reference system
@@ -308,13 +288,18 @@ stress2grid <- function(x,
 #' }
 #' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler  pole
+#' @param grid (optional) Point object of class \code{sf}.
+#' @param lon_range,lat_range (optional) numeric vector specifying the minimum
+#' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
+#' @param gridsize Numeric. Target spacing of the regular grid in decimal
+#' degree. Default is 2.5. (is ignored if `"grid"` is specified)
 #' @param ... Arguments passed to [stress2grid()]
 #' @description The data is transformed into the PoR system before the
 #' interpolation. The interpolation grid is returned in geographical coordinates
 #'  and azimuths.
 #' @importFrom magrittr %>%
-#' @importFrom dplyr mutate select rename
-#' @importFrom sf st_coordinates
+#' @importFrom dplyr rename as_tibble group_by
+#' @importFrom sf st_coordinates st_as_sf st_bbox st_make_grid
 #' @seealso [stress2grid()], [compact_grid()]
 #' @export
 #' @examples
@@ -322,43 +307,53 @@ stress2grid <- function(x,
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' PoR_stress2grid(san_andreas, ep)
-PoR_stress2grid <- function(x, euler, ...) {
-  # azi <- NULL
-  # x_por <- geographical_to_PoR_sf(x, euler)
-  # coords <- sf::st_coordinates(x_por)
-  # x_por$lon <- coords[, 1]
-  # x_por$lat <- coords[, 2]
-  # x_por$azi <- PoR_shmax(x, euler)
-  #
-  # int <- stress2grid(x_por, ...) %>%
-  #   PoR_to_geographical_sf(euler) %>%
-  #   mutate(lat.PoR = lat, lon.PoR = lon, azi.PoR = azi)
-  # coords <-  sf::st_coordinates(int)
-  # int$lon <- coords[, 1]
-  # int$lat <- coords[, 2]
-  #
-  # int$azi <- PoR2Geo_shmax(int, euler)
-  # return(int)
-  azi <- lat <- lon <- lat.PoR <- lon.PoR <- NULL
-  x_por <- cbind(
-    x %>% sf::st_drop_geometry() %>% dplyr::select(-lat, -lon, -azi),
-    geographical_to_PoR(x, euler)
-  ) %>%
-    dplyr::rename(lat = lat.PoR, lon = lon.PoR) %>%
-    sf::st_as_sf(coords = c("lon", "lat"))
-  x_por$azi <- PoR_shmax(x, euler)
+PoR_stress2grid <- function(x, euler, grid = NULL, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
+  azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric()
 
-  int <- stress2grid(x_por, ...) %>%
-    dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
-    sf::st_drop_geometry() %>%
-    as.data.frame()
+  if (is.null(grid)) {
+    if (is.null(lon_range) || is.null(lat_range)) {
+      coords <- sf::st_coordinates(x)
+      lon_range <- range(coords[, 1], na.rm = TRUE)
+      lat_range <- range(coords[, 2], na.rm = TRUE)
+    }
 
-  int <- cbind(int, PoR_to_geographical(int, euler))
-  int$azi <- PoR2Geo_shmax(int, euler)
-  int %>%
+    grid <- sf::st_bbox(
+      c(
+        xmin = lon_range[1],
+        xmax = lon_range[2],
+        ymin = lat_range[1],
+        ymax = lat_range[2]
+      )
+    ) %>%
+      sf::st_make_grid(
+        cellsize = gridsize,
+        what = "centers",
+        offset = c(lon_range[1], lat_range[1])
+      )
+  }
+
+  grid_PoR <- sf::st_as_sf(grid) %>%
+    geographical_to_PoR_sf(euler) # %>% sf::st_set_crs("WGS84")
+
+  x_PoR <- geographical_to_PoR_sf(x, euler) # %>% sf::st_set_crs("WGS84")
+  x_PoR_coords <- sf::st_coordinates(x_PoR) %>%
     dplyr::as_tibble() %>%
-    dplyr::mutate(x = lon, y = lat) %>%
-    sf::st_as_sf(coords = c("x", "y"), crs = "WGS84")
+    dplyr::rename(lat = Y, lon = X)
+  x_PoR$lat <- x_PoR_coords$lat
+  x_PoR$lon <- x_PoR_coords$lon
+  x_PoR$azi <- PoR_shmax(x, euler)
+
+  int <- stress2grid(x_PoR, grid = grid_PoR, ...) %>%
+    dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
+    PoR_to_geographical_sf(euler) %>%
+    dplyr::group_by(R)
+  int_coords <- sf::st_coordinates(int) %>%
+    dplyr::as_tibble() %>%
+    dplyr::rename(lat = Y, lon = X)
+  int$lat <- int_coords$lat
+  int$lon <- int_coords$lon
+  int$azi <- PoR2Geo_shmax(int, euler)
+  return(int)
 }
 
 #' Compact smoothed stress field

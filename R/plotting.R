@@ -195,7 +195,7 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
   if (missing(regime)) {
     regime <- rep(NA, length(azi))
   }
-  nchisq_i <- NULL
+  nchisq_i <- numeric()
   regime <- ifelse(is.na(regime), "U", regime)
 
 

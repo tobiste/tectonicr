@@ -52,13 +52,13 @@ regime2unc <- function(x) {
   )[x]
 }
 
-#' Helper funtcion to get normalized distance from plate boundary
+#' Helper function to get normalized distance from plate boundary
 #'
 #' @param x numeric
 #' @seealso [distance_from_pb()]
 get_distance_mod <- function(x) {
   while (x > 180) {
-    x <- 360 - (x %% 360)
+    x <- 360 - x
   }
   return(x)
 }
@@ -72,7 +72,7 @@ get_distance_mod <- function(x) {
 #' @returns numeric vector
 #' @keywords internal
 distance_mod <- function(x) {
-  sapply(X = abs(x), FUN = get_distance_mod)
+  sapply(X = abs(x) %% 360, FUN = get_distance_mod)
 }
 
 #' Helper function to Distance from plate boundary

@@ -1,11 +1,38 @@
 data("pb2002")
-data("plates")
-# data("wsm2016")
-data("nuvel1")
 data("nuvel1_plates")
-data("san_andreas")
-# test rotations
 
+# test the examples from manuscript
+# Load the San Andreas-Gulf of California dataset:
+data("san_andreas")
+# Load plate boundary geometries
+data("plates")
+# Extract boundary between Pacific (pa) and North American (na) plates
+na_pa_boundary <- subset(plates, plates$pair == "na-pa")
+# Load the current plate motion (cpm) models:
+data("cpm_models")
+morvel <- subset(cpm_models, model == "NNR-MORVEL56") # select MORVEL model
+# Relative plate motion between Pacific and North American plates:
+na_pa <- equivalent_rotation(morvel, fixed = "na", rot = "pa")
+# Transform stress data set and test against predicted left-lateral tangential plate boundary (left):
+stress_analysis(san_andreas, euler = na_pa, type = "right", pb = na_pa_boundary)
+# Interpolate the stress field in the PoR coordinate system:
+PoR_stress2grid(san_andreas, na_pa)
+
+data("tibet")
+eu_in_boundary <- subset(plates, plates$pair == "eu-in")
+eu_in <- equivalent_rotation(morvel, fixed = "eu", rot = "in")
+stress_analysis(tibet, euler = eu_in, type = "in", pb = eu_in_boundary)
+PoR_stress2grid(tibet, eu_in)
+
+data("iceland")
+eu_na_boundary <- subset(plates, plates$pair == "eu-na")
+eu_na <- equivalent_rotation(morvel, fixed = "na", rot = "eu")
+stress_analysis(iceland, euler = eu_na, type = "out", pb = eu_na_boundary)
+PoR_stress2grid(iceland, eu_na)
+
+# PoR_stress2grid(san_andreas, na_pa, gridsize = .25, R_range = seq(50, 350, 50), stat = "mean")
+# PoR_stress2grid(tibet, eu_in, gridsize = .25, R_range = seq(50, 1000, 50), stat = "mean")
+# PoR_stress2grid(iceland, eu_na, gridsize = .125, R_range = seq(50, 1000, 50), stat = "mean")
 
 
 # test model_shmax

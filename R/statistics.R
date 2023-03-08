@@ -46,7 +46,6 @@ nchisq_eq <- function(obs, prd, unc) {
 #' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 #' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
-#' @importFrom tidyr drop_na
 #' @importFrom stats complete.cases
 #' @export
 #' @examples
@@ -62,18 +61,21 @@ nchisq_eq <- function(obs, prd, unc) {
 #' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
 #' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
 norm_chisq <- function(obs, prd, unc) {
+  N <- length(obs)
   if (length(prd) == 1) {
-    prd <- rep(prd, length(obs))
+    prd <- rep(prd, N)
   }
 
   if (length(unc) == 1) {
-    unc <- rep(unc, length(obs))
+    unc <- rep(unc, N)
   }
+  stopifnot(length(prd) == N, length(unc) == N)
 
-  x <- data.frame(
-    obs = obs, prd = prd, unc = unc
-  ) %>%
-    tidyr::drop_na(obs, prd)
+  x <- cbind(
+    obs, prd, unc
+  ) # %>% tidyr::drop_na(obs, prd)
+  x <- matrix(x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ], ncol = 3) # remove NA values
+  stopifnot(length(x) > 0)
 
   xy <- mapply(FUN = nchisq_eq, obs = x[, 1], prd = x[, 2], unc = x[, 3])
   sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
@@ -88,13 +90,13 @@ mean_SC <- function(x, w, na.rm) {
     w <- as.numeric(w)
   }
 
-  data <- data.frame(x, w)
+  data <- cbind(x = x, w = w)
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
-  x <- deg2rad(data$x)
-  w <- data$w
+  x <- deg2rad(data[, "x"])
+  w <- data[, "w"]
 
   Z <- sum(w)
 
@@ -238,17 +240,17 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     mod <- 360
   }
   x <- (x %% mod)
-  data <- data.frame(x = x, w)
+  data <- cbind(x = x, w = w)
 
 
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
-  data <- data[order(data$x), ]
+  data <- data[order(data[, "x"]), ]
 
-  x <- f * deg2rad(data$x)
-  w <- data$w
+  x <- f * deg2rad(data[, "x"])
+  w <- data[, "w"]
 
   n <- length(x)
 
@@ -293,19 +295,19 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
   x <- x %% mod
 
-  data <- data.frame(x = x, w)
+  data <- cbind(x = x, w)
 
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
-  data <- data[order(data$x), ]
+  data <- data[order(data[, "x"]), ]
 
-  x_first <- data$x[1]
-  x_last <- data$x[length(data$x)]
+  x_first <- data[1, "x"]
+  x_last <- data[length(data[, 1]), "x"]
 
-  x <- f * deg2rad(data$x)
-  w <- data$w
+  x <- f * deg2rad(data[, "x"])
+  w <- data[, "w"]
   n <- length(x)
 
   if (n > 3) {
