@@ -92,7 +92,7 @@ ggplot(san_andreas.res) +
       x = lon,
       y = lat,
       radius = 1,
-      angle = deg2rad(90-azi),
+      angle = deg2rad(90 - azi),
       color = deviation_norm(dev),
       alpha = san_andreas$quality
     ),

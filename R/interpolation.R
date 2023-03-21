@@ -130,7 +130,7 @@ stress2grid <- function(x,
   dist_weight <- match.arg(dist_weight)
   stat <- match.arg(stat)
 
-  unc <- lat <- lon <- R <- N <- numeric()
+  unc <- lat <- lon <- lat.X <- lon.X <- R <- N <- numeric()
   type <- character()
 
   azi <- x$azi
@@ -267,6 +267,7 @@ stress2grid <- function(x,
   }
 
   res <- dplyr::as_tibble(SH) %>%
+    dplyr::rename(lon = lon.X, lat = lat.Y) %>%
     dplyr::mutate(x = lon, y = lat, N = as.integer(N)) %>%
     sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x)) %>%
     dplyr::group_by(R)
@@ -317,26 +318,26 @@ PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = 
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
   } else {
-    if(!PoR_grid){
-    if (is.null(lon_range) || is.null(lat_range)) {
-      coords <- sf::st_coordinates(x)
-      lon_range <- range(coords[, 1], na.rm = TRUE)
-      lat_range <- range(coords[, 2], na.rm = TRUE)
-    }
+    if (!PoR_grid) {
+      if (is.null(lon_range) || is.null(lat_range)) {
+        coords <- sf::st_coordinates(x)
+        lon_range <- range(coords[, 1], na.rm = TRUE)
+        lat_range <- range(coords[, 2], na.rm = TRUE)
+      }
 
-    grid <- sf::st_bbox(
-      c(
-        xmin = lon_range[1],
-        xmax = lon_range[2],
-        ymin = lat_range[1],
-        ymax = lat_range[2]
-      )
-    ) %>%
-      sf::st_make_grid(
-        cellsize = gridsize,
-        what = "centers",
-        offset = c(lon_range[1], lat_range[1])
-      )
+      grid <- sf::st_bbox(
+        c(
+          xmin = lon_range[1],
+          xmax = lon_range[2],
+          ymin = lat_range[1],
+          ymax = lat_range[2]
+        )
+      ) %>%
+        sf::st_make_grid(
+          cellsize = gridsize,
+          what = "centers",
+          offset = c(lon_range[1], lat_range[1])
+        )
     }
   }
 

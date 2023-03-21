@@ -41,18 +41,18 @@
 #' model_shmax(point, euler)
 model_shmax <- function(df, euler) {
   stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
-  beta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = euler$lat, lon_b = euler$lon)
+  theta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = euler$lat, lon_b = euler$lon)
   # great circles
-  gc <- beta %% 180
+  gc <- theta %% 180
 
   # small circles
-  sc <- (beta + 90) %% 180
+  sc <- (theta + 90) %% 180
 
   # counterclockwise loxodrome
-  ld.ccw <- (beta + 135) %% 180
+  ld.ccw <- (theta + 135) %% 180
 
   # clockwise loxodrome
-  ld.cw <- (beta + 45) %% 180
+  ld.cw <- (theta + 45) %% 180
 
   data.frame(sc, ld.ccw, gc, ld.cw)
 }
@@ -198,8 +198,8 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
   stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
   type <- match.arg(type)
 
-  beta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = euler$lat, lon_b = euler$lon)
-  azi.por <- (df$azi - beta) %% 180
+  theta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = euler$lat, lon_b = euler$lon)
+  azi.por <- (df$azi - theta + 180) %% 180
 
   if (type != "none" && !is.null(df$unc)) {
     prd <- NA

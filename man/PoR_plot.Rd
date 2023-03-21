@@ -19,8 +19,8 @@ numeric vector or a number}
 \item{regime}{character vector. The stress
 regime (following the classification of the World Stress Map)}
 
-\item{k}{integer. window width (in number of observations) for rolling
-statistics. Has to be an odd number.}
+\item{k}{integer. window width (in number of observations) for moving average
+of the azimuths and Norm Chi-square statistics.}
 
 \item{...}{optional arguments to \code{zoo::rollapply()}, \code{\link[=rose]{rose()}}, or \code{plot()}}
 }
