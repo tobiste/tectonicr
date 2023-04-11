@@ -130,7 +130,7 @@ stress2grid <- function(x,
   dist_weight <- match.arg(dist_weight)
   stat <- match.arg(stat)
 
-  unc <- lat <- lon <- lat.X <- lon.X <- R <- N <- numeric()
+  unc <- lat <- lon <- lat.X <- lat.Y <- lon.Y <- lon.X <- R <- N <- numeric()
   type <- character()
 
   azi <- x$azi
