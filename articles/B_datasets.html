@@ -192,9 +192,9 @@ stress direction considering the reported uncertainties of the
 measurement.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span></span>
-<span>  obs <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
-<span>  prd <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">prd</span>,</span>
-<span>  unc <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">unc</span></span>
+<span>  obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span>,</span>
+<span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
+<span>  unc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.03296388</span></span></code></pre></div>
 <p>The value is <span class="math inline">\(\leq\)</span> 0.15,
