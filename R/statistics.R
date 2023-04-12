@@ -68,13 +68,10 @@ norm_chisq <- function(obs, prd, unc) {
   }
   stopifnot(length(prd) == N, length(unc) == N)
 
-  x <- cbind(
-    obs, prd, unc
-  )
-  #x <- matrix(x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ], ncol = 3) # remove NA values
-  x <- x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ] # remove NA values
+  x <- cbind(obs, prd, unc)
+  x_compl <- matrix(x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ], ncol = 3) # remove NA values
   # stopifnot(length(x) > 0)
-  xy <- mapply(FUN = nchisq_eq, obs = x[, 1], prd = x[, 2], unc = x[, 3])
+  xy <- mapply(FUN = nchisq_eq, obs = x_compl[, 1], prd = x_compl[, 2], unc = x_compl[, 3])
   sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
 }
 
