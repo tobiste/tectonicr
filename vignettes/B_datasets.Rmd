@@ -123,9 +123,9 @@ considering the reported uncertainties of the measurement.
 
 ```{r san_andreas_nchisq, echo=TRUE}
 norm_chisq(
-  obs = san_andreas.res$azi.PoR,
-  prd = san_andreas.res$prd,
-  unc = san_andreas.res$unc
+  obs = as.numeric(san_andreas.res$azi.PoR),
+  prd = 135,
+  unc = as.numeric(san_andreas.res$unc)
 )
 ```
 
