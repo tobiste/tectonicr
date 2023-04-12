@@ -1,15 +1,15 @@
 nchisq_eq <- function(obs, prd, unc) {
-  if (is.na(obs)) {
-    x <- NA
-    y <- NA
-  } else {
+  # if (is.na(obs)) {
+  #   x <- NA
+  #   y <- NA
+  # } else {
     if (is.na(unc) || unc == 0) {
       unc <- 1
     } # uncertainty cannot be 0
     w <- deviation_norm(obs - prd)
     x <- (w / unc)^2
     y <- (90 / unc)^2
-  }
+  #}
   return(c(x, y))
 }
 
@@ -74,9 +74,8 @@ norm_chisq <- function(obs, prd, unc) {
   x <- cbind(
     obs, prd, unc
   ) # %>% tidyr::drop_na(obs, prd)
-  x <- matrix(x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ], ncol = 3) # remove NA values
-  stopifnot(length(x) > 0)
-
+  x <- matrix(x[stats::complete.cases(x[, 'obs']) & stats::complete.cases(x[, 'prd']), ], ncol = 3) # remove NA values
+  #stopifnot(length(x) > 0)
   xy <- mapply(FUN = nchisq_eq, obs = x[, 1], prd = x[, 2], unc = x[, 3])
   sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
 }
