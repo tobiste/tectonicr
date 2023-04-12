@@ -71,7 +71,7 @@ norm_chisq <- function(obs, prd, unc) {
   x <- cbind(
     obs, prd, unc
   )
-  #x <- matrix(x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ], ncol = 3) # remove NA values
+  # x <- matrix(x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ], ncol = 3) # remove NA values
   x <- x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ] # remove NA values
   # stopifnot(length(x) > 0)
   xy <- mapply(FUN = nchisq_eq, obs = x[, 1], prd = x[, 2], unc = x[, 3])
