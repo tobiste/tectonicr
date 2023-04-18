@@ -70,7 +70,7 @@ data("plates") # load plate boundary data set
 Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. (1990)
 stored under `data("nuvel1_plates")`.
 
-```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
 # load some geometries from the rnaturalearth package
 world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
@@ -102,7 +102,7 @@ ggplot(san_andreas.res) +
   scale_color_continuous(
     type = "viridis",
     limits = c(0, 90),
-    name = "|Deviation| in B0",
+    name = "|Deviation| in (\u00B0)",
     breaks = seq(0, 90, 22.5)
   ) +
   coord_sf(
@@ -113,7 +113,7 @@ ggplot(san_andreas.res) +
   ) +
   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1))
 ```
-![](san_andreas_map.png)
+<!-- ![](san_andreas_map.png) -->
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions from the modeled stress direction using counter-clockwise 45$^{\circ}$ loxodromes. 
 
@@ -123,9 +123,9 @@ considering the reported uncertainties of the measurement.
 
 ```{r san_andreas_nchisq, echo=TRUE}
 norm_chisq(
-  obs = as.numeric(san_andreas.res$azi.PoR),
+  obs = san_andreas.res$azi.PoR,
   prd = 135,
-  unc = as.numeric(san_andreas.res$unc)
+  unc = san_andreas.res$unc
 )
 ```
 
@@ -177,10 +177,10 @@ san_andreas.res$distance <-
 
 Finally, we visualize the the $\sigma_{Hmax}$ direction wrt. to the distance to
 the plate boundary:
-```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=FALSE}
-ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
+```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=TRUE}
+azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
-  labs(x = "Distance from plate boundary (degree)", y = "Azimuth in PoR (degree)") +
+  labs(x = "Distance from plate boundary (\u00B0)", y = "Azimuth in PoR (\u00B0)") +
   geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
   geom_pointrange(
     aes(
@@ -189,7 +189,6 @@ ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
     ),
     size = .25
   ) +
-  geom_smooth() +
   scale_y_continuous(
     breaks = seq(-180, 360, 45),
     sec.axis = sec_axis(
@@ -201,10 +200,25 @@ ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   ) +
   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1)) +
   scale_color_discrete(name = "Tectonic regime")
+print(azi_plot)
 ```
-![](azimuth.png)
+<!-- ![](azimuth.png) -->
 
-Close to the here dextral plate boundary, the majority of the stress data have 
+Adding a rolling mean:
+```{r san.andreas.distanceplot2_roll, warning=FALSE, message=FALSE, eval=TRUE}
+san_andreas.res_roll <-  san_andreas.res %>%
+      arrange(distance) %>% 
+      mutate(
+        roll_mean_azi.PoR = roll_circstats(azi.PoR, w = 1 / unc, FUN = circular_mean, width = 51)
+        )
+
+azi_plot +
+  geom_step(
+    data = san_andreas.res_roll, 
+    aes(distance, roll_mean_azi.PoR))
+```
+
+Close to the dextral plate boundary, the majority of the stress data have 
 a strike-slip fault regime and are oriented around 135$^{\circ}$ wrt. to the Euler 
 pole. Thus, the date are parallel to the predicted stress sourced by a 
 right-lateral displaced plate boundary. 
@@ -218,12 +232,11 @@ The relationship between the azimuth and the distance can be better visualized
 by using the deviation (normalized by the data precision) from the the predicted
 stress direction, i.e. the *normalized* $\chi^2$:
 
-```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE, eval=FALSE}
-ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
+```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE, eval=TRUE}
+nchisq_plot <- ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Distance from plate boundary (degree)", y = expression(Norm ~ chi^2)) +
+  labs(x = "Distance from plate boundary (\u00B0)", y = expression(Norm ~ chi^2)) +
   geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +
-  geom_smooth() +
   geom_point(aes(color = san_andreas$regime)) +
   scale_y_continuous(sec.axis = sec_axis(
     ~.,
@@ -232,8 +245,18 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
     labels = c("Good fit", "Random", "Systematic\nmisfit")
   )) +
   scale_color_discrete(name = "Tectonic regime")
+print(nchisq_plot)
 ```
-![](nchisq.png)
+<!-- ![](nchisq.png) -->
+
+Adding a rolling *Norm* $\chi^2$:
+```{r san.andreas.distanceplot2_roll, warning=FALSE, message=FALSE, eval=TRUE}
+nchisq_plot +
+  geom_step(
+    data = san_andreas.res_roll %>%
+      mutate(roll_nchisq = roll_normchisq(azi.PoR, prd, unc, width = 51)), 
+    aes(distance, roll_nchisq))
+```
 
 We can see that the data in fact starts to scatter notably 
 beyond a distance of 4$^{\circ}$ and becomes random at ca. 8$^{\circ}$ away from the plate 

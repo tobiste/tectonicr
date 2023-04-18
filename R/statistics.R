@@ -410,3 +410,102 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
   acos_beta <- sqrt(1 - x / (sind(dist_PoR)^2) * y)
   acosd(acos_beta) / 2
 }
+
+
+
+#' Apply Rolling Functions using circular statistics
+#'
+#' A generic function for applying a function to rolling margins of an array.
+#'
+#' @param azi numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}
+#' @param unc numeric. Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
+#' numeric vector or a number
+#' @inheritDotParams zoo::rollapply -data
+#' @returns numeric vector  with the results of the rolling function.
+#' @note If the rolling statistics are applied to values that are a function of
+#' distance it is recommended to sort the values first.
+#' @importFrom zoo rollapply
+#' @export
+#' @examples
+#' data("plates")
+#' plate_boundary <- subset(plates, plates$pair == "na-pa")
+#' data("san_andreas")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' distance <- distance_from_pb(
+#' x = san_andreas,
+#' euler = ep,
+#' pb = plate_boundary,
+#' tangential = TRUE
+#' )
+#' dat <- san_andreas[order(distance),]
+#' roll_circstats(dat$azi, w = 1/dat$unc, circular_mean, width = 51)
+roll_circstats <- function(azi, w = NULL,
+                           FUN,
+                           width, by.column = FALSE,
+                           partial = TRUE,
+                           align = "center",
+                           fill = NA,
+                           ...){
+  FUN <- match.fun(FUN)
+  t <- cbind(azi, w)
+
+  zoo::rollapply(
+    t,
+    width = width,
+    FUN = function(x) {
+      FUN(x[, 1], w = x[, 2])
+    },
+    by.column = by.column,
+    partial = partial,
+    align = align,
+    fill = fill,
+    ...
+  )
+}
+
+#' Apply Rolling Functions using circular statistics
+#'
+#' A generic function for applying a function to rolling margins of an array.
+#'
+#' @inheritParams norm_chisq
+#' @inheritDotParams zoo::rollapply -data
+#' @returns numeric vector  with the results of the rolling function.
+#' @note If the rolling statistics are applied to values that are a function of
+#' distance it is recommended to sort the values first.
+#' @importFrom zoo rollapply
+#' @export
+#' @examples
+#' data("plates")
+#' plate_boundary <- subset(plates, plates$pair == "na-pa")
+#' data("san_andreas")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' distance <- distance_from_pb(
+#' x = san_andreas,
+#' euler = ep,
+#' pb = plate_boundary,
+#' tangential = TRUE
+#' )
+#' dat <- san_andreas[order(distance),]
+#' dat.PoR <- PoR_shmax(san_andreas, ep, "right")
+#' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc, width = 51)
+roll_normchisq <- function(obs, prd, unc = NULL,
+                           width, by.column = FALSE,
+                           partial = TRUE,
+                           align = "center",
+                           fill = NA,
+                           ...){
+  t <- cbind(obs, prd, unc)
+
+  zoo::rollapply(
+    t,
+    width = width,
+    FUN = function(x) {
+      norm_chisq(x[, 1], x[, 2], x[, 3])
+    },
+    by.column = by.column,
+    partial = partial,
+    align = align,
+    fill = fill,
+    ...
+  )
+}

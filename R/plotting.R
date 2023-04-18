@@ -190,58 +190,58 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
 #' PoR_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
-PoR_plot <- function(azi, distance, prd, unc = NULL, regime, k = 51, ...) {
-  stopifnot(k >= 3, k %% 2 == 1)
+PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
   if (missing(regime)) {
     regime <- rep(NA, length(azi))
   }
   nchisq_i <- numeric()
   regime <- ifelse(is.na(regime), "U", regime)
 
-
-
   t <- data.frame(azi, distance, prd, unc, regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) %>%
     dplyr::arrange(distance) %>%
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
+      roll_mean = roll_circstats(azi, w = 1 / unc, FUN = circular_mean, width = width, ...),
+      roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width, ...),
+      roll_nchisq = roll_normchisq(azi, prd, unc, width = width, ...)
     )
 
-  t$roll_mean <- zoo::rollapply(
-    t %>% select(azi, unc),
-    width = k,
-    FUN = function(x) {
-      circular_mean(x[, "azi"], 1 / x[, "unc"])
-    },
-    by.column = FALSE,
-    partial = TRUE,
-    align = "center",
-    fill = NA,
-    ...
-  )
-  t$roll_sd <- zoo::rollapply(
-    t %>% select(azi, unc),
-    width = k,
-    FUN = function(x) {
-      circular_sd(x[, "azi"], 1 / x[, "unc"])
-    },
-    by.column = FALSE,
-    partial = TRUE,
-    align = "center",
-    fill = NA,
-    ...
-  )
-  t$roll_nchisq <- zoo::rollapply(
-    t %>% select(azi, prd, unc),
-    width = k,
-    FUN = function(x) {
-      norm_chisq(x[, "azi"], x[, "prd"], x[, "unc"])
-    },
-    by.column = FALSE,
-    partial = TRUE,
-    align = "center",
-    fill = NA,
-    ...
-  )
+  #   t$roll_mean <- zoo::rollapply(
+  #   t %>% select(azi, unc),
+  #   width = k,
+  #   FUN = function(x) {
+  #     circular_mean(x[, "azi"], 1 / x[, "unc"])
+  #   },
+  #   by.column = FALSE,
+  #   partial = TRUE,
+  #   align = "center",
+  #   fill = NA,
+  #   ...
+  # )
+  # t$roll_sd <- zoo::rollapply(
+  #   t %>% select(azi, unc),
+  #   width = k,
+  #   FUN = function(x) {
+  #     circular_sd(x[, "azi"], 1 / x[, "unc"])
+  #   },
+  #   by.column = FALSE,
+  #   partial = TRUE,
+  #   align = "center",
+  #   fill = NA,
+  #   ...
+  # )
+  # t$roll_nchisq <- zoo::rollapply(
+  #   t %>% select(azi, prd, unc),
+  #   width = k,
+  #   FUN = function(x) {
+  #     norm_chisq(x[, "azi"], x[, "prd"], x[, "unc"])
+  #   },
+  #   by.column = FALSE,
+  #   partial = TRUE,
+  #   align = "center",
+  #   fill = NA,
+  #   ...
+  # )
 
   nchisq <- norm_chisq(azi, prd, unc)
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
