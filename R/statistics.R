@@ -432,20 +432,20 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
 #' data("san_andreas")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' distance <- distance_from_pb(
-#' x = san_andreas,
-#' euler = ep,
-#' pb = plate_boundary,
-#' tangential = TRUE
+#'   x = san_andreas,
+#'   euler = ep,
+#'   pb = plate_boundary,
+#'   tangential = TRUE
 #' )
-#' dat <- san_andreas[order(distance),]
-#' roll_circstats(dat$azi, w = 1/dat$unc, circular_mean, width = 51)
+#' dat <- san_andreas[order(distance), ]
+#' roll_circstats(dat$azi, w = 1 / dat$unc, circular_mean, width = 51)
 roll_circstats <- function(azi, w = NULL,
                            FUN,
                            width, by.column = FALSE,
                            partial = TRUE,
                            align = "center",
                            fill = NA,
-                           ...){
+                           ...) {
   FUN <- match.fun(FUN)
   t <- cbind(azi, w)
 
@@ -480,12 +480,12 @@ roll_circstats <- function(azi, w = NULL,
 #' data("san_andreas")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' distance <- distance_from_pb(
-#' x = san_andreas,
-#' euler = ep,
-#' pb = plate_boundary,
-#' tangential = TRUE
+#'   x = san_andreas,
+#'   euler = ep,
+#'   pb = plate_boundary,
+#'   tangential = TRUE
 #' )
-#' dat <- san_andreas[order(distance),]
+#' dat <- san_andreas[order(distance), ]
 #' dat.PoR <- PoR_shmax(san_andreas, ep, "right")
 #' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc, width = 51)
 roll_normchisq <- function(obs, prd, unc = NULL,
@@ -493,7 +493,7 @@ roll_normchisq <- function(obs, prd, unc = NULL,
                            partial = TRUE,
                            align = "center",
                            fill = NA,
-                           ...){
+                           ...) {
   t <- cbind(obs, prd, unc)
 
   zoo::rollapply(
