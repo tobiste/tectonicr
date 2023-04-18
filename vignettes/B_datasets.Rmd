@@ -74,7 +74,7 @@ stored under `data("nuvel1_plates")`.
 trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
 
 ggplot(san_andreas.res) +
-  borders(fill = "grey80") +
+  # borders(fill = "grey80") +
   geom_sf(
     data = plates,
     color = "red",
@@ -204,10 +204,12 @@ print(azi_plot)
 
 Adding a rolling mean:
 ```{r san.andreas.distanceplot1_roll, warning=FALSE, message=FALSE, eval=TRUE}
-san_andreas.res_roll <- san_andreas.res %>%
-  arrange(distance) %>%
-  mutate(
-    roll_mean_azi.PoR = roll_circstats(azi.PoR, w = 1 / unc, FUN = circular_mean, width = 51)
+san_andreas.res_roll <- san_andreas.res[order(distance), ] 
+
+san_andreas.res_roll$roll_mean_azi.PoR <- roll_circstats(
+  san_andreas.res_roll$azi.PoR, 
+  w = 1 / san_andreas.res_roll$unc, 
+  FUN = circular_mean, width = 51
   )
 
 azi_plot +
@@ -250,10 +252,15 @@ print(nchisq_plot)
 
 Adding a rolling *Norm* $\chi^2$:
 ```{r san.andreas.distanceplot2_roll, warning=FALSE, message=FALSE, eval=TRUE}
+san_andreas.res_roll$roll_nchisq <- roll_normchisq(
+  san_andreas.res_roll$azi.PoR, 
+  san_andreas.res_roll$prd, 
+  san_andreas.res_roll$unc, 
+  width = 51)
+
 nchisq_plot +
   geom_step(
-    data = san_andreas.res_roll %>%
-      mutate(roll_nchisq = roll_normchisq(azi.PoR, prd, unc, width = 51)),
+    data = san_andreas.res_roll,
     aes(distance, roll_nchisq)
   )
 ```
