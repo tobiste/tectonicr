@@ -37,7 +37,7 @@ plate (DeMets et al. 1990). In order to extract the plate motions between two ot
 a new, equivalent reference system (i.e. all rotation with respect to (wrt.)
 Eurasia). 
 
-In **tectonicr** this can be done with \code{equivalent_rotation}:
+In **tectonicr** this can be done with `equivalent_rotation()`:
 
 ```{r nuvel_eq, echo=TRUE}
 data("nuvel1")
@@ -90,10 +90,10 @@ To eventually plot the small circles with `ggplot`, I recommend to extract a
 ```{r small_circles_around_ep, eval=FALSE, include=TRUE}
 euler.sm <- eulerpole_smallcircles(euler)
 data("plates") # load plate boundary data set
-world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
+# world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 
 ggplot() +
-  geom_sf(data = world, alpha = .5) +
+  # geom_sf(data = world, alpha = .5) +
   geom_sf(
     data = plates,
     color = "red",
@@ -142,7 +142,7 @@ or the great circle angles (`360/d`).
 euler.gm <- eulerpole_greatcircles(euler)
 
 ggplot() +
-  geom_sf(data = world, alpha = .5) +
+  # geom_sf(data = world, alpha = .5) +
   geom_sf(
     data = plates,
     color = "red",
@@ -200,7 +200,7 @@ euler.ld <- eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = TRUE)
 
 ggplot() +
   labs(title = "India relative to Eurasia", subtitle = "source: NUVEL1") +
-  geom_sf(data = world, alpha = .5) +
+  # geom_sf(data = world, alpha = .5) +
   geom_sf(
     data = plates,
     color = "red",

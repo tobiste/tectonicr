@@ -50,12 +50,12 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 data("san_andreas")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 distance <- distance_from_pb(
-x = san_andreas,
-euler = ep,
-pb = plate_boundary,
-tangential = TRUE
+  x = san_andreas,
+  euler = ep,
+  pb = plate_boundary,
+  tangential = TRUE
 )
-dat <- san_andreas[order(distance),]
+dat <- san_andreas[order(distance), ]
 dat.PoR <- PoR_shmax(san_andreas, ep, "right")
 roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc, width = 51)
 }

@@ -71,12 +71,10 @@ Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. (1
 stored under `data("nuvel1_plates")`.
 
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
-# load some geometries from the rnaturalearth package
-world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
 trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
 
 ggplot(san_andreas.res) +
-  geom_sf(data = world, alpha = .5) +
+  borders(fill = "grey80") +
   geom_sf(
     data = plates,
     color = "red",
