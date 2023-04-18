@@ -205,17 +205,18 @@ print(azi_plot)
 <!-- ![](azimuth.png) -->
 
 Adding a rolling mean:
-```{r san.andreas.distanceplot2_roll, warning=FALSE, message=FALSE, eval=TRUE}
-san_andreas.res_roll <-  san_andreas.res %>%
-      arrange(distance) %>% 
-      mutate(
-        roll_mean_azi.PoR = roll_circstats(azi.PoR, w = 1 / unc, FUN = circular_mean, width = 51)
-        )
+```{r san.andreas.distanceplot1_roll, warning=FALSE, message=FALSE, eval=TRUE}
+san_andreas.res_roll <- san_andreas.res %>%
+  arrange(distance) %>%
+  mutate(
+    roll_mean_azi.PoR = roll_circstats(azi.PoR, w = 1 / unc, FUN = circular_mean, width = 51)
+  )
 
 azi_plot +
   geom_step(
-    data = san_andreas.res_roll, 
-    aes(distance, roll_mean_azi.PoR))
+    data = san_andreas.res_roll,
+    aes(distance, roll_mean_azi.PoR)
+  )
 ```
 
 Close to the dextral plate boundary, the majority of the stress data have 
@@ -254,8 +255,9 @@ Adding a rolling *Norm* $\chi^2$:
 nchisq_plot +
   geom_step(
     data = san_andreas.res_roll %>%
-      mutate(roll_nchisq = roll_normchisq(azi.PoR, prd, unc, width = 51)), 
-    aes(distance, roll_nchisq))
+      mutate(roll_nchisq = roll_normchisq(azi.PoR, prd, unc, width = 51)),
+    aes(distance, roll_nchisq)
+  )
 ```
 
 We can see that the data in fact starts to scatter notably 
