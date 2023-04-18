@@ -244,9 +244,15 @@ euler_to_Q4 <- function(x, normalize = FALSE) {
 #' @returns \code{"euler.pole"} object
 Q4_to_euler <- function(q) {
   stopifnot(is.Q4(q))
-  angle <- 2 * acos(q$Sc)
-  axis <- q$Vec / sin(angle / 2)
-  # list(angle = angle, axis = axis)
+  Vec <- q$Vec
+  Sc <- q$Sc
+
+  # angle <- 2 * acos(Sc)
+  # numerically more stable:
+  Vec_l <- sqrt(Vec[1]^2 + Vec[2]^2 + Vec[3]^2)
+  angle <- 2 * atan2(Vec_l, Sc)
+
+  axis <- Vec / sin(angle / 2)
   euler_pole(x = axis[1], y = axis[2], z = axis[3], angle = rad2deg(angle), geo = FALSE)
 }
 
@@ -342,10 +348,13 @@ is.Q4 <- function(x) {
 rotation_Q4 <- function(q, p) {
   stopifnot(is.Q4(q))
 
-  # Rodrigues Formula
   q.euler <- Q4_to_euler(q)
+  # Rodrigues Formula
+  # p * cos(q.euler$angle) + vcross(q.euler$axis, p) * sin(q.euler$angle) + q.euler$axis * as.numeric(q.euler$axis %*% p) * (1 - cos(q.euler$axis))
+
+  # faster:
   axis <- c(q.euler$x, q.euler$y, q.euler$z)
   angle <- q.euler$angle
-  # p * cos(q.euler$angle) + vcross(q.euler$axis, p) * sin(q.euler$angle) + q.euler$axis * as.numeric(q.euler$axis %*% p) * (1 - cos(q.euler$axis))
-  p + vcross(axis, p) * sin(angle) + vcross(axis, vcross(axis, p)) * 2 * (sin(angle / 2))^2
+  vap <- vcross(axis, p)
+  p + vap * sin(angle) + vcross(axis, vap) * 2 * (sin(angle / 2))^2
 }
