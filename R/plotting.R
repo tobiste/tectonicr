@@ -172,7 +172,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' numeric vector or a number
 #' @param regime character vector. The stress
 #' regime (following the classification of the World Stress Map)
-#' @param k integer. window width (in number of observations) for moving average
+#' @param width integer. window width (in number of observations) for moving average
 #'  of the azimuths and Norm Chi-square statistics.
 #' @param ... optional arguments to `zoo::rollapply()`, [rose()], or `plot()`
 #' @importFrom dplyr arrange mutate

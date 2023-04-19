@@ -5,28 +5,55 @@
 \title{Apply Rolling Functions using circular statistics}
 \usage{
 roll_circstats(
-  azi,
+  x,
   w = NULL,
   FUN,
+  axial = TRUE,
+  na.rm = TRUE,
   width,
   by.column = FALSE,
   partial = TRUE,
-  align = "center",
   fill = NA,
   ...
 )
 }
 \arguments{
-\item{azi}{numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}}
+\item{x}{Data values. A vector of numeric values in degrees, for which the
+mean, median or standard deviation are required.}
+
+\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
+\code{x}.}
+
+\item{FUN}{the function to be applied}
+
+\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
+(TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).}
+
+\item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
+should be stripped before the computation proceeds.}
+
+\item{width}{numeric vector or list. In the simplest case this is an integer
+specifying the window width (in numbers of observations) which is aligned to
+the original sample according to the \code{align} argument. Alternatively, width
+can be a list regarded as offsets compared to the current time.}
+
+\item{by.column}{logical. If \code{TRUE}, FUN is applied to each column separately.}
+
+\item{partial}{logical or numeric. If \code{FALSE} then \code{FUN} is only
+applied when all indexes of the rolling window are within the observed time
+range. If \code{TRUE} (default), then the subset of indexes that are in range
+are passed to \code{FUN}. A numeric argument to partial can be used to determine
+the minimal window size for partial computations. See below for more details.}
+
+\item{fill}{a three-component vector or list (recycled otherwise) providing
+filling values at the left/within/to the right of the data range. See the
+fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 
 \item{...}{
   Arguments passed on to \code{\link[zoo:rollapply]{zoo::rollapply}}
   \describe{
     \item{\code{}}{}
   }}
-
-\item{unc}{numeric. Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
-numeric vector or a number}
 }
 \value{
 numeric vector  with the results of the rolling function.

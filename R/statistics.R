@@ -417,9 +417,21 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
 #'
 #' A generic function for applying a function to rolling margins of an array.
 #'
-#' @param azi numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}
-#' @param unc numeric. Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
-#' numeric vector or a number
+#' @inheritParams circular_mean
+#' @param width numeric vector or list. In the simplest case this is an integer
+#' specifying the window width (in numbers of observations) which is aligned to
+#' the original sample according to the `align` argument. Alternatively, width
+#' can be a list regarded as offsets compared to the current time.
+#' @param FUN the function to be applied
+#' @param by.column logical. If `TRUE`, FUN is applied to each column separately.
+#' @param fill a three-component vector or list (recycled otherwise) providing
+#' filling values at the left/within/to the right of the data range. See the
+#' fill argument of [zoo::na.fill()] for details
+#' @param partial logical or numeric. If `FALSE` then `FUN` is only
+#' applied when all indexes of the rolling window are within the observed time
+#' range. If `TRUE` (default), then the subset of indexes that are in range
+#' are passed to `FUN`. A numeric argument to partial can be used to determine
+#' the minimal window size for partial computations. See below for more details.
 #' @inheritDotParams zoo::rollapply -data
 #' @returns numeric vector  with the results of the rolling function.
 #' @note If the rolling statistics are applied to values that are a function of
@@ -439,25 +451,23 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
 #' )
 #' dat <- san_andreas[order(distance), ]
 #' roll_circstats(dat$azi, w = 1 / dat$unc, circular_mean, width = 51)
-roll_circstats <- function(azi, w = NULL,
+roll_circstats <- function(x, w = NULL,
                            FUN,
+                           axial = TRUE, na.rm = TRUE,
                            width, by.column = FALSE,
                            partial = TRUE,
-                           align = "center",
                            fill = NA,
                            ...) {
   FUN <- match.fun(FUN)
-  t <- cbind(azi, w)
 
   zoo::rollapply(
-    t,
+    cbind(x, w),
     width = width,
     FUN = function(x) {
-      FUN(x[, 1], w = x[, 2])
+      FUN(x[, 1], w = x[, 2], axial, na.rm)
     },
     by.column = by.column,
     partial = partial,
-    align = align,
     fill = fill,
     ...
   )
@@ -468,6 +478,19 @@ roll_circstats <- function(azi, w = NULL,
 #' A generic function for applying a function to rolling margins of an array.
 #'
 #' @inheritParams norm_chisq
+#' @param width numeric vector or list. In the simplest case this is an integer
+#' specifying the window width (in numbers of observations) which is aligned to
+#' the original sample according to the `align` argument. Alternatively, width
+#' can be a list regarded as offsets compared to the current time.
+#' @param by.column logical. If `TRUE`, FUN is applied to each column separately.
+#' @param fill a three-component vector or list (recycled otherwise) providing
+#' filling values at the left/within/to the right of the data range. See the
+#' fill argument of [zoo::na.fill()] for details
+#' @param partial logical or numeric. If `FALSE` then `FUN` is only
+#' applied when all indexes of the rolling window are within the observed time
+#' range. If `TRUE` (default), then the subset of indexes that are in range
+#' are passed to `FUN`. A numeric argument to partial can be used to determine
+#' the minimal window size for partial computations. See below for more details.
 #' @inheritDotParams zoo::rollapply -data
 #' @returns numeric vector  with the results of the rolling function.
 #' @note If the rolling statistics are applied to values that are a function of
@@ -491,20 +514,16 @@ roll_circstats <- function(azi, w = NULL,
 roll_normchisq <- function(obs, prd, unc = NULL,
                            width, by.column = FALSE,
                            partial = TRUE,
-                           align = "center",
                            fill = NA,
                            ...) {
-  t <- cbind(obs, prd, unc)
-
   zoo::rollapply(
-    t,
+    cbind(obs, prd, unc),
     width = width,
     FUN = function(x) {
       norm_chisq(x[, 1], x[, 2], x[, 3])
     },
     by.column = by.column,
     partial = partial,
-    align = align,
     fill = fill,
     ...
   )

@@ -11,7 +11,6 @@ roll_normchisq(
   width,
   by.column = FALSE,
   partial = TRUE,
-  align = "center",
   fill = NA,
   ...
 )
@@ -27,6 +26,23 @@ the return object from \code{model_shmax()}}
 
 \item{unc}{Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 numeric vector or a number}
+
+\item{width}{numeric vector or list. In the simplest case this is an integer
+specifying the window width (in numbers of observations) which is aligned to
+the original sample according to the \code{align} argument. Alternatively, width
+can be a list regarded as offsets compared to the current time.}
+
+\item{by.column}{logical. If \code{TRUE}, FUN is applied to each column separately.}
+
+\item{partial}{logical or numeric. If \code{FALSE} then \code{FUN} is only
+applied when all indexes of the rolling window are within the observed time
+range. If \code{TRUE} (default), then the subset of indexes that are in range
+are passed to \code{FUN}. A numeric argument to partial can be used to determine
+the minimal window size for partial computations. See below for more details.}
+
+\item{fill}{a three-component vector or list (recycled otherwise) providing
+filling values at the left/within/to the right of the data range. See the
+fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 
 \item{...}{
   Arguments passed on to \code{\link[zoo:rollapply]{zoo::rollapply}}

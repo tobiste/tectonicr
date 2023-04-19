@@ -61,7 +61,7 @@ the marker symbol at the center of the point. The deviation can be color
 coded. `deviation_norm()` yields the normalized value of the deviation,
 i.e. values between 0 and 90$^{\circ}$.
 
-Also included are the plate boundary geometries after Bird (2003)
+Also included are the plate boundary geometries after Bird (2003):
 
 ```{r plates, echo=TRUE}
 data("plates") # load plate boundary data set
