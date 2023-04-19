@@ -67,7 +67,6 @@
 <span>  <span class="va">width</span>,</span>
 <span>  by.column <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  partial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  align <span class="op">=</span> <span class="st">"center"</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -90,6 +89,31 @@ the return object from <code><a href="model_shmax.html">model_shmax()</a></code>
 <dt>unc</dt>
 <dd><p>Uncertainty of observed \(\sigma_{Hmax}\), either a
 numeric vector or a number</p></dd>
+
+
+<dt>width</dt>
+<dd><p>numeric vector or list. In the simplest case this is an integer
+specifying the window width (in numbers of observations) which is aligned to
+the original sample according to the <code>align</code> argument. Alternatively, width
+can be a list regarded as offsets compared to the current time.</p></dd>
+
+
+<dt>by.column</dt>
+<dd><p>logical. If <code>TRUE</code>, FUN is applied to each column separately.</p></dd>
+
+
+<dt>partial</dt>
+<dd><p>logical or numeric. If <code>FALSE</code> then <code>FUN</code> is only
+applied when all indexes of the rolling window are within the observed time
+range. If <code>TRUE</code> (default), then the subset of indexes that are in range
+are passed to <code>FUN</code>. A numeric argument to partial can be used to determine
+the minimal window size for partial computations. See below for more details.</p></dd>
+
+
+<dt>fill</dt>
+<dd><p>a three-component vector or list (recycled otherwise) providing
+filling values at the left/within/to the right of the data range. See the
+fill argument of <code><a href="https://rdrr.io/pkg/zoo/man/na.fill.html" class="external-link">zoo::na.fill()</a></code> for details</p></dd>
 
 
 <dt>...</dt>

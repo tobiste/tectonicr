@@ -61,13 +61,14 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">roll_circstats</span><span class="op">(</span></span>
-<span>  <span class="va">azi</span>,</span>
+<span>  <span class="va">x</span>,</span>
 <span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">FUN</span>,</span>
+<span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">width</span>,</span>
 <span>  by.column <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  partial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  align <span class="op">=</span> <span class="st">"center"</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -75,8 +76,53 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>azi</dt>
-<dd><p>numeric. Azimuth of \(\sigma_{Hmax}\)</p></dd>
+    <dl><dt>x</dt>
+<dd><p>Data values. A vector of numeric values in degrees, for which the
+mean, median or standard deviation are required.</p></dd>
+
+
+<dt>w</dt>
+<dd><p>(optional) Weights. A vector of positive numbers, of the same length as
+<code>x</code>.</p></dd>
+
+
+<dt>FUN</dt>
+<dd><p>the function to be applied</p></dd>
+
+
+<dt>axial</dt>
+<dd><p>logical. Whether the data are axial, i.e. pi-periodical
+(TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).</p></dd>
+
+
+<dt>na.rm</dt>
+<dd><p>logical value indicating whether <code>NA</code> values in <code>x</code>
+should be stripped before the computation proceeds.</p></dd>
+
+
+<dt>width</dt>
+<dd><p>numeric vector or list. In the simplest case this is an integer
+specifying the window width (in numbers of observations) which is aligned to
+the original sample according to the <code>align</code> argument. Alternatively, width
+can be a list regarded as offsets compared to the current time.</p></dd>
+
+
+<dt>by.column</dt>
+<dd><p>logical. If <code>TRUE</code>, FUN is applied to each column separately.</p></dd>
+
+
+<dt>partial</dt>
+<dd><p>logical or numeric. If <code>FALSE</code> then <code>FUN</code> is only
+applied when all indexes of the rolling window are within the observed time
+range. If <code>TRUE</code> (default), then the subset of indexes that are in range
+are passed to <code>FUN</code>. A numeric argument to partial can be used to determine
+the minimal window size for partial computations. See below for more details.</p></dd>
+
+
+<dt>fill</dt>
+<dd><p>a three-component vector or list (recycled otherwise) providing
+filling values at the left/within/to the right of the data range. See the
+fill argument of <code><a href="https://rdrr.io/pkg/zoo/man/na.fill.html" class="external-link">zoo::na.fill()</a></code> for details</p></dd>
 
 
 <dt>...</dt>
@@ -85,11 +131,6 @@
 
   
 </dl></dd>
-
-
-<dt>unc</dt>
-<dd><p>numeric. Uncertainty of observed \(\sigma_{Hmax}\), either a
-numeric vector or a number</p></dd>
 
 </dl></div>
     <div class="section level2">
