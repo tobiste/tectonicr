@@ -69,7 +69,7 @@ and a rose diagram of the frequency distribution of the azimuths.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PoR_plot</span><span class="op">(</span><span class="va">azi</span>, <span class="va">distance</span>, <span class="va">prd</span>, unc <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">regime</span>, k <span class="op">=</span> <span class="fl">51</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PoR_plot</span><span class="op">(</span><span class="va">azi</span>, <span class="va">distance</span>, <span class="va">prd</span>, unc <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">regime</span>, width <span class="op">=</span> <span class="fl">51</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -96,13 +96,13 @@ numeric vector or a number</p></dd>
 regime (following the classification of the World Stress Map)</p></dd>
 
 
+<dt>...</dt>
+<dd><p>optional arguments to <code><a href="https://rdrr.io/pkg/zoo/man/rollapply.html" class="external-link">zoo::rollapply()</a></code>, <code><a href="rose.html">rose()</a></code>, or <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code></p></dd>
+
+
 <dt>k</dt>
 <dd><p>integer. window width (in number of observations) for moving average
 of the azimuths and Norm Chi-square statistics.</p></dd>
-
-
-<dt>...</dt>
-<dd><p>optional arguments to <code><a href="https://rdrr.io/pkg/zoo/man/rollapply.html" class="external-link">zoo::rollapply()</a></code>, <code><a href="rose.html">rose()</a></code>, or <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
