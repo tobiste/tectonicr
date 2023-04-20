@@ -27,13 +27,13 @@ jobs:
          R -e 'install.packages("remotes")'
          R -e 'library(remotes)'
 
-# - name: Install system dependencies
-      #   if: runner.os == 'Linux'
-      #   run: |
-      #     while read -r cmd
-      #     do
-      #       eval sudo $cmd
-      #     done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
 
       - uses: r-lib/actions/setup-pandoc@v2
 

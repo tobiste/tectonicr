@@ -73,7 +73,7 @@ stored under `data("nuvel1_plates")`.
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
 trajectories <- eulerpole_loxodromes(euler, 40, cw = FALSE)
 
-ggplot(san_andreas.res) +
+ggplot() +
   # borders(fill = "grey80") +
   geom_sf(
     data = plates,
@@ -86,6 +86,7 @@ ggplot(san_andreas.res) +
     lty = 2
   ) +
   geom_spoke(
+    data = as.data.frame(san_andreas.res),
     aes(
       x = lon,
       y = lat,
@@ -171,7 +172,7 @@ san_andreas.res$distance <-
   )
 ```
 
-Finally, we visualize the the $\sigma_{Hmax}$ direction wrt. to the distance to
+Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the distance to
 the plate boundary:
 ```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=TRUE}
 azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
