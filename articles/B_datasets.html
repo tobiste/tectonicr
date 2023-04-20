@@ -177,7 +177,7 @@ trajectories and data points:</p>
 <span>    lty <span class="op">=</span> <span class="fl">2</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">)</span>,</span>
+<span>    data <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>      x <span class="op">=</span> <span class="va">lon</span>,</span>
 <span>      y <span class="op">=</span> <span class="va">lat</span>,</span>
