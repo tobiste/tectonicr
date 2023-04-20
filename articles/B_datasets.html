@@ -142,10 +142,13 @@ deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</
 <p>Alternatively, there is also the NUVEL1 plate boundary model by
 DeMets et al. (1990) stored under
 <code>data("nuvel1_plates")</code>.</p>
+<p>First we create the predicted trajectories of <span class="math inline">\(\sigma_{Hmax}\)</span> (more details in Article
+3.):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span><span class="va">euler</span>, <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span><span class="va">euler</span>, <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>Then we initialize the plot <code>map</code>…</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># borders(fill = "grey80") +</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">plates</span>,</span>
@@ -153,6 +156,22 @@ DeMets et al. (1990) stored under
 <span>    lwd <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">scale_color_continuous</a></span><span class="op">(</span></span>
+<span>    type <span class="op">=</span> <span class="st">"viridis"</span>,</span>
+<span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">90</span><span class="op">)</span>,</span>
+<span>    name <span class="op">=</span> <span class="st">"|Deviation| in (\u00B0)"</span>,</span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">90</span>, <span class="fl">22.5</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
+<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,</span>
+<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Using alpha for a discrete variable is not advised.</span></span></code></pre></div>
+<p>…and add the <span class="math inline">\(\sigma_{Hmax}\)</span>
+trajectories and data points:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">map</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">trajectories</span>,</span>
 <span>    lty <span class="op">=</span> <span class="fl">2</span></span>
@@ -169,26 +188,17 @@ DeMets et al. (1990) stored under
 <span>    radius <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    position <span class="op">=</span> <span class="st">"center_spoke"</span>,</span>
 <span>    na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html" class="external-link">scale_color_continuous</a></span><span class="op">(</span></span>
-<span>    type <span class="op">=</span> <span class="st">"viridis"</span>,</span>
-<span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">90</span><span class="op">)</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"|Deviation| in (\u00B0)"</span>,</span>
-<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">90</span>, <span class="fl">22.5</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
-<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,</span>
-<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="B_datasets_files/figure-html/plot-1.png" width="700"><!-- ![](san_andreas_map.png) --></p>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will</span></span>
+<span><span class="co">#&gt; replace the existing one.</span></span></code></pre></div>
+<p><img src="B_datasets_files/figure-html/plot2-1.png" width="700"><!-- ![](san_andreas_map.png) --></p>
 <p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled
 stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes.</p>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span>
 test quantifies the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> direction the observed
 stress direction considering the reported uncertainties of the
 measurement.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span></span>
 <span>  obs <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
 <span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
@@ -231,7 +241,7 @@ difference between the data points and the inward/outward or tangential
 moving plate boundaries, respectively.</p>
 <p>This is done with the function <code><a href="../reference/distance_from_pb.html">distance_from_pb()</a></code>, which
 returns the angular distances.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">plates</span><span class="op">$</span><span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span></span>
 <span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/distance_from_pb.html">distance_from_pb</a></span><span class="op">(</span></span>
@@ -242,7 +252,7 @@ returns the angular distances.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Finally, we visualize the <span class="math inline">\(\sigma_{Hmax}\)</span> direction wrt. to the
 distance to the plate boundary:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">azi_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (\u00B0)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (\u00B0)"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -265,11 +275,12 @@ distance to the plate boundary:</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Using alpha for a discrete variable is not advised.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">azi_plot</span><span class="op">)</span></span></code></pre></div>
 <p><img src="B_datasets_files/figure-html/san.andreas.distanceplot1-1.png" width="700"><!-- ![](azimuth.png) --></p>
 <p>Adding a rolling statistics (e.g. weighted mean and sd.) of the
 transformed azimuth:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">san_andreas.res_roll</span> <span class="op">&lt;-</span> <span class="va">san_andreas.res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span><span class="op">)</span>, <span class="op">]</span> </span>
 <span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">roll_mean_azi.PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/roll_circstats.html">roll_circstats</a></span><span class="op">(</span></span>
@@ -298,7 +309,7 @@ displaced boundary.</p>
 visualized by using the deviation (normalized by the data precision)
 from the the predicted stress direction, i.e. the <em>normalized</em>
 <span class="math inline">\(\chi^2\)</span>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Rolling norm chisq:</span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">roll_nchisq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/roll_normchisq.html">roll_normchisq</a></span><span class="op">(</span></span>
 <span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>, </span>
@@ -340,7 +351,7 @@ zone.</p>
 </h2>
 <p>A quick analysis including visualization of the results can be
 obtained by</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
