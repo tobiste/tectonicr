@@ -70,10 +70,15 @@ data("plates") # load plate boundary data set
 Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. (1990)
 stored under `data("nuvel1_plates")`.
 
-```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
-trajectories <- eulerpole_loxodromes(euler, 40, cw = FALSE)
+First we create the predicted trajectories of $\sigma_{Hmax}$ (more details in Article 3.):
 
-ggplot() +
+```{r trajectories, echo=TRUE}
+trajectories <- eulerpole_loxodromes(euler, 40, cw = FALSE)
+```
+
+Then we initialize the plot `map`... 
+```{r plot1, echo=TRUE}
+map <- ggplot() +
   # borders(fill = "grey80") +
   geom_sf(
     data = plates,
@@ -81,6 +86,22 @@ ggplot() +
     lwd = 2,
     alpha = .5
   ) +
+  scale_color_continuous(
+    type = "viridis",
+    limits = c(0, 90),
+    name = "|Deviation| in (\u00B0)",
+    breaks = seq(0, 90, 22.5)
+  ) +
+  coord_sf(
+    xlim = range(san_andreas.res$lon),
+    ylim = range(san_andreas.res$lat)
+  ) +
+  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.4))
+```
+...and add the $\sigma_{Hmax}$ trajectories and data points:
+
+```{r plot2, echo=TRUE}
+map +
   geom_sf(
     data = trajectories,
     lty = 2
@@ -97,18 +118,7 @@ ggplot() +
     radius = 1,
     position = "center_spoke",
     na.rm = TRUE
-  ) +
-  scale_color_continuous(
-    type = "viridis",
-    limits = c(0, 90),
-    name = "|Deviation| in (\u00B0)",
-    breaks = seq(0, 90, 22.5)
-  ) +
-  coord_sf(
-    xlim = range(san_andreas.res$lon),
-    ylim = range(san_andreas.res$lat)
-  ) +
-  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.4))
+  )
 ```
 <!-- ![](san_andreas_map.png) -->
 
@@ -174,7 +184,7 @@ san_andreas.res$distance <-
 
 Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the distance to
 the plate boundary:
-```{r san.andreas.distanceplot1, warning=FALSE, message=FALSE, eval=TRUE}
+```{r san.andreas.distanceplot1, echo=TRUE}
 azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
   labs(x = "Distance from plate boundary (\u00B0)", y = "Azimuth in PoR (\u00B0)") +
@@ -202,7 +212,7 @@ print(azi_plot)
 <!-- ![](azimuth.png) -->
 
 Adding a rolling statistics (e.g. weighted mean and sd.) of the transformed azimuth:
-```{r san.andreas.distanceplot1_roll, warning=TRUE, message=TRUE, eval=TRUE}
+```{r san.andreas.distanceplot1_roll, echo=TRUE}
 san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ] 
 
 san_andreas.res_roll$roll_mean_azi.PoR <- roll_circstats(
@@ -232,7 +242,7 @@ The relationship between the azimuth and the distance can be better visualized
 by using the deviation (normalized by the data precision) from the the predicted
 stress direction, i.e. the *normalized* $\chi^2$:
 
-```{r san.andreas.distanceplot2, warning=FALSE, message=FALSE, eval=TRUE}
+```{r san.andreas.distanceplot2, echo=TRUE}
 # Rolling norm chisq:
 san_andreas.res_roll$roll_nchisq <- roll_normchisq(
   san_andreas.res_roll$azi.PoR, 
