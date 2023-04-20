@@ -143,7 +143,7 @@ deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</
 DeMets et al. (1990) stored under
 <code>data("nuvel1_plates")</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span><span class="va">euler</span>, <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># borders(fill = "grey80") +</span></span>
@@ -161,11 +161,11 @@ DeMets et al. (1990) stored under
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
 <span>      x <span class="op">=</span> <span class="va">lon</span>,</span>
 <span>      y <span class="op">=</span> <span class="va">lat</span>,</span>
-<span>      radius <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>      angle <span class="op">=</span> <span class="fu"><a href="../reference/angle-conversion.html">deg2rad</a></span><span class="op">(</span><span class="fl">90</span> <span class="op">-</span> <span class="va">azi</span><span class="op">)</span>,</span>
 <span>      color <span class="op">=</span> <span class="fu"><a href="../reference/deviation_norm.html">deviation_norm</a></span><span class="op">(</span><span class="va">dev</span><span class="op">)</span>,</span>
-<span>      alpha <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">quality</span></span>
+<span>      alpha <span class="op">=</span> <span class="va">quality</span></span>
 <span>    <span class="op">)</span>,</span>
+<span>    radius <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    position <span class="op">=</span> <span class="st">"center_spoke"</span>,</span>
 <span>    na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -177,11 +177,9 @@ DeMets et al. (1990) stored under
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
 <span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,</span>
-<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span>,</span>
-<span>    expand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    default_crs <span class="op">=</span> <span class="st">"WGS84"</span></span>
+<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="B_datasets_files/figure-html/plot-1.png" width="700"><!-- ![](san_andreas_map.png) --></p>
 <p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled
 stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes.</p>
@@ -326,10 +324,10 @@ from the the predicted stress direction, i.e. the <em>normalized</em>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="B_datasets_files/figure-html/san.andreas.distanceplot2-1.png" width="700"><!-- ![](nchisq.png) --></p>
 <p>We can see that the data in fact starts to scatter notably beyond a
-distance of 4<span class="math inline">\(^{\circ}\)</span> and becomes
-random at ca. 8<span class="math inline">\(^{\circ}\)</span> away from
-the plate boundary. Thus, the North American-Pacific plate boundary zone
-at the San Andreas Fault is approx. 4–6<span class="math inline">\(^{\circ}\)</span> (ca. 440–670 km) wide.</p>
+distance of 3.8<span class="math inline">\(^{\circ}\)</span> and becomes
+random at 7<span class="math inline">\(^{\circ}\)</span> away from the
+plate boundary. Thus, the North American-Pacific plate boundary zone at
+the San Andreas Fault is approx. 4–7<span class="math inline">\(^{\circ}\)</span> (ca. 380–750 km) wide.</p>
 <blockquote>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span>
 vs. distance plot allows to specify the width of the plate boundary
