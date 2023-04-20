@@ -71,7 +71,7 @@ Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. (1
 stored under `data("nuvel1_plates")`.
 
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
-trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
+trajectories <- eulerpole_loxodromes(euler, 40, cw = FALSE)
 
 ggplot(san_andreas.res) +
   # borders(fill = "grey80") +
@@ -89,11 +89,11 @@ ggplot(san_andreas.res) +
     aes(
       x = lon,
       y = lat,
-      radius = 1,
       angle = deg2rad(90 - azi),
       color = deviation_norm(dev),
-      alpha = san_andreas$quality
+      alpha = quality
     ),
+    radius = 1,
     position = "center_spoke",
     na.rm = TRUE
   ) +
@@ -105,11 +105,9 @@ ggplot(san_andreas.res) +
   ) +
   coord_sf(
     xlim = range(san_andreas.res$lon),
-    ylim = range(san_andreas.res$lat),
-    expand = FALSE,
-    default_crs = "WGS84"
+    ylim = range(san_andreas.res$lat)
   ) +
-  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1))
+  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.4))
 ```
 <!-- ![](san_andreas_map.png) -->
 
@@ -262,10 +260,10 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
 <!-- ![](nchisq.png) -->
 
 We can see that the data in fact starts to scatter notably 
-beyond a distance of 4$^{\circ}$ and becomes random at ca. 8$^{\circ}$ away from the plate 
-boundary. 
+beyond a distance of 3.8$^{\circ}$ and becomes random at 7$^{\circ}$ away from 
+the plate boundary. 
 Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is 
-approx. 4--6$^{\circ}$ (ca. 440--670 km) wide. 
+approx. 4--7$^{\circ}$ (ca. 380--750 km) wide. 
 
 > The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
 plate boundary zone.
