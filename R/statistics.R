@@ -121,7 +121,7 @@ mean_resultant <- function(x, w, na.rm) {
 #' @description Calculate the (weighted median) and standard deviation
 #' of orientation data.
 #'
-#' @param x Data values. A vector of numeric values in degrees, for which the
+#' @param x numeric vector. Values in degrees, for which the
 #' mean, median or standard deviation are required.
 #' @param w (optional) Weights. A vector of positive numbers, of the same length as
 #' \code{x}.
@@ -130,6 +130,7 @@ mean_resultant <- function(x, w, na.rm) {
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).
 #' @importFrom stats complete.cases
+#' @return numeric vector
 #' @note Weighting may be the reciprocal of the data uncertainties.
 #' @references
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
@@ -398,7 +399,7 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @param sigma_PoR uncertainty of the position of the Pole of rotation
 #' (in degree).
 #' @references Ramsay, J.A. Folding and fracturing of rocks. McGraw-Hill, New York, 1967.
-#' @returns The maximum error for azimuths prediction (in degree)
+#' @returns numeric vector. The maximum error for azimuths prediction (in degree)
 #' @seealso  [PoR_shmax()] and [model_shmax()] for the model's prediction, and
 #' [orthodrome()] for great circle distances.
 #' @export
@@ -437,6 +438,7 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
 #' @note If the rolling statistics are applied to values that are a function of
 #' distance it is recommended to sort the values first.
 #' @importFrom zoo rollapply
+#' @returns numeric vector
 #' @export
 #' @examples
 #' data("plates")
@@ -497,6 +499,7 @@ roll_circstats <- function(x, w = NULL,
 #' distance it is recommended to sort the values first.
 #' @importFrom zoo rollapply
 #' @export
+#' @returns numeric vector
 #' @examples
 #' data("plates")
 #' plate_boundary <- subset(plates, plates$pair == "na-pa")

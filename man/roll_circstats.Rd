@@ -18,7 +18,7 @@ roll_circstats(
 )
 }
 \arguments{
-\item{x}{Data values. A vector of numeric values in degrees, for which the
+\item{x}{numeric vector. Values in degrees, for which the
 mean, median or standard deviation are required.}
 
 \item{w}{(optional) Weights. A vector of positive numbers, of the same length as
@@ -57,6 +57,8 @@ fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 }
 \value{
 numeric vector  with the results of the rolling function.
+
+numeric vector
 }
 \description{
 A generic function for applying a function to rolling margins of an array.

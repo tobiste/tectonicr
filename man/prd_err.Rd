@@ -13,7 +13,7 @@ prd_err(dist_PoR, sigma_PoR = 1)
 (in degree).}
 }
 \value{
-The maximum error for azimuths prediction (in degree)
+numeric vector. The maximum error for azimuths prediction (in degree)
 }
 \description{
 The maximum error in the model's predicted azimuth given the Pole of
