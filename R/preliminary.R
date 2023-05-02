@@ -770,7 +770,7 @@ circular_mean_error <- function(x, na.rm = TRUE) {
 #' \dontrun{
 #' a <- c(0, 2, 359, 6, 354)
 #' b <- a + 20
-#' circular_distance(a, b)
+#' circular_distance(a, b,axial)
 #' }
 circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   if (axial) {
@@ -841,12 +841,21 @@ circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = 
   sum(1 - cosf) / Z
 }
 
+sample_circular_dispersion <- function(x, axial = TRUE){
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+
+  R <- mean_resultant(deg2rad(f*x))
+  R <- mean_resultant(deg2rad(2*f*x))
+  (1 - (R2/2))/(2*R^2)
+}
+
 
 
 # Distribution ####
-
-
-
 pvm <- function(theta, mu, kappa, acc = 1e-20) {
   theta <- theta %% (2 * pi)
   mu <- mu %% (2 * pi)
@@ -893,27 +902,6 @@ pvm <- function(theta, mu, kappa, acc = 1e-20) {
   result
 }
 
-A1inv <- function(x) {
-  ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
-    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
-  )
-}
-
-est.kappa <- function(x, bias = FALSE) {
-  mean.dir <- tectonicr::circular_mean(x)
-  kappa <- A1inv(mean(cos(x - mean.dir)))
-  if (bias == TRUE) {
-    kappa.ml <- kappa
-    n <- length(x)
-    if (kappa.ml < 2) {
-      kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
-    }
-    if (kappa.ml >= 2) {
-      kappa <- ((n - 1)^3 * kappa.ml) / (n^3 + n)
-    }
-  }
-  kappa
-}
 
 #' Kuiper test of uniformity
 #'
@@ -974,47 +962,3 @@ watson_statistics <- function(x, dist = c("uniform", "vm"), ...) {
   }
 }
 
-
-#' Rayleigh Test of Uniformity
-#'
-#' Performs a Rayleigh test of uniformity, assessing the significance of the mean resultant length.
-#' The alternative hypothesis is a unimodal distribution with unknown mean direction and unknown mean resultant length.
-#' @param x numeric vector containing the circular data which are expressed in degrees
-#' @param mu true value, if NULL the mean is used
-#' @returns a list with two components: the mean resultant length, r.bar, and the p-value of the test statistic, p.value.
-#' @examples
-#' data(san_andreas)
-#' rayleigh_test(san_andreas$azi)
-rayleigh_test <- function(x, mu = NULL) {
-  x <- deg2rad(x)
-  n <- length(x)
-  if (is.null(mu)) {
-    ss <- sum(sin(x))
-    cc <- sum(cos(x))
-    rbar <- (sqrt(ss^2 + cc^2)) / n
-    z <- (n * rbar^2)
-    p.value <- exp(-z)
-    if (n < 50) {
-      temp <- 1 + (2 * z - z^2) / (4 * n) - (24 * z - 132 *
-        z^2 + 76 * z^3 - 9 * z^4) / (288 * n^2)
-    } else {
-      temp <- 1
-    }
-    p.value <- min(max(p.value * temp, 0), 1)
-    result <- list(statistic = rbar, p.value = p.value, mu = NA)
-  } else {
-    r0.bar <- (sum(cos(x - mu))) / n
-    z0 <- sqrt(2 * n) * r0.bar
-    pz <- pnorm(z0)
-    fz <- dnorm(z0)
-    p.value <- 1 - pz + fz * ((3 * z0 - z0^3) / (16 * n) +
-      (15 * z0 + 305 * z0^3 - 125 * z0^5 + 9 * z0^7) / (4608 *
-        n^2))
-    p.value <- min(max(p.value, 0), 1)
-    result <- list(
-      statistic = r0.bar, p.value = p.value,
-      mu = mu
-    )
-  }
-  return(result)
-}

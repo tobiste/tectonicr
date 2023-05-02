@@ -110,7 +110,27 @@ mean_SC <- function(x, w, na.rm) {
   cbind(C = meancos2, S = meansin2)
 }
 
-mean_resultant <- function(x, w, na.rm) {
+
+#' Mean resultant length
+#'
+#' Measure of spread around the circle. It should be noted that:
+#' If R=0, then the data is completely spread around the circle.
+#' If R=1, the data is completely concentrated on one point.
+#'
+#' @param x numeric vector. Values in degrees, for which the
+#' mean, median or standard deviation are required.
+#' @param w (optional) Weights. A vector of positive numbers, of the same length as
+#' \code{x}.
+#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#' @export
+#' @examples
+#' pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
+#' mean_resultant_length(pidgeon_homing, w=NULL, na.rm = FALSE)
+#'
+#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
+#' mean_resultant_length(finland_stria, w=NULL, na.rm = FALSE)
+mean_resultant_length <- function(x, w, na.rm) {
   m <- mean_SC(x, w, na.rm)
   R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
   as.numeric(R)
@@ -199,7 +219,7 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
   x <- (x %% mod) * f
 
-  R <- mean_resultant(x = x, w = w, na.rm = na.rm)
+  R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   1 - R
 }
 
@@ -215,7 +235,7 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
   x <- (x %% mod) * f
 
-  R <- mean_resultant(x = x, w = w, na.rm = na.rm)
+  R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   sd <- sqrt(-2 * log(R)) # / f
   rad2deg(sd + 2 * pi) %% mod
 }
@@ -530,4 +550,210 @@ roll_normchisq <- function(obs, prd, unc = NULL,
     fill = fill,
     ...
   )
+}
+
+
+A1inv <- function(x) {
+  ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
+         ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
+  )
+}
+
+est.kappa <- function(x, ..., bias = FALSE) {
+  mean.dir <- circular_mean(x, ...)
+  kappa <- A1inv(mean(cosd(x - mean.dir)))
+  if (bias) {
+    kappa.ml <- kappa
+    n <- length(x)
+    if (kappa.ml < 2) {
+      kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
+    }
+    if (kappa.ml >= 2) {
+      kappa <- ((n - 1)^3 * kappa.ml) / (n^3 + n)
+    }
+  }
+  kappa
+}
+
+z_score = function(confidence){
+  qnorm(1-(1-confidence)/2)
+}
+
+#' standard error of mean direction
+#'
+#' Measure of the chance variation expected from sample to sample in estimates of the mean direction.
+#' The approximated standard error of the mean direction is computed by the mean
+#' resultant length and the estimated concentration parameter kappa.
+#'
+#' @inheritParams circular_mean
+#' @returns Angle in degrees
+#' @seealso [mean_resultant_length()], [circular_mean()]
+#' @references Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
+#' @export
+#' @examples
+#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
+#' sd_error(finland_stria, axial = FALSE)
+#'
+#' data(san_andreas)
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' sd_error(sa.por$azi.PoR, w = 1/san_andreas$unc)
+sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE){
+  if (axial) {
+    f <- 2
+    mod <- 180
+  } else {
+    f <- 1
+    mod <- 360
+  }
+
+  n <- length(x)
+  kappa <- est.kappa(x, w, axial, na.rm)
+
+  x <- (x %% mod) * f
+  R <- mean_resultant_length(x, w, na.rm)
+
+  sde <- 1/ sqrt(n * R * kappa) # / f
+  rad2deg(sde + 2 * pi) %% mod
+}
+
+#' Confidence angle around the mean direction
+#'
+#' Probabilistic limit on the location of the true or population mean direction,
+#' assuming that the estimation errors are normally distributed.
+#'
+#' @inheritParams circular_mean
+#' @param confidence Level of confidence (as fraction). `0.95` is the default.
+#' @returns Angle in degrees
+#' @seealso [mean_resultant_length()], [sd_error()]
+#' @references Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
+#' @export
+#' @details
+#' The confidence angle gives the interval, i.e. plus and minus the confidence angle,
+#' around the mean direction of a particular sample, that contains the true or population
+#' mean direction under a given confidence.
+#'
+#' @examples
+#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
+#' confidence_angle(finland_stria, axial = FALSE)
+#'
+#' data(san_andreas)
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' circular_mean(sa.por$azi.PoR, w = 1/san_andreas$unc)
+#' confidence_angle(sa.por$azi.PoR, w = 1/san_andreas$unc)
+confidence_angle <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, confidence = .95){
+  sd_error(x, w, axial, na.rm) * z_score(confidence)
+}
+
+#' Rayleigh Test of Uniformity
+#'
+#' Performs a Rayleigh test of uniformity (or randomness), assessing the
+#' significance of the mean resultant length.
+#' The alternative hypothesis is an unimodal distribution with unknown mean
+#' direction and unknown mean resultant length.
+#'
+#' @inheritParams circular_mean
+#' @param mean_direction optional. The given or known mean direction (in degrees)
+#' @details
+#' When the test statistic exceeds the significance level, the null hypothesis (concentration parameter is equal to zero) is rejected.
+#' Thus the data have a non-random, preferred trend.
+#'
+#' @returns a list with the components:
+#' number of data,
+#' the mean resultant length,
+#' the test score statistic,
+#' the modified test score statistic, and
+#' the significance level (p-value) of the test statistic.
+#' @references Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
+#' @seealso [mean_resultant_length()], [circular_mean()]
+#' @export
+#' @examples
+#' pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
+#' rayleigh_test(pidgeon_homing, axial = FALSE)
+#'
+#' atomic_weight <- c(rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72,1), rep(108,2), rep(169.2, 1), rep(324, 1))
+#' rayleigh_test(atomic_weight, axial = FALSE, mean_direction = 0)
+#'
+#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
+#' rayleigh_test(finland_stria, axial = FALSE)
+#'
+#' data(san_andreas)
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' rayleigh_test(san_andreas$azi, 1/san_andreas$unc)
+#' rayleigh_test(sa.por$azi.PoR, 1/san_andreas$unc)
+#' rayleigh_test(sa.por$azi.PoR, mean_direction = 135)
+rayleigh_test <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, mean_direction = NULL) {
+  if (axial) {
+    f <- 2
+    mod <- 180
+  } else {
+    f <- 1
+    mod <- 360
+  }
+  x <- (x %% mod) * f
+
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  } else {
+    w <- as.numeric(w)
+  }
+
+  data <- cbind(x = x, w = w)
+  if (na.rm) {
+    data <- data[stats::complete.cases(data), ] # remove NA values
+  }
+
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  n <- length(x)
+
+
+  if (is.null(mean_direction)) {
+    R <- mean_resultant_length(x, w, na.rm = FALSE)
+    K <- n * R^2
+    score = 2*K
+    S <- (1 - 1/(2*n)) * score + (n*R^4)/2
+
+    P <- exp(-K)
+    if (n < 50) {
+      temp <- 1 +
+        (2 * K - K^2) / (4 * n) -
+        (24 * K - 132 * K^2 + 76 * K^3 - 9 * K^4) / (288 * n^2)
+    } else {
+      temp <- 1
+    }
+    p.value <- min(max(P * temp, 0), 1)
+    result <- list(
+      n = n,
+      #kappa = est.kappa(x, w, axial, na.rm),
+      mean_resultant_length = R,
+      statistic = score,
+      modified_statistic = S,
+      p.value = p.value
+    )
+  } else {
+    C <- sum(cosd(x - mean_direction)) / n
+    score_statistic = 2 * n *C^2
+    K <- sqrt(score_statistic)
+    pK <- pnorm(K) # distribution function of standard normal distribution
+    fK <- dnorm(K) # density function of standard normal distribution
+    P <- 1 - pK + fK * (
+      (3 * K - K^3) / (16 * n) +
+        (15 * K + 305 * K^3 - 125 * K^5 + 9 * K^7) / (4608 * n^2)
+    )
+    p.value <- min(max(P, 0), 1)
+    result <- list(
+      n = n,
+      C = C,
+      statistic = score_statistic,
+      p.value = p.value
+    )
+  }
+  return(result)
 }
