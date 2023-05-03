@@ -281,13 +281,13 @@ distance to the plate boundary:</p>
 <p>Adding a rolling statistics (e.g. weighted mean and sd.) of the
 transformed azimuth:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">san_andreas.res_roll</span> <span class="op">&lt;-</span> <span class="va">san_andreas.res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span><span class="op">)</span>, <span class="op">]</span> </span>
+<code class="sourceCode R"><span><span class="va">san_andreas.res_roll</span> <span class="op">&lt;-</span> <span class="va">san_andreas.res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">roll_mean_azi.PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/roll_circstats.html">roll_circstats</a></span><span class="op">(</span></span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>, </span>
-<span>  w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">unc</span>, </span>
+<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
+<span>  w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">unc</span>,</span>
 <span>  FUN <span class="op">=</span> <span class="va">circular_mean</span>, width <span class="op">=</span> <span class="fl">51</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">azi_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_step</a></span><span class="op">(</span></span>
@@ -312,10 +312,11 @@ from the the predicted stress direction, i.e. the <em>normalized</em>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Rolling norm chisq:</span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">roll_nchisq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/roll_normchisq.html">roll_normchisq</a></span><span class="op">(</span></span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>, </span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">prd</span>, </span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">unc</span>, </span>
-<span>  width <span class="op">=</span> <span class="fl">51</span><span class="op">)</span></span>
+<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
+<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">prd</span>,</span>
+<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">unc</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">51</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plotting:</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">nchisq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
