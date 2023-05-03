@@ -70,6 +70,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/compact_grid.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/confidence_angle.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/conjugate_Q4.html</loc>
   </url>
   <url>
@@ -142,6 +145,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/mean_resultant_length.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/model_shmax.html</loc>
   </url>
   <url>
@@ -187,6 +193,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/raster_transformation.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/rayleigh_test.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/relative_rotation.html</loc>
   </url>
   <url>
@@ -209,6 +218,9 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/san_andreas.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/sd_error.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/spec_atan.html</loc>
