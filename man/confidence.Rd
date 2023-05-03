@@ -39,18 +39,19 @@ mean direction under a given confidence.
 }
 \examples{
 # Example data from Davis (1986), pp. 316
-finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
-113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
-132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
-165, 171, 172, 179, 181, 186, 190, 212)
+finland_stria <- c(
+  23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+  113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+  132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+  165, 171, 172, 179, 181, 186, 190, 212
+)
 confidence_angle(finland_stria, axial = FALSE)
 
 data(san_andreas)
 data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
-circular_mean(sa.por$azi.PoR, w = 1/san_andreas$unc)
-confidence_angle(sa.por$azi.PoR, w = 1/san_andreas$unc)
+confidence_angle(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 }
 \references{
 Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.

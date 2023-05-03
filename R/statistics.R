@@ -1,4 +1,4 @@
-axial <- function(x){
+axial <- function(x) {
 
 }
 
@@ -130,11 +130,13 @@ mean_SC <- function(x, w, na.rm) {
 #' @export
 #' @examples
 #' # Example data from Davis (1986), pp. 316
-#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
-#' 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
-#' 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
-#' 165, 171, 172, 179, 181, 186, 190, 212)
-#' mean_resultant_length(finland_stria, w=NULL, na.rm = FALSE) # 0.800
+#' finland_stria <- c(
+#'   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+#'   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+#'   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+#'   165, 171, 172, 179, 181, 186, 190, 212
+#' )
+#' mean_resultant_length(finland_stria, w = NULL, na.rm = FALSE) # 0.800
 mean_resultant_length <- function(x, w, na.rm) {
   m <- mean_SC(x, w, na.rm)
   R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
@@ -560,7 +562,7 @@ roll_normchisq <- function(obs, prd, unc = NULL,
 
 A1inv <- function(x) {
   ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
-         ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
+    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
   )
 }
 
@@ -580,8 +582,8 @@ est.kappa <- function(x, ..., bias = FALSE) {
   kappa
 }
 
-z_score = function(conf.level){
-  stats::qnorm(1-(1-conf.level)/2)
+z_score <- function(conf.level) {
+  stats::qnorm(1 - (1 - conf.level) / 2)
 }
 
 #' standard error of mean direction
@@ -597,18 +599,20 @@ z_score = function(conf.level){
 #' @export
 #' @examples
 #' # Example data from Davis (1986), pp. 316
-#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
-#' 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
-#' 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
-#' 165, 171, 172, 179, 181, 186, 190, 212)
+#' finland_stria <- c(
+#'   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+#'   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+#'   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+#'   165, 171, 172, 179, 181, 186, 190, 212
+#' )
 #' circular_sd_error(finland_stria, axial = FALSE)
 #'
 #' data(san_andreas)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' circular_sd_error(sa.por$azi.PoR, w = 1/san_andreas$unc)
-circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE){
+#' circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
     f <- 2
     mod <- 180
@@ -623,7 +627,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE){
   x <- (x %% mod) * f
   R <- mean_resultant_length(x, w, na.rm)
 
-  sde <- 1/ sqrt(n * R * kappa) # / f
+  sde <- 1 / sqrt(n * R * kappa) # / f
   rad2deg(sde + 2 * pi) %% mod
 }
 
@@ -646,37 +650,38 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE){
 #'
 #' @examples
 #' # Example data from Davis (1986), pp. 316
-#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
-#' 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
-#' 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
-#' 165, 171, 172, 179, 181, 186, 190, 212)
+#' finland_stria <- c(
+#'   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+#'   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+#'   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+#'   165, 171, 172, 179, 181, 186, 190, 212
+#' )
 #' confidence_angle(finland_stria, axial = FALSE)
 #'
 #' data(san_andreas)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' circular_mean(sa.por$azi.PoR, w = 1/san_andreas$unc)
-#' confidence_angle(sa.por$azi.PoR, w = 1/san_andreas$unc)
+#' confidence_angle(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 #' @name confidence
 NULL
 
 #' @rdname confidence
 #' @export
-confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE){
+confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
   (circular_sd_error(x, w, axial, na.rm) * z_score(conf.level)) %% 180
 }
 
 #' @rdname confidence
 #' @export
-confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE){
+confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
   conf.angle <- confidence_angle(x, conf.level, w, axial, na.rm)
   mu <- circular_mean(x, w, axial, na.rm)
 
   list(
     mu = mu,
     conf.angle = conf.angle,
-    conf.interval = c(mu-conf.angle, mu+conf.angle) %% 360
+    conf.interval = c(mu - conf.angle, mu + conf.angle) %% 360
   )
 }
 
@@ -718,28 +723,32 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 #' @export
 #' @examples
 #' # Example data from Mardia and Jupp (2001), pp. 93
-#' pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
+#' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' rayleigh_test(pidgeon_homing, axial = FALSE)
 #'
 #' # Example data from Davis (1986), pp. 316
-#' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
-#' 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
-#' 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
-#' 165, 171, 172, 179, 181, 186, 190, 212)
+#' finland_stria <- c(
+#'   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+#'   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+#'   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+#'   165, 171, 172, 179, 181, 186, 190, 212
+#' )
 #' rayleigh_test(finland_stria, axial = FALSE)
 #' rayleigh_test(finland_stria, mu = 105, axial = FALSE)
 #'
 #' # Example data from Mardia and Jupp (2001), pp. 99
-#' atomic_weight <- c(rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72,1),
-#' rep(108,2), rep(169.2, 1), rep(324, 1))
+#' atomic_weight <- c(
+#'   rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1),
+#'   rep(108, 2), rep(169.2, 1), rep(324, 1)
+#' )
 #' rayleigh_test(atomic_weight, 0, axial = FALSE)
 #'
 #' data(san_andreas)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' rayleigh_test(san_andreas$azi, 1/san_andreas$unc)
-#' rayleigh_test(sa.por$azi.PoR, 1/san_andreas$unc)
+#' rayleigh_test(san_andreas$azi, 1 / san_andreas$unc)
+#' rayleigh_test(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' rayleigh_test(sa.por$azi.PoR, mu = 135)
 rayleigh_test <- function(x, mu = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
@@ -763,18 +772,18 @@ rayleigh_test <- function(x, mu = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- data[, "x"]
   w <- data[, "w"]
   n <- length(x)
-  #Z <- sum(w)
+  # Z <- sum(w)
 
   if (is.null(mu)) {
     R <- mean_resultant_length(x, w, na.rm = FALSE)
     S <- 2 * n * R^2
-    S2 <- (1 - 1/(2*n)) * S + (n*R^4)/2
-    #if(n <= 10){
+    S2 <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
+    # if(n <= 10){
     #  p.value <- p_value3(R, n)
-    #} else  {
-    p.value <-  p_value1(S/2, n)
-    #}
-    p.value2 <-  p_value1(S2/2, n)
+    # } else  {
+    p.value <- p_value1(S / 2, n)
+    # }
+    p.value2 <- p_value1(S2 / 2, n)
 
     result <- list(
       n = n,
@@ -782,7 +791,6 @@ rayleigh_test <- function(x, mu = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
       p.value = p.value,
       p.value2 = p.value2
     )
-
   } else {
     C <- (sum(cosd(x - (f * mu) %% 360))) / n
     s <- sqrt(2 * n) * C
@@ -798,26 +806,28 @@ rayleigh_test <- function(x, mu = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
   return(result)
 }
 
-p_value1 <- function(K, n){
-# Pearson. 1906; Greenwood and Durand, 1955
-P <- exp(-K)
-if (n < 50) {
-temp <- 1 +
-  (2 * K - K^2) / (4 * n) -
-  (24 * K - 132 * K^2 + 76 * K^3 - 9 * K^4) / (288 * n^2)
-} else  temp <- 1
-P * temp
-#min(max(P * temp, 0), 1)
+p_value1 <- function(K, n) {
+  # Pearson. 1906; Greenwood and Durand, 1955
+  P <- exp(-K)
+  if (n < 50) {
+    temp <- 1 +
+      (2 * K - K^2) / (4 * n) -
+      (24 * K - 132 * K^2 + 76 * K^3 - 9 * K^4) / (288 * n^2)
+  } else {
+    temp <- 1
+  }
+  P * temp
+  # min(max(P * temp, 0), 1)
 }
 
-p_value3 <- function(R, n){
+p_value3 <- function(R, n) {
   # Wilkie 1983
   Rn <- R * n
-  temp <- sqrt(1 + 4*n + 4*(n^2-Rn^2))-(1+2*n)
-  round(exp(temp),3)
+  temp <- sqrt(1 + 4 * n + 4 * (n^2 - Rn^2)) - (1 + 2 * n)
+  round(exp(temp), 3)
 }
 
-p_value2 <- function(K, n){
+p_value2 <- function(K, n) {
   # Greenwood and Durand, 1957
   pK <- stats::pnorm(K) # distribution function of standard normal distribution
   fK <- stats::dnorm(K) # density function of standard normal distribution
@@ -825,7 +835,7 @@ p_value2 <- function(K, n){
     (3 * K - K^3) / (16 * n) +
       (15 * K + 305 * K^3 - 125 * K^5 + 9 * K^7) / (4608 * n^2)
   )
-  #min(max(P, 0), 1)
+  # min(max(P, 0), 1)
 }
 
 #' Watson's U2 Test for Circular Uniformity
@@ -843,15 +853,15 @@ p_value2 <- function(K, n){
 #' @export
 #' @examples
 #' # Example data from Mardia and Jupp (2001), pp. 93
-#' pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
-#` watson_test(pidgeon_homing, alpha = .05)
-#
+#' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
+# ` watson_test(pidgeon_homing, alpha = .05)
+#' #
 #' data(san_andreas)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' watson_test(sa.por$azi.PoR, alpha = .05)
-watson_test <- function(x, alpha = NULL){
+watson_test <- function(x, alpha = NULL) {
   x <- na.omit(x)
   n <- length(x)
 
@@ -859,7 +869,7 @@ watson_test <- function(x, alpha = NULL){
   u <- sort(deg2rad(x)) / (2 * pi)
   u.bar <- mean(u)
   i <- 1:n
-  u2 <- sum((u - u.bar - (i - .5)/n + .5)^2) + 1/(12*n)
+  u2 <- sum((u - u.bar - (i - .5) / n + .5)^2) + 1 / (12 * n)
   statistic <- (u2 - 0.1 / n + 0.1 / (n^2)) * (1 + 0.8 / n)
 
   # P-value:
@@ -868,27 +878,31 @@ watson_test <- function(x, alpha = NULL){
     p.value <- NA
     warning("Total Sample Size < 8:  Results are not valid")
   }
-  if(is.null(alpha)){
-    if (statistic > 0.267)
+  if (is.null(alpha)) {
+    if (statistic > 0.267) {
       p.value <- "P-value < 0.01"
-    else if (statistic > 0.221)
+    } else if (statistic > 0.221) {
       p.value <- "0.01 < P-value < 0.025"
-    else if (statistic > 0.187)
-      p.value <-  "0.025 < P-value < 0.05"
-    else if (statistic > 0.152)
+    } else if (statistic > 0.187) {
+      p.value <- "0.025 < P-value < 0.05"
+    } else if (statistic > 0.152) {
       p.value <- "0.05 < P-value < 0.10"
-    else  p.value <- "P-value > 0.10"
-  } else if(!(alpha %in% c(0, 0.01, 0.025, 0.05, 0.1))){
+    } else {
+      p.value <- "P-value > 0.10"
+    }
+  } else if (!(alpha %in% c(0, 0.01, 0.025, 0.05, 0.1))) {
     warning("Invalid input for alpha")
-    if (statistic > 0.267)
+    if (statistic > 0.267) {
       p.value <- "P-value < 0.01"
-    else if (statistic > 0.221)
+    } else if (statistic > 0.221) {
       p.value <- "0.01 < P-value < 0.025"
-    else if (statistic > 0.187)
-      p.value <-  "0.025 < P-value < 0.05"
-    else if (statistic > 0.152)
+    } else if (statistic > 0.187) {
+      p.value <- "0.025 < P-value < 0.05"
+    } else if (statistic > 0.152) {
       p.value <- "0.05 < P-value < 0.10"
-    else  p.value <- "P-value > 0.10"
+    } else {
+      p.value <- "P-value > 0.10"
+    }
   } else {
     index <- (1:5)[alpha == c(0, 0.01, 0.025, 0.05, 0.1)]
     p.value <- crits[index]

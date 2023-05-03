@@ -25,7 +25,8 @@ If not, randomness (uniform distribution) cannot be excluded.
 }
 \examples{
 # Example data from Mardia and Jupp (2001), pp. 93
-pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
+pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
+#
 data(san_andreas)
 data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")

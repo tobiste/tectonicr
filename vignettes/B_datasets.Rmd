@@ -213,13 +213,13 @@ print(azi_plot)
 
 Adding a rolling statistics (e.g. weighted mean and sd.) of the transformed azimuth:
 ```{r san.andreas.distanceplot1_roll, echo=TRUE}
-san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ] 
+san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ]
 
 san_andreas.res_roll$roll_mean_azi.PoR <- roll_circstats(
-  san_andreas.res_roll$azi.PoR, 
-  w = 1 / san_andreas.res_roll$unc, 
+  san_andreas.res_roll$azi.PoR,
+  w = 1 / san_andreas.res_roll$unc,
   FUN = circular_mean, width = 51
-  )
+)
 
 azi_plot +
   geom_step(
@@ -245,10 +245,11 @@ stress direction, i.e. the *normalized* $\chi^2$:
 ```{r san.andreas.distanceplot2, echo=TRUE}
 # Rolling norm chisq:
 san_andreas.res_roll$roll_nchisq <- roll_normchisq(
-  san_andreas.res_roll$azi.PoR, 
-  san_andreas.res_roll$prd, 
-  san_andreas.res_roll$unc, 
-  width = 51)
+  san_andreas.res_roll$azi.PoR,
+  san_andreas.res_roll$prd,
+  san_andreas.res_roll$unc,
+  width = 51
+)
 
 # plotting:
 ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +

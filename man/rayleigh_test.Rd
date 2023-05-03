@@ -50,28 +50,32 @@ include Kuiper’s test and Watson’s U2 test.
 }
 \examples{
 # Example data from Mardia and Jupp (2001), pp. 93
-pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
+pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 rayleigh_test(pidgeon_homing, axial = FALSE)
 
 # Example data from Davis (1986), pp. 316
-finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
-113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
-132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
-165, 171, 172, 179, 181, 186, 190, 212)
+finland_stria <- c(
+  23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+  113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+  132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+  165, 171, 172, 179, 181, 186, 190, 212
+)
 rayleigh_test(finland_stria, axial = FALSE)
 rayleigh_test(finland_stria, mu = 105, axial = FALSE)
 
 # Example data from Mardia and Jupp (2001), pp. 99
-atomic_weight <- c(rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72,1),
-rep(108,2), rep(169.2, 1), rep(324, 1))
+atomic_weight <- c(
+  rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1),
+  rep(108, 2), rep(169.2, 1), rep(324, 1)
+)
 rayleigh_test(atomic_weight, 0, axial = FALSE)
 
 data(san_andreas)
 data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
-rayleigh_test(san_andreas$azi, 1/san_andreas$unc)
-rayleigh_test(sa.por$azi.PoR, 1/san_andreas$unc)
+rayleigh_test(san_andreas$azi, 1 / san_andreas$unc)
+rayleigh_test(sa.por$azi.PoR, 1 / san_andreas$unc)
 rayleigh_test(sa.por$azi.PoR, mu = 135)
 }
 \references{
