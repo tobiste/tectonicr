@@ -125,11 +125,11 @@ mean_SC <- function(x, w, na.rm) {
 #' should be stripped before the computation proceeds.
 #' @export
 #' @examples
-#' pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
-#' mean_resultant_length(pidgeon_homing, w=NULL, na.rm = FALSE)
+#' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
+#' mean_resultant_length(pidgeon_homing, w = NULL, na.rm = FALSE)
 #'
 #' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
-#' mean_resultant_length(finland_stria, w=NULL, na.rm = FALSE)
+#' mean_resultant_length(finland_stria, w = NULL, na.rm = FALSE)
 mean_resultant_length <- function(x, w, na.rm) {
   m <- mean_SC(x, w, na.rm)
   R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
@@ -555,7 +555,7 @@ roll_normchisq <- function(obs, prd, unc = NULL,
 
 A1inv <- function(x) {
   ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
-         ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
+    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
   )
 }
 
@@ -575,8 +575,8 @@ est.kappa <- function(x, ..., bias = FALSE) {
   kappa
 }
 
-z_score = function(confidence){
-  qnorm(1-(1-confidence)/2)
+z_score <- function(confidence) {
+  qnorm(1 - (1 - confidence) / 2)
 }
 
 #' standard error of mean direction
@@ -598,8 +598,8 @@ z_score = function(confidence){
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' sd_error(sa.por$azi.PoR, w = 1/san_andreas$unc)
-sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE){
+#' sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
     f <- 2
     mod <- 180
@@ -614,7 +614,7 @@ sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE){
   x <- (x %% mod) * f
   R <- mean_resultant_length(x, w, na.rm)
 
-  sde <- 1/ sqrt(n * R * kappa) # / f
+  sde <- 1 / sqrt(n * R * kappa) # / f
   rad2deg(sde + 2 * pi) %% mod
 }
 
@@ -642,9 +642,9 @@ sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE){
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' circular_mean(sa.por$azi.PoR, w = 1/san_andreas$unc)
-#' confidence_angle(sa.por$azi.PoR, w = 1/san_andreas$unc)
-confidence_angle <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, confidence = .95){
+#' circular_mean(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+#' confidence_angle(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+confidence_angle <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, confidence = .95) {
   sd_error(x, w, axial, na.rm) * z_score(confidence)
 }
 
@@ -671,10 +671,10 @@ confidence_angle <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, confidence
 #' @seealso [mean_resultant_length()], [circular_mean()]
 #' @export
 #' @examples
-#' pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
+#' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' rayleigh_test(pidgeon_homing, axial = FALSE)
 #'
-#' atomic_weight <- c(rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72,1), rep(108,2), rep(169.2, 1), rep(324, 1))
+#' atomic_weight <- c(rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1), rep(108, 2), rep(169.2, 1), rep(324, 1))
 #' rayleigh_test(atomic_weight, axial = FALSE, mean_direction = 0)
 #'
 #' finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
@@ -684,8 +684,8 @@ confidence_angle <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, confidence
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' rayleigh_test(san_andreas$azi, 1/san_andreas$unc)
-#' rayleigh_test(sa.por$azi.PoR, 1/san_andreas$unc)
+#' rayleigh_test(san_andreas$azi, 1 / san_andreas$unc)
+#' rayleigh_test(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' rayleigh_test(sa.por$azi.PoR, mean_direction = 135)
 rayleigh_test <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, mean_direction = NULL) {
   if (axial) {
@@ -717,8 +717,8 @@ rayleigh_test <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, mean_directio
   if (is.null(mean_direction)) {
     R <- mean_resultant_length(x, w, na.rm = FALSE)
     K <- n * R^2
-    score = 2*K
-    S <- (1 - 1/(2*n)) * score + (n*R^4)/2
+    score <- 2 * K
+    S <- (1 - 1 / (2 * n)) * score + (n * R^4) / 2
 
     P <- exp(-K)
     if (n < 50) {
@@ -731,7 +731,7 @@ rayleigh_test <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, mean_directio
     p.value <- min(max(P * temp, 0), 1)
     result <- list(
       n = n,
-      #kappa = est.kappa(x, w, axial, na.rm),
+      # kappa = est.kappa(x, w, axial, na.rm),
       mean_resultant_length = R,
       statistic = score,
       modified_statistic = S,
@@ -739,7 +739,7 @@ rayleigh_test <- function(x, w = NULL, axial = TRUE, na.rm = TRUE, mean_directio
     )
   } else {
     C <- sum(cosd(x - mean_direction)) / n
-    score_statistic = 2 * n *C^2
+    score_statistic <- 2 * n * C^2
     K <- sqrt(score_statistic)
     pK <- pnorm(K) # distribution function of standard normal distribution
     fK <- dnorm(K) # density function of standard normal distribution
