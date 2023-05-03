@@ -2,52 +2,69 @@
 % Please edit documentation in R/statistics.R
 \name{rayleigh_test}
 \alias{rayleigh_test}
-\title{Rayleigh Test of Uniformity}
+\title{Rayleigh Test of Circular Uniformity}
 \usage{
-rayleigh_test(x, w = NULL, axial = TRUE, na.rm = TRUE, mean_direction = NULL)
+rayleigh_test(x, mu = NULL, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees, for which the
 mean, median or standard deviation are required.}
 
+\item{mu}{(optional) The specified or known mean direction (in degrees) in alternative hypothesis}
+
 \item{w}{(optional) Weights. A vector of positive numbers, of the same length as
 \code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).}
+(\code{TRUE}, the default) or circular, i.e. 2pi-periodical (\code{FALSE}).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
-
-\item{mean_direction}{optional. The given or known mean direction (in degrees)}
 }
 \value{
 a list with the components:
-number of data,
-the mean resultant length,
-the test score statistic,
-the modified test score statistic, and
-the significance level (p-value) of the test statistic.
+the number of data \code{n},
+the mean resultant length (\code{statistic}),
+the significance level (\code{p.value}) of the test statistic, and
+the modified significance level (\code{p.value2}, Cordeiro and Ferrari, 1991).
 }
 \description{
 Performs a Rayleigh test of uniformity (or randomness), assessing the
 significance of the mean resultant length.
 The alternative hypothesis is an unimodal distribution with unknown mean
-direction and unknown mean resultant length.
+direction and unknown mean resultant length if \code{mu} is \code{NULL}.
+If \code{mu} is specified the alternative hypothesis is a unimodal distribution with a
+specified mean direction and unknown mean resultant length.
 }
 \details{
-When the test statistic exceeds the significance level, the null hypothesis (concentration parameter is equal to zero) is rejected.
-Thus the data have a non-random, preferred trend.
+If \code{statistic > p.value}, the null hypothesis is rejected,
+i.e. the length of the mean resultant differs significantly from zero.
+If not, randomness (uniform distribution) cannot be excluded.
+}
+\note{
+Although the Rayleigh test is consistent against (non-uniform)
+von Mises alternatives, it is not consistent against alternatives with p = 0
+(in particular, distributions with antipodal symmetry, i.e. axial data).
+Tests of non-uniformity which are consistent against all alternatives
+include Kuiper’s test and Watson’s U2 test.
 }
 \examples{
+# Example data from Mardia and Jupp (2001), pp. 93
 pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
 rayleigh_test(pidgeon_homing, axial = FALSE)
 
-atomic_weight <- c(rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72,1), rep(108,2), rep(169.2, 1), rep(324, 1))
-rayleigh_test(atomic_weight, axial = FALSE, mean_direction = 0)
-
-finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
+# Example data from Davis (1986), pp. 316
+finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+165, 171, 172, 179, 181, 186, 190, 212)
 rayleigh_test(finland_stria, axial = FALSE)
+rayleigh_test(finland_stria, mu = 105, axial = FALSE)
+
+# Example data from Mardia and Jupp (2001), pp. 99
+atomic_weight <- c(rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72,1),
+rep(108,2), rep(169.2, 1), rep(324, 1))
+rayleigh_test(atomic_weight, 0, axial = FALSE)
 
 data(san_andreas)
 data("nuvel1")
@@ -55,10 +72,14 @@ ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
 rayleigh_test(san_andreas$azi, 1/san_andreas$unc)
 rayleigh_test(sa.por$azi.PoR, 1/san_andreas$unc)
-rayleigh_test(sa.por$azi.PoR, mean_direction = 135)
+rayleigh_test(sa.por$azi.PoR, mu = 135)
 }
 \references{
 Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
+
+Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl. Statist. 32, No. 3, pp. 311-312
+
+Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
 }
 \seealso{
 \code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}

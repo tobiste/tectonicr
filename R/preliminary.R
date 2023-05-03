@@ -925,40 +925,20 @@ kuiper_statistics <- function(x) {
   V * (sqrt_n + 0.155 + 0.24 / sqrt_n)
 }
 
-#' Watson's goodness of fit test for the von Mises or circular uniform distribution, Rayleigh Test of Uniformity
-#'
-#' Watson's goodness of fit test for the von Mises or circular uniform distribution.
-#'
-#' @param x numeric vector containing the circular data which are expressed in degrees
-#' @param dist Distribution to test for. The default is the uniform distribution (\code{"uniform"}), and \code{"vm"} to test for the von Mises distribution.
-#' @param ... optional parameter for [circular_mean()]
-#' @returns the test statistic
-#' @examples
-#' data(san_andreas)
-#' watson_statistics(san_andreas$azi)
-watson_statistics <- function(x, dist = c("uniform", "vm"), ...) {
-  dist <- match.arg(dist)
-  x <- na.omit(x)
-  n <- length(x)
 
-  if (dist == "uniform") {
-    u <- sort(deg2rad(x)) / (2 * pi)
-    u.bar <- mean(u)
-    i <- 1:n
-    sum.terms <- (u - u.bar - (2 * i - 1) / (2 * n) + 0.5)^2
-    u2 <- sum(sum.terms) + 1 / (12 * n)
-    (u2 - 0.1 / n + 0.1 / (n^2)) * (1 + 0.8 / n)
-  } else if (dist == "vm") {
-    mu.hat <- tectonicr::circular_mean(x, ...) %>% deg2rad()
-    kappa.hat <- est.kappa(deg2rad(x))
-    x <- (deg2rad(x) - mu.hat) %% (2 * pi)
-    x <- matrix(x, ncol = 1)
-    z <- apply(x, 1, pvm, 0, kappa.hat)
-    z <- sort(z)
-    z.bar <- mean(z)
-    i <- 1:n
-    sum.terms <- (z - (2 * i - 1) / (2 * n))^2
-    sum(sum.terms) - n * (z.bar - 0.5)^2 + 1 / (12 * n)
-  }
+#' Critical value for Rayleigh test
+#'
+#' Estimate critical values of the Rayleigh test for testing whether the population of
+#' circular data from which a sample is drawn differs from randomness
+#'
+#' @param n integer. the number of data
+#' @param alpha numeric. the probability level
+#' @references Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl. Statist. 32, No. 3, pp. 311-312
+#' @returns numeric.
+#' @export
+#' @examples
+#' estimate_critical(n = 500, alpha = 0.050)
+estimate_critical <- function(n, alpha = 0.05){
+  -1*log(alpha) - (2*log(alpha) + log(alpha)^2) / (4 * n)
 }
 

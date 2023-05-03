@@ -22,9 +22,10 @@ If R=0, then the data is completely spread around the circle.
 If R=1, the data is completely concentrated on one point.
 }
 \examples{
-pidgeon_homing <- c(55,60,65,95,100,110,260,275,285,295)
-mean_resultant_length(pidgeon_homing, w=NULL, na.rm = FALSE)
-
-finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113, 113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132, 132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163, 165, 171, 172, 179, 181, 186, 190, 212)
-mean_resultant_length(finland_stria, w=NULL, na.rm = FALSE)
+# Example data from Davis (1986), pp. 316
+finland_stria <- c(23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+165, 171, 172, 179, 181, 186, 190, 212)
+mean_resultant_length(finland_stria, w=NULL, na.rm = FALSE) # 0.800
 }

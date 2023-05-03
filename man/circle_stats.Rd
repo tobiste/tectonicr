@@ -30,7 +30,7 @@ mean, median or standard deviation are required.}
 \code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(TRUE, the default) or circular, i.e. 2pi-periodical (FALSE).}
+(\code{TRUE}, the default) or circular, i.e. 2pi-periodical (\code{FALSE}).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
