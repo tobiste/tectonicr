@@ -107,7 +107,10 @@ map +
     lty = 2
   ) +
   geom_spoke(
-    data = sf::st_drop_geometry(san_andreas.res),
+    data = ifelse(
+      inherits(san_andreas.res, "sf"), 
+      sf::st_drop_geometry(san_andreas.res), 
+      as.data.frame(san_andreas.res)),
     aes(
       x = lon,
       y = lat,
