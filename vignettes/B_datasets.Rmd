@@ -48,12 +48,10 @@ san_andreas.prd <- PoR_shmax(san_andreas, euler, type = "right")
 Combine the model results with the coordinates of the observed data
 
 ```{r san_andreas2, echo=TRUE}
-san_andreas.res <- sf::st_drop_geometry(
-  cbind( 
-    san_andreas,
+san_andreas.res <-data.frame( 
+    sf::st_drop_geometry(san_andreas),
     san_andreas.prd
     )
-)
 ```
 
 `ggplot2::ggplot()` can be used to visualize the results. The
