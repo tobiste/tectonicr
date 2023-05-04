@@ -48,9 +48,11 @@ san_andreas.prd <- PoR_shmax(san_andreas, euler, type = "right")
 Combine the model results with the coordinates of the observed data
 
 ```{r san_andreas2, echo=TRUE}
-san_andreas.res <- cbind(
-  san_andreas,
-  san_andreas.prd
+san_andreas.res <- sf::st_drop_geometry(
+  cbind( 
+    san_andreas,
+    san_andreas.prd
+    )
 )
 ```
 
@@ -77,7 +79,7 @@ trajectories <- eulerpole_loxodromes(euler, 40, cw = FALSE)
 ```
 
 Then we initialize the plot `map`... 
-```{r plot1, echo=TRUE}
+```{r plot1, echo=TRUE, warning=FALSE, message=FALSE}
 map <- ggplot() +
   # borders(fill = "grey80") +
   geom_sf(
@@ -92,25 +94,18 @@ map <- ggplot() +
     name = "|Deviation| in (\u00B0)",
     breaks = seq(0, 90, 22.5)
   ) +
-  coord_sf(
-    xlim = range(san_andreas.res$lon),
-    ylim = range(san_andreas.res$lat)
-  ) +
   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.4))
 ```
 ...and add the $\sigma_{Hmax}$ trajectories and data points:
 
-```{r plot2, echo=TRUE}
+```{r plot2, echo=TRUE, warning=FALSE, message=FALSE}
 map +
   geom_sf(
     data = trajectories,
     lty = 2
   ) +
   geom_spoke(
-    data = ifelse(
-      inherits(san_andreas.res, "sf"), 
-      sf::st_drop_geometry(san_andreas.res), 
-      as.data.frame(san_andreas.res)),
+    data = san_andreas.res,
     aes(
       x = lon,
       y = lat,
@@ -121,7 +116,11 @@ map +
     radius = 1,
     position = "center_spoke",
     na.rm = TRUE
-  )
+  ) +
+  coord_sf(
+    xlim = range(san_andreas$lon),
+    ylim = range(san_andreas$lat)
+  ) 
 ```
 <!-- ![](san_andreas_map.png) -->
 
@@ -178,7 +177,7 @@ distances.
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 san_andreas.res$distance <-
   distance_from_pb(
-    x = san_andreas.res,
+    x = san_andreas,
     euler = euler,
     pb = plate_boundary,
     tangential = TRUE
@@ -187,7 +186,7 @@ san_andreas.res$distance <-
 
 Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the distance to
 the plate boundary:
-```{r san.andreas.distanceplot1, echo=TRUE}
+```{r san.andreas.distanceplot1, echo=TRUE, message=FALSE, warning=FALSE}
 azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
   labs(x = "Distance from plate boundary (\u00B0)", y = "Azimuth in PoR (\u00B0)") +
@@ -215,7 +214,7 @@ print(azi_plot)
 <!-- ![](azimuth.png) -->
 
 Adding a rolling statistics (e.g. weighted mean and sd.) of the transformed azimuth:
-```{r san.andreas.distanceplot1_roll, echo=TRUE}
+```{r san.andreas.distanceplot1_roll, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ]
 
 san_andreas.res_roll$roll_mean_azi.PoR <- roll_circstats(
@@ -245,7 +244,7 @@ The relationship between the azimuth and the distance can be better visualized
 by using the deviation (normalized by the data precision) from the the predicted
 stress direction, i.e. the *normalized* $\chi^2$:
 
-```{r san.andreas.distanceplot2, echo=TRUE}
+```{r san.andreas.distanceplot2, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 # Rolling norm chisq:
 san_andreas.res_roll$roll_nchisq <- roll_normchisq(
   san_andreas.res_roll$azi.PoR,
@@ -286,7 +285,7 @@ plate boundary zone.
 
 # Quick analysis
 A quick analysis including visualization of the results can be obtained by
-```{r quick, warning=FALSE, message=FALSE, eval=FALSE}
+```{r quick, eval=FALSE}
 stress_analysis(san_andreas, euler, "right", plate_boundary, plot = TRUE)
 ```
 
