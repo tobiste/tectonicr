@@ -107,6 +107,8 @@ should be stripped before the computation proceeds.</p></dd>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>Weighting may be the reciprocal of the data uncertainties.</p>
+<p>Weightings have no effect on median and quantiles if
+<code>length(x) %% 2 != 1</code> and <code>length(x) %% 4 == 0</code>, respectively.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -133,12 +135,12 @@ database release 2008. <em>Tectonophysics</em> <strong>482</strong>, 3–15,
 <span class="r-in"><span><span class="fu">circular_sd</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.002807</span>
 <span class="r-in"><span><span class="fu">circular_median</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
 <span class="r-in"><span><span class="fu">circular_quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          0%         25%         50%         75%        100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -5.00000000 -2.49999977  0.00000000  0.03278688  4.00000000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        25%        50%        75% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.03276155 4.00000000 2.11957861 </span>
 <span class="r-in"><span><span class="fu">circular_IQR</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.532787</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.086817</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_mean</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span></span>
@@ -146,15 +148,15 @@ database release 2008. <em>Tectonophysics</em> <strong>482</strong>, 3–15,
 <span class="r-in"><span><span class="fu">circular_mean</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.971235</span>
 <span class="r-in"><span><span class="fu">circular_median</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 36</span>
 <span class="r-in"><span><span class="fu">circular_median</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 36</span>
 <span class="r-in"><span><span class="fu">circular_quantiles</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0%   25%   50%   75%  100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.0  15.0   9.0 161.5 179.0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   25%   50%   75% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  15.0  36.0 161.5 </span>
 <span class="r-in"><span><span class="fu">circular_quantiles</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0%   25%   50%   75%  100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -90.0  -5.0   9.0  25.0  85.3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      25%      50%      75% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  15.0000  36.0000 161.8929 </span>
 <span class="r-in"><span><span class="fu">circular_var</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3134367</span>
 <span class="r-in"><span><span class="fu">circular_var</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
@@ -165,11 +167,13 @@ database release 2008. <em>Tectonophysics</em> <strong>482</strong>, 3–15,
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">ep</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_mean</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 138.8937</span>
+<span class="r-in"><span><span class="fu">circular_median</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 137.0094</span>
 <span class="r-in"><span><span class="fu">circular_var</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1893274</span>
 <span class="r-in"><span><span class="fu">circular_quantiles</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          0%         25%         50%         75%        100% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.3156904 124.9081101 137.0094023 150.2300413 179.8567715 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      25%      50%      75% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 124.9081 137.0094 150.2300 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

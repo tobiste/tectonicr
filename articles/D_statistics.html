@@ -102,7 +102,7 @@ to describe average direction:</p>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 10.66086</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 9</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 36</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="quality-weighted-mean-direction">Quality weighted mean direction<a class="anchor" aria-label="anchor" href="#quality-weighted-mean-direction"></a>
@@ -116,7 +116,7 @@ uncertainties:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 9.971235</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 9</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 36</span></span></code></pre></div>
 <p>The spread of directional data can be expressed by the standard
 deviation (for the mean) or the interquartile range (for the
 median):</p>
@@ -124,7 +124,7 @@ median):</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_sd</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># standard deviation</span></span>
 <span><span class="co">#&gt; [1] 38.43917</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_IQR</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># interquartile range</span></span>
-<span><span class="co">#&gt; [1] 30</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 33.10713</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="statistics-in-the-euler-pole-reference-frame">Statistics in the Euler pole reference frame<a class="anchor" aria-label="anchor" href="#statistics-in-the-euler-pole-reference-frame"></a>

@@ -75,45 +75,39 @@ specified mean direction and unknown mean resultant length.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">x</span>, mu <span class="op">=</span> <span class="cn">NULL</span>, w <span class="op">=</span> <span class="cn">NULL</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">x</span>, mu <span class="op">=</span> <span class="cn">NULL</span>, axial <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>numeric vector. Values in degrees, for which the
-mean, median or standard deviation are required.</p></dd>
+<dd><p>numeric vector. Values in degrees</p></dd>
 
 
 <dt>mu</dt>
 <dd><p>(optional) The specified or known mean direction (in degrees) in alternative hypothesis</p></dd>
 
 
-<dt>w</dt>
-<dd><p>(optional) Weights. A vector of positive numbers, of the same length as
-<code>x</code>.</p></dd>
-
-
 <dt>axial</dt>
 <dd><p>logical. Whether the data are axial, i.e. pi-periodical
 (<code>TRUE</code>, the default) or circular, i.e. 2pi-periodical (<code>FALSE</code>).</p></dd>
-
-
-<dt>na.rm</dt>
-<dd><p>logical value indicating whether <code>NA</code> values in <code>x</code>
-should be stripped before the computation proceeds.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a list with the components:
-the number of data <code>n</code>,
-the mean resultant length (<code>statistic</code>),
-the significance level (<code>p.value</code>) of the test statistic, and
-the modified significance level (<code>p.value2</code>, Cordeiro and Ferrari, 1991).</p>
-    </div>
+<p>a list with the components:</p><dl><dt><code>statistic</code></dt>
+<dd><p>the mean resultant length</p></dd>
+
+<dt><code>p.value</code></dt>
+<dd><p>the significance level () of the test statistic</p></dd>
+
+<dt><code>p.value2</code></dt>
+<dd><p>the modified significance level (Cordeiro and Ferrari, 1991)</p></dd>
+
+
+</dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If <code>statistic &gt; p.value</code>, the null hypothesis is rejected,
@@ -126,7 +120,8 @@ If not, randomness (uniform distribution) cannot be excluded.</p>
 von Mises alternatives, it is not consistent against alternatives with p = 0
 (in particular, distributions with antipodal symmetry, i.e. axial data).
 Tests of non-uniformity which are consistent against all alternatives
-include Kuiper’s test and Watson’s U2 test.</p>
+include Kuiper’s test (<code><a href="kuiper_test.html">kuiper_test()</a></code>) and Watson’s U2 test
+(<code><a href="watson_test.html">watson_test()</a></code>).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -136,7 +131,7 @@ include Kuiper’s test and Watson’s U2 test.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="mean_resultant_length.html">mean_resultant_length()</a></code>, <code><a href="circle_stats.html">circular_mean()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="mean_resultant_length.html">mean_resultant_length()</a></code>, <code><a href="circle_stats.html">circular_mean()</a></code>, <code><a href="norm_chisq.html">norm_chisq()</a></code>, <code><a href="kuiper_test.html">kuiper_test()</a></code>, <code><a href="watson_test.html">watson_test()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -144,9 +139,7 @@ include Kuiper’s test and Watson’s U2 test.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example data from Mardia and Jupp (2001), pp. 93</span></span></span>
 <span class="r-in"><span><span class="va">pidgeon_homing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">55</span>, <span class="fl">60</span>, <span class="fl">65</span>, <span class="fl">95</span>, <span class="fl">100</span>, <span class="fl">110</span>, <span class="fl">260</span>, <span class="fl">275</span>, <span class="fl">285</span>, <span class="fl">295</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">pidgeon_homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Do Not Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2228717</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -165,9 +158,7 @@ include Kuiper’s test and Watson’s U2 test.</p>
 <span class="r-in"><span>  <span class="fl">165</span>, <span class="fl">171</span>, <span class="fl">172</span>, <span class="fl">179</span>, <span class="fl">181</span>, <span class="fl">186</span>, <span class="fl">190</span>, <span class="fl">212</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_stria</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 51</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8003694</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -178,9 +169,7 @@ include Kuiper’s test and Watson’s U2 test.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.768544e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_stria</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 51</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7300887</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -194,9 +183,7 @@ include Kuiper’s test and Watson’s U2 test.</p>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">108</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">169.2</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">324</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">atomic_weight</span>, <span class="fl">0</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7237434</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -205,33 +192,22 @@ include Kuiper’s test and Watson’s U2 test.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6865633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.166033e-222</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.168593e-248</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">ep</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1082</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6410151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.079845e-192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1082</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1448895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.055551e-12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1082</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7050632</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
