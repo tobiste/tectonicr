@@ -4,29 +4,23 @@
 \alias{rayleigh_test}
 \title{Rayleigh Test of Circular Uniformity}
 \usage{
-rayleigh_test(x, mu = NULL, w = NULL, axial = TRUE, na.rm = TRUE)
+rayleigh_test(x, mu = NULL, axial = TRUE)
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees, for which the
-mean, median or standard deviation are required.}
+\item{x}{numeric vector. Values in degrees}
 
 \item{mu}{(optional) The specified or known mean direction (in degrees) in alternative hypothesis}
 
-\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
-\code{x}.}
-
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or circular, i.e. 2pi-periodical (\code{FALSE}).}
-
-\item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
-should be stripped before the computation proceeds.}
 }
 \value{
 a list with the components:
-the number of data \code{n},
-the mean resultant length (\code{statistic}),
-the significance level (\code{p.value}) of the test statistic, and
-the modified significance level (\code{p.value2}, Cordeiro and Ferrari, 1991).
+\describe{
+\item{\code{statistic}}{the mean resultant length}
+\item{\code{p.value}}{the significance level () of the test statistic}
+\item{\code{p.value2}}{the modified significance level (Cordeiro and Ferrari, 1991)}
+}
 }
 \description{
 Performs a Rayleigh test of uniformity (or randomness), assessing the
@@ -46,7 +40,8 @@ Although the Rayleigh test is consistent against (non-uniform)
 von Mises alternatives, it is not consistent against alternatives with p = 0
 (in particular, distributions with antipodal symmetry, i.e. axial data).
 Tests of non-uniformity which are consistent against all alternatives
-include Kuiper’s test and Watson’s U2 test.
+include Kuiper’s test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson’s U2 test
+(\code{\link[=watson_test]{watson_test()}}).
 }
 \examples{
 # Example data from Mardia and Jupp (2001), pp. 93
@@ -71,11 +66,10 @@ atomic_weight <- c(
 rayleigh_test(atomic_weight, 0, axial = FALSE)
 
 data(san_andreas)
+rayleigh_test(san_andreas$azi)
 data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
-rayleigh_test(san_andreas$azi, 1 / san_andreas$unc)
-rayleigh_test(sa.por$azi.PoR, 1 / san_andreas$unc)
 rayleigh_test(sa.por$azi.PoR, mu = 135)
 }
 \references{
@@ -86,5 +80,5 @@ Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl. Statist. 32,
 Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
 }
 \seealso{
-\code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}
+\code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=kuiper_test]{kuiper_test()}}, \code{\link[=watson_test]{watson_test()}}
 }

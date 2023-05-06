@@ -44,6 +44,9 @@ of orientation data.
 }
 \note{
 Weighting may be the reciprocal of the data uncertainties.
+
+Weightings have no effect on median and quantiles if
+\code{length(x) \%\% 2 != 1} and \code{length(x) \%\% 4 == 0}, respectively.
 }
 \examples{
 x <- c(175, 179, 0, 2, 4)
@@ -69,6 +72,7 @@ data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
 circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
+circular_median(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 }

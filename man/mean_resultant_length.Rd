@@ -4,7 +4,7 @@
 \alias{mean_resultant_length}
 \title{Mean resultant length}
 \usage{
-mean_resultant_length(x, w, na.rm)
+mean_resultant_length(x, w = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees, for which the

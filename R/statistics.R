@@ -1,91 +1,3 @@
-axial <- function(x) {
-
-}
-
-nchisq_eq <- function(obs, prd, unc) {
-  # if (is.na(obs)) {
-  #   x <- y <- NA
-  # } else {
-  if (is.na(unc) || unc == 0) unc <- 1 # uncertainty cannot be 0
-  w <- deviation_norm(obs - prd)
-  x <- (w / unc)^2
-  y <- (90 / unc)^2
-  # }
-  return(c(x, y))
-}
-
-#' Normalized Chi-Squared Test
-#'
-#' A quantitative comparison between the predicted and observed directions of
-#' \eqn{\sigma_{Hmax}}{SHmax} is obtained by the calculation of the average
-#' azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
-#'
-#' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
-#'   5037-5059, doi: 10.1029/97JB03390.
-#' @param prd Numeric vector containing the modeled azimuths of
-#' \eqn{\sigma_{Hmax}}{SHmax}, i.e.
-#' the return object from \code{model_shmax()}
-#' @param obs Numeric vector containing the observed azimuth of
-#' \eqn{\sigma_{Hmax}}{SHmax},
-#' same length as \code{prd}
-#' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
-#' numeric vector or a number
-#' @return Numeric vector
-#' @details
-#' The normalized \eqn{\chi^2}{chi-squared} test is
-#' \deqn{ {Norm} \chi^2_i =
-#'  = \frac{
-#'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{{predict}}}{\sigma_i}
-#'    \right) ^2}
-#'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
-#'    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
-#'    }
-#' The value of the chi-squared test statistic is a number between 0 and 1
-#' indicating the quality of the predicted \eqn{\sigma_{Hmax}}{SHmax}
-#' directions. Low values
-#' (\eqn{\le 0.15}) indicate good agreement,
-#' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
-#' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
-#' @importFrom stats complete.cases
-#' @export
-#' @examples
-#' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
-#' # Pacific plate
-#' data(san_andreas)
-#' point <- data.frame(lat = 45, lon = 20)
-#' prd <- model_shmax(point, euler)
-#' norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
-#'
-#' data(san_andreas)
-#' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
-#' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
-norm_chisq <- function(obs, prd, unc) {
-  N <- length(obs)
-  if (length(prd) == 1) {
-    prd <- rep(prd, N)
-  }
-
-  if (length(unc) == 1) {
-    unc <- rep(unc, N)
-  }
-  stopifnot(length(prd) == N, length(unc) == N)
-
-  x <- cbind(obs, prd, unc)
-  x_compl <- matrix(
-    x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ],
-    ncol = 3
-  ) # remove NA values
-  # stopifnot(length(x) > 0)
-
-  xy <- mapply(
-    FUN = nchisq_eq,
-    obs = x_compl[, 1], prd = x_compl[, 2], unc = x_compl[, 3]
-  )
-  sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
-}
-
 mean_SC <- function(x, w, na.rm) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
@@ -137,7 +49,7 @@ mean_SC <- function(x, w, na.rm) {
 #'   165, 171, 172, 179, 181, 186, 190, 212
 #' )
 #' mean_resultant_length(finland_stria, w = NULL, na.rm = FALSE) # 0.800
-mean_resultant_length <- function(x, w, na.rm) {
+mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
   m <- mean_SC(x, w, na.rm)
   R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
   as.numeric(R)
@@ -159,6 +71,9 @@ mean_resultant_length <- function(x, w, na.rm) {
 #' @importFrom stats complete.cases
 #' @return numeric vector
 #' @note Weighting may be the reciprocal of the data uncertainties.
+#'
+#' Weightings have no effect on median and quantiles if
+#' `length(x) %% 2 != 1` and `length(x) %% 4 == 0`, respectively.
 #' @references
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
 #' Mathematical Statistics. London: Academic Press.
@@ -193,6 +108,7 @@ mean_resultant_length <- function(x, w, na.rm) {
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
+#' circular_median(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' @name circle_stats
@@ -208,7 +124,7 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- (x %% mod) * f
+  x <- (x * f) %% 360
   m <- mean_SC(x, w, na.rm)
   meanx_rad <- atan2(m[, "S"], m[, "C"]) / f
   meanx_deg <- rad2deg(meanx_rad + 2 * pi) %% mod
@@ -224,7 +140,7 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- (x %% mod) * f
+  x <- (x * f) %% 360
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   1 - R
@@ -240,7 +156,7 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- (x %% mod) * f
+  x <- (x * f) %% 360
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   sd <- sqrt(-2 * log(R)) # / f
@@ -251,15 +167,6 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  meanx <- circular_mean(x, w, axial = TRUE, na.rm)
-
-  if (meanx <= 25 || meanx >= 155) {
-    sub <- 90
-    x <- x + sub
-  } else {
-    sub <- 0
-  }
-
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
@@ -271,17 +178,14 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- (x %% mod)
+  x <- deg2rad(x * f) %% (2*pi)
   data <- cbind(x = x, w = w)
-
-
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
 
   data <- data[order(data[, "x"]), ]
-
-  x <- f * deg2rad(data[, "x"])
+  x <- data[, "x"]
   w <- data[, "w"]
 
   n <- length(x)
@@ -292,29 +196,17 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     sumcos2 <- cos(x[m + 1])
   } else { # if even
     m <- n / 2
-    sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / (w[m] + w[m + 1])
-    sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / (w[m] + w[m + 1])
+    Z <- (w[m] + w[m + 1])
+    sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / Z
+    sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / Z
   }
-  ((atan2d(sumsin2, sumcos2) / f) - sub) %% mod
+  (atan2d(sumsin2, sumcos2) / f) %% mod
 }
-
-
 
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (circular_mean(x, w, axial = TRUE, na.rm) < 10) {
-    sub <- 90
-    x <- x + sub
-  } else {
-    sub <- 0
-  }
-
-  med <- circular_median(x, w, axial, na.rm)
-
-  if (is.null(w)) {
-    w <- rep(1, times = length(x))
-  }
+  #med <- circular_median(x, w, axial, na.rm)
 
   if (axial) {
     f <- 2
@@ -323,69 +215,76 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- x %% mod
+  x <- deg2rad(f*x) %% (2*pi)
+
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  }
 
   data <- cbind(x = x, w = w)
-
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
-
   data <- data[order(data[, "x"]), ]
 
-  x_first <- data[1, "x"]
-  x_last <- data[length(data[, 1]), "x"]
+  #x_first <- data[1, "x"]
+  #x_last <- data[length(data[, 1]), "x"]
 
-  x <- f * deg2rad(data[, "x"])
+  x <- data[, "x"]
   w <- data[, "w"]
   n <- length(x)
 
   if (n > 3) {
+
+    # median:
+    if (n %% 2 != 0) { # if odd
+      m <- (n - 1) / 2
+      sumsin2 <- sin(x[m + 1])
+      sumcos2 <- cos(x[m + 1])
+    } else { # if even
+      m <- n / 2
+      Z <- w[m] + w[m+1]
+      sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / Z
+      sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / Z
+    }
+    med <- atan2d(sumsin2, sumcos2)
+
     if (n %% 4 == 0) {
       m <- n / 4
-      sum.sin.lq <- sind(x[m + 1])
-      sum.cos.lq <- cosd(x[m + 1])
+      sum.sin.lq <- sin(x[m + 1])
+      sum.cos.lq <- cos(x[m + 1])
 
-      sum.sin.uq <- sind(x[3 * m + 1])
-      sum.cos.uq <- cosd(x[3 * m + 1])
+      sum.sin.uq <- sin(x[3 * m + 1])
+      sum.cos.uq <- cos(x[3 * m + 1])
 
       Zu <- Zl <- 1
     } else if (n %% 4 == 1) {
       m <- (n - 1) / 4
+      sum.sin.lq <- 3 * w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])
+      sum.cos.lq <- 3 * w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])
 
-      sum.sin.lq <- 3 * w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
-      sum.cos.lq <- 3 * w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])
-
-      sum.sin.uq <- 3 * w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] *
-        sind(x[3 * m + 1])
-      sum.cos.uq <- 3 * w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] *
-        cosd(x[3 * m + 1])
+      sum.sin.uq <- 3 * w[3 * m] * sin(x[3 * m]) + w[3 * m + 1] * sin(x[3 * m + 1])
+      sum.cos.uq <- 3 * w[3 * m] * cos(x[3 * m]) + w[3 * m + 1] * cos(x[3 * m + 1])
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
     } else if (n %% 4 == 2) {
       m <- (n - 2) / 4
+      sum.sin.lq <- w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])
+      sum.cos.lq <- w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])
 
-      sum.sin.lq <- w[m] * sind(x[m]) + w[m + 1] * sind(x[m + 1])
-      sum.cos.lq <- w[m] * cosd(x[m]) + w[m + 1] * cosd(x[m + 1])
-
-      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + w[3 * m + 1] *
-        sind(x[3 * m + 1])
-      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + w[3 * m + 1] *
-        cosd(x[3 * m + 1])
+      sum.sin.uq <- w[3 * m] * sin(x[3 * m]) + w[3 * m + 1] * sin(x[3 * m + 1])
+      sum.cos.uq <- w[3 * m] * cos(x[3 * m]) + w[3 * m + 1] * cos(x[3 * m + 1])
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
     } else { # if (n %% 4 == 3) {
       m <- (n - 2) / 4
+      sum.sin.lq <- w[m] * sin(x[m]) + 3 * w[m + 1] * sin(x[m + 1])
+      sum.cos.lq <- w[m] * cos(x[m]) + 3 * w[m + 1] * cos(x[m + 1])
 
-      sum.sin.lq <- w[m] * sind(x[m]) + 3 * w[m + 1] * sind(x[m + 1])
-      sum.cos.lq <- w[m] * cosd(x[m]) + 3 * w[m + 1] * cosd(x[m + 1])
-
-      sum.sin.uq <- w[3 * m] * sind(x[3 * m]) + 3 * w[3 * m + 1] *
-        sind(x[3 * m + 1])
-      sum.cos.uq <- w[3 * m] * cosd(x[3 * m]) + 3 * w[3 * m + 1] *
-        cosd(x[3 * m + 1])
+      sum.sin.uq <- w[3 * m] * sin(x[3 * m]) + 3 * w[3 * m + 1] * sin(x[3 * m + 1])
+      sum.cos.uq <- w[3 * m] * cos(x[3 * m]) + 3 * w[3 * m + 1] * cos(x[3 * m + 1])
 
       Zl <- w[m] + w[m + 1]
       Zu <- w[3 * m] + w[3 * m + 1]
@@ -396,14 +295,12 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     mean.sin.uq <- sum.sin.uq / Zu
     mean.cos.uq <- sum.cos.uq / Zu
 
-    lq <- atan2d(mean.sin.lq, mean.cos.lq) / f
-    uq <- atan2d(mean.sin.uq, mean.cos.uq) / f
+    lq <- atan2d(mean.sin.lq, mean.cos.lq)
+    uq <- atan2d(mean.sin.uq, mean.cos.uq)
 
-    quantiles <- c(
-      x_first, rad2deg(lq), med, rad2deg(uq), x_last
-    )
-    names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
-    return(quantiles - sub)
+    quantiles <- c(lq, med, uq) / f
+    names(quantiles) <- c("25%", "50%", "75%")
+    return(quantiles %% mod)
   } else {
     message("x needs more than 3 values")
     return(NULL)
@@ -414,7 +311,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   quantiles <- circular_quantiles(x, w, axial, na.rm)
-  deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
+  deviation_norm(as.numeric(quantiles[3] - quantiles[1]))
 }
 
 #' Error of model's prediction
@@ -560,28 +457,6 @@ roll_normchisq <- function(obs, prd, unc = NULL,
 }
 
 
-A1inv <- function(x) {
-  ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
-    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
-  )
-}
-
-est.kappa <- function(x, ..., bias = FALSE) {
-  mean.dir <- circular_mean(x, ...)
-  kappa <- A1inv(mean(cosd(x - mean.dir)))
-  if (bias) {
-    kappa.ml <- kappa
-    n <- length(x)
-    if (kappa.ml < 2) {
-      kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
-    }
-    if (kappa.ml >= 2) {
-      kappa <- ((n - 1)^3 * kappa.ml) / (n^3 + n)
-    }
-  }
-  kappa
-}
-
 z_score <- function(conf.level) {
   stats::qnorm(1 - (1 - conf.level) / 2)
 }
@@ -622,9 +497,9 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
 
   n <- length(x)
-  kappa <- est.kappa(x, w, axial, na.rm)
+  kappa <- est.kappa(x, w = w, axial = axial, na.rm = na.rm)
 
-  x <- (x %% mod) * f
+  x <- (x * f) %% 360
   R <- mean_resultant_length(x, w, na.rm)
 
   sde <- 1 / sqrt(n * R * kappa) # / f
@@ -663,6 +538,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' confidence_angle(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+#' confidence_interval(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 #' @name confidence
 NULL
 
@@ -676,13 +552,98 @@ confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm 
 #' @export
 confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
   conf.angle <- confidence_angle(x, conf.level, w, axial, na.rm)
-  mu <- circular_mean(x, w, axial, na.rm)
+  mu <- circular_mean(x, w = w, axial = axial, na.rm = na.rm)
 
   list(
     mu = mu,
     conf.angle = conf.angle,
     conf.interval = c(mu - conf.angle, mu + conf.angle) %% 360
   )
+}
+
+# Tests ####
+nchisq_eq <- function(obs, prd, unc) {
+  # if (is.na(obs)) {
+  #   x <- y <- NA
+  # } else {
+  if (is.na(unc) || unc == 0) unc <- 1 # uncertainty cannot be 0
+  w <- deviation_norm(obs - prd)
+  x <- (w / unc)^2
+  y <- (90 / unc)^2
+  # }
+  return(c(x, y))
+}
+
+#' Normalized Chi-Squared Test
+#'
+#' A quantitative comparison between the predicted and observed directions of
+#' \eqn{\sigma_{Hmax}}{SHmax} is obtained by the calculation of the average
+#' azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
+#'
+#' @references Wdowinski, S., 1998, A theory of intraplate
+#'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
+#'   5037-5059, doi: 10.1029/97JB03390.
+#' @param prd Numeric vector containing the modeled azimuths of
+#' \eqn{\sigma_{Hmax}}{SHmax}, i.e.
+#' the return object from \code{model_shmax()}
+#' @param obs Numeric vector containing the observed azimuth of
+#' \eqn{\sigma_{Hmax}}{SHmax},
+#' same length as \code{prd}
+#' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
+#' numeric vector or a number
+#' @return Numeric vector
+#' @details
+#' The normalized \eqn{\chi^2}{chi-squared} test is
+#' \deqn{ {Norm} \chi^2_i =
+#'  = \frac{
+#'    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{{predict}}}{\sigma_i}
+#'    \right) ^2}
+#'    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
+#'    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
+#'    }
+#' The value of the chi-squared test statistic is a number between 0 and 1
+#' indicating the quality of the predicted \eqn{\sigma_{Hmax}}{SHmax}
+#' directions. Low values
+#' (\eqn{\le 0.15}) indicate good agreement,
+#' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
+#' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
+#' @importFrom stats complete.cases
+#' @export
+#' @examples
+#' data("nuvel1")
+#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
+#' # Pacific plate
+#' data(san_andreas)
+#' point <- data.frame(lat = 45, lon = 20)
+#' prd <- model_shmax(point, euler)
+#' norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
+#'
+#' data(san_andreas)
+#' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
+#' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
+norm_chisq <- function(obs, prd, unc) {
+  N <- length(obs)
+  if (length(prd) == 1) {
+    prd <- rep(prd, N)
+  }
+
+  if (length(unc) == 1) {
+    unc <- rep(unc, N)
+  }
+  stopifnot(length(prd) == N, length(unc) == N)
+
+  x <- cbind(obs, prd, unc)
+  x_compl <- matrix(
+    x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ],
+    ncol = 3
+  ) # remove NA values
+  # stopifnot(length(x) > 0)
+
+  xy <- mapply(
+    FUN = nchisq_eq,
+    obs = x_compl[, 1], prd = x_compl[, 2], unc = x_compl[, 3]
+  )
+  sum(xy[1, ], na.rm = TRUE) / sum(xy[2, ], na.rm = TRUE)
 }
 
 
@@ -695,7 +656,9 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 #' If `mu` is specified the alternative hypothesis is a unimodal distribution with a
 #' specified mean direction and unknown mean resultant length.
 #'
-#' @inheritParams circular_mean
+#' @param x numeric vector. Values in degrees
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or circular, i.e. 2pi-periodical (`FALSE`).
 #' @param mu (optional) The specified or known mean direction (in degrees) in alternative hypothesis
 #' @details
 #' If `statistic > p.value`, the null hypothesis is rejected,
@@ -706,20 +669,21 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 #' von Mises alternatives, it is not consistent against alternatives with p = 0
 #' (in particular, distributions with antipodal symmetry, i.e. axial data).
 #' Tests of non-uniformity which are consistent against all alternatives
-#' include Kuiper’s test and Watson’s U2 test.
-#'
+#' include Kuiper’s test ([kuiper_test()]) and Watson’s U2 test
+#' ([watson_test()]).
 #' @returns a list with the components:
-#' the number of data `n`,
-#' the mean resultant length (`statistic`),
-#' the significance level (`p.value`) of the test statistic, and
-#' the modified significance level (`p.value2`, Cordeiro and Ferrari, 1991).
+#' \describe{
+#'  \item{`statistic`}{the mean resultant length}
+#'  \item{`p.value`}{the significance level () of the test statistic}
+#'  \item{`p.value2`}{the modified significance level (Cordeiro and Ferrari, 1991)}
+#' }
 #' @references
 #' Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
 #'
 #' Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl. Statist. 32, No. 3, pp. 311-312
 #'
 #' Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
-#' @seealso [mean_resultant_length()], [circular_mean()]
+#' @seealso [mean_resultant_length()], [circular_mean()], [norm_chisq()], [kuiper_test()], [watson_test()]
 #' @export
 #' @examples
 #' # Example data from Mardia and Jupp (2001), pp. 93
@@ -744,69 +708,62 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 #' rayleigh_test(atomic_weight, 0, axial = FALSE)
 #'
 #' data(san_andreas)
+#' rayleigh_test(san_andreas$azi)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' rayleigh_test(san_andreas$azi, 1 / san_andreas$unc)
-#' rayleigh_test(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' rayleigh_test(sa.por$azi.PoR, mu = 135)
-rayleigh_test <- function(x, mu = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
+rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
   if (axial) {
     f <- 2
   } else {
     f <- 1
   }
-  x <- (x * f) %% 360
-
-  if (is.null(w)) {
-    w <- rep(1, times = length(x))
-  } else {
-    w <- as.numeric(w)
-  }
-
-  data <- cbind(x = x, w = w)
-  if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
-  }
-
-  x <- data[, "x"]
-  w <- data[, "w"]
+  x <- (na.omit(x) * f) %% 360
   n <- length(x)
-  # Z <- sum(w)
 
   if (is.null(mu)) {
-    R <- mean_resultant_length(x, w, na.rm = FALSE)
+    R <- mean_resultant_length(x, na.rm = FALSE)
     S <- 2 * n * R^2
     S2 <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
     # if(n <= 10){
     #  p.value <- p_value3(R, n)
     # } else  {
-    p.value <- p_value1(S / 2, n)
+    p.value <- rayleigh_p_value1(S / 2, n)
     # }
-    p.value2 <- p_value1(S2 / 2, n)
+    p.value2 <- rayleigh_p_value1(S2 / 2, n)
 
     result <- list(
-      n = n,
       statistic = R,
       p.value = p.value,
       p.value2 = p.value2
     )
+    if (R > p.value2) {
+      message("Reject Null Hypothesis\n")
+    } else {
+      message("Do Not Reject Null Hypothesis\n")
+    }
   } else {
-    C <- (sum(cosd(x - (f * mu) %% 360))) / n
+    mu <- (f * mu) %% 360
+    C <- (sum(cosd(x - mu))) / n
     s <- sqrt(2 * n) * C
-    p.value <- p_value2(s, n)
+    p.value <- rayleigh_p_value2(s, n)
 
     result <- list(
-      n = n,
       statistic = C,
       p.value = p.value
     )
+    if (C > p.value) {
+      message("Reject Null Hypothesis\n")
+    } else {
+      message("Do Not Reject Null Hypothesis\n")
+    }
   }
 
   return(result)
 }
 
-p_value1 <- function(K, n) {
+rayleigh_p_value1 <- function(K, n) {
   # Pearson. 1906; Greenwood and Durand, 1955
   P <- exp(-K)
   if (n < 50) {
@@ -817,17 +774,17 @@ p_value1 <- function(K, n) {
     temp <- 1
   }
   P * temp
-  # min(max(P * temp, 0), 1)
+  min(max(P * temp, 0), 1)
 }
 
-p_value3 <- function(R, n) {
-  # Wilkie 1983
-  Rn <- R * n
-  temp <- sqrt(1 + 4 * n + 4 * (n^2 - Rn^2)) - (1 + 2 * n)
-  round(exp(temp), 3)
-}
+# rayleigh_p_value3 <- function(R, n) {
+#   # Wilkie 1983
+#   Rn <- R * n
+#   temp <- sqrt(1 + 4 * n + 4 * (n^2 - Rn^2)) - (1 + 2 * n)
+#   round(exp(temp), 3)
+# }
 
-p_value2 <- function(K, n) {
+rayleigh_p_value2 <- function(K, n) {
   # Greenwood and Durand, 1957
   pK <- stats::pnorm(K) # distribution function of standard normal distribution
   fK <- stats::dnorm(K) # density function of standard normal distribution
@@ -835,81 +792,303 @@ p_value2 <- function(K, n) {
     (3 * K - K^3) / (16 * n) +
       (15 * K + 305 * K^3 - 125 * K^5 + 9 * K^7) / (4608 * n^2)
   )
-  # min(max(P, 0), 1)
+  min(max(P, 0), 1)
 }
 
-#' Watson's U2 Test for Circular Uniformity
+#' Kuiper test of uniformity
 #'
-#' Watson's test for circular uniform distribution.
+#' Kuiper test for circular random distribution.
 #'
 #' @param x numeric vector containing the circular data which are expressed in degrees
 #' @param alpha Significance level of the test. Valid levels are 0.01, 0.05, 0.1.
 #' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or circular, i.e. 2pi-periodical (`FALSE`).
 #' @returns list containing the test statistic `statistic` and the significance
 #' level `p.value`.
-#' @details If `statistic > p.value`, the null hypothesis is rejected.
+#' @details
+#' Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
+#' The critical values of a modified Kuiper's test statistic are used according
+#' to the tabulation given in Stephens (1970).
+#'
+#' If `statistic > p.value`, the null hypothesis is rejected.
+#' If not, randomness (uniform distribution) cannot be excluded.
+#' @export
+#' @examples
+#' # Example data from Mardia and Jupp (2001), pp. 93
+#' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
+#' kuiper_test(pidgeon_homing, alpha = .05)
+#'
+#' data(san_andreas)
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' kuiper_test(sa.por$azi.PoR, alpha = .05)
+kuiper_test <- function(x, alpha = NULL, axial = TRUE) {
+  if (!any(c(0, 0.01, 0.025, 0.05, 0.1, 0.15) == alpha)) {
+    stop("'alpha' must be one of the following values: 0, 0.01, 0.025, 0.05, 0.1, 0.15")
+  }
+  kuiper.crits <- cbind(
+    c(0.15, 0.1, 0.05, 0.025, 0.01),
+    c(1.537, 1.62, 1.747, 1.862, 2.001)
+  )
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+  x <- (na.omit(x) * f) %% 360
+  u <- sort(deg2rad(x) %% (2 * pi)) / (2 * pi)
+  n <- length(x)
+  i <- 1:n
+  D.P <- max(i / n - u)
+  D.M <- max(u - (i - 1) / n)
+  sqrt_n <- sqrt(n)
+  V <- D.P + D.M
+  V <- V * (sqrt_n + 0.155 + 0.24 / sqrt_n)
+
+  if (alpha == 0) {
+    if (V < 1.537) {
+      p.value <- "P-value > 0.15"
+    } else if (V < 1.62) {
+      p.value <- "0.10 < P-value < 0.15"
+    } else if (V < 1.747) {
+      p.value <- "0.05 < P-value < 0.10"
+    } else if (V < 1.862) {
+      p.value <- "0.025 < P-value < 0.05"
+    } else if (V < 2.001) {
+      p.value <- "0.01 < P-value < 0.025"
+    } else {
+      p.value <- "P-value < 0.01"
+    }
+  } else {
+    p.value <- kuiper.crits[(1:5)[alpha == c(kuiper.crits[, 1])], 2]
+
+    if (V > p.value) {
+      message("Reject Null Hypothesis\n")
+    } else {
+      message("Do Not Reject Null Hypothesis\n")
+    }
+  }
+  return(
+    list(
+      statistic = V,
+      p.value = p.value
+    )
+  )
+}
+
+#' Watson's U2 Test for Circular Uniformity
+#'
+#' Watson's test for circular random distribution.
+#'
+#' @param x numeric vector. Values in degrees
+#' @param alpha Significance level of the test. Valid levels are 0.01, 0.05, 0.1.
+#' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or circular, i.e. 2pi-periodical (`FALSE`).
+#' @param dist Distribution to test for. The default, `"uniform"`, is the
+#' uniform distribution. `"vonmises"` tests the von Mises distribution.
+#' @returns list containing the test statistic `statistic` and the significance
+#' level `p.value`.
+#' @details
+#' Watson's test statistic is a rotation-invariant Cramer - von Mises test statistic.
+#' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, randomness (uniform distribution) cannot be excluded.
 #' @references Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
 #' @export
 #' @examples
 #' # Example data from Mardia and Jupp (2001), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-# ` watson_test(pidgeon_homing, alpha = .05)
-#' #
+#' watson_test(pidgeon_homing, alpha = .05)
+#'
 #' data(san_andreas)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' watson_test(sa.por$azi.PoR, alpha = .05)
-watson_test <- function(x, alpha = NULL) {
+#' watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
+watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE) {
+  if (!any(c(0, 0.01, 0.025, 0.05, 0.1) == alpha)) {
+    stop("'alpha' must be one of the following values: 0, 0.01, 0.025, 0.05, 0.1")
+  }
+
+  dist <- match.arg(dist)
   x <- na.omit(x)
   n <- length(x)
 
-  # U2 Statistic:
-  u <- sort(deg2rad(x)) / (2 * pi)
-  u.bar <- mean(u)
-  i <- 1:n
-  u2 <- sum((u - u.bar - (i - .5) / n + .5)^2) + 1 / (12 * n)
-  statistic <- (u2 - 0.1 / n + 0.1 / (n^2)) * (1 + 0.8 / n)
-
-  # P-value:
-  crits <- c(99, 0.267, 0.221, 0.187, 0.152)
-  if (n < 8) {
-    p.value <- NA
-    warning("Total Sample Size < 8:  Results are not valid")
-  }
-  if (is.null(alpha)) {
-    if (statistic > 0.267) {
-      p.value <- "P-value < 0.01"
-    } else if (statistic > 0.221) {
-      p.value <- "0.01 < P-value < 0.025"
-    } else if (statistic > 0.187) {
-      p.value <- "0.025 < P-value < 0.05"
-    } else if (statistic > 0.152) {
-      p.value <- "0.05 < P-value < 0.10"
+  if (dist == "uniform") {
+    if (axial) {
+      f <- 2
     } else {
-      p.value <- "P-value > 0.10"
+      f <- 1
     }
-  } else if (!(alpha %in% c(0, 0.01, 0.025, 0.05, 0.1))) {
-    warning("Invalid input for alpha")
-    if (statistic > 0.267) {
-      p.value <- "P-value < 0.01"
-    } else if (statistic > 0.221) {
-      p.value <- "0.01 < P-value < 0.025"
-    } else if (statistic > 0.187) {
-      p.value <- "0.025 < P-value < 0.05"
-    } else if (statistic > 0.152) {
-      p.value <- "0.05 < P-value < 0.10"
+    x <- (x * f) %% 360
+
+    # U2 Statistic:
+    u <- sort(deg2rad(x)) / (2 * pi)
+    u.bar <- mean(u)
+    i <- 1:n
+    u2 <- sum((u - u.bar - (i - .5) / n + .5)^2) + 1 / (12 * n)
+    statistic <- (u2 - 0.1 / n + 0.1 / (n^2)) * (1 + 0.8 / n)
+
+    # P-value:
+    crits <- c(99, 0.267, 0.221, 0.187, 0.152)
+    if (n < 8) {
+      p.value <- NA
+      warning("Total Sample Size < 8:  Results are not valid")
+    }
+    if (alpha == 0) {
+      if (statistic > 0.267) {
+        p.value <- "P-value < 0.01"
+      } else if (statistic > 0.221) {
+        p.value <- "0.01 < P-value < 0.025"
+      } else if (statistic > 0.187) {
+        p.value <- "0.025 < P-value < 0.05"
+      } else if (statistic > 0.152) {
+        p.value <- "0.05 < P-value < 0.10"
+      } else {
+        p.value <- "P-value > 0.10"
+      }
     } else {
-      p.value <- "P-value > 0.10"
+      index <- (1:5)[alpha == c(0, 0.01, 0.025, 0.05, 0.1)]
+      p.value <- crits[index]
+
+      if (statistic > p.value) {
+        message("Reject Null Hypothesis\n")
+      } else {
+        message("Do Not Reject Null Hypothesis\n")
+      }
     }
   } else {
-    index <- (1:5)[alpha == c(0, 0.01, 0.025, 0.05, 0.1)]
-    p.value <- crits[index]
-  }
+    u2.crits <- cbind(
+      c(0, 0.5, 1, 1.5, 2, 4, 100),
+      c(0.052, 0.056, 0.066, 0.077, 0.084, 0.093, 0.096),
+      c(0.061, 0.066, 0.079, 0.092, 0.101, 0.113, 0.117),
+      c(0.081, 0.09, 0.11, 0.128, 0.142, 0.158, 0.164)
+    )
 
+    mu <- circular_mean(x, axial = axial, na.rm = FALSE)
+    kappa.mle <- est.kappa(x, axial = axial)
+    x <- deg2rad(x - mu)
+    x <- matrix(x, ncol = 1)
+    z <- apply(x, 1, pvm, 0, kappa.mle)
+    z <- sort(z)
+    z.bar <- mean(z)
+    i <- c(1:n)
+    sum.terms <- (z - (2 * i - 1) / (2 * n))^2
+    statistic <- sum(sum.terms) - n * (z.bar - 0.5)^2 + 1 / (12 * n)
+    if (kappa.mle < 0.25) {
+      row <- 1
+    } else if (kappa.mle < 0.75) {
+      row <- 2
+    } else if (kappa.mle < 1.25) {
+      row <- 3
+    } else if (kappa.mle < 1.75) {
+      row <- 4
+    } else if (kappa.mle < 3) {
+      row <- 5
+    } else if (kappa.mle < 5) {
+      row <- 6
+    } else {
+      row <- 7
+    }
+    if (alpha != 0) {
+      if (alpha == 0.1) {
+        col <- 2
+      } else if (alpha == 0.05) {
+        col <- 3
+      } else if (alpha == 0.01) {
+        col <- 4
+      } else {
+        stop("Invalid input for alpha", "\n", "\n")
+      }
+      p.value <- u2.crits[row, col]
+      if (statistic > p.value) {
+        message("Reject Null Hypothesis\n")
+      } else {
+        message("Do Not Reject Null Hypothesis\n")
+      }
+    } else {
+      if (statistic < u2.crits[row, 2]) {
+        p.value <- "P-value > 0.10"
+      } else if ((statistic >= u2.crits[row, 2]) && (statistic < u2.crits[row, 3])) {
+        p.value <- "0.05 < P-value > 0.10"
+      } else if ((statistic >= u2.crits[row, 3]) && (statistic < u2.crits[row, 4])) {
+        p.value <- "0.01 < P-value > 0.05"
+      } else {
+        p.value <- "P-value < 0.01"
+      }
+    }
+  }
   list(
     statistic = statistic,
     p.value = p.value
   )
+}
+
+
+# Distribution ####
+pvm.mu0 <- function(theta, kappa, acc) {
+  flag <- TRUE
+  p <- 1
+  sum <- 0
+  while (flag) {
+    term <- (besselI(x = kappa, nu = p, expon.scaled = FALSE) *
+      sin(p * theta)) / p
+    sum <- sum + term
+    p <- p + 1
+    if (abs(term) < acc) {
+      flag <- FALSE
+    }
+  }
+  theta / (2 * pi) + sum / (pi * besselI(
+    x = kappa, nu = 0,
+    expon.scaled = FALSE
+  ))
+}
+
+pvm <- function(theta, mu, kappa, acc = 1e-20) {
+  theta <- theta %% (2 * pi)
+  mu <- mu %% (2 * pi)
+
+  if (mu == 0) {
+    pvm.mu0(theta, kappa, acc)
+  } else {
+    if (theta <= mu) {
+      upper <- (theta - mu) %% (2 * pi)
+      if (upper == 0) {
+        upper <- 2 * pi
+      }
+      lower <- (-mu) %% (2 * pi)
+      pvm.mu0(upper, kappa, acc) - pvm.mu0(lower, kappa, acc)
+    } else {
+      upper <- theta - mu
+      lower <- mu %% (2 * pi)
+      pvm.mu0(upper, kappa, acc) + pvm.mu0(lower, kappa, acc)
+    }
+  }
+}
+
+A1inv <- function(x) {
+  ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
+         ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
+  )
+}
+
+est.kappa <- function(x, bias = FALSE, ...) {
+  x <- na.omit(x)
+  mean.dir <- circular_mean(x, ...)
+  kappa <- A1inv(mean.default(cosd(x - mean.dir)))
+  if (bias) {
+    kappa.ml <- kappa
+    n <- length(x)
+    if (kappa.ml < 2) {
+      kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
+    }
+    if (kappa.ml >= 2) {
+      kappa <- ((n - 1)^3 * kappa.ml) / (n^3 + n)
+    }
+  }
+  kappa
 }

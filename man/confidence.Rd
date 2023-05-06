@@ -52,6 +52,7 @@ data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
 confidence_angle(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+confidence_interval(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 }
 \references{
 Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.

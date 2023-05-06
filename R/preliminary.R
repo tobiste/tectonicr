@@ -855,78 +855,9 @@ sample_circular_dispersion <- function(x, axial = TRUE) {
 
 
 
-# Distribution ####
-pvm <- function(theta, mu, kappa, acc = 1e-20) {
-  theta <- theta %% (2 * pi)
-  mu <- mu %% (2 * pi)
-  pvm.mu0 <- function(theta, kappa, acc) {
-    flag <- "true"
-    p <- 1
-    sum <- 0
-    while (flag == "true") {
-      term <- (besselI(x = kappa, nu = p, expon.scaled = FALSE) *
-        sin(p * theta)) / p
-      sum <- sum + term
-      p <- p + 1
-      if (abs(term) < acc) {
-        flag <- "false"
-      }
-    }
-    theta / (2 * pi) + sum / (pi * besselI(
-      x = kappa, nu = 0,
-      expon.scaled = FALSE
-    ))
-  }
-  if (mu == 0) {
-    result <- pvm.mu0(theta, kappa, acc)
-  } else {
-    if (theta <= mu) {
-      upper <- (theta - mu) %% (2 * pi)
-      if (upper == 0) {
-        upper <- 2 * pi
-      }
-      lower <- (-mu) %% (2 * pi)
-      result <- pvm.mu0(upper, kappa, acc) - pvm.mu0(
-        lower,
-        kappa, acc
-      )
-    } else {
-      upper <- theta - mu
-      lower <- mu %% (2 * pi)
-      result <- pvm.mu0(upper, kappa, acc) + pvm.mu0(
-        lower,
-        kappa, acc
-      )
-    }
-  }
-  result
-}
 
 
-#' Kuiper test of uniformity
-#'
-#' Hypothesis tests of uniformity for circular data.
-#'
-#' @param x numeric vector containing the circular data which are expressed in degrees
-#' @details Kuiper test of uniformity,
-#' @returns the test statistic
-#' @examples
-#' data(san_andreas)
-#' kuiper_statistics(san_andreas$azi)
-kuiper_statistics <- function(x) {
-  x <- na.omit(x)
-  u <- sort(deg2rad(x) %% (2 * pi)) / (2 * pi)
-  n <- length(u)
-  i <- 1:n
-  D.P <- max(i / n - u)
-  D.M <- max(u - (i - 1) / n)
-  sqrt_n <- sqrt(n)
-  V <- D.P + D.M
-  V * (sqrt_n + 0.155 + 0.24 / sqrt_n)
-}
-
-
-#' Critical value for Rayleigh test
+# ' Critical value for Rayleigh test
 #'
 #' Estimate critical values of the Rayleigh test for testing whether the population of
 #' circular data from which a sample is drawn differs from randomness
