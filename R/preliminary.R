@@ -608,19 +608,19 @@ circular_mean_deviation <- function(x, y, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- (x * f) %% (2*pi)
-  y <- (y * f) %% (2*pi)
+  x <- (x * f) %% (2 * pi)
+  y <- (y * f) %% (2 * pi)
 
 
   if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
 
-    k <- abs(
-      180 - abs(x - y)
-    )
+  k <- abs(
+    180 - abs(x - y)
+  )
   cmd <- 180 - ((1 / n) * sum(k))
-  (cmd/f) %% mod
+  (cmd / f) %% mod
 }
 
 #' @rdname circle_median
