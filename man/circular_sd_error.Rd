@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{circular_sd_error}
 \alias{circular_sd_error}
-\title{standard error of mean direction}
+\title{Standard error of mean direction}
 \usage{
 circular_sd_error(x, w = NULL, axial = TRUE, na.rm = TRUE)
 }
@@ -14,7 +14,7 @@ mean, median or standard deviation are required.}
 \code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or circular, i.e. 2pi-periodical (\code{FALSE}).}
+(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
@@ -25,7 +25,7 @@ Angle in degrees
 \description{
 Measure of the chance variation expected from sample to sample in estimates of the mean direction.
 The approximated standard error of the mean direction is computed by the mean
-resultant length and the estimated concentration parameter kappa.
+resultant length and the MLE concentration parameter \eqn{\kappa}.
 }
 \examples{
 # Example data from Davis (1986), pp. 316

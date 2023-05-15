@@ -2,21 +2,21 @@
 % Please edit documentation in R/statistics.R
 \name{watson_test}
 \alias{watson_test}
-\title{Watson's U2 Test for Circular Uniformity}
+\title{Watson's \eqn{U^2} Test for Circular Uniformity}
 \usage{
 watson_test(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{alpha}{Significance level of the test. Valid levels are 0.01, 0.05, 0.1.
+\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05}, and \code{0.1}.
 This argument may be omitted (\code{NULL}, the default), in which case, a range for the p-value will be returned.}
 
 \item{dist}{Distribution to test for. The default, \code{"uniform"}, is the
 uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 
-\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or circular, i.e. 2pi-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 }
 \value{
 list containing the test statistic \code{statistic} and the significance

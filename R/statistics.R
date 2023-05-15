@@ -52,7 +52,7 @@ mean_SC <- function(x, w, na.rm) {
 mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
   m <- mean_SC(x, w, na.rm)
   R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
-  as.numeric(R)
+  abs(as.numeric(R))
 }
 
 #' @title Summary statistics of directional data
@@ -67,7 +67,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or circular, i.e. 2pi-periodical (`FALSE`).
+#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @importFrom stats complete.cases
 #' @return numeric vector
 #' @note Weighting may be the reciprocal of the data uncertainties.
@@ -461,11 +461,11 @@ z_score <- function(conf.level) {
   stats::qnorm(1 - (1 - conf.level) / 2)
 }
 
-#' standard error of mean direction
+#' Standard error of mean direction
 #'
 #' Measure of the chance variation expected from sample to sample in estimates of the mean direction.
 #' The approximated standard error of the mean direction is computed by the mean
-#' resultant length and the estimated concentration parameter kappa.
+#' resultant length and the MLE concentration parameter \eqn{\kappa}.
 #'
 #' @inheritParams circular_mean
 #' @returns Angle in degrees
@@ -490,19 +490,31 @@ z_score <- function(conf.level) {
 circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
     f <- 2
-    mod <- 180
+    mod <- 90
   } else {
     f <- 1
-    mod <- 360
+    mod <- 180
   }
 
-  n <- length(x)
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  }
+  data <- cbind(x = x, w = w)
+  if (na.rm) {
+    data <- data[stats::complete.cases(data), ] # remove NA values
+  }
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  #n <- length(x)
+  n <- sum(w)
+
   kappa <- est.kappa(x, w = w, axial = axial, na.rm = na.rm)
 
   x <- (x * f) %% 360
-  R <- mean_resultant_length(x, w, na.rm)
+  R <- mean_resultant_length(x, w = w, na.rm = na.rm)
 
-  sde <- 1 / sqrt(n * R * kappa) # / f
+  sde <- 1 / sqrt(n * R * kappa)
   rad2deg(sde + 2 * pi) %% mod
 }
 
@@ -512,7 +524,8 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' assuming that the estimation errors are normally distributed.
 #'
 #' @inheritParams circular_mean
-#' @param conf.level Level of confidence (as fraction). `0.95` is the default.
+#' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
+#' (`0.95` by default).
 #' @returns Angle in degrees
 #' @seealso [mean_resultant_length()], [circular_sd_error()]
 #' @references Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
@@ -521,7 +534,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @details
 #' The confidence angle gives the interval, i.e. plus and minus the confidence angle,
 #' around the mean direction of a particular sample, that contains the true
-#' mean direction under a given confidence.
+#' mean direction under a given level of confidence.
 #'
 #' @examples
 #' # Example data from Davis (1986), pp. 316
@@ -557,7 +570,7 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
   list(
     mu = mu,
     conf.angle = conf.angle,
-    conf.interval = c(mu - conf.angle, mu + conf.angle) %% 360
+    conf.interval = c(mu - conf.angle, mu + conf.angle) #%% 360
   )
 }
 
@@ -657,8 +670,8 @@ norm_chisq <- function(obs, prd, unc) {
 #' specified mean direction and unknown mean resultant length.
 #'
 #' @param x numeric vector. Values in degrees
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or circular, i.e. 2pi-periodical (`FALSE`).
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param mu (optional) The specified or known mean direction (in degrees) in alternative hypothesis
 #' @details
 #' If `statistic > p.value`, the null hypothesis is rejected,
@@ -666,16 +679,16 @@ norm_chisq <- function(obs, prd, unc) {
 #' If not, randomness (uniform distribution) cannot be excluded.
 #'
 #' @note Although the Rayleigh test is consistent against (non-uniform)
-#' von Mises alternatives, it is not consistent against alternatives with p = 0
+#' von Mises alternatives, it is not consistent against alternatives with `p = 0`
 #' (in particular, distributions with antipodal symmetry, i.e. axial data).
 #' Tests of non-uniformity which are consistent against all alternatives
-#' include Kuiper’s test ([kuiper_test()]) and Watson’s U2 test
+#' include Kuiper’s test ([kuiper_test()]) and Watson’s \eqn{U^2} test
 #' ([watson_test()]).
 #' @returns a list with the components:
 #' \describe{
-#'  \item{`statistic`}{the mean resultant length}
-#'  \item{`p.value`}{the significance level () of the test statistic}
-#'  \item{`p.value2`}{the modified significance level (Cordeiro and Ferrari, 1991)}
+#'  \item{`statistic`}{mean resultant length}
+#'  \item{`p.value`}{significance level of the test statistic}
+#'  \item{`p.value2`}{modified significance level (Cordeiro and Ferrari, 1991)}
 #' }
 #' @references
 #' Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
@@ -800,10 +813,10 @@ rayleigh_p_value2 <- function(K, n) {
 #' Kuiper test for circular random distribution.
 #'
 #' @param x numeric vector containing the circular data which are expressed in degrees
-#' @param alpha Significance level of the test. Valid levels are 0.01, 0.05, 0.1.
+#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
 #' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or circular, i.e. 2pi-periodical (`FALSE`).
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @returns list containing the test statistic `statistic` and the significance
 #' level `p.value`.
 #' @details
@@ -824,7 +837,7 @@ rayleigh_p_value2 <- function(K, n) {
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' kuiper_test(sa.por$azi.PoR, alpha = .05)
-kuiper_test <- function(x, alpha = NULL, axial = TRUE) {
+kuiper_test <- function(x, alpha = 0, axial = TRUE) {
   if (!any(c(0, 0.01, 0.025, 0.05, 0.1, 0.15) == alpha)) {
     stop("'alpha' must be one of the following values: 0, 0.01, 0.025, 0.05, 0.1, 0.15")
   }
@@ -878,15 +891,15 @@ kuiper_test <- function(x, alpha = NULL, axial = TRUE) {
   )
 }
 
-#' Watson's U2 Test for Circular Uniformity
+#' Watson's \eqn{U^2} Test for Circular Uniformity
 #'
 #' Watson's test for circular random distribution.
 #'
 #' @param x numeric vector. Values in degrees
-#' @param alpha Significance level of the test. Valid levels are 0.01, 0.05, 0.1.
+#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
 #' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or circular, i.e. 2pi-periodical (`FALSE`).
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
 #' uniform distribution. `"vonmises"` tests the von Mises distribution.
 #' @returns list containing the test statistic `statistic` and the significance
@@ -1079,7 +1092,7 @@ A1inv <- function(x) {
 est.kappa <- function(x, bias = FALSE, ...) {
   x <- na.omit(x)
   mean.dir <- circular_mean(x, ...)
-  kappa <- A1inv(mean.default(cosd(x - mean.dir)))
+  kappa <- abs(A1inv(mean.default(cosd(x - mean.dir))))
   if (bias) {
     kappa.ml <- kappa
     n <- length(x)

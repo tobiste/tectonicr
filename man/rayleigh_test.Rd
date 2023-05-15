@@ -11,15 +11,15 @@ rayleigh_test(x, mu = NULL, axial = TRUE)
 
 \item{mu}{(optional) The specified or known mean direction (in degrees) in alternative hypothesis}
 
-\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or circular, i.e. 2pi-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 }
 \value{
 a list with the components:
 \describe{
-\item{\code{statistic}}{the mean resultant length}
-\item{\code{p.value}}{the significance level () of the test statistic}
-\item{\code{p.value2}}{the modified significance level (Cordeiro and Ferrari, 1991)}
+\item{\code{statistic}}{mean resultant length}
+\item{\code{p.value}}{significance level of the test statistic}
+\item{\code{p.value2}}{modified significance level (Cordeiro and Ferrari, 1991)}
 }
 }
 \description{
@@ -37,10 +37,10 @@ If not, randomness (uniform distribution) cannot be excluded.
 }
 \note{
 Although the Rayleigh test is consistent against (non-uniform)
-von Mises alternatives, it is not consistent against alternatives with p = 0
+von Mises alternatives, it is not consistent against alternatives with \code{p = 0}
 (in particular, distributions with antipodal symmetry, i.e. axial data).
 Tests of non-uniformity which are consistent against all alternatives
-include Kuiper’s test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson’s U2 test
+include Kuiper’s test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson’s \eqn{U^2} test
 (\code{\link[=watson_test]{watson_test()}}).
 }
 \examples{

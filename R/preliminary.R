@@ -589,7 +589,7 @@ normalize_matrix <- function(x) {
 #' circular_quasi_quantile(x)
 #' circular_quasi_IQR(x)
 #' circular_var(x)
-#' circular_mean_deviation(x)
+#' circular_mean_deviation(x, 50)
 #' circular_median_deviation(x)
 #' circular_mean_error(x)
 #'
@@ -600,128 +600,27 @@ NULL
 
 #' @rdname circle_median
 #' @export
-circular_quasi_median <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm))
-
-  if (na.rm) {
-    x <- as.numeric(na.omit(x))
-  }
-  x <- deg2rad(x)
-  x <- sort(x[!is.na(x)])
-  n <- length(x)
-
-  if (n %% 2 != 0) { # if odd
-    m <- (n - 1) / 2
-    ss <- sin(x[m + 1])
-    cs <- cos(x[m + 1])
-  } else { # if even
-    m <- n / 2
-    ss <- sin(x[m]) + sin(x[m + 1])
-    cs <- cos(x[m]) + cos(x[m + 1])
-  }
-  atan2d_spec(ss, cs) %% 180
-}
-
-#' @rdname circle_median
-#' @export
-circular_mean <- function(x, na.rm = TRUE) {
-  circular_weighted_mean(x, w = NULL, na.rm)
-}
-
-#' @rdname circle_median
-#' @export
-circular_quasi_quantile <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm))
-
-  if (na.rm) {
-    x <- as.numeric(na.omit(x))
-  }
-  x <- x
-  x <- sort(x[!is.na(x)])
-  n <- length(x)
-
-  if (n > 3) {
-    med <- circular_quasi_median(x)
-
-    if (n %% 4 == 0) {
-      m <- n / 4
-      lq <- atand(
-        sind(x[m + 1]) / cosd(x[m + 1])
-      )
-      uq <- atand(
-        sind(x[3 * m + 1]) / cosd(x[3 * m + 1])
-      )
-    } else if (n %% 4 == 1) {
-      m <- (n - 1) / 4
-      lq <- atand(
-        (3 * sind(x[m]) + sind(x[m + 1])) /
-          (3 * cosd(x[m]) + cosd(x[m + 1]))
-      )
-      uq <- atand(
-        (3 * sind(x[3 * m]) + sind(x[3 * m + 1])) /
-          (3 * cosd(x[3 * m]) + cosd(x[3 * m + 1]))
-      )
-    } else if (n %% 4 == 2) {
-      m <- (n - 2) / 4
-      lq <- atand((sind(x[m]) + sind(x[m + 1])) /
-        (cosd(x[m]) + cosd(x[m + 1])))
-      uq <- atand((sind(x[3 * m]) + sind(x[3 * m + 1])) /
-        (cosd(x[3 * m]) + cosd(x[3 * m + 1])))
-    } else { # if (n %% 4 == 3) {
-      m <- (n - 2) / 4
-      lq <- atand((sind(x[m]) + 3 * sind(x[m + 1])) /
-        (cosd(x[m]) + 3 * cosd(x[m + 1])))
-      uq <- atand((sind(x[3 * m]) +
-        3 * sind(x[3 * m + 1])) /
-        (cosd(x[3 * m]) +
-          3 * cosd(x[3 * m + 1])))
-    }
-
-    quantiles <- c(x[1], lq, med, uq, x[length(x)])
-    names(quantiles) <- c("0%", "25%", "50%", "75%", "100%")
-    return(as.numeric(quantiles))
+circular_mean_deviation <- function(x, y, axial = TRUE, na.rm = TRUE) {
+  if (axial) {
+    f <- 2
+    mod <- 180
   } else {
-    message("x needs more than 3 values")
-    return(NULL)
+    f <- 1
+    mod <- 360
   }
-}
+  x <- (x * f) %% (2*pi)
+  y <- (y * f) %% (2*pi)
 
-#' @rdname circle_median
-#' @export
-circular_quasi_IQR <- function(x, na.rm = TRUE) {
-  quantiles <- circular_quasi_quantile(x, na.rm)
-  deviation_norm(quantiles[4] - quantiles[2])
-}
-
-#' @rdname circle_median
-#' @export
-circular_var <- function(x, na.rm = TRUE, Batschelet = FALSE) {
-  weighted_circular_variance(x, w = NULL, na.rm, Batschelet)
-}
-
-#' @rdname circle_median
-#' @export
-circular_standard_deviation <- function(x, na.rm = TRUE) {
-  circular_weighted_sd(x, w = NULL, na.rm = TRUE)
-}
-
-#' @rdname circle_median
-#' @export
-circular_mean_deviation <- function(x, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
-  x <- x %% 180
-  n <- length(x)
 
-  for (i in 1:n) {
     k <- abs(
-      180 - abs(x[i] - circular_quasi_median(x))
+      180 - abs(x - y)
     )
-  }
-  180 - (1 / n * sum(k))
+  cmd <- 180 - ((1 / n) * sum(k))
+  (cmd/f) %% mod
 }
 
 #' @rdname circle_median
@@ -734,10 +633,8 @@ circular_median_deviation <- function(x, na.rm = TRUE) {
   }
   x <- x %% 180
 
-  for (i in seq_along(x)) {
-    k <- 180 - abs(180 - abs(x[i] - circular_quasi_median(x)))
-  }
-  stats::median(k)
+  cmed <- 180 - abs(180 - abs(x - circular_median(x)))
+  stats::median(circular_mean_deviation(x, circular_median(x)))
 }
 
 #' @rdname circle_median

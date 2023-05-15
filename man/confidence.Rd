@@ -14,13 +14,14 @@ confidence_interval(x, conf.level = 0.95, w = NULL, axial = TRUE, na.rm = TRUE)
 \item{x}{numeric vector. Values in degrees, for which the
 mean, median or standard deviation are required.}
 
-\item{conf.level}{Level of confidence (as fraction). \code{0.95} is the default.}
+\item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.
+(\code{0.95} by default).}
 
 \item{w}{(optional) Weights. A vector of positive numbers, of the same length as
 \code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or circular, i.e. 2pi-periodical (\code{FALSE}).}
+(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
@@ -35,7 +36,7 @@ assuming that the estimation errors are normally distributed.
 \details{
 The confidence angle gives the interval, i.e. plus and minus the confidence angle,
 around the mean direction of a particular sample, that contains the true
-mean direction under a given confidence.
+mean direction under a given level of confidence.
 }
 \examples{
 # Example data from Davis (1986), pp. 316
