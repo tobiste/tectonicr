@@ -76,7 +76,8 @@ mean, median or standard deviation are required.</p></dd>
 
 
 <dt>conf.level</dt>
-<dd><p>Level of confidence (as fraction). <code>0.95</code> is the default.</p></dd>
+<dd><p>Level of confidence: \((1 - \alpha \%)/100\).
+(<code>0.95</code> by default).</p></dd>
 
 
 <dt>w</dt>
@@ -86,7 +87,7 @@ mean, median or standard deviation are required.</p></dd>
 
 <dt>axial</dt>
 <dd><p>logical. Whether the data are axial, i.e. pi-periodical
-(<code>TRUE</code>, the default) or circular, i.e. 2pi-periodical (<code>FALSE</code>).</p></dd>
+(<code>TRUE</code>, the default) or circular, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).</p></dd>
 
 
 <dt>na.rm</dt>
@@ -104,7 +105,7 @@ should be stripped before the computation proceeds.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The confidence angle gives the interval, i.e. plus and minus the confidence angle,
 around the mean direction of a particular sample, that contains the true
-mean direction under a given confidence.</p>
+mean direction under a given level of confidence.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -133,16 +134,16 @@ mean direction under a given confidence.</p>
 <span class="r-in"><span><span class="va">ep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">ep</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">confidence_angle</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.957489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.972762</span>
 <span class="r-in"><span><span class="fu">confidence_interval</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mu</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 138.8937</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.angle</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.957489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.972762</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 136.9362 140.8512</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 133.9209 143.8665</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

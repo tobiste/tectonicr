@@ -91,9 +91,8 @@ stress datasets.</p>
 <div class="section level3">
 <h3 id="mean-direction">Mean direction<a class="anchor" aria-label="anchor" href="#mean-direction"></a>
 </h3>
-<p>Directional data is pi-periodical. Thus, for the calculation of mean,
-the average of 35 and 355<span class="math inline">\(^{\circ}\)</span>
-should be 15 instead of 195<span class="math inline">\(^{\circ}\)</span>. <strong>tectonicr</strong>
+<p>Directional data is <span class="math inline">\(\pi\)</span>-periodical. Thus, for the calculation
+of mean, the average of 35 and 355<span class="math inline">\(^{\circ}\)</span> should be 15 instead of 195<span class="math inline">\(^{\circ}\)</span>. <strong>tectonicr</strong>
 provides the circular mean (<code><a href="../reference/circle_stats.html">circular_mean()</a></code>) and the
 quasi-median on the circle (<code><a href="../reference/circle_stats.html">circular_median()</a></code>) as metrics
 to describe average direction:</p>
@@ -109,16 +108,15 @@ to describe average direction:</p>
 </h3>
 <p>Because the stress data is heteroscedastic, the data with less
 precise direction should have less impact on the final mean direction
-The weighted mean or median uses the reported uncertainties of the
-measurements and weights the final average value by the inverse of the
-uncertainties:</p>
+The weighted mean or quasi-median uses the reported measurements
+weighted by the inverse of the uncertainties:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 9.971235</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 36</span></span></code></pre></div>
 <p>The spread of directional data can be expressed by the standard
-deviation (for the mean) or the interquartile range (for the
+deviation (for the mean) or the quasi-interquartile range (for the
 median):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_sd</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># standard deviation</span></span>
@@ -129,22 +127,86 @@ median):</p>
 <div class="section level3">
 <h3 id="statistics-in-the-euler-pole-reference-frame">Statistics in the Euler pole reference frame<a class="anchor" aria-label="anchor" href="#statistics-in-the-euler-pole-reference-frame"></a>
 </h3>
-<p>The same statistics can also be applied for stress data that has been
-transferred into the Euler pole reference frame:</p>
+<p>Because the <span class="math inline">\(\sigma_{SHmax}\)</span>
+orientations are subjected to angular distortions in the geographical
+coordinate system, it is recommended to express statistical parameters
+using the transformed orientations of the Euler pole reference
+frame.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
-<span><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cpm_models"</span><span class="op">)</span></span>
+<span><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">cpm_models</span>, <span class="va">model</span> <span class="op">==</span> <span class="st">"NNR-MORVEL56"</span><span class="op">)</span>, <span class="st">"na"</span>, <span class="st">"pa"</span><span class="op">)</span></span>
 <span><span class="va">san_andreas.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span>, type <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 138.8937</span></span>
-<span><span class="fu"><a href="../reference/circle_stats.html">circular_sd</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 37.12227</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 137.9861</span></span>
+<span><span class="fu"><a href="../reference/circle_stats.html">circular_sd</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 37.30334</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 137.0094</span></span>
-<span><span class="fu"><a href="../reference/circle_stats.html">circular_IQR</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 25.32193</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 135.5753</span></span>
+<span><span class="fu"><a href="../reference/circle_stats.html">circular_IQR</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 25.82388</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="rose-diagram">Rose diagram<a class="anchor" aria-label="anchor" href="#rose-diagram"></a>
+</h3>
+<p><strong>tectonicr</strong> offers a rose diagram, i.e. histogram for
+angular data.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"North pole"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="D_statistics_files/figure-html/rose1-1.png" width="700"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"Euler pole"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="D_statistics_files/figure-html/rose2-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="statistical-tests">Statistical tests<a class="anchor" aria-label="anchor" href="#statistical-tests"></a>
+</h3>
+<div class="section level4">
+<h4 id="test-for-random-distribution">Test for random distribution<a class="anchor" aria-label="anchor" href="#test-for-random-distribution"></a>
+</h4>
+<p>Orientation data usually follow a von-Mises distribution (also
+called: circular normal distribution, Mardia &amp; Jupp, 1999). If the
+directions are distributed randomly can be tested with the Rayleigh
+Test:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh_test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Reject Null Hypothesis</span></span>
+<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; [1] 0.7165417</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $p.value</span></span>
+<span><span class="co">#&gt; [1] 5.430805e-242</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $p.value2</span></span>
+<span><span class="co">#&gt; [1] 7.551614e-273</span></span></code></pre></div>
+<p>Here, the test rejects the Null Hypothesis
+(<code>statistic &gt; p.value</code>). Thus the <span class="math inline">\(\sigma_{SHmax}\)</span> directions have a
+preferred orientation.</p>
+<p>Other, more robust statistical test for circular uniformity are
+<code><a href="../reference/kuiper_test.html">kuiper_test()</a></code> and <code><a href="../reference/watson_test.html">watson_test()</a></code>.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="test-for-goodness-of-fit">Test for goodness-of-fit<a class="anchor" aria-label="anchor" href="#test-for-goodness-of-fit"></a>
+</h3>
+<p>Assuming a von-Mises Distribution (circular normal distribution) of
+the orientation data, a <span class="math inline">\((1-\alpha
+\%)/100\)</span> confidence interval can be calculated (Mardia &amp;
+Jupp, 1999):</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confidence.html">confidence_interval</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, w <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $mu</span></span>
+<span><span class="co">#&gt; [1] 137.9861</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $conf.angle</span></span>
+<span><span class="co">#&gt; [1] 4.940328</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $conf.interval</span></span>
+<span><span class="co">#&gt; [1] 133.0458 142.9264</span></span></code></pre></div>
+<p>The prediction for the <span class="math inline">\(\sigma_{SHmax}\)</span> orientation is <span class="math inline">\(135^{\circ}\)</span>. Since the prediction lies
+within the confidence interval, it can be concluded with 95% confidence
+that the orientations follow the predicted trend of <span class="math inline">\(\sigma_{SHmax}\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="interpolation">Interpolation<a class="anchor" aria-label="anchor" href="#interpolation"></a>
@@ -152,12 +214,12 @@ transferred into the Euler pole reference frame:</p>
 <p>Spatial interpolation of stress data is based on the aforementioned
 metrics (the algorithm is a modified version of the MATLAB script
 ‘stress2grid’ by Ziegler and Heidbach (2017).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The defaults use quality and inverse distance weighting of the mean,
 as well as a 25% cut-off for the standard deviation.</p>
 <p>The data can now be visualized:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey80"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -181,9 +243,9 @@ the direction stays constant no matter the distance between the data
 points. Assuming that the stress field is sourced by the plate boundary
 force, the model-based interpolation allows more reliable results for
 areas close to plate boundaries.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH_PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, euler <span class="op">=</span> <span class="va">euler</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH_PoR</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey80"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trajectories</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
@@ -200,21 +262,11 @@ areas close to plate boundaries.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">R</span><span class="op">)</span></span></code></pre></div>
 <p><img src="interpolation_PoR.png"></p>
 </div>
-<div class="section level3">
-<h3 id="rose-diagram">Rose diagram<a class="anchor" aria-label="anchor" href="#rose-diagram"></a>
-</h3>
-<p><strong>tectonicr</strong> offers a rose diagram, i.e. histogram for
-angular data.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"North pole"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="D_statistics_files/figure-html/rose1-1.png" width="700"></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"Euler pole"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="D_statistics_files/figure-html/rose2-1.png" width="700"></p>
-</div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
+<p>Mardia, K. V., and Jupp, P. E. (Eds.). (1999). “Directional
+Statistics”. Hoboken, NJ, USA: John Wiley &amp; Sons, Inc. <a href="https://doi.org/10.1002/9780470316979" class="external-link uri">https://doi.org/10.1002/9780470316979</a></p>
 <p>Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab
 Script Stress2Grid.” GFZ German Research Centre for Geosciences; World
 Stress Map Technical Report 17-02. <a href="https://doi.org/10.5880/wsm.2017.002" class="external-link uri">https://doi.org/10.5880/wsm.2017.002</a>.</p>

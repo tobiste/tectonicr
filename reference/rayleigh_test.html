@@ -89,8 +89,8 @@ specified mean direction and unknown mean resultant length.</p>
 
 
 <dt>axial</dt>
-<dd><p>logical. Whether the data are axial, i.e. pi-periodical
-(<code>TRUE</code>, the default) or circular, i.e. 2pi-periodical (<code>FALSE</code>).</p></dd>
+<dd><p>logical. Whether the data are axial, i.e. \(\pi\)-periodical
+(<code>TRUE</code>, the default) or circular, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -98,13 +98,13 @@ specified mean direction and unknown mean resultant length.</p>
     
 
 <p>a list with the components:</p><dl><dt><code>statistic</code></dt>
-<dd><p>the mean resultant length</p></dd>
+<dd><p>mean resultant length</p></dd>
 
 <dt><code>p.value</code></dt>
-<dd><p>the significance level () of the test statistic</p></dd>
+<dd><p>significance level of the test statistic</p></dd>
 
 <dt><code>p.value2</code></dt>
-<dd><p>the modified significance level (Cordeiro and Ferrari, 1991)</p></dd>
+<dd><p>modified significance level (Cordeiro and Ferrari, 1991)</p></dd>
 
 
 </dl></div>
@@ -117,10 +117,10 @@ If not, randomness (uniform distribution) cannot be excluded.</p>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>Although the Rayleigh test is consistent against (non-uniform)
-von Mises alternatives, it is not consistent against alternatives with p = 0
+von Mises alternatives, it is not consistent against alternatives with <code>p = 0</code>
 (in particular, distributions with antipodal symmetry, i.e. axial data).
 Tests of non-uniformity which are consistent against all alternatives
-include Kuiper’s test (<code><a href="kuiper_test.html">kuiper_test()</a></code>) and Watson’s U2 test
+include Kuiper’s test (<code><a href="kuiper_test.html">kuiper_test()</a></code>) and Watson’s \(U^2\) test
 (<code><a href="watson_test.html">watson_test()</a></code>).</p>
     </div>
     <div class="section level2">

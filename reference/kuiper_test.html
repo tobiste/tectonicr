@@ -60,7 +60,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">kuiper_test</span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="cn">NULL</span>, axial <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">kuiper_test</span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0</span>, axial <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,13 +70,13 @@
 
 
 <dt>alpha</dt>
-<dd><p>Significance level of the test. Valid levels are 0.01, 0.05, 0.1.
+<dd><p>Significance level of the test. Valid levels are <code>0.01</code>, <code>0.05</code>, and <code>0.1</code>.
 This argument may be omitted (<code>NULL</code>, the default), in which case, a range for the p-value will be returned.</p></dd>
 
 
 <dt>axial</dt>
-<dd><p>logical. Whether the data are axial, i.e. pi-periodical
-(<code>TRUE</code>, the default) or circular, i.e. 2pi-periodical (<code>FALSE</code>).</p></dd>
+<dd><p>logical. Whether the data are axial, i.e. \(\pi\)-periodical
+(<code>TRUE</code>, the default) or circular, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
