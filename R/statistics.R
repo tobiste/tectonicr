@@ -178,7 +178,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- deg2rad(x * f) %% (2*pi)
+  x <- deg2rad(x * f) %% (2 * pi)
   data <- cbind(x = x, w = w)
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
@@ -206,7 +206,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  #med <- circular_median(x, w, axial, na.rm)
+  # med <- circular_median(x, w, axial, na.rm)
 
   if (axial) {
     f <- 2
@@ -215,7 +215,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- deg2rad(f*x) %% (2*pi)
+  x <- deg2rad(f * x) %% (2 * pi)
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
@@ -227,15 +227,14 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
   data <- data[order(data[, "x"]), ]
 
-  #x_first <- data[1, "x"]
-  #x_last <- data[length(data[, 1]), "x"]
+  # x_first <- data[1, "x"]
+  # x_last <- data[length(data[, 1]), "x"]
 
   x <- data[, "x"]
   w <- data[, "w"]
   n <- length(x)
 
   if (n > 3) {
-
     # median:
     if (n %% 2 != 0) { # if odd
       m <- (n - 1) / 2
@@ -243,7 +242,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
       sumcos2 <- cos(x[m + 1])
     } else { # if even
       m <- n / 2
-      Z <- w[m] + w[m+1]
+      Z <- w[m] + w[m + 1]
       sumsin2 <- (w[m] * sin(x[m]) + w[m + 1] * sin(x[m + 1])) / Z
       sumcos2 <- (w[m] * cos(x[m]) + w[m + 1] * cos(x[m + 1])) / Z
     }
@@ -1085,7 +1084,7 @@ pvm <- function(theta, mu, kappa, acc = 1e-20) {
 
 A1inv <- function(x) {
   ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
-         ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
+    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
   )
 }
 
