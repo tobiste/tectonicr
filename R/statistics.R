@@ -851,7 +851,6 @@ norm_rayleigh_test <- function(x, unc, prd = NULL, axial = TRUE) {
   if (is.null(unc)) {
     rayleigh_test(x, mu = prd, axial = axial)
   } else {
-
     if (axial) {
       f <- 2
     } else {
