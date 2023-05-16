@@ -1182,7 +1182,7 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   kappa <- abs(A1inv(mean(cosd(x - mean.dir))))
   if (bias) {
     kappa.ml <- kappa
-    #n <- length(x)
+    # n <- length(x)
     n <- sum(w)
     if (kappa.ml < 2) {
       kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
