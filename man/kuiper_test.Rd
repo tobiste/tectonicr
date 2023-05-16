@@ -35,6 +35,7 @@ If not, randomness (uniform distribution) cannot be excluded.
 pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 kuiper_test(pidgeon_homing, alpha = .05)
 
+# San Andreas Fault Data:
 data(san_andreas)
 data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")

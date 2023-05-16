@@ -65,6 +65,7 @@ atomic_weight <- c(
 )
 rayleigh_test(atomic_weight, 0, axial = FALSE)
 
+# San Andreas Fault Data:
 data(san_andreas)
 rayleigh_test(san_andreas$azi)
 data("nuvel1")

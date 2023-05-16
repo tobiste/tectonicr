@@ -30,8 +30,7 @@ Directional data is $\pi$-periodical.
 Thus, for the calculation of mean, the average of 35 and 355$^{\circ}$ 
 should be 15 instead of 195$^{\circ}$. 
 **tectonicr** provides the circular mean (`circular_mean()`) and the 
-quasi-median on the circle (`circular_median()`)
-as metrics to describe average direction:
+quasi-median (`circular_median()`) as metrics to describe average direction:
 
 ```{r mean, echo=TRUE}
 data("san_andreas")
@@ -86,22 +85,29 @@ rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, col = "grey", main = "E
 
 ## Statistical tests
 ### Test for random distribution
-Orientation data usually follow a von-Mises distribution (also called: circular normal distribution, Mardia & Jupp, 1999). 
+Uniformly distributed orientation can be described by the von-Mises distribution
+(Mardia and Jupp, 1999). 
 If the directions are distributed randomly can be tested with the Rayleigh Test:
 ```{r random, echo=TRUE}
 rayleigh_test(san_andreas.por$azi.PoR)
 ```
 Here, the test rejects the Null Hypothesis (`statistic > p.value`). Thus the $\sigma_{SHmax}$ directions have a preferred orientation.
 
-Other, more robust statistical test for circular uniformity are `kuiper_test()` and `watson_test()`.
+Alternative statistical tests for circular uniformity are `kuiper_test()` and `watson_test()`.
+Read `help()` for more details...
 
 
 ## Test for goodness-of-fit
-Assuming a von-Mises Distribution (circular normal distribution) of the orientation data, a $(1-\alpha \%)/100$ confidence interval can be calculated (Mardia & Jupp, 1999):
-```{r donfidence, echo=TRUE}
-confidence_interval(san_andreas.por$azi.PoR, conf.level = 0.95, w = 1/san_andreas$unc)
+Assuming a von-Mises Distribution (circular normal distribution) of the orientation data, a $(1-\alpha \%)/100$ confidence interval can be calculated (Mardia and Jupp, 1999):
+```{r confidence, echo=TRUE}
+confidence_interval(san_andreas.por$azi.PoR, conf.level = 0.95, w = 1 / san_andreas$unc)
 ```
 The prediction for the $\sigma_{SHmax}$ orientation is $135^{\circ}$. Since the prediction lies within the confidence interval, it can be concluded with 95% confidence that the orientations follow the predicted trend of $\sigma_{SHmax}$.
+
+An alternative is the newly introduced normalized Rayleigh Test for the goodness-of-fit of axial data:
+```{r rayleigh2, echo=TRUE}
+norm_rayleigh(san_andreas.por$azi.PoR, prd = 135, unc = san_andreas$unc)
+```
 
 ## Interpolation
 Spatial interpolation of stress data is based on the aforementioned metrics (the

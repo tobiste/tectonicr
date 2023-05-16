@@ -206,56 +206,21 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
       roll_nchisq = roll_normchisq(azi, prd, unc, width = width, ...)
     )
 
-  #   t$roll_mean <- zoo::rollapply(
-  #   t %>% select(azi, unc),
-  #   width = k,
-  #   FUN = function(x) {
-  #     circular_mean(x[, "azi"], 1 / x[, "unc"])
-  #   },
-  #   by.column = FALSE,
-  #   partial = TRUE,
-  #   align = "center",
-  #   fill = NA,
-  #   ...
-  # )
-  # t$roll_sd <- zoo::rollapply(
-  #   t %>% select(azi, unc),
-  #   width = k,
-  #   FUN = function(x) {
-  #     circular_sd(x[, "azi"], 1 / x[, "unc"])
-  #   },
-  #   by.column = FALSE,
-  #   partial = TRUE,
-  #   align = "center",
-  #   fill = NA,
-  #   ...
-  # )
-  # t$roll_nchisq <- zoo::rollapply(
-  #   t %>% select(azi, prd, unc),
-  #   width = k,
-  #   FUN = function(x) {
-  #     norm_chisq(x[, "azi"], x[, "prd"], x[, "unc"])
-  #   },
-  #   by.column = FALSE,
-  #   partial = TRUE,
-  #   align = "center",
-  #   fill = NA,
-  #   ...
-  # )
-
   nchisq <- norm_chisq(azi, prd, unc)
+  rt <- norm_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
   azi.PoR.sd <- circular_sd(azi, 1 / unc)
 
-  subtitle <- paste0(
-    "N: ", length(azi),
-    " | Mean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(azi.PoR.sd, 1),
-    "\u00B0 | Norm \u03C7\u00B2: ", round(nchisq, 2)
-  )
+  subtitle <-
+    paste0(
+      "N: ", length(azi),
+      " | Mean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(azi.PoR.sd, 1),
+      "\u00B0 | Norm \u03C7\u00B2: ", round(nchisq, 2), " | R: ", round(rt$statistic, 2), " (", round(rt$p.value, 2), ")"
+    )
 
   grDevices::palette(c("grey60", "#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2"))
 
-  plot(0,
+  graphics::plot(0,
     type = "n",
     xlab = "Distance from plate boundary", ylab = "Azimuth wrt. PoR (\u00B0)",
     sub = subtitle,
@@ -272,7 +237,7 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
   graphics::legend("bottomright", inset = .05, cex = .5, legend = c("N", "NS", "S", "TS", "T", "U"), title = "Stress regime", fill = c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60"))
 
   grDevices::dev.new()
-  plot(nchisq_i ~ distance,
+  graphics::plot(nchisq_i ~ distance,
     data = t, col = t$regime,
     xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi^2),
     # sub = subtitle,

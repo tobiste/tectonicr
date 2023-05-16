@@ -769,6 +769,3 @@ sample_circular_dispersion <- function(x, axial = TRUE) {
 estimate_critical <- function(n, alpha = 0.05) {
   -1 * log(alpha) - (2 * log(alpha) + log(alpha)^2) / (4 * n)
 }
-
-
-

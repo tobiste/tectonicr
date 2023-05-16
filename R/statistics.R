@@ -719,6 +719,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' )
 #' rayleigh_test(atomic_weight, 0, axial = FALSE)
 #'
+#' # San Andreas Fault Data:
 #' data(san_andreas)
 #' rayleigh_test(san_andreas$azi)
 #' data("nuvel1")
@@ -833,25 +834,26 @@ rayleigh_p_value2 <- function(K, n) {
 #' @export
 #'
 #' @examples
+#' # Load data
 #' data("cpm_models")
 #' data(san_andreas)
-#' ep <- equivalent_rotation(cpm_models %>% filter(model == "NNR-MORVEL56"), "na", "pa")
+#' ep <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' data("iceland")
-#' ep.ice <- equivalent_rotation(cpm_models %>% filter(model == "NNR-MORVEL56"), "eu", "na")
+#' ep.ice <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "na")
 #' ice.por <- PoR_shmax(iceland, ep.ice, "out")
 #' data("tibet")
-#' ep.tib <- equivalent_rotation(cpm_models %>% filter(model == "NNR-MORVEL56"), "eu", "in")
+#' ep.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "in")
 #' tibet.por <- PoR_shmax(tibet, ep.tib, "in")
 #'
-#' norm_rayleigh_test(tibet.por$azi.PoR, unc = tibet$unc, prd = 90)
-#' norm_rayleigh_test(ice.por$azi.PoR, unc = iceland$unc, prd = 0)
-#' norm_rayleigh_test(sa.por$azi.PoR, unc = san_andreas$unc, prd = 135)
-norm_rayleigh_test <- function(x, unc, prd = NULL, axial = TRUE) {
+#' # GOF test:
+#' norm_rayleigh(tibet.por$azi.PoR, prd = 90, unc = tibet$unc)
+#' norm_rayleigh(ice.por$azi.PoR, prd = 0, unc = iceland$unc)
+#' norm_rayleigh(sa.por$azi.PoR, prd = 135, unc = san_andreas$unc)
+norm_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
   if (is.null(unc)) {
     rayleigh_test(x, mu = prd, axial = axial)
   } else {
-
     if (axial) {
       f <- 2
     } else {
@@ -913,6 +915,7 @@ norm_rayleigh_test <- function(x, unc, prd = NULL, axial = TRUE) {
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' kuiper_test(pidgeon_homing, alpha = .05)
 #'
+#' # San Andreas Fault Data:
 #' data(san_andreas)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -996,6 +999,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' watson_test(pidgeon_homing, alpha = .05)
 #'
+#' # San Andreas Fault Data:
 #' data(san_andreas)
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
