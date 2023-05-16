@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{mean_resultant_length}
 \alias{mean_resultant_length}
-\title{Mean resultant length}
+\title{Mean Resultant Length}
 \usage{
 mean_resultant_length(x, w = NULL, na.rm = TRUE)
 }

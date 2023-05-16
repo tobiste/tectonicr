@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{roll_circstats}
 \alias{roll_circstats}
-\title{Apply Rolling Functions using circular statistics}
+\title{Apply Rolling Functions using Circular Statistics}
 \usage{
 roll_circstats(
   x,

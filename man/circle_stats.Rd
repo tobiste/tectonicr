@@ -8,7 +8,7 @@
 \alias{circular_median}
 \alias{circular_quantiles}
 \alias{circular_IQR}
-\title{Summary statistics of directional data}
+\title{Summary Statistics of Circular Data}
 \usage{
 circular_mean(x, w = NULL, axial = TRUE, na.rm = TRUE)
 

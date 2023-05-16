@@ -4,7 +4,7 @@
 \alias{confidence}
 \alias{confidence_angle}
 \alias{confidence_interval}
-\title{Confidence interval around the mean direction}
+\title{Confidence Interval around the Mean Direction}
 \usage{
 confidence_angle(x, conf.level = 0.95, w = NULL, axial = TRUE, na.rm = TRUE)
 

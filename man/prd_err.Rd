@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{prd_err}
 \alias{prd_err}
-\title{Error of model's prediction}
+\title{Error of Model's Prediction}
 \usage{
 prd_err(dist_PoR, sigma_PoR = 1)
 }

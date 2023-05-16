@@ -27,7 +27,7 @@ mean_SC <- function(x, w, na.rm) {
 }
 
 
-#' Mean resultant length
+#' Mean Resultant Length
 #'
 #' Measure of spread around the circle. It should be noted that:
 #' If R=0, then the data is completely spread around the circle.
@@ -55,7 +55,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
   abs(as.numeric(R))
 }
 
-#' @title Summary statistics of directional data
+#' @title Summary Statistics of Circular Data
 #'
 #' @description Calculate the (weighted median) and standard deviation
 #' of orientation data.
@@ -310,7 +310,7 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   deviation_norm(as.numeric(quantiles[3] - quantiles[1]))
 }
 
-#' Error of model's prediction
+#' Error of Model's Prediction
 #'
 #' The maximum error in the model's predicted azimuth given the Pole of
 #' rotations uncertainty and distance of the data point to the pole.
@@ -334,7 +334,7 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
 
 
 
-#' Apply Rolling Functions using circular statistics
+#' Apply Rolling Functions using Circular Statistics
 #'
 #' A generic function for applying a function to rolling margins of an array.
 #'
@@ -395,7 +395,7 @@ roll_circstats <- function(x, w = NULL,
   )
 }
 
-#' Apply Rolling Functions using circular statistics
+#' Apply Rolling Functions using Circular Statistical Tests for Uniformity
 #'
 #' A generic function for applying a function to rolling margins of an array.
 #'
@@ -414,11 +414,11 @@ roll_circstats <- function(x, w = NULL,
 #' are passed to `FUN`. A numeric argument to partial can be used to determine
 #' the minimal window size for partial computations. See below for more details.
 #' @inheritDotParams zoo::rollapply -data
-#' @returns numeric vector  with the results of the rolling function.
-#' @note If the rolling statistics are applied to values that are a function of
+#' @returns numeric vector with the test statistic of the rolling test.
+#' @note If the rolling functions are applied to values that are a function of
 #' distance it is recommended to sort the values first.
 #' @importFrom zoo rollapply
-#' @export
+#' @name rolling_test
 #' @returns numeric vector
 #' @examples
 #' data("plates")
@@ -434,6 +434,11 @@ roll_circstats <- function(x, w = NULL,
 #' dat <- san_andreas[order(distance), ]
 #' dat.PoR <- PoR_shmax(san_andreas, ep, "right")
 #' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc, width = 51)
+#' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc, width = 51)
+NULL
+
+#' @rdname rolling_test
+#' @export
 roll_normchisq <- function(obs, prd, unc = NULL,
                            width, by.column = FALSE,
                            partial = TRUE,
@@ -452,12 +457,32 @@ roll_normchisq <- function(obs, prd, unc = NULL,
   )
 }
 
+#' @rdname rolling_test
+#' @export
+roll_rayleigh <- function(obs, prd, unc = NULL,
+                           width, by.column = FALSE,
+                           partial = TRUE,
+                           fill = NA,
+                           ...) {
+  zoo::rollapply(
+    cbind(obs, prd, unc),
+    width = width,
+    FUN = function(x) {
+      suppressMessages(norm_rayleigh(x[, 1], x[, 2], x[, 3]))$statistic
+    },
+    by.column = by.column,
+    partial = partial,
+    fill = fill,
+    ...
+  )
+}
+
 
 z_score <- function(conf.level) {
   stats::qnorm(1 - (1 - conf.level) / 2)
 }
 
-#' Standard error of mean direction
+#' Standard Error of Mean Direction
 #'
 #' Measure of the chance variation expected from sample to sample in estimates of the mean direction.
 #' The approximated standard error of the mean direction is computed by the mean
@@ -514,7 +539,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   rad2deg(sde + 2 * pi) %% mod
 }
 
-#' Confidence interval around the mean direction
+#' Confidence Interval around the Mean Direction
 #'
 #' Probabilistic limit on the location of the true or population mean direction,
 #' assuming that the estimation errors are normally distributed.
@@ -800,7 +825,7 @@ rayleigh_p_value2 <- function(K, n) {
   min(max(P, 0), 1)
 }
 
-#' Normalized goodness-of-fit test
+#' Normalized Goodness-of-fit Test
 #'
 #' Weighted version of the Rayleigh test (or V-test) for uniformity around a
 #' a priori expected von Mises concentration
