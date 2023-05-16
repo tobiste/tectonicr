@@ -168,17 +168,18 @@ deviation_shmax <- function(prd, obs) {
 #' @return Either a numeric vector of the azimuths in the transformed coordinate
 #' system, or a \code{"data.frame"} with
 #' \describe{
-#' \item{\code{"azi.PoR"}}{the transformed azimuths,}
-#' \item{\code{"prd"}}{the predicted azimuths,}
-#' \item{\code{"dev"}}{the deviation, and}
-#' \item{\code{"nchisq"}}{the normalized \eqn{\chi^2}{chi-squared} statistics.}
+#' \item{`azi.PoR`}{the transformed azimuths,}
+#' \item{`prd`}{the predicted azimuths,}
+#' \item{`dev`}{the deviation between the transformed and the predicted azimuth,}
+#' \item{`nchisq`}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
+#' \item{`cdist`}{the angular distance between the transformed and the predicted azimuth.}
 #' }
 #' @seealso [model_shmax()] to compute the theoretical direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
 #' [deviation_shmax()] to compute the deviation of the modeled direction
 #'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
 #'  [norm_chisq()] to calculate the normalized \eqn{\chi^2}{chi-squared}
-#'  statistics.
+#'  statistics. [circular_distance()] to calculate the angular distance.
 #' @details According to the theory, the azimuth of
 #' \eqn{\sigma_{Hmax}}{SHmax} in the pole of rotation reference system is
 #' approximate 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
@@ -209,10 +210,12 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
     prd <- ifelse(type == "left", 45, prd)
 
     dev <- azi.por - prd
+    cdist <- (1 - cosd(2*dev))/2
     nchisq.i <- (deviation_norm(dev) / 90)^2
 
     data.frame(
-      "azi.PoR" = azi.por, "prd" = prd, "dev" = dev, "nchisq" = nchisq.i
+      "azi.PoR" = azi.por, "prd" = prd,
+      "dev" = dev, "nchisq" = nchisq.i, "cdist" = cdist
     )
   } else {
     azi.por

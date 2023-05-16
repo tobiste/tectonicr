@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{circular_sd_error}
 \alias{circular_sd_error}
-\title{Standard Error of Mean Direction}
+\title{Standard Error of Mean Direction of Circular Data}
 \usage{
 circular_sd_error(x, w = NULL, axial = TRUE, na.rm = TRUE)
 }

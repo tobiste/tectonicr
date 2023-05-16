@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{norm_chisq}
 \alias{norm_chisq}
-\title{Normalized Chi-Squared Test}
+\title{Normalized Chi-Squared Test for Circular Data}
 \usage{
 norm_chisq(obs, prd, unc)
 }

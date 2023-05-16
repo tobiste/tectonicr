@@ -310,6 +310,84 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   deviation_norm(as.numeric(quantiles[3] - quantiles[1]))
 }
 
+#' Circular distance and dispersion
+#'
+#' Circular distance between two angles and circular dispersion of angles
+#' about a specified angle.
+#'
+#' @param x,y,from vector of numeric values in degrees.
+#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @seealso [circular_mean()]
+#' @name dispersion
+#' @examples
+#' a <- c(0, 2, 359, 6, 354)
+#' b <- a + 20
+#' circular_distance(a, b)
+#'
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' circular_dispersion(sa.por$azi.PoR, from = 135)
+NULL
+
+#' @rdname dispersion
+#' @export
+circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+
+  if (na.rm) {
+    x <- na.omit(x)
+  }
+
+  cdist <- 1 - cosd(f * (x - y))
+  cdist  / f
+}
+
+#' @rdname dispersion
+#' @export
+circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
+  stopifnot(any(is.numeric(x)), is.logical(na.rm), is.logical(axial))
+
+  if (is.null(from)) {
+    from <- circular_mean(x, w, axial, na.rm)
+  }
+
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  } else {
+    w <- as.numeric(w)
+  }
+
+  data <- cbind(x = x, w = w)
+  if (na.rm) {
+    data <- data[stats::complete.cases(data), ] # remove NA values
+  }
+
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  Z <- sum(w)
+
+  dists <- circular_distance(x, from)
+  sum(w * dists) / Z
+  #cosf <- w * cosd(f * (x - from))
+  #sum(1 - cosf) / (Z * f)
+}
+
+
 #' Error of Model's Prediction
 #'
 #' The maximum error in the model's predicted azimuth given the Pole of

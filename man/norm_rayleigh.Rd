@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{norm_rayleigh}
 \alias{norm_rayleigh}
-\title{Normalized Goodness-of-fit Test}
+\title{Normalized Goodness-of-fit Test for Circular Data}
 \usage{
 norm_rayleigh(x, prd = NULL, unc, axial = TRUE)
 }

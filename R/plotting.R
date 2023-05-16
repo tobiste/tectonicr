@@ -206,6 +206,11 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
       roll_nchisq = roll_normchisq(azi, prd, unc, width = width, ...)
     )
 
+  # add lower and upper period to data for plotting
+  tmin <- dplyr::mutate(t, azi = azi - 180)
+  tmax <- dplyr::mutate(t, azi = azi + 180)
+  t2 <- rbind(tmin, t, tmax)
+
   nchisq <- norm_chisq(azi, prd, unc)
   rt <- norm_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
@@ -227,8 +232,8 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
     xlim = range(distance),
     ylim = c(0, 180), yaxp = c(0, 180, 8), ...
   )
-  graphics::arrows(y0 = t$azi - t$unc, x0 = t$distance, y1 = t$azi + t$unc, x1 = t$distance, code = 0, lwd = .25, col = t$regime)
-  graphics::points(azi ~ distance, data = t, col = t$regime)
+  graphics::arrows(y0 = t2$azi - t2$unc, x0 = t2$distance, y1 = t2$azi + t2$unc, x1 = t2$distance, code = 0, lwd = .25, col = t2$regime)
+  graphics::points(azi ~ distance, data = t2, col = t2$regime)
 
   graphics::lines(roll_mean - roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
   graphics::lines(roll_mean + roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)

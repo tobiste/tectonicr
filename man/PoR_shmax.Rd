@@ -26,10 +26,11 @@ the PoR-equivalent azimuth is returned.}
 Either a numeric vector of the azimuths in the transformed coordinate
 system, or a \code{"data.frame"} with
 \describe{
-\item{\code{"azi.PoR"}}{the transformed azimuths,}
-\item{\code{"prd"}}{the predicted azimuths,}
-\item{\code{"dev"}}{the deviation, and}
-\item{\code{"nchisq"}}{the normalized \eqn{\chi^2}{chi-squared} statistics.}
+\item{\code{azi.PoR}}{the transformed azimuths,}
+\item{\code{prd}}{the predicted azimuths,}
+\item{\code{dev}}{the deviation between the transformed and the predicted azimuth,}
+\item{\code{nchisq}}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
+\item{\code{cdist}}{the angular distance between the transformed and the predicted azimuth.}
 }
 }
 \description{
@@ -63,5 +64,5 @@ head(res)
 \code{\link[=deviation_shmax]{deviation_shmax()}} to compute the deviation of the modeled direction
 from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
 \code{\link[=norm_chisq]{norm_chisq()}} to calculate the normalized \eqn{\chi^2}{chi-squared}
-statistics.
+statistics. \code{\link[=circular_distance]{circular_distance()}} to calculate the angular distance.
 }
