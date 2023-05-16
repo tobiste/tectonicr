@@ -482,7 +482,7 @@ z_score <- function(conf.level) {
   stats::qnorm(1 - (1 - conf.level) / 2)
 }
 
-#' Standard Error of Mean Direction
+#' Standard Error of Mean Direction of Circular Data
 #'
 #' Measure of the chance variation expected from sample to sample in estimates of the mean direction.
 #' The approximated standard error of the mean direction is computed by the mean
@@ -539,7 +539,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   rad2deg(sde + 2 * pi) %% mod
 }
 
-#' Confidence Interval around the Mean Direction
+#' Confidence Interval around the Mean Direction of Circular Data
 #'
 #' Probabilistic limit on the location of the true or population mean direction,
 #' assuming that the estimation errors are normally distributed.
@@ -604,7 +604,7 @@ nchisq_eq <- function(obs, prd, unc) {
   return(c(x, y))
 }
 
-#' Normalized Chi-Squared Test
+#' Normalized Chi-Squared Test for Circular Data
 #'
 #' A quantitative comparison between the predicted and observed directions of
 #' \eqn{\sigma_{Hmax}}{SHmax} is obtained by the calculation of the average
@@ -825,7 +825,7 @@ rayleigh_p_value2 <- function(K, n) {
   min(max(P, 0), 1)
 }
 
-#' Normalized Goodness-of-fit Test
+#' Normalized Goodness-of-fit Test for Circular Data
 #'
 #' Weighted version of the Rayleigh test (or V-test) for uniformity around a
 #' a priori expected von Mises concentration
