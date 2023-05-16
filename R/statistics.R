@@ -315,12 +315,18 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' Circular distance between two angles and circular dispersion of angles
 #' about a specified angle.
 #'
-#' @param x,y,from vector of numeric values in degrees.
-#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' @param x,y vectors of numeric values in degrees.
+#' @param from numeric. The angle about which the angles `x` disperse (in degrees).
+#' @param w (optional) Weights. A vector of positive numbers and of the same
+#' length as \code{x}.
+#' @param na.rm logical. Whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
-#' @seealso [circular_mean()]
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @returns numeric.
+#' @note
+#' If `from` is `NULL`, than the circular variance is returned.
+#' @seealso [circular_mean()], [circular_var()].
 #' @name dispersion
 #' @examples
 #' a <- c(0, 2, 359, 6, 354)
@@ -347,17 +353,15 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   }
 
   cdist <- 1 - cosd(f * (x - y))
-  cdist  / f
+  cdist / f
 }
 
 #' @rdname dispersion
 #' @export
 circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm), is.logical(axial))
-
   if (is.null(from)) {
-    from <- circular_mean(x, w, axial, na.rm)
-  }
+    circular_var(x, w, axial, na.rm)
+  } else {
 
   if (axial) {
     f <- 2
@@ -383,8 +387,9 @@ circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = 
 
   dists <- circular_distance(x, from)
   sum(w * dists) / Z
-  #cosf <- w * cosd(f * (x - from))
-  #sum(1 - cosf) / (Z * f)
+  # cosf <- w * cosd(f * (x - from))
+  # sum(1 - cosf) / (Z * f)
+  }
 }
 
 
@@ -538,10 +543,10 @@ roll_normchisq <- function(obs, prd, unc = NULL,
 #' @rdname rolling_test
 #' @export
 roll_rayleigh <- function(obs, prd, unc = NULL,
-                           width, by.column = FALSE,
-                           partial = TRUE,
-                           fill = NA,
-                           ...) {
+                          width, by.column = FALSE,
+                          partial = TRUE,
+                          fill = NA,
+                          ...) {
   zoo::rollapply(
     cbind(obs, prd, unc),
     width = width,

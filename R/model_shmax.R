@@ -210,7 +210,7 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
     prd <- ifelse(type == "left", 45, prd)
 
     dev <- azi.por - prd
-    cdist <- (1 - cosd(2*dev))/2
+    cdist <- (1 - cosd(2 * dev)) / 2
     nchisq.i <- (deviation_norm(dev) / 90)^2
 
     data.frame(

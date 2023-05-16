@@ -11,17 +11,28 @@ circular_distance(x, y, axial = TRUE, na.rm = TRUE)
 circular_dispersion(x, from = NULL, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
-\item{x, y, from}{vector of numeric values in degrees.}
+\item{x, y}{vectors of numeric values in degrees.}
 
-\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
-\item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
+\item{na.rm}{logical. Whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
+
+\item{from}{numeric. The angle about which the angles \code{x} disperse (in degrees).}
+
+\item{w}{(optional) Weights. A vector of positive numbers and of the same
+length as \code{x}.}
+}
+\value{
+numeric.
 }
 \description{
 Circular distance between two angles and circular dispersion of angles
 about a specified angle.
+}
+\note{
+If \code{from} is \code{NULL}, than the circular variance is returned.
 }
 \examples{
 a <- c(0, 2, 359, 6, 354)
@@ -34,5 +45,5 @@ sa.por <- PoR_shmax(san_andreas, ep, "right")
 circular_dispersion(sa.por$azi.PoR, from = 135)
 }
 \seealso{
-\code{\link[=circular_mean]{circular_mean()}}
+\code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_var]{circular_var()}}.
 }
