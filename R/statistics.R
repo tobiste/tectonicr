@@ -362,33 +362,32 @@ circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = 
   if (is.null(from)) {
     circular_var(x, w, axial, na.rm)
   } else {
+    if (axial) {
+      f <- 2
+    } else {
+      f <- 1
+    }
 
-  if (axial) {
-    f <- 2
-  } else {
-    f <- 1
-  }
+    if (is.null(w)) {
+      w <- rep(1, times = length(x))
+    } else {
+      w <- as.numeric(w)
+    }
 
-  if (is.null(w)) {
-    w <- rep(1, times = length(x))
-  } else {
-    w <- as.numeric(w)
-  }
+    data <- cbind(x = x, w = w)
+    if (na.rm) {
+      data <- data[stats::complete.cases(data), ] # remove NA values
+    }
 
-  data <- cbind(x = x, w = w)
-  if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
-  }
+    x <- data[, "x"]
+    w <- data[, "w"]
 
-  x <- data[, "x"]
-  w <- data[, "w"]
+    Z <- sum(w)
 
-  Z <- sum(w)
-
-  dists <- circular_distance(x, from)
-  sum(w * dists) / Z
-  # cosf <- w * cosd(f * (x - from))
-  # sum(1 - cosf) / (Z * f)
+    dists <- circular_distance(x, from)
+    sum(w * dists) / Z
+    # cosf <- w * cosd(f * (x - from))
+    # sum(1 - cosf) / (Z * f)
   }
 }
 
