@@ -508,10 +508,10 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   # n <- length(x)
   n <- sum(w)
 
-  kappa <- est.kappa(x, w = w, axial = axial, na.rm = na.rm)
+  kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
 
   x <- (x * f) %% 360
-  R <- mean_resultant_length(x, w = w, na.rm = na.rm)
+  R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
   sde <- 1 / sqrt(n * R * kappa)
   rad2deg(sde + 2 * pi) %% mod
@@ -1174,13 +1174,25 @@ A1inv <- function(x) {
   )
 }
 
-est.kappa <- function(x, bias = FALSE, ...) {
-  x <- na.omit(x)
-  mean.dir <- circular_mean(x, ...)
-  kappa <- abs(A1inv(mean.default(cosd(x - mean.dir))))
+est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  } else {
+    w <- as.numeric(w)
+  }
+
+  data <- cbind(x = x, w = w)
+  data <- data[stats::complete.cases(data), ] # remove NA values
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  n <- sum(w)
+
+  mean.dir <- circular_mean(x, w = w, ...)
+  kappa <- abs(A1inv(mean(cosd(x - mean.dir))))
   if (bias) {
     kappa.ml <- kappa
-    n <- length(x)
+    #n <- length(x)
     if (kappa.ml < 2) {
       kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
     }
