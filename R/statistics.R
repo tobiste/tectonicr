@@ -505,7 +505,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- data[, "x"]
   w <- data[, "w"]
 
-  #n <- length(x)
+  # n <- length(x)
   n <- sum(w)
 
   kappa <- est.kappa(x, w = w, axial = axial, na.rm = na.rm)
@@ -569,7 +569,7 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
   list(
     mu = mu,
     conf.angle = conf.angle,
-    conf.interval = c(mu - conf.angle, mu + conf.angle) #%% 360
+    conf.interval = c(mu - conf.angle, mu + conf.angle) # %% 360
   )
 }
 
