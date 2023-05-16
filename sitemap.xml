@@ -97,6 +97,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/deviation_shmax.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/dispersion.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/dist_greatcircle.html</loc>
   </url>
   <url>
@@ -211,7 +214,7 @@
     <loc>https://tobiste.github.io/tectonicr/reference/roll_circstats.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/roll_normchisq.html</loc>
+    <loc>https://tobiste.github.io/tectonicr/reference/rolling_test.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/rose.html</loc>
