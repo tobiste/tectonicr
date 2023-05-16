@@ -2,14 +2,15 @@
 % Please edit documentation in R/statistics.R
 \name{norm_rayleigh}
 \alias{norm_rayleigh}
-\title{Normalized Rayleigh goodness-of-fit test}
+\title{Normalized goodness-of-fit test}
 \usage{
 norm_rayleigh(x, prd = NULL, unc, axial = TRUE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{prd}{The specified or known mean direction (in degrees) in alternative hypothesis}
+\item{prd}{The a priori expected direction (in degrees) for the alternative
+hypothesis.}
 
 \item{unc}{numeric. The standard deviations of \code{x}. If \code{NULL}, the non-weighted
 Rayleigh test is performed.}
@@ -25,14 +26,14 @@ a list with the components:
 }
 }
 \description{
-Performs a Rayleigh test of uniformity using observations weighted by
-their uncertainties.
+Weighted version of the Rayleigh test (or V-test) for uniformity around a
+a priori expected von Mises concentration
 }
 \details{
 The Null hypothesis is that the distributions of the observations \code{x} is an
 unimodal distribution with a specified mean direction (\code{prd}).
 If \code{statistic > p.value}, the null hypothesis is rejected.
-If not, randomness (uniform distribution) cannot be excluded.
+If not, the uniform distribution cannot be excluded.
 }
 \examples{
 # Load data
