@@ -7,11 +7,10 @@
 circular_sd_error(x, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees, for which the
-mean, median or standard deviation are required.}
+\item{x}{numeric vector. Values in degrees.}
 
-\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
-\code{x}.}
+\item{w}{(optional) Weights. A vector of positive numbers and of the same
+length as \code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}

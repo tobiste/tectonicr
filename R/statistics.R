@@ -60,10 +60,9 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @description Calculate the (weighted median) and standard deviation
 #' of orientation data.
 #'
-#' @param x numeric vector. Values in degrees, for which the
-#' mean, median or standard deviation are required.
-#' @param w (optional) Weights. A vector of positive numbers, of the same length as
-#' \code{x}.
+#' @param x numeric vector. Values in degrees.
+#' @param w (optional) Weights. A vector of positive numbers and of the same
+#' length as \code{x}.
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
@@ -72,7 +71,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @return numeric vector
 #' @note Weighting may be the reciprocal of the data uncertainties.
 #'
-#' Weightings have no effect on median and quantiles if
+#' Weightings have no effect on quasi-median and quasi-quantiles if
 #' `length(x) %% 2 != 1` and `length(x) %% 4 == 0`, respectively.
 #' @references
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
@@ -227,8 +226,6 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
   data <- data[order(data[, "x"]), ]
 
-  # x_first <- data[1, "x"]
-  # x_last <- data[length(data[, 1]), "x"]
 
   x <- data[, "x"]
   w <- data[, "w"]
@@ -575,14 +572,10 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 
 # Tests ####
 nchisq_eq <- function(obs, prd, unc) {
-  # if (is.na(obs)) {
-  #   x <- y <- NA
-  # } else {
   if (is.na(unc) || unc == 0) unc <- 1 # uncertainty cannot be 0
   w <- deviation_norm(obs - prd)
   x <- (w / unc)^2
   y <- (90 / unc)^2
-  # }
   return(c(x, y))
 }
 
@@ -649,7 +642,6 @@ norm_chisq <- function(obs, prd, unc) {
     x[stats::complete.cases(x[, 1]) & stats::complete.cases(x[, 2]), ],
     ncol = 3
   ) # remove NA values
-  # stopifnot(length(x) > 0)
 
   xy <- mapply(
     FUN = nchisq_eq,
@@ -1186,13 +1178,12 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   x <- data[, "x"]
   w <- data[, "w"]
 
-  n <- sum(w)
-
   mean.dir <- circular_mean(x, w = w, ...)
   kappa <- abs(A1inv(mean(cosd(x - mean.dir))))
   if (bias) {
     kappa.ml <- kappa
     #n <- length(x)
+    n <- sum(w)
     if (kappa.ml < 2) {
       kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)
     }

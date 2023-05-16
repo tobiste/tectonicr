@@ -1,3 +1,8 @@
+# tectonicr 0.2.92 _2023-05-16_
+
+* statistical tests for circular uniformity and goodness-of-fit
+* bug fixes
+
 # tectonicr 0.2.8 _2023-03-01_
 
 * estimator for the error of predictions

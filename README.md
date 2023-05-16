@@ -8,12 +8,12 @@
 
 **tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates. The following methods are available:
 
-- **Theoretical direction of SHmax**: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the neighboring plates using the function `model_shmax()`. The deviation or misfit of the prediction to the observation can be obtained from the function `misfit_shmax()` and statistically evaluated by applying `norm_chisq()`.
+- **Theoretical direction of SHmax**: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the neighboring plates using the function `model_shmax()`. The goodness-of-fit can be statistically tested by `norm_chisq()`, `norm_rayleigh()`, or `confidence_interval()`.
 - **Distance to plate boundary**: `distance_from_pb()` gives the distance between the stress data point and the plate boundary measured along the stress trajectories.
 - **Visualization of the trajectories of the theoretical stress field** in terms of small circles, great circles, and lines of constant bearing. The `eulerpole_paths()` functions generates an  `sf` object containing spatial information that is suitable to plot with, for instance, `ggplot()`. 
 - **Relative rotations from a given set of plate motion parameters**: `equivalent_rotation()` transfers a set of plate motion parameters into the relative plate motions among the given plates. 
-- **Average direction of a set of SHmax data** using the (weighted) mean or median for pi-directional data. 
-- **Spatial interpolation of of SHmax**: `stress2grid()` uses distance, method, and quality-weighted mean direction of stress data
+- **Average direction of a set of SHmax data** using the (weighted) mean, quasi-median, and other parameters to statistically estimate pi-directional data. 
+- **Spatial interpolation of of SHmax**: `PoR_stress2grid()` uses distance, method, and quality-weighted mean direction of stress data without being affected by angular distortions.
 
 ## Prerequisites
 
@@ -45,11 +45,9 @@ When referencing this package, please cite the package DOI: [10.5281/zenodo.7510
 ## Useful References
 - <div class="csl-entry">Wdowinski, S. (1998). A theory of intraplate tectonics. <i>Journal of Geophysical Research: Solid Earth</i>, <i>103</i>(3), 5037–5059. http://dx.doi.org/10.1029/97JB03390</div>
 
-- <div class="csl-entry">Heidbach, O., Reinecker, J., Tingay, M., Müller, B., Sperner, B., Fuchs, K., &#38; Wenzel, F. (2007). Plate boundary forces are not enough: Second- and third-order stress patterns highlighted in the World Stress Map database. <i>Tectonics</i>, <i>26</i>(6), n/a-n/a. https://doi.org/10.1029/2007TC002133</div>
-
 - <div class="csl-entry">Heidbach, O., Rajabi, M., Reiter, K., Ziegler, M., &#38; Team, W. (2016). <i>World Stress Map Database Release 2016. V. 1.1</i>. GFZ Data Services. https://doi.org/10.5880/WSM.2016.001</div>
 
-- <div class="csl-entry">Zoback, M. Lou, Zoback, M. D., Adams, J., Assumpção, M., Bell, S., Bergman, E. A., Blümling, P., Brereton, N. R., Denham, D., Ding, J., Fuchs, K., Gay, N., Gregersen, S., Gupta, H. K., Gvishiani, A., Jacob, K., Klein, R., Knoll, P., Magee, M., … Zhizhin, M. (1989). Global patterns of tectonic stress. <i>Nature</i>, <i>341</i>(6240), 291–298. https://doi.org/10.1038/341291a0</div>
+- <div class="csl-entry">Mardia, K. V., and Jupp, P. E. (Eds.). (1999). <i>Directional Statistics</i>. Hoboken, NJ, USA: John Wiley & Sons, Inc. https://doi.org/10.1002/9780470316979</div>
 
 ## License
 GPL-3.0 License

@@ -18,11 +18,10 @@ roll_circstats(
 )
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees, for which the
-mean, median or standard deviation are required.}
+\item{x}{numeric vector. Values in degrees.}
 
-\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
-\code{x}.}
+\item{w}{(optional) Weights. A vector of positive numbers and of the same
+length as \code{x}.}
 
 \item{FUN}{the function to be applied}
 
