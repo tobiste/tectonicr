@@ -800,15 +800,15 @@ rayleigh_p_value2 <- function(K, n) {
   min(max(P, 0), 1)
 }
 
-#' Normalized Rayleigh goodness-of-fit test
+#' Normalized goodness-of-fit test
 #'
-#' Performs a Rayleigh test of uniformity using observations weighted by
-#' their uncertainties.
-#'
+#' Weighted version of the Rayleigh test (or V-test) for uniformity around a
+#' a priori expected von Mises concentration
 #' @param x numeric vector. Values in degrees
 #' @param unc numeric. The standard deviations of `x`. If `NULL`, the non-weighted
 #' Rayleigh test is performed.
-#' @param prd The specified or known mean direction (in degrees) in alternative hypothesis
+#' @param prd The a priori expected direction (in degrees) for the alternative
+#' hypothesis.
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
@@ -816,7 +816,7 @@ rayleigh_p_value2 <- function(K, n) {
 #' The Null hypothesis is that the distributions of the observations `x` is an
 #' unimodal distribution with a specified mean direction (`prd`).
 #' If `statistic > p.value`, the null hypothesis is rejected.
-#' If not, randomness (uniform distribution) cannot be excluded.
+#' If not, the uniform distribution cannot be excluded.
 #' @returns a list with the components:
 #' \describe{
 #'  \item{`statistic`}{Test statistic}
