@@ -608,19 +608,19 @@ circular_mean_deviation <- function(x, y, axial = TRUE, na.rm = TRUE) {
     f <- 1
     mod <- 360
   }
-  x <- (x * f) %% (2*pi)
-  y <- (y * f) %% (2*pi)
+  x <- (x * f) %% (2 * pi)
+  y <- (y * f) %% (2 * pi)
 
 
   if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
 
-    k <- abs(
-      180 - abs(x - y)
-    )
+  k <- abs(
+    180 - abs(x - y)
+  )
   cmd <- 180 - ((1 / n) * sum(k))
-  (cmd/f) %% mod
+  (cmd / f) %% mod
 }
 
 #' @rdname circle_median
@@ -754,7 +754,7 @@ sample_circular_dispersion <- function(x, axial = TRUE) {
 
 
 
-# ' Critical value for Rayleigh test
+#' Critical value for Rayleigh test
 #'
 #' Estimate critical values of the Rayleigh test for testing whether the population of
 #' circular data from which a sample is drawn differs from randomness
@@ -769,3 +769,6 @@ sample_circular_dispersion <- function(x, axial = TRUE) {
 estimate_critical <- function(n, alpha = 0.05) {
   -1 * log(alpha) - (2 * log(alpha) + log(alpha)^2) / (4 * n)
 }
+
+
+

@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{kuiper_test}
 \alias{kuiper_test}
-\title{Kuiper test of uniformity}
+\title{Kuiper Test of Circular Uniformity}
 \usage{
 kuiper_test(x, alpha = 0, axial = TRUE)
 }

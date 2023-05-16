@@ -12,7 +12,7 @@ rayleigh_test(x, mu = NULL, axial = TRUE)
 \item{mu}{(optional) The specified or known mean direction (in degrees) in alternative hypothesis}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 }
 \value{
 a list with the components:

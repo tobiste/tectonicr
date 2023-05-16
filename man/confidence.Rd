@@ -21,7 +21,7 @@ mean, median or standard deviation are required.}
 \code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}

@@ -67,7 +67,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @importFrom stats complete.cases
 #' @return numeric vector
 #' @note Weighting may be the reciprocal of the data uncertainties.
@@ -670,7 +670,7 @@ norm_chisq <- function(obs, prd, unc) {
 #'
 #' @param x numeric vector. Values in degrees
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param mu (optional) The specified or known mean direction (in degrees) in alternative hypothesis
 #' @details
 #' If `statistic > p.value`, the null hypothesis is rejected,
@@ -807,7 +807,89 @@ rayleigh_p_value2 <- function(K, n) {
   min(max(P, 0), 1)
 }
 
-#' Kuiper test of uniformity
+#' Normalized Rayleigh goodness-of-fit test
+#'
+#' Performs a Rayleigh test of uniformity using observations weighted by
+#' their uncertainties.
+#'
+#' @param x numeric vector. Values in degrees
+#' @param unc numeric. The standard deviations of `x`. If `NULL`, the non-weighted
+#' Rayleigh test is performed.
+#' @param prd The specified or known mean direction (in degrees) in alternative hypothesis
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#'
+#' @details
+#' The Null hypothesis is that the distributions of the observations `x` is an
+#' unimodal distribution with a specified mean direction (`prd`).
+#' If `statistic > p.value`, the null hypothesis is rejected.
+#' If not, randomness (uniform distribution) cannot be excluded.
+#' @returns a list with the components:
+#' \describe{
+#'  \item{`statistic`}{Test statistic}
+#'  \item{`p.value`}{significance level of the test statistic}
+#' }
+#' @seealso [rayleigh_test()]
+#' @export
+#'
+#' @examples
+#' data("cpm_models")
+#' data(san_andreas)
+#' ep <- equivalent_rotation(cpm_models %>% filter(model == "NNR-MORVEL56"), "na", "pa")
+#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' data("iceland")
+#' ep.ice <- equivalent_rotation(cpm_models %>% filter(model == "NNR-MORVEL56"), "eu", "na")
+#' ice.por <- PoR_shmax(iceland, ep.ice, "out")
+#' data("tibet")
+#' ep.tib <- equivalent_rotation(cpm_models %>% filter(model == "NNR-MORVEL56"), "eu", "in")
+#' tibet.por <- PoR_shmax(tibet, ep.tib, "in")
+#'
+#' norm_rayleigh_test(tibet.por$azi.PoR, unc = tibet$unc, prd = 90)
+#' norm_rayleigh_test(ice.por$azi.PoR, unc = iceland$unc, prd = 0)
+#' norm_rayleigh_test(sa.por$azi.PoR, unc = san_andreas$unc, prd = 135)
+norm_rayleigh_test <- function(x, unc, prd = NULL, axial = TRUE) {
+  if (is.null(unc)) {
+    rayleigh_test(x, mu = prd, axial = axial)
+  } else {
+
+    if (axial) {
+      f <- 2
+    } else {
+      f <- 1
+    }
+
+    data <- cbind(x = x, unc = unc)
+    data <- data[stats::complete.cases(data), ] # remove NA values
+
+    x <- deg2rad(data[, "x"])
+    prd <- deg2rad(prd)
+    unc <- data[, "unc"]
+    w <- 1 / unc
+    Z <- sum(w)
+
+    a <- w * (1 - cos(f * (x - prd)))
+    b <- 1 - (w / 90)
+
+    Csq <- sum(a * a) / sum(b * b)
+    C <- sqrt(Csq)
+
+    s <- sqrt(2 * Z) * C
+    p.value <- rayleigh_p_value2(s, Z)
+
+    result <- list(
+      statistic = C,
+      p.value = p.value
+    )
+    if (C > p.value) {
+      message("Reject Null Hypothesis\n")
+    } else {
+      message("Do Not Reject Null Hypothesis\n")
+    }
+    return(result)
+  }
+}
+
+#' Kuiper Test of Circular Uniformity
 #'
 #' Kuiper test for circular random distribution.
 #'
@@ -890,7 +972,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
   )
 }
 
-#' Watson's \eqn{U^2} Test for Circular Uniformity
+#' Watson's \eqn{U^2} Test of Circular Uniformity
 #'
 #' Watson's test for circular random distribution.
 #'

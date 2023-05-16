@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{watson_test}
 \alias{watson_test}
-\title{Watson's \eqn{U^2} Test for Circular Uniformity}
+\title{Watson's \eqn{U^2} Test of Circular Uniformity}
 \usage{
 watson_test(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE)
 }
