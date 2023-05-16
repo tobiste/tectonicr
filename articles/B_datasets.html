@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.91</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.92</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,10 +124,10 @@ displacement type.</p>
 <p>Combine the model results with the coordinates of the observed
 data</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">san_andreas.res</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span> </span>
-<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span>,</span>
-<span>    <span class="va">san_andreas.prd</span></span>
-<span>    <span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">san_andreas.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span>,</span>
+<span>  <span class="va">san_andreas.prd</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> can be used to visualize the results.
 The orientation of the axis can be displayed with the function
 <code><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke()</a></code>. The position argument
@@ -187,7 +187,7 @@ trajectories and data points:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span></span>
 <span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,</span>
 <span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> </span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="B_datasets_files/figure-html/plot2-1.png" width="700"><!-- ![](san_andreas_map.png) --></p>
 <p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled
 stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes.</p>

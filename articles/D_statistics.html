@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.91</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.92</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,8 +94,8 @@ stress datasets.</p>
 <p>Directional data is <span class="math inline">\(\pi\)</span>-periodical. Thus, for the calculation
 of mean, the average of 35 and 355<span class="math inline">\(^{\circ}\)</span> should be 15 instead of 195<span class="math inline">\(^{\circ}\)</span>. <strong>tectonicr</strong>
 provides the circular mean (<code><a href="../reference/circle_stats.html">circular_mean()</a></code>) and the
-quasi-median on the circle (<code><a href="../reference/circle_stats.html">circular_median()</a></code>) as metrics
-to describe average direction:</p>
+quasi-median (<code><a href="../reference/circle_stats.html">circular_median()</a></code>) as metrics to describe
+average direction:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span>
@@ -165,10 +165,9 @@ angular data.</p>
 <div class="section level4">
 <h4 id="test-for-random-distribution">Test for random distribution<a class="anchor" aria-label="anchor" href="#test-for-random-distribution"></a>
 </h4>
-<p>Orientation data usually follow a von-Mises distribution (also
-called: circular normal distribution, Mardia &amp; Jupp, 1999). If the
-directions are distributed randomly can be tested with the Rayleigh
-Test:</p>
+<p>Uniformly distributed orientation can be described by the von-Mises
+distribution (Mardia and Jupp, 1999). If the directions are distributed
+randomly can be tested with the Rayleigh Test:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh_test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
@@ -183,8 +182,9 @@ Test:</p>
 <p>Here, the test rejects the Null Hypothesis
 (<code>statistic &gt; p.value</code>). Thus the <span class="math inline">\(\sigma_{SHmax}\)</span> directions have a
 preferred orientation.</p>
-<p>Other, more robust statistical test for circular uniformity are
-<code><a href="../reference/kuiper_test.html">kuiper_test()</a></code> and <code><a href="../reference/watson_test.html">watson_test()</a></code>.</p>
+<p>Alternative statistical tests for circular uniformity are
+<code><a href="../reference/kuiper_test.html">kuiper_test()</a></code> and <code><a href="../reference/watson_test.html">watson_test()</a></code>. Read
+<code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code> for more details…</p>
 </div>
 </div>
 <div class="section level3">
@@ -192,10 +192,10 @@ preferred orientation.</p>
 </h3>
 <p>Assuming a von-Mises Distribution (circular normal distribution) of
 the orientation data, a <span class="math inline">\((1-\alpha
-\%)/100\)</span> confidence interval can be calculated (Mardia &amp;
-Jupp, 1999):</p>
+\%)/100\)</span> confidence interval can be calculated (Mardia and Jupp,
+1999):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/confidence.html">confidence_interval</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, w <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confidence.html">confidence_interval</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mu</span></span>
 <span><span class="co">#&gt; [1] 137.9861</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -207,6 +207,16 @@ Jupp, 1999):</p>
 <p>The prediction for the <span class="math inline">\(\sigma_{SHmax}\)</span> orientation is <span class="math inline">\(135^{\circ}\)</span>. Since the prediction lies
 within the confidence interval, it can be concluded with 95% confidence
 that the orientations follow the predicted trend of <span class="math inline">\(\sigma_{SHmax}\)</span>.</p>
+<p>An alternative is the newly introduced normalized Rayleigh Test for
+the goodness-of-fit of axial data:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/norm_rayleigh.html">norm_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, prd <span class="op">=</span> <span class="fl">135</span>, unc <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Do Not Reject Null Hypothesis</span></span>
+<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; [1] 0.06201283</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $p.value</span></span>
+<span><span class="co">#&gt; [1] 0.1282214</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="interpolation">Interpolation<a class="anchor" aria-label="anchor" href="#interpolation"></a>
@@ -214,12 +224,12 @@ that the orientations follow the predicted trend of <span class="math inline">\(
 <p>Spatial interpolation of stress data is based on the aforementioned
 metrics (the algorithm is a modified version of the MATLAB script
 ‘stress2grid’ by Ziegler and Heidbach (2017).</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The defaults use quality and inverse distance weighting of the mean,
 as well as a 25% cut-off for the standard deviation.</p>
 <p>The data can now be visualized:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey80"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -243,9 +253,9 @@ the direction stays constant no matter the distance between the data
 points. Assuming that the stress field is sourced by the plate boundary
 force, the model-based interpolation allows more reliable results for
 areas close to plate boundaries.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mean_SH_PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, euler <span class="op">=</span> <span class="va">euler</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mean_SH_PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, euler <span class="op">=</span> <span class="va">euler</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH_PoR</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey80"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trajectories</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
