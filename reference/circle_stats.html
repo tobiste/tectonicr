@@ -79,13 +79,12 @@ of orientation data.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>numeric vector. Values in degrees, for which the
-mean, median or standard deviation are required.</p></dd>
+<dd><p>numeric vector. Values in degrees.</p></dd>
 
 
 <dt>w</dt>
-<dd><p>(optional) Weights. A vector of positive numbers, of the same length as
-<code>x</code>.</p></dd>
+<dd><p>(optional) Weights. A vector of positive numbers and of the same
+length as <code>x</code>.</p></dd>
 
 
 <dt>axial</dt>
@@ -107,7 +106,7 @@ should be stripped before the computation proceeds.</p></dd>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>Weighting may be the reciprocal of the data uncertainties.</p>
-<p>Weightings have no effect on median and quantiles if
+<p>Weightings have no effect on quasi-median and quasi-quantiles if
 <code>length(x) %% 2 != 1</code> and <code>length(x) %% 4 == 0</code>, respectively.</p>
     </div>
     <div class="section level2">
