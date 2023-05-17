@@ -212,7 +212,7 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
   t2 <- rbind(tmin, t, tmax)
 
   nchisq <- norm_chisq(azi, prd, unc)
-  rt <- norm_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
+  rt <- weighted_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
   azi.PoR.sd <- circular_sd(azi, 1 / unc)
 

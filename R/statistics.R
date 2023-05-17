@@ -67,7 +67,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' should be stripped before the computation proceeds.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
-#' @importFrom stats complete.cases
+#' @importFrom stats complete.cases runif
 #' @return numeric vector
 #' @note Weighting may be the reciprocal of the data uncertainties.
 #'
@@ -84,8 +84,8 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' database release 2008. *Tectonophysics* **482**, 3–15,
 #' \doi{10.1016/j.tecto.2009.07.023}
 #' @examples
-#' x <- c(175, 179, 0, 2, 4)
-#' unc <- c(5, 1, 0.1, 2, 4)
+#' x <- rvm(10, 0, 100) %% 180
+#' unc <- stats::runif(100, 0, 10)
 #' circular_mean(x, 1 / unc)
 #' circular_var(x, 1 / unc)
 #' circular_sd(x, 1 / unc)
@@ -316,13 +316,16 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' about a specified angle.
 #'
 #' @param x,y vectors of numeric values in degrees.
-#' @param from numeric. The angle about which the angles `x` disperse (in degrees).
+#' @param mean numeric. The angle about which the angles `x` disperse (in degrees).
 #' @param w (optional) Weights. A vector of positive numbers and of the same
 #' length as \code{x}.
+#' @param norm logical. Whether the dispersion should be normalized by the
+#' maximum possible angular difference.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param na.rm logical. Whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @importFrom stats complete.cases
 #' @returns numeric.
 #' @note
 #' If `from` is `NULL`, than the circular variance is returned.
@@ -330,13 +333,14 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @name dispersion
 #' @examples
 #' a <- c(0, 2, 359, 6, 354)
-#' b <- a + 20
+#' b <- a + 90
 #' circular_distance(a, b)
 #'
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' circular_dispersion(sa.por$azi.PoR, from = 135)
+#' circular_dispersion(sa.por$azi.PoR, mean = 135)
+#' circular_dispersion(sa.por$azi.PoR, mean = 135, w = san_andreas$unc)
 NULL
 
 #' @rdname dispersion
@@ -352,43 +356,37 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
     x <- na.omit(x)
   }
 
-  cdist <- 1 - cosd(f * (x - y))
-  cdist / f
+  diff <- x - y
+  1 - cosd(f * diff)
 }
 
 #' @rdname dispersion
 #' @export
-circular_dispersion <- function(x, from = NULL, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (is.null(from)) {
+circular_dispersion <- function(x, mean = NULL, w = NULL, norm = FALSE, axial = TRUE, na.rm = TRUE) {
+  if (is.null(mean)) {
     circular_var(x, w, axial, na.rm)
   } else {
+    if (is.null(w)) {
+      w <- rep(1, times = length(x))
+    }
 
-  if (axial) {
-    f <- 2
-  } else {
-    f <- 1
-  }
+    data <- cbind(x = x, w = w)
+    if (na.rm) {
+      data <- data[stats::complete.cases(data), ] # remove NA values
+    }
 
-  if (is.null(w)) {
-    w <- rep(1, times = length(x))
-  } else {
-    w <- as.numeric(w)
-  }
+    x <- data[, "x"]
+    w <- data[, "w"]
 
-  data <- cbind(x = x, w = w)
-  if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
-  }
+    Z <- sum(w)
 
-  x <- data[, "x"]
-  w <- data[, "w"]
+    md <- 1
+    if (norm) {
+      md <- 2
+    }
 
-  Z <- sum(w)
-
-  dists <- circular_distance(x, from)
-  sum(w * dists) / Z
-  # cosf <- w * cosd(f * (x - from))
-  # sum(1 - cosf) / (Z * f)
+    cdists <- circular_distance(x, mean, axial, na.rm = FALSE)
+    sum(w * cdists) / (Z * md)
   }
 }
 
@@ -551,7 +549,7 @@ roll_rayleigh <- function(obs, prd, unc = NULL,
     cbind(obs, prd, unc),
     width = width,
     FUN = function(x) {
-      suppressMessages(norm_rayleigh(x[, 1], x[, 2], x[, 3]))$statistic
+      suppressMessages(weighted_rayleigh(x[, 1], x[, 2], x[, 3]))$statistic
     },
     by.column = by.column,
     partial = partial,
@@ -908,10 +906,10 @@ rayleigh_p_value2 <- function(K, n) {
   min(max(P, 0), 1)
 }
 
-#' Normalized Goodness-of-fit Test for Circular Data
+#' Weighted Goodness-of-fit Test for Circular Data
 #'
-#' Weighted version of the Rayleigh test (or V-test) for uniformity around a
-#' a priori expected von Mises concentration
+#' Weighted version of the Rayleigh test (or V0-test) for uniformity against a
+#' distribution with a priori expected von Mises concentration.
 #' @param x numeric vector. Values in degrees
 #' @param unc numeric. The standard deviations of `x`. If `NULL`, the non-weighted
 #' Rayleigh test is performed.
@@ -921,10 +919,10 @@ rayleigh_p_value2 <- function(K, n) {
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
 #' @details
-#' The Null hypothesis is that the distributions of the observations `x` is an
-#' unimodal distribution with a specified mean direction (`prd`).
+#' The Null hypothesis is uniformity (randomness). The alternative is a
+#' distribution with a specified mean direction (`prd`).
 #' If `statistic > p.value`, the null hypothesis is rejected.
-#' If not, the uniform distribution cannot be excluded.
+#' If not, the alternative cannot be excluded.
 #' @returns a list with the components:
 #' \describe{
 #'  \item{`statistic`}{Test statistic}
@@ -947,39 +945,49 @@ rayleigh_p_value2 <- function(K, n) {
 #' tibet.por <- PoR_shmax(tibet, ep.tib, "in")
 #'
 #' # GOF test:
-#' norm_rayleigh(tibet.por$azi.PoR, prd = 90, unc = tibet$unc)
-#' norm_rayleigh(ice.por$azi.PoR, prd = 0, unc = iceland$unc)
-#' norm_rayleigh(sa.por$azi.PoR, prd = 135, unc = san_andreas$unc)
-norm_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
+#' weighted_rayleigh(tibet.por$azi.PoR, prd = 90, unc = tibet$unc)
+#' weighted_rayleigh(ice.por$azi.PoR, prd = 0, unc = iceland$unc)
+#' weighted_rayleigh(sa.por$azi.PoR, prd = 135, unc = san_andreas$unc)
+weighted_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
   if (is.null(unc)) {
     rayleigh_test(x, mu = prd, axial = axial)
   } else {
-    if (axial) {
-      f <- 2
-    } else {
-      f <- 1
-    }
-
     data <- cbind(x = x, unc = unc)
     data <- data[stats::complete.cases(data), ] # remove NA values
 
-    x <- deg2rad(data[, "x"])
-    prd <- deg2rad(prd)
+
     unc <- data[, "unc"]
     w <- 1 / unc
     Z <- sum(w)
+    n <- length(unc)
 
-    a <- w * (1 - cos(f * (x - prd)))
-    b <- 1 - (w / 90)
+    if (is.null(prd)) {
+      prd <- circular_mean(x, w, axial, na.rm = FALSE)
+    }
 
-    Csq <- sum(a * a) / sum(b * b)
-    C <- sqrt(Csq)
+    d <- data[, "x"] - prd
+
+    f <- 1
+    if (axial) {
+      f <- 2
+    }
+    cosd <- cosd(f * d)
+    wcosd <- w * cosd
+
+    md <- 1
+    # if(norm){
+    #   md <- 2
+    # }
+    wmd <- md * w # = w * (1 - cos(pi)) = w* (1 - (-1))
+
+    C <- (sum(wcosd) / sum(wmd))
 
     s <- sqrt(2 * Z) * C
     p.value <- rayleigh_p_value2(s, Z)
 
     result <- list(
       statistic = C,
+      # Csq = (sum(wcosd^2) / sum(wmd^2)),
       p.value = p.value
     )
     if (C > p.value) {
@@ -1168,7 +1176,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 
     mu <- circular_mean(x, axial = axial, na.rm = FALSE)
     kappa.mle <- est.kappa(x, axial = axial)
-    x <- deg2rad(x - mu)
+    x <- x - mu
     x <- matrix(x, ncol = 1)
     z <- apply(x, 1, pvm, 0, kappa.mle)
     z <- sort(z)
@@ -1246,9 +1254,67 @@ pvm.mu0 <- function(theta, kappa, acc) {
   ))
 }
 
-pvm <- function(theta, mu, kappa, acc = 1e-20) {
-  theta <- theta %% (2 * pi)
-  mu <- mu %% (2 * pi)
+
+
+#' The von Mises Distribution
+#'
+#' Density, distribution function, and random generation for the circular normal
+#' distribution with mean and kappa.
+#'
+#' @param n number of observations in degrees
+#' @param mean mean in degrees
+#' @param kappa concentration parameter
+#' @param theta angular value in degrees
+#' @name vonmises
+#' @examples
+#' x <- rvm(100, mean = 90, k = 100)
+#' dvm(x, mean = 90, k = 100)
+NULL
+
+#' @rdname vonmises
+#' @export
+rvm <- function(n, mean, kappa) {
+  vm <- c(1:n)
+  a <- 1 + (1 + 4 * (kappa^2))^0.5
+  b <- (a - (2 * a)^0.5) / (2 * kappa)
+  r <- (1 + b^2) / (2 * b)
+  obs <- 1
+  while (obs <= n) {
+    U1 <- runif(1, 0, 1)
+    z <- cos(pi * U1)
+    f <- (1 + r * z) / (r + z)
+    c <- kappa * (r - f)
+    U2 <- runif(1, 0, 1)
+    if (c * (2 - c) - U2 > 0) {
+      U3 <- runif(1, 0, 1)
+      vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
+      vm[obs] <- vm[obs] %% (2 * pi)
+      obs <- obs + 1
+    } else {
+      if (log(c / U2) + 1 - c >= 0) {
+        U3 <- runif(1, 0, 1)
+        vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
+        vm[obs] <- vm[obs] %% (2 * pi)
+        obs <- obs + 1
+      }
+    }
+  }
+  rad2deg(vm)
+}
+
+#' @rdname vonmises
+#' @export
+dvm <- function(theta, mean, kappa) {
+  1 / (2 * pi * besselI(x = kappa, nu = 0, expon.scaled = TRUE)) *
+    (exp(cosd(theta - mean) - 1))^kappa
+}
+
+#' @rdname vonmises
+#' @export
+pvm <- function(theta, mean, kappa) {
+  acc <- 1e-20
+  theta <- deg2rad(theta) %% (2 * pi)
+  mu <- deg2rad(mean) %% (2 * pi)
 
   if (mu == 0) {
     pvm.mu0(theta, kappa, acc)
@@ -1274,6 +1340,7 @@ A1inv <- function(x) {
   )
 }
 
+# est.kappa(rvm(100, 90, 10), w = 1/runif(100, 0, 10))
 est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))

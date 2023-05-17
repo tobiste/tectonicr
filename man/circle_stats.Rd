@@ -48,8 +48,8 @@ Weightings have no effect on quasi-median and quasi-quantiles if
 \code{length(x) \%\% 2 != 1} and \code{length(x) \%\% 4 == 0}, respectively.
 }
 \examples{
-x <- c(175, 179, 0, 2, 4)
-unc <- c(5, 1, 0.1, 2, 4)
+x <- rvm(10, 0, 100) \%\% 180
+unc <- stats::runif(100, 0, 10)
 circular_mean(x, 1 / unc)
 circular_var(x, 1 / unc)
 circular_sd(x, 1 / unc)
