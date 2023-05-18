@@ -80,7 +80,7 @@
 <p><strong>tectonicr</strong> is a free and open-source <strong>R</strong> package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates. The following methods are available:</p>
 <ul>
 <li>
-<strong>Theoretical direction of SHmax</strong>: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the neighboring plates using the function <code><a href="reference/model_shmax.html">model_shmax()</a></code>. The goodness-of-fit can be statistically tested by <code><a href="reference/norm_chisq.html">norm_chisq()</a></code>, <code>norm_rayleigh()</code>, or <code><a href="reference/confidence.html">confidence_interval()</a></code>.</li>
+<strong>Theoretical direction of SHmax</strong>: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the neighboring plates using the function <code><a href="reference/model_shmax.html">model_shmax()</a></code>. The goodness-of-fit can be statistically tested by e.g. <code><a href="reference/norm_chisq.html">norm_chisq()</a></code>, <code><a href="reference/dispersion.html">circular_dispersion()</a></code> ,<code><a href="reference/rayleigh_test.html">rayleigh_test()</a></code>, and <code><a href="reference/confidence.html">confidence_interval()</a></code>.</li>
 <li>
 <strong>Distance to plate boundary</strong>: <code><a href="reference/distance_from_pb.html">distance_from_pb()</a></code> gives the distance between the stress data point and the plate boundary measured along the stress trajectories.</li>
 <li>
@@ -88,7 +88,7 @@
 <li>
 <strong>Relative rotations from a given set of plate motion parameters</strong>: <code><a href="reference/equivalent_rotation.html">equivalent_rotation()</a></code> transfers a set of plate motion parameters into the relative plate motions among the given plates.</li>
 <li>
-<strong>Average direction of a set of SHmax data</strong> using the (weighted) mean, quasi-median, and other parameters to statistically estimate pi-directional data.</li>
+<strong>Average direction of a set of SHmax data</strong> using the (weighted) mean, quasi-median, and other parameters to statistically estimate the distribution parameters of pi-directional data.</li>
 <li>
 <strong>Spatial interpolation of of SHmax</strong>: <code><a href="reference/PoR_stress2grid.html">PoR_stress2grid()</a></code> uses distance, method, and quality-weighted mean direction of stress data without being affected by angular distortions.</li>
 </ul>
