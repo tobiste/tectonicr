@@ -8,11 +8,11 @@
 
 **tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates. The following methods are available:
 
-- **Theoretical direction of SHmax**: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the neighboring plates using the function `model_shmax()`. The goodness-of-fit can be statistically tested by `norm_chisq()`, `norm_rayleigh()`, or `confidence_interval()`.
+- **Theoretical direction of SHmax**: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the neighboring plates using the function `model_shmax()`. The goodness-of-fit can be statistically tested by e.g. `norm_chisq()`, `circular_dispersion()` ,`rayleigh_test()`, and `confidence_interval()`.
 - **Distance to plate boundary**: `distance_from_pb()` gives the distance between the stress data point and the plate boundary measured along the stress trajectories.
 - **Visualization of the trajectories of the theoretical stress field** in terms of small circles, great circles, and lines of constant bearing. The `eulerpole_paths()` functions generates an  `sf` object containing spatial information that is suitable to plot with, for instance, `ggplot()`. 
 - **Relative rotations from a given set of plate motion parameters**: `equivalent_rotation()` transfers a set of plate motion parameters into the relative plate motions among the given plates. 
-- **Average direction of a set of SHmax data** using the (weighted) mean, quasi-median, and other parameters to statistically estimate pi-directional data. 
+- **Average direction of a set of SHmax data** using the (weighted) mean, quasi-median, and other parameters to statistically estimate the distribution parameters of pi-directional data. 
 - **Spatial interpolation of of SHmax**: `PoR_stress2grid()` uses distance, method, and quality-weighted mean direction of stress data without being affected by angular distortions.
 
 ## Prerequisites
