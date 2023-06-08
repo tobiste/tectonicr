@@ -462,8 +462,8 @@ roll_circstats <- function(x, w = NULL,
                            ...) {
   FUN <- match.fun(FUN)
 
-  if(is.null(width)){
-    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  if (is.null(width)) {
+    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
   }
 
   zoo::rollapply(
@@ -527,9 +527,8 @@ roll_normchisq <- function(obs, prd, unc = NULL,
                            partial = TRUE,
                            fill = NA,
                            ...) {
-
-  if(is.null(width)){
-    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  if (is.null(width)) {
+    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
   }
 
   zoo::rollapply(
@@ -552,9 +551,8 @@ roll_rayleigh <- function(obs, prd, unc = NULL,
                           partial = TRUE,
                           fill = NA,
                           ...) {
-
-  if(is.null(width)){
-    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  if (is.null(width)) {
+    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
   }
 
   zoo::rollapply(
@@ -577,12 +575,12 @@ roll_dispersion <- function(obs, prd, unc = NULL,
                             partial = TRUE,
                             fill = NA,
                             ...) {
-  if(is.null(width)){
-    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  if (is.null(width)) {
+    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
   }
 
   zoo::rollapply(
-    cbind(obs, prd, 1/unc),
+    cbind(obs, prd, 1 / unc),
     width = width,
     FUN = function(x) {
       suppressMessages(circular_dispersion(x[, 1], x[, 2], x[, 3], norm = TRUE))
