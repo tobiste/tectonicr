@@ -66,7 +66,7 @@
 <span>  <span class="va">FUN</span>,</span>
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  <span class="va">width</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  by.column <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  partial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">NA</span>,</span>
@@ -100,10 +100,9 @@ should be stripped before the computation proceeds.</p></dd>
 
 
 <dt>width</dt>
-<dd><p>numeric vector or list. In the simplest case this is an integer
-specifying the window width (in numbers of observations) which is aligned to
-the original sample according to the <code>align</code> argument. Alternatively, width
-can be a list regarded as offsets compared to the current time.</p></dd>
+<dd><p>integer specifying the window width (in numbers of observations)
+which is aligned to the original sample according to the <code>align</code> argument.
+If <code>NULL</code>, an optimal width is calculated.</p></dd>
 
 
 <dt>by.column</dt>
