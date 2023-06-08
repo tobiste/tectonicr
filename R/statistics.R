@@ -357,7 +357,7 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   }
 
   diff <- x - y
-  1 - cosd(f * diff)
+  (1 - cosd(f * diff)) / f
 }
 
 #' @rdname dispersion
@@ -420,10 +420,9 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
 #' A generic function for applying a function to rolling margins of an array.
 #'
 #' @inheritParams circular_mean
-#' @param width numeric vector or list. In the simplest case this is an integer
-#' specifying the window width (in numbers of observations) which is aligned to
-#' the original sample according to the `align` argument. Alternatively, width
-#' can be a list regarded as offsets compared to the current time.
+#' @param width integer specifying the window width (in numbers of observations)
+#' which is aligned to the original sample according to the `align` argument.
+#' If `NULL`, an optimal width is calculated.
 #' @param FUN the function to be applied
 #' @param by.column logical. If `TRUE`, FUN is applied to each column separately.
 #' @param fill a three-component vector or list (recycled otherwise) providing
@@ -457,11 +456,15 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
 roll_circstats <- function(x, w = NULL,
                            FUN,
                            axial = TRUE, na.rm = TRUE,
-                           width, by.column = FALSE,
+                           width = NULL, by.column = FALSE,
                            partial = TRUE,
                            fill = NA,
                            ...) {
   FUN <- match.fun(FUN)
+
+  if(is.null(width)){
+    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  }
 
   zoo::rollapply(
     cbind(x, w),
@@ -481,10 +484,9 @@ roll_circstats <- function(x, w = NULL,
 #' A generic function for applying a function to rolling margins of an array.
 #'
 #' @inheritParams norm_chisq
-#' @param width numeric vector or list. In the simplest case this is an integer
-#' specifying the window width (in numbers of observations) which is aligned to
-#' the original sample according to the `align` argument. Alternatively, width
-#' can be a list regarded as offsets compared to the current time.
+#' @param width integer specifying the window width (in numbers of observations)
+#' which is aligned to the original sample according to the `align` argument.
+#' If `NULL`, an optimal width is calculated.
 #' @param by.column logical. If `TRUE`, FUN is applied to each column separately.
 #' @param fill a three-component vector or list (recycled otherwise) providing
 #' filling values at the left/within/to the right of the data range. See the
@@ -525,6 +527,11 @@ roll_normchisq <- function(obs, prd, unc = NULL,
                            partial = TRUE,
                            fill = NA,
                            ...) {
+
+  if(is.null(width)){
+    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  }
+
   zoo::rollapply(
     cbind(obs, prd, unc),
     width = width,
@@ -541,10 +548,15 @@ roll_normchisq <- function(obs, prd, unc = NULL,
 #' @rdname rolling_test
 #' @export
 roll_rayleigh <- function(obs, prd, unc = NULL,
-                          width, by.column = FALSE,
+                          width = NULL, by.column = FALSE,
                           partial = TRUE,
                           fill = NA,
                           ...) {
+
+  if(is.null(width)){
+    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  }
+
   zoo::rollapply(
     cbind(obs, prd, unc),
     width = width,
@@ -557,6 +569,31 @@ roll_rayleigh <- function(obs, prd, unc = NULL,
     ...
   )
 }
+
+#' @rdname rolling_test
+#' @export
+roll_dispersion <- function(obs, prd, unc = NULL,
+                            width = NULL, by.column = FALSE,
+                            partial = TRUE,
+                            fill = NA,
+                            ...) {
+  if(is.null(width)){
+    width = round((2 * circular_IQR(obs) / length(obs)^(1/3))*2*pi)
+  }
+
+  zoo::rollapply(
+    cbind(obs, prd, 1/unc),
+    width = width,
+    FUN = function(x) {
+      suppressMessages(circular_dispersion(x[, 1], x[, 2], x[, 3], norm = TRUE))
+    },
+    by.column = by.column,
+    partial = partial,
+    fill = fill,
+    ...
+  )
+}
+
 
 
 z_score <- function(conf.level) {

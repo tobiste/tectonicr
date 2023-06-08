@@ -10,7 +10,7 @@ roll_circstats(
   FUN,
   axial = TRUE,
   na.rm = TRUE,
-  width,
+  width = NULL,
   by.column = FALSE,
   partial = TRUE,
   fill = NA,
@@ -31,10 +31,9 @@ length as \code{x}.}
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
 
-\item{width}{numeric vector or list. In the simplest case this is an integer
-specifying the window width (in numbers of observations) which is aligned to
-the original sample according to the \code{align} argument. Alternatively, width
-can be a list regarded as offsets compared to the current time.}
+\item{width}{integer specifying the window width (in numbers of observations)
+which is aligned to the original sample according to the \code{align} argument.
+If \code{NULL}, an optimal width is calculated.}
 
 \item{by.column}{logical. If \code{TRUE}, FUN is applied to each column separately.}
 

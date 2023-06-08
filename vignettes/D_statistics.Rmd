@@ -85,7 +85,7 @@ rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, col = "grey", main = "E
 
 ## Statistical tests
 ### Test for random distribution
-Uniformly distributed orientation can be described by the von-Mises distribution
+Uniformly distributed orientation can be described by the von Mises distribution
 (Mardia and Jupp, 1999). 
 If the directions are distributed randomly can be tested with the Rayleigh Test:
 ```{r random, echo=TRUE}
@@ -98,7 +98,7 @@ Read `help()` for more details...
 
 
 ## Test for goodness-of-fit
-Assuming a von-Mises Distribution (circular normal distribution) of the orientation data, a $(1-\alpha \%)/100$ confidence interval can be calculated (Mardia and Jupp, 1999):
+Assuming a von Mises Distribution (circular normal distribution) of the orientation data, a $(1-\alpha \%)/100$ confidence interval can be calculated (Mardia and Jupp, 1999):
 ```{r confidence, echo=TRUE}
 confidence_interval(san_andreas.por$azi.PoR, conf.level = 0.95, w = 1 / san_andreas$unc)
 ```

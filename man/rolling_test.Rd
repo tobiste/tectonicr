@@ -4,6 +4,7 @@
 \alias{rolling_test}
 \alias{roll_normchisq}
 \alias{roll_rayleigh}
+\alias{roll_dispersion}
 \title{Apply Rolling Functions using Circular Statistical Tests for Uniformity}
 \usage{
 roll_normchisq(
@@ -21,7 +22,18 @@ roll_rayleigh(
   obs,
   prd,
   unc = NULL,
-  width,
+  width = NULL,
+  by.column = FALSE,
+  partial = TRUE,
+  fill = NA,
+  ...
+)
+
+roll_dispersion(
+  obs,
+  prd,
+  unc = NULL,
+  width = NULL,
   by.column = FALSE,
   partial = TRUE,
   fill = NA,
@@ -40,10 +52,9 @@ the return object from \code{model_shmax()}}
 \item{unc}{Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 numeric vector or a number}
 
-\item{width}{numeric vector or list. In the simplest case this is an integer
-specifying the window width (in numbers of observations) which is aligned to
-the original sample according to the \code{align} argument. Alternatively, width
-can be a list regarded as offsets compared to the current time.}
+\item{width}{integer specifying the window width (in numbers of observations)
+which is aligned to the original sample according to the \code{align} argument.
+If \code{NULL}, an optimal width is calculated.}
 
 \item{by.column}{logical. If \code{TRUE}, FUN is applied to each column separately.}
 
