@@ -14,13 +14,15 @@ rose(
   clockwise = TRUE,
   unit = c("degree", "radian"),
   round_binwidth = TRUE,
-  main = "N",
-  sub,
+  mtext = "N",
+  main = NULL,
+  sub = NULL,
   at = seq(0, 360 - 45, 45),
-  add_pts = FALSE,
-  pts_pch = 1,
-  pts_cex = 1,
-  pts_col = "grey",
+  col = "grey",
+  dots = FALSE,
+  dot_pch = 1,
+  dot_cex = 1,
+  dot_col = "grey",
   ...
 )
 }
@@ -51,16 +53,21 @@ counter-clockwise direction (\code{FALSE}).}
 \item{round_binwidth}{Logical. Whether bin width is round to zero digits
 (\code{round_binwidth=TRUE}, the default) or as is (\code{FALSE}).}
 
+\item{mtext}{character. String to be drawn at the top margin of the plot
+(\code{"N"} by default)}
+
 \item{main, sub}{Character string specifying the title and subtitle of the
 plot. If \code{sub = NULL}, it will show the bin width.}
 
 \item{at}{Optional vector of angles at which tick marks should be plotted.
 Set \code{at=numeric(0)} to suppress tick marks.}
 
-\item{add_pts}{logical. Whether a circular dot plot should be added
+\item{col}{fill color of bins}
+
+\item{dots}{logical. Whether a circular dot plot should be added
 (\code{FALSE} is the default).}
 
-\item{pts_cex, pts_pch, pts_col}{Plotting arguments for circular dot plot}
+\item{dot_cex, dot_pch, dot_col}{Plotting arguments for circular dot plot}
 
 \item{...}{Additional arguments passed to \code{\link[spatstat.explore:rose]{spatstat.explore::rose()}}.}
 }
@@ -80,10 +87,10 @@ with n being the length of \code{x}, and the range R being either 180 or 360
 degree for axial or directional data, respectively.
 }
 \examples{
-x <- runif(100, 60, 210)
-rose(x)
+x <- rvm(100, mean = 90, k = 1)
+rose(x, axial = FALSE)
 
 data("san_andreas")
-rose(san_andreas$azi, col = "grey", axial = TRUE, stack = TRUE)
-rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", axial = TRUE)
+rose(san_andreas$azi, axial = TRUE, add_pts = TRUE, main = "dot plot")
+rose(san_andreas$azi, weights = 1 / san_andreas$unc, axial = TRUE, main = "weighted")
 }

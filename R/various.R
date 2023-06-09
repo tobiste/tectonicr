@@ -292,9 +292,16 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
 #' coordinate system
 #' @param plot (logical). Whether to produce a plot additional to output.
 #' @param ... optional arguments to [distance_from_pb()]
-#' @return list. results of the coordinate and azimuth conversion, deviation,
-#' misfit to predicted stress direction and, if given, distance to tested
-#' plate boundary as well as the normalized Chi-squared test statistic.
+#' @return list containing the following values:
+#' \describe{
+#' \item{`results`}{data.frame showing the the coordinate and azimuth conversions
+#' (`lat.PoR`, `lon.PoR`, and `azi.PoR`), the predicted azimuths (`prd`),
+#' deviation angle from predicted (`dev`), circular distance (`cdist`),
+#' misfit to predicted stress direction (`nchisq`) and, if given, distance to tested
+#' plate boundary (`distance`)}
+#' \item{`stats`}{array with circular (weighted) mean, circular standard deviation, circular dispersion, the 95% confidence angle, and the normalized Chi-squared test statistic}
+#' \item{`test`}{list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.}
+#' }
 #' @export
 #' @seealso [PoR_shmax()], [distance_from_pb()], [norm_chisq()], [PoR_plot()]
 #' @examples
@@ -316,11 +323,21 @@ stress_analysis <- function(x, euler, type = c("none", "in", "out", "right", "le
   if (!missing(pb)) {
     res$distance <- distance_from_pb(x, euler, pb, tangential, ...)
   }
-  nchisq <- norm_chisq(res$azi.PoR, res$prd, x$unc)
+  prd <- res$prd
+
+  mean <- circular_mean(res$azi.PoR, 1 / x$unc)
+  sd <- circular_sd(res$azi.PoR, 1 / x$unc)
+  disp <- circular_dispersion(res$azi.PoR, prd, 1 / x$unc)
+  conf <- confidence_angle(res$azi.PoR, w = 1 / x$unc)
+  nchisq <- norm_chisq(res$azi.PoR, prd, unc = x$unc)
+  rayleigh <- weighted_rayleigh(res$azi.PoR, prd, unc = x$unc)
 
   if (plot) {
-    PoR_plot(azi = res$azi.PoR, distance = res$distance, unc = x$unc, regime = x$regime, prd = res$prd)
+    PoR_plot(azi = res$azi.PoR, distance = res$distance, unc = x$unc, regime = x$regime, prd = prd)
   }
 
-  list(result = res, norm_chisq = nchisq)
+  list(
+    result = res, stats =
+      rbind(mean = mean, sd = sd, dispersion = disp, conf95 = conf, norm_chisq = nchisq), test = rayleigh
+  )
 }

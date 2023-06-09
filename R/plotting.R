@@ -53,13 +53,16 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 #' `"degrees"` (the default), or `"radians"`.
 #' @param round_binwidth Logical. Whether bin width is round to zero digits
 #' (`round_binwidth=TRUE`, the default) or as is (`FALSE`).
+#' @param mtext character. String to be drawn at the top margin of the plot
+#' (`"N"` by default)
 #' @param main,sub Character string specifying the title and subtitle of the
 #' plot. If `sub = NULL`, it will show the bin width.
 #' @param at Optional vector of angles at which tick marks should be plotted.
 #' Set `at=numeric(0)` to suppress tick marks.
-#' @param add_pts logical. Whether a circular dot plot should be added
+#' @param col fill color of bins
+#' @param dots logical. Whether a circular dot plot should be added
 #' (`FALSE` is the default).
-#' @param pts_cex,pts_pch,pts_col Plotting arguments for circular dot plot
+#' @param dot_cex,dot_pch,dot_col Plotting arguments for circular dot plot
 #' @param ... Additional arguments passed to [spatstat.explore::rose()].
 #' @note If `bins` and `binwidth` are `NULL`, an optimal bin width will be
 #' calculated using Scott (1979):
@@ -73,16 +76,18 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 #' @importFrom stats na.omit
 #' @export
 #' @examples
-#' x <- runif(100, 60, 210)
-#' rose(x)
+#' x <- rvm(100, mean = 90, k = 1)
+#' rose(x, axial = FALSE)
 #'
 #' data("san_andreas")
-#' rose(san_andreas$azi, col = "grey", axial = TRUE, stack = TRUE)
-#' rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", axial = TRUE)
+#' rose(san_andreas$azi, axial = TRUE, add_pts = TRUE, main = "dot plot")
+#' rose(san_andreas$azi, weights = 1 / san_andreas$unc, axial = TRUE, main = "weighted")
 rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
-                 equal_area = TRUE, clockwise = TRUE, unit = c("degree", "radian"),
-                 round_binwidth = TRUE, main = "N", sub, at = seq(0, 360 - 45, 45),
-                 add_pts = FALSE, pts_pch = 1, pts_cex = 1, pts_col = "grey", ...) {
+                 equal_area = TRUE, clockwise = TRUE,
+                 unit = c("degree", "radian"), round_binwidth = TRUE,
+                 mtext = "N", main = NULL, sub = NULL, at = seq(0, 360 - 45, 45),
+                 col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
+                 dot_col = "grey", ...) {
   x <- as.vector(x %% 360)
 
   if (!is.null(bins) && is.null(binwidth)) {
@@ -119,19 +124,21 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     freqs,
     weights = weights,
     breaks = breaks,
-    clockwise = clockwise, start = "N", unit = unit, main = main, xlab = NULL,
+    clockwise = clockwise, start = "N", unit = unit,
+    main = "", xlab = NULL,
     at = seq(0, 360 - 45, 45),
+    col = col,
     ...
   )
 
-  if (add_pts) {
+  if (dots) {
     scale <- 1.1 * max(freqs$density)
     u <- deg2rad(90 - x)
     n <- length(x)
     z <- cos(u) * scale
     y <- sin(u) * scale
     # if (stack == FALSE) {
-    graphics::points(z, y, cex = pts_cex, pch = pts_pch, col = pts_col)
+    graphics::points(z, y, cex = dot_cex, pch = dot_pch, col = dot_col)
     # } else {
     #   bins <- 180/binwidth
     #   bins.count <- c(1:bins)
@@ -154,11 +161,12 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     # }
   }
 
-  if (missing(sub)) sub <- paste0("Bin width: ", binwidth)
-  graphics::title(sub = sub, ylab = NULL)
+  if (is.null(sub)) sub <- paste0("Bin width: ", binwidth)
+  graphics::title(main = main, sub = sub, ylab = NULL)
+  graphics::mtext(mtext)
 }
 
-#' Plotting the \eqn{\sigma_{Hmax}}{SHmax} azimuth
+#' Plotting stress analysis results
 #'
 #' Creates a set of plots including
 #' the azimuth as a function of the distance to the plate boundary,
@@ -174,9 +182,9 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' regime (following the classification of the World Stress Map)
 #' @param width integer. window width (in number of observations) for moving average
 #'  of the azimuths and Norm Chi-square statistics.
-#' @param ... optional arguments to `zoo::rollapply()`, [rose()], or `plot()`
 #' @importFrom dplyr arrange mutate
 #' @importFrom zoo rollapply rollmedian
+#' @details Grey horizontal bar in the distance plot shows the 95% confodence interval for the prediction.
 #' @seealso [PoR_shmax()], [distance_from_pb()], [circular_median()], [circular_IQR()], [norm_chisq()]
 #' @export
 #' @examples
@@ -190,7 +198,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
 #' PoR_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
-PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
+PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   if (missing(regime)) {
     regime <- rep(NA, length(azi))
   }
@@ -201,9 +209,9 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
     dplyr::arrange(distance) %>%
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
-      roll_mean = roll_circstats(azi, w = 1 / unc, FUN = circular_mean, width = width, ...),
-      roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width, ...),
-      roll_nchisq = roll_normchisq(azi, prd, unc, width = width, ...)
+      roll_mean = roll_circstats(azi, w = 1 / unc, FUN = circular_mean, width = width),
+      roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width),
+      roll_nchisq = roll_normchisq(azi, prd, unc, width = width)
     )
 
   # add lower and upper period to data for plotting
@@ -215,43 +223,74 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51, ...) {
   rt <- weighted_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
   azi.PoR.sd <- circular_sd(azi, 1 / unc)
+  disp <- circular_dispersion(azi, prd, 1 / unc)
+  CI <- confidence_interval(azi, w = 1 / unc)
 
   subtitle <-
     paste0(
-      "N: ", length(azi),
-      " | Mean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(azi.PoR.sd, 1),
-      "\u00B0 | Norm \u03C7\u00B2: ", round(nchisq, 2), " | R: ", round(rt$statistic, 2), " (", round(rt$p.value, 2), ")"
+      "Disp: ", round(disp, 3), " | 95% CI: ", round(CI$conf.interval[1]), "\u00B0 - ",
+      round(CI$conf.interval[2]), "\u00B0 | R: ",
+      round(rt$statistic, 2), " (", round(rt$p.value, 2), ")"
     )
-
+  subtitle_rose <- paste0(
+    "N: ", length(azi),
+    "\nMean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(azi.PoR.sd, 1),
+    "\u00B0"
+  )
   grDevices::palette(c("grey60", "#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2"))
 
+  # distance plot
+  ## create empty plot
   graphics::plot(0,
     type = "n",
     xlab = "Distance from plate boundary", ylab = "Azimuth wrt. PoR (\u00B0)",
     sub = subtitle,
+    main = "Distance from plate boundary vs. azimuth",
     xlim = range(distance),
-    ylim = c(0, 180), yaxp = c(0, 180, 8), ...
+    ylim = c(0, 180), yaxp = c(0, 180, 8)
   )
+
+  # graphics::polygon(
+  #   x = c(t$distance, t$distance),
+  #   y = c(t$roll_mean + t$roll_sd, t$roll_mean - t$roll_sd),
+  #   col = "#85112AFF", border = "#85112AFF", lty = 3, density = .5
+  # )
+
+  ## 95% confodence interval
+  graphics::polygon(
+    x = c(0, max(distance), max(distance), 0),
+    y = c(CI$conf.interval[2], CI$conf.interval[2], CI$conf.interval[1], CI$conf.interval[1]),
+    col = grDevices::gray(.85, alpha = .5), border = "grey80", lty = 4
+  )
+
+  ## points
   graphics::arrows(y0 = t2$azi - t2$unc, x0 = t2$distance, y1 = t2$azi + t2$unc, x1 = t2$distance, code = 0, lwd = .25, col = t2$regime)
   graphics::points(azi ~ distance, data = t2, col = t2$regime)
 
+  ## roll statistics
   graphics::lines(roll_mean - roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
   graphics::lines(roll_mean + roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
   graphics::lines(roll_mean ~ distance, data = t, type = "S", col = "#85112AFF")
-  graphics::abline(h = unique(prd), col = "black", lty = 2)
-  graphics::legend("bottomright", inset = .05, cex = .5, legend = c("N", "NS", "S", "TS", "T", "U"), title = "Stress regime", fill = c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60"))
 
+  ## predicted az
+  graphics::abline(h = unique(prd), col = "black", lty = 2)
+  graphics::legend("bottomright", inset = .05, cex = .75, legend = c("N", "NS", "S", "TS", "T", "U"), title = "Stress regime", fill = c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60"))
+
+  # Norm chisq plot
   grDevices::dev.new()
   graphics::plot(nchisq_i ~ distance,
     data = t, col = t$regime,
-    xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi^2),
-    # sub = subtitle,
+    xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi[i]^2),
+    main = "Deviation from prediction",
     xlim = range(distance),
-    ylim = c(0, 1), yaxp = c(0, 1, 4), ...
+    ylim = c(0, 1), yaxp = c(0, 1, 4),
+    sub = paste0("Norm \u03C7\u00B2: ", round(nchisq, 2)),
+    ...
   )
   graphics::lines(roll_nchisq ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = .15, col = "black", lty = 2)
 
+  # rose plot
   grDevices::dev.new()
-  rose(azi, weights = 1 / unc, main = "PoR", ...)
+  rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram")
 }

@@ -36,9 +36,16 @@ coordinate system}
 \item{...}{optional arguments to \code{\link[=distance_from_pb]{distance_from_pb()}}}
 }
 \value{
-list. results of the coordinate and azimuth conversion, deviation,
-misfit to predicted stress direction and, if given, distance to tested
-plate boundary as well as the normalized Chi-squared test statistic.
+list containing the following values:
+\describe{
+\item{\code{results}}{data.frame showing the the coordinate and azimuth conversions
+(\code{lat.PoR}, \code{lon.PoR}, and \code{azi.PoR}), the predicted azimuths (\code{prd}),
+deviation angle from predicted (\code{dev}), circular distance (\code{cdist}),
+misfit to predicted stress direction (\code{nchisq}) and, if given, distance to tested
+plate boundary (\code{distance})}
+\item{\code{stats}}{array with circular (weighted) mean, circular standard deviation, circular dispersion, the 95\% confidence angle, and the normalized Chi-squared test statistic}
+\item{\code{test}}{list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.}
+}
 }
 \description{
 Returns the converted azimuths, distances to the plate boundary,

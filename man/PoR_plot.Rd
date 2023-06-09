@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{PoR_plot}
 \alias{PoR_plot}
-\title{Plotting the \eqn{\sigma_{Hmax}}{SHmax} azimuth}
+\title{Plotting stress analysis results}
 \usage{
 PoR_plot(azi, distance, prd, unc = NULL, regime, width = 51, ...)
 }
@@ -29,6 +29,9 @@ Creates a set of plots including
 the azimuth as a function of the distance to the plate boundary,
 the Norm Chi-squared as a function of the distance to the plate boundary,
 and a rose diagram of the frequency distribution of the azimuths.
+}
+\details{
+Grey horizontal bar in the distance plot shows the 95\% confodence interval for the prediction.
 }
 \examples{
 data("nuvel1")
