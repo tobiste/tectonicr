@@ -284,8 +284,7 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     main = "Deviation from prediction",
     xlim = range(distance),
     ylim = c(0, 1), yaxp = c(0, 1, 4),
-    sub = paste0("Norm \u03C7\u00B2: ", round(nchisq, 2)),
-    ...
+    sub = paste0("Norm \u03C7\u00B2: ", round(nchisq, 2))
   )
   graphics::lines(roll_nchisq ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = .15, col = "black", lty = 2)

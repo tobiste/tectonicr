@@ -11,7 +11,7 @@ roll_normchisq(
   obs,
   prd,
   unc = NULL,
-  width,
+  width = NULL,
   by.column = FALSE,
   partial = TRUE,
   fill = NA,
@@ -30,9 +30,9 @@ roll_rayleigh(
 )
 
 roll_dispersion(
-  obs,
-  prd,
-  unc = NULL,
+  x,
+  mean,
+  w = NULL,
   width = NULL,
   by.column = FALSE,
   partial = TRUE,
@@ -54,7 +54,7 @@ numeric vector or a number}
 
 \item{width}{integer specifying the window width (in numbers of observations)
 which is aligned to the original sample according to the \code{align} argument.
-If \code{NULL}, an optimal width is calculated.}
+If \code{NULL}, an optimal width is estimated.}
 
 \item{by.column}{logical. If \code{TRUE}, FUN is applied to each column separately.}
 
@@ -73,11 +73,16 @@ fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
   \describe{
     \item{\code{}}{}
   }}
+
+\item{x}{numeric. Directions in dgerees}
+
+\item{mean}{numeric. The angle about which the angles \code{x} disperse (in degrees).}
+
+\item{w}{(optional) Weights. A vector of positive numbers and of the same
+length as \code{x}.}
 }
 \value{
 numeric vector with the test statistic of the rolling test.
-
-numeric vector
 }
 \description{
 A generic function for applying a function to rolling margins of an array.
@@ -99,6 +104,7 @@ distance <- distance_from_pb(
 )
 dat <- san_andreas[order(distance), ]
 dat.PoR <- PoR_shmax(san_andreas, ep, "right")
-roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc, width = 51)
-roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc, width = 51)
+roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
+roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
+roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1/ dat$unc)
 }

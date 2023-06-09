@@ -463,7 +463,7 @@ roll_circstats <- function(x, w = NULL,
   FUN <- match.fun(FUN)
 
   if (is.null(width)) {
-    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
+    width <- optimal_rollwidth(x)
   }
 
   zoo::rollapply(
@@ -484,9 +484,11 @@ roll_circstats <- function(x, w = NULL,
 #' A generic function for applying a function to rolling margins of an array.
 #'
 #' @inheritParams norm_chisq
+#' @param x numeric. Directions in dgerees
+#' @inheritParams circular_dispersion
 #' @param width integer specifying the window width (in numbers of observations)
 #' which is aligned to the original sample according to the `align` argument.
-#' If `NULL`, an optimal width is calculated.
+#' If `NULL`, an optimal width is estimated.
 #' @param by.column logical. If `TRUE`, FUN is applied to each column separately.
 #' @param fill a three-component vector or list (recycled otherwise) providing
 #' filling values at the left/within/to the right of the data range. See the
@@ -502,7 +504,6 @@ roll_circstats <- function(x, w = NULL,
 #' distance it is recommended to sort the values first.
 #' @importFrom zoo rollapply
 #' @name rolling_test
-#' @returns numeric vector
 #' @examples
 #' data("plates")
 #' plate_boundary <- subset(plates, plates$pair == "na-pa")
@@ -516,19 +517,20 @@ roll_circstats <- function(x, w = NULL,
 #' )
 #' dat <- san_andreas[order(distance), ]
 #' dat.PoR <- PoR_shmax(san_andreas, ep, "right")
-#' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc, width = 51)
-#' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc, width = 51)
+#' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
+#' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
+#' roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1/ dat$unc)
 NULL
 
 #' @rdname rolling_test
 #' @export
 roll_normchisq <- function(obs, prd, unc = NULL,
-                           width, by.column = FALSE,
+                           width = NULL, by.column = FALSE,
                            partial = TRUE,
                            fill = NA,
                            ...) {
   if (is.null(width)) {
-    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
+    width <- optimal_rollwidth(obs)
   }
 
   zoo::rollapply(
@@ -552,7 +554,7 @@ roll_rayleigh <- function(obs, prd, unc = NULL,
                           fill = NA,
                           ...) {
   if (is.null(width)) {
-    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
+    width <- optimal_rollwidth(obs)
   }
 
   zoo::rollapply(
@@ -570,17 +572,17 @@ roll_rayleigh <- function(obs, prd, unc = NULL,
 
 #' @rdname rolling_test
 #' @export
-roll_dispersion <- function(obs, prd, unc = NULL,
+roll_dispersion <- function(x, mean, w = NULL,
                             width = NULL, by.column = FALSE,
                             partial = TRUE,
                             fill = NA,
                             ...) {
   if (is.null(width)) {
-    width <- round((2 * circular_IQR(obs) / length(obs)^(1 / 3)) * 2 * pi)
+    width <- round((2 * circular_IQR(x) / length(x)^(1 / 3)) * 2 * pi)
   }
 
   zoo::rollapply(
-    cbind(obs, prd, 1 / unc),
+    cbind(x, mean, w),
     width = width,
     FUN = function(x) {
       suppressMessages(circular_dispersion(x[, 1], x[, 2], x[, 3], norm = TRUE))
@@ -592,7 +594,9 @@ roll_dispersion <- function(obs, prd, unc = NULL,
   )
 }
 
-
+optimal_rollwidth <- function(x){
+  round((2 * circular_IQR(x) / length(x)^(1 / 3)) * 2 * pi)
+}
 
 z_score <- function(conf.level) {
   stats::qnorm(1 - (1 - conf.level) / 2)

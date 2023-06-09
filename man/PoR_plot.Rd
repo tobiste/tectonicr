@@ -4,7 +4,7 @@
 \alias{PoR_plot}
 \title{Plotting stress analysis results}
 \usage{
-PoR_plot(azi, distance, prd, unc = NULL, regime, width = 51, ...)
+PoR_plot(azi, distance, prd, unc = NULL, regime, width = 51)
 }
 \arguments{
 \item{azi}{numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}}
@@ -21,8 +21,6 @@ regime (following the classification of the World Stress Map)}
 
 \item{width}{integer. window width (in number of observations) for moving average
 of the azimuths and Norm Chi-square statistics.}
-
-\item{...}{optional arguments to \code{zoo::rollapply()}, \code{\link[=rose]{rose()}}, or \code{plot()}}
 }
 \description{
 Creates a set of plots including
