@@ -519,7 +519,7 @@ roll_circstats <- function(x, w = NULL,
 #' dat.PoR <- PoR_shmax(san_andreas, ep, "right")
 #' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
 #' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
-#' roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1/ dat$unc)
+#' roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1 / dat$unc)
 NULL
 
 #' @rdname rolling_test
@@ -594,7 +594,7 @@ roll_dispersion <- function(x, mean, w = NULL,
   )
 }
 
-optimal_rollwidth <- function(x){
+optimal_rollwidth <- function(x) {
   round((2 * circular_IQR(x) / length(x)^(1 / 3)) * 2 * pi)
 }
 
