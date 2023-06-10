@@ -225,10 +225,10 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
       cdist = circular_distance(azi, prd),
       roll_mean = roll_circstats(azi, w = 1 / unc, FUN = circular_mean, width = width),
-      #roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width)/2,
+      # roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width)/2,
       roll_nchisq = roll_normchisq(azi, prd, unc, width = width),
       roll_disp = roll_dispersion(azi, prd, w = 1 / unc, width = width),
-      roll_conf95 = roll_confidence(azi, .95, 1 / unc, width = width)/2
+      roll_conf95 = roll_confidence(azi, .95, 1 / unc, width = width) / 2
     )
 
   # add lower and upper period to data for plotting
@@ -313,15 +313,15 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   # Dispersion plot
   grDevices::dev.new()
   graphics::plot(cdist ~ distance,
-                 data = t, col = t$regime,
-                 xlab = "Distance from plate boundary", ylab = "Circular distance",
-                 main = "Circular dispersion around prediction",
-                 xlim = range(distance),
-                 ylim = c(0, 1), yaxp = c(0, 1, 4),
-                 sub = paste0("Disp: ", round(disp, 3))
+    data = t, col = t$regime,
+    xlab = "Distance from plate boundary", ylab = "Circular distance",
+    main = "Circular dispersion around prediction",
+    xlim = range(distance),
+    ylim = c(0, 1), yaxp = c(0, 1, 4),
+    sub = paste0("Disp: ", round(disp, 3))
   )
   graphics::lines(roll_disp ~ distance, data = t, type = "S", col = "#85112AFF")
-  #graphics::abline(h = disp, col = "black", lty = 2) # dispersion
+  # graphics::abline(h = disp, col = "black", lty = 2) # dispersion
 
 
   # rose plot
