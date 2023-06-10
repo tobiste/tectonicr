@@ -5,6 +5,7 @@
 \alias{roll_normchisq}
 \alias{roll_rayleigh}
 \alias{roll_dispersion}
+\alias{roll_confidence}
 \title{Apply Rolling Functions using Circular Statistical Tests for Uniformity}
 \usage{
 roll_normchisq(
@@ -33,6 +34,18 @@ roll_dispersion(
   x,
   mean,
   w = NULL,
+  width = NULL,
+  by.column = FALSE,
+  partial = TRUE,
+  fill = NA,
+  ...
+)
+
+roll_confidence(
+  x,
+  conf.level = 0.95,
+  w = NULL,
+  axial = TRUE,
   width = NULL,
   by.column = FALSE,
   partial = TRUE,
@@ -80,6 +93,12 @@ fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 
 \item{w}{(optional) Weights. A vector of positive numbers and of the same
 length as \code{x}.}
+
+\item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.
+(\code{0.95} by default).}
+
+\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 }
 \value{
 numeric vector with the test statistic of the rolling test.
@@ -107,4 +126,5 @@ dat.PoR <- PoR_shmax(san_andreas, ep, "right")
 roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
 roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
 roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1/ dat$unc)
+roll_confidence(dat.PoR$azi.PoR, w = 1/ dat$unc)
 }

@@ -19,7 +19,7 @@ stress_analysis(
 \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 \code{unc} (optional)}
 
-\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{euler}{\code{data.frame} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler pole}
 
 \item{type}{Character. Type of plate boundary (optional). Can be
@@ -59,8 +59,9 @@ data("plates")
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 data("san_andreas")
-
+\dontrun{
 stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = FALSE)
+}
 }
 \seealso{
 \code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=PoR_plot]{PoR_plot()}}

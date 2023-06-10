@@ -486,6 +486,8 @@ roll_circstats <- function(x, w = NULL,
 #' @inheritParams norm_chisq
 #' @param x numeric. Directions in dgerees
 #' @inheritParams circular_dispersion
+#' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
+#' (`0.95` by default).
 #' @param width integer specifying the window width (in numbers of observations)
 #' which is aligned to the original sample according to the `align` argument.
 #' If `NULL`, an optimal width is estimated.
@@ -520,6 +522,7 @@ roll_circstats <- function(x, w = NULL,
 #' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
 #' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
 #' roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1/ dat$unc)
+#' roll_confidence(dat.PoR$azi.PoR, w = 1/ dat$unc)
 NULL
 
 #' @rdname rolling_test
@@ -578,7 +581,7 @@ roll_dispersion <- function(x, mean, w = NULL,
                             fill = NA,
                             ...) {
   if (is.null(width)) {
-    width <- round((2 * circular_IQR(x) / length(x)^(1 / 3)) * 2 * pi)
+    width <- optimal_rollwidth(x)
   }
 
   zoo::rollapply(
@@ -593,6 +596,31 @@ roll_dispersion <- function(x, mean, w = NULL,
     ...
   )
 }
+
+
+#' @rdname rolling_test
+#' @export
+roll_confidence <- function(x, conf.level = .95, w = NULL, axial = TRUE,
+                            width = NULL, by.column = FALSE, partial = TRUE,
+                            fill = NA,
+                            ...){
+  if (is.null(width)) {
+    width <- optimal_rollwidth(x)
+  }
+
+  zoo::rollapply(
+    cbind(x, rep(conf.level, length(x)), w),
+    width = width,
+    FUN = function(x) {
+      confidence_angle(x[, 1], x[1, 2], x[, 3])
+    },
+    by.column = by.column,
+    partial = partial,
+    fill = fill,
+    ...
+  )
+}
+
 
 optimal_rollwidth <- function(x){
   round((2 * circular_IQR(x) / length(x)^(1 / 3)) * 2 * pi)

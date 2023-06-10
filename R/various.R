@@ -281,7 +281,7 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
 #' (\code{lat}, \code{lon}), the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param euler \code{data.frame} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
@@ -312,8 +312,9 @@ projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
 #' plate_boundary <- subset(plates, plates$pair == "na-pa")
 #'
 #' data("san_andreas")
-#'
+#' \dontrun{
 #' stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = FALSE)
+#' }
 stress_analysis <- function(x, euler, type = c("none", "in", "out", "right", "left"), pb, plot = TRUE, ...) {
   type <- match.arg(type)
   stopifnot(is.logical(plot))
@@ -337,7 +338,9 @@ stress_analysis <- function(x, euler, type = c("none", "in", "out", "right", "le
   }
 
   list(
-    result = res, stats =
-      rbind(mean = mean, sd = sd, dispersion = disp, conf95 = conf, norm_chisq = nchisq), test = rayleigh
+    result = res,
+    stats =
+      rbind(mean = mean, sd = sd, dispersion = disp, conf95 = conf, norm_chisq = nchisq),
+    test = rayleigh
   )
 }

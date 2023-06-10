@@ -171,21 +171,35 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' Creates a set of plots including
 #' the azimuth as a function of the distance to the plate boundary,
 #' the Norm Chi-squared as a function of the distance to the plate boundary,
-#' and a rose diagram of the frequency distribution of the azimuths.
+#' the circular distance (and dispersion) a function of the distance to the
+#' plate boundary, and a rose diagram of the frequency distribution of the azimuths.
 #'
 #' @param azi numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}
 #' @param distance numeric. Distance to plate boundary
 #' @param prd numeric. the predicted direction of \eqn{\sigma_{Hmax}}{SHmax}
-#' @param unc numeric. Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
-#' numeric vector or a number
+#' @param unc numeric. Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax},
+#' either a numeric vector or a number
 #' @param regime character vector. The stress
 #' regime (following the classification of the World Stress Map)
 #' @param width integer. window width (in number of observations) for moving average
-#'  of the azimuths and Norm Chi-square statistics.
+#'  of the azimuths, circular dispersion, and Norm Chi-square statistics. If `NULL`, an optimal width will be estimated.
 #' @importFrom dplyr arrange mutate
-#' @importFrom zoo rollapply rollmedian
-#' @details Grey horizontal bar in the distance plot shows the 95% confodence interval for the prediction.
-#' @seealso [PoR_shmax()], [distance_from_pb()], [circular_median()], [circular_IQR()], [norm_chisq()]
+#' @seealso [PoR_shmax()], [distance_from_pb()], [circular_mean()],
+#' [circular_dispersion()], [confidence_angle()], [norm_chisq()], [weighted_rayleigh()]
+#' @details
+#' Plot 1 shows the transformed azimuths as a function of the distance to the
+#' plate boundary. The red line indicates the rolling circular mean, stippled
+#' red lines indicate the 95% confidence interval about the mean.
+#'
+#' Plot 2 shows the normalized \eqn{\chi^2}{chi-squared} statistics as a
+#' function of the distance to the plate boundary. The red line shows the
+#' rolling \eqn{\chi^2}{chi-squared} statistic.
+#'
+#' Plot 3 shows the circular distance of the transformed azimuths to the
+#' predicted azimuth, as a function of the distance to the plate boundary. The
+#' red line shows the rolling circular dispersion about the prediction.
+#'
+#' Plot 4 give the rose diagram of the transformed azimuths.
 #' @export
 #' @examples
 #' data("nuvel1")
@@ -209,9 +223,12 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     dplyr::arrange(distance) %>%
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
+      cdist = circular_distance(azi, prd),
       roll_mean = roll_circstats(azi, w = 1 / unc, FUN = circular_mean, width = width),
-      roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width),
-      roll_nchisq = roll_normchisq(azi, prd, unc, width = width)
+      #roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width)/2,
+      roll_nchisq = roll_normchisq(azi, prd, unc, width = width),
+      roll_disp = roll_dispersion(azi, prd, w = 1 / unc, width = width),
+      roll_conf95 = roll_confidence(azi, .95, 1 / unc, width = width)/2
     )
 
   # add lower and upper period to data for plotting
@@ -220,7 +237,9 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   t2 <- rbind(tmin, t, tmax)
 
   nchisq <- norm_chisq(azi, prd, unc)
-  rt <- weighted_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
+  suppressMessages(
+    rt <- weighted_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
+  )
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
   azi.PoR.sd <- circular_sd(azi, 1 / unc)
   disp <- circular_dispersion(azi, prd, 1 / unc)
@@ -251,25 +270,27 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   )
 
   # graphics::polygon(
-  #   x = c(t$distance, t$distance),
+  #   x = c(t$distance, rev(t$distance)),
   #   y = c(t$roll_mean + t$roll_sd, t$roll_mean - t$roll_sd),
-  #   col = "#85112AFF", border = "#85112AFF", lty = 3, density = .5
+  #   col = scales::alpha("#85112AFF", .5), border = scales::alpha("#85112AFF", .1), lty = 3
   # )
 
   ## 95% confodence interval
-  graphics::polygon(
-    x = c(0, max(distance), max(distance), 0),
-    y = c(CI$conf.interval[2], CI$conf.interval[2], CI$conf.interval[1], CI$conf.interval[1]),
-    col = grDevices::gray(.85, alpha = .5), border = "grey80", lty = 4
-  )
+  # graphics::polygon(
+  #   x = c(0, max(distance), max(distance), 0),
+  #   y = c(CI$conf.interval[2], CI$conf.interval[2], CI$conf.interval[1], CI$conf.interval[1]),
+  #   col = grDevices::gray(.85, alpha = .5), border = "grey80", lty = 4
+  # )
 
   ## points
   graphics::arrows(y0 = t2$azi - t2$unc, x0 = t2$distance, y1 = t2$azi + t2$unc, x1 = t2$distance, code = 0, lwd = .25, col = t2$regime)
   graphics::points(azi ~ distance, data = t2, col = t2$regime)
 
   ## roll statistics
-  graphics::lines(roll_mean - roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  graphics::lines(roll_mean + roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
+  # graphics::lines(roll_mean - roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
+  # graphics::lines(roll_mean + roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
+  graphics::lines(roll_mean - roll_conf95 ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
+  graphics::lines(roll_mean + roll_conf95 ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
   graphics::lines(roll_mean ~ distance, data = t, type = "S", col = "#85112AFF")
 
   ## predicted az
@@ -289,7 +310,22 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   graphics::lines(roll_nchisq ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = .15, col = "black", lty = 2)
 
+  # Dispersion plot
+  grDevices::dev.new()
+  graphics::plot(cdist ~ distance,
+                 data = t, col = t$regime,
+                 xlab = "Distance from plate boundary", ylab = "Circular distance",
+                 main = "Circular dispersion around prediction",
+                 xlim = range(distance),
+                 ylim = c(0, 1), yaxp = c(0, 1, 4),
+                 sub = paste0("Disp: ", round(disp, 3))
+  )
+  graphics::lines(roll_disp ~ distance, data = t, type = "S", col = "#85112AFF")
+  #graphics::abline(h = disp, col = "black", lty = 2) # dispersion
+
+
   # rose plot
   grDevices::dev.new()
   rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram")
+  grDevices::palette("default")
 }

@@ -211,20 +211,36 @@ print(azi_plot)
 ```
 <!-- ![](azimuth.png) -->
 
-Adding a rolling statistics (e.g. weighted mean and sd.) of the transformed azimuth:
+Adding a rolling statistics (e.g. weighted mean and 95% confidence interval) of the transformed azimuth:
 ```{r san.andreas.distanceplot1_roll, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ]
 
-san_andreas.res_roll$roll_mean_azi.PoR <- roll_circstats(
+san_andreas.res_roll$r_mean <- roll_circstats(
   san_andreas.res_roll$azi.PoR,
   w = 1 / san_andreas.res_roll$unc,
   FUN = circular_mean, width = 51
 )
 
+san_andreas.res_roll$r_conf95 <- roll_confidence(
+  san_andreas.res_roll$azi.PoR,
+  w = 1 / san_andreas.res_roll$unc,
+  width = 51
+)
+
 azi_plot +
   geom_step(
     data = san_andreas.res_roll,
-    aes(distance, roll_mean_azi.PoR)
+    aes(distance, r_mean - r_conf95),
+    lty = 2
+  ) +
+  geom_step(
+    data = san_andreas.res_roll,
+    aes(distance, r_mean + r_conf95),
+    lty = 2
+  ) +
+  geom_step(
+    data = san_andreas.res_roll,
+    aes(distance, r_mean)
   )
 ```
 

@@ -13,23 +13,36 @@ PoR_plot(azi, distance, prd, unc = NULL, regime, width = 51)
 
 \item{prd}{numeric. the predicted direction of \eqn{\sigma_{Hmax}}{SHmax}}
 
-\item{unc}{numeric. Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
-numeric vector or a number}
+\item{unc}{numeric. Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax},
+either a numeric vector or a number}
 
 \item{regime}{character vector. The stress
 regime (following the classification of the World Stress Map)}
 
 \item{width}{integer. window width (in number of observations) for moving average
-of the azimuths and Norm Chi-square statistics.}
+of the azimuths, circular dispersion, and Norm Chi-square statistics. If \code{NULL}, an optimal width will be estimated.}
 }
 \description{
 Creates a set of plots including
 the azimuth as a function of the distance to the plate boundary,
 the Norm Chi-squared as a function of the distance to the plate boundary,
-and a rose diagram of the frequency distribution of the azimuths.
+the circular distance (and dispersion) a function of the distance to the
+plate boundary, and a rose diagram of the frequency distribution of the azimuths.
 }
 \details{
-Grey horizontal bar in the distance plot shows the 95\% confodence interval for the prediction.
+Plot 1 shows the transformed azimuths as a function of the distance to the
+plate boundary. The red line indicates the rolling circular mean, stippled
+red lines indicate the 95\% confidence interval about the mean.
+
+Plot 2 shows the normalized \eqn{\chi^2}{chi-squared} statistics as a
+function of the distance to the plate boundary. The red line shows the
+rolling \eqn{\chi^2}{chi-squared} statistic.
+
+Plot 3 shows the circular distance of the transformed azimuths to the
+predicted azimuth, as a function of the distance to the plate boundary. The
+red line shows the rolling circular dispersion about the prediction.
+
+Plot 4 give the rose diagram of the transformed azimuths.
 }
 \examples{
 data("nuvel1")
@@ -44,5 +57,6 @@ d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
 PoR_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
 }
 \seealso{
-\code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=circular_IQR]{circular_IQR()}}, \code{\link[=norm_chisq]{norm_chisq()}}
+\code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=circular_mean]{circular_mean()}},
+\code{\link[=circular_dispersion]{circular_dispersion()}}, \code{\link[=confidence_angle]{confidence_angle()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=weighted_rayleigh]{weighted_rayleigh()}}
 }
