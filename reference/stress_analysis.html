@@ -112,10 +112,21 @@ coordinate system</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>list. results of the coordinate and azimuth conversion, deviation,
-misfit to predicted stress direction and, if given, distance to tested
-plate boundary as well as the normalized Chi-squared test statistic.</p>
-    </div>
+<p>list containing the following values:</p><dl><dt><code>results</code></dt>
+<dd><p>data.frame showing the the coordinate and azimuth conversions
+(<code>lat.PoR</code>, <code>lon.PoR</code>, and <code>azi.PoR</code>), the predicted azimuths (<code>prd</code>),
+deviation angle from predicted (<code>dev</code>), circular distance (<code>cdist</code>),
+misfit to predicted stress direction (<code>nchisq</code>) and, if given, distance to tested
+plate boundary (<code>distance</code>)</p></dd>
+
+<dt><code>stats</code></dt>
+<dd><p>array with circular (weighted) mean, circular standard deviation, circular dispersion, the 95% confidence angle, and the normalized Chi-squared test statistic</p></dd>
+
+<dt><code>test</code></dt>
+<dd><p>list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.</p></dd>
+
+
+</dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="PoR_shmax.html">PoR_shmax()</a></code>, <code><a href="distance_from_pb.html">distance_from_pb()</a></code>, <code><a href="norm_chisq.html">norm_chisq()</a></code>, <code><a href="PoR_plot.html">PoR_plot()</a></code></p></div>
@@ -132,6 +143,7 @@ plate boundary as well as the normalized Chi-squared test statistic.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">stress_analysis</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">na_pa</span>, type <span class="op">=</span> <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $result</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          azi.PoR prd           dev       nchisq        cdist  lat.PoR   lon.PoR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    162.2848047 135   27.28480473 9.190871e-02 2.101433e-01 56.93219 -82.67182</span>
@@ -2300,8 +2312,21 @@ plate boundary as well as the normalized Chi-squared test statistic.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1081 0.803436113</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1082 4.174179044</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $norm_chisq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03296388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    [,1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean       138.89370624</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sd          37.12227404</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dispersion   0.09840187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> conf95       4.97276197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> norm_chisq   0.03296388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $test</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $test$statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8031963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $test$p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.607527e-47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
