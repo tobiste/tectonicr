@@ -7,9 +7,16 @@
 \alias{tectonicr-package}
 \title{library(tectonicr)}
 \description{
+Modeling the Direction of the Maximum Horizontal Stress using Relative Plate
+Motion
+}
+\details{
+Further details and theoretical background are provided by Wdowinski
+(1999) and Stephan et al. (under review).
+}
+\note{
 A list of documented functions may be viewed by typing
-\code{help(package="tectonicr")}. Further details about the theoretical
-background are provided by Wdowinski (1999).
+\code{help(package="tectonicr")}.
 }
 \seealso{
 Useful links:
@@ -20,6 +27,5 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Tobias Stephan \email{tobias.stephan1@yahoo.com} (\href{https://orcid.org/0000-0002-9290-014X}{ORCID})
-
+Tobias Stephan
 }
