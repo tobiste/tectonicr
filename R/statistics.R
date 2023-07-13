@@ -340,7 +340,7 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
 #' circular_dispersion(sa.por$azi.PoR, mean = 135)
-#' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1/san_andreas$unc)
+#' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
 NULL
 
 #' @rdname dispersion
@@ -532,7 +532,7 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 }
 
 
-circular_dispersion_i <- function(x, id, ...){
+circular_dispersion_i <- function(x, id, ...) {
   circular_dispersion(x$x[id], mean = x$mean[id], w = x$w[id], ...)
 }
 
@@ -564,9 +564,9 @@ circular_dispersion_i <- function(x, id, ...){
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, ep, "right")
-#' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1/san_andreas$unc)
-#' circular_dispersion_MLE(sa.por$azi.PoR, mean = 135, w = 1/san_andreas$unc, R = 1000)
-circular_dispersion_MLE <- function(x, mean = NULL, w = NULL, R, conf.level = .95, ...){
+#' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
+#' circular_dispersion_MLE(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc, R = 1000)
+circular_dispersion_MLE <- function(x, mean = NULL, w = NULL, R, conf.level = .95, ...) {
   dat <- data.frame(x = x, mean = mean, w = w)
   cdisp <- boot::boot(dat, circular_dispersion_i, R = R, ...)
   ci <- boot::boot.ci(cdisp, conf = conf.level, type = "perc")
