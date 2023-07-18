@@ -474,7 +474,7 @@ dispersion_grid <- function(x,
 
   azi <- unc <- prd <- lat <- lon <- lat.X <- lat.Y <- lon.Y <- lon.X <- R <- N <- numeric()
 
-  #colnames_x <- colnames(x)
+  # colnames_x <- colnames(x)
 
   num_r <- length(R_range)
 
@@ -539,14 +539,13 @@ dispersion_grid <- function(x,
           mdr <- mean(distij[ids_R], na.rm = TRUE) / R_search
           # dist_threshold_scal <- R_search * dist_threshold
 
-          if(stat == "nchisq"){
+          if (stat == "nchisq") {
             y <- norm_chisq(datas$azi[ids_R], prd = datas$prd[ids_R], datas$unc[ids_R])
-          } else if(stat == "rayleigh"){
+          } else if (stat == "rayleigh") {
             y <- weighted_rayleigh(datas$azi[ids_R], prd = datas$prd[ids_R], unc = datas$unc[ids_R], ...)$statistic
           } else {
-            y <- circular_dispersion(datas$azi[ids_R], mean = datas$prd[ids_R], w = 1/datas$unc[ids_R], ...)
+            y <- circular_dispersion(datas$azi[ids_R], mean = datas$prd[ids_R], w = 1 / datas$unc[ids_R], ...)
           }
-
         }
 
         SH.ik <- c(
@@ -558,9 +557,9 @@ dispersion_grid <- function(x,
           N = N_in_R
         )
 
-        #if (SH.ik[3] <= threshold) {
+        # if (SH.ik[3] <= threshold) {
         SH <- rbind(SH, SH.ik)
-        #}
+        # }
       }
     }
   }
@@ -568,7 +567,7 @@ dispersion_grid <- function(x,
   res <- dplyr::as_tibble(SH) %>%
     dplyr::rename(lon = lon.X, lat = lat.Y) %>%
     dplyr::mutate(N = as.integer(N)) %>%
-    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) #%>% dplyr::group_by(R)
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) # %>% dplyr::group_by(R)
 
   return(res)
 }
