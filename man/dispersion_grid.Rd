@@ -44,8 +44,7 @@ degree. Default is 2.5. (is ignored if \code{"grid"} is specified)}
 \item{threshold}{Numeric. Threshold for stat value (default is 1)}
 
 \item{arte_thres}{Numeric. Maximum distance (in km) of the gridpoint to the
-next
-datapoint. Default is 200}
+next datapoint. Default is 200}
 
 \item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
 nearby
@@ -55,16 +54,6 @@ nearby
 Default is \code{seq(50, 1000, 50)}}
 
 \item{...}{optional arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
-
-\item{method_weighting}{Logical. If a method weighting should be applied:
-Default is \code{FALSE}.}
-
-\item{quality_weighting}{Logical. If a quality weighting should be applied:
-Default is
-\code{TRUE}.}
-
-\item{dist_weight}{Distance weighting method which should be used. One of
-\code{"none"}, \code{"linear"}, or \code{"inverse"} (the default).}
 }
 \value{
 \code{sf} object containing

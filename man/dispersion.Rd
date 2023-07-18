@@ -53,7 +53,7 @@ data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
 circular_dispersion(sa.por$azi.PoR, mean = 135)
-circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1/san_andreas$unc)
+circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
 }
 \seealso{
 \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_var]{circular_var()}}.

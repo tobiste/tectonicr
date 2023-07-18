@@ -418,15 +418,7 @@ compact_grid <- function(x) {
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
 #' @param threshold Numeric. Threshold for stat value (default is 1)
 #' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the
-#' next
-#' datapoint. Default is 200
-#' @param method_weighting Logical. If a method weighting should be applied:
-#' Default is \code{FALSE}.
-#' @param quality_weighting Logical. If a quality weighting should be applied:
-#' Default is
-#' \code{TRUE}.
-#' @param dist_weight Distance weighting method which should be used. One of
-#' `"none"`, `"linear"`, or `"inverse"` (the default).
+#' next datapoint. Default is 200
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
 #' nearby
 #' (0 to 1). Default is 0.1

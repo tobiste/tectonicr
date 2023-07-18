@@ -37,8 +37,8 @@ its standard error and its confidence interval.
 data("nuvel1")
 ep <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, ep, "right")
-circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1/san_andreas$unc)
-circular_dispersion_MLE(sa.por$azi.PoR, mean = 135, w = 1/san_andreas$unc, R = 1000)
+circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
+circular_dispersion_MLE(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc, R = 1000)
 }
 \seealso{
 \code{\link[=circular_dispersion]{circular_dispersion()}}
