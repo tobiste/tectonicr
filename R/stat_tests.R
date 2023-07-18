@@ -563,7 +563,7 @@ pvm.mu0 <- function(theta, kappa, acc) {
   sum <- 0
   while (flag) {
     term <- (besselI(x = kappa, nu = p, expon.scaled = FALSE) *
-               sin(p * theta)) / p
+      sin(p * theta)) / p
     sum <- sum + term
     p <- p + 1
     if (abs(term) < acc) {
@@ -658,7 +658,7 @@ pvm <- function(theta, mean, kappa) {
 
 A1inv <- function(x) {
   ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
-         ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
+    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
   )
 }
 
