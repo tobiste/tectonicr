@@ -91,7 +91,7 @@ wcmedian <- function(x, w) {
 #' \item{azi}{Mean SHmax in degree}
 #' \item{sd}{Standard deviation of SHmax in degree}
 #' \item{R}{Search radius in km}
-#' \item{mdr}{Mean distance of datapoint per search radius}
+#' \item{mdr}{Mean distance of datapoints per search radius}
 #' \item{N}{Number of data points in search radius}
 #' }
 #' @details Updated version of the MATLAB script "stress2grid"
@@ -162,16 +162,10 @@ stress2grid <- function(x,
   datas <- data.frame(
     lon = x_coords$X,
     lat = x_coords$Y,
-    # x = x_coords$X,
-    # y = x_coords$Y,
     azi = azi,
-    # sin2 = sind(2 * x$azi),
-    # cos2 = cosd(2 * x$azi),
     w_method = ifelse(is.na(w_method), 1 / 5, w_method),
-    w_quality = w_quality # ,
-    # pb_dist = 1 # rep(1, length(lat))
-  ) # %>%
-  # sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x))
+    w_quality = w_quality
+  )
 
   if (quality_weighting) {
     datas <- tidyr::drop_na(datas, w_quality)
@@ -202,7 +196,6 @@ stress2grid <- function(x,
   }
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
   G <- grid %>%
-    # sf::st_transform("WGS84") %>%
     sf::st_coordinates()
 
   SH <- c()
@@ -268,8 +261,8 @@ stress2grid <- function(x,
 
   res <- dplyr::as_tibble(SH) %>%
     dplyr::rename(lon = lon.X, lat = lat.Y) %>%
-    dplyr::mutate(x = lon, y = lat, N = as.integer(N)) %>%
-    sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x)) %>%
+    dplyr::mutate(N = as.integer(N)) %>%
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) %>%
     dplyr::group_by(R)
 
   return(res)
@@ -400,4 +393,190 @@ compact_grid <- function(x) {
     dplyr::left_join(data, by = c("group", "R")) %>%
     dplyr::select(-group) %>%
     sf::st_as_sf()
+}
+
+#' Spatial analysis of dispersion
+#'
+#' Stress field and wavelength analysis using circular dispersion
+#' (or other statistical estimators for dispersion)
+#'
+#' @param x \code{sf} object containing
+#' \describe{
+#' \item{azi}{Azimuth in degree}
+#' \item{unc}{Uncertainties of azimuth in degree}
+#' \item{prd}{Predicted value for azimuth}
+#' }
+#'
+#' @param grid (optional) Point object of class \code{sf}.
+#' @param lon_range,lat_range (optional) numeric vector specifying the minimum
+#' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
+#' @param gridsize Numeric. Target spacing of the regular grid in decimal
+#' degree. Default is 2.5. (is ignored if `"grid"` is specified)
+#' @param stat The measurement of dispersion to be calculated. Either
+#' `"dispersion"` (default), `"nchisq"`, or `"rayleigh"` for circular dispersion,
+#' normalized Chi-squared test statistic, or Rayleigh test statistic.
+#' @param min_data Integer. Minimum number of data per bin. Default is 3
+#' @param threshold Numeric. Threshold for stat value (default is 1)
+#' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the
+#' next
+#' datapoint. Default is 200
+#' @param method_weighting Logical. If a method weighting should be applied:
+#' Default is \code{FALSE}.
+#' @param quality_weighting Logical. If a quality weighting should be applied:
+#' Default is
+#' \code{TRUE}.
+#' @param dist_weight Distance weighting method which should be used. One of
+#' `"none"`, `"linear"`, or `"inverse"` (the default).
+#' @param dist_threshold Numeric. Distance weight to prevent overweight of data
+#' nearby
+#' (0 to 1). Default is 0.1
+#' @param R_range Numeric value or vector specifying the search radius (in km).
+#' Default is \code{seq(50, 1000, 50)}
+#' @param ... optional arguments to [dist_greatcircle()]
+#' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by mutate
+#' @importFrom tidyr drop_na
+#' @returns
+#' \code{sf} object containing
+#' \describe{
+#' \item{lon,lat}{longitude and latitude in degree}
+#' \item{stat}{output of function defined in `stat`}
+#' \item{R}{Search radius in km}
+#' \item{mdr}{Mean distance of datapoints per search radius}
+#' \item{N}{Number of data points in search radius}
+#' }
+#' @seealso [circular_dispersion()], [norm_chisq()], [rayleigh_test()]
+#' @export
+#' @examples
+#' data("nuvel1")
+#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' san_andreas_por <- san_andreas
+#' san_andreas_por$azi <- PoR_shmax(san_andreas, ep, "right")$azi.PoR
+#' san_andreas_por$prd <- 135
+#' dispersion_grid(san_andreas_por)
+dispersion_grid <- function(x,
+                            stat = c("dispersion", "nchisq", "rayleigh"),
+                            grid = NULL,
+                            lon_range = NULL,
+                            lat_range = NULL,
+                            gridsize = 2.5,
+                            min_data = 3,
+                            threshold = 1,
+                            arte_thres = 200,
+                            dist_threshold = 0.1,
+                            R_range = seq(100, 2000, 100),
+                            ...) {
+  stopifnot(
+    inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
+    arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range)
+  )
+
+
+  stat <- match.arg(stat)
+
+
+  min_data <- as.integer(ceiling(min_data))
+
+  stat <- match.arg(stat)
+
+  azi <- unc <- prd <- lat <- lon <- lat.X <- lat.Y <- lon.Y <- lon.X <- R <- N <- numeric()
+
+  #colnames_x <- colnames(x)
+
+  num_r <- length(R_range)
+
+  x_coords <-
+    sf::st_coordinates(x) %>%
+    as.data.frame()
+
+  datas <- data.frame(
+    lon = x_coords$X,
+    lat = x_coords$Y,
+    azi = x$azi,
+    unc = x$unc,
+    prd = x$prd
+  )
+
+  if (is.null(grid)) {
+    # Regular grid
+    if (is.null(lon_range) || is.null(lat_range)) {
+      lon_range <- range(datas$lon, na.rm = TRUE)
+      lat_range <- range(datas$lat, na.rm = TRUE)
+    }
+
+    grid <- sf::st_bbox(
+      c(
+        xmin = lon_range[1],
+        xmax = lon_range[2],
+        ymin = lat_range[1],
+        ymax = lat_range[2]
+      ),
+      crs = sf::st_crs("WGS84")
+    ) %>%
+      sf::st_make_grid(
+        cellsize = gridsize,
+        what = "centers",
+        offset = c(lon_range[1], lat_range[1])
+      ) %>%
+      sf::st_as_sf()
+  }
+  stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
+  G <- grid %>%
+    sf::st_coordinates()
+
+  SH <- c()
+  for (i in seq_along(G[, 1])) {
+    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas$lat, datas$lon, ...)
+
+    if (min(distij) <= arte_thres) {
+      for (k in seq_along(R_range)) {
+        R_search <- R_range[k]
+        ids_R <- which(distij <= R_search)
+
+        N_in_R <- length(ids_R)
+
+        if (N_in_R < min_data) {
+          # not enough data within search radius
+          y <- NA
+          mdr <- NA
+        } else if (N_in_R == 1) {
+          y <- NA
+          mdr <- distij[ids_R] / R_search
+        } else {
+          mdr <- mean(distij[ids_R], na.rm = TRUE) / R_search
+          # dist_threshold_scal <- R_search * dist_threshold
+
+          if(stat == "nchisq"){
+            y <- norm_chisq(datas$azi[ids_R], prd = datas$prd[ids_R], datas$unc[ids_R])
+          } else if(stat == "rayleigh"){
+            y <- weighted_rayleigh(datas$azi[ids_R], prd = datas$prd[ids_R], unc = datas$unc[ids_R], ...)$statistic
+          } else {
+            y <- circular_dispersion(datas$azi[ids_R], mean = datas$prd[ids_R], w = 1/datas$unc[ids_R], ...)
+          }
+
+        }
+
+        SH.ik <- c(
+          lon = G[i, 1],
+          lat = G[i, 2],
+          stat = y,
+          R = R_search,
+          mdr = mdr,
+          N = N_in_R
+        )
+
+        #if (SH.ik[3] <= threshold) {
+        SH <- rbind(SH, SH.ik)
+        #}
+      }
+    }
+  }
+
+  res <- dplyr::as_tibble(SH) %>%
+    dplyr::rename(lon = lon.X, lat = lat.Y) %>%
+    dplyr::mutate(N = as.integer(N)) %>%
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) #%>% dplyr::group_by(R)
+
+  return(res)
 }
