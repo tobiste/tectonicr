@@ -80,9 +80,11 @@ wcmedian <- function(x, w) {
 #' @param R_range Numeric value or vector specifying the search radius (in km).
 #' Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
+#'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate
 #' @importFrom tidyr drop_na
+#'
 #' @returns
 #' \code{sf} object containing
 #' \describe{
@@ -93,13 +95,19 @@ wcmedian <- function(x, w) {
 #' \item{mdr}{Mean distance of datapoints per search radius}
 #' \item{N}{Number of data points in search radius}
 #' }
+#'
 #' @details Updated version of the MATLAB script "stress2grid"
+#'
 #' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()],
 #' [circular_mean()], [circular_median()], [circular_sd()]
+#'
 #' @source \url{https://github.com/MorZieg/Stress2Grid}
+#'
 #' @references Ziegler, M. O. and Heidbach, O. (2019).
 #' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
+#'
 #' @export
+#'
 #' @examples
 #' data("san_andreas")
 #' stress2grid(san_andreas)
@@ -290,13 +298,18 @@ stress2grid <- function(x,
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
 #' degree. Default is 2.5 (is ignored if `"grid"` is specified)
 #' @param ... Arguments passed to [stress2grid()]
+#'
 #' @description The data is transformed into the PoR system before the
 #' interpolation. The interpolation grid is returned in geographical coordinates
 #'  and azimuths.
+#'
 #' @importFrom dplyr rename as_tibble group_by
 #' @importFrom sf st_coordinates st_as_sf st_bbox st_make_grid
+#'
 #' @seealso [stress2grid()], [compact_grid()]
+#'
 #' @export
+#'
 #' @examples
 #' data("san_andreas")
 #' data("nuvel1")

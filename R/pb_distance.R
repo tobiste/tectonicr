@@ -68,14 +68,23 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' @param km Logical. Whether the distance is expressed in kilometers
 #' (`TRUE`) or in degrees (`FALSE`, the default).
 #' @param ... optional arguments passed to [smoothr::densify()]
+#'
 #' @return Numeric vector of the great circle distances
+#'
 #' @details The distance to the plate boundary is the longitudinal or
 #' latitudinal difference between the data point and the plate boundary
 #' (along the closest latitude or longitude) for inward/outward or tangential
 #' plate boundaries, respectively.
+#'
 #' @export
+#'
+#' @references Wdowinski, S. (1998). A theory of intraplate tectonics. Journal
+#' of Geophysical Research: Solid Earth, 103(3), 5037–5059.
+#' http://dx.doi.org/10.1029/97JB03390
+#'
 #' @importFrom sf st_geometry st_cast st_coordinates
 #' @importFrom smoothr densify
+#'
 #' @examples
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -157,18 +166,24 @@ get_projected_pb_strike <- function(lon, lat, pb.coords, pb.bearing, tangential)
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
 #' default).
 #' @param ... optional arguments passed to [smoothr::densify()]
+#'
 #' @details Useful to calculate the beta angle, i.e. the angle
 #' between SHmax direction (in PoR CRS!) and the fault's strike (in PoR CRS).
 #' The beta angle is the same in geographical and PoR coordinates.
+#'
 #' @note The algorithm calculates the great circle bearing between line
 #' vertices. Since transform plate boundaries represent small circle lines in
 #' the PoR system, this great-circle azimuth is only a approximation of the
 #' true (small-circle) azimuth.
+#'
 #' @return Numeric vector of the strike direction of the plate boundary
 #' (in degree)
+#'
 #' @export
+#'
 #' @importFrom sf st_cast st_coordinates st_geometry
 #' @importFrom smoothr densify
+#'
 #' @examples
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")

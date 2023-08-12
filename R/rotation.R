@@ -1,5 +1,7 @@
 #' @title Euler pole object
+#'
 #' @description Creates an object of the orientation of the Euler pole axis
+#'
 #' @param x latitude or x coordinate of Euler pole axis
 #' @param y longitude or y
 #' @param z z coordinate
@@ -8,10 +10,13 @@
 #' Cartesian coordinates (`x`, `y`, `z`)
 #' @param angle (optional) Angle of rotation in degrees (CCW rotation if angle
 #' is positive)
+#'
 #' @return An object of class \code{"euler.pole"} containing the Euler pole
 #' axis in both geographical and Cartesian coordinates and the angle of rotation
 #' in radians.
+#'
 #' @export
+#'
 #' @examples
 #' euler_pole(90, 0, angle = 45)
 #' euler_pole(0, 0, 1, geo = FALSE)
@@ -41,7 +46,9 @@ euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
 }
 
 #' Check if object is euler.pole
+#'
 #' @param x object of class \code{"euler.pole"}
+#'
 #' @returns logical
 is.euler <- function(x) {
   inherits(x, "euler.pole")
@@ -52,8 +59,11 @@ is.euler <- function(x) {
 #' Vector or cross product
 #'
 #' @param x,y numeric vectors of length 3
+#'
 #' @returns numeric vector of length 3
+#'
 #' @export
+#'
 #' @examples
 #' vcross(c(1, 2, 3), c(4, 5, 6))
 vcross <- function(x, y) {
@@ -77,11 +87,16 @@ vcross <- function(x, y) {
 #' (Eds.), *Encyclopedia of Mathematical Geosciences. Encyclopedia of Earth Sciences Series*
 #' (pp. 1--7). Springer Nature Switzerland AG 2021.
 #' doi: 10.1007/978-3-030-26050-7_435-1.
+#'
 #' @returns \code{list}. Euler axes
 #' (geographical coordinates) and Euler angles (in degrees)
+#'
 #' @aliases rotation quaternion
+#'
 #' @seealso [euler_pole()] for class \code{"euler.pole"}
+#'
 #' @export
+#'
 #' @examples
 #' a <- euler_pole(90, 0, angle = 45)
 #' b <- euler_pole(0, 0, 1, geo = FALSE, angle = -15)

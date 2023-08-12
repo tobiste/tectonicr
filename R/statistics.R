@@ -40,6 +40,10 @@ mean_SC <- function(x, w, na.rm) {
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
 #' @export
+#'
+#' @references Mardia, K.V. (1972). Statistics of Directional Data: Probability
+#' and Mathematical Statistics. London: Academic Press.
+#'
 #' @examples
 #' # Example data from Davis (1986), pp. 316
 #' finland_stria <- c(
@@ -325,12 +329,21 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param na.rm logical. Whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
+#'
+#' @references Mardia, K.V. (1972). Statistics of Directional Data: Probability
+#' and Mathematical Statistics. London: Academic Press.
+#'
 #' @importFrom stats complete.cases
+#'
 #' @returns numeric.
+#'
 #' @note
 #' If `from` is `NULL`, than the circular variance is returned.
+#'
 #' @seealso [circular_mean()], [circular_var()].
+#'
 #' @name dispersion
+#'
 #' @examples
 #' a <- c(0, 2, 359, 6, 354)
 #' b <- a + 90
@@ -399,11 +412,16 @@ circular_dispersion <- function(x, mean = NULL, w = NULL, norm = FALSE, axial = 
 #' @param dist_PoR Distance to Euler pole (great circle distance, in degree)
 #' @param sigma_PoR uncertainty of the position of the Pole of rotation
 #' (in degree).
+#'
 #' @references Ramsay, J.A. Folding and fracturing of rocks. McGraw-Hill, New York, 1967.
+#'
 #' @returns numeric vector. The maximum error for azimuths prediction (in degree)
+#'
 #' @seealso  [PoR_shmax()] and [model_shmax()] for the model's prediction, and
 #' [orthodrome()] for great circle distances.
+#'
 #' @export
+#'
 #' @examples
 #' prd_err(67, 1)
 prd_err <- function(dist_PoR, sigma_PoR = 1) {
@@ -425,10 +443,14 @@ z_score <- function(conf.level) {
 #' resultant length and the MLE concentration parameter \eqn{\kappa}.
 #'
 #' @inheritParams circular_mean
+#'
 #' @returns Angle in degrees
+#'
 #' @seealso [mean_resultant_length()], [circular_mean()]
+#'
 #' @references Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
 #' @export
+#'
 #' @examples
 #' # Example data from Davis (1986), pp. 316
 #' finland_stria <- c(
@@ -483,11 +505,17 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @inheritParams circular_mean
 #' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
 #' (`0.95` by default).
-#' @returns Angle in degrees
-#' @seealso [mean_resultant_length()], [circular_sd_error()]
-#' @references Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
 #'
-#' Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+#' @returns Angle in degrees
+#'
+#' @seealso [mean_resultant_length()], [circular_sd_error()]
+#'
+#' @references
+#' * Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley
+#' & Sons.
+#' * Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular
+#' Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+#'
 #' @details
 #' The confidence angle gives the interval, i.e. plus and minus the confidence angle,
 #' around the mean direction of a particular sample, that contains the true
@@ -550,16 +578,21 @@ circular_dispersion_i <- function(x, id, ...) {
 #' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
 #' (`0.95` by default).
 #' @param ... optional arguments passed to [boot::boot()]
+#'
 #' @importFrom boot boot boot.ci
 #' @importFrom stats sd
+#'
 #' @returns list containing:
 #' \describe{
 #'  \item{`MLE`}{the maximum likelihood estimate of the circular dispersion}
 #'  \item{`sde`}{standard error of MLE}
 #'  \item{`CI`}{lower and upper limit of the confidence interval of MLE}
 #' }
+#'
 #' @seealso [circular_dispersion()]
+#'
 #' @export
+#'
 #' @examples
 #' data("nuvel1")
 #' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
