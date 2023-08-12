@@ -54,7 +54,7 @@ san_andreas.res <- data.frame(
 )
 ```
 
-## Visualization
+## Stress map
 `ggplot2::ggplot()` can be used to visualize the results. The
 orientation of the axis can be displayed with the function
 `geom_spoke()`. The position argument `position = "center_spoke"` aligns
@@ -125,52 +125,6 @@ map +
 <!-- ![](san_andreas_map.png) -->
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions from the modeled stress direction using counter-clockwise 45$^{\circ}$ loxodromes. 
-
-### Base R plot
-The plot can also be build using base R's plotting engine:
-```{r plot_base, echo=TRUE, warning=FALSE, message=FALSE}
-# Setup the colors for the deviation
-cols <- tectonicr.colors(
-  deviation_norm(san_andreas.res$dev),
-  categorical = FALSE
-)
-
-# Setup the legend
-col.legend <- data.frame(col = cols, val = names(cols)) |>
-  dplyr::mutate(val2 = gsub("\\(", "", val), val2 = gsub("\\[", "", val2)) |>
-  unique() |>
-  dplyr::arrange(val2)
-
-# Initialize the plot
-plot(
-  san_andreas$lon, san_andreas$lat,
-  cex = 0,
-  xlab = "PoR longitude", ylab = "PoR latitude",
-  asp = 1
-)
-
-# Plot the axis and colors
-axes(
-  san_andreas$lon, san_andreas$lat, san_andreas$azi,
-  col = cols, add = TRUE
-)
-
-# Plot the plate boundary
-plot(sf::st_geometry(plates), col = "red", lwd = 2, add = TRUE)
-
-# Plot the trajectories
-plot(sf::st_geometry(trajectories), add = TRUE, lty = 2)
-
-# Create the legend
-graphics::legend(
-  "bottomleft",
-  title = "|Deviation| in (\u00B0)",
-  inset = .05, cex = .75,
-  legend = col.legend$val, fill = col.legend$col
-)
-```
-  
-
 
 The *normalized* $\chi^2$ test quantifies the fit between the
 modeled $\sigma_{Hmax}$ direction the observed stress direction
@@ -327,7 +281,7 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
     breaks = c(.15 / 2, .33, .7 + 0.15),
     labels = c("Good fit", "Random", "Systematic\nmisfit")
   )) +
-  scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors()))
+  scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors())) +
   geom_step(
     data = san_andreas.res_roll,
     aes(distance, roll_nchisq)
@@ -345,13 +299,75 @@ approx. 4--7$^{\circ}$ (ca. 380--750 km) wide.
 plate boundary zone.
 
 
-# Quick analysis
-A quick analysis including visualization of the results can be obtained by
-```{r quick, eval=FALSE}
+## R base plots for quick analysis
+The data deviation map can also be build using base R's plotting engine:
+```{r plot_base, echo=TRUE, warning=FALSE, message=FALSE}
+# Setup the colors for the deviation
+cols <- tectonicr.colors(
+  deviation_norm(san_andreas.res$dev),
+  categorical = FALSE
+)
+
+# Setup the legend
+col.legend <- data.frame(col = cols, val = names(cols)) |>
+  dplyr::mutate(val2 = gsub("\\(", "", val), val2 = gsub("\\[", "", val2)) |>
+  unique() |>
+  dplyr::arrange(val2)
+
+# Initialize the plot
+plot(
+  san_andreas$lon, san_andreas$lat,
+  cex = 0,
+  xlab = "PoR longitude", ylab = "PoR latitude",
+  asp = 1
+)
+
+# Plot the axis and colors
+axes(
+  san_andreas$lon, san_andreas$lat, san_andreas$azi,
+  col = cols, add = TRUE
+)
+
+# Plot the plate boundary
+plot(sf::st_geometry(plates), col = "red", lwd = 2, add = TRUE)
+
+# Plot the trajectories
+plot(sf::st_geometry(trajectories), add = TRUE, lty = 2)
+
+# Create the legend
+graphics::legend(
+  "bottomleft",
+  title = "|Deviation| in (\u00B0)",
+  inset = .05, cex = .75,
+  legend = col.legend$val, fill = col.legend$col
+)
+```
+
+A quick analysis the results can be obtained `stress_analysis()` that returns a list. The transformed coordinates and azimuths as well as the deviations can be viewed by: 
+```{r quick, eval=TRUE}
+results <- stress_analysis(san_andreas, euler, "right", plate_boundary, plot = FALSE)
+head(results$result)
+```
+
+Statistical parameters describing the distribution of the transformed azimuths can be displayed by
+```{r quick_stats, eval=TRUE}
+results$stats
+```
+
+Statistical test results are shown by
+```{r quick_tests, eval=TRUE}
+results$test
+```
+
+... and the associated plots can be displayed by setting `plot = TRUE`:
+
+```{r quick_plot, eval=FALSE}
 stress_analysis(san_andreas, euler, "right", plate_boundary, plot = TRUE)
 ```
 
-# References
+
+
+## References
 
 Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries.” *Geochemistry, Geophysics, Geosystems* 4 (3). https://doi.org/10.1029/2001gc000252.
 
