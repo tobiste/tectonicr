@@ -380,7 +380,7 @@ PoR_to_geographical_sf <- function(x, euler) {
 #' @rdname por_transformation_sf
 #' @export
 geographical_to_PoR_sf <- function(x, euler) {
-  if (methods::extends(class(x), "BasicRaster") || inherits(x, "SpatRaster")) {
+  if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     x.geo <- geographical_to_PoR_raster(x, euler)
   } else {
     crs.wgs84 <- sf::st_crs("epsg:4326")

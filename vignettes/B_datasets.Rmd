@@ -145,7 +145,8 @@ col.legend <- data.frame(col = cols, val = names(cols)) |>
 plot(
   san_andreas$lon, san_andreas$lat,
   cex = 0,
-  xlab = "PoR longitude", ylab = "PoR latitude"
+  xlab = "PoR longitude", ylab = "PoR latitude",
+  asp = 1
 )
 
 # Plot the axis and colors
@@ -229,10 +230,10 @@ san_andreas.res$distance <-
   )
 ```
 
-Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the absolute distance to
+Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the distance to
 the plate boundary:
 ```{r san.andreas.distanceplot1, echo=TRUE, message=FALSE, warning=FALSE}
-azi_plot <- ggplot(san_andreas.res, aes(x = abs(distance), y = azi.PoR)) +
+azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
   labs(x = "Distance from plate boundary (\u00B0)", y = "Azimuth in PoR (\u00B0)") +
   geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
@@ -253,14 +254,14 @@ azi_plot <- ggplot(san_andreas.res, aes(x = abs(distance), y = azi.PoR)) +
     )
   ) +
   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1)) +
-  scale_color_discrete(name = "Tectonic regime")
+  scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors()))
 print(azi_plot)
 ```
 <!-- ![](azimuth.png) -->
 
 Adding a rolling statistics (e.g. weighted mean and 95% confidence interval) of the transformed azimuth:
 ```{r san.andreas.distanceplot1_roll, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-san_andreas.res_roll <- san_andreas.res[order(abs(san_andreas.res$distance)), ]
+san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ]
 
 san_andreas.res_roll$r_mean <- roll_circstats(
   san_andreas.res_roll$azi.PoR,
@@ -297,7 +298,7 @@ pole. Thus, the date are parallel to the predicted stress sourced by a
 right-lateral displaced plate boundary. 
 Away from the plate boundary, the data becomes more noisy.
 
-> This Azimuth (PoR) vs. distance plot also allows to identify whether a less 
+> This azimuth (PoR) vs. distance plot also allows to identify whether a less 
 known plate boundary represents a inward, outward, or tangential displaced 
 boundary.
 
@@ -315,7 +316,7 @@ san_andreas.res_roll$roll_nchisq <- roll_normchisq(
 )
 
 # plotting:
-ggplot(san_andreas.res, aes(x = abs(distance), y = nchisq)) +
+ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
   labs(x = "Distance from plate boundary (\u00B0)", y = expression(Norm ~ chi^2)) +
   geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +
@@ -326,7 +327,7 @@ ggplot(san_andreas.res, aes(x = abs(distance), y = nchisq)) +
     breaks = c(.15 / 2, .33, .7 + 0.15),
     labels = c("Good fit", "Random", "Systematic\nmisfit")
   )) +
-  scale_color_discrete(name = "Tectonic regime") +
+  scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors()))
   geom_step(
     data = san_andreas.res_roll,
     aes(distance, roll_nchisq)

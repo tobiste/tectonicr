@@ -520,7 +520,7 @@ PoR_map <- function(x, ep, pb = NULL, cw, deviation = FALSE, ...) {
     unique() |>
     dplyr::arrange(val2)
 
-  plot(x_por_coords[, 1], x_por_coords[, 2], cex = 0, xlab = "PoR longitude (\u00B0)", ylab = "PoR latitude (\u00B0)")
+  plot(x_por_coords[, 1], x_por_coords[, 2], cex = 0, xlab = "PoR longitude (\u00B0)", ylab = "PoR latitude (\u00B0)", asp = 1)
   graphics::abline(h = seq(-90, 90, 5), v = seq(-180, 180, 5), col = "grey", lty = 2)
   axes(x_por_coords[, 1], x_por_coords[, 2], x_por_df$azi.PoR, col = cols, add = TRUE)
   plot(sf::st_geometry(pb_por), add = TRUE)
