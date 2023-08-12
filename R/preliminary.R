@@ -217,7 +217,6 @@ PoR_azimuth <- function(x, euler) {
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
 #'   5037-5059, doi: 10.1029/97JB03390.
-#' @importFrom magrittr %>%
 #' @importFrom sf st_coordinates st_as_sf
 #' @name stressstrain
 #' @examples
@@ -244,7 +243,7 @@ displacement_vector <- function(x, euler, tangential = FALSE, positive = TRUE) {
   } else {
     u <- -abs(euler$angle)
   }
-  x.por <- geographical_to_PoR(x, euler) %>%
+  x.por <- geographical_to_PoR(x, euler) |>
     sf::st_coordinates()
 
   lon1 <- min(x.por[, 1])
@@ -280,7 +279,7 @@ stress_matrix <- function(x, euler, tangential = FALSE, positive = FALSE, v = .2
   } else {
     u <- -abs(euler$angle)
   }
-  x.por <- geographical_to_PoR(x, euler) %>%
+  x.por <- geographical_to_PoR(x, euler) |>
     sf::st_coordinates()
 
   lon1 <- min(x.por[, 1])
@@ -549,7 +548,7 @@ normalize_matrix <- function(x) {
 # microbenchmark::microbenchmark(
 #   geographical_to_PoR_quat(q.geo, ep.geo),
 #   geographical_to_PoR_vec(q.geo, ep.geo, spherical = FALSE),
-#   geographical_to_PoR_sf(data.frame(lat = q.geo[1], lon = q.geo[2]) %>% sf::st_as_sf(coords=c('lon', 'lat')), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
+#   geographical_to_PoR_sf(data.frame(lat = q.geo[1], lon = q.geo[2]) |> sf::st_as_sf(coords=c('lon', 'lat')), euler = data.frame(lat = ep.geo[1], lon = ep.geo[2]))
 # )
 
 

@@ -13,5 +13,12 @@
 #' @name tectonicr
 #' @docType package
 #' @aliases tectonicr-package
+#' @keywords internal
 "_PACKAGE"
-#> [1] "_PACKAGE"
+
+## usethis namespace: start
+#' @import rlang
+#' @importFrom glue glue
+#' @importFrom lifecycle deprecated
+## usethis namespace: end
+NULL

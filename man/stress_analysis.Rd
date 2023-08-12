@@ -52,6 +52,7 @@ Returns the converted azimuths, distances to the plate boundary,
 statistics of the model, and some plots.
 }
 \examples{
+\dontrun{
 data("nuvel1")
 na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 
@@ -59,10 +60,9 @@ data("plates")
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 data("san_andreas")
-\dontrun{
-stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = FALSE)
+stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = TRUE)
 }
 }
 \seealso{
-\code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=PoR_plot]{PoR_plot()}}
+\code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=quick_plot]{quick_plot()}}
 }

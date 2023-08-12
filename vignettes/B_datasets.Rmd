@@ -54,12 +54,13 @@ san_andreas.res <- data.frame(
 )
 ```
 
+## Visualization
 `ggplot2::ggplot()` can be used to visualize the results. The
 orientation of the axis can be displayed with the function
 `geom_spoke()`. The position argument `position = "center_spoke"` aligns
 the marker symbol at the center of the point. The deviation can be color
 coded. `deviation_norm()` yields the normalized value of the deviation,
-i.e. values between 0 and 90$^{\circ}$.
+i.e. absolute values between 0 and 90$^{\circ}$.
 
 Also included are the plate boundary geometries after Bird (2003):
 
@@ -77,6 +78,7 @@ trajectories <- eulerpole_loxodromes(euler, 40, cw = FALSE)
 ```
 
 Then we initialize the plot `map`... 
+
 ```{r plot1, echo=TRUE, warning=FALSE, message=FALSE}
 map <- ggplot() +
   # borders(fill = "grey80") +
@@ -123,6 +125,51 @@ map +
 <!-- ![](san_andreas_map.png) -->
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions from the modeled stress direction using counter-clockwise 45$^{\circ}$ loxodromes. 
+
+### Base R plot
+The plot can also be build using base R's plotting engine:
+```{r plot_base, echo=TRUE, warning=FALSE, message=FALSE}
+# Setup the colors for the deviation
+cols <- tectonicr.colors(
+  deviation_norm(san_andreas.res$dev),
+  categorical = FALSE
+)
+
+# Setup the legend
+col.legend <- data.frame(col = cols, val = names(cols)) |>
+  dplyr::mutate(val2 = gsub("\\(", "", val), val2 = gsub("\\[", "", val2)) |>
+  unique() |>
+  dplyr::arrange(val2)
+
+# Initialize the plot
+plot(
+  san_andreas$lon, san_andreas$lat,
+  cex = 0,
+  xlab = "PoR longitude", ylab = "PoR latitude"
+)
+
+# Plot the axis and colors
+axes(
+  san_andreas$lon, san_andreas$lat, san_andreas$azi,
+  col = cols, add = TRUE
+)
+
+# Plot the plate boundary
+plot(sf::st_geometry(plates), col = "red", lwd = 2, add = TRUE)
+
+# Plot the trajectories
+plot(sf::st_geometry(trajectories), add = TRUE, lty = 2)
+
+# Create the legend
+graphics::legend(
+  "bottomleft",
+  title = "|Deviation| in (\u00B0)",
+  inset = .05, cex = .75,
+  legend = col.legend$val, fill = col.legend$col
+)
+```
+  
+
 
 The *normalized* $\chi^2$ test quantifies the fit between the
 modeled $\sigma_{Hmax}$ direction the observed stress direction
@@ -182,10 +229,10 @@ san_andreas.res$distance <-
   )
 ```
 
-Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the distance to
+Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the absolute distance to
 the plate boundary:
 ```{r san.andreas.distanceplot1, echo=TRUE, message=FALSE, warning=FALSE}
-azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
+azi_plot <- ggplot(san_andreas.res, aes(x = abs(distance), y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
   labs(x = "Distance from plate boundary (\u00B0)", y = "Azimuth in PoR (\u00B0)") +
   geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
@@ -213,7 +260,7 @@ print(azi_plot)
 
 Adding a rolling statistics (e.g. weighted mean and 95% confidence interval) of the transformed azimuth:
 ```{r san.andreas.distanceplot1_roll, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ]
+san_andreas.res_roll <- san_andreas.res[order(abs(san_andreas.res$distance)), ]
 
 san_andreas.res_roll$r_mean <- roll_circstats(
   san_andreas.res_roll$azi.PoR,
@@ -268,7 +315,7 @@ san_andreas.res_roll$roll_nchisq <- roll_normchisq(
 )
 
 # plotting:
-ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
+ggplot(san_andreas.res, aes(x = abs(distance), y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
   labs(x = "Distance from plate boundary (\u00B0)", y = expression(Norm ~ chi^2)) +
   geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +

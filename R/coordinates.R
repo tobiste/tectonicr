@@ -71,7 +71,7 @@ geographical_to_cartesian <- function(p) {
 #' @rdname coordinates
 #' @export
 geographical_to_spherical <- function(p) {
-  geographical_to_cartesian(p) %>% cartesian_to_spherical()
+  geographical_to_cartesian(p) |> cartesian_to_spherical()
 }
 
 
@@ -118,7 +118,7 @@ spherical_to_cartesian <- function(p) {
 #' @rdname coordinates2
 #' @export
 spherical_to_geographical <- function(p) {
-  spherical_to_cartesian(p) %>% cartesian_to_geographical()
+  spherical_to_cartesian(p) |> cartesian_to_geographical()
 }
 
 
@@ -179,7 +179,7 @@ geographical_to_PoR_quat <- function(x, euler) {
   qy <- euler_to_Q4(euler_y)
   qz <- euler_to_Q4(euler_z)
   qq <- product_Q4(q1 = qz, q2 = qy)
-  p_trans <- rotation_Q4(q = qq, p = p) %>%
+  p_trans <- rotation_Q4(q = qq, p = p) |>
     cartesian_to_geographical()
   p_trans[2] <- longitude_modulo(p_trans[2] + 180)
   return(p_trans)
@@ -192,11 +192,11 @@ PoR_to_geographical_quat <- function(x, euler) {
   p_trans <- geographical_to_cartesian(x)
   euler_yt <- euler_pole(0, -1, 0, angle = 90 - euler[1], geo = FALSE)
   euler_zt <- euler_pole(0, 0, -1, angle = 180 - euler[2], geo = FALSE)
-  qy <- euler_to_Q4(euler_yt) # %>% conjugate_Q4()
-  qz <- euler_to_Q4(euler_zt) # %>% conjugate_Q4()
+  qy <- euler_to_Q4(euler_yt) # |> conjugate_Q4()
+  qz <- euler_to_Q4(euler_zt) # |> conjugate_Q4()
 
-  product_Q4(q1 = qy, q2 = qz) %>%
-    rotation_Q4(p = p_trans) %>%
+  product_Q4(q1 = qy, q2 = qz) |>
+    rotation_Q4(p = p_trans) |>
     cartesian_to_geographical()
 }
 
@@ -278,10 +278,10 @@ PoR_coordinates <- function(x, euler) {
     # x <- sf::st_as_sf(x, coords = c("lon", "lat"))
     geographical_to_PoR(x, euler)
   } else {
-    x %>%
-      tectonicr::geographical_to_PoR_sf(euler = euler) %>%
-      sf::st_coordinates() %>%
-      sf::st_drop_geometry() %>%
+    x |>
+      tectonicr::geographical_to_PoR_sf(euler = euler) |>
+      sf::st_coordinates() |>
+      sf::st_drop_geometry() |>
       rename("lon.PoR" = "X", "lat.PoR" = "Y")
   }
 }
@@ -345,7 +345,6 @@ PoR_to_geographical_raster <- function(x, euler) {
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the
 #' translation factors.
-#' @importFrom magrittr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
 #' @importFrom methods extends
 #' @examples
@@ -367,10 +366,10 @@ PoR_to_geographical_sf <- function(x, euler) {
     crs.ep <- PoR_crs(euler)
     suppressMessages(
       suppressWarnings(
-        x.por <- x %>%
-          sf::st_set_crs(crs.wgs84) %>%
-          sf::st_transform(crs.ep) %>%
-          sf::st_set_crs(crs.wgs84) %>%
+        x.por <- x |>
+          sf::st_set_crs(crs.wgs84) |>
+          sf::st_transform(crs.ep) |>
+          sf::st_set_crs(crs.wgs84) |>
           sf::st_wrap_dateline()
       )
     )
@@ -388,10 +387,10 @@ geographical_to_PoR_sf <- function(x, euler) {
     crs.ep <- PoR_crs(euler)
     suppressMessages(
       suppressWarnings(
-        x.geo <- x %>%
-          sf::st_set_crs(crs.ep) %>%
-          sf::st_transform(crs.wgs84) %>%
-          sf::st_set_crs(crs.ep) %>%
+        x.geo <- x |>
+          sf::st_set_crs(crs.ep) |>
+          sf::st_transform(crs.wgs84) |>
+          sf::st_set_crs(crs.ep) |>
           sf::st_wrap_dateline(
             options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
           )

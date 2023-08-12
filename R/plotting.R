@@ -1,3 +1,131 @@
+#' Colors for input variables
+#'
+#' assigns colors to continuous or categorical values for plotting
+#'
+#' @param x values for color assignment
+#' @param n integer. number of colors for continuous colors (i.e. `categorical = FALSE``).
+#' @param pal either a named vector specifying the colors for categorical
+#' values, or a color function. If `NULL`, default colors are `RColorBrewer::brewer.pal()`
+#' (`categorical = TRUE`) and `viridis::viridis()` (`categorical = FALSE`).
+#' @param categorical logical.
+#' @param na.value color for `NA` values (categorical).
+#' @param ... optional arguments passed to palette function
+#'
+#' @return named color vector
+#'
+#' @importFrom viridis viridis
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom dplyr left_join mutate
+#' @export
+#'
+#' @examples
+#' val1 <- c("N", "S", "T", "T", NA)
+#' tectonicr.colors(val1, categorical = TRUE)
+#' tectonicr.colors(val1, pal = stress_colors(), categorical = TRUE)
+#'
+#' val2 <- runif(10)
+#' tectonicr.colors(val2, n = 5)
+tectonicr.colors <- function(x, n = 10, pal = NULL, categorical = FALSE, na.value = "grey", ...) {
+  code <- val <- NULL
+  if (categorical) {
+    dat <- data.frame(val = x) # |> mutate(val = ifelse(is.na(val), "NA", val))
+    if (is.null(pal)) {
+      val <- unique(dat$val)
+      n <- length(val)
+      if (n < 9) {
+        pal <- RColorBrewer::brewer.pal(n, name = "Set2")
+      } else {
+        pal <- RColorBrewer::brewer.pal(n, name = "Set3")
+      }
+      names(pal) <- val
+    }
+    # preliminary solution for NA values in data.set
+    cols <- data.frame(code = pal, val = names(pal), row.names = NULL)
+    xpal <- dplyr::left_join(dat, cols) |>
+      dplyr::mutate(code = ifelse(is.na(code), na.value, code))
+    ret <- xpal$code
+    names(ret) <- dat$val
+  } else {
+    breaks <- pretty(x, n = n + 1)
+    n2 <- length(breaks) - 1
+    # order = findInterval(x, sort(x))
+    if (is.null(pal)) {
+      cols <- viridis::viridis(n = n2, ...) # [order]
+    } else {
+      cols <- pal(n = n2, categorical = categorical, ...) # [order]
+    }
+
+    ret <- cut(x, breaks = breaks, labels = cols, include.lowest = TRUE)
+    ret <- as.character(ret)
+    names(ret) <- cut(x, breaks = breaks, include.lowest = TRUE)
+  }
+  ret
+}
+
+
+#' Color palette for stress regime
+#'
+#' @return function
+#' @export
+#'
+#' @examples
+#' stress_colors()
+stress_colors <- function() {
+  sc <- c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60")
+  names(sc) <- c("N", "NS", "S", "TS", "T", "U")
+  sc
+}
+
+
+#' Plot axes
+#'
+#' @param x,y coordinates of points
+#' @param angle Azimuth in degrees
+#' @param radius length of axis
+#' @param arrow.code integer. Kind of arrow head. The default is `1`, i.e. no arrow head. See [graphics::arrows()] for details
+#' @param arrow.length numeric Length of the edges of the arrow head (in inches). (Ignored if `arrow.code = 1`)
+#' @param add logical. add to existing plot?
+#' @param ... optional arguments passed to [graphics::arrows()]
+#'
+#' @export
+#'
+#' @examples
+#' data("san_andreas")
+#' axes(san_andreas$lon, san_andreas$lat, san_andreas$azi, add = FALSE)
+axes <- function(x, y, angle, radius = .5, arrow.code = 1, arrow.length = 0, add = FALSE, ...) {
+  if (!add) plot(x, y, cex = 0, ...)
+  graphics::arrows(x, y, x1 = x + radius / 2 * cosd(270 - angle), y1 = y + radius / 2 * sind(270 - angle), length = arrow.length, code = arrow.code, ...)
+  graphics::arrows(x, y, x1 = x + radius / 2 * cosd(90 - angle), y1 = y + radius / 2 * sind(90 - angle), length = arrow.length, code = arrow.code, ...)
+}
+
+#' Class for Central Position of Spoke Marker
+#'
+#' position subclass \code{"center_spoke"} to center \code{ggplot::geom_spoke()}
+#' marker at its origin
+#'
+#' @noRd
+position_center_spoke <- function() PositionCenterSpoke #
+
+#' @title  Centrically aligned geom_spoke marker
+#'
+#' @description \code{"position"} subclass "center_spoke" to center
+#' \code{ggplot::geom_spoke()} marker at its origin
+#'
+#' @export
+#'
+#' @source \url{https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin}
+#'
+#' @importFrom ggplot2 ggproto Position
+PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position,
+  compute_panel = function(self, data, params, scales) {
+    data$x <- 2 * data$x - data$xend
+    data$y <- 2 * data$y - data$yend
+    data$radius <- 2 * data$radius
+    data
+  }
+)
+
+
 #' @title Selecting optimal number of bins and width for rose diagrams
 #'
 #' @param n Integer. number of data
@@ -6,6 +134,7 @@
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
 #' @param ... Additional arguments passed to [rose_bw()].
+#'
 #' @name rose_bw
 NULL
 
@@ -28,8 +157,6 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
   }
   r / rose_bins(n, ...)
 }
-
-
 
 #' @title Rose Diagram
 #'
@@ -64,17 +191,22 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 #' (`FALSE` is the default).
 #' @param dot_cex,dot_pch,dot_col Plotting arguments for circular dot plot
 #' @param ... Additional arguments passed to [spatstat.explore::rose()].
+#'
 #' @note If `bins` and `binwidth` are `NULL`, an optimal bin width will be
 #' calculated using Scott (1979):
 #' \deqn{ \frac{R}{n^{\frac{1}{3}}}
 #' }
 #' with n being the length of `x`, and the range R being either 180 or 360
 #' degree for axial or directional data, respectively.
+#'
 #' @return A window (class `"owin"`) containing the plotted region.
+#'
 #' @importFrom spatstat.explore rose
 #' @importFrom graphics hist title points
 #' @importFrom stats na.omit
+#'
 #' @export
+#'
 #' @examples
 #' x <- rvm(100, mean = 90, k = 1)
 #' rose(x, axial = FALSE)
@@ -183,9 +315,12 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' regime (following the classification of the World Stress Map)
 #' @param width integer. window width (in number of observations) for moving average
 #'  of the azimuths, circular dispersion, and Norm Chi-square statistics. If `NULL`, an optimal width will be estimated.
+#'
 #' @importFrom dplyr arrange mutate
+#'
 #' @seealso [PoR_shmax()], [distance_from_pb()], [circular_mean()],
 #' [circular_dispersion()], [confidence_angle()], [norm_chisq()], [weighted_rayleigh()]
+#'
 #' @details
 #' Plot 1 shows the transformed azimuths as a function of the distance to the
 #' plate boundary. The red line indicates the rolling circular mean, stippled
@@ -200,7 +335,9 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' red line shows the rolling circular dispersion about the prediction.
 #'
 #' Plot 4 give the rose diagram of the transformed azimuths.
+#'
 #' @export
+#'
 #' @examples
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -211,16 +348,16 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' data("san_andreas")
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
-#' PoR_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
-PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
+#' quick_plot(res$azi.PoR, abs(d), res$prd, san_andreas$unc, san_andreas$regime)
+quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   if (missing(regime)) {
     regime <- rep(NA, length(azi))
   }
   nchisq_i <- numeric()
   regime <- ifelse(is.na(regime), "U", regime)
 
-  t <- data.frame(azi, distance, prd, unc, regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) %>%
-    dplyr::arrange(distance) %>%
+  t <- data.frame(azi, distance, prd, unc, regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) |>
+    dplyr::arrange(distance) |>
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
       cdist = circular_distance(azi, prd),
@@ -249,7 +386,7 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     paste0(
       "Disp: ", round(disp, 3), " | 95% CI: ", round(CI$conf.interval[1]), "\u00B0 - ",
       round(CI$conf.interval[2]), "\u00B0 | R: ",
-      round(rt$statistic, 2), " (", round(rt$p.value, 2), ")"
+      signif(rt$statistic, 2), " (", signif(rt$p.value, 2), ")"
     )
   subtitle_rose <- paste0(
     "N: ", length(azi),
@@ -295,7 +432,7 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
   ## predicted az
   graphics::abline(h = unique(prd), col = "black", lty = 2)
-  graphics::legend("bottomright", inset = .05, cex = .75, legend = c("N", "NS", "S", "TS", "T", "U"), title = "Stress regime", fill = c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60"))
+  graphics::legend("bottomright", inset = .05, cex = .75, legend = names(stress_colors()), title = "Stress regime", fill = stress_colors())
 
   # Norm chisq plot
   grDevices::dev.new()
@@ -328,4 +465,64 @@ PoR_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   grDevices::dev.new()
   rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram")
   grDevices::palette("default")
+}
+
+#' Plot data in PoR map
+#'
+#' @param x,pb #' @param x,pb `sf` objects of the data points and the plate boundary
+#' geometries in the geographical coordinate system
+#' @param ep \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Pole of Rotation
+#' @param cw logical. Whether the  displacement of the tangential plate boundary
+#'  is clockwise or counterclockwise?
+#' @param deviation logical.
+#' Whether the data should be color-coded according to the deviation from the
+#' prediction, or according to the stress regime?
+#' @param ... optional arguments passed to [tectonicr.colors()]
+#'
+#' @returns plot
+#'
+#' @importFrom sf st_coordinates st_geometry
+#' @importFrom dplyr arrange
+#' @export
+#'
+#' @seealso [PoR_shmax()], [axes()], [tectonicr.colors()]
+#'
+#' @examples
+#' data("nuvel1")
+#' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
+#'
+#' data("plates")
+#' plate_boundary <- subset(plates, plates$pair == "na-pa")
+#'
+#' data("san_andreas")
+#' PoR_map(san_andreas, ep = na_pa, pb = plate_boundary, cw = FALSE, deviation = TRUE)
+PoR_map <- function(x, ep, pb = NULL, cw, deviation = FALSE, ...) {
+  val <- val2 <- NULL
+  x_por_df <- PoR_shmax(x, ep, ifelse(cw, "left", "right"))
+
+  x_por_sf <- geographical_to_PoR_sf(x, ep)
+  x_por_coords <- sf::st_coordinates(x_por_sf)
+  por_crs <- PoR_crs(ep)
+
+  pb_por <- geographical_to_PoR_sf(pb, ep)
+
+  if (deviation) {
+    cols <- tectonicr.colors(abs(x_por_df$cdist), categorical = FALSE, ...)
+    legend.title <- "|Circular distance|"
+  } else {
+    cols <- tectonicr.colors(x$regime, pal = stress_colors(), categorical = TRUE, ...)
+    legend.title <- "Stress regime"
+  }
+
+  col.legend <- data.frame(col = cols, val = names(cols)) |>
+    mutate(val2 = gsub("\\(", "", val), val2 = gsub("\\[", "", val2)) |>
+    unique() |>
+    dplyr::arrange(val2)
+
+  plot(x_por_coords[, 1], x_por_coords[, 2], cex = 0, xlab = "PoR longitude (\u00B0)", ylab = "PoR latitude (\u00B0)")
+  graphics::abline(h = seq(-90, 90, 5), v = seq(-180, 180, 5), col = "grey", lty = 2)
+  axes(x_por_coords[, 1], x_por_coords[, 2], x_por_df$azi.PoR, col = cols, add = TRUE)
+  plot(sf::st_geometry(pb_por), add = TRUE)
+  graphics::legend("bottomleft", inset = .05, cex = .75, legend = col.legend$val, title = legend.title, fill = col.legend$col)
 }

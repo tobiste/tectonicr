@@ -46,7 +46,6 @@ get_loxodromes <- function(lon, lat, line, theta) {
 #' @return \code{data.frame}
 #' @keywords internal
 #' @importFrom dplyr filter mutate
-#' @importFrom magrittr %>%
 #' @name dummy
 NULL
 
@@ -96,7 +95,7 @@ loxodrome_dummy <- function(n, angle, cw) {
   lx <- mapply(FUN = get_loxodromes, lon = line.dummy$lon, lat = line.dummy$lat, line = line.dummy$line, theta = s * angle)
   loxodrome.dummy <- data.frame(lon = as.numeric(lx[1, ]), lat = as.numeric(lx[2, ]), loxodrome = as.numeric(lx[3, ]))
   for (i in seq(-360, 360, 360 / n)) {
-    line.i <- loxodrome.dummy %>%
+    line.i <- loxodrome.dummy |>
       mutate(
         lon = lon - i,
         loxodrome = i
@@ -109,9 +108,9 @@ loxodrome_dummy <- function(n, angle, cw) {
     }
   }
 
-  loxodromes %>%
-    unique() %>%
-    filter(abs(lat) <= 90) %>%
+  loxodromes |>
+    unique() |>
+    filter(abs(lat) <= 90) |>
     filter(abs(lon) <= 180)
 }
 
@@ -147,7 +146,6 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  circles at a constant angle.}
 #'  }
 #' @importFrom dplyr mutate select summarise group_by rename
-#' @importFrom magrittr %>%
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
 #' @importFrom smoothr densify
 #' @name stress_paths
@@ -186,11 +184,11 @@ eulerpole_smallcircles <-
     # d <- NULL
     sm.df <- smallcircle_dummy(n)
 
-    sm.sf <- sm.df %>%
-      sf::st_as_sf(coords = c("lon", "lat")) %>%
-      dplyr::group_by(small_circle) %>%
-      dplyr::summarise(do_union = FALSE) %>%
-      sf::st_cast("MULTILINESTRING") %>%
+    sm.sf <- sm.df |>
+      sf::st_as_sf(coords = c("lon", "lat")) |>
+      dplyr::group_by(small_circle) |>
+      dplyr::summarise(do_union = FALSE) |>
+      sf::st_cast("MULTILINESTRING") |>
       smoothr::densify()
 
     sm.sf <- dplyr::mutate(sm.sf, d = ifelse(
@@ -199,14 +197,14 @@ eulerpole_smallcircles <-
 
     if ("angle" %in% colnames(x)) {
       if (!is.na(x$angle)) {
-        sm.sf <- sm.sf %>%
+        sm.sf <- sm.sf |>
           dplyr::mutate(abs_vel = abs_vel(w = x$angle, alpha = small_circle))
       }
     }
 
-    sm.sf <- sm.sf %>% dplyr::select(-small_circle)
+    sm.sf <- sm.sf |> dplyr::select(-small_circle)
 
-    PoR_to_geographical_sf(x = sf::st_as_sf(sm.sf), euler = x) %>%
+    PoR_to_geographical_sf(x = sf::st_as_sf(sm.sf), euler = x) |>
       sf::st_wrap_dateline(
         options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
         quiet = TRUE
@@ -238,18 +236,18 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
       cw = cw
     )
 
-  ld.sf <- ld.df %>%
-    sf::st_as_sf(coords = c("lon", "lat")) %>%
-    dplyr::group_by(loxodrome) %>%
-    dplyr::summarise(do_union = FALSE) %>%
-    sf::st_cast("MULTILINESTRING") %>%
+  ld.sf <- ld.df |>
+    sf::st_as_sf(coords = c("lon", "lat")) |>
+    dplyr::group_by(loxodrome) |>
+    dplyr::summarise(do_union = FALSE) |>
+    sf::st_cast("MULTILINESTRING") |>
     smoothr::densify()
 
-  ld.sf <- ld.sf %>%
-    dplyr::mutate(loxodrome = loxodrome %% 180) %>%
+  ld.sf <- ld.sf |>
+    dplyr::mutate(loxodrome = loxodrome %% 180) |>
     dplyr::rename(d = loxodrome)
 
-  PoR_to_geographical_sf(x = sf::st_as_sf(ld.sf), euler = x) %>%
+  PoR_to_geographical_sf(x = sf::st_as_sf(ld.sf), euler = x) |>
     sf::st_wrap_dateline(
       options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
       quiet = TRUE

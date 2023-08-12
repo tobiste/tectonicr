@@ -81,7 +81,6 @@ wcmedian <- function(x, w) {
 #' Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
-#' @importFrom magrittr %>%
 #' @importFrom dplyr group_by mutate
 #' @importFrom tidyr drop_na
 #' @returns
@@ -155,8 +154,8 @@ stress2grid <- function(x,
     w_quality <- rep(1, length(azi))
   }
 
-  x_coords <- # sf::st_transform(x, crs = "WGS84") %>%
-    sf::st_coordinates(x) %>%
+  x_coords <- # sf::st_transform(x, crs = "WGS84") |>
+    sf::st_coordinates(x) |>
     as.data.frame()
 
   datas <- data.frame(
@@ -186,16 +185,16 @@ stress2grid <- function(x,
         ymax = lat_range[2]
       ),
       crs = sf::st_crs("WGS84")
-    ) %>%
+    ) |>
       sf::st_make_grid(
         cellsize = gridsize,
         what = "centers",
         offset = c(lon_range[1], lat_range[1])
-      ) %>%
+      ) |>
       sf::st_as_sf()
   }
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
-  G <- grid %>%
+  G <- grid |>
     sf::st_coordinates()
 
   SH <- c()
@@ -259,10 +258,10 @@ stress2grid <- function(x,
     }
   }
 
-  res <- dplyr::as_tibble(SH) %>%
-    dplyr::rename(lon = lon.X, lat = lat.Y) %>%
-    dplyr::mutate(N = as.integer(N)) %>%
-    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) %>%
+  res <- dplyr::as_tibble(SH) |>
+    dplyr::rename(lon = lon.X, lat = lat.Y) |>
+    dplyr::mutate(N = as.integer(N)) |>
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) |>
     dplyr::group_by(R)
 
   return(res)
@@ -294,7 +293,6 @@ stress2grid <- function(x,
 #' @description The data is transformed into the PoR system before the
 #' interpolation. The interpolation grid is returned in geographical coordinates
 #'  and azimuths.
-#' @importFrom magrittr %>%
 #' @importFrom dplyr rename as_tibble group_by
 #' @importFrom sf st_coordinates st_as_sf st_bbox st_make_grid
 #' @seealso [stress2grid()], [compact_grid()]
@@ -325,7 +323,7 @@ PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = 
           ymin = lat_range[1],
           ymax = lat_range[2]
         )
-      ) %>%
+      ) |>
         sf::st_make_grid(
           cellsize = gridsize,
           what = "centers",
@@ -335,26 +333,26 @@ PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = 
   }
 
   if (!PoR_grid) {
-    grid_PoR <- sf::st_as_sf(grid) %>%
-      geographical_to_PoR_sf(euler) # %>% sf::st_set_crs("WGS84")
+    grid_PoR <- sf::st_as_sf(grid) |>
+      geographical_to_PoR_sf(euler) # |> sf::st_set_crs("WGS84")
   } else {
     grid_PoR <- NULL
   }
 
-  x_PoR <- geographical_to_PoR_sf(x, euler) # %>% sf::st_set_crs("WGS84")
-  x_PoR_coords <- sf::st_coordinates(x_PoR) %>%
-    dplyr::as_tibble() %>%
+  x_PoR <- geographical_to_PoR_sf(x, euler) # |> sf::st_set_crs("WGS84")
+  x_PoR_coords <- sf::st_coordinates(x_PoR) |>
+    dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
   x_PoR$lat <- x_PoR_coords$lat
   x_PoR$lon <- x_PoR_coords$lon
   x_PoR$azi <- PoR_shmax(x, euler)
 
-  int <- stress2grid(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) %>%
-    dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) %>%
-    PoR_to_geographical_sf(euler) %>%
+  int <- stress2grid(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
+    dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) |>
+    PoR_to_geographical_sf(euler) |>
     dplyr::group_by(R)
-  int_coords <- sf::st_coordinates(int) %>%
-    dplyr::as_tibble() %>%
+  int_coords <- sf::st_coordinates(int) |>
+    dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
   int$lat <- int_coords$lat
   int$lon <- int_coords$lon
@@ -368,7 +366,6 @@ PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = 
 #'
 #' @param x output of [stress2grid()] or [PoR_stress2grid()]
 #' @return \code{sf} object
-#' @importFrom magrittr %>%
 #' @importFrom dplyr ungroup mutate group_by summarise select left_join as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
@@ -381,17 +378,17 @@ compact_grid <- function(x) {
   lon <- lat <- azi <- R <- numeric()
   group <- character()
 
-  data <- x %>%
-    dplyr::ungroup() %>%
-    dplyr::as_tibble() %>%
-    tidyr::drop_na(azi) %>%
-    dplyr::mutate(group = paste(lon, lat)) %>%
+  data <- x |>
+    dplyr::ungroup() |>
+    dplyr::as_tibble() |>
+    tidyr::drop_na(azi) |>
+    dplyr::mutate(group = paste(lon, lat)) |>
     dplyr::group_by(group)
 
-  data %>%
-    dplyr::summarise(R = min(R, na.rm = TRUE)) %>%
-    dplyr::left_join(data, by = c("group", "R")) %>%
-    dplyr::select(-group) %>%
+  data |>
+    dplyr::summarise(R = min(R, na.rm = TRUE)) |>
+    dplyr::left_join(data, by = c("group", "R")) |>
+    dplyr::select(-group) |>
     sf::st_as_sf()
 }
 
@@ -426,7 +423,6 @@ compact_grid <- function(x) {
 #' Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
-#' @importFrom magrittr %>%
 #' @importFrom dplyr group_by mutate
 #' @importFrom tidyr drop_na
 #' @returns
@@ -479,7 +475,7 @@ dispersion_grid <- function(x,
   num_r <- length(R_range)
 
   x_coords <-
-    sf::st_coordinates(x) %>%
+    sf::st_coordinates(x) |>
     as.data.frame()
 
   datas <- data.frame(
@@ -505,16 +501,16 @@ dispersion_grid <- function(x,
         ymax = lat_range[2]
       ),
       crs = sf::st_crs("WGS84")
-    ) %>%
+    ) |>
       sf::st_make_grid(
         cellsize = gridsize,
         what = "centers",
         offset = c(lon_range[1], lat_range[1])
-      ) %>%
+      ) |>
       sf::st_as_sf()
   }
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
-  G <- grid %>%
+  G <- grid |>
     sf::st_coordinates()
 
   SH <- c()
@@ -564,10 +560,10 @@ dispersion_grid <- function(x,
     }
   }
 
-  res <- dplyr::as_tibble(SH) %>%
-    dplyr::rename(lon = lon.X, lat = lat.Y) %>%
-    dplyr::mutate(N = as.integer(N)) %>%
-    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) # %>% dplyr::group_by(R)
+  res <- dplyr::as_tibble(SH) |>
+    dplyr::rename(lon = lon.X, lat = lat.Y) |>
+    dplyr::mutate(N = as.integer(N)) |>
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) # |> dplyr::group_by(R)
 
   return(res)
 }
