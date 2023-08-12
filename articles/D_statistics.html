@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.92</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.93</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -218,13 +218,13 @@ circular dispersion can be estimated by bootstrapping via:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_dispersion_MLE.html">circular_dispersion_MLE</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mean <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $MLE</span></span>
-<span><span class="co">#&gt; [1] 0.09785532</span></span>
+<span><span class="co">#&gt; [1] 0.09802109</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sde</span></span>
-<span><span class="co">#&gt; [1] 0.005393062</span></span>
+<span><span class="co">#&gt; [1] 0.005127547</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $CI</span></span>
-<span><span class="co">#&gt; [1] 0.08718305 0.10886974</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.08755874 0.10822759</span></span></code></pre></div>
 <p>The statistical test for the goodness-of-fit is the (weighted)
 Rayleigh Test:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">

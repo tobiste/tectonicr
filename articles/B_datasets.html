@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.92</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.93</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,13 +128,17 @@ data</p>
 <span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span>,</span>
 <span>  <span class="va">san_andreas.prd</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
+</h3>
 <p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> can be used to visualize the results.
 The orientation of the axis can be displayed with the function
 <code><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke()</a></code>. The position argument
 <code>position = "center_spoke"</code> aligns the marker symbol at the
 center of the point. The deviation can be color coded.
 <code><a href="../reference/deviation_norm.html">deviation_norm()</a></code> yields the normalized value of the
-deviation, i.e. values between 0 and 90<span class="math inline">\(^{\circ}\)</span>.</p>
+deviation, i.e. absolute values between 0 and 90<span class="math inline">\(^{\circ}\)</span>.</p>
 <p>Also included are the plate boundary geometries after Bird
 (2003):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -191,11 +195,55 @@ trajectories and data points:</p>
 <p><img src="B_datasets_files/figure-html/plot2-1.png" width="700"><!-- ![](san_andreas_map.png) --></p>
 <p>The map shows generally low deviation of the observed <span class="math inline">\(\sigma_{Hmax}\)</span> directions from the modeled
 stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\)</span> loxodromes.</p>
+<div class="section level4">
+<h4 id="base-r-plot">Base R plot<a class="anchor" aria-label="anchor" href="#base-r-plot"></a>
+</h4>
+<p>The plot can also be build using base R’s plotting engine:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Setup the colors for the deviation</span></span>
+<span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tectonicr.colors.html">tectonicr.colors</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/deviation_norm.html">deviation_norm</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">dev</span><span class="op">)</span>,</span>
+<span>  categorical <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Setup the legend</span></span>
+<span><span class="va">col.legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>col <span class="op">=</span> <span class="va">cols</span>, val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cols</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>val2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\("</span>, <span class="st">""</span>, <span class="va">val</span><span class="op">)</span>, val2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\["</span>, <span class="st">""</span>, <span class="va">val2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">val2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Initialize the plot</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span>,</span>
+<span>  cex <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"PoR longitude"</span>, ylab <span class="op">=</span> <span class="st">"PoR latitude"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the axis and colors</span></span>
+<span><span class="fu"><a href="../reference/axes.html">axes</a></span><span class="op">(</span></span>
+<span>  <span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span>, <span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>,</span>
+<span>  col <span class="op">=</span> <span class="va">cols</span>, add <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the plate boundary</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">plates</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the trajectories</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">trajectories</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create the legend</span></span>
+<span><span class="fu">graphics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span></span>
+<span>  <span class="st">"bottomleft"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"|Deviation| in (\u00B0)"</span>,</span>
+<span>  inset <span class="op">=</span> <span class="fl">.05</span>, cex <span class="op">=</span> <span class="fl">.75</span>,</span>
+<span>  legend <span class="op">=</span> <span class="va">col.legend</span><span class="op">$</span><span class="va">val</span>, fill <span class="op">=</span> <span class="va">col.legend</span><span class="op">$</span><span class="va">col</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="B_datasets_files/figure-html/plot_base-1.png" width="700"></p>
 <p>The <em>normalized</em> <span class="math inline">\(\chi^2\)</span>
 test quantifies the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> direction the observed
 stress direction considering the reported uncertainties of the
 measurement.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span></span>
 <span>  obs <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
 <span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
@@ -206,6 +254,7 @@ measurement.</p>
 indicating a significantly good fit of the model. Thus, the traction of
 the transform plate boundary explain the stress direction of the
 area.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="variation-of-the-direction-of-the-maximum-horizontal-stress-wrt--to-the-distance-to-the-plate-boundary">Variation of the Direction of the Maximum Horizontal Stress wrt. to
@@ -238,7 +287,7 @@ difference between the data points and the inward/outward or tangential
 moving plate boundaries, respectively.</p>
 <p>This is done with the function <code><a href="../reference/distance_from_pb.html">distance_from_pb()</a></code>, which
 returns the angular distances.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">plates</span><span class="op">$</span><span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span></span>
 <span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/distance_from_pb.html">distance_from_pb</a></span><span class="op">(</span></span>
@@ -248,9 +297,9 @@ returns the angular distances.</p>
 <span>    tangential <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Finally, we visualize the <span class="math inline">\(\sigma_{Hmax}\)</span> direction wrt. to the
-distance to the plate boundary:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">azi_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+absolute distance to the plate boundary:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">azi_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (\u00B0)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (\u00B0)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span>, <span class="fl">90</span>, <span class="fl">135</span>, <span class="fl">180</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
@@ -276,8 +325,8 @@ distance to the plate boundary:</p>
 <p><img src="B_datasets_files/figure-html/san.andreas.distanceplot1-1.png" width="700"><!-- ![](azimuth.png) --></p>
 <p>Adding a rolling statistics (e.g. weighted mean and 95% confidence
 interval) of the transformed azimuth:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">san_andreas.res_roll</span> <span class="op">&lt;-</span> <span class="va">san_andreas.res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span><span class="op">)</span>, <span class="op">]</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">san_andreas.res_roll</span> <span class="op">&lt;-</span> <span class="va">san_andreas.res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">r_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/roll_circstats.html">roll_circstats</a></span><span class="op">(</span></span>
 <span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
@@ -321,7 +370,7 @@ displaced boundary.</p>
 visualized by using the deviation (normalized by the data precision)
 from the the predicted stress direction, i.e. the <em>normalized</em>
 <span class="math inline">\(\chi^2\)</span>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Rolling norm chisq:</span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">roll_nchisq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rolling_test.html">roll_normchisq</a></span><span class="op">(</span></span>
 <span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
@@ -331,7 +380,7 @@ from the the predicted stress direction, i.e. the <em>normalized</em>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plotting:</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">nchisq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">nchisq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (\u00B0)"</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">Norm</span> <span class="op">~</span> <span class="va">chi</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">.33</span>, <span class="fl">.7</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
@@ -364,7 +413,7 @@ zone.</p>
 </h2>
 <p>A quick analysis including visualization of the results can be
 obtained by</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">

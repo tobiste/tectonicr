@@ -12,7 +12,7 @@ of orientation data."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.92</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.93</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,18 +128,18 @@ database release 2008. <em>Tectonophysics</em> <strong>482</strong>, 3–15,
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">180</span></span></span>
 <span class="r-in"><span><span class="va">unc</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_mean</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 176.2801</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.870805</span>
 <span class="r-in"><span><span class="fu">circular_var</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01348323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.008680251</span>
 <span class="r-in"><span><span class="fu">circular_sd</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.440759</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.565709</span>
 <span class="r-in"><span><span class="fu">circular_median</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 174.7168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.187988</span>
 <span class="r-in"><span><span class="fu">circular_quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      25%      50%      75% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 169.2098 174.7168 178.0428 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        25%        50%        75% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5.075571   8.187988 177.693714 </span>
 <span class="r-in"><span><span class="fu">circular_IQR</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.833039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.381857</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_mean</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span></span>
