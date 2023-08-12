@@ -17,6 +17,7 @@ same length as \code{prd}}
 }
 \value{
 An object of class \code{data.frame}
+
 \describe{
 \item{dev.gc}{Deviation of observed stress from modeled
 \eqn{\sigma_{Hmax}}{SHmax} following

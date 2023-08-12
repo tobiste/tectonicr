@@ -7,10 +7,10 @@
 deviation_norm(x)
 }
 \arguments{
-\item{x}{Numeric vector containing angles in degrees}
+\item{x}{numeric vector containing angles in degrees}
 }
 \value{
-Numeric vector, acute angles between two directions, i.e. values
+numeric vector, acute angles between two directions, i.e. values
 between 0 and 90°
 }
 \description{
@@ -18,7 +18,6 @@ Normalizes the angle between two directions to the acute angle
 in between, i.e. angles between 0 and 90°
 }
 \examples{
-
 deviation_norm(91)
 deviation_norm(c(-91, NA, 23497349))
 }

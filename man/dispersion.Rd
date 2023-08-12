@@ -55,6 +55,10 @@ sa.por <- PoR_shmax(san_andreas, ep, "right")
 circular_dispersion(sa.por$azi.PoR, mean = 135)
 circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
 }
+\references{
+Mardia, K.V. (1972). Statistics of Directional Data: Probability
+and Mathematical Statistics. London: Academic Press.
+}
 \seealso{
 \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_var]{circular_var()}}.
 }

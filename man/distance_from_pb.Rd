@@ -52,3 +52,8 @@ res.km <- distance_from_pb(
 )
 range(res.km)
 }
+\references{
+Wdowinski, S. (1998). A theory of intraplate tectonics. Journal
+of Geophysical Research: Solid Earth, 103(3), 5037–5059.
+http://dx.doi.org/10.1029/97JB03390
+}

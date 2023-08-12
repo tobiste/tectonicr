@@ -55,9 +55,12 @@ confidence_angle(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 confidence_interval(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 }
 \references{
-Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
-
-Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+\itemize{
+\item Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley
+& Sons.
+\item Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular
+Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+}
 }
 \seealso{
 \code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_sd_error]{circular_sd_error()}}
