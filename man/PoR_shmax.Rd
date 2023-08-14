@@ -5,7 +5,7 @@
 \title{Direction of Maximum Horizontal Stress in PoR reference
 system}
 \usage{
-PoR_shmax(df, euler, type = c("none", "in", "out", "right", "left"))
+PoR_shmax(df, PoR, type = c("none", "in", "out", "right", "left"))
 }
 \arguments{
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
@@ -13,7 +13,7 @@ PoR_shmax(df, euler, type = c("none", "in", "out", "right", "left"))
 \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 \code{unc} (optional)}
 
-\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{\code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler  pole}
 
 \item{type}{Character. Type of plate boundary (optional). Can be
@@ -52,10 +52,10 @@ plate boundary types.
 \examples{
 data("nuvel1")
 # North America relative to Pacific plate:
-euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 data("san_andreas")
-res <- PoR_shmax(san_andreas, euler, type = "right")
+res <- PoR_shmax(san_andreas, PoR, type = "right")
 head(res)
 }
 \seealso{

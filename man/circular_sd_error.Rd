@@ -38,8 +38,8 @@ circular_sd_error(finland_stria, axial = FALSE)
 
 data(san_andreas)
 data("nuvel1")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-sa.por <- PoR_shmax(san_andreas, ep, "right")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 }
 \references{

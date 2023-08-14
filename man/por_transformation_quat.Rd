@@ -6,12 +6,12 @@
 \alias{PoR_to_geographical_quat}
 \title{Conversion between PoR to geographical coordinate system using quaternions}
 \usage{
-geographical_to_PoR_quat(x, euler)
+geographical_to_PoR_quat(x, PoR)
 
-PoR_to_geographical_quat(x, euler)
+PoR_to_geographical_quat(x, PoR)
 }
 \arguments{
-\item{x, euler}{two-column vectors containing the lat and lon coordinates}
+\item{x, PoR}{two-column vectors containing the lat and lon coordinates}
 }
 \description{
 Helper function for the transformation from PoR to geographical coordinate

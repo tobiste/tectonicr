@@ -55,12 +55,12 @@ circular_IQR(san_andreas$azi, 1 / san_andreas$unc) # interquartile range
 ```
 
 
-## Statistics in the Euler pole reference frame
-Because the $\sigma_{SHmax}$ orientations are subjected to angular distortions in the geographical coordinate system, it is recommended to express statistical parameters using the transformed orientations of the Euler pole reference frame. 
+## Statistics in the Pole of Rotation (PoR) reference frame
+Because the $\sigma_{SHmax}$ orientations are subjected to angular distortions in the geographical coordinate system, it is recommended to express statistical parameters using the transformed orientations of the PoR reference frame. 
 ```{r por, echo=TRUE}
 data("cpm_models")
-euler <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
-san_andreas.por <- PoR_shmax(san_andreas, euler, type = "right")
+por <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
+san_andreas.por <- PoR_shmax(san_andreas, por, type = "right")
 ```
 
 
@@ -79,7 +79,7 @@ rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", main = "North
 ```
 
 ```{r rose2, echo=TRUE}
-rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, col = "grey", main = "Euler pole")
+rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, col = "grey", main = "PoR")
 ```
 
 
@@ -134,7 +134,7 @@ a 25% cut-off for the standard deviation.
 
 The data can now be visualized:  
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
-trajectories <- eulerpole_loxodromes(x = euler, n = 40, cw = FALSE)
+trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
 ggplot(mean_SH) +
   borders(fill = "grey80") +
   geom_sf(data = trajectories, lty = 2) +
@@ -160,7 +160,7 @@ stress field is sourced by the plate boundary force, the model-based
 interpolation allows more reliable results for areas close to plate boundaries.
 
 ```{r interpolation_PoR, eval=FALSE}
-mean_SH_PoR <- PoR_stress2grid(san_andreas, euler = euler, gridsize = 1, R_range = seq(50, 350, 100))
+mean_SH_PoR <- PoR_stress2grid(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
 ```{r plot2, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}

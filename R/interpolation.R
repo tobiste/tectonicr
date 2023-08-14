@@ -287,7 +287,7 @@ stress2grid <- function(x,
 #' \item{unc}{Uncertainties of SHmax in degree}
 #' \item{type}{Methods used for the determination of the orientation of SHmax}
 #' }
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler  pole
 #' @param grid (optional) Point object of class \code{sf}.
 #' @param PoR_grid logical. Whether the grid should be generated based on the
@@ -313,9 +313,9 @@ stress2grid <- function(x,
 #' @examples
 #' data("san_andreas")
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' PoR_stress2grid(san_andreas, ep)
-PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' PoR_stress2grid(san_andreas, PoR)
+PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
   azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric()
 
   if (!is.null(grid)) {
@@ -347,29 +347,29 @@ PoR_stress2grid <- function(x, euler, grid = NULL, PoR_grid = TRUE, lon_range = 
 
   if (!PoR_grid) {
     grid_PoR <- sf::st_as_sf(grid) |>
-      geographical_to_PoR_sf(euler) # |> sf::st_set_crs("WGS84")
+      geographical_to_PoR_sf(PoR) # |> sf::st_set_crs("WGS84")
   } else {
     grid_PoR <- NULL
   }
 
-  x_PoR <- geographical_to_PoR_sf(x, euler) # |> sf::st_set_crs("WGS84")
+  x_PoR <- geographical_to_PoR_sf(x, PoR) # |> sf::st_set_crs("WGS84")
   x_PoR_coords <- sf::st_coordinates(x_PoR) |>
     dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
   x_PoR$lat <- x_PoR_coords$lat
   x_PoR$lon <- x_PoR_coords$lon
-  x_PoR$azi <- PoR_shmax(x, euler)
+  x_PoR$azi <- PoR_shmax(x, PoR)
 
   int <- stress2grid(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
     dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) |>
-    PoR_to_geographical_sf(euler) |>
+    PoR_to_geographical_sf(PoR) |>
     dplyr::group_by(R)
   int_coords <- sf::st_coordinates(int) |>
     dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
   int$lat <- int_coords$lat
   int$lon <- int_coords$lon
-  int$azi <- PoR2Geo_shmax(int, euler)
+  int$azi <- PoR2Geo_shmax(int, PoR)
   return(int)
 }
 
@@ -451,9 +451,9 @@ compact_grid <- function(x) {
 #' @export
 #' @examples
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' san_andreas_por <- san_andreas
-#' san_andreas_por$azi <- PoR_shmax(san_andreas, ep, "right")$azi.PoR
+#' san_andreas_por$azi <- PoR_shmax(san_andreas, PoR, "right")$azi.PoR
 #' san_andreas_por$prd <- 135
 #' dispersion_grid(san_andreas_por)
 dispersion_grid <- function(x,

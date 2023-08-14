@@ -60,7 +60,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Roation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Pole of Rotation
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
@@ -94,29 +94,29 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #'
 #' data("san_andreas")
 #' res <- distance_from_pb(
-#'   x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE
+#'   x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
 #'
 #' res.km <- distance_from_pb(
-#'   x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
+#'   x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
 #' )
 #' range(res.km)
-distance_from_pb <- function(x, euler, pb, tangential = FALSE, km = FALSE, ...) {
+distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
     inherits(x, "sf"),
     inherits(pb, "sf"),
     is.logical(tangential),
     is.logical(km),
-    is.data.frame(euler) | is.euler(euler)
+    is.data.frame(PoR) | is.euler(PoR)
   )
 
   x.coords <- sf::st_geometry(x) |>
-    geographical_to_PoR_sf(euler = euler) |>
+    geographical_to_PoR_sf(PoR = PoR) |>
     sf::st_coordinates()
   pb.coords <-
     sf::st_geometry(pb) |>
-    geographical_to_PoR_sf(euler = euler) |>
+    geographical_to_PoR_sf(PoR = PoR) |>
     sf::st_cast(to = "MULTILINESTRING", warn = FALSE) |>
     sf::st_cast(to = "LINESTRING", warn = FALSE) |>
     smoothr::densify(...) |>
@@ -160,7 +160,7 @@ get_projected_pb_strike <- function(lon, lat, pb.coords, pb.bearing, tangential)
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
@@ -193,24 +193,24 @@ get_projected_pb_strike <- function(lon, lat, pb.coords, pb.bearing, tangential)
 #'
 #' data("san_andreas")
 #' res <- projected_pb_strike(
-#'   x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE
+#'   x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE
 #' )
 #' head(res)
 #' head(san_andreas$azi - res) # beta angle
-projected_pb_strike <- function(x, euler, pb, tangential = FALSE, ...) {
+projected_pb_strike <- function(x, PoR, pb, tangential = FALSE, ...) {
   stopifnot(
     inherits(x, "sf"),
     inherits(pb, "sf"),
     is.logical(tangential),
-    is.data.frame(euler) | is.euler(euler)
+    is.data.frame(PoR) | is.euler(PoR)
   )
 
   x.coords <- sf::st_geometry(x) |>
-    geographical_to_PoR_sf(euler = euler) |>
+    geographical_to_PoR_sf(PoR = PoR) |>
     sf::st_coordinates()
   pb.coords <-
     sf::st_geometry(pb) |>
-    geographical_to_PoR_sf(euler = euler) |>
+    geographical_to_PoR_sf(PoR = PoR) |>
     sf::st_cast(to = "MULTILINESTRING", warn = FALSE) |>
     sf::st_cast(to = "LINESTRING", warn = FALSE) |>
     smoothr::densify(...) |>

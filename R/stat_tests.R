@@ -44,15 +44,15 @@ nchisq_eq <- function(obs, prd, unc) {
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 #' # Pacific plate
 #' data(san_andreas)
 #' point <- data.frame(lat = 45, lon = 20)
-#' prd <- model_shmax(point, euler)
+#' prd <- model_shmax(point, PoR)
 #' norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
 #'
 #' data(san_andreas)
-#' prd2 <- PoR_shmax(san_andreas, euler, type = "right")
+#' prd2 <- PoR_shmax(san_andreas, PoR, type = "right")
 #' norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
 norm_chisq <- function(obs, prd, unc) {
   N <- length(obs)
@@ -143,8 +143,8 @@ norm_chisq <- function(obs, prd, unc) {
 #' data(san_andreas)
 #' rayleigh_test(san_andreas$azi)
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' rayleigh_test(sa.por$azi.PoR, mu = 135)
 rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
   if (axial) {
@@ -257,14 +257,14 @@ rayleigh_p_value2 <- function(K, n) {
 #' # Load data
 #' data("cpm_models")
 #' data(san_andreas)
-#' ep <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' data("iceland")
-#' ep.ice <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "na")
-#' ice.por <- PoR_shmax(iceland, ep.ice, "out")
+#' PoR.ice <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "na")
+#' ice.por <- PoR_shmax(iceland, PoR.ice, "out")
 #' data("tibet")
-#' ep.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "in")
-#' tibet.por <- PoR_shmax(tibet, ep.tib, "in")
+#' PoR.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "in")
+#' tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
 #'
 #' # GOF test:
 #' weighted_rayleigh(tibet.por$azi.PoR, prd = 90, unc = tibet$unc)
@@ -348,8 +348,8 @@ weighted_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
 #' # San Andreas Fault Data:
 #' data(san_andreas)
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' kuiper_test(sa.por$azi.PoR, alpha = .05)
 kuiper_test <- function(x, alpha = 0, axial = TRUE) {
   if (!any(c(0, 0.01, 0.025, 0.05, 0.1, 0.15) == alpha)) {
@@ -432,8 +432,8 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' # San Andreas Fault Data:
 #' data(san_andreas)
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' watson_test(sa.por$azi.PoR, alpha = .05)
 #' watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE) {

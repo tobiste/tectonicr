@@ -39,14 +39,14 @@ If not, the alternative cannot be excluded.
 # Load data
 data("cpm_models")
 data(san_andreas)
-ep <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
-sa.por <- PoR_shmax(san_andreas, ep, "right")
+PoR <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
+sa.por <- PoR_shmax(san_andreas, PoR, "right")
 data("iceland")
-ep.ice <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "na")
-ice.por <- PoR_shmax(iceland, ep.ice, "out")
+PoR.ice <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "na")
+ice.por <- PoR_shmax(iceland, PoR.ice, "out")
 data("tibet")
-ep.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "in")
-tibet.por <- PoR_shmax(tibet, ep.tib, "in")
+PoR.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "in")
+tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
 
 # GOF test:
 weighted_rayleigh(tibet.por$azi.PoR, prd = 90, unc = tibet$unc)

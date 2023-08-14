@@ -17,6 +17,7 @@ same length as \code{prd}}
 }
 \value{
 An object of class \code{data.frame}
+
 \describe{
 \item{dev.gc}{Deviation of observed stress from modeled
 \eqn{\sigma_{Hmax}}{SHmax} following
@@ -35,12 +36,12 @@ loxodromes of the relative plate motion's Euler pole
 \examples{
 data("nuvel1")
 # North America relative to Pacific plate:
-euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 
 # the point where we want to model the SHmax direction:
 point <- data.frame(lat = 45, lon = 20)
 
-prd <- model_shmax(point, euler)
+prd <- model_shmax(point, PoR)
 deviation_shmax(prd, obs = 90)
 }
 \seealso{

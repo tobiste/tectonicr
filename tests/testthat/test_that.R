@@ -14,20 +14,20 @@ morvel <- subset(cpm_models, model == "NNR-MORVEL56") # select MORVEL model
 # Relative plate motion between Pacific and North American plates:
 na_pa <- equivalent_rotation(morvel, fixed = "na", rot = "pa")
 # Transform stress data set and test against predicted left-lateral tangential plate boundary (left):
-stress_analysis(san_andreas, euler = na_pa, type = "right", pb = na_pa_boundary)
+stress_analysis(san_andreas, PoR = na_pa, type = "right", pb = na_pa_boundary)
 # Interpolate the stress field in the PoR coordinate system:
 PoR_stress2grid(san_andreas, na_pa)
 
 data("tibet")
 eu_in_boundary <- subset(plates, plates$pair == "eu-in")
 eu_in <- equivalent_rotation(morvel, fixed = "eu", rot = "in")
-stress_analysis(tibet, euler = eu_in, type = "in", pb = eu_in_boundary)
+stress_analysis(tibet, PoR = eu_in, type = "in", pb = eu_in_boundary)
 PoR_stress2grid(tibet, eu_in)
 
 data("iceland")
 eu_na_boundary <- subset(plates, plates$pair == "eu-na")
 eu_na <- equivalent_rotation(morvel, fixed = "na", rot = "eu")
-stress_analysis(iceland, euler = eu_na, type = "out", pb = eu_na_boundary)
+stress_analysis(iceland, PoR = eu_na, type = "out", pb = eu_na_boundary)
 PoR_stress2grid(iceland, eu_na)
 
 # PoR_stress2grid(san_andreas, na_pa, gridsize = .25, R_range = seq(50, 350, 50), stat = "mean")
@@ -93,11 +93,11 @@ plate_boundary <- subset(plates, plates$plateA %in% c("na", "pa") &
   plates$plateB %in% c("na", "pa"))
 
 distance_from_pb(
-  x = san_andreas, euler = euler, pb = plate_boundary, tangential = TRUE
+  x = san_andreas, PoR = euler, pb = plate_boundary, tangential = TRUE
 )
 
 distance_from_pb(
-  x = san_andreas, euler = euler, pb = plate_boundary, tangential = TRUE, km = TRUE
+  x = san_andreas, PoR = euler, pb = plate_boundary, tangential = TRUE, km = TRUE
 )
 
 test.vals <- c(175, 179, 2, 4)
@@ -157,7 +157,7 @@ test_that("Error message if incorrect type argument", {
   expect_error(circular_quasi_IQR(c(12, NA, 10, 9, "Inf", 7)))
   expect_error(PoR_shmax(stress, 10))
   expect_error(distance_from_pb(san_andreas, euler, plate_boundary, tangential = "typo"))
-  expect_error(distance_from_pb(x = stress, ep = euler, pb = san_andreas, tangential = TRUE))
+  expect_error(distance_from_pb(x = stress, PoR = euler, pb = san_andreas, tangential = TRUE))
   expect_error(equivalent_rotation(nuvel1, fixed = "test"))
   expect_error(eulerpole_smallcircles(ep3))
   expect_error(eulerpole_greatcircles(ep3))

@@ -4,13 +4,13 @@
 \alias{distance_from_pb}
 \title{Distance from plate boundary}
 \usage{
-distance_from_pb(x, euler, pb, tangential = FALSE, km = FALSE, ...)
+distance_from_pb(x, PoR, pb, tangential = FALSE, km = FALSE, ...)
 }
 \arguments{
 \item{x, pb}{\code{sf} objects of the data points and the plate boundary
 geometries in the geographical coordinate system}
 
-\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Roation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Pole of Rotation}
 
 \item{tangential}{Logical. Whether the plate boundary is a tangential
@@ -43,12 +43,17 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 data("san_andreas")
 res <- distance_from_pb(
-  x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE
+  x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE
 )
 head(res)
 
 res.km <- distance_from_pb(
-  x = san_andreas, euler = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
+  x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
 )
 range(res.km)
+}
+\references{
+Wdowinski, S. (1998). A theory of intraplate tectonics. Journal
+of Geophysical Research: Solid Earth, 103(3), 5037–5059.
+http://dx.doi.org/10.1029/97JB03390
 }

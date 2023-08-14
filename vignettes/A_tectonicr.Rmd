@@ -54,8 +54,8 @@ Thus, stresses across convergent plate boundaries are characterized by
 the dominance of thrusting or strike-slip faulting
 ($\sigma_1 \approx \sigma_{Hmax}$) with $\sigma_{Hmax}$ (maximum
 horizontal stress) trending parallel to the plate convergence, i.e.
-parallel to *small circles* around the Euler pole of the relative plate
-motion.
+parallel to *small circles* around the pole of the relative plate
+motion (pole of rotation, PoR).
 
 **Outward moving plate boundaries** produce tensional tractions and
 displacements directed away from the plate interior. Along spreading
@@ -78,7 +78,7 @@ the plate motion trajectory.
 Geometrically, $\sigma_{Hmax}$
 direction follows along 45$^{\circ}$ *loxodromes* (lines of constant bearing) 
 which diverge ---depending on the sense of the transform boundary--- clockwise 
-or counterclockwise from the relative Euler pole and intersect both small and 
+or counterclockwise from the relative PoR and intersect both small and 
 great circles at an angle of 45$^{\circ}$.
 
 ## Theoretical direction of Horizontal Stress and Deviation From the Measured Stress
@@ -114,19 +114,19 @@ library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
 
-Next, we need to specify coordinates of the Euler pole to get the directions of 
-the great circles, small circles, and loxodromes around the Euler pole at the 
+Next, we need to specify coordinates of the Pole of Rotation (PoR) to get the directions of 
+the great circles, small circles, and loxodromes around the PoR at the 
 given point (e.g. at 45$^{\circ}$N/20$^{\circ}$E). 
 
-For example, the Euler pole has the coordinates: 90$^{\circ}$N/0$^{\circ}$E. 
+For example, the PoR has the coordinates: 90$^{\circ}$N/0$^{\circ}$E. 
 Then $\sigma_{Hmax}$ following great and small circles and loxodromes
 geometries can be modeled with `model_shmax()`:
 
 ```{r direction_of_plate_motion, echo=TRUE}
 # Example:
 point <- data.frame(lat = 45, lon = 20)
-euler <- data.frame(lat = 90, lon = 0)
-model <- model_shmax(point, euler)
+por <- data.frame(lat = 90, lon = 0)
+model <- model_shmax(point, por)
 print(model)
 ```
 
@@ -173,11 +173,11 @@ uncertainty of observed $\sigma_{Hmax}$ (either numeric vector of length of
 
 ```{r shmax_test, echo=TRUE}
 data("nuvel1") # import example data set for Euler rotations
-euler <-
+por <-
   subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 point <- data.frame(lat = 45, lon = 20)
 
-prd <- model_shmax(point, euler)
+prd <- model_shmax(point, por)
 norm_chisq(obs = 90, prd$sc, unc = 10)
 ```
 

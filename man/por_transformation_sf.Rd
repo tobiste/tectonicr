@@ -6,15 +6,15 @@
 \alias{geographical_to_PoR_sf}
 \title{Conversion between PoR to geographical coordinates of spatial data}
 \usage{
-PoR_to_geographical_sf(x, euler)
+PoR_to_geographical_sf(x, PoR)
 
-geographical_to_PoR_sf(x, euler)
+geographical_to_PoR_sf(x, PoR)
 }
 \arguments{
 \item{x}{\code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 points in geographical or PoR coordinate system}
 
-\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler pole}
 }
 \value{
@@ -32,8 +32,8 @@ translation factors.
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 data("san_andreas")
-san_andreas.por <- geographical_to_PoR_sf(san_andreas, euler)
-PoR_to_geographical_sf(san_andreas.por, euler)
+san_andreas.por <- geographical_to_PoR_sf(san_andreas, PoR)
+PoR_to_geographical_sf(san_andreas.por, PoR)
 }

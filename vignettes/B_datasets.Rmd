@@ -37,12 +37,12 @@ head(san_andreas)
 ```
 
 Modeling the stress directions (wrt. to the geographic North pole) using the 
-Euler pole of the motion of North America relative to the Pacific Pate.
+Pole of Oration (PoR) of the motion of North America relative to the Pacific Pate.
 We test the dataset against a right-laterally tangential displacement type.
 ```{r san_andreas, echo=TRUE}
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$plate.rot == "na")
-san_andreas.prd <- PoR_shmax(san_andreas, euler, type = "right")
+por <- subset(nuvel1, nuvel1$plate.rot == "na")
+san_andreas.prd <- PoR_shmax(san_andreas, por, type = "right")
 ```
 
 Combine the model results with the coordinates of the observed data
@@ -74,7 +74,7 @@ stored under `data("nuvel1_plates")`.
 First we create the predicted trajectories of $\sigma_{Hmax}$ (more details in Article 3.):
 
 ```{r trajectories, echo=TRUE}
-trajectories <- eulerpole_loxodromes(euler, 40, cw = FALSE)
+trajectories <- eulerpole_loxodromes(por, 40, cw = FALSE)
 ```
 
 Then we initialize the plot `map`... 
@@ -152,16 +152,16 @@ To visualize the variation of the $\sigma_{Hmax}$ wrt. to the distance to the
 plate boundary, we need to transfer the direction of $\sigma_{Hmax}$ from the
 geographic reference system (i.e. azimuth is the deviation of a direction from 
 geographic North pole) to the **Pole of Rotation (PoR)** reference system
-(i.e. azimuth is the deviation from the Euler pole). 
+(i.e. azimuth is the deviation from the PoR). 
 
 > The *PoR coordinate reference system* is the oblique transformation of the
-geographical coordinate system with the Euler pole coordinates being the the
+geographical coordinate system with the PoR coordinates being the the
 translation factors.
 
 The azimuth in the *PoR reference system* $\alpha_{PoR}$ is the angular 
 difference between the azimuth in geographic reference system $\alpha_{geo}$ 
 and the (initial) bearing of the great circle 
-that passes through the data point and the Euler pole $\theta$.
+that passes through the data point and the PoR $\theta$.
 
 To calculate the distance to the plate boundary, both the plate boundary 
 geometries and the data points (in geographical coordinates) will be 
@@ -178,7 +178,7 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 san_andreas.res$distance <-
   distance_from_pb(
     x = san_andreas,
-    euler = euler,
+    PoR = por,
     pb = plate_boundary,
     tangential = TRUE
   )
@@ -247,8 +247,8 @@ azi_plot +
 ```
 
 Close to the dextral plate boundary, the majority of the stress data have 
-a strike-slip fault regime and are oriented around 135$^{\circ}$ wrt. to the Euler 
-pole. Thus, the date are parallel to the predicted stress sourced by a 
+a strike-slip fault regime and are oriented around 135$^{\circ}$ wrt. to the PoR. 
+Thus, the date are parallel to the predicted stress sourced by a 
 right-lateral displaced plate boundary. 
 Away from the plate boundary, the data becomes more noisy.
 
@@ -345,7 +345,7 @@ graphics::legend(
 
 A quick analysis the results can be obtained `stress_analysis()` that returns a list. The transformed coordinates and azimuths as well as the deviations can be viewed by: 
 ```{r quick, eval=TRUE}
-results <- stress_analysis(san_andreas, euler, "right", plate_boundary, plot = FALSE)
+results <- stress_analysis(san_andreas, por, "right", plate_boundary, plot = FALSE)
 head(results$result)
 ```
 
@@ -362,7 +362,7 @@ results$test
 ... and the associated plots can be displayed by setting `plot = TRUE`:
 
 ```{r quick_plot, eval=FALSE}
-stress_analysis(san_andreas, euler, "right", plate_boundary, plot = TRUE)
+stress_analysis(san_andreas, por, "right", plate_boundary, plot = TRUE)
 ```
 
 

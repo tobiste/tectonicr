@@ -71,9 +71,9 @@ Stress field and wavelength analysis using circular dispersion
 }
 \examples{
 data("nuvel1")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 san_andreas_por <- san_andreas
-san_andreas_por$azi <- PoR_shmax(san_andreas, ep, "right")$azi.PoR
+san_andreas_por$azi <- PoR_shmax(san_andreas, PoR, "right")$azi.PoR
 san_andreas_por$prd <- 135
 dispersion_grid(san_andreas_por)
 }

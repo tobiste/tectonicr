@@ -12,7 +12,7 @@ model_shmax(df, euler)
 (\code{lat}, \code{lon}).}
 
 \item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler  pole}
+containing the geographical coordinates of the Euler pole}
 }
 \value{
 \code{data.frame}

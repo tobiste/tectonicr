@@ -127,15 +127,15 @@ distance it is recommended to sort the values first.
 data("plates")
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 data("san_andreas")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 distance <- distance_from_pb(
   x = san_andreas,
-  euler = ep,
+  PoR = PoR,
   pb = plate_boundary,
   tangential = TRUE
 )
 dat <- san_andreas[order(distance), ]
-dat.PoR <- PoR_shmax(san_andreas, ep, "right")
+dat.PoR <- PoR_shmax(san_andreas, PoR, "right")
 roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
 roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
 roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1 / dat$unc)

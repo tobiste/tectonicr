@@ -42,7 +42,7 @@ regime2unc <- function(x) {
 #' (\code{lat}, \code{lon}), the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
-#' @param euler \code{data.frame} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{data.frame} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
@@ -61,7 +61,7 @@ regime2unc <- function(x) {
 #' deviation angle from predicted (`dev`), circular distance (`cdist`),
 #' misfit to predicted stress direction (`nchisq`) and, if given, distance to tested
 #' plate boundary (`distance`)}
-#' \item{`stats`}{array with circular (weighted) mean, circular standard deviation, circular dispersion, the 95% confidence angle, and the normalized Chi-squared test statistic}
+#' \item{`stats`}{array with circular (weighted) mean, circular standard deviation, circular variance, circular dispersion, the 95% confidence angle, and the normalized Chi-squared test statistic}
 #' \item{`test`}{list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.}
 #' }
 #' @export
@@ -79,26 +79,27 @@ regime2unc <- function(x) {
 #' data("san_andreas")
 #' stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = TRUE)
 #' }
-stress_analysis <- function(x, euler, type = c("none", "in", "out", "right", "left"), pb, plot = TRUE, ...) {
+stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left"), pb, plot = TRUE, ...) {
   type <- match.arg(type)
   stopifnot(is.logical(plot))
   tangential <- ifelse(type %in% c("right", "left"), TRUE, FALSE)
-  res <- PoR_shmax(x, euler, type)
-  res <- cbind(res, PoR_coordinates(x, euler))
+  res <- PoR_shmax(x, PoR, type)
+  res <- cbind(res, PoR_coordinates(x, PoR))
   if (!missing(pb)) {
-    res$distance <- distance_from_pb(x, euler, pb, tangential, ...)
+    res$distance <- distance_from_pb(x, PoR, pb, tangential, ...)
   }
   prd <- res$prd
 
   mean <- circular_mean(res$azi.PoR, 1 / x$unc)
   sd <- circular_sd(res$azi.PoR, 1 / x$unc)
+  var <- circular_var(res$azi.PoR, 1 / x$unc)
   disp <- circular_dispersion(res$azi.PoR, prd, 1 / x$unc)
   conf <- confidence_angle(res$azi.PoR, w = 1 / x$unc)
   nchisq <- norm_chisq(res$azi.PoR, prd, unc = x$unc)
   rayleigh <- weighted_rayleigh(res$azi.PoR, prd, unc = x$unc)
 
   if (plot) {
-    PoR_map(x, euler, pb, cw = ifelse(type == "left", TRUE, FALSE), deviation = TRUE)
+    PoR_map(x, PoR, pb, cw = ifelse(type == "left", TRUE, FALSE), deviation = TRUE)
     grDevices::dev.new()
     quick_plot(azi = res$azi.PoR, distance = res$distance, unc = x$unc, regime = x$regime, prd = prd)
   }
@@ -106,7 +107,7 @@ stress_analysis <- function(x, euler, type = c("none", "in", "out", "right", "le
   list(
     result = res,
     stats =
-      rbind(mean = mean, sd = sd, dispersion = disp, conf95 = conf, norm_chisq = nchisq),
+      rbind(mean = mean, sd = sd, var = var, dispersion = disp, conf95 = conf, norm_chisq = nchisq),
     test = rayleigh
   )
 }

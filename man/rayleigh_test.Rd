@@ -69,8 +69,8 @@ rayleigh_test(atomic_weight, 0, axial = FALSE)
 data(san_andreas)
 rayleigh_test(san_andreas$azi)
 data("nuvel1")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-sa.por <- PoR_shmax(san_andreas, ep, "right")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+sa.por <- PoR_shmax(san_andreas, PoR, "right")
 rayleigh_test(sa.por$azi.PoR, mu = 135)
 }
 \references{

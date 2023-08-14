@@ -4,14 +4,14 @@
 \alias{PoR2Geo_shmax}
 \title{Azimuth conversion from PoR to geographical coordinate reference system}
 \usage{
-PoR2Geo_shmax(x, euler)
+PoR2Geo_shmax(x, PoR)
 }
 \arguments{
 \item{x}{\code{data.frame} containing the PoR equivalent azimuths
 (\code{azi.PoR}), and either the geographical coordinates of the
 point(s) or the PoR-equivalent coordinates.}
 
-\item{euler}{\code{data.frame} containing the geographical location of
+\item{PoR}{\code{data.frame} containing the geographical location of
 the Euler pole (\code{lat}, \code{lon})}
 }
 \description{
@@ -20,10 +20,10 @@ Helper function to convert PoR azimuths into geographical azimuths
 \examples{
 data("nuvel1")
 # North America relative to Pacific plate:
-euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 data("san_andreas")
 head(san_andreas$azi)
-san_andreas$azi.PoR <- PoR_shmax(san_andreas, euler)
-res.geo <- PoR2Geo_shmax(san_andreas, euler)
+san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
+res.geo <- PoR2Geo_shmax(san_andreas, PoR)
 head(res.geo)
 }

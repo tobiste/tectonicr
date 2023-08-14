@@ -38,7 +38,7 @@ kuiper_test(pidgeon_homing, alpha = .05)
 # San Andreas Fault Data:
 data(san_andreas)
 data("nuvel1")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-sa.por <- PoR_shmax(san_andreas, ep, "right")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+sa.por <- PoR_shmax(san_andreas, PoR, "right")
 kuiper_test(sa.por$azi.PoR, alpha = .05)
 }

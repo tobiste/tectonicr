@@ -31,3 +31,7 @@ finland_stria <- c(
 )
 mean_resultant_length(finland_stria, w = NULL, na.rm = FALSE) # 0.800
 }
+\references{
+Mardia, K.V. (1972). Statistics of Directional Data: Probability
+and Mathematical Statistics. London: Academic Press.
+}

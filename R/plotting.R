@@ -471,7 +471,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 #'
 #' @param x,pb #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param ep \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Pole of Rotation
 #' @param cw logical. Whether the  displacement of the tangential plate boundary
 #'  is clockwise or counterclockwise?
@@ -496,16 +496,16 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 #' plate_boundary <- subset(plates, plates$pair == "na-pa")
 #'
 #' data("san_andreas")
-#' PoR_map(san_andreas, ep = na_pa, pb = plate_boundary, cw = FALSE, deviation = TRUE)
-PoR_map <- function(x, ep, pb = NULL, cw, deviation = FALSE, ...) {
+#' PoR_map(san_andreas, PoR = na_pa, pb = plate_boundary, cw = FALSE, deviation = TRUE)
+PoR_map <- function(x, PoR, pb = NULL, cw, deviation = FALSE, ...) {
   val <- val2 <- NULL
-  x_por_df <- PoR_shmax(x, ep, ifelse(cw, "left", "right"))
+  x_por_df <- PoR_shmax(x, PoR, ifelse(cw, "left", "right"))
 
-  x_por_sf <- geographical_to_PoR_sf(x, ep)
+  x_por_sf <- geographical_to_PoR_sf(x, PoR)
   x_por_coords <- sf::st_coordinates(x_por_sf)
-  por_crs <- PoR_crs(ep)
+  por_crs <- PoR_crs(PoR)
 
-  pb_por <- geographical_to_PoR_sf(pb, ep)
+  pb_por <- geographical_to_PoR_sf(pb, PoR)
 
   if (deviation) {
     cols <- tectonicr.colors(abs(x_por_df$cdist), categorical = FALSE, ...)

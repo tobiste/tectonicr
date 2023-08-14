@@ -4,13 +4,13 @@
 \alias{PoR_map}
 \title{Plot data in PoR map}
 \usage{
-PoR_map(x, ep, pb = NULL, cw, deviation = FALSE, ...)
+PoR_map(x, PoR, pb = NULL, cw, deviation = FALSE, ...)
 }
 \arguments{
 \item{x, pb}{#' @param x,pb \code{sf} objects of the data points and the plate boundary
 geometries in the geographical coordinate system}
 
-\item{ep}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Pole of Rotation}
 
 \item{cw}{logical. Whether the  displacement of the tangential plate boundary
@@ -36,7 +36,7 @@ data("plates")
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 
 data("san_andreas")
-PoR_map(san_andreas, ep = na_pa, pb = plate_boundary, cw = FALSE, deviation = TRUE)
+PoR_map(san_andreas, PoR = na_pa, pb = plate_boundary, cw = FALSE, deviation = TRUE)
 }
 \seealso{
 \code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=axes]{axes()}}, \code{\link[=tectonicr.colors]{tectonicr.colors()}}

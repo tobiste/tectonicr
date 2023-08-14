@@ -9,7 +9,7 @@ An object of class \code{data.frame}
 \describe{
 \item{plate.name}{The rotating plate}
 \item{plate.rot}{The abbreviation of the plate's name}
-\item{lat,lon }{Coordinates of the Euler pole}
+\item{lat,lon }{Coordinates of the Pole of Rotation}
 \item{angle}{The amount of rotation (angle in 1 Myr)}
 \item{plate.fix}{The anchored plate, i.e. \code{plate.rot} moves relative
 to \code{plate.fix}}

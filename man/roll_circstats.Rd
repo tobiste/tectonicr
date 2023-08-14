@@ -69,10 +69,10 @@ distance it is recommended to sort the values first.
 data("plates")
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 data("san_andreas")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 distance <- distance_from_pb(
   x = san_andreas,
-  euler = ep,
+  PoR = PoR,
   pb = plate_boundary,
   tangential = TRUE
 )

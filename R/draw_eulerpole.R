@@ -151,13 +151,13 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @name stress_paths
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 #' # Pacific plate
 #'
-#' eulerpole_smallcircles(euler)
-#' eulerpole_greatcircles(euler)
-#' eulerpole_loxodromes(x = euler, angle = 45, n = 10, cw = FALSE)
-#' eulerpole_loxodromes(x = euler, angle = 30, cw = TRUE)
+#' eulerpole_smallcircles(por)
+#' eulerpole_greatcircles(por)
+#' eulerpole_loxodromes(x = por, angle = 45, n = 10, cw = FALSE)
+#' eulerpole_loxodromes(x = por, angle = 30, cw = TRUE)
 #' eulerpole_smallcircles(data.frame(lat = 30, lon = 10))
 NULL
 
@@ -204,7 +204,7 @@ eulerpole_smallcircles <-
 
     sm.sf <- sm.sf |> dplyr::select(-small_circle)
 
-    PoR_to_geographical_sf(x = sf::st_as_sf(sm.sf), euler = x) |>
+    PoR_to_geographical_sf(x = sf::st_as_sf(sm.sf), PoR = x) |>
       sf::st_wrap_dateline(
         options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
         quiet = TRUE
@@ -247,7 +247,7 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
     dplyr::mutate(loxodrome = loxodrome %% 180) |>
     dplyr::rename(d = loxodrome)
 
-  PoR_to_geographical_sf(x = sf::st_as_sf(ld.sf), euler = x) |>
+  PoR_to_geographical_sf(x = sf::st_as_sf(ld.sf), PoR = x) |>
     sf::st_wrap_dateline(
       options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180"),
       quiet = TRUE

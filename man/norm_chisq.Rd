@@ -44,15 +44,15 @@ observed \eqn{\sigma_{Hmax}}{SHmax} directions.
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 # Pacific plate
 data(san_andreas)
 point <- data.frame(lat = 45, lon = 20)
-prd <- model_shmax(point, euler)
+prd <- model_shmax(point, PoR)
 norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
 
 data(san_andreas)
-prd2 <- PoR_shmax(san_andreas, euler, type = "right")
+prd2 <- PoR_shmax(san_andreas, PoR, type = "right")
 norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
 }
 \references{

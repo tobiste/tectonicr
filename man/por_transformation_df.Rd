@@ -6,16 +6,16 @@
 \alias{PoR_to_geographical}
 \title{Conversion between spherical PoR to geographical coordinate system}
 \usage{
-geographical_to_PoR(x, euler)
+geographical_to_PoR(x, PoR)
 
-PoR_to_geographical(x, euler)
+PoR_to_geographical(x, PoR)
 }
 \arguments{
 \item{x}{\code{"data.frame"} containing \code{lat} and \code{lon}
 coordinates of a point in the geographical CRS or the \code{lat.PoR},
 \code{lon.PoR}) of the point in the PoR CRS.}
 
-\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler pole}
 }
 \value{
@@ -29,9 +29,9 @@ vice versa
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 data("san_andreas")
-san_andreas.por <- geographical_to_PoR(san_andreas, euler)
+san_andreas.por <- geographical_to_PoR(san_andreas, por)
 head(san_andreas.por)
-head(PoR_to_geographical(san_andreas.por, euler))
+head(PoR_to_geographical(san_andreas.por, por))
 }

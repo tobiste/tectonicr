@@ -108,8 +108,8 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' circular_var(san_andreas$azi, 1 / san_andreas$unc)
 #'
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_median(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
@@ -350,8 +350,8 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' circular_distance(a, b)
 #'
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_dispersion(sa.por$azi.PoR, mean = 135)
 #' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
 NULL
@@ -463,8 +463,8 @@ z_score <- function(conf.level) {
 #'
 #' data(san_andreas)
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
@@ -533,8 +533,8 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #'
 #' data(san_andreas)
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' confidence_angle(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 #' confidence_interval(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 #' @name confidence
@@ -595,8 +595,8 @@ circular_dispersion_i <- function(x, id, ...) {
 #'
 #' @examples
 #' data("nuvel1")
-#' ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' sa.por <- PoR_shmax(san_andreas, ep, "right")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
 #' circular_dispersion_MLE(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc, R = 1000)
 circular_dispersion_MLE <- function(x, mean = NULL, w = NULL, R, conf.level = .95, ...) {

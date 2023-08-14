@@ -21,6 +21,6 @@ translation factors.
 }
 \examples{
 data("nuvel1")
-euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
-PoR_crs(euler)
+por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+PoR_crs(por)
 }

@@ -7,14 +7,14 @@
 \title{Conversion between PoR to geographical coordinate reference system of raster
 data}
 \usage{
-geographical_to_PoR_raster(x, euler)
+geographical_to_PoR_raster(x, PoR)
 
-PoR_to_geographical_raster(x, euler)
+PoR_to_geographical_raster(x, PoR)
 }
 \arguments{
 \item{x}{\code{"SpatRaster"} or \code{"RasterLayer"}}
 
-\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler pole}
 }
 \value{

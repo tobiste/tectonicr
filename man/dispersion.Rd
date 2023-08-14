@@ -50,10 +50,14 @@ b <- a + 90
 circular_distance(a, b)
 
 data("nuvel1")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-sa.por <- PoR_shmax(san_andreas, ep, "right")
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_dispersion(sa.por$azi.PoR, mean = 135)
 circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
+}
+\references{
+Mardia, K.V. (1972). Statistics of Directional Data: Probability
+and Mathematical Statistics. London: Academic Press.
 }
 \seealso{
 \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_var]{circular_var()}}.

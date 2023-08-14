@@ -6,7 +6,7 @@
 \usage{
 stress_analysis(
   x,
-  euler,
+  PoR,
   type = c("none", "in", "out", "right", "left"),
   pb,
   plot = TRUE,
@@ -19,7 +19,7 @@ stress_analysis(
 \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 \code{unc} (optional)}
 
-\item{euler}{\code{data.frame} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Rotation. \code{data.frame} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler pole}
 
 \item{type}{Character. Type of plate boundary (optional). Can be
@@ -43,7 +43,7 @@ list containing the following values:
 deviation angle from predicted (\code{dev}), circular distance (\code{cdist}),
 misfit to predicted stress direction (\code{nchisq}) and, if given, distance to tested
 plate boundary (\code{distance})}
-\item{\code{stats}}{array with circular (weighted) mean, circular standard deviation, circular dispersion, the 95\% confidence angle, and the normalized Chi-squared test statistic}
+\item{\code{stats}}{array with circular (weighted) mean, circular standard deviation, circular variance, circular dispersion, the 95\% confidence angle, and the normalized Chi-squared test statistic}
 \item{\code{test}}{list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.}
 }
 }

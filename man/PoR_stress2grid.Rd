@@ -6,7 +6,7 @@
 \usage{
 PoR_stress2grid(
   x,
-  euler,
+  PoR,
   grid = NULL,
   PoR_grid = TRUE,
   lon_range = NULL,
@@ -23,7 +23,7 @@ PoR_stress2grid(
 \item{type}{Methods used for the determination of the orientation of SHmax}
 }}
 
-\item{euler}{\code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler  pole}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
@@ -51,8 +51,8 @@ Stress field and wavelength analysis in PoR system and back-transformed
 \examples{
 data("san_andreas")
 data("nuvel1")
-ep <- subset(nuvel1, nuvel1$plate.rot == "na")
-PoR_stress2grid(san_andreas, ep)
+PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+PoR_stress2grid(san_andreas, PoR)
 }
 \seealso{
 \code{\link[=stress2grid]{stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}}

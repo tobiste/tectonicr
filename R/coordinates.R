@@ -135,8 +135,8 @@ spherical_to_geographical <- function(p) {
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
-#' PoR_crs(euler)
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' PoR_crs(por)
 PoR_crs <- function(x) {
   stopifnot(is.data.frame(x) | is.euler(x))
   x <- as.data.frame(x)
@@ -160,7 +160,7 @@ PoR_crs <- function(x) {
 #' Helper function for the transformation from PoR to geographical coordinate
 #' system or vice versa
 #'
-#' @param x,euler two-column vectors containing the lat and lon coordinates
+#' @param x,PoR two-column vectors containing the lat and lon coordinates
 #' @name por_transformation_quat
 #' @examples
 #' ep.geo <- c(20, 33)
@@ -172,10 +172,10 @@ NULL
 
 #' @name por_transformation_quat
 #' @export
-geographical_to_PoR_quat <- function(x, euler) {
+geographical_to_PoR_quat <- function(x, PoR) {
   p <- geographical_to_cartesian(x)
-  euler_y <- euler_pole(0, 1, 0, angle = 90 - euler[1], geo = FALSE)
-  euler_z <- euler_pole(0, 0, 1, angle = 180 - euler[2], geo = FALSE)
+  euler_y <- euler_pole(0, 1, 0, angle = 90 - PoR[1], geo = FALSE)
+  euler_z <- euler_pole(0, 0, 1, angle = 180 - PoR[2], geo = FALSE)
   qy <- euler_to_Q4(euler_y)
   qz <- euler_to_Q4(euler_z)
   qq <- product_Q4(q1 = qz, q2 = qy)
@@ -187,13 +187,13 @@ geographical_to_PoR_quat <- function(x, euler) {
 
 #' @name por_transformation_quat
 #' @export
-PoR_to_geographical_quat <- function(x, euler) {
+PoR_to_geographical_quat <- function(x, PoR) {
   x[2] <- longitude_modulo(x[2] - 180)
   p_trans <- geographical_to_cartesian(x)
-  euler_yt <- euler_pole(0, -1, 0, angle = 90 - euler[1], geo = FALSE)
-  euler_zt <- euler_pole(0, 0, -1, angle = 180 - euler[2], geo = FALSE)
-  qy <- euler_to_Q4(euler_yt) # |> conjugate_Q4()
-  qz <- euler_to_Q4(euler_zt) # |> conjugate_Q4()
+  PoR_yt <- euler_pole(0, -1, 0, angle = 90 - PoR[1], geo = FALSE)
+  PoR_zt <- euler_pole(0, 0, -1, angle = 180 - PoR[2], geo = FALSE)
+  qy <- euler_to_Q4(PoR_yt) # |> conjugate_Q4()
+  qz <- euler_to_Q4(PoR_zt) # |> conjugate_Q4()
 
   product_Q4(q1 = qy, q2 = qz) |>
     rotation_Q4(p = p_trans) |>
@@ -208,7 +208,7 @@ PoR_to_geographical_quat <- function(x, euler) {
 #' @param x \code{"data.frame"} containing \code{lat} and \code{lon}
 #' coordinates of a point in the geographical CRS or the \code{lat.PoR},
 #' \code{lon.PoR}) of the point in the PoR CRS.
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #' @return \code{"data.frame"} with the transformed coordinates
 #' (\code{lat.PoR} and \code{lon.PoR} for PoR CRS,
@@ -216,22 +216,22 @@ PoR_to_geographical_quat <- function(x, euler) {
 #' @name por_transformation_df
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' data("san_andreas")
-#' san_andreas.por <- geographical_to_PoR(san_andreas, euler)
+#' san_andreas.por <- geographical_to_PoR(san_andreas, por)
 #' head(san_andreas.por)
-#' head(PoR_to_geographical(san_andreas.por, euler))
+#' head(PoR_to_geographical(san_andreas.por, por))
 NULL
 
 #' @name por_transformation_df
 #' @export
-geographical_to_PoR <- function(x, euler) {
-  stopifnot(is.data.frame(euler) | is.euler(euler))
-  ep.geo <- c(euler$lat, euler$lon)
+geographical_to_PoR <- function(x, PoR) {
+  stopifnot(is.data.frame(PoR) | is.euler(PoR))
+  ep.geo <- c(PoR$lat, PoR$lon)
   lat.PoR <- lon.PoR <- c()
 
   for (i in seq_along(x$lon)) {
-    x_por.i <- geographical_to_PoR_quat(c(x$lat[i], x$lon[i]), euler = ep.geo)
+    x_por.i <- geographical_to_PoR_quat(c(x$lat[i], x$lon[i]), PoR = ep.geo)
     lat.PoR[i] <- x_por.i[1]
     lon.PoR[i] <- x_por.i[2]
   }
@@ -240,13 +240,13 @@ geographical_to_PoR <- function(x, euler) {
 
 #' @name por_transformation_df
 #' @export
-PoR_to_geographical <- function(x, euler) {
-  stopifnot(is.data.frame(euler) | is.euler(euler))
-  ep.geo <- c(euler$lat, euler$lon)
+PoR_to_geographical <- function(x, PoR) {
+  stopifnot(is.data.frame(PoR) | is.euler(PoR))
+  ep.geo <- c(PoR$lat, PoR$lon)
   lat <- lon <- c()
 
   for (i in seq_along(x$lon.PoR)) {
-    x_geo.i <- PoR_to_geographical_quat(c(x$lat.PoR[i], x$lon.PoR[i]), euler = ep.geo)
+    x_geo.i <- PoR_to_geographical_quat(c(x$lat.PoR[i], x$lon.PoR[i]), PoR = ep.geo)
     lat[i] <- x_geo.i[1]
     lon[i] <- x_geo.i[2]
   }
@@ -260,26 +260,26 @@ PoR_to_geographical <- function(x, euler) {
 #'
 #' @param x \code{sf} or \code{data.frame} containing lat and lon coordinates
 #' (\code{lat}, \code{lon})
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #' @return \code{data.frame} with the PoR coordinates
 #' (\code{lat.PoR}, \code{lon.PoR})
 #' @export
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' data("san_andreas")
-#' san_andreas.por_sf <- PoR_coordinates(san_andreas, euler)
+#' san_andreas.por_sf <- PoR_coordinates(san_andreas, por)
 #' head(san_andreas.por_sf)
-#' san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), euler)
+#' san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), por)
 #' head(san_andreas.por_df)
-PoR_coordinates <- function(x, euler) {
+PoR_coordinates <- function(x, PoR) {
   if (is.data.frame(x)) {
     # x <- sf::st_as_sf(x, coords = c("lon", "lat"))
-    geographical_to_PoR(x, euler)
+    geographical_to_PoR(x, PoR)
   } else {
     x |>
-      tectonicr::geographical_to_PoR_sf(euler = euler) |>
+      tectonicr::geographical_to_PoR_sf(PoR = PoR) |>
       sf::st_coordinates() |>
       sf::st_drop_geometry() |>
       rename("lon.PoR" = "X", "lat.PoR" = "Y")
@@ -294,7 +294,7 @@ PoR_coordinates <- function(x, euler) {
 #' coordinates
 #'
 #' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #' @returns "SpatRaster"
 #' @importFrom terra crs project rast
@@ -303,13 +303,13 @@ PoR_coordinates <- function(x, euler) {
 NULL
 
 #' @rdname raster_transformation
-geographical_to_PoR_raster <- function(x, euler) {
+geographical_to_PoR_raster <- function(x, PoR) {
   if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
   stopifnot(inherits(x, "SpatRaster"))
   crs.wgs84 <- "epsg:4326"
-  crs.ep <- PoR_crs(euler)
+  crs.ep <- PoR_crs(PoR)
   terra::crs(x) <- crs.ep$wkt
   x.por <- terra::project(x, crs.wgs84)
   terra::crs(x.por) <- crs.ep$wkt
@@ -317,15 +317,15 @@ geographical_to_PoR_raster <- function(x, euler) {
 }
 
 #' @rdname raster_transformation
-PoR_to_geographical_raster <- function(x, euler) {
+PoR_to_geographical_raster <- function(x, PoR) {
   if (methods::extends(class(x), "BasicRaster")) {
     x <- terra::rast(x)
   }
   stopifnot(inherits(x, "SpatRaster"))
   crs.wgs84 <- "epsg:4326"
-  crs.ep <- PoR_crs(euler)
+  crs.PoR <- PoR_crs(PoR)
   terra::crs(x) <- crs.wgs84
-  x.geo <- terra::project(x, crs.ep$wkt)
+  x.geo <- terra::project(x, crs.PoR$wkt)
   terra::crs(x.geo) <- crs.wgs84
   return(x.geo)
 }
@@ -338,7 +338,7 @@ PoR_to_geographical_raster <- function(x, euler) {
 #'
 #' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 #' points in geographical or PoR coordinate system
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #' @return \code{sf} or \code{SpatRast} object of the data points in the
 #' transformed geographical or PoR coordinate system
@@ -349,26 +349,26 @@ PoR_to_geographical_raster <- function(x, euler) {
 #' @importFrom methods extends
 #' @examples
 #' data("nuvel1")
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' data("san_andreas")
-#' san_andreas.por <- geographical_to_PoR_sf(san_andreas, euler)
-#' PoR_to_geographical_sf(san_andreas.por, euler)
+#' san_andreas.por <- geographical_to_PoR_sf(san_andreas, PoR)
+#' PoR_to_geographical_sf(san_andreas.por, PoR)
 #' @name por_transformation_sf
 NULL
 
 #' @rdname por_transformation_sf
 #' @export
-PoR_to_geographical_sf <- function(x, euler) {
+PoR_to_geographical_sf <- function(x, PoR) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
-    x.por <- geographical_to_PoR_raster(x, euler)
+    x.por <- geographical_to_PoR_raster(x, PoR)
   } else {
     crs.wgs84 <- sf::st_crs("epsg:4326")
-    crs.ep <- PoR_crs(euler)
+    crs.PoR <- PoR_crs(PoR)
     suppressMessages(
       suppressWarnings(
         x.por <- x |>
           sf::st_set_crs(crs.wgs84) |>
-          sf::st_transform(crs.ep) |>
+          sf::st_transform(crs.PoR) |>
           sf::st_set_crs(crs.wgs84) |>
           sf::st_wrap_dateline()
       )
@@ -379,18 +379,18 @@ PoR_to_geographical_sf <- function(x, euler) {
 
 #' @rdname por_transformation_sf
 #' @export
-geographical_to_PoR_sf <- function(x, euler) {
+geographical_to_PoR_sf <- function(x, PoR) {
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
-    x.geo <- geographical_to_PoR_raster(x, euler)
+    x.geo <- geographical_to_PoR_raster(x, PoR)
   } else {
     crs.wgs84 <- sf::st_crs("epsg:4326")
-    crs.ep <- PoR_crs(euler)
+    crs.PoR <- PoR_crs(PoR)
     suppressMessages(
       suppressWarnings(
         x.geo <- x |>
-          sf::st_set_crs(crs.ep) |>
+          sf::st_set_crs(crs.PoR) |>
           sf::st_transform(crs.wgs84) |>
-          sf::st_set_crs(crs.ep) |>
+          sf::st_set_crs(crs.PoR) |>
           sf::st_wrap_dateline(
             options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
           )

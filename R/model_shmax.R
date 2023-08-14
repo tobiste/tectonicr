@@ -137,12 +137,12 @@ deviation_norm <- function(x) {
 #' @examples
 #' data("nuvel1")
 #' # North America relative to Pacific plate:
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
 #' # the point where we want to model the SHmax direction:
 #' point <- data.frame(lat = 45, lon = 20)
 #'
-#' prd <- model_shmax(point, euler)
+#' prd <- model_shmax(point, PoR)
 #' deviation_shmax(prd, obs = 90)
 deviation_shmax <- function(prd, obs) {
   stopifnot(length(obs) == length(seq_along(prd$gc)))
@@ -173,7 +173,7 @@ deviation_shmax <- function(prd, obs) {
 #' (\code{lat}, \code{lon}), the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
-#' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler  pole
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
@@ -210,16 +210,16 @@ deviation_shmax <- function(prd, obs) {
 #' @examples
 #' data("nuvel1")
 #' # North America relative to Pacific plate:
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
 #' data("san_andreas")
-#' res <- PoR_shmax(san_andreas, euler, type = "right")
+#' res <- PoR_shmax(san_andreas, PoR, type = "right")
 #' head(res)
-PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left")) {
-  stopifnot(is.data.frame(df), is.data.frame(euler) | is.euler(euler))
+PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
+  stopifnot(is.data.frame(df), is.data.frame(PoR) | is.euler(PoR))
   type <- match.arg(type)
 
-  theta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = euler$lat, lon_b = euler$lon)
+  theta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = PoR$lat, lon_b = PoR$lon)
   azi.por <- (df$azi - theta + 180) %% 180
 
   if (type != "none" && !is.null(df$unc)) {
@@ -249,7 +249,7 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
 #' @param x \code{data.frame} containing the PoR equivalent azimuths
 #' (\code{azi.PoR}), and either the geographical coordinates of the
 #' point(s) or the PoR-equivalent coordinates.
-#' @param euler \code{data.frame} containing the geographical location of
+#' @param PoR \code{data.frame} containing the geographical location of
 #' the Euler pole (\code{lat}, \code{lon})
 #'
 #' @export
@@ -257,28 +257,28 @@ PoR_shmax <- function(df, euler, type = c("none", "in", "out", "right", "left"))
 #' @examples
 #' data("nuvel1")
 #' # North America relative to Pacific plate:
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' data("san_andreas")
 #' head(san_andreas$azi)
-#' san_andreas$azi.PoR <- PoR_shmax(san_andreas, euler)
-#' res.geo <- PoR2Geo_shmax(san_andreas, euler)
+#' san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
+#' res.geo <- PoR2Geo_shmax(san_andreas, PoR)
 #' head(res.geo)
-PoR2Geo_shmax <- function(x, euler) {
-  # Northern Hemisphere euler pole
-  if (euler$lat < 0) {
-    euler$lat <- -euler$lat
-    euler$lon <- longitude_modulo(180 + euler$lon)
+PoR2Geo_shmax <- function(x, PoR) {
+  # Northern Hemisphere Euler pole
+  if (PoR$lat < 0) {
+    PoR$lat <- -PoR$lat
+    PoR$lon <- longitude_modulo(180 + PoR$lon)
   }
 
   if (!is.null(x$lat.PoR) && !is.null(x$lon.PoR)) {
     northpole <- geographical_to_PoR(
       data.frame(lat = 90, lon = 0),
-      euler
+      PoR
     )
     beta <- mapply(FUN = get_azimuth, lat_a = x$lat.PoR, lon_a = x$lon.PoR, lat_b = northpole$lat.PoR, lon_b = northpole$lon.PoR)
     azi.geo <- x$azi.PoR - beta
   } else {
-    beta <- mapply(FUN = get_azimuth, lat_a = x$lat, lon_a = x$lon, lat_b = euler$lat, lon_b = euler$lon)
+    beta <- mapply(FUN = get_azimuth, lat_a = x$lat, lon_a = x$lon, lat_b = PoR$lat, lon_b = PoR$lon)
     azi.geo <- x$azi.PoR + beta
   }
   azi.geo %% 180
