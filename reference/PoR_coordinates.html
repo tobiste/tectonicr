@@ -60,7 +60,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PoR_coordinates</span><span class="op">(</span><span class="va">x</span>, <span class="va">euler</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PoR_coordinates</span><span class="op">(</span><span class="va">x</span>, <span class="va">PoR</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,8 +70,8 @@
 (<code>lat</code>, <code>lon</code>)</p></dd>
 
 
-<dt>euler</dt>
-<dd><p><code>"data.frame"</code> or object of class <code>"euler.pole"</code>
+<dt>PoR</dt>
+<dd><p>Pole of Rotation. <code>"data.frame"</code> or object of class <code>"euler.pole"</code>
 containing the geographical coordinates of the Euler pole</p></dd>
 
 </dl></div>
@@ -86,9 +86,9 @@ containing the geographical coordinates of the Euler pole</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span></span>
+<span class="r-in"><span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">san_andreas.por_sf</span> <span class="op">&lt;-</span> <span class="fu">PoR_coordinates</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">euler</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">san_andreas.por_sf</span> <span class="op">&lt;-</span> <span class="fu">PoR_coordinates</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">san_andreas.por_sf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    lat.PoR   lon.PoR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 56.93219 -82.67182</span>
@@ -97,7 +97,7 @@ containing the geographical coordinates of the Euler pole</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 57.83707 -75.51138</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 58.17336 -76.62093</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 57.84485 -76.16849</span>
-<span class="r-in"><span><span class="va">san_andreas.por_df</span> <span class="op">&lt;-</span> <span class="fu">PoR_coordinates</span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span>, <span class="va">euler</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">san_andreas.por_df</span> <span class="op">&lt;-</span> <span class="fu">PoR_coordinates</span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span>, <span class="va">por</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">san_andreas.por_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    lat.PoR   lon.PoR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 56.93219 -82.67182</span>

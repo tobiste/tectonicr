@@ -121,7 +121,8 @@ boundaries are characterized by the dominance of thrusting or
 strike-slip faulting (<span class="math inline">\(\sigma_1 \approx
 \sigma_{Hmax}\)</span>) with <span class="math inline">\(\sigma_{Hmax}\)</span> (maximum horizontal stress)
 trending parallel to the plate convergence, i.e. parallel to <em>small
-circles</em> around the Euler pole of the relative plate motion.</p>
+circles</em> around the pole of the relative plate motion (pole of
+rotation, PoR).</p>
 <p><strong>Outward moving plate boundaries</strong> produce tensional
 tractions and displacements directed away from the plate interior. Along
 spreading ridges and intracontinental rifting stresses are dominated by
@@ -143,9 +144,8 @@ of c. 45<span class="math inline">\(^{\circ}\)</span> to the plate
 motion trajectory. Geometrically, <span class="math inline">\(\sigma_{Hmax}\)</span> direction follows along
 45<span class="math inline">\(^{\circ}\)</span> <em>loxodromes</em>
 (lines of constant bearing) which diverge —depending on the sense of the
-transform boundary— clockwise or counterclockwise from the relative
-Euler pole and intersect both small and great circles at an angle of
-45<span class="math inline">\(^{\circ}\)</span>.</p>
+transform boundary— clockwise or counterclockwise from the relative PoR
+and intersect both small and great circles at an angle of 45<span class="math inline">\(^{\circ}\)</span>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -175,17 +175,17 @@ following steps:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
-<p>Next, we need to specify coordinates of the Euler pole to get the
-directions of the great circles, small circles, and loxodromes around
-the Euler pole at the given point (e.g. at 45<span class="math inline">\(^{\circ}\)</span>N/20<span class="math inline">\(^{\circ}\)</span>E).</p>
-<p>For example, the Euler pole has the coordinates: 90<span class="math inline">\(^{\circ}\)</span>N/0<span class="math inline">\(^{\circ}\)</span>E. Then <span class="math inline">\(\sigma_{Hmax}\)</span> following great and small
+<p>Next, we need to specify coordinates of the Pole of Rotation (PoR) to
+get the directions of the great circles, small circles, and loxodromes
+around the PoR at the given point (e.g. at 45<span class="math inline">\(^{\circ}\)</span>N/20<span class="math inline">\(^{\circ}\)</span>E).</p>
+<p>For example, the PoR has the coordinates: 90<span class="math inline">\(^{\circ}\)</span>N/0<span class="math inline">\(^{\circ}\)</span>E. Then <span class="math inline">\(\sigma_{Hmax}\)</span> following great and small
 circles and loxodromes geometries can be modeled with
 <code><a href="../reference/model_shmax.html">model_shmax()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example:</span></span>
 <span><span class="va">point</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">45</span>, lon <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">90</span>, lon <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">euler</span><span class="op">)</span></span>
+<span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">90</span>, lon <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">por</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   sc ld.ccw gc ld.cw</span></span>
 <span><span class="co">#&gt; 1 90    135  0    45</span></span></code></pre></div>
@@ -233,11 +233,11 @@ observed <span class="math inline">\(\sigma_{Hmax}\)</span> (either
 numeric vector of length of <code>obs</code> or a number).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span> <span class="co"># import example data set for Euler rotations</span></span>
-<span><span class="va">euler</span> <span class="op">&lt;-</span></span>
+<span><span class="va">por</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span>
 <span><span class="va">point</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">45</span>, lon <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">euler</span><span class="op">)</span></span>
+<span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">por</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span>obs <span class="op">=</span> <span class="fl">90</span>, <span class="va">prd</span><span class="op">$</span><span class="va">sc</span>, unc <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.2790849</span></span></code></pre></div>
 </div>

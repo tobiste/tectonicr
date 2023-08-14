@@ -136,10 +136,10 @@ circles at a constant angle.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to</span></span></span>
+<span class="r-in"><span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to</span></span></span>
 <span class="r-in"><span><span class="co"># Pacific plate</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">eulerpole_smallcircles</span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eulerpole_smallcircles</span><span class="op">(</span><span class="va">por</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 11 features and 2 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: GEOMETRY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -159,7 +159,7 @@ circles at a constant angle.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> LINESTRING (-78.167 84.709, -89.46284 84.59139, -99.79473 84.2…    36    51.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> LINESTRING (-78.167 66.709, -79.57283 66.69442, -80.97315 66.6…    18    26.9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> LINESTRING (-78.167 48.709, -78.167 48.709, -78.167 48.709, -7…     0     0  </span>
-<span class="r-in"><span><span class="fu">eulerpole_greatcircles</span><span class="op">(</span><span class="va">euler</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eulerpole_greatcircles</span><span class="op">(</span><span class="va">por</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 11 features and 1 field</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: GEOMETRY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -179,7 +179,7 @@ circles at a constant angle.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>   108 MULTILINESTRING ((101.833 -48.709, 101.977 -48.67801, 102.1209 -48.646…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>   144 MULTILINESTRING ((101.833 -48.709, 101.9219 -48.62806, 102.0106 -48.54…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>     0 MULTILINESTRING ((101.833 -48.709, 101.833 -48.609, 101.833 -48.509, 1…</span>
-<span class="r-in"><span><span class="fu">eulerpole_loxodromes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eulerpole_loxodromes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">por</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 15 features and 1 field</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: GEOMETRY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -203,7 +203,7 @@ circles at a constant angle.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>     0 LINESTRING (102.1322 -48.70793, 102.2393 -48.70703, 102.3465 -48.70586…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>    36 LINESTRING (102.0739 -48.59215, 102.1596 -48.54991, 102.245 -48.50747,…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span>    72 LINESTRING (101.9241 -48.52098, 101.9561 -48.45352, 101.9878 -48.38601…</span>
-<span class="r-in"><span><span class="fu">eulerpole_loxodromes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">euler</span>, angle <span class="op">=</span> <span class="fl">30</span>, cw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eulerpole_loxodromes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">por</span>, angle <span class="op">=</span> <span class="fl">30</span>, cw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 13 features and 1 field</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: GEOMETRY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
