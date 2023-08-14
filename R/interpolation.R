@@ -553,7 +553,7 @@ dispersion_grid <- function(x,
           } else if (stat == "rayleigh") {
             y <- weighted_rayleigh(datas$azi[ids_R], prd = datas$prd[ids_R], unc = datas$unc[ids_R], ...)$statistic
           } else {
-            y <- circular_dispersion(datas$azi[ids_R], mean = datas$prd[ids_R], w = 1 / datas$unc[ids_R], ...)
+            y <- circular_dispersion(datas$azi[ids_R], y = datas$prd[ids_R], w = 1 / datas$unc[ids_R], ...)
           }
         }
 

@@ -33,7 +33,7 @@ roll_rayleigh(
 
 roll_dispersion(
   x,
-  mean,
+  y,
   w = NULL,
   width = NULL,
   by.column = FALSE,
@@ -56,7 +56,7 @@ roll_confidence(
 
 roll_dispersion_CI(
   x,
-  mean,
+  y,
   w = NULL,
   R,
   conf.level = 0.95,
@@ -97,11 +97,9 @@ fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 
 \item{...}{optional arguments passed to \code{\link[zoo:rollapply]{zoo::rollapply()}}}
 
-\item{x}{numeric. Directions in dgerees}
+\item{x, y}{numeric. Directions in degrees}
 
-\item{mean}{numeric. The angle about which the angles \code{x} disperse (in degrees).}
-
-\item{w}{(optional) Weights. A vector of positive numbers and of the same
+\item{w}{(optional) Weights of \code{x}. A vector of positive numbers and of the same
 length as \code{x}.}
 
 \item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.
@@ -138,7 +136,7 @@ dat <- san_andreas[order(distance), ]
 dat.PoR <- PoR_shmax(san_andreas, PoR, "right")
 roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
 roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
-roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1 / dat$unc)
+roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc)
 roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc)
-roll_dispersion_CI(dat.PoR$azi.PoR, mean = 135, w = 1 / dat$unc, R = 10)
+roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10)
 }

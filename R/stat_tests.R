@@ -152,10 +152,12 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
   } else {
     f <- 1
   }
-  x <- (na.omit(x) * f) %% 360
-  n <- length(x)
+
 
   if (is.null(mu)) {
+    x <- (na.omit(x) * f) %% 360
+    n <- length(x)
+
     R <- mean_resultant_length(x, na.rm = FALSE)
     S <- 2 * n * R^2
     S2 <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
@@ -177,7 +179,13 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
       message("Do Not Reject Null Hypothesis\n")
     }
   } else {
-    mu <- (f * mu) %% 360
+    data <- cbind(x = x, mu = mu)
+    data <- data[stats::complete.cases(data), ] # remove NA values
+
+    x <- (data[, "x"] * f) %% 360
+    mu <- (data[, "mu"] * f) %% 360
+    n <- length(x)
+
     C <- (sum(cosd(x - mu))) / n
     s <- sqrt(2 * n) * C
     p.value <- rayleigh_p_value2(s, n)

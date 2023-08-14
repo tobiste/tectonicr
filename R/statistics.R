@@ -319,10 +319,10 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' Circular distance between two angles and circular dispersion of angles
 #' about a specified angle.
 #'
-#' @param x,y vectors of numeric values in degrees.
-#' @param mean numeric. The angle about which the angles `x` disperse (in degrees).
-#' @param w (optional) Weights. A vector of positive numbers and of the same
-#' length as \code{x}.
+#' @param x,y vectors of numeric values in degrees. `length(y)` is either
+#' `1` or `length(x)`
+#' @param w,w.y (optional) Weights. A vector of positive numbers and of the same
+#' length as \code{x}. `w.y` is the (optional) weight of `y`.
 #' @param norm logical. Whether the dispersion should be normalized by the
 #' maximum possible angular difference.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
@@ -335,7 +335,8 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #'
 #' @importFrom stats complete.cases
 #'
-#' @returns numeric.
+#' @returns `circular_distance`returns a numeric vector of positive numbers,
+#' `circular_dispersion`returns a positive number.
 #'
 #' @note
 #' If `from` is `NULL`, than the circular variance is returned.
@@ -346,14 +347,16 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #'
 #' @examples
 #' a <- c(0, 2, 359, 6, 354)
+#' circular_distance(a, 10) # distance to single value
+#'
 #' b <- a + 90
-#' circular_distance(a, b)
+#' circular_distance(a, b) # distance to multiple values
 #'
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' circular_dispersion(sa.por$azi.PoR, mean = 135)
-#' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
+#' circular_dispersion(sa.por$azi.PoR, y = 135)
+#' circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 NULL
 
 #' @rdname dispersion
@@ -365,8 +368,19 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
     f <- 1
   }
 
-  if (na.rm) {
-    x <- na.omit(x)
+  stopifnot(length(y) == 1 | length(y) == length(x))
+  if (length(y) == 1) {
+    y <- rep(y, length(x))
+  }
+
+  if (length(x) > 1) {
+    data <- cbind(x = x, y = y)
+    if (na.rm) {
+      data <- data[stats::complete.cases(data), ] # remove NA values
+    }
+
+    x <- data[, "x"]
+    y <- data[, "y"]
   }
 
   diff <- x - y
@@ -375,21 +389,33 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
 
 #' @rdname dispersion
 #' @export
-circular_dispersion <- function(x, mean = NULL, w = NULL, norm = FALSE, axial = TRUE, na.rm = TRUE) {
-  if (is.null(mean)) {
+circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE, axial = TRUE, na.rm = TRUE) {
+  if (is.null(y)) {
     circular_var(x, w, axial, na.rm)
   } else {
+    stopifnot(length(y) == 1 | length(y) == length(x))
+
     if (is.null(w)) {
       w <- rep(1, times = length(x))
     }
+    if (is.null(w.y)) {
+      w.y <- rep(1, times = length(x))
+    }
+    if (length(y) == 1) {
+      y <- rep(y, times = length(x))
+    }
 
-    data <- cbind(x = x, w = w)
+    data <- cbind(x = x, w = w, y = y, w.y = w.y)
     if (na.rm) {
       data <- data[stats::complete.cases(data), ] # remove NA values
     }
 
     x <- data[, "x"]
-    w <- data[, "w"]
+    w.x <- data[, "w"]
+    y <- data[, "y"]
+    w.y <- data[, "w.y"]
+
+    w <- w.x * w.y
 
     Z <- sum(w)
 
@@ -398,10 +424,21 @@ circular_dispersion <- function(x, mean = NULL, w = NULL, norm = FALSE, axial = 
       md <- 2
     }
 
-    cdists <- circular_distance(x, mean, axial, na.rm = FALSE)
+    cdists <- circular_distance(x, y, axial, na.rm = FALSE)
     sum(w * cdists) / (Z * md)
   }
 }
+
+
+cdist2angle <- function(x, axial = TRUE) {
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+  acosd(1 - f * x) / f
+}
+
 
 
 #' Error of Model's Prediction
@@ -561,7 +598,7 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 
 
 circular_dispersion_i <- function(x, id, ...) {
-  circular_dispersion(x$x[id], mean = x$mean[id], w = x$w[id], ...)
+  circular_dispersion(x$x[id], y = x$mean[id], w = x$w[id], ...)
 }
 
 
@@ -571,7 +608,7 @@ circular_dispersion_i <- function(x, id, ...) {
 #' its standard error and its confidence interval.
 #'
 #' @param x numeric values in degrees.
-#' @param mean numeric. The angle about which the angles `x` disperse (in degrees).
+#' @param y numeric. The angle(s) about which the angles `x` disperse (in degrees).
 #' @param w (optional) Weights. A vector of positive numbers and of the same
 #' length as \code{x}.
 #' @param R The number of bootstrap replicates. positive integer
@@ -597,10 +634,10 @@ circular_dispersion_i <- function(x, id, ...) {
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
-#' circular_dispersion_MLE(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc, R = 1000)
-circular_dispersion_MLE <- function(x, mean = NULL, w = NULL, R, conf.level = .95, ...) {
-  dat <- data.frame(x = x, mean = mean, w = w)
+#' circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
+#' circular_dispersion_MLE(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
+circular_dispersion_MLE <- function(x, y = NULL, w = NULL, R, conf.level = .95, ...) {
+  dat <- data.frame(x = x, y = y, w = w)
   cdisp <- boot::boot(dat, circular_dispersion_i, R = R, ...)
   ci <- boot::boot.ci(cdisp, conf = conf.level, type = "perc")
 

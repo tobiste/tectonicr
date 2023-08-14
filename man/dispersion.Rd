@@ -10,15 +10,17 @@ circular_distance(x, y, axial = TRUE, na.rm = TRUE)
 
 circular_dispersion(
   x,
-  mean = NULL,
+  y = NULL,
   w = NULL,
+  w.y = NULL,
   norm = FALSE,
   axial = TRUE,
   na.rm = TRUE
 )
 }
 \arguments{
-\item{x, y}{vectors of numeric values in degrees.}
+\item{x, y}{vectors of numeric values in degrees. \code{length(y)} is either
+\code{1} or \code{length(x)}}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
@@ -26,16 +28,15 @@ circular_dispersion(
 \item{na.rm}{logical. Whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
 
-\item{mean}{numeric. The angle about which the angles \code{x} disperse (in degrees).}
-
-\item{w}{(optional) Weights. A vector of positive numbers and of the same
-length as \code{x}.}
+\item{w, w.y}{(optional) Weights. A vector of positive numbers and of the same
+length as \code{x}. \code{w.y} is the (optional) weight of \code{y}.}
 
 \item{norm}{logical. Whether the dispersion should be normalized by the
 maximum possible angular difference.}
 }
 \value{
-numeric.
+\code{circular_distance}returns a numeric vector of positive numbers,
+\code{circular_dispersion}returns a positive number.
 }
 \description{
 Circular distance between two angles and circular dispersion of angles
@@ -46,14 +47,16 @@ If \code{from} is \code{NULL}, than the circular variance is returned.
 }
 \examples{
 a <- c(0, 2, 359, 6, 354)
+circular_distance(a, 10) # distance to single value
+
 b <- a + 90
-circular_distance(a, b)
+circular_distance(a, b) # distance to multiple values
 
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-circular_dispersion(sa.por$azi.PoR, mean = 135)
-circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
+circular_dispersion(sa.por$azi.PoR, y = 135)
+circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 }
 \references{
 Mardia, K.V. (1972). Statistics of Directional Data: Probability

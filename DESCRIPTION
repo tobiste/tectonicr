@@ -16,7 +16,6 @@ Depends:
     R (>= 4.1.0)
 Imports:
     boot,
-    cli,
     dplyr,
     ggplot2,
     glue,
@@ -30,7 +29,6 @@ Imports:
     terra,
     tidyr,
     viridis,
-    withr,
     zoo
 Suggests: 
     covr,

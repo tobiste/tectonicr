@@ -4,12 +4,12 @@
 \alias{circular_dispersion_MLE}
 \title{Maximum likelihood estimates for circular dispersion}
 \usage{
-circular_dispersion_MLE(x, mean = NULL, w = NULL, R, conf.level = 0.95, ...)
+circular_dispersion_MLE(x, y = NULL, w = NULL, R, conf.level = 0.95, ...)
 }
 \arguments{
 \item{x}{numeric values in degrees.}
 
-\item{mean}{numeric. The angle about which the angles \code{x} disperse (in degrees).}
+\item{y}{numeric. The angle(s) about which the angles \code{x} disperse (in degrees).}
 
 \item{w}{(optional) Weights. A vector of positive numbers and of the same
 length as \code{x}.}
@@ -37,8 +37,8 @@ its standard error and its confidence interval.
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-circular_dispersion(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc)
-circular_dispersion_MLE(sa.por$azi.PoR, mean = 135, w = 1 / san_andreas$unc, R = 1000)
+circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
+circular_dispersion_MLE(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
 }
 \seealso{
 \code{\link[=circular_dispersion]{circular_dispersion()}}

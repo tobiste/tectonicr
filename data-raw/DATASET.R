@@ -2,15 +2,15 @@
 
 wsm2016 <-
   dplyr::mutate(wsm2016,
-         quality = forcats::fct_relevel(quality, "A", "B", "C", "D", "E"),
-         regime = ifelse(regime == "NF", "N", regime),
-         regime = ifelse(regime == "TF", "T", regime),
-         regime = ifelse(regime == "SS", "S", regime),
-         regime = ifelse(regime == "U", NA, regime),
-         quality.quant = tectonicr::quantise_wsm_quality(quality),
-         unc = ifelse(is.na(sd), quality.quant, sd),
-         unc = ifelse(unc > quality.quant, quality.quant, unc),
-         unc = ifelse(unc == 0, 15, unc),
+    quality = forcats::fct_relevel(quality, "A", "B", "C", "D", "E"),
+    regime = ifelse(regime == "NF", "N", regime),
+    regime = ifelse(regime == "TF", "T", regime),
+    regime = ifelse(regime == "SS", "S", regime),
+    regime = ifelse(regime == "U", NA, regime),
+    quality.quant = tectonicr::quantise_wsm_quality(quality),
+    unc = ifelse(is.na(sd), quality.quant, sd),
+    unc = ifelse(unc > quality.quant, quality.quant, unc),
+    unc = ifelse(unc == 0, 15, unc),
   ) |>
   dplyr::arrange(quality, unc) |>
   dplyr::filter(quality != "E") |>

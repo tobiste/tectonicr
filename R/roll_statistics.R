@@ -67,7 +67,9 @@ roll_circstats <- function(x, w = NULL,
 #' A generic function for applying a function to rolling margins of an array.
 #'
 #' @inheritParams norm_chisq
-#' @param x numeric. Directions in dgerees
+#' @param x,y numeric. Directions in degrees
+#' @param w (optional) Weights of `x`. A vector of positive numbers and of the same
+#' length as \code{x}.
 #' @inheritParams circular_dispersion
 #' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
 #' (`0.95` by default).
@@ -106,9 +108,9 @@ roll_circstats <- function(x, w = NULL,
 #' dat.PoR <- PoR_shmax(san_andreas, PoR, "right")
 #' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
 #' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
-#' roll_dispersion(dat.PoR$azi.PoR, mean = 135, w = 1 / dat$unc)
+#' roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc)
 #' roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc)
-#' roll_dispersion_CI(dat.PoR$azi.PoR, mean = 135, w = 1 / dat$unc, R = 10)
+#' roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10)
 NULL
 
 #' @rdname rolling_test
@@ -161,7 +163,7 @@ roll_rayleigh <- function(obs, prd, unc = NULL,
 
 #' @rdname rolling_test
 #' @export
-roll_dispersion <- function(x, mean, w = NULL,
+roll_dispersion <- function(x, y, w = NULL,
                             width = NULL, by.column = FALSE,
                             partial = TRUE,
                             fill = NA,
@@ -171,7 +173,7 @@ roll_dispersion <- function(x, mean, w = NULL,
   }
 
   zoo::rollapply(
-    cbind(x, mean, w),
+    cbind(x, y, w),
     width = width,
     FUN = function(x) {
       suppressMessages(circular_dispersion(x[, 1], x[, 2], x[, 3], norm = TRUE))
@@ -208,14 +210,14 @@ roll_confidence <- function(x, conf.level = .95, w = NULL, axial = TRUE,
 
 #' @rdname rolling_test
 #' @export
-roll_dispersion_CI <- function(x, mean, w = NULL, R, conf.level = .95,
+roll_dispersion_CI <- function(x, y, w = NULL, R, conf.level = .95,
                                width = NULL, by.column = FALSE, partial = TRUE, fill = NA, ...) {
   if (is.null(width)) {
     width <- optimal_rollwidth(x)
   }
 
   zoo::rollapply(
-    cbind(x, mean, w),
+    cbind(x, y, w),
     width = width,
     FUN = function(x) {
       suppressMessages(circular_dispersion_MLE(x[, 1], x[, 2], x[, 3], R = R, conf.level = conf.level, ...)$CI)
