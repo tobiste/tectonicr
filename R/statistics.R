@@ -638,11 +638,11 @@ circular_dispersion_i <- function(x, id, ...) {
 #' circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 #' circular_dispersion_boot(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
 circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000, conf.level = .95, ...) {
-  if(is.null(w)){
-    w = rep(1, length(x))
+  if (is.null(w)) {
+    w <- rep(1, length(x))
   }
-  if(is.null(w.y)){
-    w.y = rep(1, length(x))
+  if (is.null(w.y)) {
+    w.y <- rep(1, length(x))
   }
 
   dat <- data.frame(x = x, y = y, w = w, w.y = w.y)

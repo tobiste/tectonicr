@@ -171,11 +171,11 @@ roll_dispersion <- function(x, y, w = NULL, w.y = NULL,
   if (is.null(width)) {
     width <- optimal_rollwidth(x)
   }
-  if(is.null(w)){
-    w = rep(1, length(x))
+  if (is.null(w)) {
+    w <- rep(1, length(x))
   }
-  if(is.null(w.y)){
-    w.y = rep(1, length(x))
+  if (is.null(w.y)) {
+    w.y <- rep(1, length(x))
   }
 
   zoo::rollapply(
@@ -221,11 +221,11 @@ roll_dispersion_CI <- function(x, y, w = NULL, w.y = NULL, R, conf.level = .95,
   if (is.null(width)) {
     width <- optimal_rollwidth(x)
   }
-  if(is.null(w)){
-    w = rep(1, length(x))
+  if (is.null(w)) {
+    w <- rep(1, length(x))
   }
-  if(is.null(w.y)){
-    w.y = rep(1, length(x))
+  if (is.null(w.y)) {
+    w.y <- rep(1, length(x))
   }
 
   zoo::rollapply(
