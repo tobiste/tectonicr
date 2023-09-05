@@ -215,15 +215,15 @@ the prediction can be measured by:</p>
 <p>The standard error and the confidence interval of the calculated
 circular dispersion can be estimated by bootstrapping via:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_dispersion_MLE.html">circular_dispersion_MLE</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_dispersion_boot.html">circular_dispersion_boot</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $MLE</span></span>
-<span><span class="co">#&gt; [1] 0.190133</span></span>
+<span><span class="co">#&gt; [1] 0.1907829</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sde</span></span>
-<span><span class="co">#&gt; [1] 0.009364959</span></span>
+<span><span class="co">#&gt; [1] 0.009883137</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $CI</span></span>
-<span><span class="co">#&gt; [1] 0.1717374 0.2083645</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.1718123 0.2106798</span></span></code></pre></div>
 <p>The statistical test for the goodness-of-fit is the (weighted)
 Rayleigh Test:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
