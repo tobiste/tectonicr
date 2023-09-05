@@ -598,20 +598,21 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 
 
 circular_dispersion_i <- function(x, id, ...) {
-  circular_dispersion(x$x[id], y = x$mean[id], w = x$w[id], ...)
+  circular_dispersion(x$x[id], y = x$mean[id], w = x$w[id], w.y = x$w.y[id], ...)
 }
 
 
-#' Maximum likelihood estimates for circular dispersion
+#' Bootstrapped estimates for circular dispersion
 #'
 #' Calculates bootstrapped estimates of the circular dispersion,
 #' its standard error and its confidence interval.
 #'
 #' @param x numeric values in degrees.
 #' @param y numeric. The angle(s) about which the angles `x` disperse (in degrees).
-#' @param w (optional) Weights. A vector of positive numbers and of the same
-#' length as \code{x}.
+#' @param w,w.y (optional) Weights for `x` and `y`, respectively. A vector of
+#' positive numbers and of the same length as \code{x}.
 #' @param R The number of bootstrap replicates. positive integer
+#' (1000 by default).
 #' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
 #' (`0.95` by default).
 #' @param ... optional arguments passed to [boot::boot()]
@@ -635,9 +636,16 @@ circular_dispersion_i <- function(x, id, ...) {
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
-#' circular_dispersion_MLE(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
-circular_dispersion_MLE <- function(x, y = NULL, w = NULL, R, conf.level = .95, ...) {
-  dat <- data.frame(x = x, y = y, w = w)
+#' circular_dispersion_boot(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
+circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000, conf.level = .95, ...) {
+  if(is.null(w)){
+    w = rep(1, length(x))
+  }
+  if(is.null(w.y)){
+    w.y = rep(1, length(x))
+  }
+
+  dat <- data.frame(x = x, y = y, w = w, w.y = w.y)
   cdisp <- boot::boot(dat, circular_dispersion_i, R = R, ...)
   ci <- boot::boot.ci(cdisp, conf = conf.level, type = "perc")
 

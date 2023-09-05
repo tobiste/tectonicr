@@ -112,7 +112,7 @@ The value of the dispersion ranges between 0 and 2.
 
 The standard error and the confidence interval of the calculated circular dispersion can be estimated by bootstrapping via:
 ```{r dispersion_MLE, echo=TRUE}
-circular_dispersion_MLE(san_andreas.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
+circular_dispersion_boot(san_andreas.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
 ```
 
 

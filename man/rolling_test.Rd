@@ -35,6 +35,7 @@ roll_dispersion(
   x,
   y,
   w = NULL,
+  w.y = NULL,
   width = NULL,
   by.column = FALSE,
   partial = TRUE,
@@ -58,6 +59,7 @@ roll_dispersion_CI(
   x,
   y,
   w = NULL,
+  w.y = NULL,
   R,
   conf.level = 0.95,
   width = NULL,
@@ -99,7 +101,7 @@ fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 
 \item{x, y}{numeric. Directions in degrees}
 
-\item{w}{(optional) Weights of \code{x}. A vector of positive numbers and of the same
+\item{w, w.y}{(optional) Weights of \code{x} and \code{y}, respectively. A vector of positive numbers and of the same
 length as \code{x}.}
 
 \item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.

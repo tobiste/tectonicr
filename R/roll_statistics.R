@@ -68,7 +68,7 @@ roll_circstats <- function(x, w = NULL,
 #'
 #' @inheritParams norm_chisq
 #' @param x,y numeric. Directions in degrees
-#' @param w (optional) Weights of `x`. A vector of positive numbers and of the same
+#' @param w,w.y (optional) Weights of `x` and `y`, respectively. A vector of positive numbers and of the same
 #' length as \code{x}.
 #' @inheritParams circular_dispersion
 #' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
@@ -163,7 +163,7 @@ roll_rayleigh <- function(obs, prd, unc = NULL,
 
 #' @rdname rolling_test
 #' @export
-roll_dispersion <- function(x, y, w = NULL,
+roll_dispersion <- function(x, y, w = NULL, w.y = NULL,
                             width = NULL, by.column = FALSE,
                             partial = TRUE,
                             fill = NA,
@@ -171,12 +171,18 @@ roll_dispersion <- function(x, y, w = NULL,
   if (is.null(width)) {
     width <- optimal_rollwidth(x)
   }
+  if(is.null(w)){
+    w = rep(1, length(x))
+  }
+  if(is.null(w.y)){
+    w.y = rep(1, length(x))
+  }
 
   zoo::rollapply(
-    cbind(x, y, w),
+    cbind(x, y, w, w.y),
     width = width,
     FUN = function(x) {
-      suppressMessages(circular_dispersion(x[, 1], x[, 2], x[, 3], norm = TRUE))
+      suppressMessages(circular_dispersion(x[, 1], x[, 2], x[, 3], x[, 4], norm = TRUE))
     },
     by.column = by.column,
     partial = partial,
@@ -210,17 +216,23 @@ roll_confidence <- function(x, conf.level = .95, w = NULL, axial = TRUE,
 
 #' @rdname rolling_test
 #' @export
-roll_dispersion_CI <- function(x, y, w = NULL, R, conf.level = .95,
+roll_dispersion_CI <- function(x, y, w = NULL, w.y = NULL, R, conf.level = .95,
                                width = NULL, by.column = FALSE, partial = TRUE, fill = NA, ...) {
   if (is.null(width)) {
     width <- optimal_rollwidth(x)
   }
+  if(is.null(w)){
+    w = rep(1, length(x))
+  }
+  if(is.null(w.y)){
+    w.y = rep(1, length(x))
+  }
 
   zoo::rollapply(
-    cbind(x, y, w),
+    cbind(x, y, w, w.y),
     width = width,
     FUN = function(x) {
-      suppressMessages(circular_dispersion_MLE(x[, 1], x[, 2], x[, 3], R = R, conf.level = conf.level, ...)$CI)
+      suppressMessages(circular_dispersion_boot(x[, 1], x[, 2], x[, 3], x[, 4], R = R, conf.level = conf.level, ...)$CI)
     },
     by.column = by.column,
     partial = partial,
