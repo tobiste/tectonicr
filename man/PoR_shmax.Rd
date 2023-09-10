@@ -42,8 +42,8 @@ gives the deviation from the theoretically predicted azimuth of
 \eqn{\chi^2}{chi-squared} statistics.
 }
 \details{
-According to the theory, the azimuth of
-\eqn{\sigma_{Hmax}}{SHmax} in the pole of rotation reference system is
+The azimuth of \eqn{\sigma_{Hmax}}{SHmax} in the pole of rotation
+reference system is
 approximate 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
 outward, sinistral, inward, or dextral moving plate boundary, respectively.
 directions of \eqn{\sigma_{Hmax}}{SHmax} with respect to the four
@@ -57,6 +57,11 @@ PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 data("san_andreas")
 res <- PoR_shmax(san_andreas, PoR, type = "right")
 head(res)
+}
+\references{
+Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+horizontal orientation of the crustal stress adjacent to plate boundaries".
+\emph{Scientific Reports}.
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to compute the theoretical direction of

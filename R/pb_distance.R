@@ -60,7 +60,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param PoR Pole of Roation. \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Pole of Rotation
 #' @param tangential Logical. Whether the plate boundary is a tangential
 #' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the

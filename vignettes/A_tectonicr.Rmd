@@ -27,7 +27,7 @@ relative motion of neighboring plates.
 
 The theory of intraplate tectonics (Wdowinski 1998)
 allows for calculating the first-order intraplate deformation induced by 
-horizontal displacement of deformable plate boundaries. It is based on empirical
+horizontal displacement of deformable plate boundaries (Stephan et al., 2023). It is based on empirical
 link between the directions of relative plate motion and the
 displacement and deformation fields within a plate interior adjacent to
 three types of deformable plate boundaries: inward-, outward-, and
@@ -143,7 +143,7 @@ print(deviation)
 
 The **normalized** $\chi^2$ test quantitatively compares the predicted
 (`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the reported
-$\sigma$ standard deviation (wdowinski 1998).
+$\sigma$ standard deviation (Wdowinski 1998).
 
 <!-- ```{=tex} -->
 <!-- \begin{equation}  -->
@@ -204,8 +204,17 @@ equivalent_rotation(gsrm, rot = "na", fixed = "eu")
 ```
 # References
 
-DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” *Geophysical Journal International* 101 (2): 425–78. https://doi.org/10.1111/j.1365-246x.1990.tb06579.x.
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” 
+*Geophysical Journal International* 101 (2): 425–78. 
+doi: [10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x).
 
-Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the Driving Forces of Plate Motion.” *Geophysical Journal International* 43 (1): 163–200. https://doi.org/10.1111/j.1365-246x.1975.tb00631.x.
+Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the Driving Forces of Plate Motion.” 
+*Geophysical Journal International* 43 (1): 163–200. 
+doi: [10.1111/j.1365-246x.1975.tb00631.x](https://doi.org/10.1111/j.1365-246x.1975.tb00631.x).
 
-Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics.” *Journal of Geophysical Research: Solid Earth* 103 (B3): 5037–59. https://doi.org/10.1029/97jb03390.
+Stephan, T., Kroner, U., and Enkelmann, E. (accepted). "Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries". 
+**Scientific Reports**.
+
+Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics.” 
+*Journal of Geophysical Research: Solid Earth* 103 (B3): 5037–59. doi: 10.1029/97jb03390.
+<!---[10.1029/97jb03390](https://doi.org/10.1029/97JB03390).-->

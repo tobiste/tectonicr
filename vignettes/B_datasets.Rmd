@@ -369,8 +369,15 @@ stress_analysis(san_andreas, por, "right", plate_boundary, plot = TRUE)
 
 ## References
 
-Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries.” *Geochemistry, Geophysics, Geosystems* 4 (3). https://doi.org/10.1029/2001gc000252.
+Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries.” 
+*Geochemistry, Geophysics, Geosystems* 4 (3). 
+doi: 10.1029/2001gc000252.
+<!---[10.1029/2001gc000252](https://doi.org/10.1029/2001GC000252).-->
 
-DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” *Geophysical Journal International* 101 (2): 425–78. https://doi.org/10.1111/j.1365-246x.1990.tb06579.x.
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” 
+*Geophysical Journal International* 101 (2): 425–78. 
+doi: [10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x).
 
-Heidbach, Oliver, Mojtaba Rajabi, Karsten Reiter, Moritz Ziegler, and WSM Team. 2016. “World Stress Map Database Release 2016. V. 1.1.” GFZ Data Services. https://doi.org/10.5880/WSM.2016.001.
+Heidbach, Oliver, Mojtaba Rajabi, Karsten Reiter, Moritz Ziegler, and WSM Team. 2016. 
+“World Stress Map Database Release 2016. V. 1.1.” GFZ Data Services. 
+doi: [10.5880/WSM.2016.001](https://doi.org/10.5880/WSM.2016.001).

@@ -44,6 +44,11 @@ point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, PoR)
 deviation_shmax(prd, obs = 90)
 }
+\references{
+Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+horizontal orientation of the crustal stress adjacent to plate boundaries".
+\emph{Scientific Reports}.
+}
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to calculate the theoretical direction of
 \eqn{\sigma_{Hmax}}{SHmax}.

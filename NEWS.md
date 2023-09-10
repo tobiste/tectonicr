@@ -1,3 +1,10 @@
+# tectonicr 0.2.93 _2023-09-10_
+
+* prepared for CRAN submission
+* bootstrap statistics of circular dispersion
+* multiple angles as input for circular dispersion and daughter functions
+* spatial distribution of the dispersion
+
 # tectonicr 0.2.92 _2023-05-16_
 
 * statistical tests for circular uniformity and goodness-of-fit

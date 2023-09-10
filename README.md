@@ -6,14 +6,16 @@
 
 # tectonicr
 
-**tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates. The following methods are available:
+**tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates (Wdowinski, 1998; Stephan et al., 2023). The following methods are available:
 
-- **Theoretical direction of SHmax**: The predicted stress field adjacent to a plate boundary is calculated using the relative plate motion of the neighboring plates using the function `model_shmax()`. The goodness-of-fit can be statistically tested by e.g. `norm_chisq()`, `circular_dispersion()` ,`rayleigh_test()`, and `confidence_interval()`.
+- **Direction of the plate boundary forces**: `PoR_shmax()` gives the predicted stress field adjacent to a plate boundary, calculated using the relative plate motion of the neighboring plates using the function `model_shmax()`. The goodness-of-fit can be statistically tested by e.g. `norm_chisq()`, `circular_dispersion()` ,`rayleigh_test()`, and `confidence_interval()`.
 - **Distance to plate boundary**: `distance_from_pb()` gives the distance between the stress data point and the plate boundary measured along the stress trajectories.
-- **Visualization of the trajectories of the theoretical stress field** in terms of small circles, great circles, and lines of constant bearing. The `eulerpole_paths()` functions generates an  `sf` object containing spatial information that is suitable to plot with, for instance, `ggplot()`. 
+- **Trajectories of the theoretical stress field**  `eulerpole_paths()` generates an  `sf` object containing spatial information that is suitable to plot with, for instance, `ggplot()`. 
 - **Relative rotations from a given set of plate motion parameters**: `equivalent_rotation()` transfers a set of plate motion parameters into the relative plate motions among the given plates. 
-- **Average direction of a set of SHmax data** using the (weighted) mean, quasi-median, and other parameters to statistically estimate the distribution parameters of pi-directional data. 
+- **Average direction and variance of a set of SHmax data** using (weighted) statistics and other parameters to statistically estimate the distribution parameters of pi-directional data. 
 - **Spatial interpolation of of SHmax**: `PoR_stress2grid()` uses distance, method, and quality-weighted mean direction of stress data without being affected by angular distortions.
+- **Rose plot** `rose()` shows the frequencies of the orientations in polar coordinates
+- **Stress anomaly map**: spatial distribution of the dispersion of the observed stress field from the directions of plate boundary forces
 
 ## Prerequisites
 
@@ -39,7 +41,11 @@ https://tobiste.github.io/tectonicr/articles/tectonicr.html
 Tobias Stephan
 
 ## How to cite
-When referencing this package, please cite the package DOI: [10.5281/zenodo.7510800](https://doi.org/10.5281/zenodo.7510800).
+When referencing this package, please cite 
+
+<div class="csl-entry">Stephan, T., Kroner, U., &#38; Enkelmann, E. (accepted). Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries. <i>Scientific Reports</i>
+
+and the package DOI: [10.5281/zenodo.7510800](https://doi.org/10.5281/zenodo.7510800).
 
 
 ## Useful References

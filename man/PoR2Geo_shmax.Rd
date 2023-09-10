@@ -27,3 +27,8 @@ san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
 res.geo <- PoR2Geo_shmax(san_andreas, PoR)
 head(res.geo)
 }
+\references{
+Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+horizontal orientation of the crustal stress adjacent to plate boundaries".
+\emph{Scientific Reports}.
+}
