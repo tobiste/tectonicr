@@ -8,7 +8,7 @@ Authors@R:
 Description: Models the direction of the maximum horizontal stress using
     relative plate motion parameters. Statistical algorithms to evaluate
     the modelling results compared with the observed data. Provides plots
-    to visualiz the results.
+    to visualize the results.
 License: GPL (>= 3)
 URL: https://tobiste.github.io/tectonicr/
 BugReports: https://github.com/tobiste/tectonicr/issues
