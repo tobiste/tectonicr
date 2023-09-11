@@ -110,7 +110,9 @@ roll_circstats <- function(x, w = NULL,
 #' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
 #' roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc)
 #' roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc)
+#' \dontrun{
 #' roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10)
+#' }
 NULL
 
 #' @rdname rolling_test

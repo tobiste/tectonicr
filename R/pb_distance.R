@@ -86,6 +86,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' @importFrom smoothr densify
 #'
 #' @examples
+#' \dontrun{
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
@@ -102,6 +103,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #'   x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
 #' )
 #' range(res.km)
+#' }
 distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
     inherits(x, "sf"),
