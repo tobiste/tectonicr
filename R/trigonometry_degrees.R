@@ -78,13 +78,16 @@ cotd <- function(x) {
 
 #' Quadrant-specific inverse of the tangent
 #'
-#' returns the quadrant specific inverse of the tangent
+#' Returns the quadrant specific inverse of the tangent
 #'
 #' @param x,y dividend and divisor that comprise the sum of sines and cosines,
 #' respectively.
 #'
 #' @references Jammalamadaka, S. Rao, and Ambar Sengupta (2001). Topics in
 #' circular statistics. Vol. 5. world scientific.
+#'
+#' @returns numeric.
+#'
 #' @name spec_atan
 NULL
 
@@ -240,8 +243,13 @@ ddistance <- function(theta1, phi1, theta2, phi2, r = earth_radius()) {
 #' ellipsoid with equal major and minor axes}
 #' \item{"euclidean"}{Euclidean distance (not great circle distance!)}
 #' }
+#'
+#' @returns numeric vector with length equal to `length(lat1)`
+#'
 #' @export
+#'
 #' @seealso [orthodrome()], [haversine()], [vincenty()]
+#'
 #' @examples
 #' dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
 #' dist_greatcircle(

@@ -1,6 +1,5 @@
 Package: tectonicr
-Title: Modeling and Analyzing the Direction of the Maximum Horizontal
-    Stress Using Relative Plate Motion
+Title: Analyzing the Orientation of Maximum Horizontal Stress
 Version: 0.2.93
 Authors@R: 
     person("Tobias", "Stephan", , "tobias.stephan1@yahoo.com", role = c("aut", "cre"),
@@ -8,7 +7,9 @@ Authors@R:
 Description: Models the direction of the maximum horizontal stress using
     relative plate motion parameters. Statistical algorithms to evaluate
     the modelling results compared with the observed data. Provides plots
-    to visualize the results.
+    to visualize the results. Methods described in Stephan et al. (2023) 
+    "Analyzing the horizontal orientation of the crustal stress adjacent to 
+    plate boundaries" and Wdowinski (1998) <doi:10.1016/S0079-1946(98)00091-3>.
 License: GPL (>= 3)
 URL: https://tobiste.github.io/tectonicr/
 BugReports: https://github.com/tobiste/tectonicr/issues
@@ -18,11 +19,8 @@ Imports:
     boot,
     dplyr,
     ggplot2,
-    glue,
-    lifecycle,
     methods,
     RColorBrewer,
-    rlang (>= 0.4.11),
     sf,
     smoothr,
     spatstat.explore,
@@ -31,9 +29,7 @@ Imports:
     viridis,
     zoo
 Suggests: 
-    covr,
     knitr,
-    purrr,
     rmarkdown,
     roxygen2,
     testthat (>= 3.0.0)

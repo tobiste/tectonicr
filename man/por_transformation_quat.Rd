@@ -13,6 +13,9 @@ PoR_to_geographical_quat(x, PoR)
 \arguments{
 \item{x, PoR}{two-column vectors containing the lat and lon coordinates}
 }
+\value{
+two-element numeric vector
+}
 \description{
 Helper function for the transformation from PoR to geographical coordinate
 system or vice versa

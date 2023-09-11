@@ -18,3 +18,4 @@
 ^revdep$
 ^\.travis\.yml$
 ^R/preliminary\.R$
+^R/utils-tidy-eval\.R$

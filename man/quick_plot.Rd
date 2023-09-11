@@ -22,6 +22,9 @@ regime (following the classification of the World Stress Map)}
 \item{width}{integer. window width (in number of observations) for moving average
 of the azimuths, circular dispersion, and Norm Chi-square statistics. If \code{NULL}, an optimal width will be estimated.}
 }
+\value{
+four R base plots
+}
 \description{
 Creates a set of plots including
 the azimuth as a function of the distance to the plate boundary,

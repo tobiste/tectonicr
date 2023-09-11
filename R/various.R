@@ -69,7 +69,7 @@ regime2unc <- function(x) {
 #' @seealso [PoR_shmax()], [distance_from_pb()], [norm_chisq()], [quick_plot()]
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'

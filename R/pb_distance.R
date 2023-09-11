@@ -86,7 +86,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' @importFrom smoothr densify
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'

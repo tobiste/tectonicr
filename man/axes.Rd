@@ -30,6 +30,9 @@ axes(
 
 \item{...}{optional arguments passed to \code{\link[graphics:arrows]{graphics::arrows()}}}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Plot axes
 }

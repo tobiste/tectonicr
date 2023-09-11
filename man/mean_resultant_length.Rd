@@ -16,6 +16,9 @@ mean, median or standard deviation are required.}
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
 }
+\value{
+numeric.
+}
 \description{
 Measure of spread around the circle. It should be noted that:
 If R=0, then the data is completely spread around the circle.

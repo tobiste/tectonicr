@@ -87,12 +87,17 @@ roll_circstats <- function(x, w = NULL,
 #' are passed to `FUN`. A numeric argument to partial can be used to determine
 #' the minimal window size for partial computations. See below for more details.
 #' @param ... optional arguments passed to [zoo::rollapply()]
+#'
 #' @returns numeric vector with the test statistic of the rolling test.
 #' `roll_dispersion_CI` returns a 2-column matrix with the lower and the upper confidence limits
+#'
 #' @note If the rolling functions are applied to values that are a function of
 #' distance it is recommended to sort the values first.
+#'
 #' @importFrom zoo rollapply
+#'
 #' @name rolling_test
+#'
 #' @examples
 #' data("plates")
 #' plate_boundary <- subset(plates, plates$pair == "na-pa")
@@ -110,7 +115,7 @@ roll_circstats <- function(x, w = NULL,
 #' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
 #' roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc)
 #' roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc)
-#' \dontrun{
+#' \donttest{
 #' roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10)
 #' }
 NULL

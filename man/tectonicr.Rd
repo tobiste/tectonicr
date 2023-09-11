@@ -12,7 +12,7 @@ Motion
 }
 \details{
 Further details and theoretical background are provided by Wdowinski
-(1999) and Stephan et al. (2023).
+(1998) and Stephan et al. (2023).
 }
 \note{
 A list of documented functions may be viewed by typing

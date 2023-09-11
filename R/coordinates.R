@@ -129,10 +129,19 @@ spherical_to_geographical <- function(p) {
 #'
 #' @param x \code{"data.frame"} or \code{"euler.pole"} object containing the
 #' geographical coordinates of the Euler pole
+#'
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the the
 #' translation factors.
+#'
+#' @returns Object of class `crs`
+#'
+#' @importFrom sf st_crs
+#'
+#' @seealso [sf::st_crs()]
+#'
 #' @export
+#'
 #' @examples
 #' data("nuvel1")
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
@@ -161,7 +170,11 @@ PoR_crs <- function(x) {
 #' system or vice versa
 #'
 #' @param x,PoR two-column vectors containing the lat and lon coordinates
+#'
 #' @name por_transformation_quat
+#'
+#' @returns two-element numeric vector
+#'
 #' @examples
 #' ep.geo <- c(20, 33)
 #' q.geo <- c(10, 45)

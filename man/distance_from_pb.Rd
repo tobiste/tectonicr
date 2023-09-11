@@ -35,7 +35,7 @@ latitudinal difference between the data point and the plate boundary
 plate boundaries, respectively.
 }
 \examples{
-\dontrun{
+\donttest{
 data("nuvel1")
 na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 

@@ -22,6 +22,9 @@ pvm(theta, mean, kappa)
 
 \item{theta}{angular value in degrees}
 }
+\value{
+numeric vector.
+}
 \description{
 Density, distribution function, and random generation for the circular normal
 distribution with mean and kappa.

@@ -595,7 +595,11 @@ pvm.mu0 <- function(theta, kappa, acc) {
 #' @param mean mean in degrees
 #' @param kappa concentration parameter
 #' @param theta angular value in degrees
+#'
+#' @returns numeric vector.
+#'
 #' @name vonmises
+#'
 #' @examples
 #' x <- rvm(100, mean = 90, k = 100)
 #' dvm(x, mean = 90, k = 100)

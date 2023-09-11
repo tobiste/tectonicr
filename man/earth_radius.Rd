@@ -6,6 +6,9 @@
 \usage{
 earth_radius()
 }
+\value{
+numeric value
+}
 \description{
 IERS mean radius of Earth in km (based on WGS 84)
 }

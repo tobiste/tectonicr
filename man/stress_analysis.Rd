@@ -52,7 +52,7 @@ Returns the converted azimuths, distances to the plate boundary,
 statistics of the model, and some plots.
 }
 \examples{
-\dontrun{
+\donttest{
 data("nuvel1")
 na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 

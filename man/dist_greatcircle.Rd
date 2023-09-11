@@ -32,6 +32,9 @@ ellipsoid with equal major and minor axes}
 \item{"euclidean"}{Euclidean distance (not great circle distance!)}
 }}
 }
+\value{
+numeric vector with length equal to \code{length(lat1)}
+}
 \description{
 Returns the great circle distance between a location and all grid point in km
 }

@@ -87,6 +87,8 @@ stress_colors <- function() {
 #' @param add logical. add to existing plot?
 #' @param ... optional arguments passed to [graphics::arrows()]
 #'
+#' @returns No return value, called for side effects
+#'
 #' @export
 #'
 #' @examples
@@ -335,6 +337,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' red line shows the rolling circular dispersion about the prediction.
 #'
 #' Plot 4 give the rose diagram of the transformed azimuths.
+#'
+#' @returns four R base plots
 #'
 #' @export
 #'

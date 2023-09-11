@@ -40,6 +40,19 @@ degree. Default is 2.5 (is ignored if \code{"grid"} is specified)}
 
 \item{...}{Arguments passed to \code{\link[=stress2grid]{stress2grid()}}}
 }
+\value{
+\code{sf} object containing
+\describe{
+\item{lon,lat}{longitude and latitude in geographical CRS (in degrees)}
+\item{lon.PoR,lat.PoR}{longitude and latitude in PoR CRS (in degrees)}
+\item{azi}{geographical mean SHmax in degree}
+\item{azi.PoR}{PoR mean SHmax in degree}
+\item{sd}{Standard deviation of SHmax in degrees}
+\item{R}{Search radius in km}
+\item{mdr}{Mean distance of datapoints per search radius}
+\item{N}{Number of data points in search radius}
+}
+}
 \description{
 The data is transformed into the PoR system before the
 interpolation. The interpolation grid is returned in geographical coordinates

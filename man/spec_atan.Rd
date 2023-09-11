@@ -14,8 +14,11 @@ atan2d_spec(x, y)
 \item{x, y}{dividend and divisor that comprise the sum of sines and cosines,
 respectively.}
 }
+\value{
+numeric.
+}
 \description{
-returns the quadrant specific inverse of the tangent
+Returns the quadrant specific inverse of the tangent
 }
 \references{
 Jammalamadaka, S. Rao, and Ambar Sengupta (2001). Topics in

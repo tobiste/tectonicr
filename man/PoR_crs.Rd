@@ -10,6 +10,9 @@ PoR_crs(x)
 \item{x}{\code{"data.frame"} or \code{"euler.pole"} object containing the
 geographical coordinates of the Euler pole}
 }
+\value{
+Object of class \code{crs}
+}
 \description{
 Create the reference system transformed in Euler pole
 coordinate
@@ -23,4 +26,7 @@ translation factors.
 data("nuvel1")
 por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 PoR_crs(por)
+}
+\seealso{
+\code{\link[sf:st_crs]{sf::st_crs()}}
 }

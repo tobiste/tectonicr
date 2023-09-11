@@ -39,6 +39,9 @@ mean_SC <- function(x, w, na.rm) {
 #' \code{x}.
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
+#'
+#' @returns numeric.
+#'
 #' @export
 #'
 #' @references Mardia, K.V. (1972). Statistics of Directional Data: Probability
@@ -71,12 +74,16 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' should be stripped before the computation proceeds.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#'
 #' @importFrom stats complete.cases runif
-#' @return numeric vector
+#'
+#' @returns numeric vector
+#'
 #' @note Weighting may be the reciprocal of the data uncertainties.
 #'
 #' Weightings have no effect on quasi-median and quasi-quantiles if
 #' `length(x) %% 2 != 1` and `length(x) %% 4 == 0`, respectively.
+#'
 #' @references
 #' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
 #' Mathematical Statistics. London: Academic Press.
@@ -87,6 +94,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' B. (2010). Global crustal stress pattern based on the World Stress Map
 #' database release 2008. *Tectonophysics* **482**, 3–15,
 #' \doi{10.1016/j.tecto.2009.07.023}
+#'
 #' @examples
 #' x <- rvm(10, 0, 100) %% 180
 #' unc <- stats::runif(100, 0, 10)
