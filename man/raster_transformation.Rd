@@ -18,7 +18,7 @@ PoR_to_geographical_raster(x, PoR)
 containing the geographical coordinates of the Euler pole}
 }
 \value{
-"SpatRaster"
+terra "SpatRaster" object
 }
 \description{
 Helper function to transform raster data set from PoR to geographical

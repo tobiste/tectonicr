@@ -11,7 +11,7 @@
 #' @param angle (optional) Angle of rotation in degrees (CCW rotation if angle
 #' is positive)
 #'
-#' @return An object of class \code{"euler.pole"} containing the Euler pole
+#' @returns An object of class \code{"euler.pole"} containing the Euler pole
 #' axis in both geographical and Cartesian coordinates and the angle of rotation
 #' in radians.
 #'
@@ -154,7 +154,9 @@ get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep) {
 
 
 #' @title Equivalent rotation
+#'
 #' @description Transforms a sequence of rotations into a new reference system
+#'
 #' @param x Object of class \code{"data.frame"} containing the Euler poles of
 #' plate rotations:
 #' \describe{
@@ -167,10 +169,14 @@ get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep) {
 #' \code{x$plate.fix}
 #' @param rot (optional) plate that will be regarded as rotating. Has to be one out of
 #' \code{x$plate.rot}.
-#' @return sequence of plate rotations in new reference system. Same object
+#'
+#' @returns sequence of plate rotations in new reference system. Same object
 #' class as \code{x}
+#'
 #' @seealso [relative_rotation()]
+#'
 #' @export
+#'
 #' @examples
 #' data(nuvel1) # load the NUVEL1 rotation parameters
 #'
@@ -221,12 +227,17 @@ equivalent_rotation <- function(x, fixed, rot) {
 #' @title Absolute Plate Velocity
 #'
 #' @description Calculates the absolute angular velocity of plate motion
+#'
 #' @param w Angular velocity or rate or angle of rotation
 #' @param alpha Angular distance to Euler pole or small circle around Euler pole
 #' @param r Radius. Default is WGS84 Earth's radius (6371.009 km)
-#' @return Number (in km/Myr)
+#'
+#' @returns numeric (unit of velocity: km/Myr)
+#'
 #' @seealso [earth_radius()]
+#'
 #' @export
+#'
 #' @examples
 #' abs_vel(0.21, 0)
 #' abs_vel(0.21, 45)
@@ -241,7 +252,8 @@ abs_vel <- function(w, alpha, r = earth_radius()) {
 #'
 #' @param x \code{"euler.pole"} object
 #' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
-#' @return object of class \code{"quaternion"}
+#'
+#' @returns object of class \code{"quaternion"}
 euler_to_Q4 <- function(x, normalize = FALSE) {
   axis <- c(x$x, x$y, x$z)
   Sc <- cos(x$angle / 2)
@@ -255,7 +267,9 @@ euler_to_Q4 <- function(x, normalize = FALSE) {
 }
 
 #' Euler angle/axis from quaternion
+#'
 #' @param q object of class \code{"quaternion"}
+#'
 #' @returns \code{"euler.pole"} object
 Q4_to_euler <- function(q) {
   stopifnot(is.Q4(q))
@@ -299,8 +313,10 @@ Q4_to_QScVec <- function(x, normalize = FALSE) {
 
 
 #' Quaternion normalization
+#'
 #' @param q quaternion
-#' @return object of class \code{"quaternion"}
+#'
+#' @returns object of class \code{"quaternion"}
 normalize_Q4 <- function(q) {
   q4 <- QScVec_to_Q4(q)
   q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
@@ -314,10 +330,11 @@ normalize_Q4 <- function(q) {
 #' Helper function for multiplication of two quaternions.
 #' Concatenation of two rotations R1 followed by R2
 #'
-#' @note Multiplication is not commutative.
-#'
 #' @param q1,q2 two objects of class \code{"quaternion"}. first rotation R1 expressed by q1 followed by second rotation R2 expressed by q2
 #' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
+#'
+#' @note Multiplication is not commutative.
+#'
 #' @returns object of class \code{"quaternion"}
 product_Q4 <- function(q1, q2, normalize = FALSE) {
   stopifnot(is.Q4(q1), is.Q4(q2), is.logical(normalize))
@@ -338,6 +355,7 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
 #'
 #' @param q object of class \code{"quaternion"}
 #' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
+#'
 #' @return object of class \code{"quaternion"}
 conjugate_Q4 <- function(q, normalize = FALSE) {
   stopifnot(is.Q4(q), is.logical(normalize))
@@ -357,8 +375,10 @@ is.Q4 <- function(x) {
 }
 
 #' Rotation of a vector by a quaternion
+#'
 #' @param q object of class \code{"quaternion"}
 #' @param p three-column vector (Cartesian coordinates) of unit length
+#'
 #' @returns three-column vector (Cartesian coordinates) of unit length
 rotation_Q4 <- function(q, p) {
   stopifnot(is.Q4(q))

@@ -11,7 +11,7 @@ longitude_modulo(x)
 latitude_modulo(x)
 }
 \arguments{
-\item{x}{Longitude(s) or latitude(s) in degree}
+\item{x}{Longitude(s) or latitude(s) in degrees}
 }
 \value{
 numeric

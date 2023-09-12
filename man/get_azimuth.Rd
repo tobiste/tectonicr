@@ -12,7 +12,7 @@ get_azimuth(lat_a, lon_a, lat_b, lon_b)
 \item{lon_a, lon_b}{Numeric. Longitudes of a and b (in degrees).}
 }
 \value{
-Azimuth in degrees
+numeric. Azimuth in degrees
 }
 \description{
 Calculate initial bearing (or forward azimuth/direction) to go

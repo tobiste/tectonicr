@@ -35,7 +35,7 @@ cotd(x)
 \item{x, x1, x2}{Numeric or complex vectors.}
 }
 \value{
-Returns a scalar or vector of numeric values.
+scalar or vector of numeric values.
 }
 \description{
 Trigonometric functions expecting input in degrees.

@@ -2,9 +2,13 @@
 #'
 #' @description Corrects the longitudes or latitudes to value between -180.0 and
 #' 180.0 or -90 and 90 degree
-#' @param x Longitude(s) or latitude(s) in degree
-#' @return numeric
+#'
+#' @param x Longitude(s) or latitude(s) in degrees
+#'
+#' @returns numeric
+#'
 #' @name coordinate_mod
+#'
 #' @examples
 #' longitude_modulo(-361 + 5 * 360)
 #' latitude_modulo(-91 + 5 * 180)
@@ -28,12 +32,16 @@ latitude_modulo <- function(x) {
 #'
 #' @description Converts vector between Cartesian and geographical coordinate
 #' systems
+#'
 #' @param n Cartesian coordinates (x, y, z) as vector
 #' @param p Geographical coordinates (latitude, longitude) as vector
-#' @return Functions return a (2- or 3-dimensional) vector representing a
+#'
+#' @returns Functions return a (2- or 3-dimensional) vector representing a
 #' point in the requested coordinate system.
+#'
 #' @seealso [cartesian_to_spherical()] and [spherical_to_cartesian()] for
 #' conversions to spherical coordinates
+#'
 #' @examples
 #' n <- c(1, -2, 3)
 #' cartesian_to_geographical(n)
@@ -79,12 +87,16 @@ geographical_to_spherical <- function(p) {
 #'
 #' @description Converts vector between Cartesian and spherical coordinate
 #' systems
+#'
 #' @param n Cartesian coordinates (x, y, z) as three-column vector
 #' @param p Spherical coordinates (colatitude, azimuth) as two-column vector
-#' @return Functions return a (2- or 3-dimensional) vector representing a
+#'
+#' @returns Functions return a (2- or 3-dimensional) vector representing a
 #' point in the requested coordinate system.
+#'
 #' @seealso [cartesian_to_geographical()] and [geographical_to_cartesian()] for
 #' conversions to geographical coordinates
+#'
 #' @examples
 #' n <- c(1, -2, 3)
 #' cartesian_to_spherical(n)
@@ -223,10 +235,13 @@ PoR_to_geographical_quat <- function(x, PoR) {
 #' \code{lon.PoR}) of the point in the PoR CRS.
 #' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
-#' @return \code{"data.frame"} with the transformed coordinates
+#'
+#' @returns \code{"data.frame"} with the transformed coordinates
 #' (\code{lat.PoR} and \code{lon.PoR} for PoR CRS,
 #' or \code{lat} and \code{lon} for geographical CRS).
+#'
 #' @name por_transformation_df
+#'
 #' @examples
 #' data("nuvel1")
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
@@ -275,9 +290,12 @@ PoR_to_geographical <- function(x, PoR) {
 #' (\code{lat}, \code{lon})
 #' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
+#'
 #' @return \code{data.frame} with the PoR coordinates
 #' (\code{lat.PoR}, \code{lon.PoR})
+#'
 #' @export
+#'
 #' @examples
 #' data("nuvel1")
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
@@ -309,9 +327,12 @@ PoR_coordinates <- function(x, PoR) {
 #' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
 #' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
-#' @returns "SpatRaster"
+#'
+#' @returns terra "SpatRaster" object
+#'
 #' @importFrom terra crs project rast
 #' @importFrom methods extends
+#'
 #' @name raster_transformation
 NULL
 
@@ -353,13 +374,17 @@ PoR_to_geographical_raster <- function(x, PoR) {
 #' points in geographical or PoR coordinate system
 #' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
+#'
 #' @return \code{sf} or \code{SpatRast} object of the data points in the
 #' transformed geographical or PoR coordinate system
+#'
 #' @details The PoR coordinate reference system is oblique transformation of the
 #' geographical coordinate system with the Euler pole coordinates being the
 #' translation factors.
+#'
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
 #' @importFrom methods extends
+#'
 #' @examples
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate

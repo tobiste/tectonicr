@@ -1,10 +1,13 @@
 #' @title Rotate Lines
+#'
 #' @description Rotates a set of straight lines around an angle
 #'
 #' @param theta Angle of rotation (in degree)
 #' @param p Coordinates of the lines end points
 #' @param centre Coordinates of the center point of rotation
+#'
 #' @keywords internal
+#'
 #' @return \code{matrix}
 rotate_lines <- function(theta, p, centre) {
   new_x <-
@@ -36,16 +39,22 @@ get_loxodromes <- function(lon, lat, line, theta) {
 
 
 #' @title Plate Stress Dummy Grid
+#'
 #' @description Helper functions to create a dummy grid for small circles,
 #' great circles, and loxodromes of an Euler pole
+#'
 #' @param n Number of curves
 #' @param angle Direction of loxodromes (in degree)
 #' @param cw logical. Sense of loxodromes: \code{TRUE} for clockwise
 #' loxodromes (right-lateral displaced plate boundaries). \code{FALSE} for
 #' counterclockwise loxodromes (left-lateral displaced plate boundaries).
-#' @return \code{data.frame}
+#'
+#' @returns \code{data.frame}
+#'
 #' @keywords internal
+#'
 #' @importFrom dplyr filter mutate
+#'
 #' @name dummy
 NULL
 
@@ -121,6 +130,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' the relative plate motion.
 #'
 #' @author Tobias Stephan
+#'
 #' @param x Either an object of class \code{"euler.pole"} or \code{"data.frame"}
 #' containing coordinates of Euler pole in lat, lon, and rotation angle
 #' (optional).
@@ -133,7 +143,9 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @param type Character string specifying the type of curves to export. Either
 #' \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 #' \code{"ld"} for loxodromes.
-#' @return `sf` object
+#'
+#' @returns `sf` object
+#'
 #' @details Maximum horizontal stress can be aligned to three types of curves
 #' related to relative plate motion:
 #' \describe{
@@ -145,10 +157,13 @@ loxodrome_dummy <- function(n, angle, cw) {
 #'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
 #'  circles at a constant angle.}
 #'  }
+#'
 #' @importFrom dplyr mutate select summarise group_by rename
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform as_Spatial st_cast
 #' @importFrom smoothr densify
+#'
 #' @name stress_paths
+#'
 #' @examples
 #' data("nuvel1")
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to

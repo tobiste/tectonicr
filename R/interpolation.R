@@ -384,7 +384,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
     dplyr::rename(lat = Y, lon = X)
   int$lat <- int_coords$lat
   int$lon <- int_coords$lon
-  int$azi <- PoR2Geo_shmax(int, PoR)
+  int$azi <- PoR2Geo_azimuth(int, PoR)
   return(int)
 }
 
@@ -393,11 +393,15 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 #' Filter smoothed stress field to smallest wavelength (R) for each coordinate
 #'
 #' @param x output of [stress2grid()] or [PoR_stress2grid()]
-#' @return \code{sf} object
+#'
+#' @returns \code{sf} object
+#'
 #' @importFrom dplyr ungroup mutate group_by summarise select left_join as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
+#'
 #' @export
+#'
 #' @examples
 #' data("san_andreas")
 #' res <- stress2grid(san_andreas)
@@ -453,6 +457,7 @@ compact_grid <- function(x) {
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate
 #' @importFrom tidyr drop_na
+#'
 #' @returns
 #' \code{sf} object containing
 #' \describe{
@@ -462,8 +467,11 @@ compact_grid <- function(x) {
 #' \item{mdr}{Mean distance of datapoints per search radius}
 #' \item{N}{Number of data points in search radius}
 #' }
+#'
 #' @seealso [circular_dispersion()], [norm_chisq()], [rayleigh_test()]
+#'
 #' @export
+#'
 #' @examples
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")

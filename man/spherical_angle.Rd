@@ -19,7 +19,7 @@ vincenty(lat1, lon1, lat2, lon2)
 \item{lon1, lon2}{numeric vector. longitudes of point 1 and 2 (in radians)}
 }
 \value{
-angle in radians
+numeric. angle in radians
 }
 \description{
 Smallest angle between two points on the surface of a sphere, measured along

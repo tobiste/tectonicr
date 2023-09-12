@@ -11,7 +11,7 @@ angle_vectors(x, y)
 or a matrix of 3 columns (x, y, z)}
 }
 \value{
-numeric; angle in degrees
+numeric. angle in degrees
 }
 \description{
 Calculates the angle between two vectors

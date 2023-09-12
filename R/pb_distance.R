@@ -15,8 +15,8 @@ get_distance_mod <- function(x) {
 #' the range of 0 to 180 degrees
 #'
 #' @param x numeric, angular distance (in degrees)
+#'
 #' @returns numeric vector
-#' @keywords internal
 distance_mod <- function(x) {
   # sapply(X = abs(x) %% 360, FUN = get_distance_mod)
   sapply(X = x, FUN = get_distance_mod)
@@ -69,7 +69,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' (`TRUE`) or in degrees (`FALSE`, the default).
 #' @param ... optional arguments passed to [smoothr::densify()]
 #'
-#' @return Numeric vector of the great circle distances
+#' @returns Numeric vector of the great circle distances
 #'
 #' @details The distance to the plate boundary is the longitudinal or
 #' latitudinal difference between the data point and the plate boundary
@@ -178,7 +178,7 @@ get_projected_pb_strike <- function(lon, lat, pb.coords, pb.bearing, tangential)
 #' the PoR system, this great-circle azimuth is only a approximation of the
 #' true (small-circle) azimuth.
 #'
-#' @return Numeric vector of the strike direction of the plate boundary
+#' @returns Numeric vector of the strike direction of the plate boundary
 #' (in degree)
 #'
 #' @export

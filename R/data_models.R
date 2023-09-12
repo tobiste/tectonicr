@@ -16,10 +16,12 @@
 #'   to  `plate.fix`}
 #'   \item{source}{Reference to underlying study}
 #' }
+#'
 #' @references DeMets, C., Gordon, R. G., Argus, D. F., & Stein, S. (1990).
 #' Current plate motions. *Geophysical Journal International*, **101**(2),
 #' 425-478. \doi{10.1111/j.1365-246X.1990.tb06579.x}.
 #' @keywords datasets
+#'
 #' @examples
 #' data("nuvel1")
 #' head("nuvel1")
@@ -43,9 +45,12 @@
 #'   to `plate.fix`}
 #'   \item{source}{Reference to underlying study}
 #' }
+#'
 #' @references  Bird, P. (2003), An updated digital model of plate boundaries,
 #' *Geochem. Geophys. Geosyst.*, **4**, 1027, doi: 10.1029/2001GC000252, 3.
+#'
 #' @keywords datasets
+#'
 #' @examples
 #' data("pb2002")
 #' head("pb2002")

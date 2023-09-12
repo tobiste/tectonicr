@@ -12,7 +12,9 @@
 #' @references DeMets, C., Gordon, R. G., Argus, D. F., & Stein, S. (1990).
 #' Current plate motions. *Geophysical Journal International*, **101**(2),
 #' 425-478. \doi{10.1111/j.1365-246X.1990.tb06579.x}.
+#'
 #' @keywords datasets
+#'
 #' @examples
 #' data("nuvel1_plates")
 #' head("nuvel1_plates")

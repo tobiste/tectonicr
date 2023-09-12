@@ -5,7 +5,9 @@
 #'
 #' @param deg	 (array of) angles in degrees.
 #' @param rad (array of) angles in radians.
-#' @return angle in degrees or radians.
+#'
+#' @returns numeric. angle in degrees or radians.
+#'
 #' @examples
 #' deg2rad(seq(-90, 90, 15))
 #' rad2deg(seq(-pi / 2, pi / 2, length = 13))
@@ -26,11 +28,15 @@ deg2rad <- function(deg) {
 }
 
 #' @title Trigonometric Functions in Degrees
+#'
 #' @description Trigonometric functions expecting input in degrees.
 #'
 #' @param x,x1,x2 Numeric or complex vectors.
-#' @return Returns a scalar or vector of numeric values.
+#'
+#' @returns scalar or vector of numeric values.
+#'
 #' @keywords internal
+#'
 #' @name trigon
 NULL
 
@@ -118,10 +124,14 @@ atan2d_spec <- function(x, y) {
 #' @title Angle Between Two Vectors
 #'
 #' @description Calculates the angle between two vectors
+#'
 #' @param x,y Vectors in Cartesian coordinates. Can be vectors of three numbers
 #'  or a matrix of 3 columns (x, y, z)
-#' @return numeric; angle in degrees
+#'
+#' @returns numeric. angle in degrees
+#'
 #' @export
+#'
 #' @examples
 #' u <- c(1, -2, 3)
 #' v <- c(-2, 1, 1)
@@ -157,7 +167,9 @@ ahav <- function(x) {
 #' \item{\code{"vincenty"}}{uses Vincenty formula for an ellipsoid
 #' with equal major and minor axes}
 #' }
-#' @return angle in radians
+#'
+#' @returns numeric. angle in radians
+#'
 #' @references
 #' * Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
 #' der Berechnung von Richtung und Distanz zwischen Beringungs- und
@@ -170,7 +182,9 @@ ahav <- function(x) {
 #' 88–93. \doi{10.1179/sre.1975.23.176.88}.
 #' * \url{http://www.movable-type.co.uk/scripts/latlong.html}
 #' * \url{http://www.edwilliams.org/avform147.htm}
+#'
 #' @name spherical_angle
+#'
 #' @examples
 #' berlin <- c(52.52, 13.41)
 #' calgary <- c(51.04, -114.072)
@@ -304,9 +318,13 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
 #' where  \eqn{\psi_1, \lambda_1} is the start point, \eqn{\psi_2},
 #' \eqn{\lambda_2} the end point (\eqn{\Delta\lambda} is the difference in
 #' longitude).
-#' @return Azimuth in degrees
+#'
+#' @returns numeric. Azimuth in degrees
+#'
 #' @references \url{http://www.movable-type.co.uk/scripts/latlong.html}
+#'
 #' @export
+#'
 #' @examples
 #' berlin <- c(52.517, 13.4) # Berlin
 #' tokyo <- c(35.7, 139.767) # Tokyo

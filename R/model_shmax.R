@@ -20,7 +20,7 @@
 #' +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree}
 #' (-45\eqn{^{\circ}}{ degree}) to this great circle bearing, respectively.
 #'
-#' @return \code{data.frame}
+#' @returns \code{data.frame}
 #' \describe{
 #'   \item{gc}{Azimuth of modeled \eqn{\sigma_{Hmax}}{SHmax} following
 #'   great circles}
@@ -36,7 +36,7 @@
 #'
 #' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*.
+#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'
@@ -77,7 +77,7 @@ model_shmax <- function(df, euler) {
 #'
 #' @param x numeric vector containing angles in degrees
 #'
-#' @return numeric vector, acute angles between two directions, i.e. values
+#' @returns numeric vector, acute angles between two directions, i.e. values
 #' between 0 and 90°
 #'
 #' @export
@@ -122,7 +122,7 @@ deviation_norm <- function(x) {
 #' @param obs Numeric vector containing the observed azimuth of
 #' \eqn{\sigma_{Hmax}}{SHmax},
 #' same length as \code{prd}
-#' @return An object of class \code{data.frame}
+#' @returns An object of class \code{data.frame}
 #'
 #' \describe{
 #'   \item{dev.gc}{Deviation of observed stress from modeled
@@ -138,7 +138,7 @@ deviation_norm <- function(x) {
 #'
 #' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*.
+#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'
@@ -189,12 +189,12 @@ deviation_shmax <- function(prd, obs) {
 #' moving plate boundaries, respectively. If \code{"none"} (the default), only
 #' the PoR-equivalent azimuth is returned.
 #'
-#' @return Either a numeric vector of the azimuths in the transformed coordinate
-#' system, or a \code{"data.frame"} with
+#' @returns Either a numeric vector of the azimuths in the transformed coordinate
+#' system (in degrees), or a \code{"data.frame"} with
 #' \describe{
-#' \item{`azi.PoR`}{the transformed azimuths,}
-#' \item{`prd`}{the predicted azimuths,}
-#' \item{`dev`}{the deviation between the transformed and the predicted azimuth,}
+#' \item{`azi.PoR`}{the transformed azimuths (in degrees),}
+#' \item{`prd`}{the predicted azimuths (in degrees),}
+#' \item{`dev`}{the deviation between the transformed and the predicted azimuth (in degrees),}
 #' \item{`nchisq`}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
 #' \item{`cdist`}{the angular distance between the transformed and the predicted azimuth.}
 #' }
@@ -215,7 +215,7 @@ deviation_shmax <- function(prd, obs) {
 #'
 #' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*.
+#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'
@@ -256,7 +256,7 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 
 #' Azimuth conversion from PoR to geographical coordinate reference system
 #'
-#' Helper function to convert PoR azimuths into geographical azimuths
+#' Conversion of PoR azimuths into geographical azimuths
 #'
 #' @param x \code{data.frame} containing the PoR equivalent azimuths
 #' (\code{azi.PoR}), and either the geographical coordinates of the
@@ -264,9 +264,13 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 #' @param PoR \code{data.frame} containing the geographical location of
 #' the Euler pole (\code{lat}, \code{lon})
 #'
+#' @seealso [PoR_shmax()]
+#'
+#' @returns numeric vector of transformed azimuths (in degrees)
+#'
 #' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*.
+#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'
@@ -277,16 +281,16 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 #' data("san_andreas")
 #' head(san_andreas$azi)
 #' san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
-#' res.geo <- PoR2Geo_shmax(san_andreas, PoR)
+#' res.geo <- PoR2Geo_azimuth(san_andreas, PoR)
 #' head(res.geo)
-PoR2Geo_shmax <- function(x, PoR) {
+PoR2Geo_azimuth <- function(x, PoR) {
   # Northern Hemisphere Euler pole
   if (PoR$lat < 0) {
     PoR$lat <- -PoR$lat
     PoR$lon <- longitude_modulo(180 + PoR$lon)
   }
 
-  if (!is.null(x$lat.PoR) && !is.null(x$lon.PoR)) {
+  if (unique(c("lat.PoR", "lon.PoR") %in% colnames(x))) {
     northpole <- geographical_to_PoR(
       data.frame(lat = 90, lon = 0),
       PoR

@@ -6,10 +6,11 @@ Authors@R:
            comment = c(ORCID = "0000-0002-9290-014X"))
 Description: Models the direction of the maximum horizontal stress using
     relative plate motion parameters. Statistical algorithms to evaluate
-    the modelling results compared with the observed data. Provides plots
+    the modeling results compared with the observed data. Provides plots
     to visualize the results. Methods described in Stephan et al. (2023) 
     "Analyzing the horizontal orientation of the crustal stress adjacent to 
-    plate boundaries" and Wdowinski (1998) <doi:10.1016/S0079-1946(98)00091-3>.
+    plate boundaries" <doi:10.1038/s41598-023-42433-2> and Wdowinski (1998) 
+    <doi:10.1016/S0079-1946(98)00091-3>.
 License: GPL (>= 3)
 URL: https://tobiste.github.io/tectonicr/
 BugReports: https://github.com/tobiste/tectonicr/issues

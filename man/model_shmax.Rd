@@ -51,7 +51,7 @@ model_shmax(point, euler)
 \references{
 Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
 horizontal orientation of the crustal stress adjacent to plate boundaries".
-\emph{Scientific Reports}.
+\emph{Scientific Reports}. \doi{10.1038/s41598-023-42433-2}.
 }
 \seealso{
 \code{\link[=deviation_shmax]{deviation_shmax()}} to compute the deviation of the modeled direction

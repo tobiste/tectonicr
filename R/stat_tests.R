@@ -24,7 +24,9 @@ nchisq_eq <- function(obs, prd, unc) {
 #' same length as \code{prd}
 #' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
 #' numeric vector or a number
-#' @return Numeric vector
+#'
+#' @returns Numeric vector
+#'
 #' @details
 #' The normalized \eqn{\chi^2}{chi-squared} test is
 #' \deqn{ {Norm} \chi^2_i =
@@ -40,8 +42,11 @@ nchisq_eq <- function(obs, prd, unc) {
 #' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 #' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
+#'
 #' @importFrom stats complete.cases
+#'
 #' @export
+#'
 #' @examples
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
@@ -103,20 +108,25 @@ norm_chisq <- function(obs, prd, unc) {
 #' Tests of non-uniformity which are consistent against all alternatives
 #' include Kuiper’s test ([kuiper_test()]) and Watson’s \eqn{U^2} test
 #' ([watson_test()]).
+#'
 #' @returns a list with the components:
 #' \describe{
 #'  \item{`statistic`}{mean resultant length}
 #'  \item{`p.value`}{significance level of the test statistic}
 #'  \item{`p.value2`}{modified significance level (Cordeiro and Ferrari, 1991)}
 #' }
+#'
 #' @references
 #' Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
 #'
 #' Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl. Statist. 32, No. 3, pp. 311-312
 #'
 #' Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+#'
 #' @seealso [mean_resultant_length()], [circular_mean()], [norm_chisq()], [kuiper_test()], [watson_test()]
+#'
 #' @export
+#'
 #' @examples
 #' # Example data from Mardia and Jupp (2001), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
@@ -253,12 +263,15 @@ rayleigh_p_value2 <- function(K, n) {
 #' distribution with a specified mean direction (`prd`).
 #' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, the alternative cannot be excluded.
+#'
 #' @returns a list with the components:
 #' \describe{
 #'  \item{`statistic`}{Test statistic}
 #'  \item{`p.value`}{significance level of the test statistic}
 #' }
+#'
 #' @seealso [rayleigh_test()]
+#'
 #' @export
 #'
 #' @examples
@@ -340,6 +353,7 @@ weighted_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
 #' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @returns list containing the test statistic `statistic` and the significance
 #' level `p.value`.
+#'
 #' @details
 #' Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
 #' The critical values of a modified Kuiper's test statistic are used according
@@ -347,7 +361,9 @@ weighted_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
 #'
 #' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, randomness (uniform distribution) cannot be excluded.
+#'
 #' @export
+#'
 #' @examples
 #' # Example data from Mardia and Jupp (2001), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
@@ -424,14 +440,19 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
 #' uniform distribution. `"vonmises"` tests the von Mises distribution.
+#'
 #' @returns list containing the test statistic `statistic` and the significance
 #' level `p.value`.
+#'
 #' @details
 #' Watson's test statistic is a rotation-invariant Cramer - von Mises test statistic.
 #' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, randomness (uniform distribution) cannot be excluded.
+#'
 #' @references Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
+#'
 #' @export
+#'
 #' @examples
 #' # Example data from Mardia and Jupp (2001), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)

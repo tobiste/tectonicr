@@ -24,11 +24,11 @@ the PoR-equivalent azimuth is returned.}
 }
 \value{
 Either a numeric vector of the azimuths in the transformed coordinate
-system, or a \code{"data.frame"} with
+system (in degrees), or a \code{"data.frame"} with
 \describe{
-\item{\code{azi.PoR}}{the transformed azimuths,}
-\item{\code{prd}}{the predicted azimuths,}
-\item{\code{dev}}{the deviation between the transformed and the predicted azimuth,}
+\item{\code{azi.PoR}}{the transformed azimuths (in degrees),}
+\item{\code{prd}}{the predicted azimuths (in degrees),}
+\item{\code{dev}}{the deviation between the transformed and the predicted azimuth (in degrees),}
 \item{\code{nchisq}}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
 \item{\code{cdist}}{the angular distance between the transformed and the predicted azimuth.}
 }
@@ -61,7 +61,7 @@ head(res)
 \references{
 Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
 horizontal orientation of the crustal stress adjacent to plate boundaries".
-\emph{Scientific Reports}.
+\emph{Scientific Reports}. \doi{10.1038/s41598-023-42433-2}.
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to compute the theoretical direction of

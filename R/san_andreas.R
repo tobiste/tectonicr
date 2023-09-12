@@ -15,8 +15,11 @@
 #' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 #' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
 #' **744**, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
+#'
 #' @source \url{https://www.world-stress-map.org/}
+#'
 #' @keywords datasets
+#'
 #' @examples
 #' data("san_andreas")
 #' head(san_andreas)
@@ -39,8 +42,11 @@
 #' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 #' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
 #' **744**, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
+#'
 #' @source \url{https://www.world-stress-map.org/}
+#'
 #' @keywords datasets
+#'
 #' @examples
 #' data("tibet")
 #' head(tibet)
@@ -63,8 +69,11 @@
 #' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 #' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
 #' **744**, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
+#'
 #' @source \url{https://www.world-stress-map.org/}
+#'
 #' @keywords datasets
+#'
 #' @examples
 #' data("iceland")
 #' head(iceland)

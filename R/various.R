@@ -5,13 +5,14 @@
 #'
 #' @param regime Either a string or a character vector of WSM quality ranking
 #'
-#' @return \code{"integer"} or vector of type \code{"integer"}
+#' @returns \code{"integer"} or vector of type \code{"integer"}
 #'
 #' @references Heidbach, O., Barth, A., Müller, B., Reinecker, J.,
 #' Stephansson, O., Tingay, M., Zang, A. (2016). WSM quality
 #' ranking scheme, database description and analysis guidelines for stress
 #' indicator. *World Stress Map Technical Report* **16-01**, GFZ German Research
 #' Centre for Geosciences. \doi{10.2312/wsm.2016.001}
+#'
 #' @export
 #'
 #' @examples
@@ -54,7 +55,7 @@ regime2unc <- function(x) {
 #' @param plot (logical). Whether to produce a plot additional to output.
 #' @param ... optional arguments to [distance_from_pb()]
 #'
-#' @return list containing the following values:
+#' @returns list containing the following values:
 #' \describe{
 #' \item{`results`}{data.frame showing the the coordinate and azimuth conversions
 #' (`lat.PoR`, `lon.PoR`, and `azi.PoR`), the predicted azimuths (`prd`),
@@ -64,6 +65,7 @@ regime2unc <- function(x) {
 #' \item{`stats`}{array with circular (weighted) mean, circular standard deviation, circular variance, circular dispersion, the 95% confidence angle, and the normalized Chi-squared test statistic}
 #' \item{`test`}{list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.}
 #' }
+#'
 #' @export
 #'
 #' @seealso [PoR_shmax()], [distance_from_pb()], [norm_chisq()], [quick_plot()]

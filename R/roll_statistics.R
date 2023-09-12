@@ -17,12 +17,16 @@
 #' are passed to `FUN`. A numeric argument to partial can be used to determine
 #' the minimal window size for partial computations. See below for more details.
 #' @inheritDotParams zoo::rollapply -data
+#'
 #' @returns numeric vector  with the results of the rolling function.
+#'
 #' @note If the rolling statistics are applied to values that are a function of
 #' distance it is recommended to sort the values first.
+#'
 #' @importFrom zoo rollapply
-#' @returns numeric vector
+#'
 #' @export
+#'
 #' @examples
 #' data("plates")
 #' plate_boundary <- subset(plates, plates$pair == "na-pa")

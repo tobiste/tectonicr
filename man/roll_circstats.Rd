@@ -55,8 +55,6 @@ fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 }
 \value{
 numeric vector  with the results of the rolling function.
-
-numeric vector
 }
 \description{
 A generic function for applying a function to rolling margins of an array.
