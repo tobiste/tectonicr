@@ -31,9 +31,9 @@ res.geo <- PoR2Geo_azimuth(san_andreas, PoR)
 head(res.geo)
 }
 \references{
-Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 horizontal orientation of the crustal stress adjacent to plate boundaries".
-\emph{Scientific Reports}. \doi{10.1038/s41598-023-42433-2}.
+\emph{Sci Rep} 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 }
 \seealso{
 \code{\link[=PoR_shmax]{PoR_shmax()}}

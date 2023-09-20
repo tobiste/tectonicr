@@ -34,9 +34,9 @@
 #'  [PoR_shmax()] to calculate the azimuth of \eqn{\sigma_{Hmax}}{SHmax}
 #'  in the pole of rotation reference system.
 #'
-#' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+#' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
+#' *Sci Rep* 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'
@@ -136,9 +136,9 @@ deviation_norm <- function(x) {
 #' @seealso [model_shmax()] to calculate the theoretical direction of
 #' \eqn{\sigma_{Hmax}}{SHmax}.
 #'
-#' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+#' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
+#' *Sci Rep* 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'
@@ -213,9 +213,9 @@ deviation_shmax <- function(prd, obs) {
 #' directions of \eqn{\sigma_{Hmax}}{SHmax} with respect to the four
 #' plate boundary types.
 #'
-#' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+#' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
+#' *Sci Rep* 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'
@@ -268,9 +268,9 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 #'
 #' @returns numeric vector of transformed azimuths (in degrees)
 #'
-#' @references Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+#' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
-#' *Scientific Reports*. \doi{10.1038/s41598-023-42433-2}.
+#' *Sci Rep* 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 #'
 #' @export
 #'

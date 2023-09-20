@@ -59,9 +59,9 @@ res <- PoR_shmax(san_andreas, PoR, type = "right")
 head(res)
 }
 \references{
-Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the
+Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 horizontal orientation of the crustal stress adjacent to plate boundaries".
-\emph{Scientific Reports}. \doi{10.1038/s41598-023-42433-2}.
+\emph{Sci Rep} 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to compute the theoretical direction of

@@ -20,11 +20,11 @@ A list of documented functions may be viewed by typing
 }
 \references{
 Wdowinski (1998) "A theory of intraplate tectonics".
-\emph{Journal of Geophysical Research: Solid Earth}, 103(3), 5037–5059.
+\emph{JGR: Solid Earth}, 103(3), 5037–5059.
 
-Stephan, T., Kroner, U., and Enkelmann, E. (2023) "Analyzing the horizontal
+Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the horizontal
 orientation of the crustal stress adjacent to plate boundaries".
-\emph{Scientific Reports}.
+\emph{Sci Rep} 13. 15590 (2023).
 }
 \seealso{
 Useful links:

@@ -183,11 +183,11 @@ ggplot(mean_SH_PoR) +
 
 
 # References
-Mardia, K. V., and Jupp, P. E. (Eds.). (1999). "Directional Statistics". 
+Mardia, K. V., and Jupp, P. E. (Eds.). (1999). "Directional Statistics" 
 Hoboken, NJ, USA: John Wiley & Sons, Inc. 
 doi: 10.1002/9780470316979.
 <!--doi: [10.1002/9780470316979](https://doi.org/10.1002/9780470316979).-->
 
-Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab Script Stress2Grid.” 
+Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab Script Stress2Grid” 
 GFZ German Research Centre for Geosciences; World Stress Map Technical Report 17-02. 
 doi: [10.5880/wsm.2017.002](https://doi.org/10.5880/wsm.2017.002). 

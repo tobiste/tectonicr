@@ -202,19 +202,22 @@ Any desired relative plate motion can be extracted via the following:
 gsrm <- subset(cpm_models, model == "GSRM2.1")
 equivalent_rotation(gsrm, rot = "na", fixed = "eu")
 ```
+
 # References
 
-DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” 
-*Geophysical Journal International* 101 (2): 425–78. 
-doi: [10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x).
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate 
+Motions” *Geophysical Journal International* 101 (2): 425–78. 
+doi: [10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x)
 
-Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the Driving Forces of Plate Motion.” 
-*Geophysical Journal International* 43 (1): 163–200. 
-doi: [10.1111/j.1365-246x.1975.tb00631.x](https://doi.org/10.1111/j.1365-246x.1975.tb00631.x).
+Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the Driving 
+Forces of Plate Motion” *Geophysical Journal International* 43 (1): 163–200. 
+doi: [10.1111/j.1365-246x.1975.tb00631.x](https://doi.org/10.1111/j.1365-246x.1975.tb00631.x)
 
-Stephan, T., Kroner, U., and Enkelmann, E. (accepted). "Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries". 
-**Scientific Reports**.
+Stephan, T., Enkelmann, E., and Kroner, U. (2023). "Analyzing the horizontal 
+orientation of the crustal stress adjacent to plate boundaries" 
+*Scientific Reports* (13), 15590. 
+doi:[10.1038/s41598-023-42433-2](https://doi.org/10.1038/s41598-023-42433-2)
 
-Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics.” 
+Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics” 
 *Journal of Geophysical Research: Solid Earth* 103 (B3): 5037–59. doi: 10.1029/97jb03390.
 <!---[10.1029/97jb03390](https://doi.org/10.1029/97JB03390).-->

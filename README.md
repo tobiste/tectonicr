@@ -43,7 +43,7 @@ Tobias Stephan
 ## How to cite
 When referencing this package, please cite 
 
-<div class="csl-entry">Stephan, T., Kroner, U., &#38; Enkelmann, E. (accepted). Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries. <i>Scientific Reports</i>.doi: [10.1038/s41598-023-42433-2](https://doi.org/10.1038/s41598-023-42433-2).
+<div class="csl-entry">Stephan, T., Enkelmann, E., &#38; Kroner, U. (2023). Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries. <i>Scientific Reports</i>(13). doi: [10.1038/s41598-023-42433-2](https://doi.org/10.1038/s41598-023-42433-2).
 
 and the package DOI: [10.5281/zenodo.7510800](https://doi.org/10.5281/zenodo.7510800).
 

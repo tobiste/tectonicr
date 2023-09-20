@@ -369,12 +369,12 @@ stress_analysis(san_andreas, por, "right", plate_boundary, plot = TRUE)
 
 ## References
 
-Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries.” 
+Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries” 
 *Geochemistry, Geophysics, Geosystems* 4 (3). 
 doi: 10.1029/2001gc000252.
 <!---[10.1029/2001gc000252](https://doi.org/10.1029/2001GC000252).-->
 
-DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions.” 
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate Motions” 
 *Geophysical Journal International* 101 (2): 425–78. 
 doi: [10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x).
 
