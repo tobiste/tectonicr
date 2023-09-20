@@ -3,7 +3,7 @@ citHeader("To cite {tectonicr} in publications use:")
 bibentry(
   bibtype  = "Article",
   title    = "Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries",
-  author   = c(as.person("Tobias Stephan"), as.person("Eva Enkelmann"), as.persion("Uwe Kroner")),
+  author   = c(as.person("Tobias Stephan"), as.person("Eva Enkelmann"), as.person("Uwe Kroner")),
   journal  = "Scientific Reports",
   year     = "2023",
   volume   = "13",
