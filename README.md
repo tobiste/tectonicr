@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/workflows/R-CMD-check/badge.svg)](https://github.com/tobiste/tectonicr/actions)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7510800.svg)](https://doi.org/10.5281/zenodo.7510800)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8372508.svg)](https://doi.org/10.5281/zenodo.8372508)
 [![CRAN status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.org/package=tectonicr)
 <!-- badges: end -->
 
@@ -49,16 +49,8 @@ When referencing this package, please cite
 
 Stephan, T., Enkelmann, E., and Kroner, U. (2023). Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries. *Scientific Reports*, *13*(1). DOI: [10.1038/s41598-023-42433-2](https://doi.org/10.1038/s41598-023-42433-2).
 
-and the package DOI: [10.5281/zenodo.7510800](https://doi.org/10.5281/zenodo.7510800).
+and the package DOI: [10.5281/zenodo.8372508](https://doi.org/10.5281/zenodo.8372508).
 
-<!-- 
-## Useful References
-- <div class="csl-entry">Wdowinski, S. (1998). A theory of intraplate tectonics. <i>Journal of Geophysical Research: Solid Earth</i>, <i>103</i>(3), 5037–5059. http://dx.doi.org/10.1029/97JB03390</div>
-
-- <div class="csl-entry">Heidbach, O., Rajabi, M., Reiter, K., Ziegler, M., &#38; Team, W. (2016). <i>World Stress Map Database Release 2016. V. 1.1</i>. GFZ Data Services. https://doi.org/10.5880/WSM.2016.001</div>
-
-- <div class="csl-entry">Mardia, K. V., and Jupp, P. E. (Eds.). (1999). <i>Directional Statistics</i>. Hoboken, NJ, USA: John Wiley & Sons, Inc. https://doi.org/10.1002/9780470316979</div>
--->
 
 ## License
 GPL-3.0 License
