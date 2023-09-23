@@ -33,7 +33,7 @@ The most recent development version of **tectonicr** is available from Github
 and can be installed on your system as follows:
 
 ```
-# install.packages("remotes") install if needed
+# install.packages("remotes") # install if needed
 remotes::install_github('tobiste/tectonicr')
 library('tectonicr')
 ```
