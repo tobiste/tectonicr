@@ -23,7 +23,6 @@ rose(
   dot_pch = 1,
   dot_cex = 1,
   dot_col = "grey",
-  show.mean = TRUE,
   ...
 )
 }

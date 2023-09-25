@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{rose_stats}
 \alias{rose_stats}
-\title{Average and spread in rose diagram}
+\title{Show Average Direction and Spread in Rose Diagram}
 \usage{
 rose_stats(
   x,

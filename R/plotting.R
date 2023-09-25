@@ -270,7 +270,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     ...
   )
 
- if (dots) {
+  if (dots) {
     scale <- 1.1 #* max(freqs$density)
     u <- deg2rad(90 - x)
     n <- length(x)
@@ -323,39 +323,39 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 NULL
 
 #' @rdname rose_geom
-rose_line <- function(x, radius = 1, axial = TRUE, ...){
-  xrad <- deg2rad(90-x)
+rose_line <- function(x, radius = 1, axial = TRUE, ...) {
+  xrad <- deg2rad(90 - x)
   tx <- radius * cos(xrad)
   ty <- radius * sin(xrad)
 
   graphics::segments(0, 0, tx, ty, ...)
-  if(axial){
+  if (axial) {
     graphics::segments(0, 0, -tx, -ty, ...)
   }
   invisible()
 }
 
 #' @rdname rose_geom
-rose_fan <- function(x, d, radius = 1, axial = TRUE, ...){
-  xrad <- deg2rad(90-x)
+rose_fan <- function(x, d, radius = 1, axial = TRUE, ...) {
+  xrad <- deg2rad(90 - x)
   drad <- deg2rad(d)
 
-  eps <- min(diff(xrad), pi/128)/2
-  aa <- seq(xrad-drad, xrad+drad, by = eps)
+  eps <- min(diff(xrad), pi / 128) / 2
+  aa <- seq(xrad - drad, xrad + drad, by = eps)
 
   tx <- radius * cos(aa)
   ty <- radius * sin(aa)
-  xx = c(0, tx, 0)
-  yy = c(0, ty, 0)
+  xx <- c(0, tx, 0)
+  yy <- c(0, ty, 0)
 
-  graphics::polygon(x = xx, y = yy,  ...)
-  if(axial){
-    graphics::polygon(x = -xx, y = -yy,  ...)
+  graphics::polygon(x = xx, y = yy, ...)
+  if (axial) {
+    graphics::polygon(x = -xx, y = -yy, ...)
   }
   invisible()
 }
 
-#' Show Average and Spread in Rose Diagram
+#' Show Average Direction and Spread in Rose Diagram
 #'
 #' Adds the average direction (and its spread) to an existing rose diagram.
 #'
@@ -389,22 +389,21 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, ...){
 #' data("san_andreas")
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc)
 #' rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc)
-rose_stats <- function(x, weights=NULL, axial = TRUE, avg = c("mean", "median"), spread = c( "CI", "sd", "IQR"),
+rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"), spread = c("CI", "sd", "IQR"),
                        avg.col = "#85112AFF", avg.lty = 2, avg.lwd = 1.5,
-                       spread.col = ggplot2::alpha("#85112AFF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL){
-
+                       spread.col = ggplot2::alpha("#85112AFF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL) {
   avg <- match.arg(avg)
-  mu = switch(avg,
-              mean = circular_mean(x, weights, axial),
-              median = circular_median(x, weights, axial)
+  mu <- switch(avg,
+    mean = circular_mean(x, weights, axial),
+    median = circular_median(x, weights, axial)
   )
 
-  if(!is.null(spread)){
+  if (!is.null(spread)) {
     spread <- match.arg(spread)
-    sd = switch(spread,
-                sd = circular_sd(x, weights, axial),
-                IQR = circular_IQR(x, weights, axial),
-                CI = confidence_angle(x, w=weights, axial=axial)
+    sd <- switch(spread,
+      sd = circular_sd(x, weights, axial),
+      IQR = circular_IQR(x, weights, axial),
+      CI = confidence_angle(x, w = weights, axial = axial)
     )
     rose_fan(mu, sd, axial = axial, col = spread.col, border = spread.border, lty = spread.lty, lwd = spread.lwd)
   }

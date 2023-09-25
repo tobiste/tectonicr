@@ -1,5 +1,9 @@
 # tectonicr (development version)
 
+# tectonicr 0.2.94 _2023-09-25_
+
+* mean direction and spread on rose diagram
+
 # tectonicr 0.2.93 _2023-09-10_
 
 * prepared for CRAN submission
