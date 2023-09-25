@@ -12,7 +12,7 @@ histogram or density plot for angular data."><!-- mathjax --><script src="https:
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.93.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.94</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,7 +124,7 @@ counter-clockwise direction (<code>FALSE</code>).</p></dd>
 
 <dt>unit</dt>
 <dd><p>The unit in which the angles are expressed.
-<code>"degrees"</code> (the default), or <code>"radians"</code>.</p></dd>
+<code>"degree"</code> (the default), or <code>"radian"</code>.</p></dd>
 
 
 <dt>round_binwidth</dt>
@@ -187,9 +187,9 @@ degree for axial or directional data, respectively.</p>
 <span class="r-plt img"><img src="rose-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, add_pts <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"dot plot"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, dots <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"dot plot"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="rose-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"weighted"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"weighted"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="rose-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
