@@ -1,3 +1,5 @@
+# tectonicr (development version)
+
 # tectonicr 0.2.93 _2023-09-10_
 
 * prepared for CRAN submission
