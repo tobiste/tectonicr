@@ -128,6 +128,8 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 )
 
 
+
+
 #' @title Selecting optimal number of bins and width for rose diagrams
 #'
 #' @param n Integer. number of data
@@ -179,7 +181,7 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 #' clockwise direction (`clockwise=TRUE`, the default) or anti-clockwise,
 #' counter-clockwise direction (`FALSE`).
 #' @param unit The unit in which the angles are expressed.
-#' `"degrees"` (the default), or `"radians"`.
+#' `"degree"` (the default), or `"radian"`.
 #' @param round_binwidth Logical. Whether bin width is round to zero digits
 #' (`round_binwidth=TRUE`, the default) or as is (`FALSE`).
 #' @param mtext character. String to be drawn at the top margin of the plot
@@ -214,14 +216,15 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 #' rose(x, axial = FALSE)
 #'
 #' data("san_andreas")
-#' rose(san_andreas$azi, axial = TRUE, add_pts = TRUE, main = "dot plot")
-#' rose(san_andreas$azi, weights = 1 / san_andreas$unc, axial = TRUE, main = "weighted")
+#' rose(san_andreas$azi, dots = TRUE, main = "dot plot")
+#' rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  equal_area = TRUE, clockwise = TRUE,
                  unit = c("degree", "radian"), round_binwidth = TRUE,
                  mtext = "N", main = NULL, sub = NULL, at = seq(0, 360 - 45, 45),
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
-                 dot_col = "grey", ...) {
+                 dot_col = "grey",
+                 ...) {
   x <- as.vector(x %% 360)
 
   if (!is.null(bins) && is.null(binwidth)) {
@@ -254,6 +257,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     freqs$density <- sqrt(freqs$density)
   }
 
+  freqs$density <- freqs$density / max(freqs$density)
+
   spatstat.explore::rose(
     freqs,
     weights = weights,
@@ -265,8 +270,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     ...
   )
 
-  if (dots) {
-    scale <- 1.1 * max(freqs$density)
+ if (dots) {
+    scale <- 1.1 #* max(freqs$density)
     u <- deg2rad(90 - x)
     n <- length(x)
     z <- cos(u) * scale
@@ -300,13 +305,122 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   graphics::mtext(mtext)
 }
 
+
+
+#' Lines and fans in rose diagram
+#'
+#' @param x angles in degrees
+#' @param d width of a fan (in degrees)
+#' @param radius of the rose diagram
+#' @param axial Logical. Whether x are uniaxial (`axial=FALSE`)
+#' or biaxial (`TRUE`, the default).
+#' @param ... optional arguments passed to [graphics::segments()] or [graphics::polygon()]
+#'
+#' @returns No return value, called for side effects
+#'
+#' @importFrom graphics segments polygon
+#' @name rose_geom
+NULL
+
+#' @rdname rose_geom
+rose_line <- function(x, radius = 1, axial = TRUE, ...){
+  xrad <- deg2rad(90-x)
+  tx <- radius * cos(xrad)
+  ty <- radius * sin(xrad)
+
+  graphics::segments(0, 0, tx, ty, ...)
+  if(axial){
+    graphics::segments(0, 0, -tx, -ty, ...)
+  }
+  invisible()
+}
+
+#' @rdname rose_geom
+rose_fan <- function(x, d, radius = 1, axial = TRUE, ...){
+  xrad <- deg2rad(90-x)
+  drad <- deg2rad(d)
+
+  eps <- min(diff(xrad), pi/128)/2
+  aa <- seq(xrad-drad, xrad+drad, by = eps)
+
+  tx <- radius * cos(aa)
+  ty <- radius * sin(aa)
+  xx = c(0, tx, 0)
+  yy = c(0, ty, 0)
+
+  graphics::polygon(x = xx, y = yy,  ...)
+  if(axial){
+    graphics::polygon(x = -xx, y = -yy,  ...)
+  }
+  invisible()
+}
+
+#' Show Average and Spread in Rose Diagram
+#'
+#' Adds the average direction (and its spread) to an existing rose diagram.
+#'
+#' @param x Data to be plotted. A numeric vector containing angles (in degrees).
+#' @param weights Optional vector of numeric weights associated with x.
+#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' or biaxial (`TRUE`, the default).
+#' @param avg character. The average estimate for x. Either the circular mean
+#' (`"mean"`, the default) or the circular Quasi Median (`"median"`)
+#' @param spread character. The measure of spread to be plotted as a fan.
+#' Either the 95% confidence interval (`"CI"`, the default), the circular
+#' standard deviation (`"sd"`), or the Quasi interquartile range on the circle
+#' (`"IQR"`). `NULL` if no fan should be drawn.
+#' @param avg.col color for the average line
+#' @param avg.lty line type of the average line
+#' @param avg.lwd  line width of the average line
+#' @param spread.col color of the spread fan
+#' @param spread.border logical. Whether to draw a border of the fan or not.
+#' @param spread.lty line type of the spread fan's border
+#' @param spread.lwd line width of the spread fan's border
+#' @importFrom ggplot2 alpha
+#'
+#' @seealso [rose()] for plotting the rose diagram, and
+#' [circular_mean()], [circular_median()], [confidence_interval()],
+#' [circular_sd()], [circular_IQR()] for statistical parameters.
+#'
+#' @returns No return value, called for side effects
+#' @export
+#'
+#' @examples
+#' data("san_andreas")
+#' rose(san_andreas$azi, weights = 1 / san_andreas$unc)
+#' rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc)
+rose_stats <- function(x, weights=NULL, axial = TRUE, avg = c("mean", "median"), spread = c( "CI", "sd", "IQR"),
+                       avg.col = "#85112AFF", avg.lty = 2, avg.lwd = 1.5,
+                       spread.col = ggplot2::alpha("#85112AFF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL){
+
+  avg <- match.arg(avg)
+  mu = switch(avg,
+              mean = circular_mean(x, weights, axial),
+              median = circular_median(x, weights, axial)
+  )
+
+  if(!is.null(spread)){
+    spread <- match.arg(spread)
+    sd = switch(spread,
+                sd = circular_sd(x, weights, axial),
+                IQR = circular_IQR(x, weights, axial),
+                CI = confidence_angle(x, w=weights, axial=axial)
+    )
+    rose_fan(mu, sd, axial = axial, col = spread.col, border = spread.border, lty = spread.lty, lwd = spread.lwd)
+  }
+
+  rose_line(mu, axial = axial, col = avg.col, lty = avg.lty, lwd = avg.lwd)
+}
+
+
 #' Plotting stress analysis results
 #'
 #' Creates a set of plots including
 #' the azimuth as a function of the distance to the plate boundary,
 #' the Norm Chi-squared as a function of the distance to the plate boundary,
 #' the circular distance (and dispersion) a function of the distance to the
-#' plate boundary, and a rose diagram of the frequency distribution of the azimuths.
+#' plate boundary, and a rose diagram of the frequency distribution of the
+#' azimuths.
 #'
 #' @param azi numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}
 #' @param distance numeric. Distance to plate boundary
@@ -315,8 +429,9 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' either a numeric vector or a number
 #' @param regime character vector. The stress
 #' regime (following the classification of the World Stress Map)
-#' @param width integer. window width (in number of observations) for moving average
-#'  of the azimuths, circular dispersion, and Norm Chi-square statistics. If `NULL`, an optimal width will be estimated.
+#' @param width integer. window width (in number of observations) for moving
+#' average of the azimuths, circular dispersion, and Norm Chi-square statistics.
+#' If `NULL`, an optimal width will be estimated.
 #'
 #' @importFrom dplyr arrange mutate
 #'
@@ -468,6 +583,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   # rose plot
   grDevices::dev.new()
   rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram")
+  rose_stats(azi, weights = 1 / unc)
   grDevices::palette("default")
 }
 

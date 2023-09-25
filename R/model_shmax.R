@@ -235,11 +235,12 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
   azi.por <- (df$azi - theta + 180) %% 180
 
   if (type != "none" && !is.null(df$unc)) {
-    prd <- NA
-    prd <- ifelse(type == "out", 180, prd)
-    prd <- ifelse(type == "right", 135, prd)
-    prd <- ifelse(type == "in", 90, prd)
-    prd <- ifelse(type == "left", 45, prd)
+    # prd <- NA
+    # prd <- ifelse(type == "out", 180, prd)
+    # prd <- ifelse(type == "right", 135, prd)
+    # prd <- ifelse(type == "in", 90, prd)
+    # prd <- ifelse(type == "left", 45, prd)
+    prd <- switch(type, none = NA, out = 180, right = 135, `in` = 90, left = 45)
 
     dev <- azi.por - prd
     cdist <- (1 - cosd(2 * dev)) / 2

@@ -258,8 +258,8 @@ euler_to_Q4 <- function(x, normalize = FALSE) {
   axis <- c(x$x, x$y, x$z)
   Sc <- cos(x$angle / 2)
   Vec <- axis * sin(x$angle / 2)
-  q <- (list(Sc = c(Sc), Vec = Vec))
-  class(q) <- "quaternion"
+  q <- structure(list(Sc = c(Sc), Vec = Vec), class = "quaternion")
+  # class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }
@@ -303,8 +303,8 @@ Q4_to_QScVec <- function(x, normalize = FALSE) {
   q2 <- x[3] / sin(angle / 2)
   q3 <- x[4] / sin(angle / 2)
 
-  q <- list(Sc = x[1], Vec = c(q1, q2, q3))
-  class(q) <- "quaternion"
+  q <- structure(list(Sc = x[1], Vec = c(q1, q2, q3)), class = "quaternion")
+  # class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }
@@ -320,8 +320,8 @@ Q4_to_QScVec <- function(x, normalize = FALSE) {
 normalize_Q4 <- function(q) {
   q4 <- QScVec_to_Q4(q)
   q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
-  q.norm <- list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4]))
-  class(q.norm) <- "quaternion"
+  q.norm <- structure(list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4])), class = "quaternion")
+  #class(q.norm) <- "quaternion"
   return(q.norm)
 }
 
@@ -340,8 +340,8 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
   stopifnot(is.Q4(q1), is.Q4(q2), is.logical(normalize))
   Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
   Vec <- q1$Sc * q2$Vec + q2$Sc * q1$Vec + vcross(q2$Vec, q1$Vec)
-  q <- list(Sc = c(Sc), Vec = Vec)
-  class(q) <- "quaternion"
+  q <- structure(list(Sc = c(Sc), Vec = Vec), class = "quaternion")
+  #class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }
@@ -359,8 +359,8 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
 #' @return object of class \code{"quaternion"}
 conjugate_Q4 <- function(q, normalize = FALSE) {
   stopifnot(is.Q4(q), is.logical(normalize))
-  q <- list(Sc = q$Sc, Vec = -q$Vec)
-  class(q) <- "quaternion"
+  q <- structure(list(Sc = q$Sc, Vec = -q$Vec), class = "quaternion")
+  #class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }

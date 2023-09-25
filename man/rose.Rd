@@ -23,6 +23,7 @@ rose(
   dot_pch = 1,
   dot_cex = 1,
   dot_col = "grey",
+  show.mean = TRUE,
   ...
 )
 }
@@ -48,7 +49,7 @@ clockwise direction (\code{clockwise=TRUE}, the default) or anti-clockwise,
 counter-clockwise direction (\code{FALSE}).}
 
 \item{unit}{The unit in which the angles are expressed.
-\code{"degrees"} (the default), or \code{"radians"}.}
+\code{"degree"} (the default), or \code{"radian"}.}
 
 \item{round_binwidth}{Logical. Whether bin width is round to zero digits
 (\code{round_binwidth=TRUE}, the default) or as is (\code{FALSE}).}
@@ -91,6 +92,6 @@ x <- rvm(100, mean = 90, k = 1)
 rose(x, axial = FALSE)
 
 data("san_andreas")
-rose(san_andreas$azi, axial = TRUE, add_pts = TRUE, main = "dot plot")
-rose(san_andreas$azi, weights = 1 / san_andreas$unc, axial = TRUE, main = "weighted")
+rose(san_andreas$azi, dots = TRUE, main = "dot plot")
+rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 }
