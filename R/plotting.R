@@ -3,9 +3,11 @@
 #' assigns colors to continuous or categorical values for plotting
 #'
 #' @param x values for color assignment
-#' @param n integer. number of colors for continuous colors (i.e. `categorical = FALSE``).
+#' @param n integer. number of colors for continuous colors (i.e.
+#' `categorical = FALSE``).
 #' @param pal either a named vector specifying the colors for categorical
-#' values, or a color function. If `NULL`, default colors are `RColorBrewer::brewer.pal()`
+#' values, or a color function. If `NULL`, default colors are
+#' `RColorBrewer::brewer.pal()`
 #' (`categorical = TRUE`) and `viridis::viridis()` (`categorical = FALSE`).
 #' @param categorical logical.
 #' @param na.value color for `NA` values (categorical).
@@ -82,8 +84,10 @@ stress_colors <- function() {
 #' @param x,y coordinates of points
 #' @param angle Azimuth in degrees
 #' @param radius length of axis
-#' @param arrow.code integer. Kind of arrow head. The default is `1`, i.e. no arrow head. See [graphics::arrows()] for details
-#' @param arrow.length numeric Length of the edges of the arrow head (in inches). (Ignored if `arrow.code = 1`)
+#' @param arrow.code integer. Kind of arrow head. The default is `1`, i.e. no
+#' arrow head. See [graphics::arrows()] for details
+#' @param arrow.length numeric Length of the edges of the arrow head (in
+#' inches). (Ignored if `arrow.code = 1`)
 #' @param add logical. add to existing plot?
 #' @param ... optional arguments passed to [graphics::arrows()]
 #'
@@ -133,7 +137,8 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' @title Selecting optimal number of bins and width for rose diagrams
 #'
 #' @param n Integer. number of data
-#' @param round Logical. Whether bin width is round to zero digits (`round=TRUE`, the default)
+#' @param round Logical. Whether bin width is round to zero digits
+#' (`round=TRUE`, the default)
 #' or as is (`FALSE`).
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
@@ -314,7 +319,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' @param radius of the rose diagram
 #' @param axial Logical. Whether x are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
-#' @param ... optional arguments passed to [graphics::segments()] or [graphics::polygon()]
+#' @param ... optional arguments passed to [graphics::segments()] or
+#' [graphics::polygon()]
 #'
 #' @returns No return value, called for side effects
 #'
@@ -441,7 +447,8 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' @importFrom dplyr arrange mutate
 #'
 #' @seealso [PoR_shmax()], [distance_from_pb()], [circular_mean()],
-#' [circular_dispersion()], [confidence_angle()], [norm_chisq()], [weighted_rayleigh()]
+#' [circular_dispersion()], [confidence_angle()], [norm_chisq()],
+#' [weighted_rayleigh()]
 #'
 #' @details
 #' Plot 1 shows the transformed azimuths as a function of the distance to the
@@ -486,10 +493,11 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
       cdist = circular_distance(azi, prd),
       roll_mean = roll_circstats(azi, w = 1 / unc, FUN = circular_mean, width = width),
-      # roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width)/2,
+      #roll_conf95 = roll_confidence(azi, .95, 1 / unc, width = width),
+      roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width)/2,
       roll_nchisq = roll_normchisq(azi, prd, unc, width = width),
-      roll_disp = roll_dispersion(azi, prd, w = 1 / unc, width = width),
-      roll_conf95 = roll_confidence(azi, .95, 1 / unc, width = width) / 2
+      roll_disp = roll_dispersion(azi, prd, w = 1 / unc, width = width)#,
+      #roll_disp_CI = roll_dispersion_CI(azi, prd, w = 1 / unc, R = 100, width = width)
     )
 
   # add lower and upper period to data for plotting
@@ -523,36 +531,26 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   # distance plot
   ## create empty plot
   graphics::plot(0,
-    type = "n",
-    xlab = "Distance from plate boundary", ylab = "Azimuth wrt. PoR (\u00B0)",
-    sub = subtitle,
-    main = "Distance from plate boundary vs. azimuth",
-    xlim = range(distance),
-    ylim = c(0, 180), yaxp = c(0, 180, 8)
+                 type = "n",
+                 xlab = "Distance from plate boundary", ylab = "Azimuth wrt. PoR (\u00B0)",
+                 sub = subtitle,
+                 main = "Distance from plate boundary vs. azimuth",
+                 xlim = range(distance),
+                 ylim = c(0, 180), yaxp = c(0, 180, 8)
   )
 
-  # graphics::polygon(
-  #   x = c(t$distance, rev(t$distance)),
-  #   y = c(t$roll_mean + t$roll_sd, t$roll_mean - t$roll_sd),
-  #   col = scales::alpha("#85112AFF", .5), border = scales::alpha("#85112AFF", .1), lty = 3
-  # )
-
   ## 95% confidence interval
-  # graphics::polygon(
-  #   x = c(0, max(distance), max(distance), 0),
-  #   y = c(CI$conf.interval[2], CI$conf.interval[2], CI$conf.interval[1], CI$conf.interval[1]),
-  #   col = grDevices::gray(.85, alpha = .5), border = "grey80", lty = 4
-  # )
+  graphics::polygon(
+    x = c(rev(t$distance), t$distance),
+    y = c(rev(t$roll_mean + t$roll_sd), t$roll_mean - t$roll_sd),
+    col = "grey90", border = FALSE
+  )
 
   ## points
   graphics::arrows(y0 = t2$azi - t2$unc, x0 = t2$distance, y1 = t2$azi + t2$unc, x1 = t2$distance, code = 0, lwd = .25, col = t2$regime)
   graphics::points(azi ~ distance, data = t2, col = t2$regime)
 
   ## roll statistics
-  # graphics::lines(roll_mean - roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  # graphics::lines(roll_mean + roll_sd ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  graphics::lines(roll_mean - roll_conf95 ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
-  graphics::lines(roll_mean + roll_conf95 ~ distance, data = t, type = "S", col = "#85112A7D", lty = 3)
   graphics::lines(roll_mean ~ distance, data = t, type = "S", col = "#85112AFF")
 
   ## predicted az
@@ -562,26 +560,40 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   # Norm chisq plot
   grDevices::dev.new()
   graphics::plot(nchisq_i ~ distance,
-    data = t, col = t$regime,
-    xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi[i]^2),
-    main = "Deviation from prediction",
-    xlim = range(distance),
-    ylim = c(0, 1), yaxp = c(0, 1, 4),
-    sub = paste0("Norm \u03C7\u00B2: ", round(nchisq, 2))
+                 data = t, col = t$regime,
+                 xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi[i]^2),
+                 main = "Deviation from prediction",
+                 xlim = range(distance),
+                 ylim = c(0, 1), yaxp = c(0, 1, 4),
+                 sub = paste0("Norm \u03C7\u00B2: ", round(nchisq, 2))
   )
   graphics::lines(roll_nchisq ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = .15, col = "black", lty = 2)
 
   # Dispersion plot
   grDevices::dev.new()
-  graphics::plot(cdist ~ distance,
-    data = t, col = t$regime,
-    xlab = "Distance from plate boundary", ylab = "Circular distance",
-    main = "Circular dispersion around prediction",
-    xlim = range(distance),
-    ylim = c(0, 1), yaxp = c(0, 1, 4),
-    sub = paste0("Disp: ", round(disp, 3))
+  graphics::plot(0,
+                 type = "n",
+                 xlab = "Distance from plate boundary", ylab = "Circular distance",
+                 main = "Circular dispersion around prediction",
+                 xlim = range(distance),
+                 ylim = c(0, 1), yaxp = c(0, 1, 4),
+                 sub = paste0("Disp: ", round(disp, 3))
   )
+
+
+  ## 95% confidence interval
+  # graphics::polygon(
+  #   x = c(rev(t$distance), t$distance),
+  #   y = c(rev(t$roll_disp_CI[, 1]), t$roll_disp_CI[, 2]),
+  #   col = "grey90", border = FALSE, lty = 3
+  # )
+
+  graphics::points(cdist ~ distance,
+                   data = t, col = t$regime
+  )
+
+
   graphics::lines(roll_disp ~ distance, data = t, type = "S", col = "#85112AFF")
   # graphics::abline(h = disp, col = "black", lty = 2) # dispersion
 
@@ -596,9 +608,10 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
 #' Plot data in PoR map
 #'
-#' @param x,pb #' @param x,pb `sf` objects of the data points and the plate boundary
-#' geometries in the geographical coordinate system
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
+#' @param x,pb #' @param x,pb `sf` objects of the data points and the plate
+#' boundary geometries in the geographical coordinate system
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class
+#' \code{"euler.pole"}
 #' containing the geographical coordinates of the Pole of Rotation
 #' @param cw logical. Whether the  displacement of the tangential plate boundary
 #'  is clockwise or counterclockwise?
