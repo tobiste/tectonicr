@@ -323,6 +323,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 NULL
 
 #' @rdname rose_geom
+#' @export
 rose_line <- function(x, radius = 1, axial = TRUE, ...) {
   xrad <- deg2rad(90 - x)
   tx <- radius * cos(xrad)
@@ -336,6 +337,7 @@ rose_line <- function(x, radius = 1, axial = TRUE, ...) {
 }
 
 #' @rdname rose_geom
+#' @export
 rose_fan <- function(x, d, radius = 1, axial = TRUE, ...) {
   xrad <- deg2rad(90 - x)
   drad <- deg2rad(d)
@@ -397,6 +399,10 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
     mean = circular_mean(x, weights, axial),
     median = circular_median(x, weights, axial)
   )
+  mu_text <- switch(avg,
+    mean = "Mean: ",
+    median = "Median: "
+  )
 
   if (!is.null(spread)) {
     spread <- match.arg(spread)
@@ -405,10 +411,10 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
       IQR = circular_IQR(x, weights, axial),
       CI = confidence_angle(x, w = weights, axial = axial)
     )
-    rose_fan(mu, sd, axial = axial, col = spread.col, border = spread.border, lty = spread.lty, lwd = spread.lwd)
+    rose_fan(mu, sd, radius = 1.1, axial = axial, col = spread.col, border = spread.border, lty = spread.lty, lwd = spread.lwd)
   }
 
-  rose_line(mu, axial = axial, col = avg.col, lty = avg.lty, lwd = avg.lwd)
+  rose_line(mu, radius = 1.1, axial = axial, col = avg.col, lty = avg.lty, lwd = avg.lwd)
 }
 
 
@@ -493,12 +499,13 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
   nchisq <- norm_chisq(azi, prd, unc)
   suppressMessages(
-    rt <- weighted_rayleigh(azi, prd = prd, unc = unc, axial = TRUE)
+    rt <- weighted_rayleigh(azi, prd = prd, unc = unc)
   )
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
   azi.PoR.sd <- circular_sd(azi, 1 / unc)
   disp <- circular_dispersion(azi, prd, 1 / unc)
   CI <- confidence_interval(azi, w = 1 / unc)
+  CI_ang <- confidence_angle(azi, w = 1 / unc)
 
   subtitle <-
     paste0(
@@ -508,7 +515,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     )
   subtitle_rose <- paste0(
     "N: ", length(azi),
-    "\nMean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(azi.PoR.sd, 1),
+    "\nMean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(CI_ang, 1),
     "\u00B0"
   )
   grDevices::palette(c("grey60", "#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2"))
@@ -530,7 +537,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   #   col = scales::alpha("#85112AFF", .5), border = scales::alpha("#85112AFF", .1), lty = 3
   # )
 
-  ## 95% confodence interval
+  ## 95% confidence interval
   # graphics::polygon(
   #   x = c(0, max(distance), max(distance), 0),
   #   y = c(CI$conf.interval[2], CI$conf.interval[2], CI$conf.interval[1], CI$conf.interval[1]),
@@ -583,6 +590,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   grDevices::dev.new()
   rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram")
   rose_stats(azi, weights = 1 / unc)
+  # rose_line(prd, radius = 1.1, col = "#009E73") # show the predicted direction
   grDevices::palette("default")
 }
 

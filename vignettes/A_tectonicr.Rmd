@@ -75,8 +75,8 @@ Faulting and displacement adjacent to these plate boundaries are characterized
 by strike-slip parallel to the plate motion, and thus, the principal axes
 of maximum and minimum stress are orientated at an angle of c. 45$^{\circ}$ to
 the plate motion trajectory. 
-Geometrically, $\sigma_{Hmax}$
-direction follows along 45$^{\circ}$ *loxodromes* (lines of constant bearing) 
+Geometrically, $\sigma_{Hmax}$ direction follows along 45$^{\circ}$ 
+*loxodromes* (lines of constant bearing) 
 which diverge ---depending on the sense of the transform boundary--- clockwise 
 or counterclockwise from the relative PoR and intersect both small and 
 great circles at an angle of 45$^{\circ}$.
