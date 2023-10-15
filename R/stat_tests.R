@@ -486,7 +486,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 
     # U2 Statistic:
     u <- sort(deg2rad(x)) / (2 * pi)
-    if(is.null(mu)){
+    if (is.null(mu)) {
       u.bar <- mean(u)
     } else {
       u.bar <- deg2rad(mu %% 360) / (2 * pi)
@@ -531,7 +531,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
       c(0.081, 0.09, 0.11, 0.128, 0.142, 0.158, 0.164)
     )
 
-    if(is.null(mu)){
+    if (is.null(mu)) {
       mu <- circular_mean(x, axial = axial, na.rm = FALSE)
     } else {
       mu <- mu
@@ -721,7 +721,7 @@ A1inv <- function(x) {
 #' @export
 #'
 #' @examples
-#' est.kappa(rvm(100, 90, 10), w = 1/runif(100, 0, 10))
+#' est.kappa(rvm(100, 90, 10), w = 1 / runif(100, 0, 10))
 est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))

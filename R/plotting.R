@@ -161,7 +161,6 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 rose_baseplot <- function(start = -90,
                           clockwise = TRUE, main = NULL, labels = TRUE,
                           at = seq(0, 360 - 45, 45), cborder = TRUE, ...) {
-
   unit <- "degree"
   ymax <- 1
   insideclearance <- 0.1
@@ -213,7 +212,7 @@ rose_histogram <- function(x, ..., start = -90,
 
   rose_baseplot(start, clockwise, main, labels, at, cborder)
 
-  for(i in seq_along(y)){
+  for (i in seq_along(y)) {
     rose_fan(bks[i], d = bw, radius = y[i], axial = axial, add = TRUE, ...)
   }
 
@@ -231,12 +230,14 @@ rose_histogram <- function(x, ..., start = -90,
   #     yy <- c(0, yi * sin(aa), 0)
   #     spatstat.utils::do.call.matched(polygon, list(x = xx, y = yy, ...))
   #   }
-  #}
-  #return(invisible(result))
+  # }
+  # return(invisible(result))
 }
 
-graphicsAargh <- c("density", "angle", "col", "border",
-                   "xlim", "ylim", "xlab", "ylab", "axes")
+graphicsAargh <- c(
+  "density", "angle", "col", "border",
+  "xlim", "ylim", "xlab", "ylab", "axes"
+)
 
 
 #' Helper Function to count frequencies and densities for rose diagrams
@@ -263,8 +264,8 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
   stopifnot(is.numeric(x))
   if (!is.null(weights)) {
     spatstat.utils::check.nvector(weights, length(x),
-                                  things = "observations",
-                                  vname = "weights"
+      things = "observations",
+      vname = "weights"
     )
   }
 
@@ -298,15 +299,18 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
   }
 
   h <- spatstat.utils::do.call.matched(graphics::hist.default, list(
-    x = x, breaks = breaks, ..., plot = FALSE),
-    skipargs = graphicsAargh, sieve = TRUE)
+    x = x, breaks = breaks, ..., plot = FALSE
+  ),
+  skipargs = graphicsAargh, sieve = TRUE
+  )
 
   result <- numeric()
   result <- h$result
   otherargs <- h$otherargs
 
-  freqs <-  spatstat.geom::whist(
-    x = x, breaks = breaks, weights = weights)
+  freqs <- spatstat.geom::whist(
+    x = x, breaks = breaks, weights = weights
+  )
 
   result$count <- freqs
   result$density <- freqs / binwidth
@@ -358,15 +362,15 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 }
 
 
-symmetric_bw <- function(x){
+symmetric_bw <- function(x) {
   allowed <- c(2, 4, 6, 8, 10, 12, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
   target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
   allowed[target.index] |> min()
 }
 
-add_end <- function(x, end){
+add_end <- function(x, end) {
   check <- end %in% x
-  if(check){
+  if (check) {
     x
   } else {
     x <- c(x, end)
@@ -442,13 +446,17 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   }
 
   freqs <- rose_freq(
-    x, bins = bins, ..., weights = weights, binwidth = binwidth,
+    x,
+    bins = bins, ..., weights = weights, binwidth = binwidth,
     round_binwidth = round_binwidth, equal_area = equal_area,
-    main = main, axial = axial)
+    main = main, axial = axial
+  )
 
-  rose_histogram(freqs, ..., clockwise = clockwise,
-                 col = col, axial = axial,
-                 main = main, labels = TRUE, at = at, cborder = TRUE)
+  rose_histogram(freqs, ...,
+    clockwise = clockwise,
+    col = col, axial = axial,
+    main = main, labels = TRUE, at = at, cborder = TRUE
+  )
 
   if (dots) {
     rose_dots(x, axial, cex = dot_cex, pch = dot_pch, col = dot_col)
@@ -461,7 +469,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   if (muci) rose_stats(x, weights = weights, axial = axial)
 }
 
-rose_dots <- function(x, axial, ...){
+rose_dots <- function(x, axial, ...) {
   if (axial) {
     x_shift <- (x + 180) %% 360
     x <- c(x, x_shift)
@@ -540,10 +548,10 @@ rose_line <- function(x, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @export
 rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
   xrad <- deg2rad(x)
-  drad <- deg2rad(d)/2
+  drad <- deg2rad(d) / 2
 
   eps <- (pi / 128) / 2
-  aa <- (pi/2) - seq(xrad - drad, xrad + drad, by = eps)
+  aa <- (pi / 2) - seq(xrad - drad, xrad + drad, by = eps)
 
   tx <- radius * cos(aa)
   ty <- radius * sin(aa)
@@ -617,13 +625,17 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
       sd = circular_sd(x, weights, axial),
       IQR = circular_IQR(x, weights, axial)
     )
-    rose_fan(mu, 2*ci, radius = 1.1, axial = axial, col = spread.col,
-             border = spread.border, lty = spread.lty, lwd = spread.lwd,
-             add = add, ...)
+    rose_fan(mu, 2 * ci,
+      radius = 1.1, axial = axial, col = spread.col,
+      border = spread.border, lty = spread.lty, lwd = spread.lwd,
+      add = add, ...
+    )
   }
 
-  rose_line(mu, radius = 1.1, axial = axial, col = avg.col, lty = avg.lty,
-            lwd = avg.lwd, add = add, ...)
+  rose_line(mu,
+    radius = 1.1, axial = axial, col = avg.col, lty = avg.lty,
+    lwd = avg.lwd, add = add, ...
+  )
 }
 
 
@@ -691,7 +703,8 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   regime <- ifelse(is.na(regime), "U", regime)
 
   t <- data.frame(azi, distance, prd, unc,
-                  regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))) |>
+    regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))
+  ) |>
     dplyr::arrange(distance) |>
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
@@ -751,9 +764,11 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   )
 
   ## points
-  graphics::arrows(y0 = t2$azi - t2$unc, x0 = t2$distance,
-                   y1 = t2$azi + t2$unc, x1 = t2$distance,
-                   code = 0, lwd = .25, col = t2$regime)
+  graphics::arrows(
+    y0 = t2$azi - t2$unc, x0 = t2$distance,
+    y1 = t2$azi + t2$unc, x1 = t2$distance,
+    code = 0, lwd = .25, col = t2$regime
+  )
   graphics::points(azi ~ distance, data = t2, col = t2$regime)
 
   ## roll statistics
@@ -761,9 +776,11 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
   ## predicted az
   graphics::abline(h = unique(prd), col = "black", lty = 2)
-  graphics::legend("bottomright", inset = .05, cex = .75,
-                   legend = names(stress_colors()), title = "Stress regime",
-                   fill = stress_colors())
+  graphics::legend("bottomright",
+    inset = .05, cex = .75,
+    legend = names(stress_colors()), title = "Stress regime",
+    fill = stress_colors()
+  )
 
   # Norm chisq plot
   grDevices::dev.new()
@@ -852,7 +869,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "left"),
                     deviation = FALSE, ...) {
   val <- val2 <- NULL
-  x_por_df <- PoR_shmax(x, PoR, type=type)
+  x_por_df <- PoR_shmax(x, PoR, type = type)
 
   x_por_sf <- geographical_to_PoR_sf(x, PoR)
   x_por_coords <- sf::st_coordinates(x_por_sf)
@@ -873,11 +890,15 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
     unique() |>
     dplyr::arrange(val2)
 
-  plot(x_por_coords[, 1], x_por_coords[, 2], cex = 0,
-       xlab = "PoR longitude (\u00B0)", ylab = "PoR latitude (\u00B0)", asp = 1)
+  plot(x_por_coords[, 1], x_por_coords[, 2],
+    cex = 0,
+    xlab = "PoR longitude (\u00B0)", ylab = "PoR latitude (\u00B0)", asp = 1
+  )
   graphics::abline(h = seq(-90, 90, 5), v = seq(-180, 180, 5), col = "grey", lty = 2)
   axes(x_por_coords[, 1], x_por_coords[, 2], x_por_df$azi.PoR, col = cols, add = TRUE)
   plot(sf::st_geometry(pb_por), add = TRUE)
-  graphics::legend("bottomleft", inset = .05, cex = .75,
-                   legend = col.legend$val, title = legend.title, fill = col.legend$col)
+  graphics::legend("bottomleft",
+    inset = .05, cex = .75,
+    legend = col.legend$val, title = legend.title, fill = col.legend$col
+  )
 }

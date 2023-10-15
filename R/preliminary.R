@@ -741,13 +741,13 @@ line_azimuth <- function(x) {
 
 #' @rdname line_azimuth
 #' @export
-lines_azimuths <- function(x){
-  for(i in 1:nrow(x)){
+lines_azimuths <- function(x) {
+  for (i in 1:nrow(x)) {
     ai <- line_azimuth(x[i, ])
-    if(i == 1) {
-      a = ai
+    if (i == 1) {
+      a <- ai
     } else {
-      a = rbind(a, ai)
+      a <- rbind(a, ai)
     }
   }
   return(a)

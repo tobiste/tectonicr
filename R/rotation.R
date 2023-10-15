@@ -321,7 +321,7 @@ normalize_Q4 <- function(q) {
   q4 <- QScVec_to_Q4(q)
   q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
   q.norm <- structure(list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4])), class = "quaternion")
-  #class(q.norm) <- "quaternion"
+  # class(q.norm) <- "quaternion"
   return(q.norm)
 }
 
@@ -341,7 +341,7 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
   Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
   Vec <- q1$Sc * q2$Vec + q2$Sc * q1$Vec + vcross(q2$Vec, q1$Vec)
   q <- structure(list(Sc = c(Sc), Vec = Vec), class = "quaternion")
-  #class(q) <- "quaternion"
+  # class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }
@@ -360,7 +360,7 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
 conjugate_Q4 <- function(q, normalize = FALSE) {
   stopifnot(is.Q4(q), is.logical(normalize))
   q <- structure(list(Sc = q$Sc, Vec = -q$Vec), class = "quaternion")
-  #class(q) <- "quaternion"
+  # class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }

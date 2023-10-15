@@ -10,7 +10,6 @@
 * estimate kappa of von Mises distribution:` est.kapp()`
 * no doubling of angles when testing Watson distribution `watson_test()`
 
-
 # tectonicr 0.2.94 _2023-09-25_
 
 * mean direction and spread on rose diagram (`rose()`)
