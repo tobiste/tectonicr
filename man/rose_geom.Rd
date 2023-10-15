@@ -6,9 +6,9 @@
 \alias{rose_fan}
 \title{Lines and fans in rose diagram}
 \usage{
-rose_line(x, radius = 1, axial = TRUE, ...)
+rose_line(x, radius = 1, axial = TRUE, add = TRUE, ...)
 
-rose_fan(x, d, radius = 1, axial = TRUE, ...)
+rose_fan(x, d, radius = 1, axial = TRUE, add = TRUE, ...)
 }
 \arguments{
 \item{x}{angles in degrees}
@@ -18,7 +18,10 @@ rose_fan(x, d, radius = 1, axial = TRUE, ...)
 \item{axial}{Logical. Whether x are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
-\item{...}{optional arguments passed to \code{\link[graphics:segments]{graphics::segments()}} or \code{\link[graphics:polygon]{graphics::polygon()}}}
+\item{add}{logical. Add to existing plot?}
+
+\item{...}{optional arguments passed to \code{\link[graphics:segments]{graphics::segments()}} or
+\code{\link[graphics:polygon]{graphics::polygon()}}}
 
 \item{d}{width of a fan (in degrees)}
 }
@@ -27,4 +30,11 @@ No return value, called for side effects
 }
 \description{
 Lines and fans in rose diagram
+}
+\examples{
+a <- c(0, 10, 45)
+radius <- c(.7, 1, .2)
+lwd <- c(2, 1, .75)
+col <- c(1, 2, 3)
+rose_line(c(0, 10, 45), radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
 }

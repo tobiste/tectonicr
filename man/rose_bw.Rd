@@ -6,14 +6,15 @@
 \alias{rose_binwidth}
 \title{Selecting optimal number of bins and width for rose diagrams}
 \usage{
-rose_bins(n, round = TRUE)
+rose_bins(n, round = FALSE)
 
 rose_binwidth(n, axial = TRUE, ...)
 }
 \arguments{
 \item{n}{Integer. number of data}
 
-\item{round}{Logical. Whether bin width is round to zero digits (\code{round=TRUE}, the default)
+\item{round}{Logical. Whether bin width is round to zero digits
+(\code{round=TRUE}, the default)
 or as is (\code{FALSE}).}
 
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
@@ -24,3 +25,4 @@ or biaxial (\code{TRUE}, the default).}
 \description{
 Selecting optimal number of bins and width for rose diagrams
 }
+\keyword{internal}

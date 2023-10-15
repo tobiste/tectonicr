@@ -16,7 +16,9 @@ rose_stats(
   spread.col = ggplot2::alpha("#85112AFF", 0.2),
   spread.border = FALSE,
   spread.lty = NULL,
-  spread.lwd = NULL
+  spread.lwd = NULL,
+  add = TRUE,
+  ...
 )
 }
 \arguments{
@@ -48,6 +50,10 @@ standard deviation (\code{"sd"}), or the Quasi interquartile range on the circle
 \item{spread.lty}{line type of the spread fan's border}
 
 \item{spread.lwd}{line width of the spread fan's border}
+
+\item{add}{logical.}
+
+\item{...}{optional arguments to \code{rose_baseplot()} if add is \code{FALSE}.}
 }
 \value{
 No return value, called for side effects
@@ -57,8 +63,8 @@ Adds the average direction (and its spread) to an existing rose diagram.
 }
 \examples{
 data("san_andreas")
-rose(san_andreas$azi, weights = 1 / san_andreas$unc)
-rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc)
+rose(san_andreas$azi, weights = 1 / san_andreas$unc, muci = FALSE)
+rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "median", spread = "IQR")
 }
 \seealso{
 \code{\link[=rose]{rose()}} for plotting the rose diagram, and

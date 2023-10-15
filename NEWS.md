@@ -1,8 +1,19 @@
 # tectonicr (development version)
 
+# tectonicr 0.2.95 _2023-10-15_
+
+* bug fixes in `rose()` (e.g. symmetrical fans when axial data is plotted)
+* weighted rose diagram enabled
+* add single line and fans to `rose()`
+* add mean and confidence interval to `rose()`
+* corrected typos in manual
+* estimate kappa of von Mises distribution:` est.kapp()`
+* no doubling of angles when testing Watson distribution `watson_test()`
+
+
 # tectonicr 0.2.94 _2023-09-25_
 
-* mean direction and spread on rose diagram
+* mean direction and spread on rose diagram (`rose()`)
 
 # tectonicr 0.2.93 _2023-09-10_
 

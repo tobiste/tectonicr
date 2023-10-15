@@ -17,4 +17,4 @@ PositionCenterSpoke
 \code{"position"} subclass "center_spoke" to center
 \code{ggplot::geom_spoke()} marker at its origin
 }
-\keyword{datasets}
+\keyword{internal}

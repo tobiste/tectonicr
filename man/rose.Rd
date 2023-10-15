@@ -12,8 +12,8 @@ rose(
   axial = TRUE,
   equal_area = TRUE,
   clockwise = TRUE,
-  unit = c("degree", "radian"),
-  round_binwidth = TRUE,
+  muci = TRUE,
+  round_binwidth = 0,
   mtext = "N",
   main = NULL,
   sub = NULL,
@@ -27,11 +27,11 @@ rose(
 )
 }
 \arguments{
-\item{x}{Data to be plotted. A numeric vector containing angles.}
+\item{x}{Data to be plotted. A numeric vector containing angles (in degrees).}
 
 \item{weights}{Optional vector of numeric weights associated with x.}
 
-\item{binwidth}{The width of the bins.}
+\item{binwidth}{The width of the bins (in degrees).}
 
 \item{bins}{number of arcs to partition the circle width.
 Overridden by \code{binwidth}.}
@@ -47,11 +47,11 @@ square-root of the frequencies (\code{equal_area=TRUE}, the default).}
 clockwise direction (\code{clockwise=TRUE}, the default) or anti-clockwise,
 counter-clockwise direction (\code{FALSE}).}
 
-\item{unit}{The unit in which the angles are expressed.
-\code{"degree"} (the default), or \code{"radian"}.}
+\item{muci}{logical. Whether the mean and its 95\% CI are added to the plot
+or not.}
 
-\item{round_binwidth}{Logical. Whether bin width is round to zero digits
-(\code{round_binwidth=TRUE}, the default) or as is (\code{FALSE}).}
+\item{round_binwidth}{integer. Number of decimal places of bin width (0 by
+default).}
 
 \item{mtext}{character. String to be drawn at the top margin of the plot
 (\code{"N"} by default)}
@@ -81,14 +81,16 @@ histogram or density plot for angular data.
 \note{
 If \code{bins} and \code{binwidth} are \code{NULL}, an optimal bin width will be
 calculated using Scott (1979):
-\deqn{ \frac{R}{n^{\frac{1}{3}}}
+\deqn{ w_b = \frac{R}{n^{\frac{1}{3}}}
 }
 with n being the length of \code{x}, and the range R being either 180 or 360
 degree for axial or directional data, respectively.
+
+If \code{"axial" == TRUE}, the binwidth is adjusted to guarantee symmetrical fans.
 }
 \examples{
-x <- rvm(100, mean = 90, k = 1)
-rose(x, axial = FALSE)
+x <- rvm(100, mean = 90, k = 5)
+rose(x, axial = FALSE, border = TRUE)
 
 data("san_andreas")
 rose(san_andreas$azi, dots = TRUE, main = "dot plot")

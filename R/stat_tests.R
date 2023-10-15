@@ -438,6 +438,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @param mu (optional) The specified or known mean direction (in degrees) in alternative hypothesis
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
 #' uniform distribution. `"vonmises"` tests the von Mises distribution.
 #'
@@ -465,7 +466,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' watson_test(sa.por$azi.PoR, alpha = .05)
 #' watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
-watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE) {
+watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE, mu = NULL) {
   if (!any(c(0, 0.01, 0.025, 0.05, 0.1) == alpha)) {
     stop("'alpha' must be one of the following values: 0, 0.01, 0.025, 0.05, 0.1")
   }
@@ -475,16 +476,21 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
   n <- length(x)
 
   if (dist == "uniform") {
-    if (axial) {
-      f <- 2
-    } else {
-      f <- 1
-    }
+    # if (axial) {
+    #   f <- 2
+    # } else {
+    #   f <- 1
+    # }
+    f <- 1
     x <- (x * f) %% 360
 
     # U2 Statistic:
     u <- sort(deg2rad(x)) / (2 * pi)
-    u.bar <- mean(u)
+    if(is.null(mu)){
+      u.bar <- mean(u)
+    } else {
+      u.bar <- deg2rad(mu %% 360) / (2 * pi)
+    }
     i <- 1:n
     u2 <- sum((u - u.bar - (i - .5) / n + .5)^2) + 1 / (12 * n)
     statistic <- (u2 - 0.1 / n + 0.1 / (n^2)) * (1 + 0.8 / n)
@@ -525,7 +531,11 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
       c(0.081, 0.09, 0.11, 0.128, 0.142, 0.158, 0.164)
     )
 
-    mu <- circular_mean(x, axial = axial, na.rm = FALSE)
+    if(is.null(mu)){
+      mu <- circular_mean(x, axial = axial, na.rm = FALSE)
+    } else {
+      mu <- mu
+    }
     kappa.mle <- est.kappa(x, axial = axial)
     x <- x - mu
     x <- matrix(x, ncol = 1)
@@ -695,7 +705,23 @@ A1inv <- function(x) {
   )
 }
 
-# est.kappa(rvm(100, 90, 10), w = 1/runif(100, 0, 10))
+#' Concentration parameter of von Mises distribution
+#'
+#' Computes the maximum likelihood estimate of \eqn{\kappa}, the concentration
+#' parameter of a von Mises distribution, given a set of angular measurements.
+#'
+#' @param x numeric. angles in degrees
+#' @param w numeric. weightings
+#' @param bias logical parameter determining whether a bias correction is used
+#' in the computation of the MLE. Default for bias is `FALSE` for no bias
+#' correction.
+#' @param ... optional paramters passed to `circular_mean()`
+#'
+#' @returns numeric.
+#' @export
+#'
+#' @examples
+#' est.kappa(rvm(100, 90, 10), w = 1/runif(100, 0, 10))
 est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))
@@ -712,7 +738,6 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   kappa <- abs(A1inv(mean(cosd(x - mean.dir))))
   if (bias) {
     kappa.ml <- kappa
-    # n <- length(x)
     n <- sum(w)
     if (kappa.ml < 2) {
       kappa <- max(kappa.ml - 2 * (n * kappa.ml)^-1, 0)

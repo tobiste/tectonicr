@@ -76,12 +76,12 @@ circular_IQR(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 **tectonicr** offers a rose diagram, i.e. histogram for angular data. 
 ```{r rose1, echo=TRUE}
 rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", main = "North pole")
-rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc) # show mean direction and 95% confidence interval
+# rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc) # show mean direction and 95% confidence interval
 ```
 
 ```{r rose2, echo=TRUE}
 rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, col = "grey", main = "PoR")
-rose_stats(san_andreas.por$azi, weights = 1 / san_andreas$unc) # show mean direction and standard deviation
+# rose_stats(san_andreas.por$azi, weights = 1 / san_andreas$unc) # show mean direction and standard deviation
 rose_line(135, radius = 1.1, col = "#009E73") # show the predicted direction
 ```
 

@@ -16,10 +16,12 @@ tectonicr.colors(
 \arguments{
 \item{x}{values for color assignment}
 
-\item{n}{integer. number of colors for continuous colors (i.e. `categorical = FALSE``).}
+\item{n}{integer. number of colors for continuous colors (i.e.
+`categorical = FALSE``).}
 
 \item{pal}{either a named vector specifying the colors for categorical
-values, or a color function. If \code{NULL}, default colors are \code{RColorBrewer::brewer.pal()}
+values, or a color function. If \code{NULL}, default colors are
+\code{RColorBrewer::brewer.pal()}
 (\code{categorical = TRUE}) and \code{viridis::viridis()} (\code{categorical = FALSE}).}
 
 \item{categorical}{logical.}

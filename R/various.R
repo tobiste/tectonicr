@@ -101,7 +101,7 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
   rayleigh <- weighted_rayleigh(res$azi.PoR, prd, unc = x$unc)
 
   if (plot) {
-    PoR_map(x, PoR, pb, cw = ifelse(type == "left", TRUE, FALSE), deviation = TRUE)
+    PoR_map(x, PoR, pb, type = type, deviation = TRUE)
     grDevices::dev.new()
     quick_plot(azi = res$azi.PoR, distance = res$distance, unc = x$unc, regime = x$regime, prd = prd)
   }

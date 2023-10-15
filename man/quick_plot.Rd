@@ -63,5 +63,6 @@ quick_plot(res$azi.PoR, abs(d), res$prd, san_andreas$unc, san_andreas$regime)
 }
 \seealso{
 \code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=circular_mean]{circular_mean()}},
-\code{\link[=circular_dispersion]{circular_dispersion()}}, \code{\link[=confidence_angle]{confidence_angle()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=weighted_rayleigh]{weighted_rayleigh()}}
+\code{\link[=circular_dispersion]{circular_dispersion()}}, \code{\link[=confidence_angle]{confidence_angle()}}, \code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=weighted_rayleigh]{weighted_rayleigh()}}
 }
