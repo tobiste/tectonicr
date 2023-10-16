@@ -39,7 +39,24 @@ remotes::install_github('tobiste/tectonicr')
 library('tectonicr')
 ```
 
+Using the stress measurements from the San Andreas Fault - Gulf of California example, a quick analysis and test against the right-lateral transform plate boundary can be achieved by:
+```
+# load example data
+data(san_andreas)
+data(nuvel1)
+data(plates)
+
+stress_analysis(
+san_andreas, 
+PoR = equivalent_rotation(nuvel1, "na", "pa"), 
+type = "right", 
+pb = subset(plates, pair == "na-pa")
+)
+```
+![Preview of stress analysis.](man/Figure_07_san_andreas_data.png)
+
 ## Documentation
+The detailed documentation can be found at
 https://tobiste.github.io/tectonicr/articles/tectonicr.html
 
 ## Author
