@@ -55,6 +55,7 @@
     <a class="dropdown-item" href="articles/B_datasets.html">2. Handling large datasets</a>
     <a class="dropdown-item" href="articles/C_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
     <a class="dropdown-item" href="articles/D_statistics.html">4. Circular statistics</a>
+    <a class="dropdown-item" href="articles/E_interpolation.html">5. Spatial interpolation</a>
   </div>
 </li>
 <li class="nav-item">
@@ -115,11 +116,26 @@
 <pre><code><span><span class="co"># install.packages("remotes") # install if needed</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'tobiste/tectonicr'</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tobiste.github.io/tectonicr/">'tectonicr'</a></span><span class="op">)</span></span></code></pre>
+<p>Using the stress measurements from the San Andreas Fault - Gulf of California example, a quick analysis and test against the right-lateral transform plate boundary can be achieved by:</p>
+<pre><code><span><span class="co"># load example data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nuvel1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">plates</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span></span>
+<span><span class="va">san_andreas</span>, </span>
+<span>PoR <span class="op">=</span> <span class="fu"><a href="reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="st">"na"</span>, <span class="st">"pa"</span><span class="op">)</span>, </span>
+<span>type <span class="op">=</span> <span class="st">"right"</span>, </span>
+<span>pb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre>
+<div class="figure">
+<img src="man/Figure_07_san_andreas_data.png" alt=""><p class="caption">Preview of stress analysis.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h2>
-<p><a href="https://tobiste.github.io/tectonicr/articles/tectonicr.html" class="uri">https://tobiste.github.io/tectonicr/articles/tectonicr.html</a></p>
+<p>The detailed documentation can be found at <a href="https://tobiste.github.io/tectonicr/articles/tectonicr.html" class="uri">https://tobiste.github.io/tectonicr/articles/tectonicr.html</a></p>
 </div>
 <div class="section level2">
 <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>

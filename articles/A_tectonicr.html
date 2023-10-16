@@ -45,6 +45,7 @@
     <a class="dropdown-item" href="../articles/B_datasets.html">2. Handling large datasets</a>
     <a class="dropdown-item" href="../articles/C_stress_trajectories.html">3. Plotting trajectories of theoretic stress directions</a>
     <a class="dropdown-item" href="../articles/D_statistics.html">4. Circular statistics</a>
+    <a class="dropdown-item" href="../articles/E_interpolation.html">5. Spatial interpolation</a>
   </div>
 </li>
 <li class="nav-item">
@@ -234,8 +235,9 @@ observed <span class="math inline">\(\sigma_{Hmax}\)</span> (either
 numeric vector of length of <code>obs</code> or a number).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span> <span class="co"># import example data set for Euler rotations</span></span>
-<span><span class="va">por</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span>
+<span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
+<span>  <span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span></span>
+<span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span>
 <span><span class="va">point</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">45</span>, lon <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">por</span><span class="op">)</span></span>
