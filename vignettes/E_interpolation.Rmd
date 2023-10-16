@@ -135,7 +135,7 @@ ggplot(mean_SH_PoR_reduced) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
 ```
 ![](interpolation_voronoi.png)
-The map highlights stress anomalies, i.e. misfits to the direction of tested 
+The map highlights **stress anomalies**, i.e. misfits to the direction of tested 
 plate boundary force.
 
 # References
