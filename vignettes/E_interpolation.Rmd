@@ -36,14 +36,17 @@ por <- cpm_models |>
 
 
 ## Interpolation
+### Geographic coordinate system
 Spatial interpolation of stress data is based on the aforementioned metrics (the
-algorithm is a modified version of the MATLAB script 'stress2grid' by Ziegler and Heidbach (2017).
+algorithm is a modified version of the MATLAB script 'stress2grid' by Ziegler 
+and Heidbach (2017).
+
 ```{r interpolation, echo=TRUE}
 mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
-The default settings apply quality and inverse distance weighting of the mean, as well as 
-a 25% cut-off for the standard deviation. 
+The default settings apply quality and inverse distance weighting of the mean, 
+as well as a 25% cut-off for the standard deviation. 
 
 The data can now be visualized:  
 ```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
@@ -63,6 +66,8 @@ ggplot(mean_SH) +
   facet_wrap(~R)
 ```
 ![](interpolation.png)
+
+### PoR coordinate system
 
 The interpolated direction of far apart data points will suffer from distortions
 due to the underlying projection. In order to prevent such effects, the 
@@ -91,7 +96,14 @@ ggplot(mean_SH_PoR) +
   facet_wrap(~R)
 ```
 ![](interpolation_PoR.png)
-The function `compact_grid()` selects only data with the minimum search radius from interpolated layers with different search radii. Since the interpolation was performed in the PoR CRS, the interpolated azimuths are additionally given in the transformed azimuths. This allows to easily calculate misfits from predicted directions:
+
+## Rasterize the interpolation
+
+The function `compact_grid()` selects only data with the minimum search radius 
+from interpolated layers with different search radii. Since the interpolation 
+was performed in the PoR CRS, the interpolated azimuths are additionally given 
+in the transformed azimuths. This allows to easily calculate misfits from 
+predicted directions:
 
 ```{r compact, echo = TRUE}
 mean_SH_PoR_reduced <- mean_SH_PoR |>
@@ -99,7 +111,12 @@ mean_SH_PoR_reduced <- mean_SH_PoR |>
   dplyr::mutate(cdist = circular_distance(azi.PoR, 135))
 ```
 
-Using `circular_distance()` in the example above, we can display the spatial patterns of the misfits of the stress direction from the predicted direction of the plate boundary force. Since the interpolation was performed in the PoR CRS, the grid is not composed of equally spaced grid cells in the geographic CRS. To rasterize such grids, we can, e.g., use Voronoi cells from the `ggforce` package.
+Using `circular_distance()` in the example above, we can display the spatial 
+patterns of the misfits of the stress direction from the predicted direction of 
+the plate boundary force. Since the interpolation was performed in the PoR CRS, 
+the grid is not composed of equally spaced grid cells in the geographic CRS. To 
+rasterize such grids, we can, e.g., use Voronoi cells from the `ggforce` 
+package.
 
 ```{r voronoi, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
 ggplot(mean_SH_PoR_reduced) +
@@ -118,6 +135,8 @@ ggplot(mean_SH_PoR_reduced) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
 ```
 ![](interpolation_voronoi.png)
+The map highlights stress anomalies, i.e. misfits to the direction of tested 
+plate boundary force.
 
 # References
 Mardia, K. V., and Jupp, P. E. (Eds.). (1999). "Directional Statistics" 

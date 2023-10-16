@@ -20,7 +20,6 @@
 - **Stress anomaly map**: spatial distribution of the dispersion of the observed stress field from the directions of plate boundary forces
 
 ## Prerequisites
-
 You must have R installed on your system (see http://r-project.org). To install 
 **tectonicr** from CRAN, type the following code at the R command line prompt:
 
@@ -29,7 +28,6 @@ install.packages("tectonicr")
 ```
 
 ## Installation
-
 The most recent development version of **tectonicr** is available from Github 
 and can be installed on your system as follows:
 
@@ -40,6 +38,7 @@ library('tectonicr')
 ```
 
 Using the stress measurements from the San Andreas Fault - Gulf of California example, a quick analysis and test against the right-lateral transform plate boundary can be achieved by:
+
 ```
 # load example data
 data(san_andreas)
@@ -53,6 +52,8 @@ type = "right",
 pb = subset(plates, pair == "na-pa")
 )
 ```
+The code produces the underlying results for Fig. 7 from Stephan et al. (2023)
+
 ![Preview of stress analysis.](man/Figure_07_san_andreas_data.png)
 
 ## Documentation
