@@ -755,73 +755,49 @@ lines_azimuths <- function(x) {
 
 
 
-#' SHmax direction resulting from multiple plate boundaries
+#' Rolling statistics
 #'
-#' Calculates a \eqn{\sigma_{Hmax}}{SHmax} direction at given coordinates,
-#' sourced by multiple plate boundaries. This first-order approximation is the
-#' circular mean of the superimposed theoretical directions, weighted by the
-#' rotation rates of the underlying PoRs.
+#' @param x the value that defines the series of observations (e.g. distance)
+#' @param y the values to be rolled over
+#' @param FUN the function to be applied
+#' @param width numeric. the range across `x` on which `FUN` should be applied on `y`
+#' @param align specifyies whether the index of the result should be left- or
+#' right-aligned or centered (default) compared to the rolling window of observations. This argument is only used if width represents widths.
+#' @param weighting numeric. the weighting for `y`
+#' @param sort logical. Should the values be sorted prior to the function (`TRUE` by default).
+#' @param min_n integer. The minimum values that should be considered for `FUN` (1 by default), otherwise `NA`.
 #'
-#' @param df \code{data.frame} containing the coordinates of the point(s)
-#' (\code{lat}, \code{lon}), and the direction of
-#' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} (in degrees)
-#' @param PoRs data.frame or object `"euler.pole"` that must contain `lat`,
-#' `lon` and `angle`
-#' @param types character vector with length equal to number of rows in `PoRs`.
-#' Type of plate boundary. Can be \code{"out"}, \code{"in"}, \code{"right"}, or
-#' \code{"left"} for outward, inward, right-lateral, or left-lateral
-#' moving plate boundaries, respectively.
-#' @param absolute logical. Whether the resultant azimuth should be weighted
-#' using the absolute rotation at the points or the angular rotation of the PoRs.
-#' @param PoR_weighting (optional) numeric vector with length equal to number of rows in
-#' `PoRs`. Extra weightings for the used PoRs.
-#'
-#' @seealso [model_shmax()]
-#'
-#' @return numeric. Resultant azimuth in degrees and geographical CRS
+#' @return two-column vectors of (sorted) `x` and the rolled statistics on `y`
 #' @export
 #'
 #' @examples
-#' data(san_andreas)
-#' data(nuvel1)
-#' pors <- subset(nuvel1, plate.rot %in% c("eu", "na"))
-#' superimposed_shmax(san_andreas, pors, types = c("in", "right"), PoR_weighting = c(2, 1))
-superimposed_shmax <- function(df, PoRs, types = c("in", "out", "right", "left"), absolute = TRUE, PoR_weighting = NULL) {
+#' x <- runif(100)
+#' y <- rvm(100, kappa = 10, mean = 0)
+#' w <- runif(100, 0, 90)
+#' new_roll(x, y, circular_sd, width = .01, weighting = 1/w)
+new_roll <- function(x, y, FUN, width, min_n = 1, align = c("right", "center", "left"), weighting = NULL, sort = TRUE){
+  align <- match.arg(align)
+  if(is.null(weighting)){
+    weighting <- rep(1, length(x))
+  }
+  dat <- data.frame(x, y, weighting)
+  if(sort) dat <- dplyr::arrange(dat, x)
   res <- c()
-  lats <- c()
-  if(is.null(PoR_weighting)){
-    PoR_weighting <- rep(1, nrow(PoRs))
-  }
-
-  if(!absolute){
-    lat_j <- rep(1, nrow(df))
-    col <- 1
-    while(col <= nrow(PoRs)){
-      lats <- cbind(lats, lat_j)
-      col <- col+1
-    }
-  }
-
-  for(i in seq_along(PoRs$lat)){
-    res_i <- model_shmax(df, PoRs[i, ])
-    if(absolute) lat_i <- PoR_coordinates(df, PoRs[i, ])$lat.PoR
-    if(types[i] == "in"){
-      azi <- res_i$sc
-    } else if(types[i] == "out") {
-      azi <- res_i$gc
-    } else if (types[i] == "right") {
-      azi <- res_i$ld.cw
+  for(i in seq_along(x)){
+    if(align == "right") {
+      sub <- dplyr::filter(dat, x  <= x[i] - width)
+    } else if(align == "center") {
+      sub <- dplyr::filter(dat, dplyr::between(x, x[i] - width/2, x[i] - width+2))
     } else {
-      azi <- res_i$ld.ccw
+      sub <- dplyr::filter(dat, x  <= x[i] + width)
     }
-    res <- cbind(res, azi)
-    if(absolute) lats <- cbind(lats, lat_i)
+    if(length(na.omit(sub$y)) >= min_n){
+      res[i] <- do.call(FUN, list(sub$y, w = weighting))
+    } else {
+      res[i] <- NA
+    }
   }
-
-  rot <- PoR_weighting * PoRs$angle * cosd(lats)
-  azi_res <- numeric()
-  for(j in seq_along(res[, 1])){
-      azi_res[j] <- circular_mean(res[j, ], w = rot[j, ])
-  }
-  return(azi_res)
+  return(cbind(dat$x, res))
 }
+
+
