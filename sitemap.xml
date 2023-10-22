@@ -178,6 +178,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/kuiper_test.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/line_azimuth.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/mean_resultant_length.html</loc>
   </url>
   <url>
@@ -241,6 +244,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/rolling_test.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/rolling_test_dist.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/rose.html</loc>
   </url>
   <url>
@@ -284,6 +290,9 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/stress_paths.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/superimposed_shmax.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/tectonicr.colors.html</loc>
