@@ -7,10 +7,11 @@
 PoR_map(x, PoR, pb = NULL, cw, deviation = FALSE, ...)
 }
 \arguments{
-\item{x, pb}{#' @param x,pb \code{sf} objects of the data points and the plate boundary
-geometries in the geographical coordinate system}
+\item{x, pb}{#' @param x,pb \code{sf} objects of the data points and the plate
+boundary geometries in the geographical coordinate system}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class
+\code{"euler.pole"}
 containing the geographical coordinates of the Pole of Rotation}
 
 \item{cw}{logical. Whether the  displacement of the tangential plate boundary

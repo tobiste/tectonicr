@@ -22,9 +22,11 @@ axes(
 
 \item{radius}{length of axis}
 
-\item{arrow.code}{integer. Kind of arrow head. The default is \code{1}, i.e. no arrow head. See \code{\link[graphics:arrows]{graphics::arrows()}} for details}
+\item{arrow.code}{integer. Kind of arrow head. The default is \code{1}, i.e. no
+arrow head. See \code{\link[graphics:arrows]{graphics::arrows()}} for details}
 
-\item{arrow.length}{numeric Length of the edges of the arrow head (in inches). (Ignored if \code{arrow.code = 1})}
+\item{arrow.length}{numeric Length of the edges of the arrow head (in
+inches). (Ignored if \code{arrow.code = 1})}
 
 \item{add}{logical. add to existing plot?}
 

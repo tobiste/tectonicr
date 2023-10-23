@@ -18,7 +18,8 @@ rose_fan(x, d, radius = 1, axial = TRUE, ...)
 \item{axial}{Logical. Whether x are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
-\item{...}{optional arguments passed to \code{\link[graphics:segments]{graphics::segments()}} or \code{\link[graphics:polygon]{graphics::polygon()}}}
+\item{...}{optional arguments passed to \code{\link[graphics:segments]{graphics::segments()}} or
+\code{\link[graphics:polygon]{graphics::polygon()}}}
 
 \item{d}{width of a fan (in degrees)}
 }
