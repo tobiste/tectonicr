@@ -393,6 +393,8 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 #' Filter smoothed stress field to smallest wavelength (R) for each coordinate
 #'
 #' @param x output of [stress2grid()] or [PoR_stress2grid()]
+#' @param type character. Type of the grid `x`. Either "stress2grid" of
+#' "dispersion_grid"
 #'
 #' @returns \code{sf} object
 #'
@@ -406,16 +408,26 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 #' data("san_andreas")
 #' res <- stress2grid(san_andreas)
 #' compact_grid(res)
-compact_grid <- function(x) {
-  lon <- lat <- azi <- R <- numeric()
+compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
+  lon <- lat <- azi <- R <- stat <- numeric()
   group <- character()
+  type <- match.arg(type)
 
+  if(type == "stress2grid"){
   data <- x |>
     dplyr::ungroup() |>
     dplyr::as_tibble() |>
     tidyr::drop_na(azi) |>
     dplyr::mutate(group = paste(lon, lat)) |>
     dplyr::group_by(group)
+  } else {
+    data <- x |>
+      dplyr::ungroup() |>
+      dplyr::as_tibble() |>
+      tidyr::drop_na(stat) |>
+      dplyr::mutate(group = paste(lon, lat)) |>
+      dplyr::group_by(group)
+  }
 
   data |>
     dplyr::summarise(R = min(R, na.rm = TRUE)) |>
