@@ -1,5 +1,6 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.org/package=tectonicr)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow)](https://cran.r-project.org/package=tectonicr)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8372508.svg)](https://doi.org/10.5281/zenodo.8372508)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
@@ -19,7 +20,6 @@
 - **Stress anomaly map**: spatial distribution of the dispersion of the observed stress field from the directions of plate boundary forces
 
 ## Prerequisites
-
 You must have R installed on your system (see http://r-project.org). To install 
 **tectonicr** from CRAN, type the following code at the R command line prompt:
 
@@ -28,7 +28,6 @@ install.packages("tectonicr")
 ```
 
 ## Installation
-
 The most recent development version of **tectonicr** is available from Github 
 and can be installed on your system as follows:
 
@@ -38,7 +37,27 @@ remotes::install_github('tobiste/tectonicr')
 library('tectonicr')
 ```
 
+Using the stress measurements from the San Andreas Fault - Gulf of California example, a quick analysis and test against the right-lateral transform plate boundary can be achieved by:
+
+```
+# load example data
+data(san_andreas)
+data(nuvel1)
+data(plates)
+
+stress_analysis(
+san_andreas, 
+PoR = equivalent_rotation(nuvel1, "na", "pa"), 
+type = "right", 
+pb = subset(plates, pair == "na-pa")
+)
+```
+The code produces the underlying results for Fig. 7 from Stephan et al. (2023)
+
+![Preview of stress analysis.](man/Figure_07_san_andreas_data.png)
+
 ## Documentation
+The detailed documentation can be found at
 https://tobiste.github.io/tectonicr/articles/tectonicr.html
 
 ## Author

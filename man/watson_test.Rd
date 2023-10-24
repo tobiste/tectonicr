@@ -4,7 +4,13 @@
 \alias{watson_test}
 \title{Watson's \eqn{U^2} Test of Circular Uniformity}
 \usage{
-watson_test(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE)
+watson_test(
+  x,
+  alpha = 0,
+  dist = c("uniform", "vonmises"),
+  axial = TRUE,
+  mu = NULL
+)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
@@ -17,6 +23,8 @@ uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+
+\item{mu}{(optional) The specified or known mean direction (in degrees) in alternative hypothesis}
 }
 \value{
 list containing the test statistic \code{statistic} and the significance

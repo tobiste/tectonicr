@@ -59,7 +59,8 @@ circular_IQR(san_andreas$azi, 1 / san_andreas$unc) # interquartile range
 Because the $\sigma_{SHmax}$ orientations are subjected to angular distortions in the geographical coordinate system, it is recommended to express statistical parameters using the transformed orientations of the PoR reference frame. 
 ```{r por, echo=TRUE}
 data("cpm_models")
-por <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
+por <- subset(cpm_models, model == "NNR-MORVEL56") |>
+  equivalent_rotation("na", "pa")
 san_andreas.por <- PoR_shmax(san_andreas, por, type = "right")
 ```
 
@@ -76,12 +77,10 @@ circular_IQR(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 **tectonicr** offers a rose diagram, i.e. histogram for angular data. 
 ```{r rose1, echo=TRUE}
 rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", main = "North pole")
-rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc) # show mean direction and 95% confidence interval
 ```
 
 ```{r rose2, echo=TRUE}
 rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, col = "grey", main = "PoR")
-rose_stats(san_andreas.por$azi, weights = 1 / san_andreas$unc) # show mean direction and standard deviation
 rose_line(135, radius = 1.1, col = "#009E73") # show the predicted direction
 ```
 
@@ -124,65 +123,6 @@ The statistical test for the goodness-of-fit is the (weighted) Rayleigh Test:
 weighted_rayleigh(san_andreas.por$azi.PoR, prd = 135, unc = san_andreas$unc)
 ```
 If the Null Hypothesis is rejected, the alternative, that is the distribution around the prediction, cannot be excluded.
-
-## Interpolation
-Spatial interpolation of stress data is based on the aforementioned metrics (the
-algorithm is a modified version of the MATLAB script 'stress2grid' by Ziegler and Heidbach (2017).
-```{r interpolation, echo=TRUE}
-mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
-```
-
-The defaults use quality and inverse distance weighting of the mean, as well as 
-a 25% cut-off for the standard deviation. 
-
-The data can now be visualized:  
-```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
-trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
-ggplot(mean_SH) +
-  borders(fill = "grey80") +
-  geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", size = 1) +
-  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
-  scale_alpha(name = "Standard deviation", range = c(1, .25)) +
-  scale_color_continuous(
-    type = "viridis",
-    limits = c(0, 1),
-    name = "Wavelength\n(R-normalized mean distance)",
-    breaks = seq(0, 1, .25)
-  ) +
-  facet_wrap(~R)
-```
-![](interpolation.png)
-
-The interpolated direction of far apart data points will suffer from distortions
-due to the underlying projection. In order to prevent such effects, the 
-interpolation can be done in the PoR reference frame where the direction stays 
-constant no matter the distance between the data points. Assuming that the 
-stress field is sourced by the plate boundary force, the model-based 
-interpolation allows more reliable results for areas close to plate boundaries.
-
-```{r interpolation_PoR, eval=FALSE}
-mean_SH_PoR <- PoR_stress2grid(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
-```
-
-```{r plot2, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
-ggplot(mean_SH_PoR) +
-  borders(fill = "grey80") +
-  geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", size = 1) +
-  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
-  scale_alpha(name = "Standard deviation", range = c(1, .25)) +
-  scale_color_continuous(
-    type = "viridis",
-    limits = c(0, 1),
-    name = "Wavelength\n(R-normalized mean distance)",
-    breaks = seq(0, 1, .25)
-  ) +
-  facet_wrap(~R)
-```
-![](interpolation_PoR.png)
 
 
 # References

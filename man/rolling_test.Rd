@@ -7,6 +7,7 @@
 \alias{roll_dispersion}
 \alias{roll_confidence}
 \alias{roll_dispersion_CI}
+\alias{roll_dispersion_sde}
 \title{Apply Rolling Functions using Circular Statistical Tests for Uniformity}
 \usage{
 roll_normchisq(
@@ -56,6 +57,20 @@ roll_confidence(
 )
 
 roll_dispersion_CI(
+  x,
+  y,
+  w = NULL,
+  w.y = NULL,
+  R,
+  conf.level = 0.95,
+  width = NULL,
+  by.column = FALSE,
+  partial = TRUE,
+  fill = NA,
+  ...
+)
+
+roll_dispersion_sde(
   x,
   y,
   w = NULL,

@@ -6,7 +6,7 @@
 \alias{rose_binwidth}
 \title{Selecting optimal number of bins and width for rose diagrams}
 \usage{
-rose_bins(n, round = TRUE)
+rose_bins(n, round = FALSE)
 
 rose_binwidth(n, axial = TRUE, ...)
 }
@@ -25,3 +25,4 @@ or biaxial (\code{TRUE}, the default).}
 \description{
 Selecting optimal number of bins and width for rose diagrams
 }
+\keyword{internal}

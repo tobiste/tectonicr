@@ -240,7 +240,13 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
     # prd <- ifelse(type == "right", 135, prd)
     # prd <- ifelse(type == "in", 90, prd)
     # prd <- ifelse(type == "left", 45, prd)
-    prd <- switch(type, none = NA, out = 180, right = 135, `in` = 90, left = 45)
+    prd <- switch(type,
+      "none" = NA,
+      "out" = 180,
+      "right" = 135,
+      "in" = 90,
+      "left" = 45
+    )
 
     dev <- azi.por - prd
     cdist <- (1 - cosd(2 * dev)) / 2
@@ -303,4 +309,79 @@ PoR2Geo_azimuth <- function(x, PoR) {
     azi.geo <- x$azi.PoR + beta
   }
   azi.geo %% 180
+}
+
+#' SHmax direction resulting from multiple plate boundaries
+#'
+#' Calculates a \eqn{\sigma_{Hmax}}{SHmax} direction at given coordinates,
+#' sourced by multiple plate boundaries. This first-order approximation is the
+#' circular mean of the superimposed theoretical directions, weighted by the
+#' rotation rates of the underlying PoRs.
+#'
+#' @param df `data.frame` containing the coordinates of the point(s)
+#' (`lat`, `lon`), and the direction of
+#' \eqn{\sigma_{Hmax}}{SHmax} `azi` (in degrees)
+#' @param PoRs multirow `data.frame` or `"euler.pole"` object that must contain `lat`,
+#' `lon` and `angle`
+#' @param types character vector with length equal to number of rows in `PoRs`.
+#' Type of plate boundary. Must be `"out"`, `"in"`, `"right"`, or
+#' `"left"` for outward, inward, right-lateral, or left-lateral
+#' moving plate boundaries, respectively.
+#' @param absolute logical. Whether the resultant azimuth should be weighted
+#' using the absolute rotation at the points or the angular rotation of the PoRs.
+#' @param PoR_weighting (optional) numeric vector with length equal to number of rows in
+#' `PoRs`. Extra weightings for the used PoRs.
+#'
+#' @seealso [model_shmax()]
+#'
+#' @return numeric. Resultant azimuth in degrees and geographical CRS
+#' @export
+#'
+#' @examples
+#' data(san_andreas)
+#' data(nuvel1)
+#' pors <- subset(nuvel1, plate.rot %in% c("eu", "na"))
+#' superimposed_shmax(san_andreas, pors, types = c("in", "right"), PoR_weighting = c(2, 1))
+superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting = NULL) {
+  res <- c()
+  lats <- c()
+  stopifnot(is.character(types))
+  if (is.null(PoR_weighting)) {
+    PoR_weighting <- rep(1, nrow(PoRs))
+  }
+
+  if (!absolute) {
+    lat_j <- rep(1, nrow(df))
+    col <- 1
+    while (col <= nrow(PoRs)) {
+      lats <- cbind(lats, lat_j)
+      col <- col + 1
+    }
+  }
+
+  for (i in seq_along(PoRs$lat)) {
+    res_i <- model_shmax(df, PoRs[i, ])
+    if (absolute) lat_i <- PoR_coordinates(df, PoRs[i, ])$lat.PoR
+    if (types[i] == "in") {
+      azi <- res_i$sc
+    } else if (types[i] == "out") {
+      azi <- res_i$gc
+    } else if (types[i] == "right") {
+      azi <- res_i$ld.cw
+    } else if (types[i] == "left") {
+      azi <- res_i$ld.ccw
+    } else {
+      stop("`types` must be one of in, out, right, and left.")
+    }
+
+    res <- cbind(res, azi)
+    if (absolute) lats <- cbind(lats, lat_i)
+  }
+
+  rot <- PoR_weighting * PoRs$angle * cosd(lats)
+  azi_res <- numeric()
+  for (j in seq_along(res[, 1])) {
+    azi_res[j] <- circular_mean(res[j, ], w = rot[j, ])
+  }
+  return(azi_res)
 }

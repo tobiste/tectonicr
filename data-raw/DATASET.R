@@ -54,7 +54,9 @@ usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
 #   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1))
 
 
-## PB2002 plates --------------
+# plate boundaries --------------------------------------------------------
+
+## PB2002 plates --------------------------------------------------------
 # data(PB2002)
 # pb2002_plates <- PB2002 |> sf::st_make_valid() |>
 #  rename(name = Name, source = Source, plateA = PlateA, plateB = PlateB, type = Type) |>
@@ -90,13 +92,35 @@ plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") |>
 usethis::use_data(plates, overwrite = TRUE, ascii = TRUE)
 
 
-## NUVEL1 plates -------------
+## NUVEL1 plates --------------------------------------------------------
 # nuvel1_plates <- sf::st_read("E:/Global_data/Plate Boundaries/NUVEL1/nuvel1_plates.shp", quiet = TRUE) |>
 #   sf::st_make_valid() |>
 #   rename(plateA = PlateA, plateB = PlateB)
 # #data("nuvel1_plates")
 # #plot(nuvel1_plates)
 # usethis::use_data(nuvel1_plates, overwrite = TRUE, ascii = TRUE)
+
+## GSRM2 plates --------------------------------------------------------
+# dat <- read.table("../cordillera-stress/data/gsrm2/GSRM_plate_outlines.gmt") |>
+#   dplyr::mutate(plate = NA)
+# for(i in seq_along(dat$V1)){
+#   if(dat$V1[i] == ">") {
+#     dat$plate[i] <-  dat$V2[i]
+#   } else {
+#     dat$plate[i] <-  dat$plate[i-1]
+#   }
+# }
+# gsrm2_plates <- dat |> dplyr::filter(V1 != ">") |>
+#   dplyr::mutate(lon = as.numeric(V1), lat = as.numeric(V2)) |>
+#   dplyr::select(-c(V1, V2)) |>
+#   dplyr::as_tibble() |>
+#   sf::st_as_sf(coords = c("lon", "lat"), crs = "WGS84", remove = FALSE) |>
+#   dplyr::group_by(plate) |>
+#   dplyr::summarize(plate = dplyr::first(plate),do_union=FALSE) |>
+#   sf::st_cast("LINESTRING") |>
+#   sf::st_wrap_dateline()
+#
+# usethis::use_data(gsrm2_plates, overwrite = TRUE, ascii = TRUE)
 
 ## Rotation parameters --------------
 ### NUVEL 1

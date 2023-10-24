@@ -30,11 +30,6 @@ eu_na <- equivalent_rotation(morvel, fixed = "na", rot = "eu")
 stress_analysis(iceland, PoR = eu_na, type = "out", pb = eu_na_boundary)
 PoR_stress2grid(iceland, eu_na)
 
-# PoR_stress2grid(san_andreas, na_pa, gridsize = .25, R_range = seq(50, 350, 50), stat = "mean")
-# PoR_stress2grid(tibet, eu_in, gridsize = .25, R_range = seq(50, 1000, 50), stat = "mean")
-# PoR_stress2grid(iceland, eu_na, gridsize = .125, R_range = seq(50, 1000, 50), stat = "mean")
-
-
 # test model_shmax
 euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific
 point <- data.frame(lat = 45, lon = 20)
@@ -55,10 +50,6 @@ sm.sf <- eulerpole_smallcircles(ep1)
 gc.sf <- eulerpole_greatcircles(ep1)
 ld.sf <- eulerpole_loxodromes(ep1, cw = FALSE)
 
-# sm.sp <- eulerpole_smallcircles(ep1, returnclass = "sp")
-# gc.sp <- eulerpole_greatcircles(ep1, returnclass = "sp")
-# ld.sp <- eulerpole_loxodromes(ep1, cw = FALSE, returnclass = "sp")
-
 eulerpole_loxodromes(ep1, cw = TRUE)
 eulerpole_loxodromes(ep1, cw = FALSE)
 eulerpole_loxodromes(ep1, angle = 0, cw = FALSE)
@@ -72,12 +63,6 @@ eulerpole_greatcircles(ep2)
 eulerpole_loxodromes(ep2, cw = TRUE)
 
 ep3 <- data.frame()
-# eulerpole_smallcircles(ep3)
-# eulerpole_greatcircles(ep3)
-# eulerpole_loxodromes(ep3, cw = TRUE)
-# eulerpole_paths(ep3)
-
-# euler_rot(ep1, 45)
 
 p1 <- c(35, 45) # Baghdad
 p2 <- c(35, 135) # Osaka
