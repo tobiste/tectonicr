@@ -255,7 +255,7 @@ roll_dispersion_CI <- function(x, y, w = NULL, w.y = NULL, R, conf.level = .95,
 #' @rdname rolling_test
 #' @export
 roll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, R, conf.level = .95,
-                               width = NULL, by.column = FALSE, partial = TRUE, fill = NA, ...) {
+                                width = NULL, by.column = FALSE, partial = TRUE, fill = NA, ...) {
   if (is.null(width)) {
     width <- optimal_rollwidth(x)
   }
@@ -338,87 +338,87 @@ NULL
 #' @rdname rolling_test_dist
 #' @export
 distroll_circstats <- function(x, distance, FUN, width = NULL, min_n = 2,
-                                align = c("right", "center", "left"), w = NULL,
-                                sort = TRUE, ...){
+                               align = c("right", "center", "left"), w = NULL,
+                               sort = TRUE, ...) {
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
-  if(is.null(w)){
+  if (is.null(w)) {
     w <- rep(1, length(x))
   }
 
-  if(is.null(width)){
+  if (is.null(width)) {
     width <- seq(from = min(distance, na.rm = TRUE), to = max(distance, na.rm = TRUE), length.out = 10) |>
       diff() |>
       dplyr::first()
   }
 
   dat <- data.frame(x, d = distance, w)
-  if(sort) dat <- dplyr::arrange(dat, d)
+  if (sort) dat <- dplyr::arrange(dat, d)
   d <- numeric()
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
   res <- c()
   ns <- c()
-  for(i in seq_along(ds)){
-    if(align == "left") {
-      sub <- dplyr::filter(dat, dplyr::between(d,  ds[i] - width, ds[i]))
-    } else if(align == "center") {
-      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width/2, ds[i] + width/2))
+  for (i in seq_along(ds)) {
+    if (align == "left") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))
+    } else if (align == "center") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width / 2, ds[i] + width / 2))
     } else {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i], ds[i] + width))
     }
     ns[i] <- nrow(sub)
-    if(length(na.omit(sub$x)) >= min_n){
+    if (length(na.omit(sub$x)) >= min_n) {
       res[i] <- do.call(FUN, list(x = sub$x, w = sub$w, ...))
     } else {
       res[i] <- NA
     }
   }
-  cbind(distance = ds, x  = res, n = ns)
+  cbind(distance = ds, x = res, n = ns)
 }
 
 #' @rdname rolling_test_dist
 #' @export
 distroll_confidence <- function(x, distance, w = NULL, width = NULL, min_n = 2,
-                                 align = c("right", "center", "left"),
-                                 sort = TRUE, ...) {
+                                align = c("right", "center", "left"),
+                                sort = TRUE, ...) {
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
-  if(is.null(w)){
+  if (is.null(w)) {
     w <- rep(1, length(x))
   }
 
-  if(is.null(width)){
+  if (is.null(width)) {
     width <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10) |>
       diff() |>
       dplyr::first()
   }
 
   dat <- data.frame(x, d = distance, w)
-  if(sort) dat <- dplyr::arrange(dat, d)
+  if (sort) dat <- dplyr::arrange(dat, d)
   d <- numeric()
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
   res <- c()
   ns <- c()
-  for(i in seq_along(ds)){
-    if(align == "left") {
-      sub <- dplyr::filter(dat, dplyr::between(d,  ds[i] - width, ds[i]))
-    } else if(align == "center") {
-      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width/2, ds[i] + width/2))
+  for (i in seq_along(ds)) {
+    if (align == "left") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))
+    } else if (align == "center") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width / 2, ds[i] + width / 2))
     } else {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i], ds[i] + width))
     }
     ns[i] <- nrow(sub)
-    if(length(na.omit(sub$x)) >= min_n){
+    if (length(na.omit(sub$x)) >= min_n) {
       res[i] <- do.call(confidence_angle, list(x = sub$x, w = sub$w, ...))
     } else {
       res[i] <- NA
     }
   }
-  return(cbind(distance = ds, x  = res, n = ns))
+  return(cbind(distance = ds, x = res, n = ns))
 }
 
 #' @rdname rolling_test_dist
@@ -429,46 +429,46 @@ distroll_dispersion <- function(x, y, w = NULL, w.y = NULL, distance,
                                 sort = TRUE, ...) {
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
-  if(length(y) == 1){
+  if (length(y) == 1) {
     y <- rep(y, length(x))
   }
-  if(is.null(w)){
+  if (is.null(w)) {
     w <- rep(1, length(x))
   }
-  if(is.null(w.y)){
+  if (is.null(w.y)) {
     w.y <- rep(1, length(x))
   }
 
-  if(is.null(width)){
+  if (is.null(width)) {
     width <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10) |>
       diff() |>
       dplyr::first()
   }
 
   dat <- data.frame(d = distance, x, y, w, w.y)
-  if(sort) dat <- dplyr::arrange(dat, d)
+  if (sort) dat <- dplyr::arrange(dat, d)
   d <- numeric()
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
   res <- c()
   ns <- c()
-  for(i in seq_along(ds)){
-    if(align == "left") {
-      sub <- dplyr::filter(dat, dplyr::between(d,  ds[i] - width, ds[i]))
-    } else if(align == "center") {
-      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width/2, ds[i] + width/2))
+  for (i in seq_along(ds)) {
+    if (align == "left") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))
+    } else if (align == "center") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width / 2, ds[i] + width / 2))
     } else {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i], ds[i] + width))
     }
     ns[i] <- nrow(sub)
-    if(length(na.omit(sub$x)) >= min_n){
+    if (length(na.omit(sub$x)) >= min_n) {
       res[i] <- do.call(circular_dispersion, list(x = sub$x, y = sub$y, w = sub$w, w.y = sub$w.y, ...))
     } else {
       res[i] <- NA
     }
   }
-  return(cbind(distance = ds, x  = res, n = ns))
+  return(cbind(distance = ds, x = res, n = ns))
 }
 
 #' @rdname rolling_test_dist
@@ -479,44 +479,44 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
                                     sort = TRUE, ...) {
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
-  if(length(y) == 1){
+  if (length(y) == 1) {
     y <- rep(y, length(x))
   }
-  if(is.null(w)){
+  if (is.null(w)) {
     w <- rep(1, length(x))
   }
-  if(is.null(w.y)){
+  if (is.null(w.y)) {
     w.y <- rep(1, length(x))
   }
 
-  if(is.null(width)){
+  if (is.null(width)) {
     width <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10) |>
       diff() |>
       dplyr::first()
   }
 
   dat <- data.frame(x, d = distance, y, w, w.y)
-  if(sort) dat <- dplyr::arrange(dat, d)
+  if (sort) dat <- dplyr::arrange(dat, d)
   d <- numeric()
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
   res <- c()
   ns <- c()
-  for(i in seq_along(ds)){
-    if(align == "left") {
-      sub <- dplyr::filter(dat, dplyr::between(d,  ds[i] - width, ds[i]))
-    } else if(align == "center") {
-      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width/2, ds[i] + width/2))
+  for (i in seq_along(ds)) {
+    if (align == "left") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))
+    } else if (align == "center") {
+      sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width / 2, ds[i] + width / 2))
     } else {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i], ds[i] + width))
     }
     ns[i] <- nrow(sub)
-    if(length(na.omit(sub$x)) >= min_n){
+    if (length(na.omit(sub$x)) >= min_n) {
       res[i] <- do.call(circular_dispersion_boot, list(x = sub$x, y = sub$y, w = sub$w, w.y = sub$w.y, ...))$sde
     } else {
       res[i] <- NA
     }
   }
-  return(cbind(distance = ds, x  = res, n = ns))
+  return(cbind(distance = ds, x = res, n = ns))
 }
