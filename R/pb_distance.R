@@ -4,7 +4,7 @@
 #' @seealso [distance_from_pb()]
 get_distance_mod <- function(x) {
   while (abs(x) > 180) {
-    x[i] <- (360 - abs(x[i])) * sign(x[i])
+    x <- (360 - abs(x)) * sign(x)
   }
   return(x)
 }
