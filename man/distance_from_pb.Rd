@@ -35,7 +35,6 @@ latitudinal difference between the data point and the plate boundary
 plate boundaries, respectively.
 }
 \examples{
-\donttest{
 data("nuvel1")
 na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 
@@ -52,7 +51,6 @@ res.km <- distance_from_pb(
   x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
 )
 range(res.km)
-}
 }
 \references{
 Wdowinski, S. (1998). A theory of intraplate tectonics. Journal
