@@ -4,10 +4,12 @@
 \alias{compact_grid}
 \title{Compact smoothed stress field}
 \usage{
-compact_grid(x)
+compact_grid(x, type = c("stress2grid", "dispersion_grid"))
 }
 \arguments{
 \item{x}{output of \code{\link[=stress2grid]{stress2grid()}} or \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}}
+
+\item{type}{type of the grid. Either "stress2grid" of "dispersion_grid"}
 }
 \value{
 \code{sf} object

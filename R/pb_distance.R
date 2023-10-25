@@ -1,13 +1,13 @@
-#' Helper function to get normalized distance from plate boundary
-#'
-#' @param x numeric
-#' @seealso [distance_from_pb()]
-get_distance_mod <- function(x) {
-  while (abs(x) > 180) {
-    x <- 360 - x
-  }
-  return(x)
-}
+#' #' Helper function to get normalized distance from plate boundary
+#' #'
+#' #' @param x numeric
+#' #' @seealso [distance_from_pb()]
+#' get_distance_mod <- function(x) {
+#'   while (abs(x) > 180) {
+#'     x <- (360 - abs(x)) * sign(x)
+#'   }
+#'   return(x)
+#' }
 
 #' @title Normalize angular distance on a sphere distance
 #'
@@ -19,7 +19,8 @@ get_distance_mod <- function(x) {
 #' @returns numeric vector
 distance_mod <- function(x) {
   # sapply(X = abs(x) %% 360, FUN = get_distance_mod)
-  sapply(X = x, FUN = get_distance_mod)
+  # sapply(X = x, FUN = get_distance_mod)
+  sind(x / 2) |> asind() * 2
 }
 
 #' Helper function to Distance from plate boundary
@@ -86,7 +87,6 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' @importFrom smoothr densify
 #'
 #' @examples
-#' \donttest{
 #' data("nuvel1")
 #' na_pa <- subset(nuvel1, nuvel1$plate.rot == "na")
 #'
@@ -103,7 +103,6 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #'   x = san_andreas, PoR = na_pa, pb = plate_boundary, tangential = TRUE, km = TRUE
 #' )
 #' range(res.km)
-#' }
 distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
     inherits(x, "sf"),

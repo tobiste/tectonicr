@@ -241,11 +241,11 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
     # prd <- ifelse(type == "in", 90, prd)
     # prd <- ifelse(type == "left", 45, prd)
     prd <- switch(type,
-      none = NA,
-      out = 180,
-      right = 135,
-      `in` = 90,
-      left = 45
+      "none" = NA,
+      "out" = 180,
+      "right" = 135,
+      "in" = 90,
+      "left" = 45
     )
 
     dev <- azi.por - prd
@@ -346,41 +346,41 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
   res <- c()
   lats <- c()
   stopifnot(is.character(types))
-  if(is.null(PoR_weighting)){
+  if (is.null(PoR_weighting)) {
     PoR_weighting <- rep(1, nrow(PoRs))
   }
 
-  if(!absolute){
+  if (!absolute) {
     lat_j <- rep(1, nrow(df))
     col <- 1
-    while(col <= nrow(PoRs)){
+    while (col <= nrow(PoRs)) {
       lats <- cbind(lats, lat_j)
-      col <- col+1
+      col <- col + 1
     }
   }
 
-  for(i in seq_along(PoRs$lat)){
+  for (i in seq_along(PoRs$lat)) {
     res_i <- model_shmax(df, PoRs[i, ])
-    if(absolute) lat_i <- PoR_coordinates(df, PoRs[i, ])$lat.PoR
-    if(types[i] == "in"){
+    if (absolute) lat_i <- PoR_coordinates(df, PoRs[i, ])$lat.PoR
+    if (types[i] == "in") {
       azi <- res_i$sc
-    } else if(types[i] == "out") {
+    } else if (types[i] == "out") {
       azi <- res_i$gc
     } else if (types[i] == "right") {
       azi <- res_i$ld.cw
-    } else if (types[i] == "left"){
+    } else if (types[i] == "left") {
       azi <- res_i$ld.ccw
     } else {
       stop("`types` must be one of in, out, right, and left.")
     }
 
     res <- cbind(res, azi)
-    if(absolute) lats <- cbind(lats, lat_i)
+    if (absolute) lats <- cbind(lats, lat_i)
   }
 
   rot <- PoR_weighting * PoRs$angle * cosd(lats)
   azi_res <- numeric()
-  for(j in seq_along(res[, 1])){
+  for (j in seq_along(res[, 1])) {
     azi_res[j] <- circular_mean(res[j, ], w = rot[j, ])
   }
   return(azi_res)
