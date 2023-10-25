@@ -239,21 +239,6 @@ graphicsAargh <- c(
   "xlim", "ylim", "xlab", "ylab", "axes"
 )
 
-
-#' Helper Function to count frequencies and densities for rose diagrams
-#'
-#' @inheritParams rose
-#' @param breaks description
-#' @param nclass description
-#' @param start description
-#' @param main description
-#'
-#' @import spatstat.utils
-#' @import spatstat.explore
-#' @import spatstat.geom
-#'
-#' @keywords internal
-#' @return an object of class `"histogram"`
 rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
                       round_binwidth = 0, equal_area = TRUE,
                       main = NULL, axial = TRUE) {
@@ -694,7 +679,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' data("san_andreas")
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
-#' quick_plot(res$azi.PoR, abs(d), res$prd, san_andreas$unc, san_andreas$regime)
+#' quick_plot(res$azi.PoR, (d), res$prd, san_andreas$unc, san_andreas$regime)
 quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   if (missing(regime)) {
     regime <- rep(NA, length(azi))
@@ -805,20 +790,15 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     ylim = c(0, 1), yaxp = c(0, 1, 4),
     sub = paste0("Disp: ", round(disp, 3))
   )
-
-
   ## 95% confidence interval
   # graphics::polygon(
   #   x = c(rev(t$distance), t$distance),
   #   y = c(rev(t$roll_disp_CI[, 1]), t$roll_disp_CI[, 2]),
   #   col = "grey90", border = FALSE, lty = 3
   # )
-
   graphics::points(cdist ~ distance,
     data = t, col = t$regime
   )
-
-
   graphics::lines(roll_disp ~ distance, data = t, type = "S", col = "#85112AFF")
   # graphics::abline(h = disp, col = "black", lty = 2) # dispersion
 
