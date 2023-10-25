@@ -151,9 +151,9 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' next to the tick marks, or a vector of labels for the tick marks.
 #' @param cborder logical. Border of rose plot.
 #' @param ... optional arguments passed to `plot.default()`
-#' @importFrom spatstat.geom disc
-#' @importFrom spatstat.utils dont.complain.about do.call.matched resolve.defaults graphicsPars
-#' @importFrom spatstat.explore circticks
+#' @import spatstat.geom
+#' @import spatstat.utils
+#' @import spatstat.explore
 #'
 #' @return none
 #'
@@ -243,7 +243,7 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
                       round_binwidth = 0, equal_area = TRUE,
                       main = NULL, axial = TRUE) {
   if (missing(main) || is.null(main)) {
-    main <- short.deparse(substitute(x))
+    main <- spatstat.utils::short.deparse(substitute(x))
   }
 
   stopifnot(is.numeric(x))
@@ -408,7 +408,8 @@ add_end <- function(x, end) {
 #' @return A window (class `"owin"`) containing the plotted region.
 #'
 #' @importFrom spatstat.explore rose
-#' @importFrom graphics hist title points
+#' @importFrom spatstat.utils short.deparse
+#' @importFrom graphics hist title points mtext
 #' @importFrom stats na.omit
 #'
 #' @export
@@ -427,7 +428,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
                  dot_col = "grey", ...) {
   if (missing(main) || is.null(main)) {
-    main <- short.deparse(substitute(x))
+    main <- spatstat.utils::short.deparse(substitute(x))
   }
 
   freqs <- rose_freq(
@@ -719,13 +720,13 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
   subtitle <-
     paste0(
-      "Disp: ", round(disp, 3), " | 95% CI: ", round(CI$conf.interval[1]), "\u00B0 - ",
-      round(CI$conf.interval[2]), "\u00B0 | R: ",
-      signif(rt$statistic, 2), " (", signif(rt$p.value, 2), ")"
+      "Disp. = ", round(disp, 3), " | 95% CI [", round(CI$conf.interval[1]), "\u00B0, ",
+      round(CI$conf.interval[2]), "\u00B0] | R = ",
+      signif(rt$statistic, 2), " (p = ", signif(rt$p.value, 2), ")"
     )
   subtitle_rose <- paste0(
     "N: ", length(azi),
-    "\nMean azimuth: ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(CI_ang, 1),
+    "\nMean azimuth = ", round(azi.PoR.mean, 1), "\u00B0 \u00B1 ", round(CI_ang, 1),
     "\u00B0"
   )
   grDevices::palette(c("grey60", "#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2"))
@@ -771,11 +772,11 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   grDevices::dev.new()
   graphics::plot(nchisq_i ~ distance,
     data = t, col = t$regime,
-    xlab = "Distance from plate boundary", ylab = expression(Norm ~ chi[i]^2),
+    xlab = "Distance from plate boundary", ylab = bquote("Norm" ~ chi[i]^2),
     main = "Deviation from prediction",
     xlim = range(distance),
     ylim = c(0, 1), yaxp = c(0, 1, 4),
-    sub = paste0("Norm \u03C7\u00B2: ", round(nchisq, 2))
+    sub = bquote("Norm" ~ chi^2 == ~ .(round(nchisq, 2)))
   )
   graphics::lines(roll_nchisq ~ distance, data = t, type = "S", col = "#85112AFF")
   graphics::abline(h = .15, col = "black", lty = 2)
@@ -788,7 +789,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     main = "Circular dispersion around prediction",
     xlim = range(distance),
     ylim = c(0, 1), yaxp = c(0, 1, 4),
-    sub = paste0("Disp: ", round(disp, 3))
+    sub = paste0("Disp. = ", round(disp, 3))
   )
   ## 95% confidence interval
   # graphics::polygon(
@@ -805,9 +806,9 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
   # rose plot
   grDevices::dev.new()
-  rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram")
+  rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram", mtext = "PoR")
   # rose_stats(azi, weights = 1 / unc)
-  # rose_line(prd, radius = 1.1, col = "#009E73") # show the predicted direction
+  rose_line(prd, radius = 1.1, col = "#009E73") # show the predicted direction
   grDevices::palette("default")
 }
 

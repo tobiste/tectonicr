@@ -413,13 +413,13 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
   group <- character()
   type <- match.arg(type)
 
-  if(type == "stress2grid"){
-  data <- x |>
-    dplyr::ungroup() |>
-    dplyr::as_tibble() |>
-    tidyr::drop_na(azi) |>
-    dplyr::mutate(group = paste(lon, lat)) |>
-    dplyr::group_by(group)
+  if (type == "stress2grid") {
+    data <- x |>
+      dplyr::ungroup() |>
+      dplyr::as_tibble() |>
+      tidyr::drop_na(azi) |>
+      dplyr::mutate(group = paste(lon, lat)) |>
+      dplyr::group_by(group)
   } else {
     data <- x |>
       dplyr::ungroup() |>

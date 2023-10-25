@@ -59,7 +59,7 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 data("san_andreas")
 res <- PoR_shmax(san_andreas, na_pa, "right")
 d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
-quick_plot(res$azi.PoR, abs(d), res$prd, san_andreas$unc, san_andreas$regime)
+quick_plot(res$azi.PoR, (d), res$prd, san_andreas$unc, san_andreas$regime)
 }
 \seealso{
 \code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=circular_mean]{circular_mean()}},

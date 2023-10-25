@@ -18,7 +18,6 @@
 #'
 #' @returns numeric vector
 distance_mod <- function(x) {
-  # sapply(X = abs(x) %% 360, FUN = get_distance_mod)
   # sapply(X = x, FUN = get_distance_mod)
   sind(x / 2) |> asind() * 2
 }
