@@ -1,14 +1,3 @@
-#' #' Helper function to get normalized distance from plate boundary
-#' #'
-#' #' @param x numeric
-#' #' @seealso [distance_from_pb()]
-#' get_distance_mod <- function(x) {
-#'   while (abs(x) > 180) {
-#'     x <- (360 - abs(x)) * sign(x)
-#'   }
-#'   return(x)
-#' }
-
 #' @title Normalize angular distance on a sphere distance
 #'
 #' @description  Helper function to express angular distance on the sphere in

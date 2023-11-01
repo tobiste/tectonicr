@@ -16,15 +16,3 @@ numeric vector
 Helper function to express angular distance on the sphere in
 the range of 0 to 180 degrees
 }
-\details{
-#' Helper function to get normalized distance from plate boundary
-#'
-#' @param x numeric
-#' @seealso \code{\link[=distance_from_pb]{distance_from_pb()}}
-get_distance_mod <- function(x) {
-while (abs(x) > 180) {
-x <- (360 - abs(x)) * sign(x)
-}
-return(x)
-}
-}
