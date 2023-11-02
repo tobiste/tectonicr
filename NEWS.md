@@ -1,5 +1,8 @@
 # tectonicr (development version)
 
+# tectonicr 0.2.96 _2023-10-15_
+
+
 # tectonicr 0.2.95 _2023-10-15_
 
 * bug fixes in `rose()` (e.g. symmetrical fans when axial data is plotted)
