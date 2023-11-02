@@ -719,13 +719,13 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   CI_ang <- confidence_angle(azi, w = 1 / unc)
 
   subtitle <-
-  bquote ( 95*"% CI ["*.(round(CI$conf.interval[1]))*degree* "," ~.(round(CI$conf.interval[2]))*degree*"] | R" == .(signif(rt$statistic, 2))~("p"==.(signif(rt$p.value, 2))) )
+    bquote(95 * "% CI [" * .(round(CI$conf.interval[1])) * degree * "," ~ .(round(CI$conf.interval[2])) * degree * "] | R" == .(signif(rt$statistic, 2)) ~ ("p" == .(signif(rt$p.value, 2))))
 
   subtitle_rose <- bquote(atop(
-      "N" == .(length(azi)),
-      bar(alpha) == .(round(azi.PoR.mean, 1))*degree*''%+-%''*.(round(CI_ang, 1))*~degree
-    ) )
-  #subtitle_rose <- do.call(expression, subtitle_rose)
+    "N" == .(length(azi)),
+    bar(alpha) == .(round(azi.PoR.mean, 1)) * degree * "" %+-% "" * .(round(CI_ang, 1)) * ~degree
+  ))
+  # subtitle_rose <- do.call(expression, subtitle_rose)
 
   grDevices::palette(c("grey60", "#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2"))
 
@@ -733,7 +733,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   ## create empty plot
   graphics::plot(0,
     type = "n",
-    xlab = "Distance from plate boundary", ylab = expression("Azimuth wrt. PoR"~alpha~"("*degree*")"),
+    xlab = "Distance from plate boundary", ylab = expression("Azimuth wrt. PoR" ~ alpha ~ "(" * degree * ")"),
     sub = subtitle,
     main = "Distance from plate boundary vs. azimuth",
     xlim = range(distance),
@@ -771,7 +771,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   graphics::plot(nchisq_i ~ distance,
     data = t, col = t$regime,
     xlab = "Distance from plate boundary", ylab = expression("Norm" ~ chi[i]^2),
-    main = expression(bold("Deviation from prediction"~beta)),
+    main = expression(bold("Deviation from prediction" ~ beta)),
     xlim = range(distance),
     ylim = c(0, 1), yaxp = c(0, 1, 4),
     sub = bquote("Norm" ~ chi^2 == .(round(nchisq, 2)))
@@ -783,11 +783,11 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
   grDevices::dev.new()
   graphics::plot(0,
     type = "n",
-    xlab = "Distance from plate boundary", ylab = expression("Circular distance " ~ "d("*alpha[i]*","~beta*")"),
-    main = expression(bold("Circular dispersion around prediction"~beta)),
+    xlab = "Distance from plate boundary", ylab = expression("Circular distance " ~ "d(" * alpha[i] * "," ~ beta * ")"),
+    main = expression(bold("Circular dispersion around prediction" ~ beta)),
     xlim = range(distance),
     ylim = c(0, 1), yaxp = c(0, 1, 4),
-    sub = bquote("D("*alpha*","~beta*")" == .(round(disp, 3)))
+    sub = bquote("D(" * alpha * "," ~ beta * ")" == .(round(disp, 3)))
   )
   ## 95% confidence interval
   # graphics::polygon(
@@ -871,7 +871,7 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
 
   plot(x_por_coords[, 1], x_por_coords[, 2],
     cex = 0,
-    xlab = expression("PoR longitude ("*degree*")"), ylab = expression("PoR latitude ("*degree*")"), asp = 1
+    xlab = expression("PoR longitude (" * degree * ")"), ylab = expression("PoR latitude (" * degree * ")"), asp = 1
   )
   graphics::abline(h = seq(-90, 90, 5), v = seq(-180, 180, 5), col = "grey", lty = 2)
   axes(x_por_coords[, 1], x_por_coords[, 2], x_por_df$azi.PoR, col = cols, add = TRUE)

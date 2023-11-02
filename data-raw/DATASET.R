@@ -96,8 +96,8 @@ usethis::use_data(plates, overwrite = TRUE, ascii = TRUE)
 # nuvel1_plates <- sf::st_read("E:/Global_data/Plate Boundaries/NUVEL1/nuvel1_plates.shp", quiet = TRUE) |>
 #   sf::st_make_valid() |>
 #   rename(plateA = PlateA, plateB = PlateB)
-#data("nuvel1_plates")
-#plot(nuvel1_plates)
+# data("nuvel1_plates")
+# plot(nuvel1_plates)
 # usethis::use_data(nuvel1_plates, overwrite = TRUE, ascii = TRUE)
 
 ## GSRM2 plates --------------------------------------------------------
