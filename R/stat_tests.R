@@ -157,10 +157,10 @@ norm_chisq <- function(obs, prd, unc) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' rayleigh_test(sa.por$azi.PoR, mu = 135)
 rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
-  if (axial) {
-    f <- 2
+  f <- if (axial) {
+    2
   } else {
-    f <- 1
+    1
   }
 
 
@@ -383,10 +383,10 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
     c(0.15, 0.1, 0.05, 0.025, 0.01),
     c(1.537, 1.62, 1.747, 1.862, 2.001)
   )
-  if (axial) {
-    f <- 2
+  f <- if (axial) {
+    2
   } else {
-    f <- 1
+    1
   }
   x <- (na.omit(x) * f) %% 360
   u <- sort(deg2rad(x) %% (2 * pi)) / (2 * pi)
@@ -723,10 +723,10 @@ A1inv <- function(x) {
 #' @examples
 #' est.kappa(rvm(100, 90, 10), w = 1 / runif(100, 0, 10))
 est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
-  if (is.null(w)) {
-    w <- rep(1, times = length(x))
+  w <- if (is.null(w)) {
+    rep(1, times = length(x))
   } else {
-    w <- as.numeric(w)
+    as.numeric(w)
   }
 
   data <- cbind(x = x, w = w)

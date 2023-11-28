@@ -55,7 +55,7 @@ NULL
 cartesian_to_geographical <- function(n) {
   stopifnot(length(n) == 3)
   r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
-  p <- c()
+  p <- numeric(2)
   p[1] <- asind(n[3] / r) # lat
   p[2] <- atan2d(n[2], n[1]) # lon
   # if (abs(lat) > 90) {
@@ -69,7 +69,7 @@ cartesian_to_geographical <- function(n) {
 #' @export
 geographical_to_cartesian <- function(p) {
   stopifnot(length(p) == 2)
-  x <- c()
+  x <- numeric(3)
   x[1] <- cosd(p[1]) * cosd(p[2])
   x[2] <- cosd(p[1]) * sind(p[2])
   x[3] <- sind(p[1])
@@ -110,7 +110,7 @@ NULL
 cartesian_to_spherical <- function(n) {
   stopifnot(length(n) == 3)
   r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
-  p <- c()
+  p <- numeric(2)
   p[1] <- acosd(n[3] / r) # colat/inclination
   p[2] <- atan2d(n[2], n[1]) # azimuth
   p
@@ -120,7 +120,7 @@ cartesian_to_spherical <- function(n) {
 #' @export
 spherical_to_cartesian <- function(p) {
   stopifnot(length(p) == 2)
-  x <- c()
+  x <- numeric(3)
   x[1] <- sind(p[1]) * cosd(p[2])
   x[2] <- sind(p[1]) * sind(p[2])
   x[3] <- cosd(p[1])
@@ -225,6 +225,14 @@ PoR_to_geographical_quat <- function(x, PoR) {
     cartesian_to_geographical()
 }
 
+geographical_to_PoR_helper <- function(lat, lon, PoR) {
+  geographical_to_PoR_quat(c(lat, lon), PoR = PoR)
+}
+
+PoR_to_geographical_helper <- function(lat.PoR, lon.PoR, PoR) {
+  PoR_to_geographical_quat(c(lat.PoR, lon.PoR), PoR = PoR)
+}
+
 #' Conversion between spherical PoR to geographical coordinate system
 #'
 #' Transformation from spherical PoR to geographical coordinate system and
@@ -256,14 +264,10 @@ NULL
 geographical_to_PoR <- function(x, PoR) {
   stopifnot(is.data.frame(PoR) | is.euler(PoR))
   ep.geo <- c(PoR$lat, PoR$lon)
-  lat.PoR <- lon.PoR <- c()
+  lat.PoR <- lon.PoR <- numeric(nrow(x))
 
-  for (i in seq_along(x$lon)) {
-    x_por.i <- geographical_to_PoR_quat(c(x$lat[i], x$lon[i]), PoR = ep.geo)
-    lat.PoR[i] <- x_por.i[1]
-    lon.PoR[i] <- x_por.i[2]
-  }
-  data.frame(lat.PoR = lat.PoR, lon.PoR = lon.PoR)
+  x_por <- mapply(geographical_to_PoR_helper, x$lat, x$lon, MoreArgs = list(PoR = ep.geo))
+  data.frame(lat.PoR = x_por[1, ], lon.PoR = x_por[2, ])
 }
 
 #' @name por_transformation_df
@@ -271,14 +275,10 @@ geographical_to_PoR <- function(x, PoR) {
 PoR_to_geographical <- function(x, PoR) {
   stopifnot(is.data.frame(PoR) | is.euler(PoR))
   ep.geo <- c(PoR$lat, PoR$lon)
-  lat <- lon <- c()
+  lat <- lon <- numeric(nrow(x))
 
-  for (i in seq_along(x$lon.PoR)) {
-    x_geo.i <- PoR_to_geographical_quat(c(x$lat.PoR[i], x$lon.PoR[i]), PoR = ep.geo)
-    lat[i] <- x_geo.i[1]
-    lon[i] <- x_geo.i[2]
-  }
-  data.frame(lat = lat, lon = lon)
+  x_geo <- mapply(PoR_to_geographical_helper, x$lat.PoR, x$lon.PoR, MoreArgs = list(PoR = ep.geo))
+  data.frame(lat = x_geo[1, ], lon = x_geo[2, ])
 }
 
 

@@ -205,14 +205,12 @@ projected_pb_strike <- function(x, PoR, pb, tangential = FALSE, ...) {
     smoothr::densify(...) |>
     sf::st_coordinates()
 
-  pb.bearing <- c()
-  for (i in 1:nrow(pb.coords)) {
-    if (i == nrow(pb.coords)) {
-      pb.bearing[i] <- NA
-    } else {
-      pb.bearing[i] <- get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
-    }
+  n <- nrow(pb.coords)
+  pb.bearing <- numeric(n)
+  for (i in 1:(n - 1)) {
+    pb.bearing[i] <- get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
   }
+  pb.bearing[n] <- NA
 
   mapply(
     FUN = get_projected_pb_strike,

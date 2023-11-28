@@ -132,12 +132,14 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
 #'
 #' @name line_azimuth
 #' @examples
-#' data("plates", package = "tectonicr")
+#' data("plates")
 #' subset(plates, pair == "af-eu") |>
 #'   smoothr::densify() |>
 #'   line_azimuth()
 #'
-#' line_azimuth(plates)
+#' \dontrun{
+#' lines_azimuths(plates)
+#' }
 NULL
 
 #' @rdname line_azimuth

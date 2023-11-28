@@ -26,10 +26,10 @@ next line otherwise. This will cause a warning message. For \code{MULTILINESTRIN
 objects, use \code{lines_azimuths()}.
 }
 \examples{
-data("plates", package = "tectonicr")
+data("plates")
 subset(plates, pair == "af-eu") |>
   smoothr::densify() |>
   line_azimuth()
 
-line_azimuth(plates)
+lines_azimuths(plates)
 }

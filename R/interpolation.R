@@ -14,11 +14,10 @@ wcmean <- function(x, w) {
   if (Z != 0) {
     m <- mean_SC(2 * x, w = w, na.rm = TRUE)
     meanR <- sqrt(m[, "C"]^2 + m[, "S"]^2)
-
-    if (meanR > 1) {
-      sd_s <- 0
+    sd_s <- if (meanR > 1) {
+      0
     } else {
-      sd_s <- sqrt(-2 * log(meanR)) / 2
+      sqrt(-2 * log(meanR)) / 2
     }
 
     mean_s <- atan2(m[, "S"], m[, "C"]) / 2
@@ -136,15 +135,15 @@ stress2grid <- function(x,
   )
 
   min_data <- as.integer(ceiling(min_data))
-
   dist_weight <- match.arg(dist_weight)
   stat <- match.arg(stat)
 
-  unc <- lat <- lon <- lat.X <- lat.Y <- lon.Y <- lon.X <- R <- N <- numeric()
-  type <- character()
-
+  # pre-allocating
   azi <- x$azi
+  length_azi <- length(azi)
   colnames_x <- colnames(x)
+  unc <- lat <- lon <- numeric(length_azi)
+  type <- character(9)
 
   num_r <- length(R_range)
 
@@ -159,10 +158,10 @@ stress2grid <- function(x,
     w_method <- rep(1, length(azi))
   }
 
-  if (quality_weighting && "unc" %in% colnames_x) {
-    w_quality <- 1 / x$unc
+  w_quality <- if (quality_weighting && "unc" %in% colnames_x) {
+    1 / x$unc
   } else {
-    w_quality <- rep(1, length(azi))
+    rep(1, length(azi))
   }
 
   x_coords <- # sf::st_transform(x, crs = "WGS84") |>
@@ -207,6 +206,11 @@ stress2grid <- function(x,
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
   G <- grid |>
     sf::st_coordinates()
+
+
+  # lat.X <- lat.Y <- lon.Y <- lon.X <-
+  R <- N <- numeric(nrow(G))
+
 
   SH <- c()
   for (i in seq_along(G[, 1])) {
@@ -269,6 +273,7 @@ stress2grid <- function(x,
     }
   }
 
+  lat.Y <- lon.X <- numeric(nrow(SH))
   res <- dplyr::as_tibble(SH) |>
     dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N)) |>
@@ -331,8 +336,6 @@ stress2grid <- function(x,
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' PoR_stress2grid(san_andreas, PoR)
 PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
-  azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric()
-
   if (!is.null(grid)) {
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
@@ -360,17 +363,21 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
     }
   }
 
-  if (!PoR_grid) {
-    grid_PoR <- sf::st_as_sf(grid) |>
+  grid_PoR <- if (!PoR_grid) {
+    sf::st_as_sf(grid) |>
       geographical_to_PoR_sf(PoR) # |> sf::st_set_crs("WGS84")
   } else {
-    grid_PoR <- NULL
+    NULL
   }
+
 
   x_PoR <- geographical_to_PoR_sf(x, PoR) # |> sf::st_set_crs("WGS84")
   x_PoR_coords <- sf::st_coordinates(x_PoR) |>
     dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
+
+  azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric() # pre allocating:
+
   x_PoR$lat <- x_PoR_coords$lat
   x_PoR$lon <- x_PoR_coords$lon
   x_PoR$azi <- PoR_shmax(x, PoR)
@@ -507,18 +514,16 @@ dispersion_grid <- function(x,
     inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
     arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range)
   )
-
-
   stat <- match.arg(stat)
-
-
   min_data <- as.integer(ceiling(min_data))
-
   stat <- match.arg(stat)
 
-  azi <- unc <- prd <- lat <- lon <- lat.X <- lat.Y <- lon.Y <- lon.X <- R <- N <- numeric()
-
-  # colnames_x <- colnames(x)
+  # pre-allocating
+  azi <- x$azi
+  length_azi <- length(azi)
+  colnames_x <- colnames(x)
+  unc <- lat <- lon <- prd <- numeric(length_azi)
+  type <- character(9)
 
   num_r <- length(R_range)
 
@@ -560,6 +565,9 @@ dispersion_grid <- function(x,
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
   G <- grid |>
     sf::st_coordinates()
+
+  R <- N <- numeric(nrow(G))
+
 
   SH <- c()
   for (i in seq_along(G[, 1])) {
@@ -607,6 +615,8 @@ dispersion_grid <- function(x,
       }
     }
   }
+
+  lat.Y <- lon.X <- numeric() # pre-allocating
 
   res <- dplyr::as_tibble(SH) |>
     dplyr::rename(lon = lon.X, lat = lat.Y) |>

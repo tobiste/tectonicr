@@ -73,9 +73,10 @@ tectonicr.colors <- function(x, n = 10, pal = NULL, categorical = FALSE, na.valu
 #' @examples
 #' stress_colors()
 stress_colors <- function() {
-  sc <- c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60")
-  names(sc) <- c("N", "NS", "S", "TS", "T", "U")
-  sc
+  structure(
+    c("#D55E00", "#E69F00", "#009E73", "#56B4E9", "#0072B2", "grey60"),
+    names = c("N", "NS", "S", "TS", "T", "U")
+  )
 }
 
 
@@ -847,7 +848,7 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 #' PoR_map(san_andreas, PoR = na_pa, pb = plate_boundary, type = "right", deviation = TRUE)
 PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "left"),
                     deviation = FALSE, ...) {
-  val <- val2 <- NULL
+  val <- val2 <- character()
   x_por_df <- PoR_shmax(x, PoR, type = type)
 
   x_por_sf <- geographical_to_PoR_sf(x, PoR)

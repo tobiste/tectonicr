@@ -379,7 +379,8 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
   }
 
   rot <- PoR_weighting * PoRs$angle * cosd(lats)
-  azi_res <- numeric()
+  azi_res <- numeric(length(res[, 1]))
+
   for (j in seq_along(res[, 1])) {
     azi_res[j] <- circular_mean(res[j, ], w = rot[j, ])
   }

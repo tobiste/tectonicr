@@ -1,10 +1,10 @@
 mean_SC <- function(x, w, na.rm) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  if (is.null(w)) {
-    w <- rep(1, times = length(x))
+  w <- if (is.null(w)) {
+    rep(1, times = length(x))
   } else {
-    w <- as.numeric(w)
+    as.numeric(w)
   }
 
   data <- cbind(x = x, w = w)
@@ -218,7 +218,6 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   # med <- circular_median(x, w, axial, na.rm)
-
   if (axial) {
     f <- 2
     mod <- 180
@@ -370,10 +369,10 @@ NULL
 #' @rdname dispersion
 #' @export
 circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
+  f <- if (axial) {
+    2
   } else {
-    f <- 1
+    1
   }
 
   stopifnot(length(y) == 1 | length(y) == length(x))
@@ -439,10 +438,10 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE,
 
 
 cdist2angle <- function(x, axial = TRUE) {
-  if (axial) {
-    f <- 2
+  f <- if (axial) {
+    2
   } else {
-    f <- 1
+    1
   }
   acosd(1 - f * x) / f
 }
