@@ -31,5 +31,7 @@ subset(plates, pair == "af-eu") |>
   smoothr::densify() |>
   line_azimuth()
 
+\dontrun{
 lines_azimuths(plates)
+}
 }
