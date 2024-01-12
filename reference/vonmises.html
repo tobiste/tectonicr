@@ -100,21 +100,23 @@ distribution with mean and kappa.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">rvm</span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">dvm</span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 3.9802727 3.5414219 3.7988016 0.5601648 3.7876040 3.6837083 0.2680919</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [8] 0.8193969 3.7475009 1.6797771 3.8807238 3.3653080 2.7019444 2.8669144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [15] 3.3388179 3.4408615 3.9811098 0.4351818 1.0644601 3.9315354 2.5103317</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] 3.9801247 2.2439504 3.8222701 3.8696105 3.3149782 3.4453384 3.9169086</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [29] 3.3718017 3.8110919 2.4875980 2.8183483 3.2081573 3.5890323 3.9434862</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [36] 0.1956439 2.7558519 1.9505191 2.7215468 3.4444677 2.9173346 2.6982174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] 3.9345193 3.9216792 0.7954565 2.8486847 0.7940848 0.8573965 1.9324187</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [50] 3.7962380 3.4661316 3.1502816 2.9604733 3.9284260 2.3927695 2.6952938</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [57] 3.8706166 2.3575325 2.7283141 3.9332499 3.8250360 3.3068987 2.2036005</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] 3.8228367 0.5426886 3.8606439 2.5033879 3.9494460 2.8471189 3.3456679</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [71] 3.6155253 1.7674659 3.0236761 3.9335101 3.8622003 1.7034776 3.4881419</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [78] 1.5282406 3.0257837 3.6797431 2.7715111 1.0910250 2.9876702 2.8375745</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 3.0950811 2.7782506 3.5038403 3.4206664 3.3447692 1.9742137 3.6679658</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [92] 2.3000509 1.4179944 2.2013731 1.6782799 3.4519230 2.3706529 1.1498431</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [99] 2.3583494 3.8969637</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 3.43695142 3.93407317 3.87489171 3.20711574 1.68651958 1.71107361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 1.91066006 3.89091314 2.84031747 3.67629801 3.74729587 3.59298123</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 2.71204228 3.59898208 2.00214150 3.98088710 1.38155370 0.98618520</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 1.83084193 3.89308750 2.09496520 0.46069591 3.98440615 3.98361363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 0.12388556 3.50456392 3.35226012 2.39249352 1.60435888 2.90712604</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 3.98393434 3.70325746 3.40789737 2.10085723 3.17110930 2.41458500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 3.92629184 3.97005879 1.25849608 3.34024551 3.69352281 3.10047702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] 2.01650025 3.53102128 2.88935043 1.85333876 3.94270436 3.95380598</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 2.89964333 0.82636087 3.37591084 2.89403478 2.88179451 2.43122079</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 3.97599193 3.96176807 1.32878087 2.22919460 1.24773554 3.12417982</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 3.49163962 3.69431943 3.93699783 3.60046146 2.07263349 3.45488567</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] 1.97419205 3.42247634 3.53637744 2.22052535 3.85605815 3.63961104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 3.76561947 3.66845747 3.49366112 2.78938565 1.22005236 3.87867490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] 3.98389957 3.97177596 3.53065845 3.43079297 1.25665194 0.06116338</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 3.18468537 1.32643049 0.75378154 0.75018804 3.98186278 3.75660198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 3.66597644 0.83737560 3.65214730 2.05502002 2.75442743 3.63510788</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 2.53067422 3.95067536 2.25986726 0.47971041</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
