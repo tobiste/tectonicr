@@ -849,7 +849,11 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "left"),
                     deviation = FALSE, ...) {
   val <- val2 <- character()
+  type <- match.arg(type)
   x_por_df <- PoR_shmax(x, PoR, type = type)
+  if(type == "none")  {
+    x_por_df <- data.frame(azi.PoR = x_por_df)
+  }
 
   x_por_sf <- geographical_to_PoR_sf(x, PoR)
   x_por_coords <- sf::st_coordinates(x_por_sf)
@@ -857,7 +861,7 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
 
   pb_por <- geographical_to_PoR_sf(pb, PoR)
 
-  if (deviation) {
+  if (deviation & type != "none") {
     cols <- tectonicr.colors(abs(x_por_df$cdist), categorical = FALSE, ...)
     legend.title <- "|Circular distance|"
   } else {
