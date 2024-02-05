@@ -74,7 +74,7 @@ circular_IQR(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 ```
 
 ## Rose diagram
-**tectonicr** offers a rose diagram, i.e. histogram for angular data. 
+**tectonicr** provides a rose diagram, i.e. histogram for angular data. 
 ```{r rose1, echo=TRUE}
 rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", main = "North pole")
 ```
