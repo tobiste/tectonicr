@@ -349,7 +349,8 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 
 
 symmetric_bw <- function(x) {
-  allowed <- c(2, 4, 6, 8, 10, 12, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
+  allowed <- data.frame(x=seq(1, 360, 1)) |> dplyr::mutate(div=360/x) |> dplyr::filter(div%%2 == 0, div != 360) |> pull(div)
+  # allowed <- c(2, 4, 6, 8, 10, 12, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
   target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
   allowed[target.index] |> min()
 }
