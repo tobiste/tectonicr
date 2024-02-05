@@ -347,10 +347,11 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
   r / rose_bins(n)
 }
 
+is.naturalnumber <- function(x, tol = .Machine$double.eps^0.5)  x > tol & abs(x - round(x)) < tol
 
 symmetric_bw <- function(x) {
   div <- numeric()
-  allowed <- data.frame(x=seq(1, 360, 1)) |> dplyr::mutate(div=360/x) |> dplyr::filter(div%%2 == 0, div != 360) |> dplyr::pull(div)
+  allowed <- data.frame(x=seq(1, 180, 1)) |> dplyr::mutate(div=180/x) |> dplyr::filter(is.naturalnumber(div), div<180) |> dplyr::pull(div)
   # allowed <- c(2, 4, 6, 8, 10, 12, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
   target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
   allowed[target.index] |> min()
