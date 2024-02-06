@@ -15,7 +15,7 @@ data('iceland')
 }
 \description{
 Subset of the World Stress Map (WSM) compilation of information on the
-crustal present-day stress field (Version 1.1. 2016). Subset contains stress data
+crustal present-day stress field (Version 1.1. 2019). Subset contains stress data
 of Iceland.
 }
 \examples{
