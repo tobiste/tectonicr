@@ -1,7 +1,7 @@
 #' Example stress data for tangentially displaced plate boundary
 #'
 #' Subset of the World Stress Map (WSM) compilation of information on the
-#' crustal present-day stress field (Version 2016). Subset contains stress data
+#' crustal present-day stress field (Version 1.1. 2016). Subset contains stress data
 #' adjacent to the San Andreas Fault.
 #'
 #' @docType data
@@ -28,7 +28,7 @@
 #' Example stress data for inward-moving displaced plate boundary
 #'
 #' Subset of the World Stress Map (WSM) compilation of information on the
-#' crustal present-day stress field (Version 2016). Subset contains stress data
+#' crustal present-day stress field (Version 1.1. 2016). Subset contains stress data
 #' of the Himalaya and Tibetan plateau
 #'
 #' @docType data
@@ -55,7 +55,7 @@
 #' Example stress data for outward-moving displaced plate boundary
 #'
 #' Subset of the World Stress Map (WSM) compilation of information on the
-#' crustal present-day stress field (Version 2016). Subset contains stress data
+#' crustal present-day stress field (Version 1.1. 2016). Subset contains stress data
 #' of Iceland.
 #'
 #' @docType data
