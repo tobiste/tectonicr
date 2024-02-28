@@ -405,7 +405,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 #'
 #' @returns \code{sf} object
 #'
-#' @importFrom dplyr ungroup mutate group_by summarise select left_join as_tibble
+#' @importFrom dplyr ungroup mutate select left_join as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
 #'
@@ -425,19 +425,16 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
       dplyr::ungroup() |>
       dplyr::as_tibble() |>
       tidyr::drop_na(azi) |>
-      dplyr::mutate(group = paste(lon, lat)) |>
-      dplyr::group_by(group)
+      dplyr::mutate(group = paste(lon, lat))
   } else {
     data <- x |>
       dplyr::ungroup() |>
       dplyr::as_tibble() |>
       tidyr::drop_na(stat) |>
-      dplyr::mutate(group = paste(lon, lat)) |>
-      dplyr::group_by(group)
+      dplyr::mutate(group = paste(lon, lat))
   }
 
-  data |>
-    dplyr::summarise(R = min(R, na.rm = TRUE)) |>
+  aggregate(R~group, data, min, na.rm = TRUE) |>
     dplyr::left_join(data, by = c("group", "R")) |>
     dplyr::select(-group) |>
     sf::st_as_sf()
