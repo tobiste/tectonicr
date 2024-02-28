@@ -151,8 +151,8 @@ using the transformed orientations of the PoR reference frame.</p>
 <div class="section level3">
 <h3 id="rose-diagram">Rose diagram<a class="anchor" aria-label="anchor" href="#rose-diagram"></a>
 </h3>
-<p><strong>tectonicr</strong> offers a rose diagram, i.e. histogram for
-angular data.</p>
+<p><strong>tectonicr</strong> provides a rose diagram, i.e. histogram
+for angular data.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, col <span class="op">=</span> <span class="st">"grey"</span>, main <span class="op">=</span> <span class="st">"North pole"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="D_statistics_files/figure-html/rose1-1.png" width="700"></p>
@@ -220,13 +220,13 @@ circular dispersion can be estimated by bootstrapping via:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_dispersion_boot.html">circular_dispersion_boot</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $MLE</span></span>
-<span><span class="co">#&gt; [1] 0.190534</span></span>
+<span><span class="co">#&gt; [1] 0.1905325</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sde</span></span>
-<span><span class="co">#&gt; [1] 0.009756817</span></span>
+<span><span class="co">#&gt; [1] 0.009839839</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $CI</span></span>
-<span><span class="co">#&gt; [1] 0.1709273 0.2100458</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.1717821 0.2115531</span></span></code></pre></div>
 <p>The statistical test for the goodness-of-fit is the (weighted)
 Rayleigh Test:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
