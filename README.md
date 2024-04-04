@@ -60,6 +60,10 @@ The code produces the underlying results for Fig. 7 from Stephan et al. (2023)
 The detailed documentation can be found at
 https://tobiste.github.io/tectonicr/articles/tectonicr.html
 
+## GUI
+There is a graphical user interface that provides some (limited) tectonicr functionalities. No need to install, just click on the link and you can run tectonicr on your browser:
+https://tobiste.shinyapps.io/tectonicr-app/
+
 ## Author
 Tobias Stephan
 
