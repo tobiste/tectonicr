@@ -1,8 +1,10 @@
 # tectonicr 0.2.97 _2024-04-07_
+
 * `kernel_dispersion()` (former dispersion_gird()) explained in vignette E
-* `'border'` sf dataset added to plot political borders on maps
 
 # tectonicr 0.2.96 _2023-10-15_
+
+* cran update
 
 # tectonicr 0.2.95 _2023-10-15_
 

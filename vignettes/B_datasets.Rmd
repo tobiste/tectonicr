@@ -82,10 +82,7 @@ trajectories <- eulerpole_loxodromes(por, 40, cw = FALSE)
 Then we initialize the plot `map`... 
 
 ```{r plot1, echo=TRUE, warning=FALSE, message=FALSE}
-data("borders")
-
 map <- ggplot() +
-  geom_sf(data = borders, fill = "grey80") +
   geom_sf(
     data = plates,
     color = "red",
@@ -331,10 +328,6 @@ axes(
   san_andreas$lon, san_andreas$lat, san_andreas$azi,
   col = cols, add = TRUE
 )
-
-# Plot political borders
-plot(sf::st_geometry(borders), col = "lightgrey", lwd = 1, add = TRUE)
-
 
 # Plot the plate boundary
 plot(sf::st_geometry(plates), col = "red", lwd = 2, add = TRUE)
