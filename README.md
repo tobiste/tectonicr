@@ -54,7 +54,7 @@ pb = subset(plates, pair == "na-pa")
 ```
 The code produces the underlying results for Fig. 7 from Stephan et al. (2023)
 
-<img src="man/Figure_07_san_andreas_data.png" width="864" />
+<img src="man/figures/Figure_07_san_andreas_data.png" width="864" />
 
 ## Documentation
 The detailed documentation can be found at
