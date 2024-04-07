@@ -118,9 +118,6 @@
     <loc>https://tobiste.github.io/tectonicr/reference/dispersion.html</loc>
   </url>
   <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/dispersion_grid.html</loc>
-  </url>
-  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/dist_greatcircle.html</loc>
   </url>
   <url>
@@ -170,6 +167,9 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/kernel_dispersion.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/kuiper_test.html</loc>
