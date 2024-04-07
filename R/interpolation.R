@@ -45,7 +45,7 @@ wcmedian <- function(x, w) {
 
 #' Spatial interpolation of SHmax
 #'
-#' Stress field and wavelength analysis using (weighted) mean/median and
+#' Stress field and wavelength analysis using a kernel (weighted) mean/median and
 #' standard deviation/IQR of stress data
 #'
 #' @param x \code{sf} object containing
@@ -79,8 +79,8 @@ wcmedian <- function(x, w) {
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
 #' nearby
 #' (0 to 1). Default is 0.1
-#' @param R_range Numeric value or vector specifying the search radius (in km).
-#' Default is \code{seq(50, 1000, 50)}
+#' @param R_range Numeric value or vector specifying the kernel half-width(s),
+#' i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
@@ -401,13 +401,14 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 #'
 #' @param x output of [stress2grid()] or [PoR_stress2grid()]
 #' @param type character. Type of the grid `x`. Either "stress2grid" of
-#' "dispersion_grid"
+#' "kernel_dispersion"
 #'
 #' @returns \code{sf} object
 #'
 #' @importFrom dplyr ungroup mutate select left_join as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
+#' @importFrom stats aggregate
 #'
 #' @export
 #'
@@ -440,7 +441,8 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
     sf::st_as_sf()
 }
 
-#' Spatial analysis of dispersion
+
+#' Kernel dispersion
 #'
 #' Stress field and wavelength analysis using circular dispersion
 #' (or other statistical estimators for dispersion)
@@ -462,13 +464,13 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
 #' normalized Chi-squared test statistic, or Rayleigh test statistic.
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
 #' @param threshold Numeric. Threshold for stat value (default is 1)
-#' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the
-#' next datapoint. Default is 200
+#' @param arte_thres Numeric. Maximum distance (in km) of the grid point to the
+#' next data point. Default is 200
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
 #' nearby
 #' (0 to 1). Default is 0.1
-#' @param R_range Numeric value or vector specifying the search radius (in km).
-#' Default is \code{seq(50, 1000, 50)}
+#' @param R_range Numeric value or vector specifying the kernel half-width(s)
+#'  as search radius (in km). Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate
@@ -479,7 +481,7 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
 #' \describe{
 #' \item{lon,lat}{longitude and latitude in degree}
 #' \item{stat}{output of function defined in `stat`}
-#' \item{R}{Search radius in km}
+#' \item{R}{The rearch radius in km.}
 #' \item{mdr}{Mean distance of datapoints per search radius}
 #' \item{N}{Number of data points in search radius}
 #' }
@@ -494,8 +496,8 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
 #' san_andreas_por <- san_andreas
 #' san_andreas_por$azi <- PoR_shmax(san_andreas, PoR, "right")$azi.PoR
 #' san_andreas_por$prd <- 135
-#' dispersion_grid(san_andreas_por)
-dispersion_grid <- function(x,
+#' kernel_dispersion(san_andreas_por)
+kernel_dispersion <- function(x,
                             stat = c("dispersion", "nchisq", "rayleigh"),
                             grid = NULL,
                             lon_range = NULL,
@@ -621,4 +623,9 @@ dispersion_grid <- function(x,
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) # |> dplyr::group_by(R)
 
   return(res)
+}
+
+dispersion_grid <- function(...){
+  .Deprecated('kernel_dispersion')
+  kernel_dispersion(...)
 }

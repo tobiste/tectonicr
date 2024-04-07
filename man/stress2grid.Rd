@@ -69,8 +69,8 @@ Default is
 nearby
 (0 to 1). Default is 0.1}
 
-\item{R_range}{Numeric value or vector specifying the search radius (in km).
-Default is \code{seq(50, 1000, 50)}}
+\item{R_range}{Numeric value or vector specifying the kernel half-width(s),
+i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
 
 \item{...}{optional arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
 }
@@ -86,7 +86,7 @@ Default is \code{seq(50, 1000, 50)}}
 }
 }
 \description{
-Stress field and wavelength analysis using (weighted) mean/median and
+Stress field and wavelength analysis using a kernel (weighted) mean/median and
 standard deviation/IQR of stress data
 }
 \details{

@@ -10,7 +10,7 @@ compact_grid(x, type = c("stress2grid", "dispersion_grid"))
 \item{x}{output of \code{\link[=stress2grid]{stress2grid()}} or \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}}
 
 \item{type}{character. Type of the grid \code{x}. Either "stress2grid" of
-"dispersion_grid"}
+"kernel_dispersion"}
 }
 \value{
 \code{sf} object
