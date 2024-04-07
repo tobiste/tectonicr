@@ -54,7 +54,7 @@ pb = subset(plates, pair == "na-pa")
 ```
 The code produces the underlying results for Fig. 7 from Stephan et al. (2023)
 
-![Preview of stress analysis.](man/Figure_07_san_andreas_data.png)
+<img src="man/Figure_07_san_andreas_data.png" width="864" />
 
 ## Documentation
 The detailed documentation can be found at
@@ -66,9 +66,16 @@ There is a graphical user interface that provides some (limited) tectonicr funct
 https://tobiste.shinyapps.io/tectonicr-app/
 
 ## Author
-Tobias Stephan
+Tobias Stephan (<tstephan@lakeheadu.ca>)
 
-## How to cite
+## Feedback, issues, and contributions
+
+I welcome feedback, suggestions, issues, and contributions! If you have
+found a bug, please file it
+[here](https://github.com/tobiste/tectonicr/issues) with minimal code to
+reproduce the issue.
+
+## How to cite `tectonicr`
 When referencing this package, please cite 
 
 Stephan, T., Enkelmann, E., and Kroner, U. (2023). Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries. *Scientific Reports*, *13*(1). DOI: [10.1038/s41598-023-42433-2](https://doi.org/10.1038/s41598-023-42433-2).
