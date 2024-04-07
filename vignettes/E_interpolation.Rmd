@@ -2,9 +2,7 @@
 title: "5. Spatial interpolation"
 author: "Tobias Stephan"
 date: "`r Sys.Date()`"
-output: 
-  rmarkdown::html_vignette:
-    toc: true
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{5. Spatial interpolation}
   %\VignetteEncoding{UTF-8}
