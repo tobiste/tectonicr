@@ -1,6 +1,10 @@
 ---
 title: "5. Spatial interpolation"
-output: rmarkdown::html_vignette
+author: "Tobias Stephan"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{5. Spatial interpolation}
   %\VignetteEncoding{UTF-8}
@@ -10,11 +14,14 @@ editor_options:
     wrap: 72
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+# ```{r, include = FALSE}
+# knitr::opts_chunk$set(
+#   collapse = TRUE,
+#   comment = "#>"
+# )
+# ```
+
+```{r, child="children/chunk_options.txt"}
 ```
 
 This vignette teaches you how to spatially interpolate stress fields and 
@@ -149,14 +156,14 @@ dispersion (`compact_grid(x, 'dispersion')`).
 > It is recommended to calculate the kernel dispersion on PoR transformed data to 
 avoid angle distortions due to projections.
 
-```{r kernel_disp, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
+```{r kernel_disp, fig.width = small_width, fig.height = small_height}
 san_andreas_por <- san_andreas 
 san_andreas_por$azi <- PoR_shmax(san_andreas, por, "right")$azi.PoR
 san_andreas_por$prd <- 135
-san_andreas_kdisp <- kernel_dispersion(san_andreas_por, gridsize = 1, R_range = seq(50, 350, 100)) |> 
-  compact_grid('dispersion')
+san_andreas_kdisp <- kernel_dispersion(san_andreas_por, gridsize = 1, R_range = seq(50, 350, 100))
+san_andreas_kdisp <- compact_grid(san_andreas_kdisp, 'dispersion')
 
-p <- ggplot(san_andreas_kdisp) +
+ggplot(san_andreas_kdisp) +
   ggforce::geom_voronoi_tile(
     aes(lon, lat, fill = stat),
     max.radius = .7, normalize = FALSE
@@ -170,7 +177,6 @@ p <- ggplot(san_andreas_kdisp) +
   ) +
   scale_alpha("Standard deviation", range = c(1, .25)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
-print(p)
 ```
 
 

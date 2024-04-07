@@ -1,5 +1,7 @@
 ---
 title: "3. Plotting trajectories of theoretic stress directions"
+author: "Tobias Stephan"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{3. Plotting trajectories of theoretic stress directions}

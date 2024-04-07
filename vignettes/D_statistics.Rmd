@@ -1,5 +1,7 @@
 ---
 title: "4. Circular statistics"
+author: "Tobias Stephan"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{4. Circular statistics}

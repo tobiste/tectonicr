@@ -1,5 +1,7 @@
 ---
 title: "2. Handling large datasets"
+author: "Tobias Stephan"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{2. Handling large datasets}

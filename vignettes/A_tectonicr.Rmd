@@ -1,6 +1,7 @@
 ---
 title: "1. Introduction to tectonicr"
 author: "Tobias Stephan"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{1. Introduction to tectonicr}
