@@ -84,7 +84,7 @@
 <div class="section level1">
 <div class="page-header"><h1 id="tectonicr">tectonicr<a class="anchor" aria-label="anchor" href="#tectonicr"></a>
 </h1></div>
-<p><strong>tectonicr</strong> is a free and open-source <strong>R</strong> package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates (Wdowinski, 1998; Stephan et al., 2023). The following methods are available:</p>
+<p><code>tectonicr</code> is a free and open-source <strong>R</strong> package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates (Wdowinski, 1998; Stephan et al., 2023). The following methods are available:</p>
 <ul>
 <li>
 <strong>Direction of the plate boundary forces</strong>: <code><a href="reference/PoR_shmax.html">PoR_shmax()</a></code> gives the predicted stress field adjacent to a plate boundary, calculated using the relative plate motion of the neighboring plates using the function <code><a href="reference/model_shmax.html">model_shmax()</a></code>. The goodness-of-fit can be statistically tested by e.g. <code><a href="reference/norm_chisq.html">norm_chisq()</a></code>, <code><a href="reference/dispersion.html">circular_dispersion()</a></code> ,<code><a href="reference/rayleigh_test.html">rayleigh_test()</a></code>, and <code><a href="reference/confidence.html">confidence_interval()</a></code>.</li>
@@ -106,13 +106,13 @@
 <div class="section level2">
 <h2 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
 </h2>
-<p>You must have R installed on your system (see <a href="http://r-project.org" class="external-link uri">http://r-project.org</a>). To install <strong>tectonicr</strong> from CRAN, type the following code at the R command line prompt:</p>
+<p>You must have R installed on your system (see <a href="http://r-project.org" class="external-link uri">http://r-project.org</a>). To install <code>tectonicr</code> from CRAN, type the following code at the R command line prompt:</p>
 <pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tectonicr"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The most recent development version of <strong>tectonicr</strong> is available from Github and can be installed on your system as follows:</p>
+<p>The most recent development version of <code>tectonicr</code> is available from Github and can be installed on your system as follows:</p>
 <pre><code><span><span class="co"># install.packages("remotes") # install if needed</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'tobiste/tectonicr'</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tobiste.github.io/tectonicr/">'tectonicr'</a></span><span class="op">)</span></span></code></pre>
@@ -129,9 +129,7 @@
 <span>pb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre>
 <p>The code produces the underlying results for Fig. 7 from Stephan et al. (2023)</p>
-<div class="float">
-<img src="man/Figure_07_san_andreas_data.png" alt="Preview of stress analysis."><div class="figcaption">Preview of stress analysis.</div>
-</div>
+<p><img src="reference/figures/Figure_07_san_andreas_data.png" width="864"></p>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
@@ -147,10 +145,15 @@
 <div class="section level2">
 <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
 </h2>
-<p>Tobias Stephan</p>
+<p>Tobias Stephan (<a href="mailto:tstephan@lakeheadu.ca" class="email">tstephan@lakeheadu.ca</a>)</p>
 </div>
 <div class="section level2">
-<h2 id="how-to-cite">How to cite<a class="anchor" aria-label="anchor" href="#how-to-cite"></a>
+<h2 id="feedback-issues-and-contributions">Feedback, issues, and contributions<a class="anchor" aria-label="anchor" href="#feedback-issues-and-contributions"></a>
+</h2>
+<p>I welcome feedback, suggestions, issues, and contributions! If you have found a bug, please file it <a href="https://github.com/tobiste/tectonicr/issues" class="external-link">here</a> with minimal code to reproduce the issue.</p>
+</div>
+<div class="section level2">
+<h2 id="how-to-cite-tectonicr">How to cite tectonicr<a class="anchor" aria-label="anchor" href="#how-to-cite-tectonicr"></a>
 </h2>
 <p>When referencing this package, please cite</p>
 <p>Stephan, T., Enkelmann, E., and Kroner, U. (2023). Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries. <em>Scientific Reports</em>, <em>13</em>(1). DOI: <a href="https://doi.org/10.1038/s41598-023-42433-2" class="external-link">10.1038/s41598-023-42433-2</a>.</p>
