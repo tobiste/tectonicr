@@ -53,8 +53,9 @@ as well as a 25% cut-off for the standard deviation.
 The data can now be visualized:  
 ```{r plot, warning=FALSE, message=FALSE}
 trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
+
 ggplot(mean_SH) +
-  borders(fill = "grey80") +
+  # borders(fill = "grey80") +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
   geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", lwd = 1) +
