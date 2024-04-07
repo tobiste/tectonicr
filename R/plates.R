@@ -42,3 +42,20 @@
 #' #' data("gsrm2_plates")
 #' #' head("gsrm2_plates")
 #' "gsrm2_plates"
+
+#' Borders
+#'
+#' Global political borders from `rnaturalearth`
+#'
+#' @docType data
+#'
+#' @usage data('borders')
+#'
+#' @format An object of class `sf`
+#'
+#' @keywords datasets
+#'
+#' @examples
+#' data("borders")
+#' head("borders")
+"borders"

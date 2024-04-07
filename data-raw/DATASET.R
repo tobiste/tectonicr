@@ -200,3 +200,7 @@ cpm_models <- rbind(
 #        model = stringi::stri_enc_toascii(model)
 # ) #|> group_by(model)
 usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
+
+borders <- rnaturalearth::ne_download(returnclass = 'sf')
+usethis::use_data(borders, overwrite = TRUE, ascii = TRUE)
+
