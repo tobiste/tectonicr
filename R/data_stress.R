@@ -10,7 +10,7 @@
 #'
 #' @format An object of class \code{"sf"}
 #'
-#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. Müller, J.
+#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M<U+00FC>ller, J.
 #' Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
 #' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 #' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
@@ -37,7 +37,7 @@
 #'
 #' @format An object of class \code{"sf"}
 #'
-#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. Müller, J.
+#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M<U+00FC>ller, J.
 #' Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
 #' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 #' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
@@ -64,7 +64,7 @@
 #'
 #' @format An object of class \code{"sf"}
 #'
-#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. Müller, J.
+#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M<U+00FC>ller, J.
 #' Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
 #' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 #' release 2016: Crustal stress pattern across scales. *Tectonophysics*,

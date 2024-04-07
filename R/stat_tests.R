@@ -106,7 +106,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' von Mises alternatives, it is not consistent against alternatives with `p = 0`
 #' (in particular, distributions with antipodal symmetry, i.e. axial data).
 #' Tests of non-uniformity which are consistent against all alternatives
-#' include Kuiper’s test ([kuiper_test()]) and Watson’s \eqn{U^2} test
+#' include Kuiper<U+2019>s test ([kuiper_test()]) and Watson<U+2019>s \eqn{U^2} test
 #' ([watson_test()]).
 #'
 #' @returns a list with the components:

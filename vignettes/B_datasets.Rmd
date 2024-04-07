@@ -332,7 +332,7 @@ axes(
   col = cols, add = TRUE
 )
 
-# Plot political borders 
+# Plot political borders
 plot(sf::st_geometry(borders), col = "lightgrey", lwd = 1, add = TRUE)
 
 

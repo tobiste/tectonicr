@@ -1,7 +1,8 @@
-# tectonicr (development version)
+# tectonicr 0.2.97 _2024-04-07_
+* `kernel_dispersion()` (former dispersion_gird()) explained in vignette E
+* `'border'` sf dataset added to plot political borders on maps
 
 # tectonicr 0.2.96 _2023-10-15_
-
 
 # tectonicr 0.2.95 _2023-10-15_
 
@@ -10,7 +11,7 @@
 * add single line and fans to `rose()`
 * add mean and confidence interval to `rose()`
 * corrected typos in manual
-* estimate kappa of von Mises distribution:` est.kapp()`
+* estimate kappa of a von Mises distribution:` est.kapp()`
 * no doubling of angles when testing Watson distribution `watson_test()`
 
 # tectonicr 0.2.94 _2023-09-25_

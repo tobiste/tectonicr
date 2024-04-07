@@ -92,7 +92,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}
 #' * Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfess, D., & Mueller,
 #' B. (2010). Global crustal stress pattern based on the World Stress Map
-#' database release 2008. *Tectonophysics* **482**, 3–15,
+#' database release 2008. *Tectonophysics* **482**, 3<U+2013>15,
 #' \doi{10.1016/j.tecto.2009.07.023}
 #'
 #' @examples

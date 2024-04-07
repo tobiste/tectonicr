@@ -347,11 +347,14 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
   r / rose_bins(n)
 }
 
-is.naturalnumber <- function(x, tol = .Machine$double.eps^0.5)  x > tol & abs(x - round(x)) < tol
+is.naturalnumber <- function(x, tol = .Machine$double.eps^0.5) x > tol & abs(x - round(x)) < tol
 
 symmetric_bw <- function(x) {
   div <- numeric()
-  allowed <- data.frame(x=seq(1, 180, 1)) |> dplyr::mutate(div=180/x) |> dplyr::filter(is.naturalnumber(div), div<180) |> dplyr::pull(div)
+  allowed <- data.frame(x = seq(1, 180, 1)) |>
+    dplyr::mutate(div = 180 / x) |>
+    dplyr::filter(is.naturalnumber(div), div < 180) |>
+    dplyr::pull(div)
   # allowed <- c(2, 4, 6, 8, 10, 12, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
   target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
   allowed[target.index] |> min()
@@ -854,7 +857,7 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
   val <- val2 <- character()
   type <- match.arg(type)
   x_por_df <- PoR_shmax(x, PoR, type = type)
-  if(type == "none")  {
+  if (type == "none") {
     x_por_df <- data.frame(azi.PoR = x_por_df)
   }
 

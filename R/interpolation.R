@@ -435,7 +435,7 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
       dplyr::mutate(group = paste(lon, lat))
   }
 
-  aggregate(R~group, data, min, na.rm = TRUE) |>
+  aggregate(R ~ group, data, min, na.rm = TRUE) |>
     dplyr::left_join(data, by = c("group", "R")) |>
     dplyr::select(-group) |>
     sf::st_as_sf()
@@ -498,17 +498,17 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
 #' san_andreas_por$prd <- 135
 #' kernel_dispersion(san_andreas_por)
 kernel_dispersion <- function(x,
-                            stat = c("dispersion", "nchisq", "rayleigh"),
-                            grid = NULL,
-                            lon_range = NULL,
-                            lat_range = NULL,
-                            gridsize = 2.5,
-                            min_data = 3,
-                            threshold = 1,
-                            arte_thres = 200,
-                            dist_threshold = 0.1,
-                            R_range = seq(100, 2000, 100),
-                            ...) {
+                              stat = c("dispersion", "nchisq", "rayleigh"),
+                              grid = NULL,
+                              lon_range = NULL,
+                              lat_range = NULL,
+                              gridsize = 2.5,
+                              min_data = 3,
+                              threshold = 1,
+                              arte_thres = 200,
+                              dist_threshold = 0.1,
+                              R_range = seq(100, 2000, 100),
+                              ...) {
   stopifnot(
     inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
     arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range)
@@ -625,7 +625,7 @@ kernel_dispersion <- function(x,
   return(res)
 }
 
-dispersion_grid <- function(...){
-  .Deprecated('kernel_dispersion')
+dispersion_grid <- function(...) {
+  .Deprecated("kernel_dispersion")
   kernel_dispersion(...)
 }

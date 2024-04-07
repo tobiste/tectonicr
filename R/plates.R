@@ -34,7 +34,7 @@
 #' #'
 #' #' @references Kreemer, C., Blewitt, G., & Klein, E. C. (2014). A geodetic plate
 #' #' motion and Global Strain Rate Model. *Geochemistry, Geophysics, Geosystems*,
-#' #' **15**(10), 3849–3889. doi: 10.1002/2014GC005407.
+#' #' **15**(10), 3849<U+2013>3889. doi: 10.1002/2014GC005407.
 #' #'
 #' #' @keywords datasets
 #' #'

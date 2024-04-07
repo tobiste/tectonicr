@@ -201,6 +201,5 @@ cpm_models <- rbind(
 # ) #|> group_by(model)
 usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
 
-borders <- rnaturalearth::ne_download(returnclass = 'sf')
-usethis::use_data(borders, overwrite = TRUE, ascii = TRUE)
-
+borders <- rnaturalearth::ne_download(returnclass = "sf") |> sf::st_geometry()
+usethis::use_data(borders, overwrite = TRUE, ascii = TRUE, compress = "xz")

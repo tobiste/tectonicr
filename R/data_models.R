@@ -94,12 +94,12 @@
 #' 425-478. \doi{10.1111/j.1365-246X.1990.tb06579.x}.
 #'
 #' Gripp, A. E., & Gordon, R. G. (2002). Young tracks of hotspots and current
-#' plate velocities. *Geophysical Journal International*, **150**(2), 321–361.
+#' plate velocities. *Geophysical Journal International*, **150**(2), 321<U+2013>361.
 #' \doi{10.1046/j.1365-246X.2002.01627.x}.
 #'
 #' Kreemer, C., Blewitt, G., & Klein, E. C. (2014). A geodetic plate motion
 #' and Global Strain Rate Model. *Geochemistry, Geophysics, Geosystems*,
-#' **15**(10), 3849–3889. doi: 10.1002/2014GC005407.
+#' **15**(10), 3849<U+2013>3889. doi: 10.1002/2014GC005407.
 #'
 #' Sella, G. F., Dixon, T. H., & Mao, A. (2002). REVEL: A model for Recent
 #' plate velocities from space geodesy. *Journal of Geophysical Research: Solid

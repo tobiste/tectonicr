@@ -71,14 +71,14 @@ model_shmax <- function(df, euler) {
 #' @title Normalize Angle Between Two Directions
 #'
 #' @description Normalizes the angle between two directions to the acute angle
-#' in between, i.e. angles between 0 and 90°
+#' in between, i.e. angles between 0 and 90<U+00B0>
 #'
 #' @author Tobias Stephan
 #'
 #' @param x numeric vector containing angles in degrees
 #'
 #' @returns numeric vector, acute angles between two directions, i.e. values
-#' between 0 and 90°
+#' between 0 and 90<U+00B0>
 #'
 #' @export
 #'

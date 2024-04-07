@@ -7,7 +7,7 @@
 #'
 #' @returns \code{"integer"} or vector of type \code{"integer"}
 #'
-#' @references Heidbach, O., Barth, A., Müller, B., Reinecker, J.,
+#' @references Heidbach, O., Barth, A., M<U+00FC>ller, B., Reinecker, J.,
 #' Stephansson, O., Tingay, M., Zang, A. (2016). WSM quality
 #' ranking scheme, database description and analysis guidelines for stress
 #' indicator. *World Stress Map Technical Report* **16-01**, GFZ German Research
