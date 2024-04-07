@@ -51,7 +51,7 @@ Wiederfundort.
 \strong{68}(2), 158.
 Vincenty, T. (1975). Direct and inverse solutions of geodesics on the
 ellipsoid with application of nested equations. \emph{Survey Review}, \strong{23}(176),
-88–93. \doi{10.1179/sre.1975.23.176.88}.
+88<U+2013>93. \doi{10.1179/sre.1975.23.176.88}.
 \item \url{http://www.movable-type.co.uk/scripts/latlong.html}
 \item \url{http://www.edwilliams.org/avform147.htm}
 }

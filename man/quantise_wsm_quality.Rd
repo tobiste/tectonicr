@@ -22,7 +22,7 @@ data("san_andreas")
 quantise_wsm_quality(san_andreas$quality)
 }
 \references{
-Heidbach, O., Barth, A., Müller, B., Reinecker, J.,
+Heidbach, O., Barth, A., M<U+00FC>ller, B., Reinecker, J.,
 Stephansson, O., Tingay, M., Zang, A. (2016). WSM quality
 ranking scheme, database description and analysis guidelines for stress
 indicator. \emph{World Stress Map Technical Report} \strong{16-01}, GFZ German Research

@@ -84,7 +84,7 @@ Stress2Grid v1.1. \emph{WSM Technical Report} 19-02,
 GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}
 \item Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfess, D., & Mueller,
 B. (2010). Global crustal stress pattern based on the World Stress Map
-database release 2008. \emph{Tectonophysics} \strong{482}, 3–15,
+database release 2008. \emph{Tectonophysics} \strong{482}, 3<U+2013>15,
 \doi{10.1016/j.tecto.2009.07.023}
 }
 }

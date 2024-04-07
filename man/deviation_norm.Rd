@@ -11,11 +11,11 @@ deviation_norm(x)
 }
 \value{
 numeric vector, acute angles between two directions, i.e. values
-between 0 and 90°
+between 0 and 90<U+00B0>
 }
 \description{
 Normalizes the angle between two directions to the acute angle
-in between, i.e. angles between 0 and 90°
+in between, i.e. angles between 0 and 90<U+00B0>
 }
 \examples{
 deviation_norm(91)

@@ -40,7 +40,7 @@ Although the Rayleigh test is consistent against (non-uniform)
 von Mises alternatives, it is not consistent against alternatives with \code{p = 0}
 (in particular, distributions with antipodal symmetry, i.e. axial data).
 Tests of non-uniformity which are consistent against all alternatives
-include Kuiper’s test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson’s \eqn{U^2} test
+include Kuiper<U+2019>s test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson<U+2019>s \eqn{U^2} test
 (\code{\link[=watson_test]{watson_test()}}).
 }
 \examples{
