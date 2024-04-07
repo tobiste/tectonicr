@@ -14,25 +14,22 @@ editor_options:
     wrap: 72
 ---
 
-# ```{r, include = FALSE}
-# knitr::opts_chunk$set(
-#   collapse = TRUE,
-#   comment = "#>"
-# )
-# ```
-
-```{r, child="children/chunk_options.txt"}
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+ collapse = TRUE,
+ comment = "#>"
+)
 ```
 
 This vignette teaches you how to spatially interpolate stress fields and 
 display the lateral patterns of stress anomalies.
 
-```{r setup, echo=TRUE}
+```{r setup}
 library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
 
-```{r load_data, echo=TRUE}
+```{r load_data}
 data("san_andreas")
 
 data("cpm_models")
@@ -48,7 +45,7 @@ Spatial interpolation of stress data is based on the aforementioned metrics (the
 algorithm is a modified version of the MATLAB script 'stress2grid' by Ziegler 
 and Heidbach (2017).
 
-```{r interpolation, echo=TRUE}
+```{r interpolation}
 mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
@@ -56,7 +53,7 @@ The default settings apply quality and inverse distance weighting of the mean,
 as well as a 25% cut-off for the standard deviation. 
 
 The data can now be visualized:  
-```{r plot, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{r plot, warning=FALSE, message=FALSE}
 trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
 ggplot(mean_SH) +
   borders(fill = "grey80") +
@@ -72,7 +69,7 @@ ggplot(mean_SH) +
   ) +
   facet_wrap(~R)
 ```
-![](interpolation.png)
+<!--  ![](interpolation.png) -->
 
 ### PoR coordinate system
 
@@ -83,11 +80,11 @@ constant no matter the distance between the data points. Assuming that the
 stress field is sourced by the plate boundary force, the model-based 
 interpolation allows more reliable results for areas close to plate boundaries.
 
-```{r interpolation_PoR, eval=TRUE}
+```{r interpolation_PoR}
 mean_SH_PoR <- PoR_stress2grid(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
-```{r plot2, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{r plot2, warning=FALSE, message=FALSE}
 ggplot(mean_SH_PoR) +
   borders(fill = "grey80") +
   geom_sf(data = trajectories, lty = 2) +
@@ -102,7 +99,7 @@ ggplot(mean_SH_PoR) +
   ) +
   facet_wrap(~R)
 ```
-![](interpolation_PoR.png)
+<!--  ![](interpolation_PoR.png) -->
 
 ## Rasterize the interpolation
 
@@ -112,7 +109,7 @@ was performed in the PoR CRS, the interpolated azimuths are additionally given
 in the transformed azimuths. This allows to easily calculate misfits from 
 predicted directions:
 
-```{r compact, echo = TRUE}
+```{r compact}
 mean_SH_PoR_reduced <- mean_SH_PoR |>
   compact_grid() |>
   dplyr::mutate(cdist = circular_distance(azi.PoR, 135))
@@ -125,7 +122,7 @@ the grid is not composed of equally spaced grid cells in the geographic CRS. To
 rasterize such grids, we can, e.g., use Voronoi cells from the `ggforce` 
 package.
 
-```{r voronoi, echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{r voronoi, warning=FALSE, message=FALSE}
 ggplot(mean_SH_PoR_reduced) +
   ggforce::geom_voronoi_tile(
     aes(lon, lat, fill = cdist),
@@ -141,7 +138,8 @@ ggplot(mean_SH_PoR_reduced) +
   scale_alpha("Standard deviation", range = c(1, .25)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
 ```
-![](interpolation_voronoi.png)
+<!-- ![](interpolation_voronoi.png) -->
+
 The map highlights **stress anomalies** which show misfits to the direction of 
 tested plate boundary force.
 
@@ -156,14 +154,14 @@ dispersion (`compact_grid(x, 'dispersion')`).
 > It is recommended to calculate the kernel dispersion on PoR transformed data to 
 avoid angle distortions due to projections.
 
-```{r kernel_disp, fig.width = small_width, fig.height = small_height}
+```{r kernel_disp}
 san_andreas_por <- san_andreas 
 san_andreas_por$azi <- PoR_shmax(san_andreas, por, "right")$azi.PoR
 san_andreas_por$prd <- 135
 san_andreas_kdisp <- kernel_dispersion(san_andreas_por, gridsize = 1, R_range = seq(50, 350, 100))
 san_andreas_kdisp <- compact_grid(san_andreas_kdisp, 'dispersion')
 
-ggplot(san_andreas_kdisp) +
+p <- ggplot(san_andreas_kdisp) +
   ggforce::geom_voronoi_tile(
     aes(lon, lat, fill = stat),
     max.radius = .7, normalize = FALSE
@@ -177,6 +175,7 @@ ggplot(san_andreas_kdisp) +
   ) +
   scale_alpha("Standard deviation", range = c(1, .25)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
+print(p)
 ```
 
 

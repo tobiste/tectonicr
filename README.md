@@ -8,7 +8,7 @@
 
 # tectonicr
 
-**tectonicr** is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates (Wdowinski, 1998; Stephan et al., 2023). The following methods are available:
+`tectonicr` is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates (Wdowinski, 1998; Stephan et al., 2023). The following methods are available:
 
 - **Direction of the plate boundary forces**: `PoR_shmax()` gives the predicted stress field adjacent to a plate boundary, calculated using the relative plate motion of the neighboring plates using the function `model_shmax()`. The goodness-of-fit can be statistically tested by e.g. `norm_chisq()`, `circular_dispersion()` ,`rayleigh_test()`, and `confidence_interval()`.
 - **Distance to plate boundary**: `distance_from_pb()` gives the distance between the stress data point and the plate boundary measured along the stress trajectories.
@@ -21,14 +21,14 @@
 
 ## Prerequisites
 You must have R installed on your system (see http://r-project.org). To install 
-**tectonicr** from CRAN, type the following code at the R command line prompt:
+`tectonicr` from CRAN, type the following code at the R command line prompt:
 
 ```
 install.packages("tectonicr")
 ```
 
 ## Installation
-The most recent development version of **tectonicr** is available from Github 
+The most recent development version of `tectonicr` is available from Github 
 and can be installed on your system as follows:
 
 ```
@@ -75,7 +75,7 @@ found a bug, please file it
 [here](https://github.com/tobiste/tectonicr/issues) with minimal code to
 reproduce the issue.
 
-## How to cite `tectonicr`
+## How to cite tectonicr
 When referencing this package, please cite 
 
 Stephan, T., Enkelmann, E., and Kroner, U. (2023). Analyzing the horizontal orientation of the crustal stress adjacent to plate boundaries. *Scientific Reports*, *13*(1). DOI: [10.1038/s41598-023-42433-2](https://doi.org/10.1038/s41598-023-42433-2).
