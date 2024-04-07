@@ -85,7 +85,7 @@ mean_SH_PoR <- PoR_stress2grid(san_andreas, PoR = por, gridsize = 1, R_range = s
 
 ```{r plot2, warning=FALSE, message=FALSE}
 ggplot(mean_SH_PoR) +
-  borders(fill = "grey80") +
+  # borders(fill = "grey80") +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
   geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", lwd = 1) +
@@ -128,7 +128,7 @@ ggplot(mean_SH_PoR_reduced) +
     max.radius = .7, normalize = FALSE
   ) +
   scale_fill_viridis_c("Angular distance", limits = c(0, 1)) +
-  borders(colour = "grey80", fill = NA) +
+  # borders(colour = "grey80", fill = NA) +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(
     aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd),
@@ -166,7 +166,7 @@ p <- ggplot(san_andreas_kdisp) +
     max.radius = .7, normalize = FALSE
   ) +
   scale_fill_viridis_c("Angular distance", limits = c(0, 1)) +
-  borders(colour = "grey80", fill = NA) +
+  # borders(colour = "grey80", fill = NA) +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(data  = san_andreas,
     aes(lon, lat, angle = deg2rad(90 - azi), alpha = unc),
