@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-**tectonicr** is a free and open-source R package for modeling and analyzing the
+`tectonicr` is a free and open-source R package for modeling and analyzing the
 direction of the maximum horizontal stress based on the empirical link
 between the direction of intraplate stress and the direction of the
 relative motion of neighboring plates.
@@ -105,7 +105,7 @@ great circles at an angle of 45$^{\circ}$.
 
 <!-- --- -->
 
-In **tectonicr**, these directions can modeled by the following 
+Trajectories of theoretical directions can modeled by the following 
 steps:
 
 First, load the package:
