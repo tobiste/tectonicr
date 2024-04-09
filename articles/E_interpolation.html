@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-04-07</h4>
+            <h4 data-toc-skip class="date">2024-04-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/E_interpolation.Rmd" class="external-link"><code>vignettes/E_interpolation.Rmd</code></a></small>
       <div class="d-none name"><code>E_interpolation.Rmd</code></div>
@@ -203,7 +203,7 @@ misfits to the direction of tested plate boundary force.</p>
 i.e. the local dispersion within a user-defined window (kernel). The
 kernel´s half width can be a single number (km) or a range of widths.
 The latter requires to compact the grid result (<code>x</code>) to find
-the smallest kernel size containing the the smallest dispersion
+the smallest kernel size containing the the least dispersion
 (<code>compact_grid(x, 'dispersion')</code>).</p>
 <blockquote>
 <p>It is recommended to calculate the kernel dispersion on PoR
@@ -211,8 +211,8 @@ transformed data to avoid angle distortions due to projections.</p>
 </blockquote>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">san_andreas_por</span> <span class="op">&lt;-</span> <span class="va">san_andreas</span></span>
-<span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">azi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">$</span><span class="va">azi.PoR</span></span>
-<span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fl">135</span></span>
+<span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">azi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">$</span><span class="va">azi.PoR</span> <span class="co"># transform to PoR azimuth</span></span>
+<span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fl">135</span> <span class="co"># test direction</span></span>
 <span><span class="va">san_andreas_kdisp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kernel_dispersion.html">kernel_dispersion</a></span><span class="op">(</span><span class="va">san_andreas_por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">san_andreas_kdisp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compact_grid.html">compact_grid</a></span><span class="op">(</span><span class="va">san_andreas_kdisp</span>, <span class="st">"dispersion"</span><span class="op">)</span></span>
 <span></span>
@@ -221,7 +221,7 @@ transformed data to avoid angle distortions due to projections.</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, fill <span class="op">=</span> <span class="va">stat</span><span class="op">)</span>,</span>
 <span>    max.radius <span class="op">=</span> <span class="fl">.7</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span><span class="st">"Angular distance"</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span><span class="st">"Dispersion"</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trajectories</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">san_andreas</span>,</span>
@@ -251,7 +251,7 @@ Stress Map Technical Report 17-02. doi: <a href="https://doi.org/10.5880/wsm.201
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Tobias Stephan.</p>
+<p>Developed by <a href="https://tobiasstephan1.wixsite.com/tobi" class="external-link">Tobias Stephan</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
