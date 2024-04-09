@@ -2,7 +2,7 @@
 % Please edit documentation in R/interpolation.R
 \name{kernel_dispersion}
 \alias{kernel_dispersion}
-\title{Kernel dispersion}
+\title{Adaptive Kernel Dispersion}
 \usage{
 kernel_dispersion(
   x,
@@ -50,8 +50,8 @@ next data point. Default is 200}
 nearby
 (0 to 1). Default is 0.1}
 
-\item{R_range}{Numeric value or vector specifying the kernel half-width(s)
-as search radius (in km). Default is \code{seq(50, 1000, 50)}}
+\item{R_range}{Numeric value or vector specifying the (adaptive) kernel
+half-width(s) as search radius (in km). Default is \code{seq(50, 1000, 50)}}
 
 \item{...}{optional arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
 }

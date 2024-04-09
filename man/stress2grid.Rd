@@ -51,9 +51,8 @@ degree. Default is 2.5. (is ignored if \code{"grid"} is specified)}
 \item{threshold}{Numeric. Threshold for deviation of direction. Default is
 25}
 
-\item{arte_thres}{Numeric. Maximum distance (in km) of the gridpoint to the
-next
-datapoint. Default is 200}
+\item{arte_thres}{Numeric. Maximum distance (in km) of the grid point to the
+nextdata point. Default is 200}
 
 \item{method_weighting}{Logical. If a method weighting should be applied:
 Default is \code{FALSE}.}

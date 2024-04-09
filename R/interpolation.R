@@ -66,9 +66,8 @@ wcmedian <- function(x, w) {
 #' @param min_data Integer. Minimum number of data per bin. Default is 3
 #' @param threshold Numeric. Threshold for deviation of direction. Default is
 #' 25
-#' @param arte_thres Numeric. Maximum distance (in km) of the gridpoint to the
-#' next
-#' datapoint. Default is 200
+#' @param arte_thres Numeric. Maximum distance (in km) of the grid point to the
+#' nextdata point. Default is 200
 #' @param method_weighting Logical. If a method weighting should be applied:
 #' Default is \code{FALSE}.
 #' @param quality_weighting Logical. If a quality weighting should be applied:
@@ -397,11 +396,14 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 
 #' Compact smoothed stress field
 #'
-#' Filter smoothed stress field to smallest wavelength (R) for each coordinate
+#' Filter smoothed stress field containing a range of search radii or kernel
+#' half widths to find smallest wavelength (R) with the least circular sd. or
+#' dispersion for each coordinate, respectively.
 #'
-#' @param x output of [stress2grid()] or [PoR_stress2grid()]
-#' @param type character. Type of the grid `x`. Either "stress2grid" of
-#' "kernel_dispersion"
+#' @param x output of [stress2grid()], [PoR_stress2grid()], or [kernel_dispersion()]
+#' @param type character. Type of the grid `x`. Either `"stress"` (when input
+#' is [stress2grid()] or [PoR_stress2grid()]) or `"dispersion"` (when input
+#' is [kernel_dispersion()]).
 #'
 #' @returns \code{sf} object
 #'
@@ -409,6 +411,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
 #' @importFrom stats aggregate
+#' @seealso [stress2grid()], [PoR_stress2grid()], [kernel_dispersion()]
 #'
 #' @export
 #'
@@ -416,12 +419,12 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 #' data("san_andreas")
 #' res <- stress2grid(san_andreas)
 #' compact_grid(res)
-compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
+compact_grid <- function(x, type = c("stress", "dispersion")) {
   lon <- lat <- azi <- R <- stat <- numeric()
   group <- character()
   type <- match.arg(type)
 
-  if (type == "stress2grid") {
+  if (type == "stress") {
     data <- x |>
       dplyr::ungroup() |>
       dplyr::as_tibble() |>
@@ -442,7 +445,7 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
 }
 
 
-#' Kernel dispersion
+#' Adaptive Kernel Dispersion
 #'
 #' Stress field and wavelength analysis using circular dispersion
 #' (or other statistical estimators for dispersion)
@@ -469,8 +472,8 @@ compact_grid <- function(x, type = c("stress2grid", "dispersion_grid")) {
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
 #' nearby
 #' (0 to 1). Default is 0.1
-#' @param R_range Numeric value or vector specifying the kernel half-width(s)
-#'  as search radius (in km). Default is \code{seq(50, 1000, 50)}
+#' @param R_range Numeric value or vector specifying the (adaptive) kernel
+#' half-width(s) as search radius (in km). Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate

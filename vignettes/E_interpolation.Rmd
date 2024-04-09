@@ -144,7 +144,7 @@ tested plate boundary force.
 Another way to analyse spatial misfits is the kernel dispersion, i.e. the
 local dispersion within a user-defined window (kernel). The kernel´s half width 
 can be a single number (km) or a range of widths. The latter requires to compact
-the grid result (`x`) to find the smallest kernel size containing the the smallest 
+the grid result (`x`) to find the smallest kernel size containing the the least 
 dispersion (`compact_grid(x, 'dispersion')`).
 
 > It is recommended to calculate the kernel dispersion on PoR transformed data to 
@@ -152,8 +152,8 @@ avoid angle distortions due to projections.
 
 ```{r kernel_disp}
 san_andreas_por <- san_andreas
-san_andreas_por$azi <- PoR_shmax(san_andreas, por, "right")$azi.PoR
-san_andreas_por$prd <- 135
+san_andreas_por$azi <- PoR_shmax(san_andreas, por, "right")$azi.PoR # transform to PoR azimuth
+san_andreas_por$prd <- 135 # test direction
 san_andreas_kdisp <- kernel_dispersion(san_andreas_por, gridsize = 1, R_range = seq(50, 350, 100))
 san_andreas_kdisp <- compact_grid(san_andreas_kdisp, "dispersion")
 
@@ -162,7 +162,7 @@ ggplot(san_andreas_kdisp) +
     aes(lon, lat, fill = stat),
     max.radius = .7, normalize = FALSE
   ) +
-  scale_fill_viridis_c("Angular distance", limits = c(0, 1)) +
+  scale_fill_viridis_c("Dispersion", limits = c(0, 1)) +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(
     data = san_andreas,

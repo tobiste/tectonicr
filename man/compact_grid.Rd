@@ -4,22 +4,28 @@
 \alias{compact_grid}
 \title{Compact smoothed stress field}
 \usage{
-compact_grid(x, type = c("stress2grid", "dispersion_grid"))
+compact_grid(x, type = c("stress", "dispersion"))
 }
 \arguments{
-\item{x}{output of \code{\link[=stress2grid]{stress2grid()}} or \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}}
+\item{x}{output of \code{\link[=stress2grid]{stress2grid()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, or \code{\link[=kernel_dispersion]{kernel_dispersion()}}}
 
-\item{type}{character. Type of the grid \code{x}. Either "stress2grid" of
-"kernel_dispersion"}
+\item{type}{character. Type of the grid \code{x}. Either \code{"stress"} (when input
+is \code{\link[=stress2grid]{stress2grid()}} or \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}) or \code{"dispersion"} (when input
+is \code{\link[=kernel_dispersion]{kernel_dispersion()}}).}
 }
 \value{
 \code{sf} object
 }
 \description{
-Filter smoothed stress field to smallest wavelength (R) for each coordinate
+Filter smoothed stress field containing a range of search radii or kernel
+half widths to find smallest wavelength (R) with the least circular sd. or
+dispersion for each coordinate, respectively.
 }
 \examples{
 data("san_andreas")
 res <- stress2grid(san_andreas)
 compact_grid(res)
+}
+\seealso{
+\code{\link[=stress2grid]{stress2grid()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=kernel_dispersion]{kernel_dispersion()}}
 }
