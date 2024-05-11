@@ -1,6 +1,6 @@
 Package: tectonicr
 Title: Analyzing the Orientation of Maximum Horizontal Stress
-Version: 0.2.97
+Version: 0.2.98
 Authors@R: 
     person("Tobias", "Stephan", , "tobias.stephan1@yahoo.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9290-014X"))
@@ -44,4 +44,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
