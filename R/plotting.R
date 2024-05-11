@@ -30,23 +30,19 @@
 tectonicr.colors <- function(x, n = 10, pal = NULL, categorical = FALSE, na.value = "grey", ...) {
   code <- val <- NULL
   if (categorical) {
-    dat <- data.frame(val = x) # |> mutate(val = ifelse(is.na(val), "NA", val))
+    # dat <- data.frame(val = x) # |> mutate(val = ifelse(is.na(val), "NA", val))
     if (is.null(pal)) {
-      val <- unique(dat$val)
+      val <- unique(x)
       n <- length(val)
       if (n < 9) {
-        pal <- RColorBrewer::brewer.pal(n, name = "Set2")
+        pal <- structure(RColorBrewer::brewer.pal(n, name = "Set2"), names = val)
       } else {
-        pal <- RColorBrewer::brewer.pal(n, name = "Set3")
+        pal <- structure(RColorBrewer::brewer.pal(n, name = "Set3"), names = val)
       }
-      names(pal) <- val
     }
-    # preliminary solution for NA values in data.set
-    cols <- data.frame(code = pal, val = names(pal), row.names = NULL)
-    xpal <- dplyr::left_join(dat, cols) |>
-      dplyr::mutate(code = ifelse(is.na(code), na.value, code))
-    ret <- xpal$code
-    names(ret) <- dat$val
+    cols <- pal[x]
+    cols[is.na(cols)] <- na.value
+    return(cols)
   } else {
     breaks <- pretty(x, n = n + 1)
     n2 <- length(breaks) - 1
@@ -54,14 +50,14 @@ tectonicr.colors <- function(x, n = 10, pal = NULL, categorical = FALSE, na.valu
     if (is.null(pal)) {
       cols <- viridis::viridis(n = n2, ...) # [order]
     } else {
-      cols <- pal(n = n2, categorical = categorical, ...) # [order]
+      cols <- pal(n = n2, ...) # [order]
     }
 
-    ret <- cut(x, breaks = breaks, labels = cols, include.lowest = TRUE)
-    ret <- as.character(ret)
+    ret <- cut(x, breaks = breaks, labels = cols, include.lowest = TRUE) |>
+      as.character()
     names(ret) <- cut(x, breaks = breaks, include.lowest = TRUE)
+    return(ret)
   }
-  ret
 }
 
 
@@ -350,14 +346,16 @@ rose_binwidth <- function(n, axial = TRUE, ...) {
 is.naturalnumber <- function(x, tol = .Machine$double.eps^0.5) x > tol & abs(x - round(x)) < tol
 
 symmetric_bw <- function(x) {
-  div <- numeric()
-  allowed <- data.frame(x = seq(1, 180, 1)) |>
-    dplyr::mutate(div = 180 / x) |>
-    dplyr::filter(is.naturalnumber(div), div < 180) |>
-    dplyr::pull(div)
-  # allowed <- c(2, 4, 6, 8, 10, 12, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
+  div <- 180 / seq(1, 180, 1)
+  cond <- is.naturalnumber(div) & div < 180
+  allowed <- div[cond]
+  # allowed <- data.frame(x = seq(1, 180, 1)) |>
+  #   dplyr::mutate(div = 180 / x) |>
+  #   dplyr::filter(is.naturalnumber(div), div < 180) |>
+  #   dplyr::pull(div)
+  # allowed <- c(2, 3, 4, 5, 6, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
   target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
-  allowed[target.index] |> min()
+  min(allowed[target.index])
 }
 
 add_end <- function(x, end) {
@@ -688,7 +686,13 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
 #' quick_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
-quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
+quick_plot <- function(
+    azi,
+    distance,
+    prd,
+    unc = NULL,
+    regime,
+    width = 51) {
   if (missing(regime)) {
     regime <- rep(NA, length(azi))
   }
@@ -702,11 +706,31 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
       cdist = circular_distance(azi, prd),
-      roll_mean = roll_circstats(azi, w = 1 / unc, FUN = circular_mean, width = width),
+      roll_mean = roll_circstats(
+        azi,
+        w = 1 / unc,
+        FUN = circular_mean,
+        width = width
+      ),
       # roll_conf95 = roll_confidence(azi, .95, 1 / unc, width = width),
-      roll_sd = roll_circstats(azi, w = 1 / unc, FUN = circular_sd, width = width) / 2,
-      roll_nchisq = roll_normchisq(azi, prd, unc, width = width),
-      roll_disp = roll_dispersion(azi, prd, w = 1 / unc, width = width) # ,
+      roll_sd = roll_circstats(
+        azi,
+        w = 1 / unc,
+        FUN = circular_sd,
+        width = width
+      ) / 2,
+      roll_nchisq = roll_normchisq(
+        azi,
+        prd,
+        unc,
+        width = width
+      ),
+      roll_disp = roll_dispersion(
+        azi,
+        prd,
+        w = 1 / unc,
+        width = width
+      ) # ,
       # roll_disp_CI = roll_dispersion_CI(azi, prd, w = 1 / unc, R = 100, width = width)
     )
 
@@ -738,13 +762,16 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
   # distance plot
   ## create empty plot
-  graphics::plot(0,
+  graphics::plot(
+    0,
     type = "n",
-    xlab = "Distance from plate boundary", ylab = expression("Azimuth wrt. PoR" ~ alpha ~ "(" * degree * ")"),
+    xlab = "Distance from plate boundary",
+    ylab = expression("Azimuth wrt. PoR" ~ alpha ~ "(" * degree * ")"),
     sub = subtitle,
     main = "Distance from plate boundary vs. azimuth",
     xlim = range(distance),
-    ylim = c(0, 180), yaxp = c(0, 180, 8)
+    ylim = c(0, 180),
+    yaxp = c(0, 180, 8)
   )
 
   ## 95% confidence interval
@@ -783,7 +810,12 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
     ylim = c(0, 1), yaxp = c(0, 1, 4),
     sub = bquote("Norm" ~ chi^2 == .(round(nchisq, 2)))
   )
-  graphics::lines(roll_nchisq ~ distance, data = t, type = "S", col = "#85112AFF")
+  graphics::lines(
+    roll_nchisq ~ distance,
+    data = t,
+    type = "S",
+    col = "#85112AFF"
+  )
   graphics::abline(h = .15, col = "black", lty = 2)
 
   # Dispersion plot
@@ -811,7 +843,13 @@ quick_plot <- function(azi, distance, prd, unc = NULL, regime, width = 51) {
 
   # rose plot
   grDevices::dev.new()
-  rose(azi, weights = 1 / unc, sub = subtitle_rose, main = "Rose diagram", mtext = "PoR")
+  rose(
+    azi,
+    weights = 1 / unc,
+    sub = subtitle_rose,
+    main = "Rose diagram",
+    mtext = "PoR"
+  )
   # rose_stats(azi, weights = 1 / unc)
   rose_line(prd, radius = 1.1, col = "#009E73") # show the predicted direction
   grDevices::palette("default")
@@ -861,8 +899,8 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
     x_por_df <- data.frame(azi.PoR = x_por_df)
   }
 
-  x_por_sf <- geographical_to_PoR_sf(x, PoR)
-  x_por_coords <- sf::st_coordinates(x_por_sf)
+  x_por_coords <- geographical_to_PoR_sf(x, PoR) |>
+    sf::st_coordinates()
   por_crs <- PoR_crs(PoR)
 
   pb_por <- geographical_to_PoR_sf(pb, PoR)
@@ -871,7 +909,12 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
     cols <- tectonicr.colors(abs(x_por_df$cdist), categorical = FALSE, ...)
     legend.title <- "|Circular distance|"
   } else {
-    cols <- tectonicr.colors(x$regime, pal = stress_colors(), categorical = TRUE, ...)
+    cols <- tectonicr.colors(
+      x$regime,
+      pal = stress_colors(),
+      categorical = TRUE,
+      ...
+    )
     legend.title <- "Stress regime"
   }
 
@@ -880,15 +923,31 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
     unique() |>
     dplyr::arrange(val2)
 
-  plot(x_por_coords[, 1], x_por_coords[, 2],
+  plot(
+    x_por_coords[, 1],
+    x_por_coords[, 2],
     cex = 0,
-    xlab = expression("PoR longitude (" * degree * ")"), ylab = expression("PoR latitude (" * degree * ")"), asp = 1
+    xlab = expression("PoR longitude (" * degree * ")"),
+    ylab = expression("PoR latitude (" * degree * ")"),
+    asp = 1
   )
-  graphics::abline(h = seq(-90, 90, 5), v = seq(-180, 180, 5), col = "grey", lty = 2)
-  axes(x_por_coords[, 1], x_por_coords[, 2], x_por_df$azi.PoR, col = cols, add = TRUE)
+  graphics::abline(
+    h = seq(-90, 90, 5),
+    v = seq(-180, 180, 5),
+    col = "grey",
+    lty = 2
+  )
+  axes(
+    x_por_coords[, 1],
+    x_por_coords[, 2],
+    x_por_df$azi.PoR,
+    col = cols,
+    add = TRUE
+  )
   plot(sf::st_geometry(pb_por), add = TRUE)
   graphics::legend("bottomleft",
     inset = .05, cex = .75,
-    legend = col.legend$val, title = legend.title, fill = col.legend$col
+    legend = col.legend$val, title = legend.title, fill = col.legend$col,
+    bty = 'o', bg = "white"
   )
 }

@@ -5,9 +5,7 @@
 #' @returns numeric value
 #'
 #' @export
-earth_radius <- function() {
-  6371.0087714
-}
+earth_radius <- function() 6371.0087714
 
 wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
@@ -203,8 +201,7 @@ stress2grid <- function(x,
       sf::st_as_sf()
   }
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
-  G <- grid |>
-    sf::st_coordinates()
+  G <- sf::st_coordinates(grid)
 
 
   # lat.X <- lat.Y <- lon.Y <- lon.X <-
@@ -233,7 +230,6 @@ stress2grid <- function(x,
           mdr <- distij[ids_R] / R_search
         } else {
           mdr <- mean(distij[ids_R], na.rm = TRUE) / R_search
-
           dist_threshold_scal <- R_search * dist_threshold
 
           if (dist_weight == "inverse") {
@@ -272,7 +268,7 @@ stress2grid <- function(x,
     }
   }
 
-  lat.Y <- lon.X <- numeric(nrow(SH))
+  lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
   res <- dplyr::as_tibble(SH) |>
     dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N)) |>
@@ -364,13 +360,12 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 
   grid_PoR <- if (!PoR_grid) {
     sf::st_as_sf(grid) |>
-      geographical_to_PoR_sf(PoR) # |> sf::st_set_crs("WGS84")
+      geographical_to_PoR_sf(PoR)
   } else {
     NULL
   }
 
-
-  x_PoR <- geographical_to_PoR_sf(x, PoR) # |> sf::st_set_crs("WGS84")
+  x_PoR <- geographical_to_PoR_sf(x, PoR)
   x_PoR_coords <- sf::st_coordinates(x_PoR) |>
     dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
@@ -623,7 +618,8 @@ kernel_dispersion <- function(x,
   res <- dplyr::as_tibble(SH) |>
     dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N)) |>
-    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) # |> dplyr::group_by(R)
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) |>
+    dplyr::group_by(R)
 
   return(res)
 }
