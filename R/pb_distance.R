@@ -36,7 +36,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
     q <- which.min(abs(delta.lat))
     dist <- delta.lon[q] # longitudinal difference in degree
     if (km) {
-      dist <- deg2rad(dist) * earth_radius() * cosd(lat) # small circle distance
+      dist <- deg2rad(dist) * earth_radius() * cosd(lat) # small circle distance (PoR lat (colat) is 0 at equator!)
     }
   }
   dist

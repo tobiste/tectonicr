@@ -75,7 +75,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
-#' @importFrom stats complete.cases runif
+#' @importFrom stats complete.cases runif setNames
 #'
 #' @returns numeric vector
 #'
@@ -305,9 +305,8 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     lq <- atan2d(mean.sin.lq, mean.cos.lq)
     uq <- atan2d(mean.sin.uq, mean.cos.uq)
 
-    quantiles <- c(lq, med, uq) / f
-    names(quantiles) <- c("25%", "50%", "75%")
-    return(quantiles %% mod)
+    res <- c(lq, med, uq) / f
+    setNames(res %% mod, nm = c("25%", "50%", "75%"))
   } else {
     message("x needs more than 3 values")
     return(NULL)

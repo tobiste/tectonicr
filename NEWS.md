@@ -1,3 +1,7 @@
+# tectonicr 0.2.98 _2024-04-07_
+
+* minor fixes
+
 # tectonicr 0.2.97 _2024-04-07_
 
 * `kernel_dispersion()` (former dispersion_gird()) explained in vignette E
