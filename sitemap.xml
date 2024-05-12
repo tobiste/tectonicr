@@ -196,6 +196,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/nuvel1_plates.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/parse_wsm.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/pb2002.html</loc>
   </url>
   <url>
@@ -218,9 +221,6 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/projected_pb_strike.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/quantise_wsm_quality.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/quick_plot.html</loc>
