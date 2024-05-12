@@ -93,7 +93,7 @@ Updated version of the MATLAB script "stress2grid"
 }
 \examples{
 data("san_andreas")
-stress2grid(san_andreas, method_weighting = TRUE)
+stress2grid(san_andreas)
 }
 \references{
 Ziegler, M. O. and Heidbach, O. (2019).
