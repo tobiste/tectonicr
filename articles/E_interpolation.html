@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.98</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,7 +128,7 @@ the mean, as well as a 25% cut-off for the standard deviation.</p>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">R</span><span class="op">)</span></span></code></pre></div>
-<p><img src="E_interpolation_files/figure-html/plot-1.png" width="700"><!--  ![](interpolation.png) --></p>
+<p><img src="E_interpolation_files/figure-html/plot-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="por-coordinate-system">PoR coordinate system<a class="anchor" aria-label="anchor" href="#por-coordinate-system"></a>
@@ -155,7 +155,7 @@ areas close to plate boundaries.</p>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">R</span><span class="op">)</span></span></code></pre></div>
-<p><img src="E_interpolation_files/figure-html/plot2-1.png" width="700"><!--  ![](interpolation_PoR.png) --></p>
+<p><img src="E_interpolation_files/figure-html/plot2-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level3">
@@ -192,7 +192,7 @@ package.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span><span class="st">"Standard deviation"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="E_interpolation_files/figure-html/voronoi-1.png" width="700"><!-- ![](interpolation_voronoi.png) --></p>
+<p><img src="E_interpolation_files/figure-html/voronoi-1.png" width="700"></p>
 <p>The map highlights <strong>stress anomalies</strong> which show
 misfits to the direction of tested plate boundary force.</p>
 </div>
