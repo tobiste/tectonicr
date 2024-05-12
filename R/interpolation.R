@@ -146,11 +146,11 @@ stress2grid <- function(x,
 
   # WSM method weighting (from 0 to 5)
   if (method_weighting && "type" %in% colnames_x) {
-    method_weights <- data.frame(
-      type = c("FMS", "FMF", "BO", "DIF", "HF", "GF", "GV", "OC", NA),
-      w_method = c(4, 5, 5, 5, 4, 5, 4, 2, 1) / 5
+    parse_method <- setNames(
+      c(4, 5, 5, 5, 4, 5, 4, 2, 1) / 5,
+      c("FMS", "FMF", "BO", "DIF", "HF", "GF", "GV", "OC", NA)
     )
-    x <- dplyr::left_join(x, method_weights)
+    w_method <- parse_method[x$type]
   } else {
     w_method <- rep(1, length(azi))
   }
@@ -161,8 +161,7 @@ stress2grid <- function(x,
     rep(1, length(azi))
   }
 
-  x_coords <- # sf::st_transform(x, crs = "WGS84") |>
-    sf::st_coordinates(x) |>
+  x_coords <- sf::st_coordinates(x) |>
     as.data.frame()
 
   datas <- data.frame(
@@ -176,12 +175,13 @@ stress2grid <- function(x,
   if (quality_weighting) {
     datas <- tidyr::drop_na(datas, w_quality)
   }
+  datas <- as.matrix(datas)
 
   if (is.null(grid)) {
     # Regular grid
     if (is.null(lon_range) || is.null(lat_range)) {
-      lon_range <- range(datas$lon, na.rm = TRUE)
-      lat_range <- range(datas$lat, na.rm = TRUE)
+      lon_range <- range(datas[,1], na.rm = TRUE)
+      lat_range <- range(datas[,2], na.rm = TRUE)
     }
 
     grid <- sf::st_bbox(
@@ -203,14 +203,11 @@ stress2grid <- function(x,
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
   G <- sf::st_coordinates(grid)
 
-
-  # lat.X <- lat.Y <- lon.Y <- lon.X <-
   R <- N <- numeric(nrow(G))
-
 
   SH <- c()
   for (i in seq_along(G[, 1])) {
-    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas$lat, datas$lon, ...)
+    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[,2], datas[,1], ...)
 
     if (min(distij) <= arte_thres) {
       for (k in seq_along(R_range)) {
@@ -226,7 +223,7 @@ stress2grid <- function(x,
           meanSH <- mdr <- NA
         } else if (N_in_R == 1) {
           sd <- 0
-          meanSH <- datas$azi[ids_R]
+          meanSH <- datas[ids_R, 3]
           mdr <- distij[ids_R] / R_search
         } else {
           mdr <- mean(distij[ids_R], na.rm = TRUE) / R_search
@@ -240,13 +237,13 @@ stress2grid <- function(x,
             w_distance <- rep(1, length(ids_R))
           }
 
-          w <- w_distance * datas$w_quality[ids_R] * datas$w_method[ids_R]
+          w <- w_distance * datas[ids_R, 5] * datas[ids_R, 4]
 
           # mean value
           if (stat == "median") {
-            stats <- wcmedian(datas$azi[ids_R], w)
+            stats <- wcmedian(datas[ids_R, 3], w)
           } else {
-            stats <- wcmean(datas$azi[ids_R], w)
+            stats <- wcmean(datas[ids_R, 3], w)
           }
           meanSH <- as.numeric(stats[1])
           sd <- as.numeric(stats[2])
