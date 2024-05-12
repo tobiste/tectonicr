@@ -7,7 +7,7 @@ wsm2016 <-
     regime = ifelse(regime == "TF", "T", regime),
     regime = ifelse(regime == "SS", "S", regime),
     regime = ifelse(regime == "U", NA, regime),
-    quality.quant = tectonicr::quantise_wsm_quality(quality),
+    quality.quant = tectonicr::parse_wsm_quality(quality),
     unc = ifelse(is.na(sd), quality.quant, sd),
     unc = ifelse(unc > quality.quant, quality.quant, unc),
     unc = ifelse(unc == 0, 15, unc),

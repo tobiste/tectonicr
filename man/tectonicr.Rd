@@ -3,7 +3,6 @@
 \docType{package}
 \name{tectonicr}
 \alias{tectonicr}
-\alias{_PACKAGE}
 \alias{tectonicr-package}
 \title{library(tectonicr)}
 \description{
