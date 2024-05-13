@@ -20,6 +20,7 @@ stress2grid(
   method_weighting = FALSE,
   quality_weighting = TRUE,
   dist_weight = c("inverse", "linear", "none"),
+  idp = 1,
   dist_threshold = 0.1,
   R_range = seq(50, 1000, 50),
   ...
@@ -58,15 +59,15 @@ nextdata point. Default is 200}
 Default is \code{FALSE}.}
 
 \item{quality_weighting}{Logical. If a quality weighting should be applied:
-Default is
-\code{TRUE}.}
+Default is \code{TRUE}.}
 
 \item{dist_weight}{Distance weighting method which should be used. One of
 \code{"none"}, \code{"linear"}, or \code{"inverse"} (the default).}
 
+\item{idp}{numeric.  The inverse distance weighting power.}
+
 \item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
-nearby
-(0 to 1). Default is 0.1}
+nearby (0 to 1). Default is 0.1}
 
 \item{R_range}{Numeric value or vector specifying the kernel half-width(s),
 i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
@@ -85,11 +86,11 @@ i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
 }
 }
 \description{
-Stress field and wavelength analysis using a kernel (weighted) mean/median and
-standard deviation/IQR of stress data
+Stress field interpolation and wavelength analysis using a kernel (weighted)
+mean/median and standard deviation/IQR of stress data
 }
 \details{
-Updated version of the MATLAB script "stress2grid"
+This is a modified version of the MATLAB script "stress2grid"
 }
 \examples{
 data("san_andreas")

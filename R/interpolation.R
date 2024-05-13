@@ -43,8 +43,8 @@ wcmedian <- function(x, w) {
 
 #' Spatial interpolation of SHmax
 #'
-#' Stress field and wavelength analysis using a kernel (weighted) mean/median and
-#' standard deviation/IQR of stress data
+#' Stress field interpolation and wavelength analysis using a kernel (weighted)
+#' mean/median and standard deviation/IQR of stress data
 #'
 #' @param x \code{sf} object containing
 #' \describe{
@@ -69,13 +69,12 @@ wcmedian <- function(x, w) {
 #' @param method_weighting Logical. If a method weighting should be applied:
 #' Default is \code{FALSE}.
 #' @param quality_weighting Logical. If a quality weighting should be applied:
-#' Default is
-#' \code{TRUE}.
+#' Default is \code{TRUE}.
 #' @param dist_weight Distance weighting method which should be used. One of
 #' `"none"`, `"linear"`, or `"inverse"` (the default).
+#' @param idp numeric.  The inverse distance weighting power.
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
-#' nearby
-#' (0 to 1). Default is 0.1
+#' nearby (0 to 1). Default is 0.1
 #' @param R_range Numeric value or vector specifying the kernel half-width(s),
 #' i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
@@ -95,7 +94,7 @@ wcmedian <- function(x, w) {
 #' \item{N}{Number of data points in search radius}
 #' }
 #'
-#' @details Updated version of the MATLAB script "stress2grid"
+#' @details This is a modified version of the MATLAB script "stress2grid"
 #'
 #' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()],
 #' [circular_mean()], [circular_median()], [circular_sd()]
@@ -122,13 +121,14 @@ stress2grid <- function(x,
                         method_weighting = FALSE,
                         quality_weighting = TRUE,
                         dist_weight = c("inverse", "linear", "none"),
+                        idp = 1.0,
                         dist_threshold = 0.1,
                         R_range = seq(50, 1000, 50),
                         ...) {
   stopifnot(
     inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
     arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range), is.logical(method_weighting),
-    is.logical(quality_weighting)
+    is.logical(quality_weighting), is.numeric(idp)
   )
 
   min_data <- as.integer(ceiling(min_data))
@@ -233,7 +233,7 @@ stress2grid <- function(x,
           dist_threshold_scal <- R_search * dist_threshold
 
           if (dist_weight == "inverse") {
-            w_distance <- 1 / max(dist_threshold_scal, distij[ids_R])
+            w_distance <- 1 / max(dist_threshold_scal, distij[ids_R])^idp
           } else if (dist_weight == "linear") {
             w_distance <- R_search + 1 - max(dist_threshold_scal, distij[ids_R])
           } else {
