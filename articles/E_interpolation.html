@@ -112,6 +112,14 @@ metrics (the algorithm is a modified version of the MATLAB script
 <code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The default settings apply quality and inverse distance weighting of
 the mean, as well as a 25% cut-off for the standard deviation.</p>
+<blockquote>
+<p>The tectonicr algorithm proivdes additional modifications of the
+original algorithm by Ziegler and Heidbach (2017). See
+<code><a href="../reference/stress2grid.html">help(stress2grid)</a></code> for more details and settings, such as
+different statistics for calculating the orientation average,
+adjustments of the weighting power of the distance, quality or
+method.</p>
+</blockquote>
 <p>The data can now be visualized:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">por</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>

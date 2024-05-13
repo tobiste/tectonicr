@@ -78,6 +78,8 @@ mean/median and standard deviation/IQR of stress data</p>
 <span>  quality_weighting <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  dist_weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"inverse"</span>, <span class="st">"linear"</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
 <span>  idp <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  qp <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  mp <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  dist_threshold <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">1000</span>, <span class="fl">50</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -105,10 +107,9 @@ mean/median and standard deviation/IQR of stress data</p>
 
 
 <dt>stat</dt>
-<dd><p>Should the direction of interpolated SHmax be based  on the
-circular mean and standard deviation (<code>"mean"</code>, the default) or on the
-circular median
-and interquartile range (<code>"median"</code>)?</p></dd>
+<dd><p>Whether the direction of interpolated SHmax is based on the
+circular mean and standard deviation (<code>"mean"</code>, the default) or the
+circular median and interquartile range (<code>"median"</code>)</p></dd>
 
 
 <dt>grid</dt>
@@ -117,16 +118,16 @@ and interquartile range (<code>"median"</code>)?</p></dd>
 
 <dt>lon_range, lat_range</dt>
 <dd><p>(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes (are ignored if <code>"grid"</code> is specified).</p></dd>
+and maximum longitudes and latitudes (are ignored if <code>grid</code> is specified).</p></dd>
 
 
 <dt>gridsize</dt>
 <dd><p>Numeric. Target spacing of the regular grid in decimal
-degree. Default is 2.5. (is ignored if <code>"grid"</code> is specified)</p></dd>
+degree. Default is <code>2.5</code>. (is ignored if <code>grid</code> is specified)</p></dd>
 
 
 <dt>min_data</dt>
-<dd><p>Integer. Minimum number of data per bin. Default is 3</p></dd>
+<dd><p>Integer. Minimum number of data per bin. Default is <code>3</code></p></dd>
 
 
 <dt>threshold</dt>
@@ -136,17 +137,17 @@ degree. Default is 2.5. (is ignored if <code>"grid"</code> is specified)</p></dd
 
 <dt>arte_thres</dt>
 <dd><p>Numeric. Maximum distance (in km) of the grid point to the
-nextdata point. Default is 200</p></dd>
+next data point. Default is <code>200</code></p></dd>
 
 
 <dt>method_weighting</dt>
 <dd><p>Logical. If a method weighting should be applied:
-Default is <code>FALSE</code>.</p></dd>
+Default is <code>FALSE</code>. If <code>FALSE</code>, overwrites <code>mp</code>.</p></dd>
 
 
 <dt>quality_weighting</dt>
 <dd><p>Logical. If a quality weighting should be applied:
-Default is <code>TRUE</code>.</p></dd>
+Default is <code>TRUE</code>. If <code>FALSE</code>, overwrites <code>mq</code>.</p></dd>
 
 
 <dt>dist_weight</dt>
@@ -154,13 +155,16 @@ Default is <code>TRUE</code>.</p></dd>
 <code>"none"</code>, <code>"linear"</code>, or <code>"inverse"</code> (the default).</p></dd>
 
 
-<dt>idp</dt>
-<dd><p>numeric.  The inverse distance weighting power.</p></dd>
+<dt>idp, qp, mp</dt>
+<dd><p>numeric. The weighting power of inverse distance, quality
+and method. Default is <code>1</code>. The higher the value, the more weight it will
+put. When set to <code>0</code>, no weighting is applied. <code>idp</code> is only effective if
+inverse distance weighting (<code>dist_weight="inverse</code>) is applied.</p></dd>
 
 
 <dt>dist_threshold</dt>
 <dd><p>Numeric. Distance weight to prevent overweight of data
-nearby (0 to 1). Default is 0.1</p></dd>
+nearby (0 to 1). Default is <code>0.1</code></p></dd>
 
 
 <dt>R_range</dt>
@@ -214,27 +218,27 @@ Matlab Script Stress2Grid v1.1. GFZ Data Services. <a href="https://doi.org/10.5
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">stress2grid</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 671 features and 7 fields</span>
+<span class="r-in"><span><span class="fu">stress2grid</span><span class="op">(</span><span class="va">san_andreas</span>, stat <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 792 features and 7 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -124.57 ymin: 24.33 xmax: -107.07 ymax: 39.33</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 671 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 792 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   R [20]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      lon   lat   azi    sd     R    mdr     N        geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;POINT [°]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>   0       50 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>   0      100 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>   0      150 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>   0      200 <span style="color: #BB0000;">NA</span>         1 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">115.</span>  24.3  179.  5.32   250  0.820     3 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">115.</span>  24.3  170. 25.0    350  0.796     9 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">115.</span>  24.3  168. 19.3    400  0.816    18 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">115.</span>  24.3  171. 14.8    450  0.884    56 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">115.</span>  24.3  171. 16.3    500  0.876   107 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">115.</span>  24.3  171. 15.5    550  0.832   139 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 661 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0    50 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0   100 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0   150 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">115.</span>  24.3   <span style="color: #BB0000;">NA</span>      0   200 <span style="color: #BB0000;">NA</span>         1 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">115.</span>  24.3  173      3   250  0.820     3 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">115.</span>  24.3  141.     3   300  0.743     4 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">115.</span>  24.3  130      0   350  0.796     9 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">115.</span>  24.3  148.     1   400  0.816    18 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">115.</span>  24.3  163.     1   450  0.884    56 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">115.</span>  24.3  165      1   500  0.876   107 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 782 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
