@@ -32,8 +32,9 @@ stress2grid(
 \item{x}{\code{sf} object containing
 \describe{
 \item{azi}{SHmax in degree}
-\item{unc}{Uncertainties of SHmax in degree}
-\item{type}{Methods used for the determination of the direction of SHmax}
+\item{unc}{(optional) Uncertainties of SHmax in degree}
+\item{type}{(optional) Methods used for the determination of the direction
+of SHmax}
 }}
 
 \item{stat}{Whether the direction of interpolated SHmax is based on the
@@ -42,8 +43,8 @@ circular median and interquartile range (\code{"median"})}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
 
-\item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes (are ignored if \code{grid} is specified).}
+\item{lon_range, lat_range}{(optional) Numeric vector specifying the minimum
+and maximum longitudes and latitudes (ignored if \code{grid} is specified).}
 
 \item{gridsize}{Numeric. Target spacing of the regular grid in decimal
 degree. Default is \code{2.5}. (is ignored if \code{grid} is specified)}
@@ -60,15 +61,15 @@ next data point. Default is \code{200}}
 Default is \code{FALSE}. If \code{FALSE}, overwrites \code{mp}.}
 
 \item{quality_weighting}{Logical. If a quality weighting should be applied:
-Default is \code{TRUE}. If \code{FALSE}, overwrites \code{mq}.}
+Default is \code{TRUE}. If \code{FALSE}, overwrites \code{qp}.}
 
 \item{dist_weight}{Distance weighting method which should be used. One of
 \code{"none"}, \code{"linear"}, or \code{"inverse"} (the default).}
 
-\item{idp, qp, mp}{numeric. The weighting power of inverse distance, quality
+\item{idp, qp, mp}{Numeric. The weighting power of inverse distance, quality
 and method. Default is \code{1}. The higher the value, the more weight it will
 put. When set to \code{0}, no weighting is applied. \code{idp} is only effective if
-inverse distance weighting (\verb{dist_weight="inverse}) is applied.}
+inverse distance weighting (\code{dist_weight="inverse"}) is applied.}
 
 \item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
 nearby (0 to 1). Default is \code{0.1}}

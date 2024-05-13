@@ -51,12 +51,13 @@ wcmedian <- function(x, w) {
 #' @param x \code{sf} object containing
 #' \describe{
 #' \item{azi}{SHmax in degree}
-#' \item{unc}{Uncertainties of SHmax in degree}
-#' \item{type}{Methods used for the determination of the direction of SHmax}
+#' \item{unc}{(optional) Uncertainties of SHmax in degree}
+#' \item{type}{(optional) Methods used for the determination of the direction
+#' of SHmax}
 #' }
 #' @param grid (optional) Point object of class \code{sf}.
-#' @param lon_range,lat_range (optional) numeric vector specifying the minimum
-#' and maximum longitudes and latitudes (are ignored if `grid` is specified).
+#' @param lon_range,lat_range (optional) Numeric vector specifying the minimum
+#' and maximum longitudes and latitudes (ignored if `grid` is specified).
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
 #' degree. Default is `2.5`. (is ignored if `grid` is specified)
 #' @param stat Whether the direction of interpolated SHmax is based on the
@@ -69,16 +70,16 @@ wcmedian <- function(x, w) {
 #' next data point. Default is `200`
 #' @param dist_weight Distance weighting method which should be used. One of
 #' `"none"`, `"linear"`, or `"inverse"` (the default).
-#' @param idp,qp,mp numeric. The weighting power of inverse distance, quality
+#' @param idp,qp,mp Numeric. The weighting power of inverse distance, quality
 #' and method. Default is `1`. The higher the value, the more weight it will
 #' put. When set to `0`, no weighting is applied. `idp` is only effective if
-#' inverse distance weighting (`dist_weight="inverse`) is applied.
+#' inverse distance weighting (`dist_weight="inverse"`) is applied.
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
 #' nearby (0 to 1). Default is `0.1`
 #' @param method_weighting Logical. If a method weighting should be applied:
 #' Default is \code{FALSE}. If `FALSE`, overwrites `mp`.
 #' @param quality_weighting Logical. If a quality weighting should be applied:
-#' Default is \code{TRUE}. If `FALSE`, overwrites `mq`.
+#' Default is \code{TRUE}. If `FALSE`, overwrites `qp`.
 #' @param R_range Numeric value or vector specifying the kernel half-width(s),
 #' i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]

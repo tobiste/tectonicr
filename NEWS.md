@@ -1,4 +1,5 @@
 # tectonicr 0.3.0
+* weighting powers added to spatial interpolation `stress2grid()`
 
 # tectonicr 0.2.98 _2024-04-07_
 
