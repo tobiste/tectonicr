@@ -97,10 +97,11 @@ mean/median and standard deviation/IQR of stress data</p>
 <dd><p>SHmax in degree</p></dd>
 
 <dt>unc</dt>
-<dd><p>Uncertainties of SHmax in degree</p></dd>
+<dd><p>(optional) Uncertainties of SHmax in degree</p></dd>
 
 <dt>type</dt>
-<dd><p>Methods used for the determination of the direction of SHmax</p></dd>
+<dd><p>(optional) Methods used for the determination of the direction
+of SHmax</p></dd>
 
 
 </dl></dd>
@@ -117,8 +118,8 @@ circular median and interquartile range (<code>"median"</code>)</p></dd>
 
 
 <dt>lon_range, lat_range</dt>
-<dd><p>(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes (are ignored if <code>grid</code> is specified).</p></dd>
+<dd><p>(optional) Numeric vector specifying the minimum
+and maximum longitudes and latitudes (ignored if <code>grid</code> is specified).</p></dd>
 
 
 <dt>gridsize</dt>
@@ -147,7 +148,7 @@ Default is <code>FALSE</code>. If <code>FALSE</code>, overwrites <code>mp</code>
 
 <dt>quality_weighting</dt>
 <dd><p>Logical. If a quality weighting should be applied:
-Default is <code>TRUE</code>. If <code>FALSE</code>, overwrites <code>mq</code>.</p></dd>
+Default is <code>TRUE</code>. If <code>FALSE</code>, overwrites <code>qp</code>.</p></dd>
 
 
 <dt>dist_weight</dt>
@@ -156,10 +157,10 @@ Default is <code>TRUE</code>. If <code>FALSE</code>, overwrites <code>mq</code>.
 
 
 <dt>idp, qp, mp</dt>
-<dd><p>numeric. The weighting power of inverse distance, quality
+<dd><p>Numeric. The weighting power of inverse distance, quality
 and method. Default is <code>1</code>. The higher the value, the more weight it will
 put. When set to <code>0</code>, no weighting is applied. <code>idp</code> is only effective if
-inverse distance weighting (<code>dist_weight="inverse</code>) is applied.</p></dd>
+inverse distance weighting (<code>dist_weight="inverse"</code>) is applied.</p></dd>
 
 
 <dt>dist_threshold</dt>
