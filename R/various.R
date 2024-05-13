@@ -3,7 +3,7 @@
 #' Assigns numeric values of the precision of each measurement to the
 #' categorical quality ranking of the World Stress Map (A, B, C, D).
 #'
-#' @param regime Either a string or a character vector of WSM quality ranking
+#' @param x Either a string or a character vector of WSM quality ranking
 #'
 #' @returns \code{"integer"} or vector of type \code{"integer"}
 #'
@@ -13,17 +13,16 @@
 #' indicator. *World Stress Map Technical Report* **16-01**, GFZ German Research
 #' Centre for Geosciences. \doi{10.2312/wsm.2016.001}
 #'
-#' @export
-#'
+#' @name parse_wsm
 #' @examples
-#' quantise_wsm_quality(c("A", "B", "C", "D", NA))
+#' parse_wsm_quality(c("A", "B", "C", "D", NA))
 #' data("san_andreas")
-#' quantise_wsm_quality(san_andreas$quality)
-quantise_wsm_quality <- function(regime) {
-  as.numeric(sapply(X = regime, FUN = regime2unc))
-}
+#' parse_wsm_quality(san_andreas$quality)
+NULL
 
-regime2unc <- function(x) {
+#' @rdname parse_wsm
+#' @export
+parse_wsm_quality <- function(x) {
   c(
     "A" = 15,
     "B" = 20,
@@ -32,6 +31,12 @@ regime2unc <- function(x) {
   )[x]
 }
 
+#' @rdname parse_wsm
+#' @export
+quantise_wsm_quality <- function(x) {
+  .Deprecated(parse_wsm_quality)
+  as.numeric(sapply(X = x, FUN = parse_wsm_quality))
+}
 
 
 #' Quick analysis of a stress data set

@@ -67,7 +67,6 @@ ggplot(mean_SH) +
   ) +
   facet_wrap(~R)
 ```
-<!--  ![](interpolation.png) -->
 
 ### PoR coordinate system
 
@@ -96,7 +95,6 @@ ggplot(mean_SH_PoR) +
   ) +
   facet_wrap(~R)
 ```
-<!--  ![](interpolation_PoR.png) -->
 
 ## Rasterize the interpolation
 
@@ -134,7 +132,6 @@ ggplot(mean_SH_PoR_reduced) +
   scale_alpha("Standard deviation", range = c(1, .25)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
 ```
-<!-- ![](interpolation_voronoi.png) -->
 
 The map highlights **stress anomalies** which show misfits to the direction of 
 tested plate boundary force.

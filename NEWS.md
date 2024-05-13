@@ -1,3 +1,5 @@
+# tectonicr 0.3.0
+
 # tectonicr 0.2.98 _2024-04-07_
 
 * minor fixes
