@@ -18,6 +18,10 @@
 #' parse_wsm_quality(c("A", "B", "C", "D", NA))
 #' data("san_andreas")
 #' parse_wsm_quality(san_andreas$quality)
+NULL
+
+#' @rdname parse_wsm
+#' @export
 parse_wsm_quality <- function(x) {
   c(
     "A" = 15,
