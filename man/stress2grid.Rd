@@ -21,6 +21,8 @@ stress2grid(
   quality_weighting = TRUE,
   dist_weight = c("inverse", "linear", "none"),
   idp = 1,
+  qp = 1,
+  mp = 1,
   dist_threshold = 0.1,
   R_range = seq(50, 1000, 50),
   ...
@@ -34,40 +36,42 @@ stress2grid(
 \item{type}{Methods used for the determination of the direction of SHmax}
 }}
 
-\item{stat}{Should the direction of interpolated SHmax be based  on the
-circular mean and standard deviation (\code{"mean"}, the default) or on the
-circular median
-and interquartile range (\code{"median"})?}
+\item{stat}{Whether the direction of interpolated SHmax is based on the
+circular mean and standard deviation (\code{"mean"}, the default) or the
+circular median and interquartile range (\code{"median"})}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
 
 \item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes (are ignored if \code{"grid"} is specified).}
+and maximum longitudes and latitudes (are ignored if \code{grid} is specified).}
 
 \item{gridsize}{Numeric. Target spacing of the regular grid in decimal
-degree. Default is 2.5. (is ignored if \code{"grid"} is specified)}
+degree. Default is \code{2.5}. (is ignored if \code{grid} is specified)}
 
-\item{min_data}{Integer. Minimum number of data per bin. Default is 3}
+\item{min_data}{Integer. Minimum number of data per bin. Default is \code{3}}
 
 \item{threshold}{Numeric. Threshold for deviation of direction. Default is
 25}
 
 \item{arte_thres}{Numeric. Maximum distance (in km) of the grid point to the
-nextdata point. Default is 200}
+next data point. Default is \code{200}}
 
 \item{method_weighting}{Logical. If a method weighting should be applied:
-Default is \code{FALSE}.}
+Default is \code{FALSE}. If \code{FALSE}, overwrites \code{mp}.}
 
 \item{quality_weighting}{Logical. If a quality weighting should be applied:
-Default is \code{TRUE}.}
+Default is \code{TRUE}. If \code{FALSE}, overwrites \code{mq}.}
 
 \item{dist_weight}{Distance weighting method which should be used. One of
 \code{"none"}, \code{"linear"}, or \code{"inverse"} (the default).}
 
-\item{idp}{numeric.  The inverse distance weighting power.}
+\item{idp, qp, mp}{numeric. The weighting power of inverse distance, quality
+and method. Default is \code{1}. The higher the value, the more weight it will
+put. When set to \code{0}, no weighting is applied. \code{idp} is only effective if
+inverse distance weighting (\verb{dist_weight="inverse}) is applied.}
 
 \item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
-nearby (0 to 1). Default is 0.1}
+nearby (0 to 1). Default is \code{0.1}}
 
 \item{R_range}{Numeric value or vector specifying the kernel half-width(s),
 i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
@@ -94,7 +98,7 @@ This is a modified version of the MATLAB script "stress2grid"
 }
 \examples{
 data("san_andreas")
-stress2grid(san_andreas)
+stress2grid(san_andreas, stat = "median")
 }
 \references{
 Ziegler, M. O. and Heidbach, O. (2019).

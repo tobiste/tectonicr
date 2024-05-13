@@ -29,14 +29,14 @@ containing the geographical coordinates of the Euler  pole}
 \item{grid}{(optional) Point object of class \code{sf}.}
 
 \item{PoR_grid}{logical. Whether the grid should be generated based on the
-coordinate range in the PoR (\verb{"TRUE}, the default) CRS or the geographical CRS
-(\verb{"FALSE}). Is ignored if \code{"grid"} is specified.}
+coordinate range in the PoR (\code{TRUE}, the default) CRS or the geographical CRS
+(\code{FALSE}). Is ignored if \code{grid} is specified.}
 
 \item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
 and maximum longitudes and latitudes (are ignored if \code{"grid"} is specified).}
 
 \item{gridsize}{Numeric. Target spacing of the regular grid in decimal
-degree. Default is 2.5 (is ignored if \code{"grid"} is specified)}
+degree. Default is 2.5 (is ignored if \code{grid} is specified)}
 
 \item{...}{Arguments passed to \code{\link[=stress2grid]{stress2grid()}}}
 }

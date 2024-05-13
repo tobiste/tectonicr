@@ -17,7 +17,6 @@ wcmean <- function(x, w) {
     } else {
       sqrt(-2 * log(meanR)) / 2
     }
-
     mean_s <- atan2(m[, "S"], m[, "C"]) / 2
     rad2deg(c(mean_s, sd_s)) %% 180
   } else {
@@ -26,17 +25,20 @@ wcmean <- function(x, w) {
 }
 
 wcmedian <- function(x, w) {
-  if (length(x) > 3) {
+  Z <- sum(w, na.rm = TRUE)
+  if (Z > 3) {
     quantiles <- circular_quantiles(x, w)
-    median_s <- quantiles[3]
-    iqr_s <- deviation_norm(as.numeric(quantiles[4] - quantiles[2]))
-  } else {
+    median_s <- (quantiles[3])
+    iqr_s <- deviation_norm(quantiles[4] - quantiles[2])
+  } else if(Z>0 & Z<=3) {
     median_s <- circular_median(x, w)
     iqr_s <- ceiling(
       abs(
         deviation_norm(max(x)) - deviation_norm(min(x))
       ) / 2
     )
+  } else {
+    median_s <- iqr_s <- NA
   }
   c(median_s, iqr_s)
 }
@@ -54,34 +56,35 @@ wcmedian <- function(x, w) {
 #' }
 #' @param grid (optional) Point object of class \code{sf}.
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
-#' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
+#' and maximum longitudes and latitudes (are ignored if `grid` is specified).
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
-#' degree. Default is 2.5. (is ignored if `"grid"` is specified)
-#' @param stat Should the direction of interpolated SHmax be based  on the
-#' circular mean and standard deviation (\code{"mean"}, the default) or on the
-#' circular median
-#' and interquartile range (\code{"median"})?
-#' @param min_data Integer. Minimum number of data per bin. Default is 3
+#' degree. Default is `2.5`. (is ignored if `grid` is specified)
+#' @param stat Whether the direction of interpolated SHmax is based on the
+#' circular mean and standard deviation (\code{"mean"}, the default) or the
+#' circular median and interquartile range (\code{"median"})
+#' @param min_data Integer. Minimum number of data per bin. Default is `3`
 #' @param threshold Numeric. Threshold for deviation of direction. Default is
 #' 25
 #' @param arte_thres Numeric. Maximum distance (in km) of the grid point to the
-#' nextdata point. Default is 200
-#' @param method_weighting Logical. If a method weighting should be applied:
-#' Default is \code{FALSE}.
-#' @param quality_weighting Logical. If a quality weighting should be applied:
-#' Default is \code{TRUE}.
+#' next data point. Default is `200`
 #' @param dist_weight Distance weighting method which should be used. One of
 #' `"none"`, `"linear"`, or `"inverse"` (the default).
-#' @param idp numeric.  The inverse distance weighting power.
+#' @param idp,qp,mp numeric. The weighting power of inverse distance, quality
+#' and method. Default is `1`. The higher the value, the more weight it will
+#' put. When set to `0`, no weighting is applied. `idp` is only effective if
+#' inverse distance weighting (`dist_weight="inverse`) is applied.
 #' @param dist_threshold Numeric. Distance weight to prevent overweight of data
-#' nearby (0 to 1). Default is 0.1
+#' nearby (0 to 1). Default is `0.1`
+#' @param method_weighting Logical. If a method weighting should be applied:
+#' Default is \code{FALSE}. If `FALSE`, overwrites `mp`.
+#' @param quality_weighting Logical. If a quality weighting should be applied:
+#' Default is \code{TRUE}. If `FALSE`, overwrites `mq`.
 #' @param R_range Numeric value or vector specifying the kernel half-width(s),
 #' i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}
 #' @param ... optional arguments to [dist_greatcircle()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
-#' @importFrom dplyr group_by mutate
-#' @importFrom tidyr drop_na
+#' @importFrom dplyr group_by mutate filter rename mutate as_tibble
 #'
 #' @returns
 #' \code{sf} object containing
@@ -108,7 +111,7 @@ wcmedian <- function(x, w) {
 #'
 #' @examples
 #' data("san_andreas")
-#' stress2grid(san_andreas)
+#' stress2grid(san_andreas, stat = "median")
 stress2grid <- function(x,
                         stat = c("mean", "median"),
                         grid = NULL,
@@ -122,43 +125,54 @@ stress2grid <- function(x,
                         quality_weighting = TRUE,
                         dist_weight = c("inverse", "linear", "none"),
                         idp = 1.0,
+                        qp = 1.0,
+                        mp = 1.0,
                         dist_threshold = 0.1,
                         R_range = seq(50, 1000, 50),
                         ...) {
   stopifnot(
     inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
     arte_thres > 0, is.numeric(dist_threshold), is.numeric(R_range), is.logical(method_weighting),
-    is.logical(quality_weighting), is.numeric(idp)
+    is.logical(quality_weighting), is.numeric(idp), is.numeric(qp), is.numeric(mp)
   )
 
   min_data <- as.integer(ceiling(min_data))
   dist_weight <- match.arg(dist_weight)
   stat <- match.arg(stat)
 
+  colnames_x <- colnames(x)
+
+  if (quality_weighting & "unc" %in% colnames_x) {
+    x <- filter(x, !is.na(unc))
+  }
+
   # pre-allocating
   azi <- x$azi
   length_azi <- length(azi)
-  colnames_x <- colnames(x)
   unc <- lat <- lon <- numeric(length_azi)
   type <- character(9)
-
   num_r <- length(R_range)
 
+
+  if(!quality_weighting) qp <- 0
+  if(!method_weighting) mp <- 0
+  if(dist_weight == "none") idp <- 0
+
   # WSM method weighting (from 0 to 5)
-  if (method_weighting && "type" %in% colnames_x) {
+  if ("type" %in% colnames_x) {
     parse_method <- setNames(
       c(4, 5, 5, 5, 4, 5, 4, 2, 1) / 5,
       c("FMS", "FMF", "BO", "DIF", "HF", "GF", "GV", "OC", NA)
     )
     w_method <- parse_method[x$type]
   } else {
-    w_method <- rep(1, length(azi))
+    w_method <- rep(1, length_azi)
   }
 
-  w_quality <- if (quality_weighting && "unc" %in% colnames_x) {
+  w_quality <- if ("unc" %in% colnames_x) {
     1 / x$unc
   } else {
-    rep(1, length(azi))
+    rep(1, length_azi)
   }
 
   x_coords <- sf::st_coordinates(x) |>
@@ -168,14 +182,10 @@ stress2grid <- function(x,
     lon = x_coords$X,
     lat = x_coords$Y,
     azi = azi,
-    w_method = ifelse(is.na(w_method), 1 / 5, w_method),
-    w_quality = w_quality
-  )
-
-  if (quality_weighting) {
-    datas <- tidyr::drop_na(datas, w_quality)
-  }
-  datas <- as.matrix(datas)
+    w_method = ifelse(is.na(w_method), 1 / 5, w_method)^mp,
+    w_quality = w_quality^qp
+  ) |>
+    as.matrix()
 
   if (is.null(grid)) {
     # Regular grid
@@ -229,14 +239,11 @@ stress2grid <- function(x,
           mdr <- mean(distij[ids_R], na.rm = TRUE) / R_search
           dist_threshold_scal <- R_search * dist_threshold
 
-          if (dist_weight == "inverse") {
-            w_distance <- 1 / max(dist_threshold_scal, distij[ids_R])^idp
-          } else if (dist_weight == "linear") {
+          if (dist_weight == "linear") {
             w_distance <- R_search + 1 - max(dist_threshold_scal, distij[ids_R])
           } else {
-            w_distance <- rep(1, length(ids_R))
+            w_distance <- 1 / (max(dist_threshold_scal, distij[ids_R]))^idp
           }
-
           w <- w_distance * datas[ids_R, 5] * datas[ids_R, 4]
 
           # mean value
@@ -258,7 +265,7 @@ stress2grid <- function(x,
           N = N_in_R
         )
 
-        if (SH.ik[4] <= threshold) {
+        if (SH.ik[4] <= threshold & !is.na(SH.ik[4])) {
           SH <- rbind(SH, SH.ik)
         }
       }
@@ -291,12 +298,12 @@ stress2grid <- function(x,
 #' containing the geographical coordinates of the Euler  pole
 #' @param grid (optional) Point object of class \code{sf}.
 #' @param PoR_grid logical. Whether the grid should be generated based on the
-#' coordinate range in the PoR (`"TRUE`, the default) CRS or the geographical CRS
-#' (`"FALSE`). Is ignored if `"grid"` is specified.
+#' coordinate range in the PoR (`TRUE`, the default) CRS or the geographical CRS
+#' (`FALSE`). Is ignored if `grid` is specified.
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
-#' degree. Default is 2.5 (is ignored if `"grid"` is specified)
+#' degree. Default is 2.5 (is ignored if `grid` is specified)
 #' @param ... Arguments passed to [stress2grid()]
 #'
 #' @description The data is transformed into the PoR system before the
