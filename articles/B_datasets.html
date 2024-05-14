@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-05-13</h4>
+            <h4 data-toc-skip class="date">2024-05-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
       <div class="d-none name"><code>B_datasets.Rmd</code></div>
@@ -119,7 +119,7 @@ as an example data set and can be imported through:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: geometry &lt;POINT [°]&gt;</span></span></span></code></pre></div>
 <p>Modeling the stress directions (wrt. to the geographic North pole)
 using the Pole of Oration (PoR) of the motion of North America relative
-to the Pacific Pate. We test the dataset against a right-laterally
+to the Pacific Plate. We test the dataset against a right-laterally
 tangential displacement type.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
@@ -148,7 +148,7 @@ deviation, i.e. absolute values between 0 and 90<span class="math inline">\(^{\
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"plates"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></span></code></pre></div>
 <p>Alternatively, there is also the NUVEL1 plate boundary model by
-DeMets et al. (1990) stored under
+DeMets et al.  (1990) stored under
 <code>data("nuvel1_plates")</code>.</p>
 <p>First we create the predicted trajectories of <span class="math inline">\(\sigma_{Hmax}\)</span> (more details in Article
 3.):</p>
@@ -208,7 +208,7 @@ measurement.</p>
 <span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
 <span>  unc <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">unc</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.03296388</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.05289781</span></span></code></pre></div>
 <p>The value is <span class="math inline">\(\leq\)</span> 0.15,
 indicating a significantly good fit of the model. Thus, the traction of
 the transform plate boundary explain the stress direction of the
@@ -441,7 +441,7 @@ azimuths can be displayed by</p>
 <span><span class="co">#&gt; var          0.18932742</span></span>
 <span><span class="co">#&gt; dispersion   0.09840187</span></span>
 <span><span class="co">#&gt; conf95       4.97276197</span></span>
-<span><span class="co">#&gt; norm_chisq   0.03296388</span></span></code></pre></div>
+<span><span class="co">#&gt; norm_chisq   0.05289781</span></span></code></pre></div>
 <p>Statistical test results are shown by</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">test</span></span>
