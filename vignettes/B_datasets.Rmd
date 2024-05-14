@@ -39,8 +39,9 @@ head(san_andreas)
 ```
 
 Modeling the stress directions (wrt. to the geographic North pole) using the 
-Pole of Oration (PoR) of the motion of North America relative to the Pacific Pate.
-We test the dataset against a right-laterally tangential displacement type.
+Pole of Oration (PoR) of the motion of North America relative to the Pacific 
+Plate. We test the dataset against a right-laterally tangential displacement 
+type.
 ```{r san_andreas, echo=TRUE}
 data("nuvel1")
 por <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -70,10 +71,11 @@ Also included are the plate boundary geometries after Bird (2003):
 data("plates") # load plate boundary data set
 ```
 
-Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. (1990)
-stored under `data("nuvel1_plates")`.
+Alternatively, there is also the NUVEL1 plate boundary model by DeMets et al. 
+(1990) stored under `data("nuvel1_plates")`.
 
-First we create the predicted trajectories of $\sigma_{Hmax}$ (more details in Article 3.):
+First we create the predicted trajectories of $\sigma_{Hmax}$ (more details in 
+Article 3.):
 
 ```{r trajectories, echo=TRUE}
 trajectories <- eulerpole_loxodromes(por, 40, cw = FALSE)
@@ -125,7 +127,9 @@ map +
 ```
 <!-- ![](san_andreas_map.png) -->
 
-The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions from the modeled stress direction using counter-clockwise 45$^{\circ}$ loxodromes. 
+The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions
+from the modeled stress direction using counter-clockwise 45$^{\circ}$ 
+loxodromes. 
 
 The *normalized* $\chi^2$ test quantifies the fit between the
 modeled $\sigma_{Hmax}$ direction the observed stress direction

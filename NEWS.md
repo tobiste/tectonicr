@@ -1,5 +1,7 @@
-# tectonicr 0.3.0
+# tectonicr 0.3.0 _2024_05_14_
+
 * weighting powers added to spatial interpolation `stress2grid()`
+* `deviation_norm()` accepts two arguments
 
 # tectonicr 0.2.98 _2024-04-07_
 
@@ -7,7 +9,8 @@
 
 # tectonicr 0.2.97 _2024-04-07_
 
-* `kernel_dispersion()` (former dispersion_gird()) explained in vignette E
+* `dispersion_gird()` deprecated and replaced by `kernel_dispersion()` 
+(details in vignette E)
 
 # tectonicr 0.2.96 _2023-10-15_
 

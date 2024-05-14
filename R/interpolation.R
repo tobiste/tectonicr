@@ -29,14 +29,10 @@ wcmedian <- function(x, w) {
   if (Z > 3) {
     quantiles <- circular_quantiles(x, w)
     median_s <- (quantiles[3])
-    iqr_s <- deviation_norm(quantiles[4] - quantiles[2])
+    iqr_s <- deviation_norm(quantiles[4], quantiles[2])
   } else if(Z>0 & Z<=3) {
     median_s <- circular_median(x, w)
-    iqr_s <- ceiling(
-      abs(
-        deviation_norm(max(x)) - deviation_norm(min(x))
-      ) / 2
-    )
+    iqr_s <- ceiling(deviation_norm(max(x), min(x)) / 2)
   } else {
     median_s <- iqr_s <- NA
   }

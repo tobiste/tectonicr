@@ -704,7 +704,7 @@ quick_plot <- function(
   ) |>
     dplyr::arrange(distance) |>
     dplyr::mutate(
-      nchisq_i = (deviation_norm(azi - prd) / unc)^2 / (90 / unc)^2,
+      nchisq_i = (deviation_norm(azi, prd) / unc)^2 / (90 / unc)^2,
       cdist = circular_distance(azi, prd),
       roll_mean = roll_circstats(
         azi,

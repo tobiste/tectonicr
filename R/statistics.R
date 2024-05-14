@@ -317,7 +317,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   quantiles <- circular_quantiles(x, w, axial, na.rm)
-  deviation_norm(as.numeric(quantiles[3] - quantiles[1]))
+  deviation_norm(as.numeric(quantiles[3]), as.numeric(quantiles[1]))
 }
 
 #' Circular distance and dispersion

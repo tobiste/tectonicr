@@ -50,7 +50,7 @@ mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 The default settings apply quality and inverse distance weighting of the mean, 
 as well as a 25% cut-off for the standard deviation. 
 
-> The tectonicr algorithm proivdes additional modifications of the original 
+> The tectonicr algorithm provides additional modifications of the original 
 algorithm by Ziegler and Heidbach (2017). See `help(stress2grid)` for more 
 details and settings, such as different statistics for calculating the 
 orientation average, adjustments of the weighting power of the distance, 

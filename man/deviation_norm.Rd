@@ -4,22 +4,25 @@
 \alias{deviation_norm}
 \title{Normalize Angle Between Two Directions}
 \usage{
-deviation_norm(x)
+deviation_norm(x, y = NULL)
 }
 \arguments{
-\item{x}{numeric vector containing angles in degrees}
+\item{x, y}{Minuend and subtrahend. Both numeric vectors of angles in degrees.
+If \code{y} is missing, it treats \code{x} as difference. If not, length of subtrahend
+\code{y} is either \code{1} or equal to \code{length(x)}.}
 }
 \value{
 numeric vector, acute angles between two directions, i.e. values
-between 0 and 90<U+00B0>
+between 0 and 90\eqn{^\circ}{degree}
 }
 \description{
 Normalizes the angle between two directions to the acute angle
-in between, i.e. angles between 0 and 90<U+00B0>
+in between, i.e. angles between 0 and 90\eqn{^\circ}{degree}
 }
 \examples{
-deviation_norm(91)
-deviation_norm(c(-91, NA, 23497349))
+deviation_norm(175, 5)
+deviation_norm(c(175, 95, 0), c(5, 85, NA))
+deviation_norm(c(-5, 85, 95, 175, 185, 265, 275, 355, 365))
 }
 \author{
 Tobias Stephan

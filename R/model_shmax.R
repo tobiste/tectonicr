@@ -71,38 +71,54 @@ model_shmax <- function(df, euler) {
 #' @title Normalize Angle Between Two Directions
 #'
 #' @description Normalizes the angle between two directions to the acute angle
-#' in between, i.e. angles between 0 and 90<U+00B0>
+#' in between, i.e. angles between 0 and 90\eqn{^\circ}{degree}
 #'
 #' @author Tobias Stephan
 #'
-#' @param x numeric vector containing angles in degrees
+#' @param x,y Minuend and subtrahend. Both numeric vectors of angles in degrees.
+#' If `y` is missing, it treats `x` as difference. If not, length of subtrahend
+#' `y` is either `1` or equal to `length(x)`.
 #'
 #' @returns numeric vector, acute angles between two directions, i.e. values
-#' between 0 and 90<U+00B0>
+#' between 0 and 90\eqn{^\circ}{degree}
 #'
 #' @export
 #'
 #' @examples
-#' deviation_norm(91)
-#' deviation_norm(c(-91, NA, 23497349))
-deviation_norm <- function(x) {
-  # deviation is between 0 and 90
-  if (length(x) > 1) {
-    for (i in seq_along(x)) {
-      if (!is.na(x[i])) {
-        while (abs(x[i]) > 90) {
-          x[i] <- 180 - abs(x[i])
-        }
-      }
-    }
-  } else {
-    if (!is.na(x)) {
-      while (abs(x) > 90) {
-        x <- 180 - abs(x)
-      }
-    }
+#' deviation_norm(175, 5)
+#' deviation_norm(c(175, 95, 0), c(5, 85, NA))
+#' deviation_norm(c(-5, 85, 95, 175, 185, 265, 275, 355, 365))
+deviation_norm <- function(x, y = NULL) {
+  nx <- length(x)
+
+  if (is.null(y)) {
+    # # deviation is between 0 and 90
+    # if (nx > 1) {
+    #   for (i in seq_along(x)) {
+    #     if (!is.na(x[i])) {
+    #       while (abs(x[i]) > 90) {
+    #         x[i] <- 180 - abs(x[i])
+    #       }
+    #     }
+    #   }
+    # } else {
+    #   if (!is.na(x)) {
+    #     while (abs(x) > 90) {
+    #       x <- 180 - abs(x)
+    #     }
+    #   }
+    # }
+    # abs(x)
+    y <- rep(0, nx)
   }
-  abs(x)
+
+  ny <- length(y)
+  stopifnot(nx == ny | ny == 1)
+  if (ny == 1 & nx > 1) {
+    ny <- rep(y, nx)
+  }
+  d <- (x %% 180) - (y %% 180)
+  ifelse(d < 90, d, 180 - d)
 }
 
 
@@ -245,7 +261,7 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 
     dev <- azi.por - prd
     cdist <- (1 - cosd(2 * dev)) / 2
-    nchisq.i <- (deviation_norm(dev) / 90)^2
+    nchisq.i <- (deviation_norm(azi.por, prd) / 90)^2
 
     data.frame(
       "azi.PoR" = azi.por, "prd" = prd,
