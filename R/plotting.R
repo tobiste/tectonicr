@@ -948,6 +948,6 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
   graphics::legend("bottomleft",
     inset = .05, cex = .75,
     legend = col.legend$val, title = legend.title, fill = col.legend$col,
-    bty = 'o', bg = "white"
+    bty = "o", bg = "white"
   )
 }

@@ -30,7 +30,7 @@ wcmedian <- function(x, w) {
     quantiles <- circular_quantiles(x, w)
     median_s <- (quantiles[3])
     iqr_s <- deviation_norm(quantiles[4], quantiles[2])
-  } else if(Z>0 & Z<=3) {
+  } else if (Z > 0 & Z <= 3) {
     median_s <- circular_median(x, w)
     iqr_s <- ceiling(deviation_norm(max(x), min(x)) / 2)
   } else {
@@ -151,9 +151,9 @@ stress2grid <- function(x,
   num_r <- length(R_range)
 
 
-  if(!quality_weighting) qp <- 0
-  if(!method_weighting) mp <- 0
-  if(dist_weight == "none") idp <- 0
+  if (!quality_weighting) qp <- 0
+  if (!method_weighting) mp <- 0
+  if (dist_weight == "none") idp <- 0
 
   # WSM method weighting (from 0 to 5)
   if ("type" %in% colnames_x) {
@@ -187,8 +187,8 @@ stress2grid <- function(x,
   if (is.null(grid)) {
     # Regular grid
     if (is.null(lon_range) || is.null(lat_range)) {
-      lon_range <- range(datas[,1], na.rm = TRUE)
-      lat_range <- range(datas[,2], na.rm = TRUE)
+      lon_range <- range(datas[, 1], na.rm = TRUE)
+      lat_range <- range(datas[, 2], na.rm = TRUE)
     }
 
     grid <- sf::st_bbox(
@@ -214,7 +214,7 @@ stress2grid <- function(x,
 
   SH <- c()
   for (i in seq_along(G[, 1])) {
-    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[,2], datas[,1], ...)
+    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
 
     if (min(distij) <= arte_thres) {
       for (k in seq_along(R_range)) {
