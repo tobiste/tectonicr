@@ -7,7 +7,8 @@
 #' which is aligned to the original sample according to the `align` argument.
 #' If `NULL`, an optimal width is calculated.
 #' @param FUN the function to be applied
-#' @param by.column logical. If `TRUE`, FUN is applied to each column separately.
+#' @param by.column logical. If `TRUE`, `FUN` is applied to each column
+#' separately.
 #' @param fill a three-component vector or list (recycled otherwise) providing
 #' filling values at the left/within/to the right of the data range. See the
 #' fill argument of [zoo::na.fill()] for details
@@ -72,8 +73,8 @@ roll_circstats <- function(x, w = NULL,
 #'
 #' @inheritParams norm_chisq
 #' @param x,y numeric. Directions in degrees
-#' @param w,w.y (optional) Weights of `x` and `y`, respectively. A vector of positive numbers and of the same
-#' length as \code{x}.
+#' @param w,w.y (optional) Weights of `x` and `y`, respectively. A vector of
+#' positive numbers and of the same length as `x`.
 #' @inheritParams circular_dispersion
 #' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
 #' (`0.95` by default).
@@ -81,7 +82,8 @@ roll_circstats <- function(x, w = NULL,
 #' @param width integer specifying the window width (in numbers of observations)
 #' which is aligned to the original sample according to the `align` argument.
 #' If `NULL`, an optimal width is estimated.
-#' @param by.column logical. If `TRUE`, FUN is applied to each column separately.
+#' @param by.column logical. If `TRUE`, FUN is applied to each column
+#' separately.
 #' @param fill a three-component vector or list (recycled otherwise) providing
 #' filling values at the left/within/to the right of the data range. See the
 #' fill argument of [zoo::na.fill()] for details
@@ -93,7 +95,8 @@ roll_circstats <- function(x, w = NULL,
 #' @param ... optional arguments passed to [zoo::rollapply()]
 #'
 #' @returns numeric vector with the test statistic of the rolling test.
-#' `roll_dispersion_CI` returns a 2-column matrix with the lower and the upper confidence limits
+#' `roll_dispersion_CI` returns a 2-column matrix with the lower and the upper
+#' confidence limits
 #'
 #' @note If the rolling functions are applied to values that are a function of
 #' distance it is recommended to sort the values first.
@@ -193,7 +196,9 @@ roll_dispersion <- function(x, y, w = NULL, w.y = NULL,
     cbind(x, y, w, w.y),
     width = width,
     FUN = function(x) {
-      suppressMessages(circular_dispersion(x[, 1], x[, 2], x[, 3], x[, 4], norm = TRUE))
+      suppressMessages(
+        circular_dispersion(x[, 1], x[, 2], x[, 3], x[, 4], norm = TRUE)
+        )
     },
     by.column = by.column,
     partial = partial,
@@ -270,7 +275,11 @@ roll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, R, conf.level = .95,
     cbind(x, y, w, w.y),
     width = width,
     FUN = function(x) {
-      suppressMessages(circular_dispersion_boot(x[, 1], x[, 2], x[, 3], x[, 4], R = R, conf.level = conf.level, ...)$sde)
+      suppressMessages(
+        circular_dispersion_boot(
+          x[, 1], x[, 2], x[, 3], x[, 4],
+          R = R, conf.level = conf.level, ...)$sde
+        )
     },
     by.column = by.column,
     partial = partial,

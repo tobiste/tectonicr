@@ -100,7 +100,8 @@ numeric vector or a number}
 which is aligned to the original sample according to the \code{align} argument.
 If \code{NULL}, an optimal width is estimated.}
 
-\item{by.column}{logical. If \code{TRUE}, FUN is applied to each column separately.}
+\item{by.column}{logical. If \code{TRUE}, FUN is applied to each column
+separately.}
 
 \item{partial}{logical or numeric. If \code{FALSE} then \code{FUN} is only
 applied when all indexes of the rolling window are within the observed time
@@ -116,8 +117,8 @@ fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 
 \item{x, y}{numeric. Directions in degrees}
 
-\item{w, w.y}{(optional) Weights of \code{x} and \code{y}, respectively. A vector of positive numbers and of the same
-length as \code{x}.}
+\item{w, w.y}{(optional) Weights of \code{x} and \code{y}, respectively. A vector of
+positive numbers and of the same length as \code{x}.}
 
 \item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.
 (\code{0.95} by default).}
@@ -129,7 +130,8 @@ length as \code{x}.}
 }
 \value{
 numeric vector with the test statistic of the rolling test.
-\code{roll_dispersion_CI} returns a 2-column matrix with the lower and the upper confidence limits
+\code{roll_dispersion_CI} returns a 2-column matrix with the lower and the upper
+confidence limits
 }
 \description{
 A generic function for applying a function to rolling margins of an array.

@@ -35,7 +35,8 @@ should be stripped before the computation proceeds.}
 which is aligned to the original sample according to the \code{align} argument.
 If \code{NULL}, an optimal width is calculated.}
 
-\item{by.column}{logical. If \code{TRUE}, FUN is applied to each column separately.}
+\item{by.column}{logical. If \code{TRUE}, \code{FUN} is applied to each column
+separately.}
 
 \item{partial}{logical or numeric. If \code{FALSE} then \code{FUN} is only
 applied when all indexes of the rolling window are within the observed time
