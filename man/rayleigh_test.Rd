@@ -9,7 +9,8 @@ rayleigh_test(x, mu = NULL, axial = TRUE)
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{mu}{(optional) The specified or known mean direction (in degrees) in alternative hypothesis}
+\item{mu}{(optional) The specified or known mean direction (in degrees) in
+alternative hypothesis}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
@@ -23,24 +24,27 @@ a list with the components:
 }
 }
 \description{
-Performs a Rayleigh test of uniformity (or randomness), assessing the
-significance of the mean resultant length.
-The alternative hypothesis is an unimodal distribution with unknown mean
-direction and unknown mean resultant length if \code{mu} is \code{NULL}.
-If \code{mu} is specified the alternative hypothesis is a unimodal distribution with a
-specified mean direction and unknown mean resultant length.
+Performs a Rayleigh test for uniformity of circular/directional data by
+assessing the significance of the mean resultant length.
 }
 \details{
+\describe{
+\item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
+\item{\eqn{H_1}{H1}:}{angles are from unimodal distribution with unknown mean
+direction and mean resultant length (when \code{mu} is \code{NULL}. Alternatively (when
+\code{mu} is specified),
+angles are uniformly distributed around a specified direction.}
+}
 If \code{statistic > p.value}, the null hypothesis is rejected,
-i.e. the length of the mean resultant differs significantly from zero.
-If not, randomness (uniform distribution) cannot be excluded.
+i.e. the length of the mean resultant differs significantly from zero, and
+the angles are not randomly distributed.
 }
 \note{
 Although the Rayleigh test is consistent against (non-uniform)
-von Mises alternatives, it is not consistent against alternatives with \code{p = 0}
-(in particular, distributions with antipodal symmetry, i.e. axial data).
-Tests of non-uniformity which are consistent against all alternatives
-include Kuiper<U+2019>s test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson<U+2019>s \eqn{U^2} test
+von Mises alternatives, it is not consistent against alternatives with
+\code{p = 0} (in particular, distributions with antipodal symmetry, i.e. axial
+data). Tests of non-uniformity which are consistent against all alternatives
+include Kuiper's test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson's \eqn{U^2} test
 (\code{\link[=watson_test]{watson_test()}}).
 }
 \examples{
@@ -76,10 +80,13 @@ rayleigh_test(sa.por$azi.PoR, mu = 135)
 \references{
 Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
 
-Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl. Statist. 32, No. 3, pp. 311-312
+Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl.
+Statist. 32, No. 3, pp. 311-312
 
-Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics,
+Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
 }
 \seealso{
-\code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=kuiper_test]{kuiper_test()}}, \code{\link[=watson_test]{watson_test()}}
+\code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=kuiper_test]{kuiper_test()}}, \code{\link[=watson_test]{watson_test()}}
 }

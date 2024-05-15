@@ -31,10 +31,9 @@ list containing the test statistic \code{statistic} and the significance
 level \code{p.value}.
 }
 \description{
-Watson's test for circular random distribution.
+Watson's test statistic is a rotation-invariant Cramer - von Mises test
 }
 \details{
-Watson's test statistic is a rotation-invariant Cramer - von Mises test statistic.
 If \code{statistic > p.value}, the null hypothesis is rejected.
 If not, randomness (uniform distribution) cannot be excluded.
 }

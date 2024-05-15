@@ -20,13 +20,11 @@ list containing the test statistic \code{statistic} and the significance
 level \code{p.value}.
 }
 \description{
-Kuiper test for circular random distribution.
-}
-\details{
 Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
 The critical values of a modified Kuiper's test statistic are used according
 to the tabulation given in Stephens (1970).
-
+}
+\details{
 If \code{statistic > p.value}, the null hypothesis is rejected.
 If not, randomness (uniform distribution) cannot be excluded.
 }

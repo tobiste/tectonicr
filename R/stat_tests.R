@@ -86,27 +86,31 @@ norm_chisq <- function(obs, prd, unc) {
 
 #' Rayleigh Test of Circular Uniformity
 #'
-#' Performs a Rayleigh test of uniformity (or randomness), assessing the
-#' significance of the mean resultant length.
-#' The alternative hypothesis is an unimodal distribution with unknown mean
-#' direction and unknown mean resultant length if `mu` is `NULL`.
-#' If `mu` is specified the alternative hypothesis is a unimodal distribution with a
-#' specified mean direction and unknown mean resultant length.
+#' Performs a Rayleigh test for uniformity of circular/directional data by
+#' assessing the significance of the mean resultant length.
 #'
 #' @param x numeric vector. Values in degrees
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
-#' @param mu (optional) The specified or known mean direction (in degrees) in alternative hypothesis
-#' @details
+#' @param mu (optional) The specified or known mean direction (in degrees) in
+#' alternative hypothesis
+#'
+#' @details \describe{
+#' \item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
+#' \item{\eqn{H_1}{H1}:}{angles are from unimodal distribution with unknown mean
+#' direction and mean resultant length (when `mu` is `NULL`. Alternatively (when
+#' `mu` is specified),
+#' angles are uniformly distributed around a specified direction.}
+#' }
 #' If `statistic > p.value`, the null hypothesis is rejected,
-#' i.e. the length of the mean resultant differs significantly from zero.
-#' If not, randomness (uniform distribution) cannot be excluded.
+#' i.e. the length of the mean resultant differs significantly from zero, and
+#' the angles are not randomly distributed.
 #'
 #' @note Although the Rayleigh test is consistent against (non-uniform)
-#' von Mises alternatives, it is not consistent against alternatives with `p = 0`
-#' (in particular, distributions with antipodal symmetry, i.e. axial data).
-#' Tests of non-uniformity which are consistent against all alternatives
-#' include Kuiper<U+2019>s test ([kuiper_test()]) and Watson<U+2019>s \eqn{U^2} test
+#' von Mises alternatives, it is not consistent against alternatives with
+#' `p = 0` (in particular, distributions with antipodal symmetry, i.e. axial
+#' data). Tests of non-uniformity which are consistent against all alternatives
+#' include Kuiper's test ([kuiper_test()]) and Watson's \eqn{U^2} test
 #' ([watson_test()]).
 #'
 #' @returns a list with the components:
@@ -119,11 +123,14 @@ norm_chisq <- function(obs, prd, unc) {
 #' @references
 #' Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
 #'
-#' Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl. Statist. 32, No. 3, pp. 311-312
+#' Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl.
+#' Statist. 32, No. 3, pp. 311-312
 #'
-#' Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+#' Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics,
+#' Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
 #'
-#' @seealso [mean_resultant_length()], [circular_mean()], [norm_chisq()], [kuiper_test()], [watson_test()]
+#' @seealso [mean_resultant_length()], [circular_mean()], [norm_chisq()],
+#' [kuiper_test()], [watson_test()]
 #'
 #' @export
 #'
@@ -344,7 +351,9 @@ weighted_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
 
 #' Kuiper Test of Circular Uniformity
 #'
-#' Kuiper test for circular random distribution.
+#' Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
+#' The critical values of a modified Kuiper's test statistic are used according
+#' to the tabulation given in Stephens (1970).
 #'
 #' @param x numeric vector containing the circular data which are expressed in degrees
 #' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
@@ -355,9 +364,6 @@ weighted_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
 #' level `p.value`.
 #'
 #' @details
-#' Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
-#' The critical values of a modified Kuiper's test statistic are used according
-#' to the tabulation given in Stephens (1970).
 #'
 #' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, randomness (uniform distribution) cannot be excluded.
@@ -431,7 +437,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 
 #' Watson's \eqn{U^2} Test of Circular Uniformity
 #'
-#' Watson's test for circular random distribution.
+#' Watson's test statistic is a rotation-invariant Cramer - von Mises test
 #'
 #' @param x numeric vector. Values in degrees
 #' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
@@ -446,7 +452,6 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' level `p.value`.
 #'
 #' @details
-#' Watson's test statistic is a rotation-invariant Cramer - von Mises test statistic.
 #' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, randomness (uniform distribution) cannot be excluded.
 #'
