@@ -103,7 +103,7 @@ average direction:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 10.66086</span></span>
+<span><span class="co">#&gt; [1] 10.66733</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 36</span></span></code></pre></div>
 </div>
@@ -116,15 +116,16 @@ The weighted mean or quasi-median uses the reported measurements
 weighted by the inverse of the uncertainties:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 9.971235</span></span>
+<span><span class="co">#&gt; [1] 9.973671</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 36</span></span></code></pre></div>
+<span><span class="co">#&gt;  A </span></span>
+<span><span class="co">#&gt; 36</span></span></code></pre></div>
 <p>The spread of directional data can be expressed by the standard
 deviation (for the mean) or the quasi-interquartile range (for the
 median):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_sd</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># standard deviation</span></span>
-<span><span class="co">#&gt; [1] 38.43917</span></span>
+<span><span class="co">#&gt; [1] 38.44193</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_IQR</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="co"># interquartile range</span></span>
 <span><span class="co">#&gt; [1] 33.10713</span></span></code></pre></div>
 </div>
@@ -142,12 +143,13 @@ orientations of the PoR reference frame.</p>
 <span><span class="va">san_andreas.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, type <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_mean</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 137.9861</span></span>
+<span><span class="co">#&gt; [1] 137.9887</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_sd</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 37.30334</span></span>
+<span><span class="co">#&gt; [1] 37.30543</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_median</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 135.5753</span></span>
+<span><span class="co">#&gt;        A </span></span>
+<span><span class="co">#&gt; 135.6592</span></span>
 <span><span class="fu"><a href="../reference/circle_stats.html">circular_IQR</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 25.82388</span></span></code></pre></div>
 </div>
@@ -178,13 +180,13 @@ Test</strong>:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh_test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 0.7165417</span></span>
+<span><span class="co">#&gt; [1] 0.7165212</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 5.430805e-242</span></span>
+<span><span class="co">#&gt; [1] 5.606831e-242</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $p.value2</span></span>
-<span><span class="co">#&gt; [1] 7.551614e-273</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 7.860367e-273</span></span></code></pre></div>
 <p>Here, the test rejects the Null Hypothesis
 (<code>statistic &gt; p.value</code>). Thus the <span class="math inline">\(\sigma_{SHmax}\)</span> directions have a
 preferred orientation.</p>
@@ -203,13 +205,13 @@ the orientation data, a <span class="math inline">\((1-\alpha
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/confidence.html">confidence_interval</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mu</span></span>
-<span><span class="co">#&gt; [1] 137.9861</span></span>
+<span><span class="co">#&gt; [1] 137.9887</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $conf.angle</span></span>
-<span><span class="co">#&gt; [1] 4.940328</span></span>
+<span><span class="co">#&gt; [1] 4.940342</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $conf.interval</span></span>
-<span><span class="co">#&gt; [1] 133.0458 142.9264</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 133.0484 142.9291</span></span></code></pre></div>
 <p>The prediction for the <span class="math inline">\(\sigma_{SHmax}\)</span> orientation is <span class="math inline">\(135^{\circ}\)</span>. Since the prediction lies
 within the confidence interval, it can be concluded with 95% confidence
 that the orientations follow the predicted trend of <span class="math inline">\(\sigma_{SHmax}\)</span>.</p>
@@ -219,31 +221,31 @@ significance of a normal distribution around a specified direction. It
 can be measured by:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dispersion.html">circular_dispersion</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.09769022</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.0977037</span></span></code></pre></div>
 <p>The value of the dispersion ranges between 0 and 2.</p>
 <p>The standard error and the confidence interval of the calculated
 circular dispersion can be estimated by bootstrapping via:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_dispersion_boot.html">circular_dispersion_boot</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $MLE</span></span>
-<span><span class="co">#&gt; [1] 0.1912592</span></span>
+<span><span class="co">#&gt; [1] 0.1912895</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sde</span></span>
-<span><span class="co">#&gt; [1] 0.009814642</span></span>
+<span><span class="co">#&gt; [1] 0.009804245</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $CI</span></span>
-<span><span class="co">#&gt; [1] 0.1720416 0.2099062</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.1719488 0.2104056</span></span></code></pre></div>
 <p>The statistical test for the goodness-of-fit is the (weighted)
 <strong>Rayleigh Test</strong> with a specified mean direction (here the
 predicted direction of <span class="math inline">\(135^{\circ}\)</span>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, prd <span class="op">=</span> <span class="fl">135</span>, unc <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 0.8046196</span></span>
+<span><span class="co">#&gt; [1] 0.4022963</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 2.491718e-47</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 3.552781e-14</span></span></code></pre></div>
 <p>Here, the Null Hypothesis is rejected, and thus, the alternative,
 that is a uniform distribution around the predicted direction, cannot be
 excluded.</p>

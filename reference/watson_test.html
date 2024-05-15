@@ -77,8 +77,10 @@
 
 
 <dt>alpha</dt>
-<dd><p>Significance level of the test. Valid levels are <code>0.01</code>, <code>0.05</code>, and <code>0.1</code>.
-This argument may be omitted (<code>NULL</code>, the default), in which case, a range for the p-value will be returned.</p></dd>
+<dd><p>Significance level of the test. Valid levels are <code>0.01</code>, <code>0.05</code>,
+and <code>0.1</code>.
+This argument may be omitted (<code>NULL</code>, the default), in which case, a range
+for the p-value will be returned.</p></dd>
 
 
 <dt>dist</dt>
@@ -92,7 +94,8 @@ uniform distribution. <code>"vonmises"</code> tests the von Mises distribution.<
 
 
 <dt>mu</dt>
-<dd><p>(optional) The specified or known mean direction (in degrees) in alternative hypothesis</p></dd>
+<dd><p>(optional) The specified mean direction (in degrees) in alternative
+hypothesis</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -109,7 +112,8 @@ If not, randomness (uniform distribution) cannot be excluded.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.</p>
+    <p>Mardia and Jupp (2000). Directional Statistics. John Wiley and
+Sons.</p>
     </div>
 
     <div class="section level2">
@@ -133,7 +137,7 @@ If not, randomness (uniform distribution) cannot be excluded.</p>
 <span class="r-in"><span><span class="fu">watson_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, alpha <span class="op">=</span> <span class="fl">.05</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 50.38975</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 50.38717</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.187</span>
@@ -141,7 +145,7 @@ If not, randomness (uniform distribution) cannot be excluded.</p>
 <span class="r-in"><span><span class="fu">watson_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, alpha <span class="op">=</span> <span class="fl">.05</span>, dist <span class="op">=</span> <span class="st">"vonmises"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.219359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.215809</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.113</span>
