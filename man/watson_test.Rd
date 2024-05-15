@@ -15,8 +15,10 @@ watson_test(
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05}, and \code{0.1}.
-This argument may be omitted (\code{NULL}, the default), in which case, a range for the p-value will be returned.}
+\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05},
+and \code{0.1}.
+This argument may be omitted (\code{NULL}, the default), in which case, a range
+for the p-value will be returned.}
 
 \item{dist}{Distribution to test for. The default, \code{"uniform"}, is the
 uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
@@ -24,7 +26,8 @@ uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
-\item{mu}{(optional) The specified or known mean direction (in degrees) in alternative hypothesis}
+\item{mu}{(optional) The specified mean direction (in degrees) in alternative
+hypothesis}
 }
 \value{
 list containing the test statistic \code{statistic} and the significance
@@ -51,5 +54,6 @@ watson_test(sa.por$azi.PoR, alpha = .05)
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 }
 \references{
-Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
+Mardia and Jupp (2000). Directional Statistics. John Wiley and
+Sons.
 }

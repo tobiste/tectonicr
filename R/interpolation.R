@@ -592,7 +592,7 @@ kernel_dispersion <- function(x,
           if (stat == "nchisq") {
             y <- norm_chisq(datas$azi[ids_R], prd = datas$prd[ids_R], datas$unc[ids_R])
           } else if (stat == "rayleigh") {
-            y <- weighted_rayleigh(datas$azi[ids_R], prd = datas$prd[ids_R], unc = datas$unc[ids_R], ...)$statistic
+            y <- weighted_rayleigh(datas$azi[ids_R], mu = datas$prd[ids_R], w = 1 / datas$unc[ids_R], ...)$statistic
           } else {
             y <- circular_dispersion(datas$azi[ids_R], y = datas$prd[ids_R], w = 1 / datas$unc[ids_R], ...)
           }

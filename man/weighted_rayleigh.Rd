@@ -4,16 +4,16 @@
 \alias{weighted_rayleigh}
 \title{Weighted Goodness-of-fit Test for Circular Data}
 \usage{
-weighted_rayleigh(x, prd = NULL, unc, axial = TRUE)
+weighted_rayleigh(x, mu = NULL, w = NULL, axial = TRUE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{prd}{The a priori expected direction (in degrees) for the alternative
+\item{mu}{The \emph{a priori} expected direction (in degrees) for the alternative
 hypothesis.}
 
-\item{unc}{numeric. The standard deviations of \code{x}. If \code{NULL}, the non-weighted
-Rayleigh test is performed.}
+\item{w}{numeric vector weights of length \code{length(x)}. If \code{NULL}, the
+non-weighted Rayleigh test is performed.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
@@ -49,9 +49,9 @@ PoR.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu"
 tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
 
 # GOF test:
-weighted_rayleigh(tibet.por$azi.PoR, prd = 90, unc = tibet$unc)
-weighted_rayleigh(ice.por$azi.PoR, prd = 0, unc = iceland$unc)
-weighted_rayleigh(sa.por$azi.PoR, prd = 135, unc = san_andreas$unc)
+weighted_rayleigh(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc)
+weighted_rayleigh(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
+weighted_rayleigh(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
 }
 \seealso{
 \code{\link[=rayleigh_test]{rayleigh_test()}}

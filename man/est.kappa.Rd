@@ -15,7 +15,7 @@ est.kappa(x, w = NULL, bias = FALSE, ...)
 in the computation of the MLE. Default for bias is \code{FALSE} for no bias
 correction.}
 
-\item{...}{optional paramters passed to \code{circular_mean()}}
+\item{...}{optional parameters passed to \code{circular_mean()}}
 }
 \value{
 numeric.

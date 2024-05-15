@@ -118,7 +118,8 @@ deviation_norm <- function(x, y = NULL) {
     ny <- rep(y, nx)
   }
   d <- (x %% 180) - (y %% 180)
-  ifelse(d < 90, d, 180 - d)
+  d <- ifelse(d < 90, d, 180 - d)
+  abs(d)
 }
 
 

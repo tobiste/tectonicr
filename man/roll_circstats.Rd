@@ -48,11 +48,7 @@ the minimal window size for partial computations. See below for more details.}
 filling values at the left/within/to the right of the data range. See the
 fill argument of \code{\link[zoo:na.fill]{zoo::na.fill()}} for details}
 
-\item{...}{
-  Arguments passed on to \code{\link[zoo:rollapply]{zoo::rollapply}}
-  \describe{
-    \item{\code{}}{}
-  }}
+\item{...}{optional arguments passed to \code{\link[zoo:rollapply]{zoo::rollapply()}}}
 }
 \value{
 numeric vector  with the results of the rolling function.

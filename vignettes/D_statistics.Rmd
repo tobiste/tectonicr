@@ -135,7 +135,7 @@ circular_dispersion_boot(san_andreas.por$azi.PoR, y = 135, w = 1 / san_andreas$u
 The statistical test for the goodness-of-fit is the (weighted) **Rayleigh Test** 
 with a specified mean direction (here the predicted direction of $135^{\circ}$:
 ```{r rayleigh2, echo=TRUE}
-weighted_rayleigh(san_andreas.por$azi.PoR, prd = 135, unc = san_andreas$unc)
+weighted_rayleigh(san_andreas.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
 ```
 Here, the Null Hypothesis is rejected, and thus, the alternative, that is a 
 uniform distribution around the predicted direction, cannot be excluded.

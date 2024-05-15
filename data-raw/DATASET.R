@@ -1,7 +1,11 @@
 ## code to prepare `san_andreas` dataset goes here  -------------
+library(dplyr)
 
 wsm2016 <-
-  dplyr::mutate(wsm2016,
+  readRDS("../cordillera-stress/data/wsm2016.rds") |>
+  rename_all(tolower) |>
+  dplyr::mutate(
+    azi = ifelse(azi == 999, NA, azi),
     quality = forcats::fct_relevel(quality, "A", "B", "C", "D", "E"),
     regime = ifelse(regime == "NF", "N", regime),
     regime = ifelse(regime == "TF", "T", regime),
@@ -13,9 +17,13 @@ wsm2016 <-
     unc = ifelse(unc == 0, 15, unc),
   ) |>
   dplyr::arrange(quality, unc) |>
-  dplyr::filter(quality != "E") |>
+  # dplyr::filter(quality != "E") |>
   sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE) |>
   dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime)
+
+all(validUTF8(wsm2016$id))
+all(validUTF8(wsm2016$type))
+all(validUTF8(wsm2016$regime))
 
 san_andreas <- filter(
   wsm2016,
@@ -24,11 +32,11 @@ san_andreas <- filter(
 )
 usethis::use_data(san_andreas, overwrite = TRUE, ascii = TRUE)
 
-frame_iceland <- readRDS("~/GIT_repos/europe-tectonics/data-raw/iceland_frame.rds")
+frame_iceland <- readRDS("../europe-tectonics/data-raw/iceland_frame.rds")
 iceland <- sf::st_intersection(wsm2016, frame_iceland)
 usethis::use_data(iceland, overwrite = TRUE, ascii = TRUE)
 
-zoom_asia <- readRDS("~/GIT_repos/europe-tectonics/data-raw/asia_zoom.rds")
+zoom_asia <- readRDS("../europe-tectonics/data-raw/asia_zoom.rds")
 tibet <- sf::st_intersection(wsm2016, zoom_asia)
 usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
 
@@ -89,6 +97,8 @@ plates <- sf::read_sf("../europe-tectonics/data/gis/PB2002_mod.shp") |>
   dplyr::group_by(pair)
 # plot(plates)
 
+all(validUTF8(plates$displacement))
+
 usethis::use_data(plates, overwrite = TRUE, ascii = TRUE)
 
 
@@ -129,6 +139,7 @@ nuvel1$plate.name <- stringi::stri_enc_toascii(nuvel1$plate.name)
 nuvel1$plate.rot <- stringi::stri_enc_toascii(nuvel1$plate.rot)
 nuvel1$plate.fix <- stringi::stri_enc_toascii(nuvel1$plate.fix)
 nuvel1$source <- stringi::stri_enc_toascii(nuvel1$source)
+all(validUTF8(nuvel1$plate.name))
 usethis::use_data(nuvel1, overwrite = TRUE, ascii = TRUE)
 
 
@@ -145,6 +156,7 @@ pb2002 <-
     model = stringi::stri_enc_toascii(model)
   ) |>
   as.data.frame()
+all(validUTF8(pb2002$plate.name))
 usethis::use_data(pb2002, overwrite = TRUE, ascii = TRUE)
 
 morvel56 <-
@@ -152,6 +164,7 @@ morvel56 <-
   dplyr::mutate(plate.rot = tolower(plate.rot), model = "NNR-MORVEL56") |>
   # rename(area = Area) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
+all(validUTF8(morvel56$plate.name))
 
 
 gsrm2 <-
@@ -186,20 +199,25 @@ revel <-
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
 cpm_models <- rbind(
-  nuvel1 |> dplyr::mutate(model = "NNR-NUVEL1A") |> sdplyr::elect(-source),
+  nuvel1 |> dplyr::mutate(model = "NNR-NUVEL1A") |> dplyr::select(-source),
   morvel56,
   gsrm2,
   hsnuvel1a,
   revel,
   pb2002
-) # |>
-# mutate(plate.name = stringi::stri_enc_toascii(plate.name),
-#        plate.rot = stringi::stri_enc_toascii(plate.rot),
-#        plate.rot = stringi::stri_enc_toascii(plate.rot),
-#        plate.fix = stringi::stri_enc_toascii(plate.fix),
-#        model = stringi::stri_enc_toascii(model)
+) |>
+  mutate(
+    plate.name = stringi::stri_enc_toascii(plate.name),
+    plate.rot = stringi::stri_enc_toascii(plate.rot),
+    plate.rot = stringi::stri_enc_toascii(plate.rot),
+    plate.fix = stringi::stri_enc_toascii(plate.fix),
+    model = stringi::stri_enc_toascii(model)
+  )
 # ) #|> group_by(model)
 usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
 
 # borders <- rnaturalearth::ne_download(returnclass = "sf") |> dplyr::select() |> sf::st_geometry()
 # usethis::use_data(borders, overwrite = TRUE, ascii = F, compress = "xz",version = 3)
+
+# check all the files:
+tools::checkRdaFiles("data")

@@ -741,7 +741,7 @@ quick_plot <- function(
 
   nchisq <- norm_chisq(azi, prd, unc)
   suppressMessages(
-    rt <- weighted_rayleigh(azi, prd = prd, unc = unc)
+    rt <- weighted_rayleigh(azi, mu = prd, w = 1 / unc)
   )
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
   azi.PoR.sd <- circular_sd(azi, 1 / unc)

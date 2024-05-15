@@ -103,7 +103,7 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
   disp <- circular_dispersion(res$azi.PoR, prd, 1 / x$unc)
   conf <- confidence_angle(res$azi.PoR, w = 1 / x$unc)
   nchisq <- norm_chisq(res$azi.PoR, prd, unc = x$unc)
-  rayleigh <- weighted_rayleigh(res$azi.PoR, prd, unc = x$unc)
+  rayleigh <- weighted_rayleigh(res$azi.PoR, prd, w = 1 / x$unc)
 
   if (plot) {
     PoR_map(x, PoR, pb, type = type, deviation = TRUE)
@@ -157,7 +157,6 @@ line_azimuth <- function(x) {
     sf::st_coordinates()
 
   n <- nrow(mat)
-
   a <- numeric()
   for (i in 1:(n - 1)) {
     a[i] <- get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])

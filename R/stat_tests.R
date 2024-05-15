@@ -170,7 +170,6 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
     1
   }
 
-
   if (is.null(mu)) {
     x <- (na.omit(x) * f) %% 360
     n <- length(x)
@@ -258,9 +257,9 @@ rayleigh_p_value2 <- function(K, n) {
 #' Weighted version of the Rayleigh test (or V0-test) for uniformity against a
 #' distribution with a priori expected von Mises concentration.
 #' @param x numeric vector. Values in degrees
-#' @param unc numeric. The standard deviations of `x`. If `NULL`, the non-weighted
-#' Rayleigh test is performed.
-#' @param prd The a priori expected direction (in degrees) for the alternative
+#' @param w numeric vector weights of length `length(x)`. If `NULL`, the
+#' non-weighted Rayleigh test is performed.
+#' @param mu The *a priori* expected direction (in degrees) for the alternative
 #' hypothesis.
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
@@ -295,40 +294,36 @@ rayleigh_p_value2 <- function(K, n) {
 #' tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
 #'
 #' # GOF test:
-#' weighted_rayleigh(tibet.por$azi.PoR, prd = 90, unc = tibet$unc)
-#' weighted_rayleigh(ice.por$azi.PoR, prd = 0, unc = iceland$unc)
-#' weighted_rayleigh(sa.por$azi.PoR, prd = 135, unc = san_andreas$unc)
-weighted_rayleigh <- function(x, prd = NULL, unc, axial = TRUE) {
-  if (is.null(unc)) {
-    rayleigh_test(x, mu = prd, axial = axial)
+#' weighted_rayleigh(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc)
+#' weighted_rayleigh(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
+#' weighted_rayleigh(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
+weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
+  if (is.null(w)) {
+    rayleigh_test(x, mu = mu, axial = axial)
   } else {
-    data <- cbind(x = x, unc = unc)
+    data <- cbind(x = x, w = w)
     data <- data[stats::complete.cases(data), ] # remove NA values
 
 
-    unc <- data[, "unc"]
-    w <- 1 / unc
+    w <- data[, "w"]
     Z <- sum(w)
-    n <- length(unc)
+    n <- length(w)
 
-    if (is.null(prd)) {
-      prd <- circular_mean(x, w, axial, na.rm = FALSE)
+    if (is.null(mu)) {
+      mu <- circular_mean(x, w, axial, na.rm = FALSE)
     }
 
-    d <- data[, "x"] - prd
+    d <- deviation_norm(data[, "x"], mu)
 
-    f <- 1
-    if (axial) {
-      f <- 2
-    }
+    f <- ifelse(axial, 2, 1)
     cosd <- cosd(f * d)
     wcosd <- w * cosd
 
-    md <- 1
+    md <- 2
     # if(norm){
     #   md <- 2
     # }
-    wmd <- md * w # = w * (1 - cos(pi)) = w* (1 - (-1))
+    wmd <- md * w # = w * (1 - cos(pi)) = w * (1 - (-1))
 
     C <- (sum(wcosd) / sum(wmd))
 
@@ -389,11 +384,8 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
     c(0.15, 0.1, 0.05, 0.025, 0.01),
     c(1.537, 1.62, 1.747, 1.862, 2.001)
   )
-  f <- if (axial) {
-    2
-  } else {
-    1
-  }
+  f <- ifelse(axial, 2, 1)
+
   x <- (na.omit(x) * f) %% 360
   u <- sort(deg2rad(x) %% (2 * pi)) / (2 * pi)
   n <- length(x)
@@ -440,11 +432,14 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' Watson's test statistic is a rotation-invariant Cramer - von Mises test
 #'
 #' @param x numeric vector. Values in degrees
-#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
-#' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
+#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`,
+#' and `0.1`.
+#' This argument may be omitted (`NULL`, the default), in which case, a range
+#' for the p-value will be returned.
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
-#' @param mu (optional) The specified or known mean direction (in degrees) in alternative hypothesis
+#' @param mu (optional) The specified mean direction (in degrees) in alternative
+#'  hypothesis
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
 #' uniform distribution. `"vonmises"` tests the von Mises distribution.
 #'
@@ -455,7 +450,8 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, randomness (uniform distribution) cannot be excluded.
 #'
-#' @references Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
+#' @references Mardia and Jupp (2000). Directional Statistics. John Wiley and
+#' Sons.
 #'
 #' @export
 #'
@@ -720,7 +716,7 @@ A1inv <- function(x) {
 #' @param bias logical parameter determining whether a bias correction is used
 #' in the computation of the MLE. Default for bias is `FALSE` for no bias
 #' correction.
-#' @param ... optional paramters passed to `circular_mean()`
+#' @param ... optional parameters passed to `circular_mean()`
 #'
 #' @returns numeric.
 #' @export
