@@ -368,11 +368,7 @@ NULL
 #' @rdname dispersion
 #' @export
 circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) {
-    2
-  } else {
-    1
-  }
+  f <- ifelse(axial, 2, 1)
 
   stopifnot(length(y) == 1 | length(y) == length(x))
   if (length(y) == 1) {
@@ -425,10 +421,7 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE,
 
     Z <- sum(w)
 
-    md <- 1
-    if (norm) {
-      md <- 2
-    }
+    md <- ifelse(norm, 2, 1)
 
     cdists <- circular_distance(x, y, axial, na.rm = FALSE)
     sum(w * cdists) / (Z * md)

@@ -313,22 +313,21 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
       mu <- circular_mean(x, w, axial, na.rm = FALSE)
     }
 
-    d <- deviation_norm(data[, "x"], mu)
-
+    d <- data[, "x"] - mu
     f <- ifelse(axial, 2, 1)
-    cosd <- cosd(f * d)
-    wcosd <- w * cosd
+    cosd <- cosd(f * d) / f
+    #wcosd <- w * cosd
 
-    md <- 2
+    md <- 1
     # if(norm){
     #   md <- 2
     # }
-    wmd <- md * w # = w * (1 - cos(pi)) = w * (1 - (-1))
+    #wmd <- md * w # = w * (1 - cos(pi)) = w * (1 - (-1))
 
-    C <- (sum(wcosd) / sum(wmd))
+    C <- sum(w * cosd) / (Z * md)
 
-    s <- sqrt(2 * Z) * C
-    p.value <- rayleigh_p_value2(s, Z)
+    s <- sqrt(2 * Z * md) * C
+    p.value <- rayleigh_p_value2(s, Z*md)
 
     result <- list(
       statistic = C,
