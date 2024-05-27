@@ -1,3 +1,5 @@
+# tectonicr (development version)
+
 # tectonicr 0.3.2 _2024_05_14_
 
 * adjusted due to functions' move from `spatstat.geom` to `spatstat.univar`
