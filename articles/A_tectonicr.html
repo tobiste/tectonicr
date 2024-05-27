@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-05-16</h4>
+            <h4 data-toc-skip class="date">2024-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/A_tectonicr.Rmd" class="external-link"><code>vignettes/A_tectonicr.Rmd</code></a></small>
       <div class="d-none name"><code>A_tectonicr.Rmd</code></div>
@@ -177,14 +177,22 @@ steps:</p>
 <p>First, load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
+<span><span class="co">#&gt; Registered S3 methods overwritten by 'spatstat.univar':</span></span>
+<span><span class="co">#&gt;   method           from         </span></span>
+<span><span class="co">#&gt;   mean.ecdf        spatstat.geom</span></span>
+<span><span class="co">#&gt;   mean.ewcdf       spatstat.geom</span></span>
+<span><span class="co">#&gt;   print.ewcdf      spatstat.geom</span></span>
+<span><span class="co">#&gt;   quantile.density              </span></span>
+<span><span class="co">#&gt;   quantile.ewcdf   spatstat.geom</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
 <p>Next, we need to specify coordinates of the Pole of Rotation (PoR) to
 get the directions of the great circles, small circles, and loxodromes
 around the PoR at the given point (e.g. at 45<span class="math inline">\(^{\circ}\)</span>N/20<span class="math inline">\(^{\circ}\)</span>E).</p>
 <p>For example, the PoR has the coordinates: 90<span class="math inline">\(^{\circ}\)</span>N/0<span class="math inline">\(^{\circ}\)</span>E. Then <span class="math inline">\(\sigma_{Hmax}\)</span> following great and small
 circles and loxodromes geometries can be modeled with
 <code><a href="../reference/model_shmax.html">model_shmax()</a></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example:</span></span>
 <span><span class="va">point</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">45</span>, lon <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">90</span>, lon <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
@@ -196,7 +204,7 @@ circles and loxodromes geometries can be modeled with
 of <span class="math inline">\(\sigma_{Hmax}\)</span> is 90<span class="math inline">\(^{\circ}\)</span>, the deviation from the modeled
 stress directions can be calculated through
 <code><a href="../reference/deviation_shmax.html">deviation_shmax()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deviation_shmax.html">deviation_shmax</a></span><span class="op">(</span><span class="va">model</span>, <span class="fl">90</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deviation</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   dev.gc dev.sc dev.ld.cw dev.ld.ccw</span></span>
@@ -234,7 +242,7 @@ vector with the predicted <span class="math inline">\(\sigma_{Hmax}\)</span> (ve
 of <code>obs</code>); and <code>unc</code> is the uncertainty of
 observed <span class="math inline">\(\sigma_{Hmax}\)</span> (either
 numeric vector of length of <code>obs</code> or a number).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span> <span class="co"># import example data set for Euler rotations</span></span>
 <span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
 <span>  <span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span></span>
@@ -251,17 +259,17 @@ numeric vector of length of <code>obs</code> or a number).</p>
 <p>The plate motions relative to the Pacific plate according to the
 NUVEL-1A model (DeMets et al. 1990) are included in the package and can
 be imported through:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nuvel1</span><span class="op">)</span></span></code></pre></div>
 <p>Other current plate motion models, in particulars NNR-MORVEL-56,
 GSRM2.1, REVEL, PB2002, and HS3-NUVEL1A, are available through</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cpm_models"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cpm_models</span><span class="op">)</span></span></code></pre></div>
 <p>Any desired relative plate motion can be extracted via the
 following:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gsrm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">cpm_models</span>, <span class="va">model</span> <span class="op">==</span> <span class="st">"GSRM2.1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">gsrm</span>, rot <span class="op">=</span> <span class="st">"na"</span>, fixed <span class="op">=</span> <span class="st">"eu"</span><span class="op">)</span></span></code></pre></div>
 </div>

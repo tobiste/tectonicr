@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-05-16</h4>
+            <h4 data-toc-skip class="date">2024-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
       <div class="d-none name"><code>B_datasets.Rmd</code></div>
@@ -92,14 +92,22 @@ to retrieve relative plate motions parameters from a set of plate
 motions.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
+<span><span class="co">#&gt; Registered S3 methods overwritten by 'spatstat.univar':</span></span>
+<span><span class="co">#&gt;   method           from         </span></span>
+<span><span class="co">#&gt;   mean.ecdf        spatstat.geom</span></span>
+<span><span class="co">#&gt;   mean.ewcdf       spatstat.geom</span></span>
+<span><span class="co">#&gt;   print.ewcdf      spatstat.geom</span></span>
+<span><span class="co">#&gt;   quantile.density              </span></span>
+<span><span class="co">#&gt;   quantile.ewcdf   spatstat.geom</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="larger-data-sets">Larger Data Sets<a class="anchor" aria-label="anchor" href="#larger-data-sets"></a>
 </h2>
 <p><strong>tectonicr</strong> also handles larger data sets. A subset of
 the World Stress Map data compilation (Heidbach et al. 2016) is included
 as an example data set and can be imported through:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Simple feature collection with 6 features and 9 fields</span></span>
@@ -121,13 +129,13 @@ as an example data set and can be imported through:</p>
 using the Pole of Oration (PoR) of the motion of North America relative
 to the Pacific Plate. We test the dataset against a right-laterally
 tangential displacement type.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span>
 <span><span class="va">san_andreas.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, type <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
 <p>Combine the model results with the coordinates of the observed
 data</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">san_andreas.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span>,</span>
 <span>  <span class="va">san_andreas.prd</span></span>
@@ -145,17 +153,17 @@ center of the point. The deviation can be color coded.
 deviation, i.e. absolute values between 0 and 90<span class="math inline">\(^{\circ}\)</span>.</p>
 <p>Also included are the plate boundary geometries after Bird
 (2003):</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"plates"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></span></code></pre></div>
 <p>Alternatively, there is also the NUVEL1 plate boundary model by
 DeMets et al.  (1990) stored under
 <code>data("nuvel1_plates")</code>.</p>
 <p>First we create the predicted trajectories of <span class="math inline">\(\sigma_{Hmax}\)</span> (more details in Article
 3.):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span><span class="va">por</span>, <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>Then we initialize the plot <code>map</code>…</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">plates</span>,</span>
@@ -172,7 +180,7 @@ DeMets et al.  (1990) stored under
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>…and add the <span class="math inline">\(\sigma_{Hmax}\)</span>
 trajectories and data points:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">map</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">trajectories</span>,</span>
@@ -202,7 +210,7 @@ stress direction using counter-clockwise 45<span class="math inline">\(^{\circ}\
 test quantifies the fit between the modeled <span class="math inline">\(\sigma_{Hmax}\)</span> direction the observed
 stress direction considering the reported uncertainties of the
 measurement.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span></span>
 <span>  obs <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
 <span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
@@ -243,7 +251,7 @@ difference between the data points and the inward/outward or tangential
 moving plate boundaries, respectively.</p>
 <p>This is done with the function <code><a href="../reference/distance_from_pb.html">distance_from_pb()</a></code>, which
 returns the angular distances.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">plates</span><span class="op">$</span><span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span></span>
 <span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/distance_from_pb.html">distance_from_pb</a></span><span class="op">(</span></span>
@@ -254,7 +262,7 @@ returns the angular distances.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Finally, we visualize the <span class="math inline">\(\sigma_{Hmax}\)</span> direction wrt. to the
 distance to the plate boundary:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">azi_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">azi.PoR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (\u00B0)"</span>, y <span class="op">=</span> <span class="st">"Azimuth in PoR (\u00B0)"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -281,7 +289,7 @@ distance to the plate boundary:</p>
 <p><img src="B_datasets_files/figure-html/san.andreas.distanceplot1-1.png" width="700"><!-- ![](azimuth.png) --></p>
 <p>Adding a rolling statistics (e.g. weighted mean and 95% confidence
 interval) of the transformed azimuth:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">san_andreas.res_roll</span> <span class="op">&lt;-</span> <span class="va">san_andreas.res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">r_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/roll_circstats.html">roll_circstats</a></span><span class="op">(</span></span>
@@ -326,7 +334,7 @@ displaced boundary.</p>
 visualized by using the deviation (normalized by the data precision)
 from the the predicted stress direction, i.e. the <em>normalized</em>
 <span class="math inline">\(\chi^2\)</span>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Rolling norm chisq:</span></span>
 <span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">roll_nchisq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rolling_test.html">roll_normchisq</a></span><span class="op">(</span></span>
 <span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
@@ -369,7 +377,7 @@ zone.</p>
 </h2>
 <p>The data deviation map can also be build using base R’s plotting
 engine:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Setup the colors for the deviation</span></span>
 <span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tectonicr.colors.html">tectonicr.colors</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/deviation_norm.html">deviation_norm</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">dev</span><span class="op">)</span>,</span>
@@ -413,10 +421,10 @@ engine:</p>
 <p>A quick analysis the results can be obtained
 <code><a href="../reference/stress_analysis.html">stress_analysis()</a></code> that returns a list. The transformed
 coordinates and azimuths as well as the deviations can be viewed by:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    azi.PoR prd        dev       nchisq       cdist  lat.PoR   lon.PoR</span></span>
 <span><span class="co">#&gt; 1 162.2848 135  27.284805 0.0919087122 0.210143277 56.93219 -82.67182</span></span>
@@ -434,7 +442,7 @@ coordinates and azimuths as well as the deviations can be viewed by:</p>
 <span><span class="co">#&gt; 6  0.33684309</span></span></code></pre></div>
 <p>Statistical parameters describing the distribution of the transformed
 azimuths can be displayed by</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">stats</span></span>
 <span><span class="co">#&gt;                    [,1]</span></span>
 <span><span class="co">#&gt; mean       138.89637844</span></span>
@@ -444,7 +452,7 @@ azimuths can be displayed by</p>
 <span><span class="co">#&gt; conf95       4.97272843</span></span>
 <span><span class="co">#&gt; norm_chisq   0.05290280</span></span></code></pre></div>
 <p>Statistical test results are shown by</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">test</span></span>
 <span><span class="co">#&gt; $statistic</span></span>
 <span><span class="co">#&gt; [1] 0.4015847</span></span>
@@ -453,7 +461,7 @@ azimuths can be displayed by</p>
 <span><span class="co">#&gt; [1] 3.92851e-14</span></span></code></pre></div>
 <p>… and the associated plots can be displayed by setting
 <code>plot = TRUE</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
