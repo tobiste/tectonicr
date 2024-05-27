@@ -25,6 +25,7 @@ Imports:
     smoothr,
     spatstat.explore,
     spatstat.geom,
+    spatstat.univar,
     spatstat.utils,
     terra,
     tidyr,

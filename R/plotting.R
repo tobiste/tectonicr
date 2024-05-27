@@ -148,9 +148,10 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' next to the tick marks, or a vector of labels for the tick marks.
 #' @param cborder logical. Border of rose plot.
 #' @param ... optional arguments passed to `plot.default()`
-#' @import spatstat.geom
+#' @importFrom spatstat.geom disc plot.owin
 #' @import spatstat.utils
 #' @import spatstat.explore
+#' @importFrom spatstat.univar whist
 #'
 #' @return none
 #'
@@ -290,7 +291,7 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
   result <- h$result
   otherargs <- h$otherargs
 
-  freqs <- spatstat.geom::whist(
+  freqs <- spatstat.univar::whist(
     x = x, breaks = breaks, weights = weights
   )
 
