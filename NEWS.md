@@ -13,7 +13,7 @@
 
 # tectonicr 0.2.97 _2024-04-07_
 
-* `dispersion_gird()` deprecated and replaced by `kernel_dispersion()` 
+* `dispersion_grid()` deprecated and replaced by `kernel_dispersion()` 
 (details in vignette E)
 
 # tectonicr 0.2.96 _2023-10-15_
