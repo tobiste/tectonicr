@@ -161,10 +161,10 @@ spherical_to_geographical <- function(p) {
 PoR_crs <- function(x) {
   stopifnot(is.data.frame(x) | is.euler(x))
   x <- as.data.frame(x)
-  if (x$lat < 0) {
-    x$lat <- -x$lat
-    x$lon <- longitude_modulo(x$lon + 180)
-  }
+  # if (x$lat < 0) {
+  #   x$lat <- -x$lat
+  #   x$lon <- longitude_modulo(x$lon + 180)
+  # }
   sf::st_crs(
     paste0(
       "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
