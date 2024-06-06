@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-06-05</h4>
+            <h4 data-toc-skip class="date">2024-06-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/D_statistics.Rmd" class="external-link"><code>vignettes/D_statistics.Rmd</code></a></small>
       <div class="d-none name"><code>D_statistics.Rmd</code></div>
@@ -193,14 +193,14 @@ Test</strong>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh_test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
-<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; $R</span></span>
 <span><span class="co">#&gt; [1] 0.7165212</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 5.606831e-242</span></span>
+<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; [1] 555.5016</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $p.value2</span></span>
-<span><span class="co">#&gt; [1] 7.860367e-273</span></span></code></pre></div>
+<span><span class="co">#&gt; $p.value</span></span>
+<span><span class="co">#&gt; [1] 5.606831e-242</span></span></code></pre></div>
 <p>Here, the test rejects the Null Hypothesis
 (<code>statistic &gt; p.value</code>). Thus the <span class="math inline">\(\sigma_{SHmax}\)</span> directions have a
 preferred orientation.</p>
@@ -255,11 +255,14 @@ predicted direction of <span class="math inline">\(135^{\circ}\)</span>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
-<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; $C</span></span>
 <span><span class="co">#&gt; [1] 0.4022963</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; [1] 7.367119</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 3.552781e-14</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 7.385988e-14</span></span></code></pre></div>
 <p>Here, the Null Hypothesis is rejected, and thus, the alternative,
 that is a uniform distribution around the predicted direction, cannot be
 excluded.</p>
