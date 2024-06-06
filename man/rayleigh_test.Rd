@@ -18,9 +18,9 @@ alternative hypothesis}
 \value{
 a list with the components:
 \describe{
-\item{\code{statistic}}{mean resultant length}
+\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is specified)}
+\item{\code{statistic}}{test statistic}
 \item{\code{p.value}}{significance level of the test statistic}
-\item{\code{p.value2}}{modified significance level (Cordeiro and Ferrari, 1991)}
 }
 }
 \description{

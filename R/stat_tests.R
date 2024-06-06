@@ -115,9 +115,9 @@ norm_chisq <- function(obs, prd, unc) {
 #'
 #' @returns a list with the components:
 #' \describe{
-#'  \item{`statistic`}{mean resultant length}
+#'  \item{`R` or `C`}{mean resultant length or the dispersion (if `mu` is specified)}
+#'  \item{`statistic`}{test statistic}
 #'  \item{`p.value`}{significance level of the test statistic}
-#'  \item{`p.value2`}{modified significance level (Cordeiro and Ferrari, 1991)}
 #' }
 #'
 #' @references
@@ -164,11 +164,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' rayleigh_test(sa.por$azi.PoR, mu = 135)
 rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
-  f <- if (axial) {
-    2
-  } else {
-    1
-  }
+  f <- ifelse(axial, 2, 1)
 
   if (is.null(mu)) {
     x <- (na.omit(x) * f) %% 360
@@ -176,20 +172,21 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
 
     R <- mean_resultant_length(x, na.rm = FALSE)
     S <- 2 * n * R^2
-    S2 <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
+    # S2 <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
     # if(n <= 10){
     #  p.value <- p_value3(R, n)
     # } else  {
     p.value <- rayleigh_p_value1(S / 2, n)
     # }
-    p.value2 <- rayleigh_p_value1(S2 / 2, n)
+    #p.value2 <- rayleigh_p_value1(S2 / 2, n)
 
     result <- list(
-      statistic = R,
-      p.value = p.value,
-      p.value2 = p.value2
+      R = R,
+      statistic = S/2,
+      p.value = p.value
+      #p.value2 = p.value2
     )
-    if (R > p.value2) {
+    if (S/2 >= p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")
@@ -207,10 +204,11 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
     p.value <- rayleigh_p_value2(s, n)
 
     result <- list(
-      statistic = C,
+      C = C,
+      statistic = s,
       p.value = p.value
     )
-    if (C > p.value) {
+    if (s >= p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")
@@ -220,26 +218,26 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
   return(result)
 }
 
-rayleigh_p_value1 <- function(K, n) {
-  # Pearson. 1906; Greenwood and Durand, 1955
-  P <- exp(-K)
-  if (n < 50) {
-    temp <- 1 +
-      (2 * K - K^2) / (4 * n) -
-      (24 * K - 132 * K^2 + 76 * K^3 - 9 * K^4) / (288 * n^2)
+rayleigh_p_value1 <- function(K, n, wilkie = FALSE) {
+  if (!wilkie) {
+    # Pearson. 1906; Greenwood and Durand, 1955
+    P <- exp(-K)
+    if (n < 50) {
+      temp <- 1 +
+        (2 * K - K^2) / (4 * n) -
+        (24 * K - 132 * K^2 + 76 * K^3 - 9 * K^4) / (288 * n^2)
+    } else {
+      temp <- 1
+    }
+    P * temp
+    min(max(P * temp, 0), 1)
   } else {
-    temp <- 1
+    # Wilkie 1983
+    Rn <- R * n
+    temp <- sqrt(1 + 4 * n + 4 * (n^2 - Rn^2)) - (1 + 2 * n)
+    round(exp(temp), 3)
   }
-  P * temp
-  min(max(P * temp, 0), 1)
 }
-
-# rayleigh_p_value3 <- function(R, n) {
-#   # Wilkie 1983
-#   Rn <- R * n
-#   temp <- sqrt(1 + 4 * n + 4 * (n^2 - Rn^2)) - (1 + 2 * n)
-#   round(exp(temp), 3)
-# }
 
 rayleigh_p_value2 <- function(K, n) {
   # Greenwood and Durand, 1957
@@ -267,11 +265,12 @@ rayleigh_p_value2 <- function(K, n) {
 #' @details
 #' The Null hypothesis is uniformity (randomness). The alternative is a
 #' distribution with a specified mean direction (`prd`).
-#' If `statistic > p.value`, the null hypothesis is rejected.
+#' If `statistic >= p.value`, the null hypothesis is rejected.
 #' If not, the alternative cannot be excluded.
 #'
 #' @returns a list with the components:
 #' \describe{
+#'  \item{`R` or `C`}{mean resultant length or the dispersion (if `mu` is specified)}
 #'  \item{`statistic`}{Test statistic}
 #'  \item{`p.value`}{significance level of the test statistic}
 #' }
@@ -304,7 +303,6 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
     data <- cbind(x = x, w = w)
     data <- data[stats::complete.cases(data), ] # remove NA values
 
-
     w <- data[, "w"]
     Z <- sum(w)
     n <- length(w)
@@ -316,25 +314,16 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
     d <- data[, "x"] - mu
     f <- ifelse(axial, 2, 1)
     cosd <- cosd(f * d) / f
-    #wcosd <- w * cosd
-
-    md <- 1
-    # if(norm){
-    #   md <- 2
-    # }
-    #wmd <- md * w # = w * (1 - cos(pi)) = w * (1 - (-1))
-
-    C <- sum(w * cosd) / (Z * md)
-
-    s <- sqrt(2 * Z * md) * C
-    p.value <- rayleigh_p_value2(s, Z*md)
+    C <- sum(w * cosd) / Z
+    s <- sqrt(2 * Z) * C
+    p.value <- rayleigh_p_value2(s, n)
 
     result <- list(
-      statistic = C,
-      # Csq = (sum(wcosd^2) / sum(wmd^2)),
+      C = C,
+      statistic = s,
       p.value = p.value
     )
-    if (C > p.value) {
+    if (s >= p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")

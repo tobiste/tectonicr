@@ -21,6 +21,7 @@ non-weighted Rayleigh test is performed.}
 \value{
 a list with the components:
 \describe{
+\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is specified)}
 \item{\code{statistic}}{Test statistic}
 \item{\code{p.value}}{significance level of the test statistic}
 }
@@ -32,7 +33,7 @@ distribution with a priori expected von Mises concentration.
 \details{
 The Null hypothesis is uniformity (randomness). The alternative is a
 distribution with a specified mean direction (\code{prd}).
-If \code{statistic > p.value}, the null hypothesis is rejected.
+If \code{statistic >= p.value}, the null hypothesis is rejected.
 If not, the alternative cannot be excluded.
 }
 \examples{
