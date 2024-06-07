@@ -12,7 +12,7 @@ distribution with mean and kappa."><!-- mathjax --><script src="https://cdnjs.cl
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@ distribution with mean and kappa.</p>
 <span></span>
 <span><span class="fu">dvm</span><span class="op">(</span><span class="va">theta</span>, <span class="va">mean</span>, <span class="va">kappa</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">pvm</span><span class="op">(</span><span class="va">theta</span>, <span class="va">mean</span>, <span class="va">kappa</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pvm</span><span class="op">(</span><span class="va">theta</span>, <span class="va">mean</span>, <span class="va">kappa</span>, tol <span class="op">=</span> <span class="fl">1e-20</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -88,12 +88,17 @@ distribution with mean and kappa.</p>
 <dt>theta</dt>
 <dd><p>angular value in degrees</p></dd>
 
+
+<dt>tol</dt>
+<dd><p>the precision in evaluating the distribution function or the quantile.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>numeric vector.</p>
+<p><code>dvm</code> gives the density, <code>pvm</code> gives the distribution function, and
+<code>rvm</code> generates random deviates.</p>
     </div>
 
     <div class="section level2">
