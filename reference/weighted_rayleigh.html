@@ -93,7 +93,10 @@ non-weighted Rayleigh test is performed.</p></dd>
     
 
 <p>a list with the components:</p><dl><dt><code>R</code> or <code>C</code></dt>
-<dd><p>mean resultant length or the dispersion (if <code>mu</code> is specified)</p></dd>
+<dd><p>mean resultant length or the dispersion (if <code>mu</code> is
+specified). Small values of <code>R</code> (large values of <code>C</code>) will reject
+uniformity. Negative values of <code>C</code> indicate that vectors point in opposite
+directions (also lead to rejection).</p></dd>
 
 <dt><code>statistic</code></dt>
 <dd><p>Test statistic</p></dd>
@@ -106,9 +109,9 @@ non-weighted Rayleigh test is performed.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The Null hypothesis is uniformity (randomness). The alternative is a
-distribution with a specified mean direction (<code>prd</code>).
-If <code>statistic &gt;= p.value</code>, the null hypothesis is rejected.
-If not, the alternative cannot be excluded.</p>
+distribution with a (specified) mean direction (<code>mu</code>).
+If <code>statistic &gt;= p.value</code>, the null hypothesis of randomness is rejected and
+angles derive from a distribution with a (or the specified) mean direction.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -133,35 +136,35 @@ If not, the alternative cannot be excluded.</p>
 <span class="r-in"><span><span class="fu">weighted_rayleigh</span><span class="op">(</span><span class="va">tibet.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">90</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">tibet</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2679234</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5358468</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12.26024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 24.52048</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.218041e-131</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">weighted_rayleigh</span><span class="op">(</span><span class="va">ice.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">0</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">iceland</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2081084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4162168</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.44274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.88548</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.253066e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.815502e-28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">weighted_rayleigh</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4022963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8045926</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18.71435</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 37.42869</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.240592e-77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.172527e-303</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
