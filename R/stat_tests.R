@@ -315,7 +315,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
     f <- ifelse(axial, 2, 1)
     cosd <- cosd(f * d) / f
     C <- sum(w * cosd) / Z
-    s <- sqrt(2 * Z) * C
+    s <- sqrt(2 * n) * C
     p.value <- rayleigh_p_value2(s, n)
 
     result <- list(
@@ -615,8 +615,10 @@ pvm.mu0 <- function(theta, kappa, acc) {
 #' @param mean mean in degrees
 #' @param kappa concentration parameter
 #' @param theta angular value in degrees
+#' @param tol the precision in evaluating the distribution function or the quantile.
 #'
-#' @returns numeric vector.
+#' @returns `dvm` gives the density, `pvm` gives the distribution function, and
+#' `rvm` generates random deviates.
 #'
 #' @name vonmises
 #'
@@ -665,13 +667,12 @@ dvm <- function(theta, mean, kappa) {
 
 #' @rdname vonmises
 #' @export
-pvm <- function(theta, mean, kappa) {
-  acc <- 1e-20
+pvm <- function(theta, mean, kappa, tol = 1e-20) {
   theta <- deg2rad(theta) %% (2 * pi)
   mu <- deg2rad(mean) %% (2 * pi)
 
   if (mu == 0) {
-    pvm.mu0(theta, kappa, acc)
+    pvm.mu0(theta, kappa, tol)
   } else {
     if (theta <= mu) {
       upper <- (theta - mu) %% (2 * pi)
@@ -679,11 +680,11 @@ pvm <- function(theta, mean, kappa) {
         upper <- 2 * pi
       }
       lower <- (-mu) %% (2 * pi)
-      pvm.mu0(upper, kappa, acc) - pvm.mu0(lower, kappa, acc)
+      pvm.mu0(upper, kappa, tol) - pvm.mu0(lower, kappa, tol)
     } else {
       upper <- theta - mu
       lower <- mu %% (2 * pi)
-      pvm.mu0(upper, kappa, acc) + pvm.mu0(lower, kappa, acc)
+      pvm.mu0(upper, kappa, tol) + pvm.mu0(lower, kappa, tol)
     }
   }
 }

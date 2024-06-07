@@ -480,7 +480,7 @@ z_score <- function(conf.level) {
 #'
 #' @inheritParams circular_mean
 #'
-#' @returns Angle in degrees
+#' @returns numeric
 #'
 #' @seealso [mean_resultant_length()], [circular_mean()]
 #'
@@ -501,7 +501,7 @@ z_score <- function(conf.level) {
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+#' circular_sd_error(sa.por$azi.PoR, w = 1/san_andreas$unc)
 circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
     f <- 2
@@ -521,8 +521,8 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- data[, "x"]
   w <- data[, "w"]
 
-  # n <- length(x)
-  n <- sum(w)
+  n <- length(x)
+  #n <- sum(w)
 
   kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
 
@@ -530,7 +530,8 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
   sde <- 1 / sqrt(n * R * kappa)
-  rad2deg(sde + 2 * pi) %% mod
+  sde
+  #rad2deg(sde + 2 * pi) %% mod
 }
 
 #' Confidence Interval around the Mean Direction of Circular Data
@@ -581,7 +582,7 @@ NULL
 confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
   # (circular_sd_error(x, w, axial, na.rm) * z_score(conf.level)) %% 180
   Z_alpha <- z_score(conf.level)
-  sde <- deg2rad(circular_sd_error(x, w, axial, na.rm))
+  sde <- circular_sd_error(x, w, axial, na.rm)
   asind(Z_alpha * sde)
 }
 

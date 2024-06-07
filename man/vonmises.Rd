@@ -11,7 +11,7 @@ rvm(n, mean, kappa)
 
 dvm(theta, mean, kappa)
 
-pvm(theta, mean, kappa)
+pvm(theta, mean, kappa, tol = 1e-20)
 }
 \arguments{
 \item{n}{number of observations in degrees}
@@ -21,9 +21,12 @@ pvm(theta, mean, kappa)
 \item{kappa}{concentration parameter}
 
 \item{theta}{angular value in degrees}
+
+\item{tol}{the precision in evaluating the distribution function or the quantile.}
 }
 \value{
-numeric vector.
+\code{dvm} gives the density, \code{pvm} gives the distribution function, and
+\code{rvm} generates random deviates.
 }
 \description{
 Density, distribution function, and random generation for the circular normal

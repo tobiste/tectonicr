@@ -686,3 +686,160 @@ sample_circular_dispersion <- function(x, axial = TRUE) {
 estimate_critical <- function(n, alpha = 0.05) {
   -1 * log(alpha) - (2 * log(alpha) + log(alpha)^2) / (4 * n)
 }
+
+
+
+
+
+
+
+
+
+get.u2 <- function(x,mu = NULL, w = NULL) {
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  }
+
+  data <- cbind(x = x, w = w)
+  data <- data[stats::complete.cases(data), ] # remove NA values
+  x <- data[, "x"]
+  w <- data[, "w"]
+  n <- length(x)
+
+  if(is.null(mu)){
+    mu <- circular_mean(x, w, axial = FALSE, na.rm = FALSE)
+  }
+
+  kappa.hat <- est.kappa(x, w, bias = FALSE, axial = FALSE, na.rm = FALSE)
+  x <- (x - mu) %% 360
+  x <- matrix(x, ncol = 1)
+  z <- apply(x, 1, pvm, mean = 0, kappa = kappa.hat) |> sort()
+  z.bar <- mean(z)
+  i <- 1:n
+  sum.terms <- (z - (2 * i - 1) / (2 * n))^2
+  sum(sum.terms) - n * (z.bar - 0.5)^2 + 1 / (12 * n)
+}
+
+bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  }
+
+  data <- cbind(x = x, w = w)
+  data <- data[stats::complete.cases(data), ] # remove NA values
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  samples <- length(x) # number of samples in the original data
+
+  if(is.null(mu)){
+    mu <- circular_mean(x, w, axial = FALSE, na.rm = FALSE)
+  }
+
+  kappa.hat <- est.kappa(x, w, bias = FALSE, axial = FALSE, na.rm = FALSE)
+  bootstrap.u2.distrib <- double(n)
+
+  for (i in 1:n) {
+    boots <- rvm(samples, mu, kappa.hat) # generate deviates from a von Mises with the estimated parameters from the original data
+    u2.boots <- get.u2(boots) # get U2 statistics for the current random deviates
+    bootstrap.u2.distrib[i] <- u2.boots
+  }
+
+  results <- sort(bootstrap.u2.distrib)
+  return(results)
+}
+
+#' Bootstrapped Watson's \eqn{U^2} Test of Circular Uniformity
+#'
+#' Bootstrapped goodness-of-fit test for the von Mises distribution
+#'
+#' @param x numeric vector. Values in degrees
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @param w numeric vector weights of length `length(x)`. If `NULL`, the
+#' non-weighted Rayleigh test is performed.
+#' @param mu numeric. Known circular mean of `x` (in degree).
+#' @param alpha Significance level of the test. Numbers between 0 and 1.
+#' @param n number of bootstrap samples
+#'
+#' @returns `list` containing the Watson \eqn{U^2} value and the p-value.
+#'
+#' @details
+#' Existing implementations of the Watson tests are using a critical points
+#' table for the asymptotic \eqn{U^2} distribution provided by Lockhart &
+#' Stephens (1985), which links different (\eqn{\kappa},\eqn{\alpha}) ranges to
+#' \eqn{U^2} diagnostic values.
+#' However, this table is only providing significance ranges, and has an lower
+#' bound limit of 0.005 for the p-value.
+#'
+#' This bootstrap version of the test compute a bootstrapped \eqn{U^2}
+#' distribution to compare to the data. This way, p-values can be approximated
+#' at an arbitrary precision level. The test counts how many times the
+#' \eqn{U^2} value from n bootstrapped "null" distributions is larger than
+#' the \eqn{U^2} value from the empirical distribution. The p-value is this
+#' number divided by `n`.
+#'
+#' @source The code is adapted from Samuel Recht.
+#' [https://sam.re/2021/09/goodness-of-fit-test-for-the-von-mises-distribution-the-bootstrapped-watson-test-in-r/]
+#' @export
+#'
+#' @examples
+#' # Example data from Mardia and Jupp (2001), pp. 93
+#' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
+#' watson_test_boot(pidgeon_homing, axial = FALSE, alpha = 0.05)
+#'
+#' # Example data from Davis (1986), pp. 316
+#' finland_stria <- c(
+#'   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+#'   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+#'   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+#'   165, 171, 172, 179, 181, 186, 190, 212
+#' )
+#' watson_test_boot(finland_stria, axial = FALSE, alpha = 0.05)
+#' watson_test_boot(finland_stria, mu = 105, axial = FALSE, alpha = 0.05)
+#'
+#' # Example data from Mardia and Jupp (2001), pp. 99
+#' atomic_weight <- c(
+#'   rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1),
+#'   rep(108, 2), rep(169.2, 1), rep(324, 1)
+#' )
+#' watson_test_boot(atomic_weight, mu = 0, axial = FALSE, alpha = 0.05)
+#'
+#' # Load data
+#' data("cpm_models")
+#' data(san_andreas)
+#' PoR <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' data("iceland")
+#' PoR.ice <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "na")
+#' ice.por <- PoR_shmax(iceland, PoR.ice, "out")
+#' data("tibet")
+#' PoR.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "in")
+#' tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
+#'
+#' # GOF test:
+#' watson_test_boot(tibet.por$azi.PoR, mu = 90, w = 1/ tibet$unc, n = 10, alpha = 0.05)
+#' watson_test_boot(ice.por$azi.PoR, mu = 0, w = 1/ iceland$unc, n = 10, alpha = 0.05)
+#' watson_test_boot(sa.por$azi.PoR, mu = 135, w = 1/ san_andreas$unc, n = 10, alpha = 0.05)
+watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL, n = 100){
+  f <- ifelse(axial, 2, 1)
+  x <- x * f
+  if(!is.null(mu)){
+    mu <- x * f
+  }
+
+  u2 <- get.u2(x, w = w, mu = mu)
+  u2_boot <- bootstrap.u2(x, w = w, mu = mu, n = n)
+  p.value <- sum(u2_boot > u2, na.rm = TRUE)/n
+
+  if(!is.null(alpha)){
+    if(p.value > alpha) message("Reject Null Hypothesis\n")
+    else message("Do Not Reject Null Hypothesis\n")
+  }
+
+  list(
+    U2 = u2,
+    p.value = p.value
+  )
+}
+

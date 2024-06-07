@@ -426,7 +426,7 @@ add_end <- function(x, end) {
 #'
 #' data("san_andreas")
 #' rose(san_andreas$azi, dots = TRUE, main = "dot plot")
-#' rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
+#' rose(san_andreas$azi, weights = 1/san_andreas$unc, main = "weighted")
 rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  equal_area = TRUE, clockwise = TRUE, muci = TRUE,
                  round_binwidth = 0, mtext = "N", main = NULL, sub = NULL,

@@ -19,7 +19,7 @@ length as \code{x}.}
 should be stripped before the computation proceeds.}
 }
 \value{
-Angle in degrees
+numeric
 }
 \description{
 Measure of the chance variation expected from sample to sample in estimates of the mean direction.
@@ -40,7 +40,7 @@ data(san_andreas)
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+circular_sd_error(sa.por$azi.PoR, w = 1/san_andreas$unc)
 }
 \references{
 Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
