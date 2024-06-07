@@ -18,7 +18,10 @@ alternative hypothesis}
 \value{
 a list with the components:
 \describe{
-\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is specified)}
+\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is
+specified). Small values of \code{R} (large values of \code{C}) will reject
+uniformity. Negative values of \code{C} indicate that vectors point in opposite
+directions (also lead to rejection).}
 \item{\code{statistic}}{test statistic}
 \item{\code{p.value}}{significance level of the test statistic}
 }
@@ -88,5 +91,5 @@ Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
 }
 \seealso{
 \code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=norm_chisq]{norm_chisq()}},
-\code{\link[=kuiper_test]{kuiper_test()}}, \code{\link[=watson_test]{watson_test()}}
+\code{\link[=kuiper_test]{kuiper_test()}}, \code{\link[=watson_test]{watson_test()}}, \code{\link[=weighted_rayleigh]{weighted_rayleigh()}}
 }

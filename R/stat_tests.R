@@ -115,7 +115,10 @@ norm_chisq <- function(obs, prd, unc) {
 #'
 #' @returns a list with the components:
 #' \describe{
-#'  \item{`R` or `C`}{mean resultant length or the dispersion (if `mu` is specified)}
+#'  \item{`R` or `C`}{mean resultant length or the dispersion (if `mu` is
+#'  specified). Small values of `R` (large values of `C`) will reject
+#'  uniformity. Negative values of `C` indicate that vectors point in opposite
+#'  directions (also lead to rejection).}
 #'  \item{`statistic`}{test statistic}
 #'  \item{`p.value`}{significance level of the test statistic}
 #' }
@@ -130,7 +133,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
 #'
 #' @seealso [mean_resultant_length()], [circular_mean()], [norm_chisq()],
-#' [kuiper_test()], [watson_test()]
+#' [kuiper_test()], [watson_test()], [weighted_rayleigh()]
 #'
 #' @export
 #'
@@ -178,15 +181,15 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
     # } else  {
     p.value <- rayleigh_p_value1(S / 2, n)
     # }
-    #p.value2 <- rayleigh_p_value1(S2 / 2, n)
+    # p.value2 <- rayleigh_p_value1(S2 / 2, n)
 
     result <- list(
       R = R,
-      statistic = S/2,
+      statistic = S / 2,
       p.value = p.value
-      #p.value2 = p.value2
+      # p.value2 = p.value2
     )
-    if (S/2 >= p.value) {
+    if (S / 2 >= p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")
@@ -264,13 +267,16 @@ rayleigh_p_value2 <- function(K, n) {
 #'
 #' @details
 #' The Null hypothesis is uniformity (randomness). The alternative is a
-#' distribution with a specified mean direction (`prd`).
-#' If `statistic >= p.value`, the null hypothesis is rejected.
-#' If not, the alternative cannot be excluded.
+#' distribution with a (specified) mean direction (`mu`).
+#' If `statistic >= p.value`, the null hypothesis of randomness is rejected and
+#' angles derive from a distribution with a (or the specified) mean direction.
 #'
 #' @returns a list with the components:
 #' \describe{
-#'  \item{`R` or `C`}{mean resultant length or the dispersion (if `mu` is specified)}
+#'  \item{`R` or `C`}{mean resultant length or the dispersion (if `mu` is
+#'  specified). Small values of `R` (large values of `C`) will reject
+#'  uniformity. Negative values of `C` indicate that vectors point in opposite
+#'  directions (also lead to rejection).}
 #'  \item{`statistic`}{Test statistic}
 #'  \item{`p.value`}{significance level of the test statistic}
 #' }
@@ -313,8 +319,9 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
 
     d <- data[, "x"] - mu
     f <- ifelse(axial, 2, 1)
-    cosd <- cosd(f * d) / f
-    C <- sum(w * cosd) / Z
+
+    m <- mean_SC(f * d, w = w, na.rm = FALSE)
+    C <- as.numeric(m[, "C"])
     s <- sqrt(2 * n) * C
     p.value <- rayleigh_p_value2(s, n)
 

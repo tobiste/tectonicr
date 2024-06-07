@@ -530,8 +530,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
   sde <- 1 / sqrt(n * R * kappa)
-  sde
-  #rad2deg(sde + 2 * pi) %% mod
+  return(sde)
 }
 
 #' Confidence Interval around the Mean Direction of Circular Data
@@ -580,7 +579,6 @@ NULL
 #' @rdname confidence
 #' @export
 confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
-  # (circular_sd_error(x, w, axial, na.rm) * z_score(conf.level)) %% 180
   Z_alpha <- z_score(conf.level)
   sde <- circular_sd_error(x, w, axial, na.rm)
   asind(Z_alpha * sde)

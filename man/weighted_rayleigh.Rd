@@ -21,7 +21,10 @@ non-weighted Rayleigh test is performed.}
 \value{
 a list with the components:
 \describe{
-\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is specified)}
+\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is
+specified). Small values of \code{R} (large values of \code{C}) will reject
+uniformity. Negative values of \code{C} indicate that vectors point in opposite
+directions (also lead to rejection).}
 \item{\code{statistic}}{Test statistic}
 \item{\code{p.value}}{significance level of the test statistic}
 }
@@ -32,9 +35,9 @@ distribution with a priori expected von Mises concentration.
 }
 \details{
 The Null hypothesis is uniformity (randomness). The alternative is a
-distribution with a specified mean direction (\code{prd}).
-If \code{statistic >= p.value}, the null hypothesis is rejected.
-If not, the alternative cannot be excluded.
+distribution with a (specified) mean direction (\code{mu}).
+If \code{statistic >= p.value}, the null hypothesis of randomness is rejected and
+angles derive from a distribution with a (or the specified) mean direction.
 }
 \examples{
 # Load data
