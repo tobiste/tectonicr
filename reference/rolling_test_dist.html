@@ -12,7 +12,7 @@ along an additional value."><!-- mathjax --><script src="https://cdnjs.cloudflar
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -199,17 +199,19 @@ applying the function (<code>TRUE</code> by default).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  3.7496815 178.57158   2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  5.3717047        NA   1</span>
 <span class="r-in"><span><span class="fu">distroll_confidence</span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">azi.PoR</span>, distance <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">distance</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         distance          x   n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -9.2265048  27.363250   7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -7.6044815  96.659444  19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -5.9824582  36.324307  14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] -4.3604350 103.827140  39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -2.7384117  11.755160 118</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] -1.1163884   5.422268 746</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.5056349  16.431436 131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  2.1276582  33.943121   5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  3.7496815        NaN   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  5.3717047         NA   1</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         distance         x   n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -9.2265048 28.527389   7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -7.6044815       NaN  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -5.9824582 39.344281  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] -4.3604350       NaN  39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -2.7384117 11.839231 118</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] -1.1163884  5.430394 746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.5056349 16.665436 131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  2.1276582 36.328872   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  3.7496815       NaN   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  5.3717047        NA   1</span>
 <span class="r-in"><span><span class="fu">distroll_dispersion</span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, distance <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">distance</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         distance          x   n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -9.2265048 0.55904215   7</span>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -818,187 +818,253 @@ distance it is recommended to sort the values first.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1075] 0.19696137 0.20279959 0.22236571 0.22314105 0.23084721 0.23141445</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1081] 0.24109538 0.25180154</span>
 <span class="r-in"><span><span class="fu">roll_confidence</span><span class="op">(</span><span class="va">dat.PoR</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [1]  34.629991  33.835627  34.544915  34.729082  32.664503  31.415622</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [7]  33.137503  31.732427  28.437829  27.680863  27.142274  27.101290</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [13]  27.130003  26.680367  26.081838  26.562247  25.910728  26.052905</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [19]  25.509287  25.702726  25.249362  25.446147  41.251662  41.170176</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [25]  41.021159  40.739225  39.741157  39.524198  39.803674  39.526513</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [31]  39.513765  39.711848  39.316888  38.802188  38.845283  39.234266</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [37]  39.053400  37.505452  37.624221  40.367952  39.218641  39.146562</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [43]  39.453373  39.225759  38.938942  39.182795  37.337610  37.111754</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [49]  36.913375  37.608064  39.258365  39.255627  37.884439  19.024170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [55]  19.068262  19.156021  19.664315  20.105745  20.349450  20.570779</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [61]  20.795463  21.854877  21.856681  21.884993  21.814943  21.066612</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [67]  21.228975  21.420853  21.527481  21.449827  21.566740  23.677754</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [73]  23.611610  22.641952  22.438816  22.457702  22.345121  22.367305</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [79]  23.214857  25.035018  24.545894  22.773313  26.740022  26.586056</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [85]  26.384285  25.652909  25.646471  23.349951  23.369625  22.877708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [91]  23.877242  24.074824  24.361872  25.283474  25.690322  26.981378</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [97]  27.747356  26.163356  20.919952  20.115299  19.905867  18.282230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [103]  17.295448  16.233440  15.865245  17.025087  16.935392  16.233950</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [109]  16.114223  16.013185  15.803830  15.490555  15.500560  14.608152</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [115]  15.109224  15.363427  15.590155  16.010684  16.500361  16.788216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [121]  16.778814  16.382261  15.633557  14.969662  14.094295  13.779983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [127]  12.962264  12.370176  12.939945  14.044619  14.354145  14.585900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [133]  14.937937  14.629802  15.376349  15.617544  14.699360  13.876805</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [139]  13.640411  13.524355  13.347154  13.259231  13.229371  12.856254</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [145]  12.201070  10.666137  10.582687   9.481262   9.414260   9.678368</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [151]   9.913194   9.855448  10.320520  11.205894  11.245080  11.498360</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [157]  10.658425  10.968470  10.720438  10.239149  10.159202   9.501662</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [163]   8.547668   8.332912   8.418431   8.450970   8.510712   8.419744</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [169]   8.649990   8.993193   8.414240   8.445360   8.523838   8.798489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [175]   9.071962  10.305733  10.586109  10.380246   9.958368  10.063352</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [181]   9.575168   9.126195   9.295802   9.731414   9.149127   9.459109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [187]   9.383382   9.331490   9.370612   9.565934   9.336856   9.519742</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [193]   9.946053  10.378639  10.156864   9.762926   9.605665  16.779621</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [199]  16.715936  17.143197  17.249027  17.664008  17.912980  17.017840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [205]  17.254451  18.046380  17.568220  17.654928  17.790537  19.274165</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [211]  19.160887  19.043668  19.833276  19.474456  19.061647  19.250332</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [217]  19.218240  24.066342  25.077032  25.187774  25.881089  26.973619</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [223]  26.804732  27.605999  27.518356  28.900090  29.834991  30.251855</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [229]  24.947117  24.881477  24.505498  24.534746  24.533313  24.027394</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [235]  26.492649  26.322495  24.766866  24.672322  25.070956  26.016266</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [241]  26.179511  28.029235  27.226734  25.544562  22.930901  23.472917</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [247]  23.523651  22.657360  14.204177  14.104493  12.495668  10.994678</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [253]  10.803183  10.957515  10.225026  10.003933   9.978938  10.183774</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [259]  10.300408  10.019362  10.759278  11.002407  10.875015  12.043835</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [265]  12.199477  11.464668  11.745983  12.622084  12.338098  11.977929</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [271]  11.730954  11.768718  11.500143  11.909507  12.514023  21.971266</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [277]  22.009592  21.998379  23.369639  23.322982  23.439069  26.999851</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [283]  28.257582  28.896394  28.815516  29.415605  30.012362  30.091900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [289]  30.212740  30.318186  31.582430  32.335566  33.120451  34.748596</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [295]  35.321451  35.326041  40.414467  40.693964  40.238250  41.022790</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [301]  41.542016  41.304613  41.207748  41.258935  43.488410  45.386482</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [307]  30.985962  30.983881  30.861271  30.904365  30.847426  32.346889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [313]  29.572217  29.328916  28.637158  30.721522  26.569522  25.868612</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [319]  27.204342  27.468016  29.031529  28.960617  27.405261  26.763020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [325]  27.800884  25.654845  23.724379  24.091643  23.741231  24.333042</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [331]  24.315458  23.970083  23.558728  23.842634  24.780205  25.057126</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [337]  24.957821  23.308009  23.204445  23.172675  23.333097  23.351266</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [343]  21.509312  21.646417  21.178308  20.274154  20.873184  22.230148</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [349]  22.312672  23.594206  24.222848  23.204063  23.408044  21.984396</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [355]  21.959295  21.079184  22.262278  23.732671  24.323231  24.511162</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [361]  24.413873  24.272591  25.211210  33.183321  32.721127  32.324118</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [367]  32.751799  38.136122  42.002869  42.216990  41.713438  41.319530</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [373]  41.345973  51.158996  51.933085  52.020461  48.392461  44.667308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [379]  43.802629  43.982732  39.737806  43.934222  44.202826  48.693346</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [385]  51.865992  51.226202  48.629277  46.014750  45.982396  49.704178</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [391]  47.917918  47.305042  46.164172  45.431517  40.956983  41.197670</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [397]  43.825724  43.558491  40.484835  40.235313  40.266757  40.326852</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [403]  38.669113  38.861852  32.671370  31.581273  31.957196  33.090826</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [409]  34.520534  34.104330  34.104425  35.875759  31.390364  31.411865</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [415]  28.697312  29.760268  29.667356  30.126848  30.131582  30.226107</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [421]  26.935509  28.819646  27.768373  28.756607  29.413799  30.340870</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [427]  28.623857  24.469505  24.974246  24.619536  23.712560  24.496114</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [433]  31.095565  36.143791  36.383149  38.131190  42.510679  41.719640</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [439]  41.544520  41.524536  47.609717  45.312375  46.051859  45.458171</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [445]  44.645880  45.710164  45.268875  47.940425  47.361426  48.428286</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [451]  50.679727  51.482348  54.464015  59.805369  58.883445  55.369202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [457]  60.994197  62.837478  64.929548  65.551825  66.658287  73.302677</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [463]  73.445449  67.787517  57.995931  54.970178  62.956643  59.958235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [469]  59.908172  64.941107  64.425800  59.767829  65.424435  61.137894</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [475]  60.932695  61.951401  56.450999  57.084004  50.691500  51.026482</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [481]  52.033659  54.004746  53.580589  50.351283  48.544887  51.895870</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [487]  55.243691  54.288910  59.597887  52.319178  57.114926  55.519160</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [493]  51.302536  51.386470  51.304860  52.184214  53.126598  48.711781</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [499]  48.554090  43.254817  43.363704  47.066616  46.159148  43.932148</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [505]  44.197205  42.860580  42.938379  43.079846  46.230299  48.532733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [511]  48.917214  48.357616  47.422170  47.203333  47.172144  47.430639</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [517]  46.062356  46.614312  42.857526  38.707935  42.745560  42.415116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [523]  44.050015  48.664974  48.610157  45.069915  51.903206  57.288994</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [529]  58.055324  58.122801  70.689848  64.693507  59.551134  62.990815</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [535]  48.042067  48.166480  49.433099  49.342538  53.978523  53.510230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [541]  56.035111  51.857107  51.860188  51.552488  52.052579  52.633048</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [547]  50.903133  55.172717  54.930387  52.530268  52.532585  55.116480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [553]  51.332077  55.811436  52.597784  51.111966  55.286809  49.423105</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [559]  45.034601  45.102743  46.108551  44.976975  44.954256  42.736155</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [565]  41.508127  48.535584  48.644915  46.824769  45.194030  43.015019</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [571]  39.139355  40.431580  41.399140  41.589427  41.754073  41.697803</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [577]  41.649660  41.955315  37.401497  37.233953  36.196207  35.096825</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [583]  34.234747  34.209087  28.256799  27.801997  26.853267  25.572647</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [589]  25.891928  26.899755  27.129689  26.095381  27.090497  26.680504</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [595]  26.686110  26.785664  26.256382  26.130370  31.797559  40.585344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [601]  39.254056  38.838742  40.455864  40.817255  40.516934  39.191297</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [607]  38.845726  39.448301  40.463903  40.421069  39.148677  40.951191</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [613]  45.778641  46.573173  46.010241  47.468763  45.243490  45.050975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [619]  45.604272  47.915527  45.196645  45.458246  48.192292  48.183973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [625]  47.862308  50.325472  46.503815  48.232527  48.603334  43.408399</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [631]  37.275969  36.784195  35.739671  28.733199  28.774200  28.308578</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [637]  29.838069  29.432335  28.864925  26.172333  26.607057  27.970463</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [643]  27.871813  20.122562  20.683214  19.209774  17.912067  18.041473</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [649]  18.231024  18.072874  18.022326  19.462675  18.699871  18.484810</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [655]  17.424011  20.638833  20.478328  22.347420  22.455073  22.336174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [661]  22.943015  23.000253  22.720484  22.751011  22.677400  22.752484</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [667]  23.199160  27.781740  28.639975  26.410543  32.833941  31.992902</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [673]  31.710942  31.305060  31.447170  30.839663  32.141350  33.641949</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [679]  35.074980  32.990133  32.601616  33.285098  32.264140  30.743540</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [685]  29.812587  31.142535  29.597545  30.076170  29.615772  29.332073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [691]  28.794747  28.498073  28.429451  27.355276  29.284852  27.508315</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [697]  27.512731  24.486747  21.214065  20.081378  20.484131  12.344219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [703]  12.339895  12.317278  12.235972  11.996495  11.996711  11.446055</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [709]  11.737403  11.742803  11.273260  11.331753  10.510053  11.025543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [715]  12.591190  12.528855  12.365380  12.302160  11.154680  11.285764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [721]  13.372571  14.487826  15.472311  15.203525  15.930357  15.359974</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [727]  16.287697  16.276117  17.183609  16.744640  16.700409  16.465722</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [733]  16.009268  15.222703  15.221935  15.245860  15.235949  15.183499</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [739]  15.542305  15.417848  15.355008  14.878638  14.884931  13.673076</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [745]  12.896422  11.467181  11.166014  11.402306  11.383689  11.442972</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [751]  10.930156   9.631549   8.797207   7.936920   8.355916   7.402663</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [757]   6.384782   6.389851   6.153388   6.336452   7.516268   7.735689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [763]  16.745623  17.796855  18.522896  18.328977  16.882613  17.329445</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [769]  17.089423  16.246775  15.937203  15.615524  15.869809  16.131771</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [775]  17.231123  17.028792  17.682699  17.477971  17.566232  17.338764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [781]  17.715697  18.406164  18.411884  18.376827  18.239593  18.167567</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [787]  18.599429  19.382685  19.238323  18.763957  17.870736  17.646129</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [793]  17.374208  10.244827   9.263816  10.418046  10.413697  10.999638</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [799]   8.610028   9.304040   9.826024   9.825025  10.622430  10.558499</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [805]  10.608639  10.384743  10.611179   9.948405  10.491573  10.079384</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [811]  10.792872  10.640261  10.682997  10.698134  10.622479  10.806979</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [817]  10.753273  10.789195  10.470025  10.093426  10.449447  10.804983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [823]  10.041920  10.190320  10.380948  10.598886   9.529204  10.350936</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [829]  10.416964  10.167680   9.828154  10.077306  10.005844   9.843564</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [835]   9.989206   9.395289   9.616720   9.885189   9.985855   9.270158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [841]   9.398473   8.835085   8.722171   8.526595   9.281868   9.681922</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [847]   9.319656   9.483140   9.452155   9.613562   9.616444   9.800754</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [853]   9.724328   9.225958   9.226099   9.420931   9.666069   9.377112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [859]   8.450691   8.595451   8.900352   8.651857   8.929552   9.362667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [865]   9.256580   8.840726   8.846433   8.654614   9.023357   8.934096</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [871]   8.863478   8.839242   9.057048   8.421526   8.447568   7.524243</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [877]   6.978210   7.000935   6.604836   6.768141   6.818311   7.359079</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [883]   8.058381   9.335281   9.129534   9.204274   8.871756   9.816386</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [889]  10.321584  10.542592  10.144192  10.039553  10.533979  10.112474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [895]  17.032564  17.536607  18.122287  18.721622  19.184520  18.972031</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [901]  18.555925  19.770764  20.316516  20.217479  21.583232  20.933515</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [907]  20.947371  21.094263  20.963354  20.326633  20.124309  20.103689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [913]  19.066993  18.898735  18.940067  19.666785  19.721090  19.742547</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [919]  19.686666  19.560325  19.781859  20.713499  20.704058  20.073584</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [925]  20.014644  11.038870  10.435056   9.969931   9.251244   9.119881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [931]   8.613298   8.827199   8.216797   8.534140   8.127572   8.704756</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [937]   9.011692   8.666793   8.613496  16.589785  17.052853  16.822255</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [943]  16.836747  17.995235  18.136345  18.463203  18.586552  19.052414</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [949]  18.920991  24.414475  32.973491  32.931283  32.904291  32.774620</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [955]  32.774506  33.441592  40.291483  45.425722  50.729146  55.840125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [961]  64.195670  69.286310  69.306308  78.467288  78.614009  92.482306</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [967]  91.989498 103.841674 119.466829 132.114312 124.265235 118.119998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [973] 126.500196 107.222892 101.163262 101.438565 102.103717 114.466776</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [979] 129.617534 148.900467 152.149656 127.016862 146.615815 175.976647</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [985] 118.511277  48.229715 147.294107 155.345959  23.325367   5.428970</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [991] 173.352926 126.458854 101.466781  97.018590  89.849408  87.885208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [997]  84.560859  77.899087  61.535264  55.842371  50.156225  51.563997</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1003]  45.801476  44.332499  43.055259  46.272352  46.869350  44.656974</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1009]  45.759596  43.586818  44.824632  49.327509  54.384839  61.078795</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1015]  61.764592  70.338268  65.972552  66.633302  76.358650  74.746877</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1021]  74.910120  77.036369  74.826684  75.392570  71.757920  62.510252</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1027]  56.403997  59.376600  57.196892  54.114778  52.467313  48.331632</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1033]  47.628866  46.524830  47.804809  47.166496  48.112740  43.452694</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1039]  43.797434  47.343734  47.574225  44.065064  41.053626  40.159994</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1045]  40.536097  38.809092  39.190241  44.045643  45.066508  46.441180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1051]  46.008342  46.718154  46.358795  45.794267  58.729804  59.203994</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1057]  64.027487  61.702220  53.953042  52.760797  51.055056  43.981830</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1063]  55.281163  55.375217  55.320313  55.051529  53.881483  47.854841</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1069]  51.850185  53.293044  54.733490  56.003839  59.419169  61.450729</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1075]  65.604688  69.992635  90.896868  95.032650 125.335254 145.306426</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1081] 170.265715 105.840142</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [1] 37.186208 36.195558 37.079495 37.310692 34.757418 33.250878 35.335174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [8] 33.630533 29.757738 28.889517 28.276176 28.229648 28.262243 27.752961</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [15] 27.078701 27.619567 26.886689 27.046210 26.437483 26.653717 26.147563</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [22] 26.366990 46.052608 45.935318 45.721461 45.319076 43.916877 43.616446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [29] 44.003727 43.619644 43.602037 43.876204 43.330774 42.627246 42.685845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [36] 43.217295 42.969616 40.888844 41.046137 44.793498 43.195859 43.097067</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [43] 43.518698 43.205623 42.813389 43.146708 40.667196 40.370092 40.110210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [50] 41.024717 43.250373 43.246614 41.392082 19.392302 19.439052 19.532143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [57] 20.072385 20.543073 20.803551 21.040503 21.281434 22.422881 22.424832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [64] 22.455464 22.379688 21.572716 21.747414 21.954144 22.069156 21.985387</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [71] 22.111524 24.409459 24.336843 23.276989 23.056037 23.076564 22.954247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [78] 22.978341 23.902137 25.909026 25.366486 23.420067 27.820392 27.646442</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [85] 27.418902 26.597990 26.590790 24.049989 24.071535 23.533884 24.628720</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [92] 24.846265 25.162999 26.185570 26.639839 28.093635 28.965488 27.170293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [99] 21.415094 20.553277 20.329770 18.607605 17.569505 16.458870 16.075320</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [106] 17.286135 17.192221 16.459402 16.334599 16.229339 16.011415 15.685761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [113] 15.696153 14.771236 15.290060 15.553758 15.789240 16.226734 16.737397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [120] 17.038225 17.028392 16.614112 15.834348 15.145427 14.240457 13.916412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [127] 13.075464 12.468351 13.052552 14.189212 14.508704 14.748224 15.112562</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [134] 14.793626 15.567171 15.817704 14.865582 14.016182 13.772663 13.653201</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [141] 13.470918 13.380524 13.349834 12.966656 12.295218 10.728724 10.643801</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [148]  9.525076  9.457144  9.724996  9.963331  9.904706 10.377160 11.278592</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [155] 11.318553 11.576974 10.720875 11.036595 10.783996 10.294447 10.213202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [162]  9.545762  8.579697  8.362571  8.449019  8.481917  8.542324  8.450347</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [169]  8.683191  9.030535  8.444782  8.476244  8.555597  8.833442  9.110302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [176] 10.362128 10.647283 10.437886 10.009200 10.115824  9.620307  9.165233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [183]  9.337074  9.778820  9.188461  9.502614  9.425842  9.373243  9.412897</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [190]  9.610942  9.378682  9.564096  9.996695 10.436251 10.210827  9.810798</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [197]  9.651242 17.029236 16.962642 17.409874 17.520819 17.956515 18.218431</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [204] 17.278546 17.526506 18.358927 17.855851 17.946970 18.089573 19.657550</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [211] 19.537306 19.412974 20.252377 19.870378 19.432038 19.632244 19.598175</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [218] 24.836918 25.955744 26.078973 26.853462 28.084840 27.893583 28.804048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [225] 28.704078 30.291646 31.380482 31.870049 25.811343 25.738451 25.321787</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [232] 25.354149 25.352563 24.794007 27.541047 27.349314 25.611284 25.506485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [239] 25.948986 27.005081 27.188452 29.288174 28.372122 26.476884 23.591915</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [246] 24.184715 24.240342 23.293764 14.353851 14.250978 12.596906 11.063297</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [253] 10.868241 11.025433 10.280094 10.055472 10.030088 10.238171 10.356714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [260] 10.071143 10.823537 11.071173 10.941394 12.134341 12.293588 11.542584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [267] 11.829854 12.726473 12.435500 12.066937 11.814500 11.853084 11.578795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [274] 11.996978 12.615715 22.548846 22.590351 22.578207 24.071550 24.020460</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [281] 24.147615 28.114578 29.550325 30.287365 30.193747 30.890513 31.588473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [288] 31.681892 31.824003 31.948188 33.450571 34.358005 35.314273 37.335231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [295] 38.059219 38.065050 44.859082 45.254743 44.611017 45.723798 46.472587</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [302] 46.128960 45.989368 46.063088 49.377522 52.386283 32.738596 32.736121</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [309] 32.590480 32.641642 32.574049 34.371723 31.073187 30.789547 29.987609</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [316] 32.424767 27.627779 26.839478 28.346676 28.646700 30.443986 30.361768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [323] 28.575216 27.846398 29.026689 26.600156 24.460670 24.864801 24.479186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [330] 25.131150 25.111729 24.730893 24.278817 24.590653 25.626078 25.933607</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [337] 25.823234 24.004068 23.890749 23.856006 24.031534 24.051428 22.049551</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [344] 22.197554 21.692875 20.723025 21.364865 22.829444 22.919012 24.317743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [351] 25.009495 23.890331 24.113620 22.563065 22.535886 21.586234 22.864310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [358] 24.469781 25.120314 25.328054 25.220466 25.064397 26.105069 35.391357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [365] 34.826368 34.344139 34.863740 41.728441 47.145930 47.461693 46.722066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [372] 46.150488 46.188671 63.239052 65.012956 65.220613 57.629937 51.223197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [379] 49.862538 50.142745 43.912224 50.067112 50.487415 58.196360 64.854591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [386] 63.388697 58.074997 53.428014 53.373747 60.169589 56.754105 55.652288</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [393] 53.679537 52.460133 45.629613 45.974864 49.898379 49.485279 44.958439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [400] 44.606891 44.651075 44.735611 42.446645 42.708389 34.765776 33.449185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [407] 33.900910 35.277976 37.048941 36.529234 36.529351 38.766653 33.220680</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [414] 33.246386 30.057084 31.292996 31.184329 31.722969 31.728535 31.839736</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [421] 28.041653 30.198526 28.989513 30.125616 30.888408 31.974925 29.972253</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [428] 25.281976 25.841483 25.448013 24.447687 25.311406 32.868993 39.111248</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [435] 39.420410 41.721832 47.897904 46.731114 46.476223 46.447213 56.196071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [442] 52.265030 53.490341 52.503898 51.188996 52.919850 52.194009 56.795181</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [449] 55.752349 57.696914 62.193506 63.966355 71.911188       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [456] 75.099732       NaN       NaN       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [463]       NaN       NaN       NaN 73.619618       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [470]       NaN       NaN       NaN       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [477] 80.148929 85.072254 62.218752 62.946235 65.252122 70.486126 69.253636</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [484] 61.497425 57.915765 64.924999 74.619191 71.355469       NaN 65.943218</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [491] 85.446409 75.694529 63.559620 63.748749 63.564839 65.614247 68.007679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [498] 58.231357 57.933096 49.020038 49.186354 55.231959 53.671055 50.063881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [505] 50.478581 48.422456 48.539823 48.753940 53.791330 57.892891 58.623723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [512] 57.564910 55.860437 55.472433 55.417445 55.875530 53.507988 54.446529</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [519] 48.417854 42.499278 48.249431 47.755564 50.247847 58.142565 58.038858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [526] 51.870610 64.942316 89.118223       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [533]       NaN       NaN 56.981245 57.210268 59.629075 59.450431 70.407772</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [540] 69.055912 77.958620 64.833690 64.840938 64.126624 65.297356 66.725161</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [547] 62.676278 74.353835 73.479107 66.466407 66.472211 74.146650 63.626041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [554] 76.929701 66.636076 63.134792 74.782604 59.609313 51.813452 51.923810</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [561] 53.585734 51.720336 51.683678 48.235308 46.423403 57.898255 58.104580</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [568] 54.810090 52.072077 48.655709 43.087197 44.883228 46.265524 46.541473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [575] 46.781374 46.699264 46.629113 47.076057 40.751476 40.530676 39.178834</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [582] 37.774488 36.691704 36.659710 29.549425 29.027961 27.948512 26.508264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [589] 26.865613 28.001150 28.261886 27.093913 28.217399 27.753116 27.759450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [596] 27.872010 27.274906 27.133221 33.708793 45.100652 43.244457 42.676947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [603] 44.917512 45.430155 45.003817 43.158363 42.686447 43.511704 44.928865</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [610] 44.868395 43.099964 45.621331 53.033572 54.375838 53.420446 55.943547</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [617] 52.152617 51.839945 52.744576 56.749744 52.076332 52.504022 57.257960</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [624] 57.242582 56.652807 61.443385 54.256934 57.332428 58.025970 49.254785</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [631] 40.585979 39.941514 38.592327 30.098555 30.145958 29.608964 31.384087</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [638] 30.910010 30.250929 27.180384 27.670153 29.220810 29.107838 20.561034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [645] 21.161019 19.589189 18.217469 18.353757 18.553584 18.386844 18.333585</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [652] 19.857851 19.048859 18.821494 17.704409 21.113436 20.941481 22.956743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [659] 23.073707 22.944531 23.605135 23.667614 23.362507 23.395764 23.315584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [666] 23.397369 23.884969 29.004797 29.990861 27.448487 34.963912 33.943940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [673] 33.604733 33.118771 33.288610 32.564837 34.123071 35.955927 37.746855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [680] 35.154726 34.680908 35.516302 34.271528 32.450855 31.354242 32.924933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [687] 31.102762 31.663409 31.124052 30.793222 30.169721 29.827157 29.748087</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [694] 28.518314 30.738267 28.692630 28.697664 25.301045 21.731362 20.517054</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [701] 20.947695 12.441769 12.437341 12.414181 12.330942 12.085923 12.086144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [708] 11.523588 11.821089 11.826606 11.347294 11.406959 10.569905 11.094749</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [715] 12.694803 12.630914 12.463439 12.398702 11.226374 11.360047 13.497055</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [722] 14.646833 15.666812 15.387844 16.143093 15.550173 16.515454 16.503376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [729] 17.452231 16.992654 16.946410 16.701229 16.225259 15.407737 15.406939</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [736] 15.431758 15.421477 15.367075 15.739519 15.610255 15.545019 15.051148</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [743] 15.057664 13.806298 13.007878 11.545150 11.237931 11.478942 11.459946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [750] 11.520442 10.997561  9.677498  8.832144  7.962526  8.385823  7.423415</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [757]  6.398071  6.403172  6.165279  6.349440  7.537995  7.759386 16.993682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [764] 18.096219 18.861736 18.656938 17.136981 17.605168 17.353526 16.472775</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [771] 16.150220 15.815605 16.080069 16.352885 17.502045 17.290016 17.976164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [778] 17.761060 17.853763 17.614946 18.010860 18.738426 18.744465 18.707450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [785] 18.562623 18.486661 18.942631 19.772827 19.619494 19.116671 18.173962</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [792] 17.937721 17.652137 10.300219  9.304660 10.476324 10.471902 11.068352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [799]  8.642767  9.345423  9.874839  9.873824 10.684243 10.619191 10.670209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [806] 10.442458 10.672794  9.999083 10.551107 10.132109 10.857741 10.702389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [813] 10.745885 10.761292 10.684292 10.872106 10.817424 10.853998 10.529189</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [820] 10.146374 10.508259 10.870074 10.094054 10.244823 10.438599 10.660285</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [827]  9.573691 10.408083 10.475224 10.221817  9.877001 10.129999 10.057413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [834]  9.892643 10.040517  9.437912  9.662455  9.934898 10.037113  9.311087</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [841]  9.441139  8.870478  8.756215  8.558386  9.322953  9.728602  9.361249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [848]  9.526980  9.495563  9.659252  9.662175  9.849190  9.771629  9.266300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [855]  9.266443  9.463907  9.712517  9.419485  8.481634  8.628023  8.936541</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [862]  8.685079  8.966102  9.404843  9.297328  8.876188  8.881964  8.687868</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [869]  9.061079  8.970702  8.899216  8.874686  9.095198  8.452148  8.478477</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [876]  7.546039  6.995578  7.018474  6.619552  6.783981  6.834507  7.379464</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [883]  8.085187  9.377085  9.168615  9.244330  8.907596  9.865056 10.378242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [890] 10.603007 10.197951 10.091651 10.594244 10.165726 17.293966 17.822642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [897] 18.438923 19.071871 19.562385 19.337037 18.896643 20.185759 20.768325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [904] 20.662442 22.129327 21.429663 21.444549 21.602451 21.461722 20.779145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [911] 20.562900 20.540878 19.437707 19.259377 19.303165 20.075015 20.132843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [918] 20.155699 20.096184 19.961709 20.197581 21.193497 21.183372 20.508732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [925] 20.445816 11.108330 10.493622 10.020942  9.291921  9.158836  8.646074</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [932]  8.862497  8.245226  8.566015  8.155079  8.738596  9.049267  8.700189</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [939]  8.646275 16.830799 17.315217 17.073830 17.088991 18.305048 18.453743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [946] 18.798668 18.929018 19.422247 19.282954 25.221132 35.134373 35.082779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [953] 35.049801 34.891558 34.891419 35.708797 44.685841 52.450622 62.299630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [960] 77.057170       NaN       NaN       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [967]       NaN       NaN       NaN       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [974]       NaN       NaN       NaN       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [981]       NaN       NaN       NaN       NaN       NaN 57.327219       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [988]       NaN 24.023071  5.437127       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [995]       NaN       NaN       NaN       NaN       NaN 77.067200 61.091315</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1002] 64.153010 53.071562 50.691666 48.716662 53.862579 54.887522 51.206700</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1009] 53.001914 49.528903 51.475088 59.420876 71.657900       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1016]       NaN       NaN       NaN       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1023]       NaN       NaN       NaN       NaN 79.877897       NaN 86.633253</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1030] 70.818245 66.309234 57.516497 56.230504 54.292926 56.548354 55.407496</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1037] 57.111168 49.322695 49.854481 55.720924 56.132330 50.271387 45.767985</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1044] 44.501194 45.030926 42.636631 43.156915 50.241011 51.865092 54.149849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1051] 53.417260 54.625508 54.009419 53.059566       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1058]       NaN 70.331925 67.050609 63.009127 50.141337 74.761109 75.123143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1065] 74.910774 73.910598 70.120403 56.639227 64.817419 68.456506 72.800242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1072] 77.809626       NaN       NaN       NaN       NaN       NaN       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1079]       NaN       NaN       NaN       NaN</span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">roll_dispersion_CI</span><span class="op">(</span><span class="va">dat.PoR</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extreme order statistics used as endpoints</span>
