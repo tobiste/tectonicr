@@ -579,7 +579,10 @@ NULL
 #' @rdname confidence
 #' @export
 confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
-  (circular_sd_error(x, w, axial, na.rm) * z_score(conf.level)) %% 180
+  # (circular_sd_error(x, w, axial, na.rm) * z_score(conf.level)) %% 180
+  Z_alpha <- z_score(conf.level)
+  sde <- deg2rad(circular_sd_error(x, w, axial, na.rm))
+  asind(Z_alpha * sde)
 }
 
 #' @rdname confidence
