@@ -236,7 +236,7 @@ rayleigh_p_value1 <- function(K, n, wilkie = FALSE) {
     min(max(P * temp, 0), 1)
   } else {
     # Wilkie 1983
-    Rn <- R * n
+    Rn <- K * n
     temp <- sqrt(1 + 4 * n + 4 * (n^2 - Rn^2)) - (1 + 2 * n)
     round(exp(temp), 3)
   }
