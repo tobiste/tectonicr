@@ -38,6 +38,9 @@ data("san_andreas")
 head(san_andreas)
 ```
 
+> The full or an individually filtered world stress map dataset can be 
+downloaded by `download_WSM2016()`
+
 Modeling the stress directions (wrt. to the geographic North pole) using the 
 Pole of Oration (PoR) of the motion of North America relative to the Pacific 
 Plate. We test the dataset against a right-laterally tangential displacement 

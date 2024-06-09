@@ -1,3 +1,139 @@
+#' World Stress Map Database (WSM) Release 2016
+#'
+#' Download WSM2016 database from the GFZ sever and applies optional filters.
+#' If `destdir` is specified, the data can be reloaded in a later R session
+#' using `load_WSM2016()` using the same arguments.
+#'
+#' @param quality a character vectors containing the quality levels to be
+#' included. Includes all quality ranks (A-E) by default.
+#' @param lat_range,lon_range two-element numeric vectors giving the range of
+#' latitudes and longitudes (in degrees).
+#' @param depth_range two-element numeric vectors giving the depth interval
+#' (in km)
+#' @param method a character vectors containing the methods of stress inversion
+#' to be included. Includes all methods by default. See WSM2016 manual for used
+#' acronyms.
+#' @param regime a character vectors containing the stress regimes to be
+#' included. Acronyms: `"N"` - normal, `"T"` - thrust, `"S"` - strike-slip,
+#' `"NS"` - oblique normal, `"TS"` - oblique thrust, and `NA` - unknown faulting
+#' @param load `TRUE` load the dataset into R, `FALSE` return the
+#' file name of the downloaded object.
+#' @param file 	the name of the file which the data are to be read from.
+#' @param destdir where to save files, defaults to [base::tempdir()],
+#' [base::getwd()] is also possible.
+#' @param ... (optional) arguments passed to [load_WSM2016()]
+#'
+#' @returns `sf` object of and the parsed numeric uncertainty (`unc`) based on
+#' the reported standard deviation and the quality rank. If `load=FALSE`,
+#' the path to the downloaded file is returned.
+#'
+#' @note Differences to the original dataset:
+#' All column names have been changed from uppercase in the original dataset to
+#' lowercase characters.
+#' Unknown azimuth values are represented by `NA` values instead of `999` in
+#' the original.
+#' Unknown regime is represented by `NA` instead of "U" in the original.
+#'
+#' @source \url{https://datapub.gfz-potsdam.de/download/10.5880.WSM.2016.001/wsm2016.csv}
+#'
+#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M<U+00FC>ller, J.
+#' Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
+#' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
+#' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
+#' **744**, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
+#'
+#' @importFrom dplyr rename_with filter between mutate select case_when
+#' @importFrom sf st_as_sf st_crs
+#' @importFrom utils read.csv download.file
+#'
+#' @keywords datasets
+#'
+#' @name import_WSM2016
+#' @examples
+#' \dontrun{
+#' download_WSM2016(
+#'   quality = c("A", "B", "C"), lat_range = c(51, 72),
+#'   lon_range = c(-180, -130), depth_range = c(0, 10), method = "FMS"
+#' )
+#' }
+NULL
+
+#' @rdname import_WSM2016
+#' @export
+download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
+  stopifnot(is.character(destdir))
+
+  address <- "https://datapub.gfz-potsdam.de/download/10.5880.WSM.2016.001/wsm2016.csv"
+  dat_file <- tempfile("wsm2016_", destdir, fileext = ".csv")
+  tryCatch(
+    utils::download.file(address, destfile = dat_file)
+  )
+
+  if (load) {
+    load_WSM2016(dat_file, ...)
+  } else {
+    return(dat_file)
+  }
+}
+
+#' @rdname import_WSM2016
+#' @export
+load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range = c(-90, 90), lon_range = c(-180, 180),
+                         depth_range = c(-Inf, Inf),
+                         method = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
+                         regime = c("N", "NS", "T", "TS", "S", NA)) {
+  stopifnot(
+    is.character(quality),
+    is.character(file),
+    is.character(regime) | is.na(regime),
+    is.character(method),
+    is.numeric(lon_range),
+    is.numeric(lat_range),
+    is.numeric(depth_range)
+  )
+
+  reg_flt <- regime
+
+  lat <- lon <- azi <- quality.numeric <- unc <- id <- depth <- numeric()
+  type <- locality <- iso <- type <- character()
+
+  qlt_flt <- quality
+  lat_range <- sort(lat_range)
+  lon_range <- sort(lon_range)
+  depth_range <- sort(depth_range)
+
+  utils::read.csv(file) |>
+    dplyr::rename_with(tolower) |>
+    dplyr::filter(
+      dplyr::between(lat, lat_range[1], lat_range[2]),
+      dplyr::between(lon, lon_range[1], lon_range[2]),
+      dplyr::between(depth, depth_range[1], depth_range[2]),
+      type %in% method
+    ) |>
+    dplyr::mutate(
+      azi = ifelse(azi == 999, NA, azi),
+      quality = factor(quality),
+      regime = dplyr::case_when(
+        regime == "NF" ~ "N",
+        regime == "NS" ~ "NS",
+        regime == "TF" ~ "T",
+        regime == "TS" ~ "TS",
+        regime == "SS" ~ "S",
+        regime == "U" ~ NA,
+        TRUE ~ NA_character_,
+        .default = regime
+      ),
+      quality.numeric = tectonicr::parse_wsm_quality(quality),
+      unc = ifelse(is.na(sd), quality.numeric, sd),
+      unc = ifelse(unc > quality.numeric, quality.numeric, unc),
+      unc = ifelse(unc == 0, 15, unc),
+    ) |>
+    dplyr::filter(quality %in% qlt_flt, regime %in% reg_flt) |>
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE) |>
+    dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime, locality:iso)
+}
+
+
 #' Numerical values to World Stress Map Quality Ranking
 #'
 #' Assigns numeric values of the precision of each measurement to the
@@ -35,7 +171,7 @@ parse_wsm_quality <- function(x) {
 #' @export
 quantise_wsm_quality <- function(x) {
   .Deprecated(parse_wsm_quality)
-  as.numeric(sapply(X = x, FUN = parse_wsm_quality))
+  as.numeric(vapply(X = x, FUN = parse_wsm_quality))
 }
 
 

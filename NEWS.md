@@ -1,10 +1,10 @@
 # tectonicr 0.3.7 _2024_06_09_
 
-* download WSM2016 data from GFZ server using `load_WSM2016()`
+* download WSM2016 data from GFZ server using `download_WSM2016()`
 
 # tectonicr 0.3.6
 
-* bug fixes in (weighted) rayleigh test
+* bug fixes in (weighted) Rayleigh test
 
 # tectonicr 0.3.5
 

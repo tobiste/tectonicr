@@ -695,7 +695,7 @@ estimate_critical <- function(n, alpha = 0.05) {
 
 
 
-get.u2 <- function(x,mu = NULL, w = NULL) {
+get.u2 <- function(x, mu = NULL, w = NULL) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
@@ -706,7 +706,7 @@ get.u2 <- function(x,mu = NULL, w = NULL) {
   w <- data[, "w"]
   n <- length(x)
 
-  if(is.null(mu)){
+  if (is.null(mu)) {
     mu <- circular_mean(x, w, axial = FALSE, na.rm = FALSE)
   }
 
@@ -732,7 +732,7 @@ bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
 
   samples <- length(x) # number of samples in the original data
 
-  if(is.null(mu)){
+  if (is.null(mu)) {
     mu <- circular_mean(x, w, axial = FALSE, na.rm = FALSE)
   }
 
@@ -818,23 +818,26 @@ bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
 #' tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
 #'
 #' # GOF test:
-#' watson_test_boot(tibet.por$azi.PoR, mu = 90, w = 1/ tibet$unc, n = 10, alpha = 0.05)
-#' watson_test_boot(ice.por$azi.PoR, mu = 0, w = 1/ iceland$unc, n = 10, alpha = 0.05)
-#' watson_test_boot(sa.por$azi.PoR, mu = 135, w = 1/ san_andreas$unc, n = 10, alpha = 0.05)
-watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL, n = 100){
+#' watson_test_boot(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc, n = 10, alpha = 0.05)
+#' watson_test_boot(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc, n = 10, alpha = 0.05)
+#' watson_test_boot(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc, n = 10, alpha = 0.05)
+watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL, n = 100) {
   f <- ifelse(axial, 2, 1)
   x <- x * f
-  if(!is.null(mu)){
+  if (!is.null(mu)) {
     mu <- x * f
   }
 
   u2 <- get.u2(x, w = w, mu = mu)
   u2_boot <- bootstrap.u2(x, w = w, mu = mu, n = n)
-  p.value <- sum(u2_boot > u2, na.rm = TRUE)/n
+  p.value <- sum(u2_boot > u2, na.rm = TRUE) / n
 
-  if(!is.null(alpha)){
-    if(p.value > alpha) message("Reject Null Hypothesis\n")
-    else message("Do Not Reject Null Hypothesis\n")
+  if (!is.null(alpha)) {
+    if (p.value > alpha) {
+      message("Reject Null Hypothesis\n")
+    } else {
+      message("Do Not Reject Null Hypothesis\n")
+    }
   }
 
   list(
@@ -842,4 +845,3 @@ watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL,
     p.value = p.value
   )
 }
-

@@ -29,4 +29,8 @@ M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
 release 2016: Crustal stress pattern across scales. \emph{Tectonophysics},
 \strong{744}, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
 }
+\seealso{
+\code{\link[=download_WSM2016]{download_WSM2016()}} for description of columns and stress regime
+acronyms
+}
 \keyword{datasets}

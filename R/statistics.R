@@ -501,7 +501,7 @@ z_score <- function(conf.level) {
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' circular_sd_error(sa.por$azi.PoR, w = 1/san_andreas$unc)
+#' circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
     f <- 2
@@ -522,7 +522,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   w <- data[, "w"]
 
   n <- length(x)
-  #n <- sum(w)
+  # n <- sum(w)
 
   kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
 

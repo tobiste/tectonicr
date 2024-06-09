@@ -18,6 +18,7 @@
 - **Spatial interpolation of of SHmax**: `PoR_stress2grid()` uses distance, method, and quality-weighted mean direction of stress data without being affected by angular distortions.
 - **Rose plot** `rose()` shows the frequencies of the orientations in polar coordinates
 - **Stress anomaly map**: spatial distribution of the dispersion of the observed stress field from the directions of plate boundary forces
+- **Download and filter world stress map data** using `download_WSM2016()`
 
 ## Prerequisites
 You must have R installed on your system (see http://r-project.org). To install 

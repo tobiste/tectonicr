@@ -20,6 +20,9 @@
 #'
 #' @keywords datasets
 #'
+#' @seealso [download_WSM2016()] for description of columns and stress regime
+#' acronyms
+#'
 #' @examples
 #' data("san_andreas")
 #' head(san_andreas)
@@ -47,6 +50,9 @@
 #'
 #' @keywords datasets
 #'
+#' @seealso [download_WSM2016()] for description of columns and stress regime
+#' acronyms
+#'
 #' @examples
 #' data("tibet")
 #' head(tibet)
@@ -73,6 +79,9 @@
 #' @source \url{https://www.world-stress-map.org/}
 #'
 #' @keywords datasets
+#'
+#' @seealso [download_WSM2016()] for description of columns and stress regime
+#' acronyms
 #'
 #' @examples
 #' data("iceland")
