@@ -42,12 +42,13 @@ boundaries, and the type of plate boundary.
 }
 \examples{
 na_grid <- sf::st_make_grid(san_andreas, what = "centers", cellsize = 1)
-na_plate <- filter(plates, plateA == "na" | plateB == "na")
+na_plate <- subset(plates, plateA == "na" | plateB == "na")
 
 # make divergent to ridge-push:
-na_plate <- mutate(na_plate, type = ifelse(pair == "eu-na", "convergent", type))
+na_plate <- transform(na_plate, type = ifelse(na_plate$pair == "eu-na", "convergent", type))
 
-superimposed_shmax_PB(na_grid, na_plate, idp = 2)
+res <- superimposed_shmax_PB(na_grid, na_plate, idp = 2)
+head(res)
 }
 \seealso{
 \code{\link[=superimposed_shmax]{superimposed_shmax()}}

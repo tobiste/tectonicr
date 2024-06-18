@@ -39,7 +39,8 @@ rotation rates of the underlying PoRs.
 data(san_andreas)
 data(nuvel1)
 pors <- subset(nuvel1, plate.rot \%in\% c("eu", "na"))
-superimposed_shmax(san_andreas, pors, types = c("in", "right"), PoR_weighting = c(2, 1))
+res <- superimposed_shmax(san_andreas, pors, types = c("in", "right"), PoR_weighting = c(2, 1))
+head(res)
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}}
