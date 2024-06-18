@@ -1,20 +1,20 @@
-# tectonicr 0.3.8 _2024_06_17_
+# tectonicr 0.3.8 _2024-06-17_
 * `superimposed_shmax()` and `superimposed_shmax_PB()` to model the stress 
 orientation using multiple plate boundaries
 
-# tectonicr 0.3.7 _2024_06_09_
+# tectonicr 0.3.7 _2024-06-09_
 
 * download WSM2016 data from GFZ server using `download_WSM2016()`
 
 # tectonicr 0.3.6
 
-* bug fixes in (weighted) Rayleigh test
+* bug fixes in `weighted_rayleigh()`
 
-# tectonicr 0.3.2 _2024_05_27_
+# tectonicr 0.3.2 _2024-05-27_
 
 * adjusted due to functions' move from `spatstat.geom` to `spatstat.univar`
 
-# tectonicr 0.3.0 _2024_05_14_
+# tectonicr 0.3.0 _2024-05-14_
 
 * weighting powers added to spatial interpolation `stress2grid()`
 * `deviation_norm()` accepts two arguments
@@ -44,7 +44,7 @@ orientation using multiple plate boundaries
 
 # tectonicr 0.2.94 _2023-09-25_
 
-* mean direction and spread on rose diagram (`rose()`)
+* mean direction and spread on `rose()` diagram
 
 # tectonicr 0.2.93 _2023-09-10_
 
@@ -55,13 +55,14 @@ orientation using multiple plate boundaries
 
 # tectonicr 0.2.92 _2023-05-16_
 
-* statistical tests for circular uniformity and goodness-of-fit
+* statistical tests for circular uniformity and goodness-of-fit, e.g. 
+`rayleigh_test()`
 * bug fixes
 
 # tectonicr 0.2.8 _2023-03-01_
 
-* estimator for the error of predictions
-* area-weighted rose diagrams
+* estimator for the error of predictions: `prd_err()`
+* area-weighted `rose()` diagrams
 
 # tectonicr 0.2.7 _2023-01-25_
 
@@ -73,13 +74,14 @@ orientation using multiple plate boundaries
 * distance to plate boundary in km
 * coordinate transformation using quaternions
 * plot the transformed azimuth vs. distance to plate boundary
-* quick plotting
+* quick plotting: `quick_plot()`
 
 # tectonicr 0.2.5
 
 * Calculation of rotation replaced by quaternions to boost performance
-* "sp" class output for small circles, great circles and loxodromes deprecated
-* new functions added to calculate mean/median stress direction, e.g. weighted mean
+* `sp` class output for small circles, great circles and loxodromes deprecated
+* new functions added to calculate mean/median stress direction, e.g. 
+`circular_mean()`, `circular_median()`
 
 # tectonicr 0.1
 
@@ -91,7 +93,8 @@ plate motions or different relative plate motions
 
 # PlateTectonicStressR 0.0.1
 
-* New `euler_loxodrome()` function to construct loxodromes directing towards an given point or Euler pole.
+* New `euler_loxodrome()` function to construct loxodromes directing towards an 
+given point or Euler pole.
 
 # PlateTectonicStressR 0.0.0.9000
 
