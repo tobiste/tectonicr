@@ -92,7 +92,7 @@ test.weights <- 1 / c(5, 1, 2, 4)
 test_that("Output of functions is as expected", {
   expect_equal(longitude_modulo(-361), -1)
   expect_equal(abs_vel(0.21, 0, r = 1), 0)
-  expect_equal(as.numeric(parse_wsm_quality(c("A", "E", "F", "G", 5))), c(15, NA, NA, NA, NA))
+  expect_equal(as.numeric(parse_wsm_quality(c("A", "E", "F", "G", 5))), c(15, 90, NA, NA, NA))
   expect_equal(circular_median(c(15, 16)), 15.5)
   expect_equal(circular_median(c(15, 15, 16)), 15)
   expect_equal(circular_IQR(c(15, 16, 15, 15)), 1)
