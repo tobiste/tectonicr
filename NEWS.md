@@ -1,3 +1,5 @@
+# tectonicr 0.3.8
+
 # tectonicr 0.3.7 _2024_06_09_
 
 * download WSM2016 data from GFZ server using `download_WSM2016()`
