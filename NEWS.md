@@ -1,4 +1,6 @@
-# tectonicr 0.3.8
+# tectonicr 0.3.8 _2024_06_17_
+* `superimposed_shmax()` and `superimposed_shmax_PB()` to model the stress 
+orientation using multiple plate boundaries
 
 # tectonicr 0.3.7 _2024_06_09_
 
@@ -7,12 +9,6 @@
 # tectonicr 0.3.6
 
 * bug fixes in (weighted) Rayleigh test
-
-# tectonicr 0.3.5
-
-# tectonicr 0.3.4
-
-# tectonicr 0.3.3
 
 # tectonicr 0.3.2 _2024_05_27_
 

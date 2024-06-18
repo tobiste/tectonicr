@@ -346,7 +346,10 @@ PoR2Geo_azimuth <- function(x, PoR) {
 #'
 #' @seealso [model_shmax()]
 #'
-#' @return numeric. Resultant azimuth in degrees and geographical CRS
+#' @return two column vector. `azi` is the resultant azimuth in degrees /
+#' geographical CRS), `R` is the resultant length.
+#' @seealso [superimposed_shmax_PB()] for considering distances to plate boundaries
+#'
 #' @export
 #'
 #' @examples
@@ -362,6 +365,13 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
     PoR_weighting <- rep(1, nrow(PoRs))
   }
 
+  pbty <- sapply(types, switch,
+    "in" = "sc",
+    "out" = "gc",
+    "right" = "ld.ccw",
+    "left" = "ld.cw"
+  )
+
   if (!absolute) {
     lat_j <- rep(1, nrow(df))
     col <- 1
@@ -373,28 +383,122 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
 
   for (i in seq_along(PoRs$lat)) {
     res_i <- model_shmax(df, PoRs[i, ])
+    pbty_i <- pbty[i]
     if (absolute) lat_i <- PoR_coordinates(df, PoRs[i, ])$lat.PoR
-    if (types[i] == "in") {
-      azi <- res_i$sc
-    } else if (types[i] == "out") {
-      azi <- res_i$gc
-    } else if (types[i] == "right") {
-      azi <- res_i$ld.cw
-    } else if (types[i] == "left") {
-      azi <- res_i$ld.ccw
-    } else {
-      stop("`types` must be one of in, out, right, and left.")
-    }
-
-    res <- cbind(res, azi)
+    res <- cbind(res, res_i[, pbty_i])
     if (absolute) lats <- cbind(lats, lat_i)
   }
 
   rot <- PoR_weighting * PoRs$angle * cosd(lats)
-  azi_res <- numeric(length(res[, 1]))
+  azi <- R <- numeric(length(res[, 1]))
 
   for (j in seq_along(res[, 1])) {
-    azi_res[j] <- circular_mean(res[j, ], w = rot[j, ])
+    azi[j] <- circular_mean(res[j, ], w = rot[j, ])
+    R[j] <- 1 - circular_var(res[j, ], w = rot[j, ])
   }
-  return(azi_res)
+  return(cbind(azi = azi, R = R))
+}
+
+#' SHmax direction resulting from multiple plate boundaries considering distance
+#' to plate boundaries
+#'
+#' Calculates a \eqn{\sigma_{Hmax}}{SHmax} direction at given coordinates,
+#' sourced by multiple plate boundaries. This first-order approximation is the
+#' circular mean of the superimposed theoretical directions, weighted by the
+#' rotation rates of the underlying PoRs, the inverse distance to the plate
+#' boundaries, and the type of plate boundary.
+#'
+#' @param x grid. An object of `sf`, `sfc` or 2-column matrix
+#' @param pbs plate boundaries. `sf` object
+#' @param cpm character. Current plate motion model.
+#' @param rotation_weighting logical.
+#' @param type_weights named vector.
+#' @param idp numeric. Weighting power of inverse distance. The higher the
+#' number, the less impact far-distant boundaries have. When set to `0`, no
+#' weighting is applied.
+#'
+#' @return two-column matrix. `azi` is the resultant azimuth (degree), `R` is
+#' the resultant length.
+#'
+#' @seealso [superimposed_shmax()]
+#'
+#' @importFrom sf st_coordinates st_as_sf
+#' @export
+#'
+#' @examples
+#' na_grid <- sf::st_make_grid(san_andreas, what = "centers", cellsize = 1)
+#' na_plate <- filter(plates, plateA == "na" | plateB == "na")
+#'
+#' # make divergent to ridge-push:
+#' na_plate <- mutate(na_plate, type = ifelse(pair == "eu-na", "convergent", type))
+#'
+#' superimposed_shmax_PB(na_grid, na_plate, idp = 2)
+superimposed_shmax_PB <- function(x, pbs,
+                                  cpm = c("NNR-MORVEL56", "NNR-NUVEL1A", "GSRM2.1", "HS3-NUVEL1A", "REVEL", "PB2002"),
+                                  rotation_weighting = TRUE,
+                                  type_weights = c(
+                                    "divergent" = 1,
+                                    "convergent" = 3,
+                                    "transform_L" = 2,
+                                    "transform_R" = 2
+                                  ),
+                                  idp = 1) {
+  if (inherits(x, "sf")) {
+    x_sf <- x
+    x <- sf::st_coordinates(x_sf)
+  } else if (inherits(x, "sfc")) {
+    x_sf <- sf::st_as_sf(x)
+    x <- sf::st_coordinates(x_sf)
+  } else {
+    x_sf <- as.data.frame(x) |> sf::st_as_sf(coords = c(1, 2))
+  }
+  nx <- nrow(x)
+
+  pbs$pbty_w <- type_weights[pbs$type]
+
+  pb_types <- unique(pbs$name)
+  cpm <- match.arg(cpm)
+  cpm <- cpm_models |> filter(model == cpm)
+
+  pb_dist <- pb_dir <- pb_rot <- pb_weights <- matrix(numeric(), nrow = nx, ncol = length(pb_types))
+  colnames(pb_dist) <- pb_types
+  colnames(pb_dir) <- pb_types
+  colnames(pb_rot) <- pb_types
+  colnames(pb_weights) <- pb_types
+
+  pbs$pbty <- sapply(pbs$type, switch,
+    "divergent" = "gc",
+    "convergent" = "sc",
+    "transform_L" = "ld.cw",
+    "transform_R" = "ld.ccw"
+  )
+
+
+  for (i in pb_types) {
+    pb_i <- filter(pbs, name == i)
+
+    por_i <- equivalent_rotation(cpm, pb_i$plateA[1], pb_i$plateB[1])
+    pbty_i <- pb_i$type[1]
+    pbty3_i <- pb_i$pbty[1]
+
+    pb_dist[, i] <- distance_from_pb(x_sf, por_i, pb_i, tangential = !(pbty_i %in% c("divergent", "convergent")), km = TRUE) |> abs()
+    dir_i <- model_shmax(sf::st_coordinates(x_sf) |> as.data.frame() |> rename(lat = Y, lon = X), por_i)
+    pb_dir[, i] <- dir_i[, pbty3_i]
+
+    pb_weights[, i] <- rep(pb_i$pbty_w[1], nx)
+
+    if (rotation_weighting) pb_rot[, i] <- por_i$angle * cosd(x[, 2])
+  }
+
+  w <- 1 / (pb_dist^idp)
+  if (!rotation_weighting) pb_rot <- pb_rot^0
+
+  w2 <- pb_dir * w * pb_weights
+
+  R <- azi <- numeric(nx)
+  for (j in seq_along(pb_dist[, 1])) {
+    azi[j] <- circular_mean(c(pb_dir[j, ]), w = c(w2[j, ]))
+    R[j] <- 1 - circular_var(c(pb_dir[j, ]), w = c(w2[j, ]))
+  }
+  return(cbind(azi = azi, R = R))
 }

@@ -26,7 +26,8 @@ using the absolute rotation at the points or the angular rotation of the PoRs.}
 \code{PoRs}. Extra weightings for the used PoRs.}
 }
 \value{
-numeric. Resultant azimuth in degrees and geographical CRS
+two column vector. \code{azi} is the resultant azimuth in degrees /
+geographical CRS), \code{R} is the resultant length.
 }
 \description{
 Calculates a \eqn{\sigma_{Hmax}}{SHmax} direction at given coordinates,
@@ -42,4 +43,6 @@ superimposed_shmax(san_andreas, pors, types = c("in", "right"), PoR_weighting = 
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}}
+
+\code{\link[=superimposed_shmax_PB]{superimposed_shmax_PB()}} for considering distances to plate boundaries
 }

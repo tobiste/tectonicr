@@ -225,7 +225,7 @@ quantise_wsm_quality <- function(x) {
 stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left"), pb, plot = TRUE, ...) {
   type <- match.arg(type)
   stopifnot(is.logical(plot))
-  tangential <- ifelse(type %in% c("right", "left"), TRUE, FALSE)
+  tangential <- type %in% c("right", "left")
   res <- PoR_shmax(x, PoR, type)
   res <- cbind(res, PoR_coordinates(x, PoR))
   if (!missing(pb)) {
