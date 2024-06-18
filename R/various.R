@@ -136,12 +136,12 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
 
 #' Numerical values to World Stress Map Quality Ranking
 #'
-#' Assigns numeric values of the precision of each measurement to the
-#' categorical quality ranking of the World Stress Map (A, B, C, D).
+#' Assigns numeric values of the precision (sd.) of each measurement to the
+#' categorical quality ranking of the World Stress Map (A, B, C, D, E).
 #'
-#' @param x Either a string or a character vector of WSM quality ranking
+#' @param x Either a string or a character/factor vector of WSM quality ranking
 #'
-#' @returns \code{"integer"} or vector of type \code{"integer"}
+#' @returns `"numeric"`. the standard deviation of stress azimuth
 #'
 #' @references Heidbach, O., Barth, A., M<U+00FC>ller, B., Reinecker, J.,
 #' Stephansson, O., Tingay, M., Zang, A. (2016). WSM quality
@@ -151,7 +151,7 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
 #'
 #' @name parse_wsm
 #' @examples
-#' parse_wsm_quality(c("A", "B", "C", "D", NA))
+#' parse_wsm_quality(c("A", "B", "C", "D", NA, "E"))
 #' data("san_andreas")
 #' parse_wsm_quality(san_andreas$quality)
 NULL
@@ -163,7 +163,8 @@ parse_wsm_quality <- function(x) {
     "A" = 15,
     "B" = 20,
     "C" = 25,
-    "D" = 40
+    "D" = 40,
+    'E' = 90
   )[x]
 }
 

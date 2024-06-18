@@ -11,17 +11,17 @@ parse_wsm_quality(x)
 quantise_wsm_quality(x)
 }
 \arguments{
-\item{x}{Either a string or a character vector of WSM quality ranking}
+\item{x}{Either a string or a character/factor vector of WSM quality ranking}
 }
 \value{
-\code{"integer"} or vector of type \code{"integer"}
+\code{"numeric"}. the standard deviation of stress azimuth
 }
 \description{
-Assigns numeric values of the precision of each measurement to the
-categorical quality ranking of the World Stress Map (A, B, C, D).
+Assigns numeric values of the precision (sd.) of each measurement to the
+categorical quality ranking of the World Stress Map (A, B, C, D, E).
 }
 \examples{
-parse_wsm_quality(c("A", "B", "C", "D", NA))
+parse_wsm_quality(c("A", "B", "C", "D", NA, "E"))
 data("san_andreas")
 parse_wsm_quality(san_andreas$quality)
 }
