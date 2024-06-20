@@ -289,7 +289,7 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
 
   result <- numeric()
   result <- h$result
-  otherargs <- h$otherargs
+  result$otherargs <- h$otherargs
 
   freqs <- spatstat.univar::whist(
     x = x, breaks = breaks, weights = weights
@@ -426,15 +426,23 @@ add_end <- function(x, end) {
 #'
 #' data("san_andreas")
 #' rose(san_andreas$azi, dots = TRUE, main = "dot plot")
+#' rose(san_andreas$azi, dots = TRUE, stack = TRUE, main = "stacked dot plot")
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  equal_area = TRUE, clockwise = TRUE, muci = TRUE,
                  round_binwidth = 0, mtext = "N", main = NULL, sub = NULL,
                  at = seq(0, 360 - 45, 45),
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
-                 dot_col = "grey", ...) {
+                 dot_col = "grey", stack = FALSE, ...) {
   if (missing(main) || is.null(main)) {
     main <- spatstat.utils::short.deparse(substitute(x))
+  }
+  if (axial) {
+    x <- x %% 180
+    x[x >= 180] <- 180 - 2 * .Machine$double.eps
+  } else {
+    x <- x %% 360
+    x[x >= 360] <- 360 - 4 * .Machine$double.eps
   }
 
   freqs <- rose_freq(
@@ -451,7 +459,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   )
 
   if (dots) {
-    rose_dots(x, axial, cex = dot_cex, pch = dot_pch, col = dot_col)
+    rose_dots(x, axial, stack = stack, cex = dot_cex, pch = dot_pch, col = dot_col)
   }
 
   if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
@@ -461,39 +469,46 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   if (muci) rose_stats(x, weights = weights, axial = axial)
 }
 
-rose_dots <- function(x, axial, ...) {
+rose_dots <- function(x, axial, stack = FALSE, cex = 1, sep = 0.025, ..., scale = 1.1) {
+  if (stack) {
+    freqs <- rose_freq(x, axial = axial, binwidth = 1)
+  }
+
+  f <- 1
   if (axial) {
     x_shift <- (x + 180) %% 360
     x <- c(x, x_shift)
+    f <- 2
+    if (stack) {
+      freqs$mids <- freqs$mids %% 180
+      freqs$count <- rep(freqs$count, 2)
+      freqs$mids <- c(freqs$mids, freqs$mids + 180)
+    }
   }
 
-  scale <- 1.1 #* max(freqs$density)
-  u <- deg2rad(90 - x)
-  n <- length(x)
-  z <- cos(u) * scale
-  y <- sin(u) * scale
-  # if (stack == FALSE) {
-  graphics::points(z, y, ...)
-  # } else {
-  #   bins <- 180/binwidth
-  #   bins.count <- c(1:bins)
-  #   arc <- (2 * pi) / bins
-  #   for (i in 1:bins) {
-  #     bins.count[i] <- sum(u <= i * arc & u > (i - 1) * arc)
-  #   }
-  #   mids <- seq(arc / 2, 2 * pi - pi / bins, length = bins)
-  #   index <- pts_cex / dotsep
-  #   for (i in 1:bins) {
-  #     if (bins.count[i] != 0) {
-  #       for (j in 0:(bins.count[i] - 1)) {
-  #         r <- 1 + j * index
-  #         z <- r * cos(mids[i]) * scale
-  #         y <- r * sin(mids[i]) * scale
-  #         points(z, y, cex = pts_cex, pch = pts_pch)
-  #       }
-  #     }
-  #   }
-  # }
+  if (!stack) {
+    xr <- deg2rad(x)
+    u <- pi / 2 - xr
+    n <- length(x)
+    z <- cos(u) * scale
+    y <- sin(u) * scale
+    graphics::points(z, y, cex = cex, ...)
+  } else {
+    bins <- f * 180 / freqs$binwidth
+    bins.count <- freqs$count
+    mids <- deg2rad(90 - freqs$mids)
+    index <- cex * sep
+    for (i in 1:bins) {
+      if (bins.count[i] > 0) {
+        for (j in 0:(bins.count[i] - 1)) {
+          r <- scale + j * index
+          z <- r * cos(mids[i])
+          y <- r * sin(mids[i])
+          graphics::points(z, y, cex = cex, ...)
+        }
+      }
+    }
+  }
 }
 
 #' Lines and fans in rose diagram

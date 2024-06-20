@@ -23,6 +23,7 @@ rose(
   dot_pch = 1,
   dot_cex = 1,
   dot_col = "grey",
+  stack = FALSE,
   ...
 )
 }
@@ -94,5 +95,6 @@ rose(x, axial = FALSE, border = TRUE)
 
 data("san_andreas")
 rose(san_andreas$azi, dots = TRUE, main = "dot plot")
+rose(san_andreas$azi, dots = TRUE, stack = TRUE, main = "stacked dot plot")
 rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 }

@@ -128,13 +128,8 @@ NULL
 #' @rdname circle_stats
 #' @export
 circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
-    mod <- 180
-  } else {
-    f <- 1
-    mod <- 360
-  }
+  f <- ifelse(axial, 2, 1)
+  mod <- 360 / f
   x <- (x * f) %% 360
   m <- mean_SC(x, w, na.rm)
   meanx_rad <- atan2(m[, "S"], m[, "C"]) / f
@@ -144,13 +139,8 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
-    mod <- 180
-  } else {
-    f <- 1
-    mod <- 360
-  }
+  f <- ifelse(axial, 2, 1)
+  mod <- 360 / f
   x <- (x * f) %% 360
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
@@ -160,13 +150,8 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
-    mod <- 180
-  } else {
-    f <- 1
-    mod <- 360
-  }
+  f <- ifelse(axial, 2, 1)
+  mod <- 360 / f
   x <- (x * f) %% 360
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
@@ -182,13 +167,8 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     w <- rep(1, times = length(x))
   }
 
-  if (axial) {
-    f <- 2
-    mod <- 180
-  } else {
-    f <- 1
-    mod <- 360
-  }
+  f <- ifelse(axial, 2, 1)
+  mod <- 360 / f
   x <- deg2rad(x * f) %% (2 * pi)
   data <- cbind(x = x, w = w)
   if (na.rm) {
@@ -218,13 +198,8 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   # med <- circular_median(x, w, axial, na.rm)
-  if (axial) {
-    f <- 2
-    mod <- 180
-  } else {
-    f <- 1
-    mod <- 360
-  }
+  f <- ifelse(axial, 2, 1)
+  mod <- 360 / f
   x <- deg2rad(f * x) %% (2 * pi)
 
   if (is.null(w)) {
@@ -656,5 +631,134 @@ circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000
       "sde" = stats::sd(cdisp$t),
       "CI" = c(ci$percent[4], ci$percent[5])
     )
+  )
+}
+
+
+
+
+
+#' Second Central Momentum
+#'
+#' Measures the skewness (a measure of the asymmetry of the probability
+#' distribution) and the kurtosis (measure of the "tailedness" of the probability
+#' distribution). Standardized versions are the skewness and kurtosis normalized
+#' by the mean resultant length, Mardia 1972).
+#'
+#' @inheritParams circular_mean
+#'
+#' @return list containing
+#' \describe{
+#' \item{`skewness`}{second central sine momentum, i.e. the skewness}
+#' \item{`std_skewness`}{standardized skewness}
+#' \item{`kurtosis`}{second central cosine momentum, i.e. the kurtosis}
+#' \item{`std_kurtosis`}{standardized kurtosis}
+#' }
+#' @export
+#'
+#' @details
+#' Negative values of skewness indicate skewed data in counterclockwise
+#' direction.
+#'
+#' Large kurtosis values indicate tailed, values close to `0` indicate packed
+#' data.
+#'
+#'
+#'
+#' @examples
+#' data("nuvel1")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' second_central_moment(sa.por$azi.PoR)
+#' second_central_moment(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
+  f <- ifelse(axial, 2, 1)
+  # mod <- 360 / f
+  x <- (x * f) %% 360
+
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  }
+
+  data <- cbind(x = x, w = w)
+  if (na.rm) {
+    data <- data[stats::complete.cases(data), ] # remove NA values
+  }
+
+  data <- data[order(data[, "x"]), ]
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  n <- length(x)
+  Z <- sum(w)
+
+  x_mean <- circular_mean(x, w, axial = FALSE, na.rm = FALSE)
+
+  dev <- x - x_mean
+
+  sin2_dev <- w * sind(2 * dev)
+  cos_2dev <- w * cosd(2 * dev)
+
+  b <- sum(sin2_dev) / Z
+  a <- sum(cos_2dev) / Z
+
+  R <- mean_resultant_length(x)
+
+  s <- b / (1 - R)^(3 / 2)
+  k <- (a - R^4) / (1 - R)^2
+
+  list("skewness" = b, "std_skewness" = s, "kurtosis" = a, "std_kurtosis" = k)
+}
+
+
+#' Circular Summary statistics
+#'
+#' Circular mean, standard deviation, variance, quasi-quantiles, 95% confidence
+#' angle, standardized skewness and kurtosis
+#'
+#' @inheritParams circular_mean
+#'
+#' @return named vector
+#' @export
+#'
+#' @seealso [circular_mean()], [circular_sd()], [circular_var()],
+#' [circular_quantiles()], [confidence_angle()], [second_central_moment()]
+#' @examples
+#' data("nuvel1")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' circular_summary(sa.por$azi.PoR)
+#' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE){
+  f <- ifelse(axial, 2, 1)
+  mod <- 360 / f
+  x <- (x * f) %% 360
+
+  if (is.null(w)) {
+    w <- rep(1, times = length(x))
+  }
+
+  data <- cbind(x = x, w = w)
+  if (na.rm) {
+    data <- data[stats::complete.cases(data), ] # remove NA values
+  }
+
+  data <- data[order(data[, "x"]), ]
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  n <- length(x)
+
+  x_mean = (circular_mean(x, w, F, F) / f) %% mod
+  x_sd = circular_sd(x, w, F, F)
+  x_var = circular_var(x, w, F, F)
+  x_CI = confidence_angle(x, 0.95, w, F, F)
+  x_quant = (circular_quantiles(x, w, F, F) / f) %% mod
+  x_sk = second_central_moment(x, w, F, F)
+
+  setNames(
+    c(n, x_mean, x_sd, x_var, x_quant[1], x_quant[2], x_quant[3], x_CI, x_sk$std_skewness, x_sk$std_kurtosis),
+    c('n', 'mean', 'sd', 'var', '25%', 'median', '75%', '95%CI', 'skewness', 'kurtosis')
+
   )
 }
