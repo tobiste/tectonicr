@@ -729,7 +729,7 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
-circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE){
+circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
   f <- ifelse(axial, 2, 1)
   mod <- 360 / f
   x <- (x * f) %% 360
@@ -749,16 +749,15 @@ circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE){
 
   n <- length(x)
 
-  x_mean = (circular_mean(x, w, F, F) / f) %% mod
-  x_sd = circular_sd(x, w, F, F)
-  x_var = circular_var(x, w, F, F)
-  x_CI = confidence_angle(x, 0.95, w, F, F)
-  x_quant = (circular_quantiles(x, w, F, F) / f) %% mod
-  x_sk = second_central_moment(x, w, F, F)
+  x_mean <- (circular_mean(x, w, F, F) / f) %% mod
+  x_sd <- circular_sd(x, w, F, F)
+  x_var <- circular_var(x, w, F, F)
+  x_CI <- confidence_angle(x, 0.95, w, F, F)
+  x_quant <- (circular_quantiles(x, w, F, F) / f) %% mod
+  x_sk <- second_central_moment(x, w, F, F)
 
   setNames(
     c(n, x_mean, x_sd, x_var, x_quant[1], x_quant[2], x_quant[3], x_CI, x_sk$std_skewness, x_sk$std_kurtosis),
-    c('n', 'mean', 'sd', 'var', '25%', 'median', '75%', '95%CI', 'skewness', 'kurtosis')
-
+    c("n", "mean", "sd", "var", "25%", "median", "75%", "95%CI", "skewness", "kurtosis")
   )
 }

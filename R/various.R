@@ -164,7 +164,7 @@ parse_wsm_quality <- function(x) {
     "B" = 20,
     "C" = 25,
     "D" = 40,
-    'E' = 90
+    "E" = 90
   )[x]
 }
 

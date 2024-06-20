@@ -350,11 +350,6 @@ symmetric_bw <- function(x) {
   div <- 180 / seq(1, 180, 1)
   cond <- is.naturalnumber(div) & div < 180
   allowed <- div[cond]
-  # allowed <- data.frame(x = seq(1, 180, 1)) |>
-  #   dplyr::mutate(div = 180 / x) |>
-  #   dplyr::filter(is.naturalnumber(div), div < 180) |>
-  #   dplyr::pull(div)
-  # allowed <- c(2, 3, 4, 5, 6, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 60, 72, 90, 120, 180)
   target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
   min(allowed[target.index])
 }
@@ -426,7 +421,7 @@ add_end <- function(x, end) {
 #'
 #' data("san_andreas")
 #' rose(san_andreas$azi, dots = TRUE, main = "dot plot")
-#' rose(san_andreas$azi, dots = TRUE, stack = TRUE, main = "stacked dot plot")
+#' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21, main = "stacked dot plot", dot_col = "slategrey")
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  equal_area = TRUE, clockwise = TRUE, muci = TRUE,
@@ -470,23 +465,13 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 }
 
 rose_dots <- function(x, axial, stack = FALSE, cex = 1, sep = 0.025, ..., scale = 1.1) {
-  if (stack) {
-    freqs <- rose_freq(x, axial = axial, binwidth = 1)
-  }
-
-  f <- 1
-  if (axial) {
-    x_shift <- (x + 180) %% 360
-    x <- c(x, x_shift)
-    f <- 2
-    if (stack) {
-      freqs$mids <- freqs$mids %% 180
-      freqs$count <- rep(freqs$count, 2)
-      freqs$mids <- c(freqs$mids, freqs$mids + 180)
-    }
-  }
+  f <- ifelse(axial, 2, 1)
 
   if (!stack) {
+    if (axial) {
+      x_shift <- (x + 180) %% 360
+      x <- c(x, x_shift)
+    }
     xr <- deg2rad(x)
     u <- pi / 2 - xr
     n <- length(x)
@@ -494,6 +479,13 @@ rose_dots <- function(x, axial, stack = FALSE, cex = 1, sep = 0.025, ..., scale 
     y <- sin(u) * scale
     graphics::points(z, y, cex = cex, ...)
   } else {
+    freqs <- rose_freq(x, axial = axial, binwidth = 1)
+    if (axial) {
+      freqs$mids <- freqs$mids %% 180
+      freqs$count <- rep(freqs$count, 2)
+      freqs$mids <- c(freqs$mids, freqs$mids + 180)
+    }
+
     bins <- f * 180 / freqs$binwidth
     bins.count <- freqs$count
     mids <- deg2rad(90 - freqs$mids)
@@ -728,7 +720,6 @@ quick_plot <- function(
         FUN = circular_mean,
         width = width
       ),
-      # roll_conf95 = roll_confidence(azi, .95, 1 / unc, width = width),
       roll_sd = roll_circstats(
         azi,
         w = 1 / unc,
@@ -746,8 +737,7 @@ quick_plot <- function(
         prd,
         w = 1 / unc,
         width = width
-      ) # ,
-      # roll_disp_CI = roll_dispersion_CI(azi, prd, w = 1 / unc, R = 100, width = width)
+      )
     )
 
   # add lower and upper period to data for plotting
