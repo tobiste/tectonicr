@@ -1,6 +1,9 @@
-# tectonicr 0.3.9
+# tectonicr 0.3.9 _2024-06-20_
+
+* stacked dots for `rose()` diagram
 
 # tectonicr 0.3.8 _2024-06-17_
+
 * `superimposed_shmax()` and `superimposed_shmax_PB()` to model the stress 
 orientation using multiple plate boundaries
 
