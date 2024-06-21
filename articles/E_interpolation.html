@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-06-20</h4>
+            <h4 data-toc-skip class="date">2024-06-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/E_interpolation.Rmd" class="external-link"><code>vignettes/E_interpolation.Rmd</code></a></small>
       <div class="d-none name"><code>E_interpolation.Rmd</code></div>
@@ -91,16 +91,8 @@ Stephan</h4>
 and display the lateral patterns of stress anomalies.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 methods overwritten by 'spatstat.univar':</span></span>
-<span><span class="co">#&gt;   method           from         </span></span>
-<span><span class="co">#&gt;   mean.ecdf        spatstat.geom</span></span>
-<span><span class="co">#&gt;   mean.ewcdf       spatstat.geom</span></span>
-<span><span class="co">#&gt;   print.ewcdf      spatstat.geom</span></span>
-<span><span class="co">#&gt;   quantile.density              </span></span>
-<span><span class="co">#&gt;   quantile.ewcdf   spatstat.geom</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cpm_models"</span><span class="op">)</span></span>
@@ -116,7 +108,7 @@ and display the lateral patterns of stress anomalies.</p>
 <p>Spatial interpolation of stress data is based on the aforementioned
 metrics (the algorithm is a modified version of the MATLAB script
 ‘stress2grid’ by Ziegler and Heidbach (2017).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The default settings apply quality and inverse distance weighting of
 the mean, as well as a 25% cut-off for the standard deviation.</p>
@@ -129,7 +121,7 @@ adjustments of the weighting power of the distance, quality or
 method.</p>
 </blockquote>
 <p>The data can now be visualized:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">por</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH</span><span class="op">)</span> <span class="op">+</span></span>
@@ -156,9 +148,9 @@ the direction stays constant no matter the distance between the data
 points. Assuming that the stress field is sourced by the plate boundary
 force, the model-based interpolation allows more reliable results for
 areas close to plate boundaries.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH_PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH_PoR</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trajectories</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">san_andreas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, angle <span class="op">=</span> <span class="fu"><a href="../reference/angle-conversion.html">deg2rad</a></span><span class="op">(</span><span class="fl">90</span> <span class="op">-</span> <span class="va">azi</span><span class="op">)</span><span class="op">)</span>, radius <span class="op">=</span> <span class="fl">.5</span>, color <span class="op">=</span> <span class="st">"grey30"</span>, position <span class="op">=</span> <span class="st">"center_spoke"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -183,7 +175,7 @@ radii. Since the interpolation was performed in the PoR CRS, the
 interpolated azimuths are additionally given in the transformed
 azimuths. This allows to easily calculate misfits from predicted
 directions:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH_PoR_reduced</span> <span class="op">&lt;-</span> <span class="va">mean_SH_PoR</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/compact_grid.html">compact_grid</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cdist <span class="op">=</span> <span class="fu"><a href="../reference/dispersion.html">circular_distance</a></span><span class="op">(</span><span class="va">azi.PoR</span>, <span class="fl">135</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -194,7 +186,7 @@ interpolation was performed in the PoR CRS, the grid is not composed of
 equally spaced grid cells in the geographic CRS. To rasterize such
 grids, we can, e.g., use Voronoi cells from the <code>ggforce</code>
 package.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH_PoR_reduced</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggforce</span><span class="fu">::</span><span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_delvor.html" class="external-link">geom_voronoi_tile</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, fill <span class="op">=</span> <span class="va">cdist</span><span class="op">)</span>,</span>
@@ -225,7 +217,7 @@ the smallest kernel size containing the the least dispersion
 <p>It is recommended to calculate the kernel dispersion on PoR
 transformed data to avoid angle distortions due to projections.</p>
 </blockquote>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">san_andreas_por</span> <span class="op">&lt;-</span> <span class="va">san_andreas</span></span>
 <span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">azi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">$</span><span class="va">azi.PoR</span> <span class="co"># transform to PoR azimuth</span></span>
 <span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fl">135</span> <span class="co"># test direction</span></span>

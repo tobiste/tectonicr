@@ -85,6 +85,9 @@
     <loc>https://tobiste.github.io/tectonicr/reference/circular_dispersion_boot.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/circular_plot.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/circular_sd_error.html</loc>
   </url>
   <url>
@@ -211,6 +214,12 @@
     <loc>https://tobiste.github.io/tectonicr/reference/plates.html</loc>
   </url>
   <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/plot_density.html</loc>
+  </url>
+  <url>
+    <loc>https://tobiste.github.io/tectonicr/reference/plot_points.html</loc>
+  </url>
+  <url>
     <loc>https://tobiste.github.io/tectonicr/reference/por_transformation_df.html</loc>
   </url>
   <url>
@@ -251,9 +260,6 @@
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/rose.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rose_baseplot.html</loc>
   </url>
   <url>
     <loc>https://tobiste.github.io/tectonicr/reference/rose_bw.html</loc>

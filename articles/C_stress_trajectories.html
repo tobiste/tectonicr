@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-06-20</h4>
+            <h4 data-toc-skip class="date">2024-06-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/HEAD/vignettes/C_stress_trajectories.Rmd" class="external-link"><code>vignettes/C_stress_trajectories.Rmd</code></a></small>
       <div class="d-none name"><code>C_stress_trajectories.Rmd</code></div>
@@ -91,17 +91,8 @@ Stephan</h4>
 predicted stress directions.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tobiste.github.io/tectonicr/">tectonicr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 methods overwritten by 'spatstat.univar':</span></span>
-<span><span class="co">#&gt;   method           from         </span></span>
-<span><span class="co">#&gt;   mean.ecdf        spatstat.geom</span></span>
-<span><span class="co">#&gt;   mean.ewcdf       spatstat.geom</span></span>
-<span><span class="co">#&gt;   print.ewcdf      spatstat.geom</span></span>
-<span><span class="co">#&gt;   quantile.density              </span></span>
-<span><span class="co">#&gt;   quantile.ewcdf   spatstat.geom</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># load ggplot library</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="equivalent-rotations">Equivalent rotations<a class="anchor" aria-label="anchor" href="#equivalent-rotations"></a>
 </h3>
@@ -115,7 +106,7 @@ one has to transform the rotations in to a new, equivalent reference
 system (i.e. all rotation with respect to (wrt.) Eurasia).</p>
 <p>In <strong>tectonicr</strong> this can be done with
 <code><a href="../reference/equivalent_rotation.html">equivalent_rotation()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span><span class="va">nuvel1.eu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">nuvel1</span>, fixed <span class="op">=</span> <span class="st">"eu"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nuvel1.eu</span><span class="op">)</span></span>
@@ -128,7 +119,7 @@ system (i.e. all rotation with respect to (wrt.) Eurasia).</p>
 <span><span class="co">#&gt; co        co  19.84642 -115.85295 1.36455727        eu</span></span></code></pre></div>
 <p>Alternatively, the PB2002 model by Bird (2003) is also provided as an
 ready-to use example dataset for global plate motions.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pb2002"</span><span class="op">)</span></span>
 <span><span class="va">pb2002.eu</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/equivalent_rotation.html">equivalent_rotation</a></span><span class="op">(</span><span class="va">pb2002</span>, fixed <span class="op">=</span> <span class="st">"eu"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pb2002.eu</span><span class="op">)</span></span>
@@ -163,7 +154,7 @@ small circles as as simple feature(<code>sf</code>) by giving a
 <p>For example the small circles around the pole of the relative motion
 of the Indian plate relative to the Eurasian plate (transformed from the
 from the NUVEL1 model).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">por</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1.eu</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"in"</span><span class="op">)</span> <span class="co"># India relative to Eurasia</span></span></code></pre></div>
 <p>The <code>returnclass</code> option in
@@ -173,7 +164,7 @@ from the NUVEL1 model).</p>
 <p>To eventually plot the small circles with <code>ggplot</code>, I
 recommend to extract a <code>sf</code> feature and plot the it with
 <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">por.sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_smallcircles</a></span><span class="op">(</span><span class="va">por</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"plates"</span><span class="op">)</span> <span class="co"># load plate boundary data set</span></span>
 <span><span class="co"># world &lt;- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")</span></span>
@@ -225,7 +216,7 @@ circles around the In-Eu pole of rotation.</div>
 of Rotation (PoR) coordinates in lat and lon (<code>x</code>) and the
 number of great circles <code>n</code>, or the great circle angles
 (<code>360/d</code>).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">por.gm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_greatcircles</a></span><span class="op">(</span><span class="va">por</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -280,7 +271,7 @@ circles at a constant angle. Thus, small and great circles are 0<span class="mat
 as <code>sf</code> object by giving a <code>data.frame</code> of the PoR
 coordinates in lat and lon (<code>x</code>) and the angle between the
 loxodromes, the direction, and the sense.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">por.ld</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">por</span>, angle <span class="op">=</span> <span class="fl">45</span>, n <span class="op">=</span> <span class="fl">10</span>, cw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
