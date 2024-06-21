@@ -763,7 +763,7 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'
 #' @examples
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-#' plot_density(san_andreas$azi, bw = 10, col = "seagreen", shrink = 1.5)
+#' plot_density(san_andreas$azi, kappa = 10, col = "seagreen", shrink = 1.5)
 plot_density <- function(x, kappa, axial = TRUE, n = 512, norm_density = TRUE, ...,
                          scale = 1.1, shrink,
                          add = TRUE, main = NULL, labels = TRUE,
