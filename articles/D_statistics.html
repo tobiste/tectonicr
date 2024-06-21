@@ -158,13 +158,23 @@ orientations of the PoR reference frame.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circle_stats.html">circular_IQR</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 25.82388</span></span></code></pre></div>
+<p>The collected summary statistics can be quickly obtained by
+<code><a href="../reference/circular_summary.html">circular_summary()</a></code>:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_summary.html">circular_summary</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<span><span class="co">#&gt;            n         mean           sd          var          25%       median </span></span>
+<span><span class="co">#&gt; 1082.0000000  137.9887452   37.3054275    0.1910088  123.6097875  135.6591605 </span></span>
+<span><span class="co">#&gt;          75%        95%CI     skewness     kurtosis </span></span>
+<span><span class="co">#&gt;  149.4336638    2.6184123   -0.3510061    2.7511222</span></span></code></pre></div>
+<p>The summary statistics include also the circular variance, skewness,
+kurtosis, and the 95% confidence angle.</p>
 </div>
 <div class="section level3">
 <h3 id="rose-diagram">Rose diagram<a class="anchor" aria-label="anchor" href="#rose-diagram"></a>
 </h3>
 <p><strong>tectonicr</strong> provides a rose diagram, i.e. histogram
 for angular data.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"North pole"</span>,</span>
 <span>     dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span>
 <span></span>
@@ -178,7 +188,7 @@ red).</p>
 <p>Showing the distribution of the transformed data gives the better
 representation of the angle distribution as there is no angle distortion
 due to the arbitrarily chosen geographic coordinate system.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"PoR"</span>,</span>
 <span>     dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span>, shrink <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span>
@@ -198,7 +208,7 @@ due to the arbitrarily chosen geographic coordinate system.</p>
 Mises distribution</em> (Mardia and Jupp, 1999). If the directions are
 distributed randomly can be tested with the <strong>Rayleigh
 Test</strong>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh_test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="co">#&gt; $R</span></span>
@@ -224,7 +234,7 @@ preferred orientation.</p>
 the orientation data, a <span class="math inline">\((1-\alpha
 \%)/100\)</span> <strong>confidence interval</strong> can be calculated
 (Mardia and Jupp, 1999):</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/confidence.html">confidence_interval</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mu</span></span>
 <span><span class="co">#&gt; [1] 137.9887</span></span>
@@ -241,13 +251,13 @@ that the orientations follow the predicted trend of <span class="math inline">\(
 orientation angles around the prediction is another way of assessing the
 significance of a normal distribution around a specified direction. It
 can be measured by:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dispersion.html">circular_dispersion</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.0977037</span></span></code></pre></div>
 <p>The value of the dispersion ranges between 0 and 2.</p>
 <p>The standard error and the confidence interval of the calculated
 circular dispersion can be estimated by bootstrapping via:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_dispersion_boot.html">circular_dispersion_boot</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $MLE</span></span>
 <span><span class="co">#&gt; [1] 0.1912895</span></span>
@@ -260,7 +270,7 @@ circular dispersion can be estimated by bootstrapping via:</p>
 <p>The statistical test for the goodness-of-fit is the (weighted)
 <strong>Rayleigh Test</strong> with a specified mean direction (here the
 predicted direction of <span class="math inline">\(135^{\circ}\)</span>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="co">#&gt; $C</span></span>
