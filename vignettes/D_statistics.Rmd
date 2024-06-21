@@ -78,6 +78,13 @@ circular_sd(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 circular_median(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 circular_IQR(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 ```
+The collected summary statistics can be quickly obtained by `circular_summary()`:
+```{r summary_stats, echo=TRUE}
+circular_summary(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
+```
+
+The summary statistics include also the circular variance, skewness, kurtosis, 
+and the 95% confidence angle.
 
 ## Rose diagram
 **tectonicr** provides a rose diagram, i.e. histogram for angular data. 
