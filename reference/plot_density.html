@@ -69,7 +69,7 @@
 <span>  norm_density <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  scale <span class="op">=</span> <span class="fl">1.1</span>,</span>
-<span>  <span class="va">shrink</span>,</span>
+<span>  shrink <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  add <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  main <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -152,6 +152,8 @@ Set <code>at=numeric(0)</code> to suppress tick marks.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"seagreen"</span>, shrink <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_density-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"seagreen"</span>, add <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot_density-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

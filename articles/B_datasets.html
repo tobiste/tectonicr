@@ -440,24 +440,20 @@ coordinates and azimuths as well as the deviations can be viewed by:</p>
 azimuths can be displayed by</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">stats</span></span>
-<span><span class="co">#&gt;                    [,1]</span></span>
+<span><span class="co">#&gt;                    mean</span></span>
 <span><span class="co">#&gt; mean       138.89637844</span></span>
 <span><span class="co">#&gt; sd          37.12410655</span></span>
 <span><span class="co">#&gt; var          0.18934422</span></span>
+<span><span class="co">#&gt; median     137.00940228</span></span>
+<span><span class="co">#&gt; skewness    -0.35015660</span></span>
+<span><span class="co">#&gt; kurtosis     2.79355608</span></span>
+<span><span class="co">#&gt; conf95       2.60014079</span></span>
 <span><span class="co">#&gt; dispersion   0.09841532</span></span>
-<span><span class="co">#&gt; conf95       1.95795305</span></span>
 <span><span class="co">#&gt; norm_chisq   0.05290280</span></span></code></pre></div>
 <p>Statistical test results are shown by</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">test</span></span>
-<span><span class="co">#&gt; $C</span></span>
-<span><span class="co">#&gt; [1] 0.8031694</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 37.36249</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 4.900069e-302</span></span></code></pre></div>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>… and the associated plots can be displayed by setting
 <code>plot = TRUE</code>:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">

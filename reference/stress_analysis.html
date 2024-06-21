@@ -97,8 +97,8 @@ the PoR-equivalent azimuth is returned.</p></dd>
 
 
 <dt>pb</dt>
-<dd><p>(optional) <code>sf</code> object of the plate boundary geometries in the geographical
-coordinate system</p></dd>
+<dd><p>(optional) <code>sf</code> object of the plate boundary geometries in the
+geographical coordinate system</p></dd>
 
 
 <dt>plot</dt>
@@ -121,16 +121,20 @@ misfit to predicted stress direction (<code>nchisq</code>) and, if given, distan
 plate boundary (<code>distance</code>)</p></dd>
 
 <dt><code>stats</code></dt>
-<dd><p>array with circular (weighted) mean, circular standard deviation, circular variance, circular dispersion, the 95% confidence angle, and the normalized Chi-squared test statistic</p></dd>
+<dd><p>array with circular (weighted) mean, circular standard
+deviation, circular variance, circular median, skewness, kurtosis, the 95%
+confidence angle, circular dispersion, and the normalized Chi-squared test
+statistic</p></dd>
 
 <dt><code>test</code></dt>
-<dd><p>list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.</p></dd>
+<dd><p>list containing the test results of the (weighted) Rayleigh
+test against the uniform distribution about the predicted orientation.</p></dd>
 
 
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="PoR_shmax.html">PoR_shmax()</a></code>, <code><a href="distance_from_pb.html">distance_from_pb()</a></code>, <code><a href="norm_chisq.html">norm_chisq()</a></code>, <code><a href="quick_plot.html">quick_plot()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="PoR_shmax.html">PoR_shmax()</a></code>, <code><a href="distance_from_pb.html">distance_from_pb()</a></code>, <code><a href="norm_chisq.html">norm_chisq()</a></code>, <code><a href="quick_plot.html">quick_plot()</a></code>, <code><a href="circular_summary.html">circular_summary()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -2314,22 +2318,25 @@ plate boundary (<code>distance</code>)</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1082 -4.174179044</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $stats</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    [,1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    mean</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mean       138.89637844</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sd          37.12410655</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> var          0.18934422</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median     137.00940228</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> skewness    -0.35015660</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> kurtosis     2.79355608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> conf95       2.60014079</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> dispersion   0.09841532</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> conf95       1.95795305</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> norm_chisq   0.05290280</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $test</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $test$C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rayleigh.test</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rayleigh.test$C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8031694</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $test$statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rayleigh.test$statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 37.36249</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $test$p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rayleigh.test$p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.900069e-302</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
