@@ -411,15 +411,16 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
 #'
 #' @param x grid. An object of `sf`, `sfc` or 2-column matrix
 #' @param pbs plate boundaries. `sf` object
-#' @param cpm character. Current plate motion model.
+#' @param model `data.frame` containing the Euler pole parameters. See
+#' [equivalent_rotation()] for details.
 #' @param rotation_weighting logical.
 #' @param type_weights named vector.
 #' @param idp numeric. Weighting power of inverse distance. The higher the
 #' number, the less impact far-distant boundaries have. When set to `0`, no
 #' weighting is applied.
 #'
-#' @return two-column matrix. `azi` is the resultant azimuth (degree), `R` is
-#' the resultant length.
+#' @return two-column matrix. `azi` is the resultant azimuth (in degrees), `R`
+#' is the resultant length.
 #'
 #' @seealso [superimposed_shmax()]
 #'
@@ -429,14 +430,14 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
 #' @examples
 #' na_grid <- sf::st_make_grid(san_andreas, what = "centers", cellsize = 1)
 #' na_plate <- subset(plates, plateA == "na" | plateB == "na")
+#' cpm <- subset(cpm_models, cpm_models$model == "NNR-MORVEL56")
 #'
 #' # make divergent to ridge-push:
 #' na_plate <- transform(na_plate, type = ifelse(na_plate$pair == "eu-na", "convergent", type))
 #'
-#' res <- superimposed_shmax_PB(na_grid, na_plate, idp = 2)
+#' res <- superimposed_shmax_PB(na_grid, na_plate, model = cpm, idp = 2)
 #' head(res)
-superimposed_shmax_PB <- function(x, pbs,
-                                  cpm = c("NNR-MORVEL56", "NNR-NUVEL1A", "GSRM2.1", "HS3-NUVEL1A", "REVEL", "PB2002"),
+superimposed_shmax_PB <- function(x, pbs, model,
                                   rotation_weighting = TRUE,
                                   type_weights = c(
                                     "divergent" = 1,
@@ -454,13 +455,14 @@ superimposed_shmax_PB <- function(x, pbs,
   } else {
     x_sf <- as.data.frame(x) |> sf::st_as_sf(coords = c(1, 2))
   }
+
   nx <- nrow(x)
+  X <- Y <- numeric(nx)
+  name <- character()
 
   pbs$pbty_w <- type_weights[pbs$type]
 
   pb_types <- unique(pbs$name)
-  cpm <- match.arg(cpm)
-  cpm <- cpm_models |> filter(model == cpm)
 
   pb_dist <- pb_dir <- pb_rot <- pb_weights <- matrix(numeric(), nrow = nx, ncol = length(pb_types))
   colnames(pb_dist) <- pb_types
@@ -479,12 +481,19 @@ superimposed_shmax_PB <- function(x, pbs,
   for (i in pb_types) {
     pb_i <- filter(pbs, name == i)
 
-    por_i <- equivalent_rotation(cpm, pb_i$plateA[1], pb_i$plateB[1])
+    por_i <- equivalent_rotation(model, pb_i$plateA[1], pb_i$plateB[1])
     pbty_i <- pb_i$type[1]
     pbty3_i <- pb_i$pbty[1]
 
-    pb_dist[, i] <- distance_from_pb(x_sf, por_i, pb_i, tangential = !(pbty_i %in% c("divergent", "convergent")), km = TRUE) |> abs()
-    dir_i <- model_shmax(sf::st_coordinates(x_sf) |> as.data.frame() |> rename(lat = Y, lon = X), por_i)
+    pb_dist[, i] <- distance_from_pb(
+      x_sf, por_i, pb_i,
+      tangential = !(pbty_i %in% c("divergent", "convergent")),
+      km = TRUE
+    ) |>
+      abs()
+    dir_i <- model_shmax(sf::st_coordinates(x_sf) |>
+      as.data.frame() |>
+      rename(lat = Y, lon = X), por_i)
     pb_dir[, i] <- dir_i[, pbty3_i]
 
     pb_weights[, i] <- rep(pb_i$pbty_w[1], nx)

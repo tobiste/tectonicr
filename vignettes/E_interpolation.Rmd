@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 This vignette teaches you how to spatially interpolate stress fields and 
 display the lateral patterns of stress anomalies.
 
-```{r setup}
+```{r setup, message=FALSE}
 library(tectonicr)
 library(ggplot2) # load ggplot library
 ```

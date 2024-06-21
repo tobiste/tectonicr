@@ -845,3 +845,8 @@ watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL,
     p.value = p.value
   )
 }
+
+
+
+
+

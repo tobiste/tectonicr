@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 This vignette teaches you how to plot the trajectories of the predicted 
 stress directions.
 
-```{r setup, echo=TRUE}
+```{r setup, echo=TRUE,message=FALSE}
 library(tectonicr)
 library(ggplot2) # load ggplot library
 library(sf)

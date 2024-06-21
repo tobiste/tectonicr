@@ -4,7 +4,7 @@
 \alias{rose_geom}
 \alias{rose_line}
 \alias{rose_fan}
-\title{Lines and fans in rose diagram}
+\title{Direction Lines and Fans in Circular Diagram}
 \usage{
 rose_line(x, radius = 1, axial = TRUE, add = TRUE, ...)
 
@@ -13,9 +13,9 @@ rose_fan(x, d, radius = 1, axial = TRUE, add = TRUE, ...)
 \arguments{
 \item{x}{angles in degrees}
 
-\item{radius}{of the rose diagram}
+\item{radius}{of the plotted circle}
 
-\item{axial}{Logical. Whether x are uniaxial (\code{axial=FALSE})
+\item{axial}{Logical. Whether \code{x} are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
 \item{add}{logical. Add to existing plot?}
@@ -29,7 +29,7 @@ or biaxial (\code{TRUE}, the default).}
 No return value, called for side effects
 }
 \description{
-Lines and fans in rose diagram
+Direction Lines and Fans in Circular Diagram
 }
 \examples{
 a <- c(0, 10, 45)

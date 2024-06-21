@@ -53,7 +53,7 @@ standard deviation (\code{"sd"}), or the Quasi interquartile range on the circle
 
 \item{add}{logical.}
 
-\item{...}{optional arguments to \code{rose_baseplot()} if add is \code{FALSE}.}
+\item{...}{optional arguments to \code{circular_plot()} if add is \code{FALSE}.}
 }
 \value{
 No return value, called for side effects

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 This vignette teaches you how to retrieve the mean direction of stress 
 datasets. 
 
-```{r setup, echo=TRUE}
+```{r setup, echo=TRUE, message=FALSE}
 library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
@@ -58,6 +58,7 @@ circular_IQR(san_andreas$azi, 1 / san_andreas$unc) # interquartile range
 
 
 ## Statistics in the Pole of Rotation (PoR) reference frame
+
 **NOTE:** Because the $\sigma_{SHmax}$ orientations are subjected to angular 
 distortions in the geographical coordinate system, it is recommended to express
 statistical parameters using the transformed orientations of the PoR reference 
@@ -81,14 +82,31 @@ circular_IQR(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 ## Rose diagram
 **tectonicr** provides a rose diagram, i.e. histogram for angular data. 
 ```{r rose1, echo=TRUE}
-rose(san_andreas$azi, weights = 1 / san_andreas$unc, col = "grey", main = "North pole")
+rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "North pole",
+     dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+
+# add the density curve
+plot_density(san_andreas$azi, bw = 9, col = "dodgerblue", shrink = 1.5)
 ```
 
+The diagram shows the uncertainty-weighted frequencies (equal area rose fans), 
+the von Mises density distribution (blue curve), and the circular mean (red line) 
+incl. its 95% confidence interval (transparent red). 
+
+
+Showing the distribution of the transformed data gives the better representation
+of the angle distribution as there is no angle distortion due to the arbitrarily 
+chosen geographic coordinate system.
 ```{r rose2, echo=TRUE}
-rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, col = "grey", main = "PoR")
-rose_line(135, radius = 1.1, col = "#009E73") # show the predicted direction
+rose(san_andreas.por$azi, weights = 1 / san_andreas$unc, main = "PoR",
+     dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+plot_density(san_andreas.por$azi, bw = 9, col = "dodgerblue", shrink = 1.5)
+
+# show the predicted direction
+rose_line(135, radius = 1.1, col = "#009E73") 
 ```
 
+The green line shows the predicted direction.
 
 ## Statistical tests
 ### Test for random distribution

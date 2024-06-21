@@ -8,7 +8,7 @@ to plate boundaries}
 superimposed_shmax_PB(
   x,
   pbs,
-  cpm = c("NNR-MORVEL56", "NNR-NUVEL1A", "GSRM2.1", "HS3-NUVEL1A", "REVEL", "PB2002"),
+  model,
   rotation_weighting = TRUE,
   type_weights = c(divergent = 1, convergent = 3, transform_L = 2, transform_R = 2),
   idp = 1
@@ -19,7 +19,8 @@ superimposed_shmax_PB(
 
 \item{pbs}{plate boundaries. \code{sf} object}
 
-\item{cpm}{character. Current plate motion model.}
+\item{model}{\code{data.frame} containing the Euler pole parameters. See
+\code{\link[=equivalent_rotation]{equivalent_rotation()}} for details.}
 
 \item{rotation_weighting}{logical.}
 
@@ -30,8 +31,8 @@ number, the less impact far-distant boundaries have. When set to \code{0}, no
 weighting is applied.}
 }
 \value{
-two-column matrix. \code{azi} is the resultant azimuth (degree), \code{R} is
-the resultant length.
+two-column matrix. \code{azi} is the resultant azimuth (in degrees), \code{R}
+is the resultant length.
 }
 \description{
 Calculates a \eqn{\sigma_{Hmax}}{SHmax} direction at given coordinates,
@@ -43,11 +44,12 @@ boundaries, and the type of plate boundary.
 \examples{
 na_grid <- sf::st_make_grid(san_andreas, what = "centers", cellsize = 1)
 na_plate <- subset(plates, plateA == "na" | plateB == "na")
+cpm <- subset(cpm_models, cpm_models$model == "NNR-MORVEL56")
 
 # make divergent to ridge-push:
 na_plate <- transform(na_plate, type = ifelse(na_plate$pair == "eu-na", "convergent", type))
 
-res <- superimposed_shmax_PB(na_grid, na_plate, idp = 2)
+res <- superimposed_shmax_PB(na_grid, na_plate, model = cpm, idp = 2)
 head(res)
 }
 \seealso{

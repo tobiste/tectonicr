@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 This vignette teaches you how to handle large stress datasets and how to 
 retrieve relative plate motions parameters from a set of plate motions. 
 
-```{r setup, echo=TRUE}
+```{r setup, echo=TRUE, message=FALSE}
 library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
