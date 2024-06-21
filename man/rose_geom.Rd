@@ -32,9 +32,9 @@ No return value, called for side effects
 Direction Lines and Fans in Circular Diagram
 }
 \examples{
-a <- c(0, 10, 45)
+angles <- c(0, 10, 45)
 radius <- c(.7, 1, .2)
 lwd <- c(2, 1, .75)
 col <- c(1, 2, 3)
-rose_line(c(0, 10, 45), radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
+rose_line(angles, radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
 }

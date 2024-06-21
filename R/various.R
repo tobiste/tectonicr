@@ -181,19 +181,19 @@ quantise_wsm_quality <- function(x) {
 #' Returns the converted azimuths, distances to the plate boundary,
 #' statistics of the model, and some plots.
 #'
-#' @param x \code{data.frame} or `sf` object containing the coordinates of the point(s)
-#' (\code{lat}, \code{lon}), the direction of
-#' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
+#' @param x `data.frame` or `sf` object containing the coordinates of the point(s)
+#' (`lat`, `lon`), the direction of
+#' \eqn{\sigma_{Hmax}}{SHmax} `azi` and its standard deviation
 #' \code{unc} (optional)
-#' @param PoR Pole of Rotation. \code{data.frame} or object of class \code{"euler.pole"}
+#' @param PoR Pole of Rotation. `data.frame` or object of class `"euler.pole"`
 #' containing the geographical coordinates of the Euler pole
 #' @param type Character. Type of plate boundary (optional). Can be
-#' \code{"out"}, \code{"in"}, \code{"right"}, or
-#' \code{"left"} for outward, inward, right-lateral, or left-lateral
-#' moving plate boundaries, respectively. If \code{"none"} (the default), only
+#' `"out"`, `"in"`, `"right"`, or
+#' `"left"` for outward, inward, right-lateral, or left-lateral
+#' moving plate boundaries, respectively. If `"none"` (the default), only
 #' the PoR-equivalent azimuth is returned.
-#' @param pb (optional) `sf` object of the plate boundary geometries in the geographical
-#' coordinate system
+#' @param pb (optional) `sf` object of the plate boundary geometries in the
+#' geographical coordinate system
 #' @param plot (logical). Whether to produce a plot additional to output.
 #' @param ... optional arguments to [distance_from_pb()]
 #'
@@ -204,13 +204,17 @@ quantise_wsm_quality <- function(x) {
 #' deviation angle from predicted (`dev`), circular distance (`cdist`),
 #' misfit to predicted stress direction (`nchisq`) and, if given, distance to tested
 #' plate boundary (`distance`)}
-#' \item{`stats`}{array with circular (weighted) mean, circular standard deviation, circular variance, circular dispersion, the 95% confidence angle, and the normalized Chi-squared test statistic}
-#' \item{`test`}{list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.}
+#' \item{`stats`}{array with circular (weighted) mean, circular standard
+#' deviation, circular variance, circular median, skewness, kurtosis, the 95%
+#' confidence angle, circular dispersion, and the normalized Chi-squared test
+#'  statistic}
+#' \item{`test`}{list containing the test results of the (weighted) Rayleigh
+#' test against the uniform distribution about the predicted orientation.}
 #' }
 #'
 #' @export
 #'
-#' @seealso [PoR_shmax()], [distance_from_pb()], [norm_chisq()], [quick_plot()]
+#' @seealso [PoR_shmax()], [distance_from_pb()], [norm_chisq()], [quick_plot()], [circular_summary()]
 #'
 #' @examples
 #' \donttest{
@@ -234,11 +238,13 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
   }
   prd <- res$prd
 
-  mean <- circular_mean(res$azi.PoR, 1 / x$unc)
-  sd <- circular_sd(res$azi.PoR, 1 / x$unc)
-  var <- circular_var(res$azi.PoR, 1 / x$unc)
+  stats <- circular_summary(res$azi.PoR, 1 / x$unc)
+
+  # mean <- circular_mean(res$azi.PoR, 1 / x$unc)
+  # sd <- circular_sd(res$azi.PoR, 1 / x$unc)
+  # var <- circular_var(res$azi.PoR, 1 / x$unc)
   disp <- circular_dispersion(res$azi.PoR, prd, 1 / x$unc)
-  conf <- confidence_angle(res$azi.PoR, w = 1 / x$unc)
+  # conf <- confidence_angle(res$azi.PoR, w = 1 / x$unc)
   nchisq <- norm_chisq(res$azi.PoR, prd, unc = x$unc)
   rayleigh <- weighted_rayleigh(res$azi.PoR, prd, w = 1 / x$unc)
 
@@ -251,8 +257,11 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
   list(
     result = res,
     stats =
-      rbind(mean = mean, sd = sd, var = var, dispersion = disp, conf95 = conf, norm_chisq = nchisq),
-    test = rayleigh
+      rbind(mean = stats['mean'], sd = stats['sd'], var = stats['var'],
+            median = stats['median'], skewness = stats['skewness'], kurtosis = stats['kurtosis'],
+            conf95 = stats['95%CI'],
+            dispersion = disp, norm_chisq = nchisq),
+    rayleigh.test = rayleigh
   )
 }
 

@@ -414,9 +414,13 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  at = seq(0, 360 - 45, 45), cborder = TRUE, labels = TRUE,
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
                  dot_col = "slategrey", stack = FALSE, add = FALSE, ...) {
-  if (missing(main) || is.null(main)) {
-    main <- spatstat.utils::short.deparse(substitute(x))
+  if (!add){
+    if (missing(main) || is.null(main)) {
+      main <- spatstat.utils::short.deparse(substitute(x))
+    }
+    circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
+
   if (axial) {
     x <- x %% 180
     x[x >= 180] <- 180 - 2 * .Machine$double.eps
@@ -431,8 +435,6 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     round_binwidth = round_binwidth, equal_area = equal_area,
     axial = axial
   )
-
-  if (!add) circular_plot(main = main, labels = labels, at = at, cborder = cborder)
 
   rose_histogram(freqs, ...,
     col = col, axial = axial,
@@ -468,11 +470,11 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' @importFrom graphics segments polygon
 #' @name rose_geom
 #' @examples
-#' a <- c(0, 10, 45)
+#' angles <- c(0, 10, 45)
 #' radius <- c(.7, 1, .2)
 #' lwd <- c(2, 1, .75)
 #' col <- c(1, 2, 3)
-#' rose_line(c(0, 10, 45), radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
+#' rose_line(angles, radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
 NULL
 
 #' @rdname rose_geom
@@ -616,7 +618,12 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 plot_points <- function(x, axial = TRUE, stack = FALSE, cex = 1, sep = 0.025, ..., scale = 1.1, add = TRUE,
                         main = NULL, labels = TRUE,
                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
-  if (!add) circular_plot(main = main, labels = labels, at = at, cborder = cborder)
+  if (!add){
+    if (missing(main) || is.null(main)) {
+      main <- spatstat.utils::short.deparse(substitute(x))
+    }
+    circular_plot(main = main, labels = labels, at = at, cborder = cborder)
+  }
 
   f <- ifelse(axial, 2, 1)
 
@@ -764,11 +771,17 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #' @examples
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 #' plot_density(san_andreas$azi, kappa = 10, col = "seagreen", shrink = 1.5)
+#' plot_density(san_andreas$azi, kappa = 10, col = "seagreen", add = FALSE, scale = .6)
 plot_density <- function(x, kappa, axial = TRUE, n = 512, norm_density = TRUE, ...,
-                         scale = 1.1, shrink,
+                         scale = 1.1, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
                          at = seq(0, 360 - 45, 45), cborder = TRUE) {
-  if (!add) circular_plot(main = main, labels = labels, at = at, cborder = cborder)
+  if (!add){
+    if (missing(main) || is.null(main)) {
+      main <- spatstat.utils::short.deparse(substitute(x))
+    }
+    circular_plot(main = main, labels = labels, at = at, cborder = cborder)
+  }
 
 
   f <- ifelse(axial, 2, 1)

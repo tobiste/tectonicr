@@ -28,8 +28,8 @@ containing the geographical coordinates of the Euler pole}
 moving plate boundaries, respectively. If \code{"none"} (the default), only
 the PoR-equivalent azimuth is returned.}
 
-\item{pb}{(optional) \code{sf} object of the plate boundary geometries in the geographical
-coordinate system}
+\item{pb}{(optional) \code{sf} object of the plate boundary geometries in the
+geographical coordinate system}
 
 \item{plot}{(logical). Whether to produce a plot additional to output.}
 
@@ -43,8 +43,12 @@ list containing the following values:
 deviation angle from predicted (\code{dev}), circular distance (\code{cdist}),
 misfit to predicted stress direction (\code{nchisq}) and, if given, distance to tested
 plate boundary (\code{distance})}
-\item{\code{stats}}{array with circular (weighted) mean, circular standard deviation, circular variance, circular dispersion, the 95\% confidence angle, and the normalized Chi-squared test statistic}
-\item{\code{test}}{list containting the test results of the (weighted) Rayleigh test against the uniform distribution about the predicted  orientation.}
+\item{\code{stats}}{array with circular (weighted) mean, circular standard
+deviation, circular variance, circular median, skewness, kurtosis, the 95\%
+confidence angle, circular dispersion, and the normalized Chi-squared test
+statistic}
+\item{\code{test}}{list containing the test results of the (weighted) Rayleigh
+test against the uniform distribution about the predicted orientation.}
 }
 }
 \description{
@@ -64,5 +68,5 @@ stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = TRUE)
 }
 }
 \seealso{
-\code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=quick_plot]{quick_plot()}}
+\code{\link[=PoR_shmax]{PoR_shmax()}}, \code{\link[=distance_from_pb]{distance_from_pb()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=quick_plot]{quick_plot()}}, \code{\link[=circular_summary]{circular_summary()}}
 }
