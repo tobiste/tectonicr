@@ -1,333 +1,113 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/404.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/articles/A_tectonicr.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/articles/B_datasets.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/articles/C_stress_trajectories.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/articles/D_statistics.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/articles/E_interpolation.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/index.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/PoR2Geo_azimuth.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/PoR_coordinates.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/PoR_crs.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/PoR_map.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/PoR_shmax.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/PositionCenterSpoke.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/Q4_to_euler.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/abs_vel.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/angle-conversion.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/axes.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/circle_stats.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/circular_dispersion_boot.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/circular_plot.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/circular_sd_error.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/circular_summary.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/compact_grid.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/confidence.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/conjugate_Q4.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/coordinate_mod.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/coordinates.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/coordinates2.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/cpm_models.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/deviation_norm.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/deviation_shmax.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/dispersion.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/dist_greatcircle.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/distance_from_pb.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/distance_mod.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/earth_radius.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/equivalent_rotation.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/est.kappa.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/euler_pole.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/euler_to_Q4.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/get_azimuth.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/get_distance.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/get_projected_pb_strike.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/get_relrot.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/iceland.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/import_WSM2016.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/is.Q4.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/kernel_dispersion.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/kuiper_test.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/line_azimuth.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/mean_resultant_length.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/model_shmax.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/norm_chisq.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/normalize_Q4.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/nuvel1.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/nuvel1_plates.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/parse_wsm.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/pb2002.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/plates.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/plot_density.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/plot_points.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/por_transformation_df.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/por_transformation_quat.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/por_transformation_sf.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/prd_err.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/product_Q4.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/projected_pb_strike.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/quick_plot.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/raster_transformation.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rayleigh_test.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/relative_rotation.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/roll_circstats.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rolling_test.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rolling_test_dist.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rose.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rose_bw.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rose_geom.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rose_stats.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rotate_lines.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/rotation_Q4.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/san_andreas.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/second_central_moment.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/spec_atan.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/spherical_angle.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/stress2grid.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/stress_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/stress_colors.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/stress_paths.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/superimposed_shmax.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/superimposed_shmax_PB.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/tectonicr.colors.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/tectonicr.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/tibet.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/trigon.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/vcross.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/vonmises.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/watson_test.html</loc>
-  </url>
-  <url>
-    <loc>https://tobiste.github.io/tectonicr/reference/weighted_rayleigh.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://tobiste.github.io/tectonicr/404.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/CONTRIBUTING.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/LICENSE.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/SUPPORT.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/articles/A_tectonicr.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/articles/B_datasets.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/articles/C_stress_trajectories.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/articles/D_statistics.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/articles/E_interpolation.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/articles/index.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/authors.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/index.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/news/index.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/PoR2Geo_azimuth.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/PoR_coordinates.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/PoR_crs.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/PoR_map.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/PoR_shmax.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/PositionCenterSpoke.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/Q4_to_euler.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/abs_vel.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/angle-conversion.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/axes.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circle_stats.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circular_dispersion_boot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circular_plot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circular_sd_error.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circular_summary.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/compact_grid.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/confidence.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/conjugate_Q4.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/coordinate_mod.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/coordinates.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/coordinates2.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/cpm_models.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/deviation_norm.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/deviation_shmax.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dispersion.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dist_greatcircle.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/distance_from_pb.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/distance_mod.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/earth_radius.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/equivalent_rotation.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/est.kappa.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/euler_pole.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/euler_to_Q4.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/get_azimuth.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/get_distance.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/get_projected_pb_strike.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/get_relrot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/iceland.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/import_WSM2016.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/index.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/is.Q4.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/kernel_dispersion.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/kuiper_test.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/line_azimuth.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/mean_resultant_length.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/model_shmax.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/norm_chisq.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/normalize_Q4.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/nuvel1.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/nuvel1_plates.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/parse_wsm.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/pb2002.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/plates.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/plot_density.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/plot_points.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/por_transformation_df.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/por_transformation_quat.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/por_transformation_sf.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/prd_err.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/product_Q4.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/projected_pb_strike.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/quick_plot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/raster_transformation.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rayleigh_test.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/relative_rotation.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/roll_circstats.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rolling_test.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rolling_test_dist.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rose.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rose_bw.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rose_geom.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rose_stats.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rotate_lines.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rotation_Q4.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/san_andreas.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/second_central_moment.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/spec_atan.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/spherical_angle.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/stress_analysis.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/stress_colors.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/stress_paths.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/superimposed_shmax.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/superimposed_shmax_PB.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/tectonicr.colors.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/tectonicr.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/tibet.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/trigon.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/vcross.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/vonmises.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/watson_test.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/weighted_rayleigh.html</loc></url>
 </urlset>
+

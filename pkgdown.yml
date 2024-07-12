@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   A_tectonicr: A_tectonicr.html
@@ -7,8 +7,7 @@ articles:
   C_stress_trajectories: C_stress_trajectories.html
   D_statistics: D_statistics.html
   E_interpolation: E_interpolation.html
-last_built: 2024-06-21T21:24Z
+last_built: 2024-07-12T21:38Z
 urls:
   reference: https://tobiste.github.io/tectonicr/reference
   article: https://tobiste.github.io/tectonicr/articles
-
