@@ -155,8 +155,9 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x * f) %% 360
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
-  sd <- sqrt(-2 * log(R)) # / f
-  rad2deg(sd + 2 * pi) %% mod
+  sd <- sqrt(-2 * log(R))
+  #rad2deg(sd + 2 * pi) %% mod
+  rad2deg(sd/2)
 }
 
 
