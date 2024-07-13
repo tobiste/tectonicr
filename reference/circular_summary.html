@@ -92,15 +92,15 @@ should be stripped before the computation proceeds.</p></dd>
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_summary</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        n     mean       sd      var      25%   median      75%    95%CI </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 422.0000       NA       NA       NA 127.3600 136.8999 149.3244       NA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> skewness kurtosis        R </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       NA       NA       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           n        mean          sd         var         25%      median </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 407.0000000 139.3655975  20.0226130   0.2167045 126.5036202 136.1189938 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         75%       95%CI    skewness    kurtosis           R </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 147.8526166   1.4195696  -0.4009978   2.4250500   0.7832955 </span>
 <span class="r-in"><span><span class="fu">circular_summary</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        n     mean       sd      var      25%   median      75%    95%CI </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 422.0000       NA       NA       NA 127.3600 136.8999 149.3244       NA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> skewness kurtosis        R </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       NA       NA       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           n        mean          sd         var         25%      median </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 407.0000000 142.4029884  20.3016715   0.2220562 126.5036202 136.1189938 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         75%       95%CI    skewness    kurtosis           R </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 147.8526166   1.4506411  -0.4526369   1.4620392   0.7832955 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

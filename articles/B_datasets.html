@@ -433,10 +433,6 @@ engine:</p>
 coordinates and azimuths as well as the deviations can be viewed by:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in data[, "x"] - mu: longer object length is not a multiple of shorter</span></span>
-<span><span class="co">#&gt; object length</span></span>
-<span><span class="co">#&gt; Warning in cbind(x = x, w = w): number of rows of result is not a multiple of</span></span>
-<span><span class="co">#&gt; vector length (arg 2)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      azi.PoR prd        dev     nchisq      cdist  lat.PoR   lon.PoR  distance</span></span>
@@ -451,13 +447,13 @@ azimuths can be displayed by</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">stats</span></span>
 <span><span class="co">#&gt;                   mean</span></span>
-<span><span class="co">#&gt; mean                NA</span></span>
-<span><span class="co">#&gt; sd                  NA</span></span>
-<span><span class="co">#&gt; var                 NA</span></span>
-<span><span class="co">#&gt; median     136.8999190</span></span>
-<span><span class="co">#&gt; skewness            NA</span></span>
-<span><span class="co">#&gt; kurtosis            NA</span></span>
-<span><span class="co">#&gt; conf95              NA</span></span>
+<span><span class="co">#&gt; mean       142.4029884</span></span>
+<span><span class="co">#&gt; sd          20.3016715</span></span>
+<span><span class="co">#&gt; var          0.2220562</span></span>
+<span><span class="co">#&gt; median     136.1189938</span></span>
+<span><span class="co">#&gt; skewness    -0.4526369</span></span>
+<span><span class="co">#&gt; kurtosis     1.4620392</span></span>
+<span><span class="co">#&gt; conf95       1.4506411</span></span>
 <span><span class="co">#&gt; dispersion   0.1239432</span></span>
 <span><span class="co">#&gt; norm_chisq   0.1543845</span></span></code></pre></div>
 <p>Statistical test results are shown by</p>
