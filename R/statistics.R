@@ -372,6 +372,9 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   if (length(y) == 1) {
     y <- rep(y, length(x))
   }
+  if (length(x) == 1) {
+    x <- rep(x, length(y))
+  }
 
   if (length(x) > 1) {
     data <- cbind(x = x, y = y)

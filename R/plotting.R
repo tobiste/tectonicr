@@ -866,6 +866,7 @@ quick_plot <- function(
   t <- data.frame(azi, distance, prd, unc,
     regime = factor(regime, levels = c("U", "N", "NS", "S", "TS", "T"))
   ) |>
+    dplyr::filter(!is.na(azi)) |>
     dplyr::arrange(distance) |>
     dplyr::mutate(
       nchisq_i = (deviation_norm(azi, prd) / unc)^2 / (90 / unc)^2,
@@ -928,7 +929,7 @@ quick_plot <- function(
     0,
     type = "n",
     xlab = "Distance from plate boundary",
-    ylab = expression("Azimuth wrt. PoR" ~ alpha ~ "(" * degree * ")"),
+    ylab = expression("Azimuth wrt. PoR " ~ alpha ~ "(" * degree * ")"),
     sub = subtitle,
     main = "Distance from plate boundary vs. azimuth",
     xlim = range(distance),
