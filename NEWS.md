@@ -1,3 +1,5 @@
+# tectonicr 0.3.10
+
 # tectonicr 0.3.9 _2024-06-20_
 
 * stacked dots for `rose()` diagram
