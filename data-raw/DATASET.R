@@ -29,17 +29,20 @@ all(validUTF8(wsm2016$regime))
 
 san_andreas <- filter(
   wsm2016,
-  between(lat, 23, 40) &
-    between(lon, -126, -108)
+  between(lat, 23, 40),
+  between(lon, -126, -108),
+  !is.na(azi)
 )
 usethis::use_data(san_andreas, overwrite = TRUE, ascii = TRUE)
 
 frame_iceland <- readRDS("../europe-tectonics/data-raw/iceland_frame.rds")
-iceland <- sf::st_intersection(wsm2016, frame_iceland)
+iceland <- sf::st_intersection(wsm2016, frame_iceland) |>
+  filter(!is.na(azi))
 usethis::use_data(iceland, overwrite = TRUE, ascii = TRUE)
 
 zoom_asia <- readRDS("../europe-tectonics/data-raw/asia_zoom.rds")
-tibet <- sf::st_intersection(wsm2016, zoom_asia)
+tibet <- sf::st_intersection(wsm2016, zoom_asia) |>
+  filter(!is.na(azi))
 usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
 
 
