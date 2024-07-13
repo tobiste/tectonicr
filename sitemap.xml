@@ -25,9 +25,11 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/angle-conversion.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/axes.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circle_mean_diff.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circle_stats.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_dispersion_boot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_plot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circular_range.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_sd_error.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_summary.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/compact_grid.html</loc></url>
@@ -91,6 +93,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/rose_stats.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rotate_lines.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rotation_Q4.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/sample_median.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/san_andreas.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/second_central_moment.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/spec_atan.html</loc></url>

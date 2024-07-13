@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -164,26 +164,26 @@ half-width(s) as search radius (in km). Default is <code>seq(50, 1000, 50)</code
 <span class="r-in"><span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">azi</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">$</span><span class="va">azi.PoR</span></span></span>
 <span class="r-in"><span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fl">135</span></span></span>
 <span class="r-in"><span><span class="fu">kernel_dispersion</span><span class="op">(</span><span class="va">san_andreas_por</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 800 features and 6 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 720 features and 6 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -124.57 ymin: 24.33 xmax: -107.07 ymax: 39.33</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 800 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 720 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   R [20]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      lon   lat    stat     R    mdr     N        geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;POINT [°]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">115.</span>  24.3 <span style="color: #BB0000;">NA</span>        100 <span style="color: #BB0000;">NA</span>         0 (-114.57 24.33)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">115.</span>  24.3 <span style="color: #BB0000;">NA</span>        200 <span style="color: #BB0000;">NA</span>         1 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">115.</span>  24.3  0.230    300  0.743     4 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">115.</span>  24.3  0.111    400  0.816    18 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">115.</span>  24.3  0.075<span style="text-decoration: underline;">9</span>   500  0.876   107 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">115.</span>  24.3  0.070<span style="text-decoration: underline;">6</span>   600  0.800   172 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">115.</span>  24.3  0.071<span style="text-decoration: underline;">2</span>   700  0.721   202 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">115.</span>  24.3  0.071<span style="text-decoration: underline;">8</span>   800  0.640   208 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">115.</span>  24.3  0.073<span style="text-decoration: underline;">6</span>   900  0.607   231 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">115.</span>  24.3  0.063<span style="text-decoration: underline;">3</span>  <span style="text-decoration: underline;">1</span>000  0.639   298 (-114.57 24.33)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 790 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">115.</span>  24.3  0.014<span style="text-decoration: underline;">4</span>   300  0.683     3 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">115.</span>  24.3  0.017<span style="text-decoration: underline;">3</span>   400  0.654     6 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">115.</span>  24.3  0.056<span style="text-decoration: underline;">1</span>   500  0.899    93 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">115.</span>  24.3  0.051<span style="text-decoration: underline;">9</span>   600  0.817   156 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">115.</span>  24.3  0.055<span style="text-decoration: underline;">7</span>   700  0.736   186 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">115.</span>  24.3  0.057<span style="text-decoration: underline;">1</span>   800  0.652   191 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">115.</span>  24.3  0.057<span style="text-decoration: underline;">6</span>   900  0.609   207 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">115.</span>  24.3  0.063<span style="text-decoration: underline;">7</span>  <span style="text-decoration: underline;">1</span>000  0.590   232 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 710 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

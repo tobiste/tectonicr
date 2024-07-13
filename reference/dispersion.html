@@ -9,7 +9,7 @@ about a specified angle."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,6 +60,18 @@ about a specified angle.</p>
 <span>  norm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">circular_distance_alt</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">circular_dispersion_alt</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  w.y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  norm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -98,13 +110,22 @@ maximum possible angular difference.</p></dd>
 <code>circular_dispersion</code>returns a positive number.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>circular_distance_alt()</code> and <code>circular_dispersion_alt()</code> are the alternative
+versions in Mardia and Jupp (2000), pp. 19-20.
+The alternative dispersion has a minimum at the sample median.</p>
+    </div>
+    <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>If <code>from</code> is <code>NULL</code>, than the circular variance is returned.</p>
+    <p>If <code>y</code> is <code>NULL</code>, than the circular variance is returned.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Mardia, K.V. (1972). Statistics of Directional Data: Probability
 and Mathematical Statistics. London: Academic Press.</p>
+<p>Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+Wiley Series in Probability and Statistics. John Wiley &amp; Sons, Inc.,
+Hoboken, NJ, USA. <a href="https://doi.org/10.1002/9780470316979" class="external-link">doi:10.1002/9780470316979</a></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -125,9 +146,9 @@ and Mathematical Statistics. London: Academic Press.</p>
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_dispersion</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1474905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1128909</span>
 <span class="r-in"><span><span class="fu">circular_dispersion</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.09841532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1239432</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
