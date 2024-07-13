@@ -1,4 +1,6 @@
-# tectonicr 0.3.10
+# tectonicr 0.3.10 _2024-07-13_
+
+* more statistical estimators
 
 # tectonicr 0.3.9 _2024-06-20_
 
