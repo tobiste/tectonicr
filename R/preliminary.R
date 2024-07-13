@@ -655,21 +655,6 @@ circular_mean_error <- function(x, na.rm = TRUE) {
 }
 
 
-sample_circular_dispersion <- function(x, axial = TRUE) {
-  if (axial) {
-    f <- 2
-  } else {
-    f <- 1
-  }
-
-  R <- mean_resultant(deg2rad(f * x))
-  R <- mean_resultant(deg2rad(2 * f * x))
-  (1 - (R2 / 2)) / (2 * R^2)
-}
-
-
-
-
 
 #' Critical value for Rayleigh test
 #'

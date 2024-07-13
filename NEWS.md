@@ -1,7 +1,7 @@
 # tectonicr 0.3.9 _2024-06-20_
 
 * stacked dots for `rose()` diagram
-* density as mutliples of a von Mises distribution added for circular plots
+* density as multiples of a von Mises distribution added for circular plots
 
 # tectonicr 0.3.8 _2024-06-17_
 

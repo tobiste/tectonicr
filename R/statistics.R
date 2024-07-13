@@ -85,12 +85,18 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' `length(x) %% 2 != 1` and `length(x) %% 4 == 0`, respectively.
 #'
 #' @references
-#' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
+#' Mardia, K.V. (1972). Statistics of Directional Data: Probability and
 #' Mathematical Statistics. London: Academic Press.
-#' * Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
+#'
+#' Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+#' Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
+#' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
+#'
+#' Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
 #' Stress2Grid v1.1. *WSM Technical Report* 19-02,
 #' GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}
-#' * Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfess, D., & Mueller,
+#'
+#' Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfess, D., & Mueller,
 #' B. (2010). Global crustal stress pattern based on the World Stress Map
 #' database release 2008. *Tectonophysics* **482**, 3<U+2013>15,
 #' \doi{10.1016/j.tecto.2009.07.023}
@@ -139,9 +145,7 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- ifelse(axial, 2, 1)
-  mod <- 360 / f
-  x <- (x * f) %% 360
+  if(axial) x <- ax2dir(x)
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   1 - R
@@ -156,8 +160,7 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   sd <- sqrt(-2 * log(R))
-  #rad2deg(sd + 2 * pi) %% mod
-  rad2deg(sd/2)
+  rad2deg(sd / f)
 }
 
 
@@ -171,7 +174,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   f <- ifelse(axial, 2, 1)
   mod <- 360 / f
   x <- deg2rad(x * f) %% (2 * pi)
-  data <- cbind(x = x, w = w)
+  data <- cbind(x = x, w = as.numeric(w))
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
@@ -198,7 +201,6 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  # med <- circular_median(x, w, axial, na.rm)
   f <- ifelse(axial, 2, 1)
   mod <- 360 / f
   x <- deg2rad(f * x) %% (2 * pi)
@@ -296,6 +298,16 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   deviation_norm(as.numeric(quantiles[3]), as.numeric(quantiles[1]))
 }
 
+#' @rdname circle_stats
+#' @export
+sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
+  if(axial) x <- ax2dir(x)
+  Rbar2 <- mean_resultant_length(2 * x, w = w)
+  Rbar <- mean_resultant_length(x, w = w)
+  (1 - Rbar2) / (2 * Rbar^2)
+}
+
+
 #' Circular distance and dispersion
 #'
 #' Circular distance between two angles and circular dispersion of angles
@@ -312,8 +324,18 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @param na.rm logical. Whether \code{NA} values in \code{x}
 #' should be stripped before the computation proceeds.
 #'
+#' @details
+#' [circular_distance_alt()] and [circular_dispersion_alt()] are the alternative
+#' versions in Mardia and Jupp (2000), pp. 19-20.
+#' The alternative dispersion has a minimum at the sample median.
+#'
+#'
 #' @references Mardia, K.V. (1972). Statistics of Directional Data: Probability
 #' and Mathematical Statistics. London: Academic Press.
+#'
+#' Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+#' Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
+#' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
 #'
 #' @importFrom stats complete.cases
 #'
@@ -321,7 +343,7 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' `circular_dispersion`returns a positive number.
 #'
 #' @note
-#' If `from` is `NULL`, than the circular variance is returned.
+#' If `y` is `NULL`, than the circular variance is returned.
 #'
 #' @seealso [circular_mean()], [circular_var()].
 #'
@@ -404,15 +426,195 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE,
   }
 }
 
+#' @rdname dispersion
+#' @export
+circular_distance_alt <- function(x, y, axial = TRUE, na.rm = TRUE) {
+  f <- ifelse(axial, 2, 1)
+
+  stopifnot(length(y) == 1 | length(y) == length(x))
+  if (length(y) == 1) {
+    y <- rep(y, length(x))
+  }
+
+  if (length(x) > 1) {
+    data <- cbind(x = x, y = y)
+    if (na.rm) {
+      data <- data[stats::complete.cases(data), ] # remove NA values
+    }
+
+    x <- data[, "x"]
+    y <- data[, "y"]
+  }
+
+  diff <- x - y
+  # min(c(diff, 360 - (diff)))
+  (180 - abs(180 - abs(diff))) / f
+}
+
+#' @rdname dispersion
+#' @export
+circular_dispersion_alt <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE, axial = TRUE, na.rm = TRUE) {
+  if (is.null(y)) {
+    circular_var(x, w, axial, na.rm)
+  } else {
+    stopifnot(length(y) == 1 | length(y) == length(x))
+
+    if (is.null(w)) {
+      w <- rep(1, times = length(x))
+    }
+    if (is.null(w.y)) {
+      w.y <- rep(1, times = length(x))
+    }
+    if (length(y) == 1) {
+      y <- rep(y, times = length(x))
+    }
+
+    data <- cbind(x = x, w = w, y = y, w.y = w.y)
+    if (na.rm) {
+      data <- data[stats::complete.cases(data), ] # remove NA values
+    }
+
+    x <- data[, "x"]
+    w.x <- data[, "w"]
+    y <- data[, "y"]
+    w.y <- data[, "w.y"]
+
+    w <- w.x * w.y
+
+    Z <- sum(w)
+
+    md <- ifelse(norm, 2, 1)
+
+    cdists <- circular_distance_alt(x, y, axial, na.rm = FALSE)
+    sum(w * cdists) / (Z * md)
+  }
+}
+
+
+
+#' Circular Mean Difference
+#'
+#' @param x numeric vector. Values in degrees.
+#' @param w (optional) Weights. A vector of positive numbers and of the same
+#' length as \code{x}.
+#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#'
+#' @references
+#' Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+#' Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
+#' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
+#'
+#' @return numeric
+#'
+#' @examples
+#' data("san_andreas")
+#' circular_mean_difference(san_andreas$azi)
+#' circular_mean_difference(san_andreas$azi, 1 / san_andreas$unc)
+#'
+#' circular_mean_difference_alt(san_andreas$azi)
+#' circular_mean_difference_alt(san_andreas$azi, 1 / san_andreas$unc)
+#' @name circle_mean_diff
+NULL
+
+#' @rdname circle_mean_diff
+#' @export
+circular_mean_difference <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
+  if(axial) x <- ax2dir(x)
+  Rbar2 <- mean_resultant_length(2 * x, w = w)
+  1 - Rbar2
+}
+
+#' @rdname circle_mean_diff
+#' @export
+circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
+  f <- 1
+  if(axial) {
+    x <- ax2dir(x)
+    f <- 2
+  }
+  w <- if (is.null(w)) {
+    rep(1, times = length(x))
+  } else {
+    as.numeric(w)
+  }
+
+  data <- cbind(x = x, w = w)
+  if (na.rm) {
+    data <- data[stats::complete.cases(data), ] # remove NA values
+  }
+
+  x <- data[, "x"]
+  w <- data[, "w"]
+
+  Z <- sum(w)
+
+  n <- length(x)
+
+
+  d <- matrix(nrow = n, ncol = n)
+  for (j in seq_along(x)) {
+    for (i in seq_along(x)) {
+      diff <- x[i] - x[j]
+      cdists <- (180 - abs(180 - abs(diff))) / f
+      d[i, j] <- (w[i] * w[j]) * sum(cdists)
+    }
+  }
+  (sum(d) / Z^2)
+}
+
+
+#' Circular Range
+#'
+#' Length of the smallest arc which contains all the observations.
+#'
+#' @param x numeric vector. Values in degrees.
+#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#'
+#' @return numeric. angle in degrees
+#' @export
+#'
+#' @references
+#' Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+#' Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
+#' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
+#'
+#' @examples
+#' roulette <- c(43, 45, 52, 61, 75, 88, 88, 279, 357)
+#' circular_range(roulette, axial = FALSE)
+#'
+#' data("san_andreas")
+#' circular_range(san_andreas$azi)
+circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
+  f <- ifelse(axial, 2, 1)
+  mod <- 360 / f
+
+  if (na.rm) x <- na.omit(x)
+  x <- (x * f) %% 360
+  x <- sort(x)
+  n <- length(x)
+
+  t <- numeric(n)
+  for (i in 1:(n - 1)) {
+    t[i] <- x[i + 1] - x[i]
+  }
+  t[n] <- 360 - x[n] - x[1]
+
+  w <- 360 - max(t)
+  w / f
+}
+
 
 cdist2angle <- function(x, axial = TRUE) {
-  f <- if (axial) {
-    2
-  } else {
-    1
-  }
+  f <- ifelse(axial, 2, 1)
   acosd(1 - f * x) / f
 }
+
 
 
 
@@ -506,7 +708,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
   sde <- 1 / sqrt(n * R * kappa)
-  return(sde)
+  return(sde / f)
 }
 
 #' Confidence Interval around the Mean Direction of Circular Data
@@ -673,10 +875,7 @@ circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000
 #' second_central_moment(sa.por$azi.PoR)
 #' second_central_moment(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
-  f <- ifelse(axial, 2, 1)
-  # mod <- 360 / f
-  x <- (x * f) %% 360
-
+  if(axial) x <- ax2dir(x)
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
@@ -712,6 +911,60 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 }
 
 
+#' Circular Sample Median and deviation
+#'
+#' Sample median direction for a vector of circular data
+#'
+#' @param x numeric vector. Values in degrees.
+#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#'
+#' @references
+#' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+#'
+#' @return numeric
+#' @importFrom circular circular meandeviation median.circular
+
+#' @name sample_median
+#'
+#' @examples
+#' x <- rvm(n=100, mean=0, kappa=1)
+#' circular_sample_median(x)
+#' circular_sample_median_deviation(x)
+#'
+#' data("san_andreas")
+#' circular_sample_median(san_andreas$azi)
+#' circular_sample_median_deviation(san_andreas$azi)
+NULL
+
+#' @rdname sample_median
+#' @export
+circular_sample_median <- function(x, axial = TRUE, na.rm = TRUE){
+  if(axial) x <- ax2dir(x)
+  if(na.rm) x <- na.omit(x)
+
+  x_circular <- circular::circular(deg2rad(x))
+  median <- circular::median.circular(x_circular) |> as.numeric() |> rad2deg()
+  if(axial) median <- dir2ax(median)
+  median
+}
+
+#' @rdname sample_median
+#' @export
+circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE){
+  if(axial) x <- ax2dir(x)
+  if(na.rm) x <- na.omit(x)
+
+  x_circular <- circular::circular(deg2rad(x))
+  md <- circular::meandeviation(x_circular) |> as.numeric() |> rad2deg()
+  if(axial) md <- dir2ax(md)
+  md
+}
+
+
+
 #' Circular Summary statistics
 #'
 #' Circular mean, standard deviation, variance, quasi-quantiles, 95% confidence
@@ -731,11 +984,7 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
-  f <- ifelse(axial, 2, 1)
-  mod <- 360 / f
-  x <- (x * f) %% 360
-
-  if (is.null(w)) {
+   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
 
@@ -750,15 +999,18 @@ circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 
   n <- length(x)
 
-  x_mean <- (circular_mean(x, w, F, F) / f) %% mod
-  x_sd <- circular_sd(x, w, F, F)
-  x_var <- circular_var(x, w, F, F)
-  x_CI <- confidence_angle(x, 0.95, w, F, F)
-  x_quant <- (circular_quantiles(x, w, F, F) / f) %% mod
-  x_sk <- second_central_moment(x, w, F, F)
+  x_mean <- circular_mean(x, w, axial, F)
+  x_sd <- circular_sd(x, w, axial, F)
+  x_var <- circular_var(x, w, axial, F)
+  x_CI <- confidence_angle(x, 0.95, w, axial, F)
+  x_quant <- circular_quantiles(x, w, axial, F)
+  x_sk <- second_central_moment(x, w, axial, F)
+  x_R <- mean_resultant_length(ax2dir(x), w = NULL, F)
 
   setNames(
-    c(n, x_mean, x_sd, x_var, x_quant[1], x_quant[2], x_quant[3], x_CI, x_sk$std_skewness, x_sk$std_kurtosis),
-    c("n", "mean", "sd", "var", "25%", "median", "75%", "95%CI", "skewness", "kurtosis")
+    c(n, x_mean, x_sd, x_var, x_quant[1], x_quant[2], x_quant[3], x_CI, x_sk$std_skewness, x_sk$std_kurtosis, x_R),
+    c("n", "mean", "sd", "var", "25%", "median", "75%", "95%CI", "skewness", "kurtosis", "R")
   )
 }
+
+

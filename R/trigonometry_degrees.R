@@ -40,6 +40,15 @@ deg2rad <- function(deg) {
 #' @name trigon
 NULL
 
+dir2ax <- function(x){
+  (x/2) %% 180
+}
+
+ax2dir <- function(x){
+  (2*x) %% 360
+}
+
+
 #' @rdname trigon
 sind <- function(x) {
   sinpi(x / 180)

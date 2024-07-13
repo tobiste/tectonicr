@@ -8,6 +8,7 @@
 \alias{circular_median}
 \alias{circular_quantiles}
 \alias{circular_IQR}
+\alias{sample_circular_dispersion}
 \title{Summary Statistics of Circular Data}
 \usage{
 circular_mean(x, w = NULL, axial = TRUE, na.rm = TRUE)
@@ -21,6 +22,8 @@ circular_median(x, w = NULL, axial = TRUE, na.rm = TRUE)
 circular_quantiles(x, w = NULL, axial = TRUE, na.rm = TRUE)
 
 circular_IQR(x, w = NULL, axial = TRUE, na.rm = TRUE)
+
+sample_circular_dispersion(x, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees.}
@@ -76,15 +79,19 @@ circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 }
 \references{
-\itemize{
-\item Mardia, K.V. (1972). Statistics of Directional Data: Probability and
+Mardia, K.V. (1972). Statistics of Directional Data: Probability and
 Mathematical Statistics. London: Academic Press.
-\item Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
+
+Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
+Hoboken, NJ, USA. \doi{10.1002/9780470316979}
+
+Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
 Stress2Grid v1.1. \emph{WSM Technical Report} 19-02,
 GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}
-\item Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfess, D., & Mueller,
+
+Heidbach, O., Tingay, M., Barth, A., Reinecker, J., Kurfess, D., & Mueller,
 B. (2010). Global crustal stress pattern based on the World Stress Map
 database release 2008. \emph{Tectonophysics} \strong{482}, 3<U+2013>15,
 \doi{10.1016/j.tecto.2009.07.023}
-}
 }

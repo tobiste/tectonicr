@@ -127,6 +127,7 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
       unc = ifelse(is.na(sd), quality.numeric, sd),
       unc = ifelse(unc > quality.numeric, quality.numeric, unc),
       unc = ifelse(unc == 0, 15, unc),
+      unc = as.numeric(unc),
     ) |>
     dplyr::filter(quality %in% qlt_flt, regime %in% reg_flt) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE) |>

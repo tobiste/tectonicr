@@ -20,7 +20,7 @@ library(dplyr)
 #   sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE) |>
 #   dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime)
 
-wsm2016 <- load_WSM2016() |>
+wsm2016 <- download_WSM2016() |>
   dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime)
 
 all(validUTF8(wsm2016$id))

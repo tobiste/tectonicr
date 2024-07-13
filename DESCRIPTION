@@ -17,6 +17,7 @@ Depends:
     R (>= 4.1.0)
 Imports:
     boot,
+    circular,
     dplyr,
     ggplot2,
     methods,

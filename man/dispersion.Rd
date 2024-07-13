@@ -4,11 +4,25 @@
 \alias{dispersion}
 \alias{circular_distance}
 \alias{circular_dispersion}
+\alias{circular_distance_alt}
+\alias{circular_dispersion_alt}
 \title{Circular distance and dispersion}
 \usage{
 circular_distance(x, y, axial = TRUE, na.rm = TRUE)
 
 circular_dispersion(
+  x,
+  y = NULL,
+  w = NULL,
+  w.y = NULL,
+  norm = FALSE,
+  axial = TRUE,
+  na.rm = TRUE
+)
+
+circular_distance_alt(x, y, axial = TRUE, na.rm = TRUE)
+
+circular_dispersion_alt(
   x,
   y = NULL,
   w = NULL,
@@ -42,8 +56,13 @@ maximum possible angular difference.}
 Circular distance between two angles and circular dispersion of angles
 about a specified angle.
 }
+\details{
+\code{\link[=circular_distance_alt]{circular_distance_alt()}} and \code{\link[=circular_dispersion_alt]{circular_dispersion_alt()}} are the alternative
+versions in Mardia and Jupp (2000), pp. 19-20.
+The alternative dispersion has a minimum at the sample median.
+}
 \note{
-If \code{from} is \code{NULL}, than the circular variance is returned.
+If \code{y} is \code{NULL}, than the circular variance is returned.
 }
 \examples{
 a <- c(0, 2, 359, 6, 354)
@@ -61,6 +80,10 @@ circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 \references{
 Mardia, K.V. (1972). Statistics of Directional Data: Probability
 and Mathematical Statistics. London: Academic Press.
+
+Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
+Hoboken, NJ, USA. \doi{10.1002/9780470316979}
 }
 \seealso{
 \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_var]{circular_var()}}.
