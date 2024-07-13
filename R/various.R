@@ -241,6 +241,7 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
 
   stats <- circular_summary(res$azi.PoR, 1 / x$unc)
 
+  median <- circular_sample_median(res$azi.PoR)
   # mean <- circular_mean(res$azi.PoR, 1 / x$unc)
   # sd <- circular_sd(res$azi.PoR, 1 / x$unc)
   # var <- circular_var(res$azi.PoR, 1 / x$unc)
@@ -259,10 +260,11 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
     result = res,
     stats =
       rbind(mean = stats['mean'], sd = stats['sd'], var = stats['var'],
-            median = stats['median'], skewness = stats['skewness'], kurtosis = stats['kurtosis'],
+            median = stats["median"],
+            quasi_median = stats['quasi-median'], skewness = stats['skewness'], kurtosis = stats['kurtosis'],
             conf95 = stats['95%CI'],
             dispersion = disp, norm_chisq = nchisq),
-    rayleigh.test = rayleigh
+    test = rayleigh
   )
 }
 
