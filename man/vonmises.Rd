@@ -5,13 +5,16 @@
 \alias{rvm}
 \alias{dvm}
 \alias{pvm}
+\alias{qvm}
 \title{The von Mises Distribution}
 \usage{
 rvm(n, mean, kappa)
 
 dvm(theta, mean, kappa)
 
-pvm(theta, mean, kappa, tol = 1e-20)
+pvm(theta, mean, kappa, from = NULL, tol = 1e-20)
+
+qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6))
 }
 \arguments{
 \item{n}{number of observations in degrees}
@@ -22,17 +25,26 @@ pvm(theta, mean, kappa, tol = 1e-20)
 
 \item{theta}{angular value in degrees}
 
+\item{from}{if \code{NULL} is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
+which the pvm and qvm are evaluated. in degrees.}
+
 \item{tol}{the precision in evaluating the distribution function or the quantile.}
+
+\item{p}{numeric vector of probabilities with values in \eqn{[0,1]}{[0,1]}.}
 }
 \value{
-\code{dvm} gives the density, \code{pvm} gives the distribution function, and
-\code{rvm} generates random deviates.
+\code{dvm} gives the density,
+\code{pvm} gives the probability of the von Mises distribution function,
+\code{rvm} generates random deviates (in degrees), and
+\code{qvm} provides quantiles (in degrees).
 }
 \description{
-Density, distribution function, and random generation for the circular normal
-distribution with mean and kappa.
+Density, probability distribution function, quantiles, and random generation
+for the circular normal distribution with mean and kappa.
 }
 \examples{
-x <- rvm(100, mean = 90, k = 100)
-dvm(x, mean = 90, k = 100)
+x <- rvm(100, mean = 90, kappa = 2)
+dvm(x, mean = 90, kappa = 2)
+pvm(x, mean = 90, kappa = 2)
+qvm(c(.25, .5, .75), mean = 90, kappa = 2)
 }

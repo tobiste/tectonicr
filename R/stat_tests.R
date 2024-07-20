@@ -592,77 +592,89 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 
 
 # Distribution ####
-pvm.mu0 <- function(theta, kappa, acc) {
-  flag <- TRUE
-  p <- 1
-  sum <- 0
-  while (flag) {
-    term <- (besselI(x = kappa, nu = p, expon.scaled = FALSE) *
-      sin(p * theta)) / p
-    sum <- sum + term
-    p <- p + 1
-    if (abs(term) < acc) {
-      flag <- FALSE
-    }
-  }
-  theta / (2 * pi) + sum / (pi * besselI(
-    x = kappa, nu = 0,
-    expon.scaled = FALSE
-  ))
-}
+# pvm.mu0 <- function(theta, kappa, acc) {
+#   flag <- TRUE
+#   p <- 1
+#   sum <- 0
+#   while (flag) {
+#     term <- (besselI(x = kappa, nu = p, expon.scaled = FALSE) *
+#       sin(p * theta)) / p
+#     sum <- sum + term
+#     p <- p + 1
+#     if (abs(term) < acc) {
+#       flag <- FALSE
+#     }
+#   }
+#   theta / (2 * pi) + sum / (pi * besselI(
+#     x = kappa, nu = 0,
+#     expon.scaled = FALSE
+#   ))
+# }
 
 
 
 #' The von Mises Distribution
 #'
-#' Density, distribution function, and random generation for the circular normal
-#' distribution with mean and kappa.
+#' Density, probability distribution function, quantiles, and random generation
+#' for the circular normal distribution with mean and kappa.
 #'
 #' @param n number of observations in degrees
+#' @param p numeric vector of probabilities with values in \eqn{[0,1]}{[0,1]}.
 #' @param mean mean in degrees
 #' @param kappa concentration parameter
 #' @param theta angular value in degrees
+#' @param from if `NULL` is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
+#' which the pvm and qvm are evaluated. in degrees.
 #' @param tol the precision in evaluating the distribution function or the quantile.
 #'
-#' @returns `dvm` gives the density, `pvm` gives the distribution function, and
-#' `rvm` generates random deviates.
+#' @returns `dvm` gives the density,
+#' `pvm` gives the probability of the von Mises distribution function,
+#' `rvm` generates random deviates (in degrees), and
+#' `qvm` provides quantiles (in degrees).
 #'
 #' @name vonmises
 #'
+#' @importFrom circular circular rvonmises pvonmises qvonmises
+#'
 #' @examples
-#' x <- rvm(100, mean = 90, k = 100)
-#' dvm(x, mean = 90, k = 100)
+#' x <- rvm(100, mean = 90, kappa = 2)
+#' dvm(x, mean = 90, kappa = 2)
+#' pvm(x, mean = 90, kappa = 2)
+#' qvm(c(.25, .5, .75), mean = 90, kappa = 2)
 NULL
 
 #' @rdname vonmises
 #' @export
 rvm <- function(n, mean, kappa) {
-  vm <- c(1:n)
-  a <- 1 + (1 + 4 * (kappa^2))^0.5
-  b <- (a - (2 * a)^0.5) / (2 * kappa)
-  r <- (1 + b^2) / (2 * b)
-  obs <- 1
-  while (obs <= n) {
-    U1 <- runif(1, 0, 1)
-    z <- cos(pi * U1)
-    f <- (1 + r * z) / (r + z)
-    c <- kappa * (r - f)
-    U2 <- runif(1, 0, 1)
-    if (c * (2 - c) - U2 > 0) {
-      U3 <- runif(1, 0, 1)
-      vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
-      vm[obs] <- vm[obs] %% (2 * pi)
-      obs <- obs + 1
-    } else {
-      if (log(c / U2) + 1 - c >= 0) {
-        U3 <- runif(1, 0, 1)
-        vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
-        vm[obs] <- vm[obs] %% (2 * pi)
-        obs <- obs + 1
-      }
-    }
-  }
-  rad2deg(vm)
+  # vm <- c(1:n)
+  # a <- 1 + (1 + 4 * (kappa^2))^0.5
+  # b <- (a - (2 * a)^0.5) / (2 * kappa)
+  # r <- (1 + b^2) / (2 * b)
+  # obs <- 1
+  # while (obs <= n) {
+  #   U1 <- runif(1, 0, 1)
+  #   z <- cos(pi * U1)
+  #   f <- (1 + r * z) / (r + z)
+  #   c <- kappa * (r - f)
+  #   U2 <- runif(1, 0, 1)
+  #   if (c * (2 - c) - U2 > 0) {
+  #     U3 <- runif(1, 0, 1)
+  #     vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
+  #     vm[obs] <- vm[obs] %% (2 * pi)
+  #     obs <- obs + 1
+  #   } else {
+  #     if (log(c / U2) + 1 - c >= 0) {
+  #       U3 <- runif(1, 0, 1)
+  #       vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
+  #       vm[obs] <- vm[obs] %% (2 * pi)
+  #       obs <- obs + 1
+  #     }
+  #   }
+  # }
+  # rad2deg(vm)
+  mu <-  circular::circular(mean, units = 'degrees', modulo = "2pi")
+  circular::rvonmises(n, mu, kappa) |> as.numeric()
+
 }
 
 #' @rdname vonmises
@@ -674,27 +686,46 @@ dvm <- function(theta, mean, kappa) {
 
 #' @rdname vonmises
 #' @export
-pvm <- function(theta, mean, kappa, tol = 1e-20) {
-  theta <- deg2rad(theta) %% (2 * pi)
-  mu <- deg2rad(mean) %% (2 * pi)
+pvm <- function(theta, mean, kappa, from=NULL, tol = 1e-20) {
+  theta <-  circular::circular(theta, units = 'degrees', modulo = "2pi")
+  mu <-  circular::circular(mean, units = 'degrees', modulo = "2pi")
 
-  if (mu == 0) {
-    pvm.mu0(theta, kappa, tol)
-  } else {
-    if (theta <= mu) {
-      upper <- (theta - mu) %% (2 * pi)
-      if (upper == 0) {
-        upper <- 2 * pi
-      }
-      lower <- (-mu) %% (2 * pi)
-      pvm.mu0(upper, kappa, tol) - pvm.mu0(lower, kappa, tol)
-    } else {
-      upper <- theta - mu
-      lower <- mu %% (2 * pi)
-      pvm.mu0(upper, kappa, tol) + pvm.mu0(lower, kappa, tol)
-    }
+  if(!is.null(from)){
+    from <- circular::circular(from, units = 'degrees', modulo = "2pi")
   }
+
+  circular::pvonmises(theta, mu, kappa, from=NULL, tol = tol)
+
+  # if (mu == 0) {
+  #   pvm.mu0(theta, kappa, tol)
+  # } else {
+  #   if (theta <= mu) {
+  #     upper <- (theta - mu) %% (2 * pi)
+  #     if (upper == 0) {
+  #       upper <- 2 * pi
+  #     }
+  #     lower <- (-mu) %% (2 * pi)
+  #     pvm.mu0(upper, kappa, tol) - pvm.mu0(lower, kappa, tol)
+  #   } else {
+  #     upper <- theta - mu
+  #     lower <- mu %% (2 * pi)
+  #     pvm.mu0(upper, kappa, tol) + pvm.mu0(lower, kappa, tol)
+  #   }
+  # }
 }
+
+#' @rdname vonmises
+#' @export
+qvm <- function(p, mean=0, kappa, from=NULL, tol = .Machine$double.eps^(0.6)){
+  mu <- circular::circular(mean, units = 'degrees', modulo = "2pi")
+
+  if(!is.null(from)){
+    from <- circular::circular(from, units = 'degrees', modulo = "2pi")
+  }
+
+  circular::qvonmises(p, mu, kappa, from, tol=tol) |> as.numeric()
+}
+
 
 A1inv <- function(x) {
   ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
@@ -745,3 +776,4 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   }
   kappa
 }
+

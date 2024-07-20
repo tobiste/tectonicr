@@ -833,5 +833,41 @@ watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL,
 
 
 
+#' von Mises Q-Q plot
+#'
+#' @param x numeric. angle in degrees
+#' @param w weighting coefficients of x
+#' @param axial logical.
+#' @param ... (optional) arguments passed to [points()]
+#'
+#' @return plot
+#' @export
+#'
+#' @examples
+#' x <- rvm(100, 90, 100)
+#' vm_qqplot(x, axial = F, col = "slategrey")
+vm_qqplot <- function(x, w = NULL, axial = TRUE, ...) {
+  if (axial) {
+    x <- ax2dir(x)
+  }
 
+  mu <- circular_mean(x, w = w, axial = FALSE)
+  k <- est.kappa(x, w = w, axial = FALSE)
 
+  x <- na.omit(x)
+  n <- length(x)
+  q <- qvm(seq(0, 1, length.out = n), 0, k)
+
+  r <- ifelse(n>100 & k<1,  4, 2)
+  z <- sind((x - mu) / r)
+  sin_2q <- sind(q / r)
+
+  plot(0, 0,
+    type = "n", xlab = "von Mises quantiles", ylab = "Sample quantiles",
+    # asp = 1,
+    xlim = c(-1, 1), ylim = c(-1, 1),
+    main = "von Mises Q-Q plot"
+  )
+  abline(0, 1)
+  points(sin_2q, sort(z), ...)
+}
