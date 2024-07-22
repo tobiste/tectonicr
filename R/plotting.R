@@ -601,11 +601,14 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' @param x Data to be plotted. A numeric vector containing angles (in degrees).
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
-#' @param stack logical: if `TRUE`, points are stacked on the perimeter of the circle.
-#' Otherwise, all points are plotted on the perimeter of the circle. Default is `FALSE`.
-#' @param bindwidth numeric. Bin width (in degrees) for the stacked dot plots.
+#' @param stack logical: if `TRUE`, points are stacked on the perimeter of the
+#' circle.
+#' Otherwise, all points are plotted on the perimeter of the circle. Default is
+#' `FALSE`.
+#' @param binwidth numeric. Bin width (in degrees) for the stacked dot plots.
 #' ignored when `stack==FALSE`. Is set to `1` degree by default.
-#' @param cex character (or symbol) expansion: a numerical vector. This works as a multiple of [par("cex")].
+#' @param cex character (or symbol) expansion: a numerical vector. This works as
+#' a multiple of `par("cex")`.
 #' @param sep constant used to specify the distance between stacked points, if
 #' `stack==TRUE` or in the case of more than one dataset. Default is `0.025`;
 #' smaller values will create smaller spaces.

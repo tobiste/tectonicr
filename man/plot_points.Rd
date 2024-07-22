@@ -27,10 +27,16 @@ plot_points(
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
-\item{stack}{logical: if \code{TRUE}, points are stacked on the perimeter of the circle.
-Otherwise, all points are plotted on the perimeter of the circle. Default is \code{FALSE}.}
+\item{stack}{logical: if \code{TRUE}, points are stacked on the perimeter of the
+circle.
+Otherwise, all points are plotted on the perimeter of the circle. Default is
+\code{FALSE}.}
 
-\item{cex}{character (or symbol) expansion: a numerical vector. This works as a multiple of \link{par("cex")}.}
+\item{binwidth}{numeric. Bin width (in degrees) for the stacked dot plots.
+ignored when \code{stack==FALSE}. Is set to \code{1} degree by default.}
+
+\item{cex}{character (or symbol) expansion: a numerical vector. This works as
+a multiple of \code{par("cex")}.}
 
 \item{sep}{constant used to specify the distance between stacked points, if
 \code{stack==TRUE} or in the case of more than one dataset. Default is \code{0.025};
@@ -57,9 +63,6 @@ next to the tick marks, or a vector of labels for the tick marks.}
 Set \code{at=numeric(0)} to suppress tick marks.}
 
 \item{cborder}{logical. Border of rose plot.}
-
-\item{bindwidth}{numeric. Bin width (in degrees) for the stacked dot plots.
-ignored when \code{stack==FALSE}. Is set to \code{1} degree by default.}
 }
 \value{
 A list with information on the plot
