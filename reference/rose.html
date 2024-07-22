@@ -71,6 +71,7 @@ histogram or density plot for angular data.</p>
 <span>  dot_cex <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  dot_col <span class="op">=</span> <span class="st">"slategrey"</span>,</span>
 <span>  stack <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  jitter_factor <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  add <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -159,6 +160,13 @@ next to the tick marks, or a vector of labels for the tick marks.</p></dd>
 <dd><p>logical. Groups and stacks the dots if <code>TRUE</code>. Default is <code>FALSE</code>.</p></dd>
 
 
+<dt id="arg-jitter-factor">jitter_factor<a class="anchor" aria-label="anchor" href="#arg-jitter-factor"></a></dt>
+<dd><p>Add a small amount of noise to the angles' radius that
+is added to <code>scale</code>. Jitter is ignored when <code>stack==TRUE</code>).
+If <code>0</code>, no jitter is added (by default); if negative, the points fall into
+the circle.</p></dd>
+
+
 <dt id="arg-add">add<a class="anchor" aria-label="anchor" href="#arg-add"></a></dt>
 <dd><p>logical.</p></dd>
 
@@ -200,7 +208,7 @@ degree for axial or directional data, respectively.</p>
 <span class="r-plt img"><img src="rose-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># add dots</span></span></span>
-<span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, dots <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"dot plot"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, dots <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"dot plot"</span>, jitter <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="rose-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>,</span></span>
 <span class="r-in"><span>  dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span>,</span></span>

@@ -51,8 +51,10 @@
 <span>  <span class="va">x</span>,</span>
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  stack <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  binwidth <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  cex <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  sep <span class="op">=</span> <span class="fl">0.025</span>,</span>
+<span>  jitter_factor <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  scale <span class="op">=</span> <span class="fl">1.1</span>,</span>
 <span>  add <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -77,18 +79,33 @@ or biaxial (<code>TRUE</code>, the default).</p></dd>
 
 
 <dt id="arg-stack">stack<a class="anchor" aria-label="anchor" href="#arg-stack"></a></dt>
-<dd><p>logical: if <code>TRUE</code>, points are stacked on the perimeter of the circle.
-Otherwise, all points are plotted on the perimeter of the circle. Default is <code>FALSE</code>.</p></dd>
+<dd><p>logical: if <code>TRUE</code>, points are stacked on the perimeter of the
+circle.
+Otherwise, all points are plotted on the perimeter of the circle. Default is
+<code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-binwidth">binwidth<a class="anchor" aria-label="anchor" href="#arg-binwidth"></a></dt>
+<dd><p>numeric. Bin width (in degrees) for the stacked dot plots.
+ignored when <code>stack==FALSE</code>. Is set to <code>1</code> degree by default.</p></dd>
 
 
 <dt id="arg-cex">cex<a class="anchor" aria-label="anchor" href="#arg-cex"></a></dt>
-<dd><p>character (or symbol) expansion: a numerical vector. This works as a multiple of par("cex").</p></dd>
+<dd><p>character (or symbol) expansion: a numerical vector. This works as
+a multiple of <code>par("cex")</code>.</p></dd>
 
 
 <dt id="arg-sep">sep<a class="anchor" aria-label="anchor" href="#arg-sep"></a></dt>
 <dd><p>constant used to specify the distance between stacked points, if
 <code>stack==TRUE</code> or in the case of more than one dataset. Default is <code>0.025</code>;
 smaller values will create smaller spaces.</p></dd>
+
+
+<dt id="arg-jitter-factor">jitter_factor<a class="anchor" aria-label="anchor" href="#arg-jitter-factor"></a></dt>
+<dd><p>numeric. Adds a small amount of random variation to the
+location of each points along radius that is added to <code>scale</code>. Jitter is
+ignored when <code>stack==TRUE</code>). If <code>0</code>, no jitter is added (by default); if
+negative, the points fall into the circle.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -130,8 +147,12 @@ Set <code>at=numeric(0)</code> to suppress tick marks.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">90</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">plot_points</span><span class="op">(</span><span class="va">x</span>, stack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in plot.xy(xy.coords(x, y), type = type, ...):</span> plot.new has not been called yet</span>
+<span class="r-in"><span><span class="fu">plot_points</span><span class="op">(</span><span class="va">x</span>, add <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot_points-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">plot_points</span><span class="op">(</span><span class="va">x</span>, jitter_factor <span class="op">=</span> <span class="fl">.2</span>, add <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># jittered plot</span></span></span>
+<span class="r-plt img"><img src="plot_points-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">plot_points</span><span class="op">(</span><span class="va">x</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, binwidth <span class="op">=</span> <span class="fl">3</span>, add <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># stacked plot</span></span></span>
+<span class="r-plt img"><img src="plot_points-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
