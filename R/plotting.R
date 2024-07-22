@@ -367,6 +367,10 @@ add_end <- function(x, end) {
 #' @param col fill color of bins
 #' @param dots logical. Whether a circular dot plot should be added
 #' (`FALSE` is the default).
+#' @param jitter_factor Add a small amount of noise to the angles' radius that
+#' is added to `scale`. Jitter is ignored when `stack==TRUE`).
+#' If `0`, no jitter is added (by default); if negative, the points fall into
+#' the circle.
 #' @param stack logical. Groups and stacks the dots if `TRUE`. Default is `FALSE`.
 #' @param dot_cex,dot_pch,dot_col Plotting arguments for circular dot plot
 #' @param add logical.
@@ -403,7 +407,7 @@ add_end <- function(x, end) {
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 #'
 #' # add dots
-#' rose(san_andreas$azi, dots = TRUE, main = "dot plot")
+#' rose(san_andreas$azi, dots = TRUE, main = "dot plot", jitter = .2)
 #' rose(san_andreas$azi,
 #'   dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21,
 #'   main = "stacked dot plot"
@@ -413,7 +417,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  round_binwidth = 0, mtext = "N", main = NULL, sub = NULL,
                  at = seq(0, 360 - 45, 45), cborder = TRUE, labels = TRUE,
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
-                 dot_col = "slategrey", stack = FALSE, add = FALSE, ...) {
+                 dot_col = "slategrey", stack = FALSE, jitter_factor = 0,
+                 add = FALSE, ...) {
   if (!add){
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
@@ -442,7 +447,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   )
 
   if (dots) {
-    plot_points(x, axial = axial, stack = stack, cex = dot_cex, pch = dot_pch, col = dot_col, add = TRUE)
+    plot_points(x, axial = axial, stack = stack, cex = dot_cex, pch = dot_pch,
+                col = dot_col, jitter_factor = jitter_factor, add = TRUE)
   }
 
   if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
@@ -597,10 +603,16 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' or biaxial (`TRUE`, the default).
 #' @param stack logical: if `TRUE`, points are stacked on the perimeter of the circle.
 #' Otherwise, all points are plotted on the perimeter of the circle. Default is `FALSE`.
-#' @param cex character (or symbol) expansion: a numerical vector. This works as a multiple of par("cex").
+#' @param bindwidth numeric. Bin width (in degrees) for the stacked dot plots.
+#' ignored when `stack==FALSE`. Is set to `1` degree by default.
+#' @param cex character (or symbol) expansion: a numerical vector. This works as a multiple of [par("cex")].
 #' @param sep constant used to specify the distance between stacked points, if
 #' `stack==TRUE` or in the case of more than one dataset. Default is `0.025`;
 #' smaller values will create smaller spaces.
+#' @param jitter_factor numeric. Adds a small amount of random variation to the
+#' location of each points along radius that is added to `scale`. Jitter is
+#' ignored when `stack==TRUE`). If `0`, no jitter is added (by default); if
+#' negative, the points fall into the circle.
 #' @param ... Further graphical parameters may also be supplied as arguments.
 #' @param scale radius of plotted circle. Default is `1.1`.
 #' Larger values shrink the circle, while smaller values enlarge the circle.
@@ -614,10 +626,13 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #'
 #' @examples
 #' x <- rvm(100, mean = 90, k = 5)
-#' plot_points(x, stack = TRUE)
-plot_points <- function(x, axial = TRUE, stack = FALSE, cex = 1, sep = 0.025, ..., scale = 1.1, add = TRUE,
+#' plot_points(x, add = FALSE)
+#' plot_points(x, jitter_factor = .2, add = FALSE) # jittered plot
+#' plot_points(x, stack = TRUE, binwidth = 3, add = FALSE) # stacked plot
+plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, sep = 0.025, jitter_factor = 0, ..., scale = 1.1, add = TRUE,
                         main = NULL, labels = TRUE,
                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
+  stopifnot(abs(jitter_factor) <=1 |  abs(jitter_factor) >= 1)
   if (!add){
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
@@ -635,11 +650,12 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, cex = 1, sep = 0.025, ..
     xr <- deg2rad(x)
     u <- pi / 2 - xr
     n <- length(x)
-    z <- cos(u) * scale
-    y <- sin(u) * scale
+    r <- scale + runif(n, min(0, jitter_factor), max(0, jitter_factor))
+    z <- cos(u) * r
+    y <- sin(u) * r
     graphics::points(z, y, cex = cex, ...)
   } else {
-    freqs <- rose_freq(x, axial = axial, binwidth = 1)
+    freqs <- rose_freq(x, axial = axial, binwidth = binwidth)
     if (axial) {
       freqs$mids <- freqs$mids %% 180
       freqs$count <- rep(freqs$count, 2)
@@ -650,6 +666,8 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, cex = 1, sep = 0.025, ..
     bins.count <- freqs$count
     mids <- deg2rad(-90 - freqs$mids)
     index <- cex * sep
+    #index <- cex * freqs$binwidth
+
     for (i in 1:bins) {
       if (bins.count[i] > 0) {
         for (j in 0:(bins.count[i] - 1)) {

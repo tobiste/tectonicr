@@ -8,8 +8,10 @@ plot_points(
   x,
   axial = TRUE,
   stack = FALSE,
+  binwidth = 1,
   cex = 1,
   sep = 0.025,
+  jitter_factor = 0,
   ...,
   scale = 1.1,
   add = TRUE,
@@ -28,11 +30,16 @@ or biaxial (\code{TRUE}, the default).}
 \item{stack}{logical: if \code{TRUE}, points are stacked on the perimeter of the circle.
 Otherwise, all points are plotted on the perimeter of the circle. Default is \code{FALSE}.}
 
-\item{cex}{character (or symbol) expansion: a numerical vector. This works as a multiple of par("cex").}
+\item{cex}{character (or symbol) expansion: a numerical vector. This works as a multiple of \link{par("cex")}.}
 
 \item{sep}{constant used to specify the distance between stacked points, if
 \code{stack==TRUE} or in the case of more than one dataset. Default is \code{0.025};
 smaller values will create smaller spaces.}
+
+\item{jitter_factor}{numeric. Adds a small amount of random variation to the
+location of each points along radius that is added to \code{scale}. Jitter is
+ignored when \code{stack==TRUE}). If \code{0}, no jitter is added (by default); if
+negative, the points fall into the circle.}
 
 \item{...}{Further graphical parameters may also be supplied as arguments.}
 
@@ -50,6 +57,9 @@ next to the tick marks, or a vector of labels for the tick marks.}
 Set \code{at=numeric(0)} to suppress tick marks.}
 
 \item{cborder}{logical. Border of rose plot.}
+
+\item{bindwidth}{numeric. Bin width (in degrees) for the stacked dot plots.
+ignored when \code{stack==FALSE}. Is set to \code{1} degree by default.}
 }
 \value{
 A list with information on the plot
@@ -59,5 +69,7 @@ Add points to a plot of circular data points on the current graphics device.
 }
 \examples{
 x <- rvm(100, mean = 90, k = 5)
-plot_points(x, stack = TRUE)
+plot_points(x, add = FALSE)
+plot_points(x, jitter_factor = .2, add = FALSE) # jittered plot
+plot_points(x, stack = TRUE, binwidth = 3, add = FALSE) # stacked plot
 }

@@ -25,6 +25,7 @@ rose(
   dot_cex = 1,
   dot_col = "slategrey",
   stack = FALSE,
+  jitter_factor = 0,
   add = FALSE,
   ...
 )
@@ -75,6 +76,11 @@ next to the tick marks, or a vector of labels for the tick marks.}
 
 \item{stack}{logical. Groups and stacks the dots if \code{TRUE}. Default is \code{FALSE}.}
 
+\item{jitter_factor}{Add a small amount of noise to the angles' radius that
+is added to \code{scale}. Jitter is ignored when \code{stack==TRUE}).
+If \code{0}, no jitter is added (by default); if negative, the points fall into
+the circle.}
+
 \item{add}{logical.}
 
 \item{...}{Additional arguments passed to \code{\link[spatstat.explore:rose]{spatstat.explore::rose()}}.}
@@ -109,7 +115,7 @@ rose(san_andreas$azi, equal_area = FALSE, main = "equal angle")
 rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 
 # add dots
-rose(san_andreas$azi, dots = TRUE, main = "dot plot")
+rose(san_andreas$azi, dots = TRUE, main = "dot plot", jitter = .2)
 rose(san_andreas$azi,
   dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21,
   main = "stacked dot plot"
