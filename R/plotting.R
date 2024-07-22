@@ -635,7 +635,6 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, sep = 0.025, jitter_factor = 0, ..., scale = 1.1, add = TRUE,
                         main = NULL, labels = TRUE,
                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
-  stopifnot(abs(jitter_factor) <=1 |  abs(jitter_factor) >= 1)
   if (!add){
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
