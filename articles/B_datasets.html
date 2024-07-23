@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-07-22</h4>
+            <h4 data-toc-skip class="date">2024-07-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
       <div class="d-none name"><code>B_datasets.Rmd</code></div>
@@ -433,7 +433,6 @@ engine:</p>
 coordinates and azimuths as well as the deviations can be viewed by:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      azi.PoR prd        dev     nchisq      cdist  lat.PoR   lon.PoR  distance</span></span>
 <span><span class="co">#&gt; 1 173.240166 135   38.24017 0.18053214 0.38311043 59.05548 -85.46364 -2.446542</span></span>
@@ -454,7 +453,7 @@ azimuths can be displayed by</p>
 <span><span class="co">#&gt; quasi_median 136.1189938</span></span>
 <span><span class="co">#&gt; skewness      -0.4526369</span></span>
 <span><span class="co">#&gt; kurtosis       1.4620392</span></span>
-<span><span class="co">#&gt; conf95         1.4506411</span></span>
+<span><span class="co">#&gt; conf95         3.7636758</span></span>
 <span><span class="co">#&gt; dispersion     0.1239432</span></span>
 <span><span class="co">#&gt; norm_chisq     0.1543845</span></span></code></pre></div>
 <p>Statistical test results are shown by</p>
