@@ -532,7 +532,7 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @param avg character. The average estimate for x. Either the circular mean
 #' (`"mean"`, the default) or the circular Quasi Median (`"median"`)
 #' @param spread character. The measure of spread to be plotted as a fan.
-#' Either the 95% confidence interval (`"CI"`, the default), the circular
+#' Either Fishers's 95% confidence interval (`"CI"`, the default), the circular
 #' standard deviation (`"sd"`), or the Quasi interquartile range on the circle
 #' (`"IQR"`). `NULL` if no fan should be drawn.
 #' @param avg.col color for the average line
@@ -547,7 +547,7 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @importFrom ggplot2 alpha
 #'
 #' @seealso [rose()] for plotting the rose diagram, and
-#' [circular_mean()], [circular_median()], [confidence_interval()],
+#' [circular_mean()], [circular_median()], [confidence_interval_fisher()],
 #' [circular_sd()], [circular_IQR()] for statistical parameters.
 #'
 #' @returns No return value, called for side effects
@@ -573,7 +573,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
   if (!is.null(spread)) {
     spread <- match.arg(spread)
     ci <- switch(spread,
-      CI = confidence_angle(x, w = weights, axial = axial),
+      CI = confidence_interval_fisher(x, w = weights, axial = axial, quiet = TRUE)$conf.angle,
       sd = circular_sd(x, weights, axial),
       IQR = circular_IQR(x, weights, axial)
     )
@@ -837,7 +837,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm_density = TRUE, .
 #' @importFrom dplyr arrange mutate
 #'
 #' @seealso [PoR_shmax()], [distance_from_pb()], [circular_mean()],
-#' [circular_dispersion()], [confidence_angle()], [norm_chisq()],
+#' [circular_dispersion()], [confidence_interval_fisher()], [norm_chisq()],
 #' [weighted_rayleigh()]
 #'
 #' @details
@@ -923,17 +923,16 @@ quick_plot <- function(
   t2 <- rbind(tmin, t, tmax)
 
   nchisq <- norm_chisq(azi, prd, unc)
-  suppressMessages(
-    rt <- weighted_rayleigh(azi, mu = prd, w = 1 / unc)
-  )
+  rt <- weighted_rayleigh(azi, mu = prd, w = 1 / unc, quiet = TRUE)
   azi.PoR.mean <- circular_mean(azi, 1 / unc)
   azi.PoR.sd <- circular_sd(azi, 1 / unc)
   disp <- circular_dispersion(azi, prd, 1 / unc)
-  CI <- confidence_interval(azi, w = 1 / unc)
-  CI_ang <- confidence_angle(azi, w = 1 / unc)
+  CIF <- confidence_interval_fisher(azi, w = 1 / unc, quiet = TRUE)
+  CI <- CIF$conf.interval
+  CI_ang <- CIF$conf.angle
 
   subtitle <-
-    bquote(95 * "% CI [" * .(round(CI$conf.interval[1])) * degree * "," ~ .(round(CI$conf.interval[2])) * degree * "] | R" == .(signif(rt$statistic, 2)) ~ ("p" == .(signif(rt$p.value, 2))))
+    bquote(95 * "% CI [" * .(round(CI[1])) * degree * "," ~ .(round(CI[2])) * degree * "] | R" == .(signif(rt$statistic, 2)) ~ ("p" == .(signif(rt$p.value, 2))))
 
   subtitle_rose <- bquote(atop(
     "N" == .(length(azi)),

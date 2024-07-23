@@ -59,7 +59,7 @@ mean_SC <- function(x, w, na.rm) {
 mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
   m <- mean_SC(x, w, na.rm)
   R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
-  abs(as.numeric(R))
+  abs(unname(R))
 }
 
 #' @title Summary Statistics of Circular Data
@@ -140,12 +140,12 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   m <- mean_SC(x, w, na.rm)
   meanx_rad <- atan2(m[, "S"], m[, "C"]) / f
   meanx_deg <- rad2deg(meanx_rad + 2 * pi) %% mod
-  as.numeric(meanx_deg)
+  unname(meanx_deg)
 }
 #' @rdname circle_stats
 #' @export
 circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if(axial) x <- ax2dir(x)
+  if (axial) x <- ax2dir(x)
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   1 - R
@@ -168,13 +168,13 @@ circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (is.null(w)) {
-    w <- rep(1, times = length(x))
+    w <- rep(1, times = length(x)) |> unname()
   }
 
   f <- ifelse(axial, 2, 1)
   mod <- 360 / f
   x <- deg2rad(x * f) %% (2 * pi)
-  data <- cbind(x = x, w = as.numeric(w))
+  data <- cbind(x = x, w = w)
   if (na.rm) {
     data <- data[stats::complete.cases(data), ] # remove NA values
   }
@@ -295,13 +295,14 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   quantiles <- circular_quantiles(x, w, axial, na.rm)
-  deviation_norm(as.numeric(quantiles[3]), as.numeric(quantiles[1]))
+  res <- deviation_norm(quantiles[3], quantiles[1])
+  unname(res)
 }
 
 #' @rdname circle_stats
 #' @export
 sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if(axial) x <- ax2dir(x)
+  if (axial) x <- ax2dir(x)
   Rbar2 <- mean_resultant_length(2 * x, w = w)
   Rbar <- mean_resultant_length(x, w = w)
   (1 - Rbar2) / (2 * Rbar^2)
@@ -525,7 +526,7 @@ NULL
 #' @rdname circle_mean_diff
 #' @export
 circular_mean_difference <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if(axial) x <- ax2dir(x)
+  if (axial) x <- ax2dir(x)
   Rbar2 <- mean_resultant_length(2 * x, w = w)
   1 - Rbar2
 }
@@ -534,14 +535,14 @@ circular_mean_difference <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   f <- 1
-  if(axial) {
+  if (axial) {
     x <- ax2dir(x)
     f <- 2
   }
   w <- if (is.null(w)) {
     rep(1, times = length(x))
   } else {
-    as.numeric(w)
+    unname(w)
   }
 
   data <- cbind(x = x, w = w)
@@ -655,7 +656,10 @@ z_score <- function(conf.level) {
 
 #' Standard Error of Mean Direction of Circular Data
 #'
-#' Measure of the chance variation expected from sample to sample in estimates of the mean direction.
+#' Measure of the chance variation expected from sample to sample in estimates
+#' of the mean direction.
+#' It is a parametric estimate of the the circular standard error of the mean direction
+#' by the particular form of the standard error for the von Mises distribution.
 #' The approximated standard error of the mean direction is computed by the mean
 #' resultant length and the MLE concentration parameter \eqn{\kappa}.
 #'
@@ -665,7 +669,11 @@ z_score <- function(conf.level) {
 #'
 #' @seealso [mean_resultant_length()], [circular_mean()]
 #'
-#' @references Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
+#' @references
+#' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+#'
+#' Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
+#'
 #' @export
 #'
 #' @examples
@@ -747,6 +755,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #'   165, 171, 172, 179, 181, 186, 190, 212
 #' )
 #' confidence_angle(finland_stria, axial = FALSE)
+#' confidence_interval(finland_stria, axial = FALSE)
 #'
 #' data(san_andreas)
 #' data("nuvel1")
@@ -776,6 +785,66 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
     conf.angle = conf.angle,
     conf.interval = c(mu - conf.angle, mu + conf.angle) # %% 360
   )
+}
+
+#' Confidence Interval around the Mean Direction of Circular Data after Fisher (1993)
+#'
+#' For large samples (`n >=25`) i performs are parametric estimate based on
+#' [sample_circular_dispersion()]. For smaller size samples, it returns a
+#' bootstrap estimate.
+#'
+#' @inheritParams circular_mean
+#' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
+#' (`0.95` by default).
+#' @param boot logical. Force bootstrap estimation
+#' @param R integer. number of bootstrap replicates
+#' @param quiet logical. Prints the used estimation (parametric or bootstrap).
+#'
+#' @references N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+#'
+#' @importFrom boot boot boot.ci
+#'
+#' @return list
+#' @export
+#'
+#' @examples
+#' # Example data from Davis (1986), pp. 316
+#' finland_stria <- c(
+#'   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+#'   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+#'   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+#'   165, 171, 172, 179, 181, 186, 190, 212
+#' )
+#' confidence_interval_fisher(finland_stria, axial = FALSE)
+#' confidence_interval_fisher(finland_stria, axial = FALSE, boot = TRUE)
+#'
+#' data(san_andreas)
+#' data("nuvel1")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' confidence_interval_fisher(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+#' confidence_interval_fisher(sa.por$azi.PoR, w = 1 / san_andreas$unc, boot = TRUE)
+confidence_interval_fisher <- function(x, conf.level = 0.95, w = NULL, axial = TRUE, na.rm = TRUE, boot = FALSE, R = 1000L, quiet = FALSE) {
+  n <- ifelse(na.rm, length(na.omit(x)), length(x))
+
+  if (n < 25 | boot) {
+    print_message <- paste("Bootstrap estimate based on", R, "replicates")
+    bs_result <- boot::boot(data = x, statistic = circular_mean, R = R, w = w, axial = axial, na.rm = na.rm)
+    ci <- boot::boot.ci(bs_result, conf.level, "perc")
+    sde <- sd(bs_result$t)
+    conf.angle <- z_score(conf.level) * sde
+    conf.interval <- c(ci$percent[4], ci$percent[5])
+    mu <- mean(bs_result$t)
+  } else {
+    print_message <- "Parametric estimate"
+    disp <- sample_circular_dispersion(x = x, w = w, axial = axial, na.rm = na.rm)
+    sde <- sqrt(disp / n)
+    conf.angle <- asind(z_score(conf.level) * sde)
+    mu <- circular_mean(x = x, w = w, axial = axial, na.rm = na.rm)
+    conf.interval <- c(mu - conf.angle, mu + conf.angle)
+  }
+  if (!quiet) message(print_message)
+  list(mu = mu, conf.angle = conf.angle, conf.interval = conf.interval)
 }
 
 
@@ -878,7 +947,7 @@ circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000
 #' second_central_moment(sa.por$azi.PoR)
 #' second_central_moment(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
-  if(axial) x <- ax2dir(x)
+  if (axial) x <- ax2dir(x)
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
@@ -933,7 +1002,7 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 #' @name sample_median
 #'
 #' @examples
-#' x <- rvm(n=100, mean=0, kappa=1)
+#' x <- rvm(n = 100, mean = 0, kappa = 1)
 #' circular_sample_median(x)
 #' circular_sample_median_deviation(x)
 #'
@@ -944,25 +1013,29 @@ NULL
 
 #' @rdname sample_median
 #' @export
-circular_sample_median <- function(x, axial = TRUE, na.rm = TRUE){
-  if(axial) x <- ax2dir(x)
-  if(na.rm) x <- na.omit(x)
+circular_sample_median <- function(x, axial = TRUE, na.rm = TRUE) {
+  if (axial) x <- ax2dir(x)
+  if (na.rm) x <- na.omit(x)
 
   x_circular <- circular::circular(deg2rad(x))
-  median <- circular::median.circular(x_circular) |> as.numeric() |> rad2deg()
-  if(axial) median <- dir2ax(median)
+  median <- circular::median.circular(x_circular) |>
+    as.numeric() |>
+    rad2deg()
+  if (axial) median <- dir2ax(median)
   median
 }
 
 #' @rdname sample_median
 #' @export
-circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE){
-  if(axial) x <- ax2dir(x)
-  if(na.rm) x <- na.omit(x)
+circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
+  if (axial) x <- ax2dir(x)
+  if (na.rm) x <- na.omit(x)
 
   x_circular <- circular::circular(deg2rad(x))
-  md <- circular::meandeviation(x_circular) |> as.numeric() |> rad2deg()
-  if(axial) md <- dir2ax(md)
+  md <- circular::meandeviation(x_circular) |>
+    as.numeric() |>
+    rad2deg()
+  if (axial) md <- dir2ax(md)
   md
 }
 
@@ -987,7 +1060,7 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE){
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
-   if (is.null(w)) {
+  if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
 
@@ -1005,7 +1078,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
   x_mean <- circular_mean(x, w, axial, F)
   x_sd <- circular_sd(x, w, axial, F)
   x_var <- circular_var(x, w, axial, F)
-  x_CI <- confidence_angle(x, 0.95, w, axial, F)
+  x_CI <- confidence_interval_fisher(x, conf.level = 0.95, w = w, axial = axial, na.rm = F, quiet = TRUE)$conf.angle
   x_quant <- circular_quantiles(x, w, axial, F)
   x_median <- circular_sample_median(x, axial, F)
   x_sk <- second_central_moment(x, w, axial, F)
@@ -1016,5 +1089,3 @@ circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
     c("n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", "95%CI", "skewness", "kurtosis", "R")
   )
 }
-
-

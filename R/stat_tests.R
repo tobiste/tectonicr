@@ -94,6 +94,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param mu (optional) The specified or known mean direction (in degrees) in
 #' alternative hypothesis
+#' @param quiet logical. Prints the test's decision.
 #'
 #' @details \describe{
 #' \item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
@@ -166,7 +167,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' rayleigh_test(sa.por$azi.PoR, mu = 135)
-rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
+rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
   f <- ifelse(axial, 2, 1)
 
   if (is.null(mu)) {
@@ -189,10 +190,12 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
       p.value = p.value
       # p.value2 = p.value2
     )
+    if(!quiet){
     if (S / 2 >= p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")
+    }
     }
   } else {
     data <- cbind(x = x, mu = mu)
@@ -211,10 +214,12 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE) {
       statistic = s,
       p.value = p.value
     )
+    if(!quiet){
     if (s >= p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")
+    }
     }
   }
 
@@ -264,6 +269,7 @@ rayleigh_p_value2 <- function(K, n) {
 #' hypothesis.
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @param quiet logical. Prints the test's decision.
 #'
 #' @details
 #' The Null hypothesis is uniformity (randomness). The alternative is a
@@ -302,7 +308,7 @@ rayleigh_p_value2 <- function(K, n) {
 #' weighted_rayleigh(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc)
 #' weighted_rayleigh(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
 #' weighted_rayleigh(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
-weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
+weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALSE) {
   if (is.null(w)) {
     rayleigh_test(x, mu = mu, axial = axial)
   } else {
@@ -330,10 +336,12 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
       statistic = s,
       p.value = p.value
     )
+    if(!quiet){
     if (s >= p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")
+    }
     }
     return(result)
   }
@@ -352,6 +360,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
 #' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @returns list containing the test statistic `statistic` and the significance
 #' level `p.value`.
+#' @param quiet logical. Prints the test's decision.
 #'
 #' @details
 #'
@@ -371,7 +380,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE) {
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' kuiper_test(sa.por$azi.PoR, alpha = .05)
-kuiper_test <- function(x, alpha = 0, axial = TRUE) {
+kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet=FALSE) {
   if (!any(c(0, 0.01, 0.025, 0.05, 0.1, 0.15) == alpha)) {
     stop("'alpha' must be one of the following values: 0, 0.01, 0.025, 0.05, 0.1, 0.15")
   }
@@ -407,11 +416,12 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
     }
   } else {
     p.value <- kuiper.crits[(1:5)[alpha == c(kuiper.crits[, 1])], 2]
-
+    if(!quiet){
     if (V > p.value) {
       message("Reject Null Hypothesis\n")
     } else {
       message("Do Not Reject Null Hypothesis\n")
+    }
     }
   }
   return(
@@ -437,6 +447,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #'  hypothesis
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
 #' uniform distribution. `"vonmises"` tests the von Mises distribution.
+#' @param quiet logical. Prints the test's decision.
 #'
 #' @returns list containing the test statistic `statistic` and the significance
 #' level `p.value`.
@@ -462,7 +473,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' watson_test(sa.por$azi.PoR, alpha = .05)
 #' watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
-watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE, mu = NULL) {
+watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = TRUE, mu = NULL, quiet = FALSE) {
   if (!any(c(0, 0.01, 0.025, 0.05, 0.1) == alpha)) {
     stop("'alpha' must be one of the following values: 0, 0.01, 0.025, 0.05, 0.1")
   }
@@ -512,11 +523,12 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
     } else {
       index <- (1:5)[alpha == c(0, 0.01, 0.025, 0.05, 0.1)]
       p.value <- crits[index]
-
+      if(!quiet){
       if (statistic > p.value) {
         message("Reject Null Hypothesis\n")
       } else {
         message("Do Not Reject Null Hypothesis\n")
+      }
       }
     }
   } else {
@@ -567,10 +579,12 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
         stop("Invalid input for alpha", "\n", "\n")
       }
       p.value <- u2.crits[row, col]
-      if (statistic > p.value) {
+      if(!quiet){
+        if (statistic > p.value) {
         message("Reject Null Hypothesis\n")
       } else {
         message("Do Not Reject Null Hypothesis\n")
+      }
       }
     } else {
       if (statistic < u2.crits[row, 2]) {
@@ -728,9 +742,13 @@ qvm <- function(p, mean=0, kappa, from=NULL, tol = .Machine$double.eps^(0.6)){
 
 
 A1inv <- function(x) {
-  ifelse(0 <= x & x < 0.53, 2 * x + x^3 + (5 * x^5) / 6,
-    ifelse(x < 0.85, -0.4 + 1.39 * x + 0.43 / (1 - x), 1 / (x^3 - 4 * x^2 + 3 * x))
-  )
+  if (0 <= x & x < 0.53) {
+    2 * x + x^3 + (5 * x^5) / 6
+  } else if (x < 0.85) {
+    -0.4 + 1.39 * x + 0.43 / (1 - x)
+  } else {
+    1 / (x^3 - 4 * x^2 + 3 * x)
+  }
 }
 
 #' Concentration parameter of von Mises distribution

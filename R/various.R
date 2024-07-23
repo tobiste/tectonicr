@@ -248,7 +248,7 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
   disp <- circular_dispersion(res$azi.PoR, prd, 1 / x$unc)
   # conf <- confidence_angle(res$azi.PoR, w = 1 / x$unc)
   nchisq <- norm_chisq(res$azi.PoR, prd, unc = x$unc)
-  rayleigh <- weighted_rayleigh(res$azi.PoR, prd, w = 1 / x$unc)
+  rayleigh <- weighted_rayleigh(res$azi.PoR, prd, w = 1 / x$unc, quiet = TRUE)
 
   if (plot) {
     PoR_map(x, PoR, pb, type = type, deviation = TRUE)

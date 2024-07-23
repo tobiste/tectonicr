@@ -9,7 +9,8 @@ watson_test(
   alpha = 0,
   dist = c("uniform", "vonmises"),
   axial = TRUE,
-  mu = NULL
+  mu = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 
 \item{mu}{(optional) The specified mean direction (in degrees) in alternative
 hypothesis}
+
+\item{quiet}{logical. Prints the test's decision.}
 }
 \value{
 list containing the test statistic \code{statistic} and the significance

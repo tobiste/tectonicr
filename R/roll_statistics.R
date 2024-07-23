@@ -331,9 +331,8 @@ distroll_circstats <- function(x, distance, FUN, width = NULL, min_n = 2,
   if (is.null(w)) w <- rep(1, length(x))
 
   if (is.null(width)) {
-    width <- seq(from = min(distance, na.rm = TRUE), to = max(distance, na.rm = TRUE), length.out = 10) |>
-      diff() |>
-      dplyr::first()
+    dwidth <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10)
+    width <- diff(dwidth)[1]
   }
 
   dat <- data.frame(x, d = distance, w)
@@ -342,8 +341,10 @@ distroll_circstats <- function(x, distance, FUN, width = NULL, min_n = 2,
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
-  res <- c()
-  ns <- c()
+  ds_length <- length(ds)
+  res <- numeric(ds_length)
+  ns <- integer(ds_length)
+
   for (i in seq_along(ds)) {
     if (align == "left") {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))
@@ -371,9 +372,8 @@ distroll_confidence <- function(x, distance, w = NULL, width = NULL, min_n = 2,
   stopifnot(length(x) == length(distance))
   if (is.null(w)) w <- rep(1, length(x))
   if (is.null(width)) {
-    width <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10) |>
-      diff() |>
-      dplyr::first()
+    dwidth <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10)
+    width <- diff(dwidth)[1]
   }
 
   dat <- data.frame(x, d = distance, w)
@@ -382,8 +382,10 @@ distroll_confidence <- function(x, distance, w = NULL, width = NULL, min_n = 2,
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
-  res <- c()
-  ns <- c()
+  ds_length <- length(ds)
+  res <- numeric(ds_length)
+  ns <- integer(ds_length)
+
   for (i in seq_along(ds)) {
     if (align == "left") {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))
@@ -415,9 +417,8 @@ distroll_dispersion <- function(x, y, w = NULL, w.y = NULL, distance,
   if (is.null(w.y)) w.y <- rep(1, length(x))
 
   if (is.null(width)) {
-    width <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10) |>
-      diff() |>
-      dplyr::first()
+    dwidth <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10)
+    width <- diff(dwidth)[1]
   }
 
   dat <- data.frame(d = distance, x, y, w, w.y)
@@ -426,8 +427,10 @@ distroll_dispersion <- function(x, y, w = NULL, w.y = NULL, distance,
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
-  res <- c()
-  ns <- c()
+  ds_length <- length(ds)
+  res <- numeric(ds_length)
+  ns <- integer(ds_length)
+
   for (i in seq_along(ds)) {
     if (align == "left") {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))
@@ -459,9 +462,8 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
   if (is.null(w.y)) w.y <- rep(1, length(x))
 
   if (is.null(width)) {
-    width <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10) |>
-      diff() |>
-      dplyr::first()
+    dwidth <- seq(min(distance, na.rm = TRUE), max(distance, na.rm = TRUE), length.out = 10)
+    width <- diff(dwidth)[1]
   }
 
   dat <- data.frame(x, d = distance, y, w, w.y)
@@ -470,8 +472,10 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
   d_sort <- dat$d
   ds <- seq(from = min(d_sort, na.rm = TRUE), to = max(d_sort, na.rm = TRUE), width)
 
-  res <- c()
-  ns <- c()
+  ds_length <- length(ds)
+  res <- numeric(ds_length)
+  ns <- integer(ds_length)
+
   for (i in seq_along(ds)) {
     if (align == "left") {
       sub <- dplyr::filter(dat, dplyr::between(d, ds[i] - width, ds[i]))

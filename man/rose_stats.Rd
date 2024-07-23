@@ -33,7 +33,7 @@ or biaxial (\code{TRUE}, the default).}
 (\code{"mean"}, the default) or the circular Quasi Median (\code{"median"})}
 
 \item{spread}{character. The measure of spread to be plotted as a fan.
-Either the 95\% confidence interval (\code{"CI"}, the default), the circular
+Either Fishers's 95\% confidence interval (\code{"CI"}, the default), the circular
 standard deviation (\code{"sd"}), or the Quasi interquartile range on the circle
 (\code{"IQR"}). \code{NULL} if no fan should be drawn.}
 
@@ -68,6 +68,6 @@ rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "median", sprea
 }
 \seealso{
 \code{\link[=rose]{rose()}} for plotting the rose diagram, and
-\code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=confidence_interval]{confidence_interval()}},
+\code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=confidence_interval_fisher]{confidence_interval_fisher()}},
 \code{\link[=circular_sd]{circular_sd()}}, \code{\link[=circular_IQR]{circular_IQR()}} for statistical parameters.
 }

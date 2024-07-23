@@ -46,6 +46,7 @@ finland_stria <- c(
   165, 171, 172, 179, 181, 186, 190, 212
 )
 confidence_angle(finland_stria, axial = FALSE)
+confidence_interval(finland_stria, axial = FALSE)
 
 data(san_andreas)
 data("nuvel1")

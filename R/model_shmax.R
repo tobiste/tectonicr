@@ -464,7 +464,7 @@ superimposed_shmax_PB <- function(x, pbs, model,
 
   pb_types <- unique(pbs$name)
 
-  pb_dist <- pb_dir <- pb_rot <- pb_weights <- matrix(numeric(), nrow = nx, ncol = length(pb_types))
+  pb_dist <- pb_dir <- pb_rot <- pb_weights <- matrix(nrow = nx, ncol = length(pb_types))
   colnames(pb_dist) <- pb_types
   colnames(pb_dir) <- pb_types
   colnames(pb_rot) <- pb_types

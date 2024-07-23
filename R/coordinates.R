@@ -313,7 +313,7 @@ PoR_coordinates <- function(x, PoR) {
       tectonicr::geographical_to_PoR_sf(PoR = PoR) |>
       sf::st_coordinates() |>
       sf::st_drop_geometry() |>
-      rename("lon.PoR" = "X", "lat.PoR" = "Y")
+      dplyr::rename("lon.PoR" = "X", "lat.PoR" = "Y")
   }
 }
 

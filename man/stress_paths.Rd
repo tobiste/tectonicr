@@ -8,7 +8,7 @@
 \alias{eulerpole_loxodromes}
 \title{Theoretical Plate Tectonic Stress Paths}
 \usage{
-eulerpole_paths(x, type = c("sc", "gc", "ld"), n = 10, angle, cw)
+eulerpole_paths(x, type = c("sc", "gc", "ld"), n = 10, angle = 45, cw)
 
 eulerpole_smallcircles(x, n = 10)
 

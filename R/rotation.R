@@ -259,7 +259,6 @@ euler_to_Q4 <- function(x, normalize = FALSE) {
   Sc <- cos(x$angle / 2)
   Vec <- axis * sin(x$angle / 2)
   q <- structure(list(Sc = c(Sc), Vec = Vec), class = "quaternion")
-  # class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }
@@ -288,7 +287,7 @@ Q4_to_euler <- function(q) {
 QScVec_to_Q4 <- function(x) {
   stopifnot(is.Q4(x), x$Sc != 0)
   x.euler <- Q4_to_euler(x)
-  q <- c()
+  q <- numeric(4)
   q[1] <- x$Sc
   q[2] <- x.euler$axis[1] * sin(x.euler$angle / 2)
   q[3] <- x.euler$axis[2] * sin(x.euler$angle / 2)
@@ -341,7 +340,6 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
   Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
   Vec <- q1$Sc * q2$Vec + q2$Sc * q1$Vec + vcross(q2$Vec, q1$Vec)
   q <- structure(list(Sc = c(Sc), Vec = Vec), class = "quaternion")
-  # class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }
@@ -360,7 +358,6 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
 conjugate_Q4 <- function(q, normalize = FALSE) {
   stopifnot(is.Q4(q), is.logical(normalize))
   q <- structure(list(Sc = q$Sc, Vec = -q$Vec), class = "quaternion")
-  # class(q) <- "quaternion"
   if (normalize) {
     q <- normalize_Q4(q)
   }

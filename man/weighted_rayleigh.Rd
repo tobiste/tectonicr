@@ -4,7 +4,7 @@
 \alias{weighted_rayleigh}
 \title{Weighted Goodness-of-fit Test for Circular Data}
 \usage{
-weighted_rayleigh(x, mu = NULL, w = NULL, axial = TRUE)
+weighted_rayleigh(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
@@ -17,6 +17,8 @@ non-weighted Rayleigh test is performed.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+
+\item{quiet}{logical. Prints the test's decision.}
 }
 \value{
 a list with the components:

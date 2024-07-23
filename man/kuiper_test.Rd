@@ -4,7 +4,7 @@
 \alias{kuiper_test}
 \title{Kuiper Test of Circular Uniformity}
 \usage{
-kuiper_test(x, alpha = 0, axial = TRUE)
+kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{x}{numeric vector containing the circular data which are expressed in degrees}
@@ -14,6 +14,8 @@ This argument may be omitted (\code{NULL}, the default), in which case, a range 
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+
+\item{quiet}{logical. Prints the test's decision.}
 }
 \value{
 list containing the test statistic \code{statistic} and the significance

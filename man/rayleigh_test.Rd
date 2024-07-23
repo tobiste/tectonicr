@@ -4,7 +4,7 @@
 \alias{rayleigh_test}
 \title{Rayleigh Test of Circular Uniformity}
 \usage{
-rayleigh_test(x, mu = NULL, axial = TRUE)
+rayleigh_test(x, mu = NULL, axial = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
@@ -14,6 +14,8 @@ alternative hypothesis}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+
+\item{quiet}{logical. Prints the test's decision.}
 }
 \value{
 a list with the components:

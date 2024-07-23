@@ -63,7 +63,7 @@ smallcircle_dummy <- function(n) {
   sm_range <- seq(0, 180, 180 / n)
   lons <- seq(-180, 180, 180 / n)
 
-  sm.df <- data.frame(
+  sm.df <- cbind(
     "lon" = as.numeric(),
     "lat" = as.numeric(),
     "small_circle" = as.numeric()
@@ -178,16 +178,21 @@ NULL
 
 #' @rdname stress_paths
 #' @export
-eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle, cw) {
+eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle=45, cw) {
   stopifnot(is.data.frame(x), dim(x)[1] > 0)
   type <- match.arg(type)
-  if (type == "gc") {
-    eulerpole_greatcircles(x, n)
-  } else if (type == "ld") {
-    eulerpole_loxodromes(x, n, angle, cw)
-  } else {
-    eulerpole_smallcircles(x, n)
-  }
+  # if (type == "gc") {
+  #   eulerpole_greatcircles(x, n)
+  # } else if (type == "ld") {
+  #   eulerpole_loxodromes(x, n, angle, cw)
+  # } else {
+  #   eulerpole_smallcircles(x, n)
+  # }
+  switch(type,
+    "gc" = eulerpole_greatcircles(x, n),
+    "ld" = eulerpole_loxodromes(x, n, angle, cw),
+    "sc" = eulerpole_smallcircles(x, n)
+  )
 }
 
 #' @rdname stress_paths
