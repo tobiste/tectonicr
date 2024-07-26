@@ -168,7 +168,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' rayleigh_test(sa.por$azi.PoR, mu = 135)
 rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
 
   if (is.null(mu)) {
     x <- (na.omit(x) * f) %% 360
@@ -324,7 +324,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
     }
 
     d <- data[, "x"] - mu
-    f <- ifelse(axial, 2, 1)
+    f <- as.numeric(axial) + 1
 
     m <- mean_SC(f * d, w = w, na.rm = FALSE)
     C <- as.numeric(m[, "C"])
@@ -388,7 +388,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet=FALSE) {
     c(0.15, 0.1, 0.05, 0.025, 0.01),
     c(1.537, 1.62, 1.747, 1.862, 2.001)
   )
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
 
   x <- (na.omit(x) * f) %% 360
   u <- sort(deg2rad(x) %% (2 * pi)) / (2 * pi)

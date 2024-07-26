@@ -4,7 +4,7 @@ mean_SC <- function(x, w, na.rm) {
   w <- if (is.null(w)) {
     rep(1, times = length(x))
   } else {
-    as.numeric(w)
+    w
   }
 
   data <- cbind(x = x, w = w)
@@ -134,7 +134,7 @@ NULL
 #' @rdname circle_stats
 #' @export
 circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   mod <- 360 / f
   x <- (x * f) %% 360
   m <- mean_SC(x, w, na.rm)
@@ -154,7 +154,7 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   mod <- 360 / f
   x <- (x * f) %% 360
 
@@ -171,7 +171,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     w <- rep(1, times = length(x)) |> unname()
   }
 
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   mod <- 360 / f
   x <- deg2rad(x * f) %% (2 * pi)
   data <- cbind(x = x, w = w)
@@ -201,7 +201,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   mod <- 360 / f
   x <- deg2rad(f * x) %% (2 * pi)
 
@@ -367,7 +367,7 @@ NULL
 #' @rdname dispersion
 #' @export
 circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
 
   stopifnot(length(y) == 1 | length(y) == length(x))
   if (length(y) == 1) {
@@ -433,7 +433,7 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE,
 #' @rdname dispersion
 #' @export
 circular_distance_alt <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
 
   stopifnot(length(y) == 1 | length(y) == length(x))
   if (length(y) == 1) {
@@ -595,7 +595,7 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
 #' data("san_andreas")
 #' circular_range(san_andreas$azi)
 circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   mod <- 360 / f
 
   if (na.rm) x <- na.omit(x)
@@ -615,7 +615,7 @@ circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
 
 
 cdist2angle <- function(x, axial = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   acosd(1 - f * x) / f
 }
 

@@ -113,12 +113,15 @@ deviation_norm <- function(x, y = NULL) {
   }
 
   ny <- length(y)
-  stopifnot(nx == ny | ny == 1)
+  stopifnot(
+    (nx == ny) | (ny == 1)
+  )
   if (ny == 1 & nx > 1) {
     ny <- rep(y, nx)
   }
   d <- (x %% 180) - (y %% 180)
   d <- ifelse(d < 90, d, 180 - d)
+  #d[d>=90] <- 180 - d[d>=90]
   abs(d)
 }
 

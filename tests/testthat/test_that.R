@@ -28,7 +28,8 @@ data("iceland")
 eu_na_boundary <- subset(plates, plates$pair == "eu-na")
 eu_na <- equivalent_rotation(morvel, fixed = "na", rot = "eu")
 stress_analysis(iceland, PoR = eu_na, type = "out", pb = eu_na_boundary)
-PoR_stress2grid(iceland, eu_na)
+PoR_stress2grid(iceland, eu_na, threshold = 90)
+
 
 # test model_shmax
 euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific

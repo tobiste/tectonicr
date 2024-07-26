@@ -807,7 +807,7 @@ bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
 #' watson_test_boot(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc, n = 10, alpha = 0.05)
 #' watson_test_boot(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc, n = 10, alpha = 0.05)
 watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL, n = 100) {
-  f <- ifelse(axial, 2, 1)
+  f <-as.numeric(axial) + 1
   x <- x * f
   if (!is.null(mu)) {
     mu <- x * f

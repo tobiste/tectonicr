@@ -642,7 +642,7 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, s
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
 
   if (!stack) {
     if (axial) {
@@ -703,7 +703,7 @@ calc_circular_density <- function(x, z, kappa) {
 
 
 circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 360, n = 512, axial = TRUE) {
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   x <- x * f
 
   if (is.null(z)) {
@@ -804,7 +804,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm_density = TRUE, .
   }
 
 
-  f <- ifelse(axial, 2, 1)
+  f <- as.numeric(axial) + 1
   d <- circular_density(x, kappa = kappa, n = n, axial = axial)
   if (norm_density) d / max(d)
   circular_lines(seq(0, 360, length = f * n), rep(d, f), axial = FALSE, n, offset = scale, shrink = shrink, ...)
