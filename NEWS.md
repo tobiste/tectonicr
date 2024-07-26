@@ -1,7 +1,7 @@
 # tectonicr 0.3.11 _2024-07-26_
 
 * bug fixes
-* performance upgrade
+* minor performance upgrade
 
 # tectonicr 0.3.10 _2024-07-13_
 
