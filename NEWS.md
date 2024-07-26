@@ -1,3 +1,8 @@
+# tectonicr 0.3.11 _2024-07-26_
+
+* bug fixes
+* performance upgrade
+
 # tectonicr 0.3.10 _2024-07-13_
 
 * more statistical estimators

@@ -121,7 +121,6 @@ deviation_norm <- function(x, y = NULL) {
   }
   d <- (x %% 180) - (y %% 180)
   d <- ifelse(d < 90, d, 180 - d)
-  #d[d>=90] <- 180 - d[d>=90]
   abs(d)
 }
 
@@ -301,16 +300,16 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 #' # North America relative to Pacific plate:
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' data("san_andreas")
-#' head(san_andreas$azi)
 #' san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
-#' res.geo <- PoR2Geo_azimuth(san_andreas, PoR)
-#' head(res.geo)
+#'
+#' # convert back to geo CRS
+#' PoR2Geo_azimuth(san_andreas, PoR)
 PoR2Geo_azimuth <- function(x, PoR) {
   # Northern Hemisphere Euler pole
-  if (PoR$lat < 0) {
-    PoR$lat <- -PoR$lat
-    PoR$lon <- longitude_modulo(180 + PoR$lon)
-  }
+  # if (PoR$lat < 0) {
+  #   PoR$lat <- -PoR$lat
+  #   PoR$lon <- longitude_modulo(180 + PoR$lon)
+  # }
 
   if (unique(c("lat.PoR", "lon.PoR") %in% colnames(x))) {
     northpole <- geographical_to_PoR(

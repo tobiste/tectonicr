@@ -19,3 +19,4 @@
 ^\.travis\.yml$
 ^R/preliminary\.R$
 ^R/utils-tidy-eval\.R$
+tests/benchmarking_and_testing.R

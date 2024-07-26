@@ -1050,9 +1050,9 @@ quick_plot <- function(
 #' moving plate boundaries, respectively. If \code{"none"} (the default), only
 #' the PoR-equivalent azimuth is returned.
 #'
-#' @param deviation logical.
+#' @param show.deviation logical.
 #' Whether the data should be color-coded according to the deviation from the
-#' prediction, or according to the stress regime?
+#' prediction, or according to the stress regime? Is ignored if `type=='none'`.
 #' @param ... optional arguments passed to [tectonicr.colors()]
 #'
 #' @returns plot
@@ -1071,9 +1071,9 @@ quick_plot <- function(
 #' plate_boundary <- subset(plates, plates$pair == "na-pa")
 #'
 #' data("san_andreas")
-#' PoR_map(san_andreas, PoR = na_pa, pb = plate_boundary, type = "right", deviation = TRUE)
+#' PoR_map(san_andreas, PoR = na_pa, pb = plate_boundary, type = "right", show.deviation = TRUE)
 PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "left"),
-                    deviation = FALSE, ...) {
+                    show.deviation = FALSE, ...) {
   val <- val2 <- character()
   type <- match.arg(type)
   x_por_df <- PoR_shmax(x, PoR, type = type)
@@ -1087,9 +1087,9 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
 
   pb_por <- geographical_to_PoR_sf(pb, PoR)
 
-  if (deviation & type != "none") {
+  if (show.deviation & type != "none") {
     cols <- tectonicr.colors(abs(x_por_df$cdist), categorical = FALSE, ...)
-    legend.title <- "|Circular distance|"
+    legend.title <- "Circular distance"
   } else {
     cols <- tectonicr.colors(
       x$regime,

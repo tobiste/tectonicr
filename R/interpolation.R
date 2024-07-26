@@ -209,10 +209,15 @@ stress2grid <- function(x,
   }
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
   G <- sf::st_coordinates(grid)
+  num_G <- nrow(G)
 
-  R <- N <- numeric(nrow(G))
+  R <- N <- numeric(num_G)
 
-  SH <- c()
+  # SH <- matrix(nrow = num_G * length(R_range), ncol = 7, dimnames = list(NULL, c('lon', 'lat', 'azi', 'sd', 'R', 'mdr', 'N')))
+  # SH[, 1] <- rep(G[, 1], length(R_range))
+  # SH[, 2] <- rep(G[, 2], length(R_range))
+  SH <- matrix(nrow = 0, ncol = 7, dimnames = list(NULL, c('lon', 'lat', 'azi', 'sd', 'R', 'mdr', 'N')))
+
   for (i in seq_along(G[, 1])) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
 
@@ -249,33 +254,33 @@ stress2grid <- function(x,
           } else {
             stats <- wcmean(datas[ids_R, 3], w)
           }
-          meanSH <- as.numeric(stats[1])
-          sd <- as.numeric(stats[2])
+          meanSH <- stats[1]
+          sd <- stats[2]
         }
         SH.ik <- c(
-          lon = G[i, 1],
-          lat = G[i, 2],
-          azi = meanSH,
-          sd = sd,
-          R = R_search,
-          mdr = mdr,
-          N = N_in_R
+          G[i, 1], # lon
+          G[i, 2], # lat
+          meanSH, # azi
+          sd, # sd
+          R_search, # R_search
+          mdr, # mdr
+          N_in_R # N_in_R
         )
 
-        # if (SH.ik[4] <= threshold & !is.na(SH.ik[4])) {
-          SH <- rbind(SH, SH.ik)
+        # if (SH.ik[2] <= threshold & !is.na(SH.ik[2])) {
+        SH <- rbind(SH, SH.ik)
         # }
+        # SH[i, 3:7] <- SH.ik
       }
     }
   }
 
-  lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
+  #lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
   res <- dplyr::as_tibble(SH) |>
-    dplyr::rename(lon = lon.X, lat = lat.Y) |>
+    # dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N)) |>
-    dplyr::filter(sd <= threshold & !is.na(sd)) |>
-    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) |>
-    dplyr::group_by(R)
+    dplyr::filter(!is.na(azi), sd <= threshold, !is.na(sd)) |>
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 
   return(res)
 }
@@ -380,8 +385,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 
   int <- stress2grid(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
     dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) |>
-    PoR_to_geographical_sf(PoR) |>
-    dplyr::group_by(R)
+    PoR_to_geographical_sf(PoR)
   int_coords <- sf::st_coordinates(int) |>
     dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
@@ -423,13 +427,13 @@ compact_grid <- function(x, type = c("stress", "dispersion")) {
 
   if (type == "stress") {
     data <- x |>
-      dplyr::ungroup() |>
+      # dplyr::ungroup() |>
       dplyr::as_tibble() |>
       tidyr::drop_na(azi) |>
       dplyr::mutate(group = paste(lon, lat))
   } else {
     data <- x |>
-      dplyr::ungroup() |>
+      # dplyr::ungroup() |>
       dplyr::as_tibble() |>
       tidyr::drop_na(stat) |>
       dplyr::mutate(group = paste(lon, lat))
@@ -620,8 +624,7 @@ kernel_dispersion <- function(x,
   res <- dplyr::as_tibble(SH) |>
     dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N)) |>
-    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) |>
-    dplyr::group_by(R)
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 
   return(res)
 }

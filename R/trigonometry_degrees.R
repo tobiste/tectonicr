@@ -300,10 +300,10 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
   method <- match.arg(method)
   stopifnot(is.numeric(r), length(lat1) == length(lon1), length(lat2) == length(lat2))
 
-  lat1 <- lat1 * pi / 180
-  lon1 <- lon1 * pi / 180
-  lat2 <- lat2 * pi / 180
-  lon2 <- lon2 * pi / 180
+  lat1 <- deg2rad(lat1)
+  lon1 <- deg2rad(lon1)
+  lat2 <- deg2rad(lat2)
+  lon2 <- deg2rad(lon2)
 
   if (method == "haversine") {
     d <- haversine(lat1, lon1, lat2, lon2) * r
@@ -346,16 +346,16 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
 #' tokyo <- c(35.7, 139.767) # Tokyo
 #' get_azimuth(berlin[1], berlin[2], tokyo[1], tokyo[2])
 get_azimuth <- function(lat_a, lon_a, lat_b, lon_b) {
-  la <- pi / 180 * lat_a
-  lb <- pi / 180 * lat_b
+  la <- deg2rad(lat_a)
+  lb <- deg2rad(lat_b)
 
-  dphi <- (lon_b - lon_a) * (pi / 180)
+  dphi <- deg2rad(lon_b - lon_a)
   cos_lb <- cos(lb)
 
   y <- sin(dphi) * cos_lb
   x <- cos(la) * sin(lb) - sin(la) * cos_lb * cos(dphi)
-  # theta <- atan2d(y, x)
-  theta <- atand(y / x) + 360
+  theta <- atan2d(y, x)
+  #theta <- atand(y / x) + 360
 
   (theta + 360) %% 360
 }

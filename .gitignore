@@ -22,3 +22,6 @@ vignettes/*.pdf
 *.knit.md
 .Renviron
 tectonicr_qr.pdf
+data-raw/*.csv
+data-raw/*.txt
+tests/benchmarking_and_testing.R

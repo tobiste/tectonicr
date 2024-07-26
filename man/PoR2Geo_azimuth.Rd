@@ -25,10 +25,10 @@ data("nuvel1")
 # North America relative to Pacific plate:
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 data("san_andreas")
-head(san_andreas$azi)
 san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
-res.geo <- PoR2Geo_azimuth(san_andreas, PoR)
-head(res.geo)
+
+# convert back to geo CRS
+PoR2Geo_azimuth(san_andreas, PoR)
 }
 \references{
 Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
