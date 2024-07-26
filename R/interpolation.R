@@ -209,14 +209,10 @@ stress2grid <- function(x,
   }
   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
   G <- sf::st_coordinates(grid)
-  num_G <- nrow(G)
 
-  R <- N <- numeric(num_G)
+  R <- N <- numeric(nrow(G))
 
-  #SH <- c()
-  SH <- matrix(nrow = num_G, ncol = 7, dimnames = list(NULL, c('lon', 'lat', 'azi', 'sd', 'R', 'mdr', 'N')))
-  SH[, 1:2] <- G
-
+  SH <- c()
   for (i in seq_along(G[, 1])) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
 
@@ -253,30 +249,29 @@ stress2grid <- function(x,
           } else {
             stats <- wcmean(datas[ids_R, 3], w)
           }
-          meanSH <- (stats[1])
-          sd <- (stats[2])
+          meanSH <- as.numeric(stats[1])
+          sd <- as.numeric(stats[2])
         }
         SH.ik <- c(
-          #lon = G[i, 1],
-          #lat = G[i, 2],
-          meanSH, # azi
-          sd, # sd
-          R_search, # R_search
-          mdr, # mdr
-          N_in_R # N_in_R
+          lon = G[i, 1],
+          lat = G[i, 2],
+          azi = meanSH,
+          sd = sd,
+          R = R_search,
+          mdr = mdr,
+          N = N_in_R
         )
 
         # if (SH.ik[4] <= threshold & !is.na(SH.ik[4])) {
-        #   SH <- rbind(SH, SH.ik)
+          SH <- rbind(SH, SH.ik)
         # }
-        SH[i, 3:7] <- SH.ik
       }
     }
   }
 
-  # lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
+  lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
   res <- dplyr::as_tibble(SH) |>
-    # dplyr::rename(lon = lon.X, lat = lat.Y) |>
+    dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N)) |>
     dplyr::filter(sd <= threshold & !is.na(sd)) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE) |>
