@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.11</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@
 <span>  <span class="va">PoR</span>,</span>
 <span>  pb <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"in"</span>, <span class="st">"out"</span>, <span class="st">"right"</span>, <span class="st">"left"</span><span class="op">)</span>,</span>
-<span>  deviation <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.deviation <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -80,10 +80,10 @@ moving plate boundaries, respectively. If <code>"none"</code> (the default), onl
 the PoR-equivalent azimuth is returned.</p></dd>
 
 
-<dt id="arg-deviation">deviation<a class="anchor" aria-label="anchor" href="#arg-deviation"></a></dt>
+<dt id="arg-show-deviation">show.deviation<a class="anchor" aria-label="anchor" href="#arg-show-deviation"></a></dt>
 <dd><p>logical.
 Whether the data should be color-coded according to the deviation from the
-prediction, or according to the stress regime?</p></dd>
+prediction, or according to the stress regime? Is ignored if <code>type=='none'</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -108,7 +108,7 @@ prediction, or according to the stress regime?</p></dd>
 <span class="r-in"><span><span class="va">plate_boundary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">plates</span><span class="op">$</span><span class="va">pair</span> <span class="op">==</span> <span class="st">"na-pa"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">PoR_map</span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">plate_boundary</span>, type <span class="op">=</span> <span class="st">"right"</span>, deviation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">PoR_map</span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">na_pa</span>, pb <span class="op">=</span> <span class="va">plate_boundary</span>, type <span class="op">=</span> <span class="st">"right"</span>, show.deviation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="PoR_map-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
