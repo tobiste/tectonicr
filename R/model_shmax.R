@@ -397,7 +397,7 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
 
   for (j in seq_along(res[, 1])) {
     azi[j] <- circular_mean(res[j, ], w = rot[j, ])
-    R[j] <- 2*(1 - circular_var(res[j, ], w = rot[j, ]))
+    R[j] <- 2 * (1 - circular_var(res[j, ], w = rot[j, ]))
   }
   return(cbind(azi = azi, R = R))
 }

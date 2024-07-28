@@ -34,6 +34,9 @@ orientation in some manner.
 x_vm <- rvm(100, mean = 0, kappa = 2)
 circular_qqplot(x_vm, pch = 20)
 
+x_norm <- rnorm(100, mean = 0, sd = 25)
+circular_qqplot(x_norm, pch = 20)
+
 x_unif <- runif(100, 0, 360)
 circular_qqplot(x_unif, pch = 20)
 }

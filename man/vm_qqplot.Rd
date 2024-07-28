@@ -41,6 +41,9 @@ Produces a Q-Q plot of the data against a specified von Mises distribution
 to graphically assess the goodness of fit of the model.
 }
 \examples{
-x <- rvm(101, mean = 0, kappa = 1)
-vm_qqplot(x, axial = FALSE, pch = 20)
+x_vm <- rvm(100, mean = 0, kappa = 4)
+vm_qqplot(x_vm, axial = FALSE, pch = 20)
+
+x_unif <- runif(100, 0, 360)
+vm_qqplot(x_unif, axial = FALSE, pch = 20)
 }

@@ -17,13 +17,13 @@ NULL
 #' @rdname angle-conversion
 #' @export
 rad2deg <- function(rad) {
-  #stopifnot(is.numeric(rad))
+  # stopifnot(is.numeric(rad))
   rad * 180 / pi
 }
 #' @rdname angle-conversion
 #' @export
 deg2rad <- function(deg) {
-  #stopifnot(is.numeric(deg))
+  # stopifnot(is.numeric(deg))
   deg * pi / 180
 }
 
@@ -40,12 +40,12 @@ deg2rad <- function(deg) {
 #' @name trigon
 NULL
 
-dir2ax <- function(x){
-  (x/2) %% 180
+dir2ax <- function(x) {
+  (x / 2) %% 180
 }
 
-ax2dir <- function(x){
-  (2*x) %% 360
+ax2dir <- function(x) {
+  (2 * x) %% 360
 }
 
 
@@ -355,7 +355,7 @@ get_azimuth <- function(lat_a, lon_a, lat_b, lon_b) {
   y <- sin(dphi) * cos_lb
   x <- cos(la) * sin(lb) - sin(la) * cos_lb * cos(dphi)
   theta <- atan2d(y, x)
-  #theta <- atand(y / x) + 360
+  # theta <- atand(y / x) + 360
 
   (theta + 360) %% 360
 }

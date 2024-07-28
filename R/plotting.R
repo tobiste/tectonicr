@@ -152,6 +152,9 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' x_vm <- rvm(100, mean = 0, kappa = 2)
 #' circular_qqplot(x_vm, pch = 20)
 #'
+#' x_norm <- rnorm(100, mean = 0, sd = 25)
+#' circular_qqplot(x_norm, pch = 20)
+#'
 #' x_unif <- runif(100, 0, 360)
 #' circular_qqplot(x_unif, pch = 20)
 circular_qqplot <- function(x, axial = TRUE,
@@ -171,7 +174,12 @@ circular_qqplot <- function(x, axial = TRUE,
   n <- length(x)
   xin <- seq_along(x) / (n + 1)
 
-  graphics::plot(xin, x, type = "p", xlim = c(0, 1), ylim = c(0, 1), asp = 1, xlab = xlab, ylab = ylab, main = main, ...)
+  graphics::plot(xin, x,
+    type = "p", xlim = c(0, 1), ylim = c(0, 1), asp = 1,
+    xlab = xlab, ylab = ylab, main = main,
+    sub = bquote("N" == .(n)),
+    ...
+  )
   graphics::abline(a = 0, b = 1, col = "slategrey")
   graphics::lines(xin, x)
   invisible(xin)
@@ -200,16 +208,22 @@ circular_qqplot <- function(x, axial = TRUE,
 #' @export
 #'
 #' @examples
-#' x <- rvm(101, mean = 0, kappa = 1)
-#' vm_qqplot(x, axial = FALSE, pch = 20)
-vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL, xlab = "von Mises quantile function", ylab = "Empirical quantile function", main = "von Mises Q-Q Plot", ...) {
+#' x_vm <- rvm(100, mean = 0, kappa = 4)
+#' vm_qqplot(x_vm, axial = FALSE, pch = 20)
+#'
+#' x_unif <- runif(100, 0, 360)
+#' vm_qqplot(x_unif, axial = FALSE, pch = 20)
+vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
+                      xlab = "von Mises quantile function",
+                      ylab = "Empirical quantile function",
+                      main = "von Mises Q-Q Plot", ...) {
   if (axial) {
     f <- 2
   } else {
     f <- 1
   }
 
-  # n <- length(x)
+  n <- length(x)
 
   # if (stretch) {
   #   k <- 4
@@ -219,6 +233,10 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL, xlab
 
   if (is.null(mean)) mean <- circular_mean(x, w = w, axial = axial)
   if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
+
+  caption <- bquote(
+    bar(alpha) == .(round(mean, 1)) * degree ~ "|" ~ kappa == .(round(kappa, 1))
+  )
 
   xf <- (x * f) %% 360
   xf <- sort(xf)
@@ -244,8 +262,9 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL, xlab
 
   tqf <- qvm(edf(xf), mean * f, kappa, from = 0)
   #
-  graphics::plot(tqf / f, xf / f, xlim = c(0, 360 / f), ylim = c(0, 360 / f), xlab = xlab, ylab = ylab, main = main, ...)
+  graphics::plot(tqf / f, xf / f, xlim = c(0, 360 / f), ylim = c(0, 360 / f), asp = 1, xlab = xlab, ylab = ylab, main = main, sub = bquote("N" == .(n)), ...)
   graphics::abline(a = 0, b = 1, col = "slategrey")
+  mtext(caption)
   invisible(tqf)
 }
 
@@ -1262,4 +1281,3 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
     bty = "o", bg = "white"
   )
 }
-
