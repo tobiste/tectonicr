@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-07-27</h4>
+            <h4 data-toc-skip class="date">2024-07-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/D_statistics.Rmd" class="external-link"><code>vignettes/D_statistics.Rmd</code></a></small>
       <div class="d-none name"><code>D_statistics.Rmd</code></div>
@@ -158,8 +158,10 @@ kurtosis, and the 95% confidence angle.</p>
 <p><strong>tectonicr</strong> provides a rose diagram, i.e. histogram
 for angular data.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"North pole"</span>,</span>
-<span>     dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"North pole"</span>,</span>
+<span>  dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># add the density curve</span></span>
 <span><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span>, shrink <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
@@ -172,12 +174,14 @@ red).</p>
 representation of the angle distribution as there is no angle distortion
 due to the arbitrarily chosen geographic coordinate system.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"PoR"</span>,</span>
-<span>     dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"PoR"</span>,</span>
+<span>  dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span>, shrink <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># show the predicted direction</span></span>
-<span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="fl">135</span>, radius <span class="op">=</span> <span class="fl">1.1</span>, col <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="fl">135</span>, radius <span class="op">=</span> <span class="fl">1.1</span>, col <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="D_statistics_files/figure-html/rose2-1.png" width="700"></p>
 <p>The green line shows the predicted direction.</p>
 </div>
