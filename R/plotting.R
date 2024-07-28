@@ -128,6 +128,147 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
   }
 )
 
+#' Quantile-Quantile Linearised Plot for Circular Distributions
+#'
+#'
+#' Uniformly distributed orientations should yield a straight line through the
+#' origin. Systematic departures from linearity will indicate preferred
+#' orientation in some manner.
+#'
+#' @param x numeric. Angles in degrees
+#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' @param xlab,ylab,main plot labels.
+#' @param ... graphical parameters
+#'
+#' @return plot
+#' @importFrom graphics plot abline lines points
+#' @export
+#'
+#' @references Borradaile, G. J. (2003). Statistics of earth
+#' science data: their distribution in time, space, and orientation (Vol. 351,
+#' p. 329). Berlin: Springer.
+#'
+#' @examples
+#' x_vm <- rvm(100, mean = 0, kappa = 2)
+#' circular_qqplot(x_vm, pch = 20)
+#'
+#' x_norm <- rnorm(100, mean = 0, sd = 25)
+#' circular_qqplot(x_norm, pch = 20)
+#'
+#' x_unif <- runif(100, 0, 360)
+#' circular_qqplot(x_unif, pch = 20)
+circular_qqplot <- function(x, axial = TRUE,
+                            xlab = paste("i/(n+1)"),
+                            ylab = NULL, main = "Circular Quantile-Quantile Plot", ...) {
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+  if (is.null(ylab)) {
+    ylab <- paste0(deparse1(substitute(x)), "/", 360 / f)
+  }
+
+  x <- (x %% (360 / f)) / (360 / f)
+  x <- sort(x)
+  n <- length(x)
+  xin <- seq_along(x) / (n + 1)
+
+  graphics::plot(xin, x,
+    type = "p", xlim = c(0, 1), ylim = c(0, 1), asp = 1,
+    xlab = xlab, ylab = ylab, main = main,
+    sub = bquote("N" == .(n)),
+    ...
+  )
+  graphics::abline(a = 0, b = 1, col = "slategrey")
+  graphics::lines(xin, x)
+  invisible(xin)
+  # graphics::points(xin, x, col = "slategrey")
+}
+
+#' von Mises Quantile-Quantile Plot
+#'
+#' Produces a Q-Q plot of the data against a specified von Mises distribution
+#' to graphically assess the goodness of fit of the model.
+#'
+#' @param x numeric. Angles in degrees
+#' @param w numeric. optional weightings for `x` to estimate `mean` and `kappa`.
+#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' @param xlab,ylab,main plot labels.
+#' @param mean numeric. Circular mean of the von Mises distribution. If `NULL`,
+#' it will be estimated from `x`.
+#' @param kappa numeric. Concentration parameter of the von Mises distribution.
+#' If `NULL`, it will be estimated from `x`.
+#' @param ... graphical parameters
+#'
+#' @return plot
+#' @importFrom stats ecdf
+#' @importFrom graphics plot lines
+#'
+#' @export
+#'
+#' @examples
+#' x_vm <- rvm(100, mean = 0, kappa = 4)
+#' vm_qqplot(x_vm, axial = FALSE, pch = 20)
+#'
+#' x_unif <- runif(100, 0, 360)
+#' vm_qqplot(x_unif, axial = FALSE, pch = 20)
+vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
+                      xlab = "von Mises quantile function",
+                      ylab = "Empirical quantile function",
+                      main = "von Mises Q-Q Plot", ...) {
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+
+  n <- length(x)
+
+  # if (stretch) {
+  #   k <- 4
+  # } else {
+  #   k <- 2
+  # }
+
+  if (is.null(mean)) mean <- circular_mean(x, w = w, axial = axial)
+  if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
+
+  caption <- bquote(
+    bar(alpha) == .(round(mean, 1)) * degree ~ "|" ~ kappa == .(round(kappa, 1))
+  )
+
+  xf <- (x * f) %% 360
+  xf <- sort(xf)
+
+  edf <- stats::ecdf(xf)
+
+
+  # z <- sind((xf - mean*f) / k)
+  #
+  # z_sort <- sort(z) #|> scales::rescale(c(-1, 1))
+  #
+  #
+  # probs <- seq(0, 1, length.out = n)
+  # quantiles <- qvm(edf(xf), mean = 0, kappa = kappa, from = 0)
+  # quantiles <- qvm(probs, mean = 0, kappa = kappa, from = 0)
+
+  #
+  # sin_q <- sind(quantiles / k)
+
+  # graphics::plot(0, 0, type = "n", xlim = c(-1, 1), ylim = c(-1, 1), asp = 1, xlab = xlab, ylab = ylab, main = main, ...)
+  # graphics::abline(a = 0, b = 1, col = "slategrey")
+  # graphics::points(sin_q, z_sort, pch=20)
+
+  tqf <- qvm(edf(xf), mean * f, kappa, from = 0)
+  #
+  graphics::plot(tqf / f, xf / f, xlim = c(0, 360 / f), ylim = c(0, 360 / f), asp = 1, xlab = xlab, ylab = ylab, main = main, sub = bquote("N" == .(n)), ...)
+  graphics::abline(a = 0, b = 1, col = "slategrey")
+  mtext(caption)
+  invisible(tqf)
+}
+
+
 # Circular diagram -----------------------------------------------------------------
 
 
@@ -419,7 +560,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
                  dot_col = "slategrey", stack = FALSE, jitter_factor = 0,
                  add = FALSE, ...) {
-  if (!add){
+  if (!add) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
     }
@@ -447,8 +588,10 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   )
 
   if (dots) {
-    plot_points(x, axial = axial, stack = stack, cex = dot_cex, pch = dot_pch,
-                col = dot_col, jitter_factor = jitter_factor, add = TRUE)
+    plot_points(x,
+      axial = axial, stack = stack, cex = dot_cex, pch = dot_pch,
+      col = dot_col, jitter_factor = jitter_factor, add = TRUE
+    )
   }
 
   if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
@@ -518,7 +661,6 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
   if (axial) {
     graphics::polygon(x = -xx, y = -yy, ...)
   }
-  invisible()
 }
 
 #' Show Average Direction and Spread in Rose Diagram
@@ -530,11 +672,12 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
 #' @param avg character. The average estimate for x. Either the circular mean
-#' (`"mean"`, the default) or the circular Quasi Median (`"median"`)
+#' (`"mean"`, the default), the circular Quasi Median (`"median"`), or the
+#' sample median (`"sample_median"`).
 #' @param spread character. The measure of spread to be plotted as a fan.
-#' Either Fishers's 95% confidence interval (`"CI"`, the default), the circular
-#' standard deviation (`"sd"`), or the Quasi interquartile range on the circle
-#' (`"IQR"`). `NULL` if no fan should be drawn.
+#' Either 95% confidence interval (`"CI"`, the default), Fishers confidence interval (`"fisher"`), the circular
+#' standard deviation (`"sd"`), the Quasi interquartile range on the circle
+#' (`"IQR"`), or the sampke median deviation (`"mdev"`). `NULL` if no fan should be drawn.
 #' @param avg.col color for the average line
 #' @param avg.lty line type of the average line
 #' @param avg.lwd  line width of the average line
@@ -547,8 +690,10 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @importFrom ggplot2 alpha
 #'
 #' @seealso [rose()] for plotting the rose diagram, and
-#' [circular_mean()], [circular_median()], [confidence_interval_fisher()],
-#' [circular_sd()], [circular_IQR()] for statistical parameters.
+#' [circular_mean()], [circular_median()], [circular_sample_median()],
+#' [confidence_interval()], [confidence_interval_fisher()],
+#' [circular_sd()], [circular_IQR()], [circular_sample_median_deviation()]
+#' for statistical parameters.
 #'
 #' @returns No return value, called for side effects
 #' @export
@@ -556,26 +701,29 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @examples
 #' data("san_andreas")
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, muci = FALSE)
-#' rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "median", spread = "IQR")
-rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"), spread = c("CI", "sd", "IQR"),
+#' rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "sample_median", spread = "mdev")
+rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median", "sample_median"), spread = c("CI", "fisher", "sd", "IQR", "mdev"),
                        avg.col = "#85112AFF", avg.lty = 2, avg.lwd = 1.5,
                        spread.col = ggplot2::alpha("#85112AFF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL, add = TRUE, ...) {
   avg <- match.arg(avg)
   mu <- switch(avg,
     mean = circular_mean(x, weights, axial),
-    median = circular_median(x, weights, axial)
+    median = circular_median(x, weights, axial),
+    sample_median = circular_sample_median(x, axial)
   )
-  mu_text <- switch(avg,
-    mean = "Mean: ",
-    median = "Median: "
-  )
+  # mu_text <- switch(avg,
+  #   mean = "Mean: ",
+  #   median = "Median: "
+  # )
 
   if (!is.null(spread)) {
     spread <- match.arg(spread)
     ci <- switch(spread,
-      CI = confidence_interval_fisher(x, w = weights, axial = axial, quiet = TRUE)$conf.angle,
+      CI = confidence_interval(x, w = weights, axial = axial)$conf.angle,
+      fisher = confidence_interval_fisher(x, w = weights, axial = axial, quiet = TRUE)$conf.angle,
       sd = circular_sd(x, weights, axial),
-      IQR = circular_IQR(x, weights, axial)
+      IQR = circular_IQR(x, weights, axial),
+      mdev = circular_sample_median_deviation(x, axial)
     )
     rose_fan(mu, 2 * ci,
       radius = 1.1, axial = axial, col = spread.col,
@@ -588,7 +736,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
     radius = 1.1, axial = axial, col = avg.col, lty = avg.lty,
     lwd = avg.lwd, add = add, ...
   )
-  invisible(mu)
+  invisible(c(mu, ci))
 }
 
 # Dot plot ---------------------------------------------------------------------
@@ -635,7 +783,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, sep = 0.025, jitter_factor = 0, ..., scale = 1.1, add = TRUE,
                         main = NULL, labels = TRUE,
                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
-  if (!add){
+  if (!add) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
     }
@@ -668,7 +816,7 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, s
     bins.count <- freqs$count
     mids <- deg2rad(-90 - freqs$mids)
     index <- cex * sep
-    #index <- cex * freqs$binwidth
+    # index <- cex * freqs$binwidth
 
     for (i in 1:bins) {
       if (bins.count[i] > 0) {
@@ -796,7 +944,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm_density = TRUE, .
                          scale = 1.1, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
                          at = seq(0, 360 - 45, 45), cborder = TRUE) {
-  if (!add){
+  if (!add) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
     }

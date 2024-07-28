@@ -216,7 +216,7 @@ stress2grid <- function(x,
   # SH <- matrix(nrow = num_G * length(R_range), ncol = 7, dimnames = list(NULL, c('lon', 'lat', 'azi', 'sd', 'R', 'mdr', 'N')))
   # SH[, 1] <- rep(G[, 1], length(R_range))
   # SH[, 2] <- rep(G[, 2], length(R_range))
-  SH <- matrix(nrow = 0, ncol = 7, dimnames = list(NULL, c('lon', 'lat', 'azi', 'sd', 'R', 'mdr', 'N')))
+  SH <- matrix(nrow = 0, ncol = 7, dimnames = list(NULL, c("lon", "lat", "azi", "sd", "R", "mdr", "N")))
 
   for (i in seq_along(G[, 1])) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
@@ -275,7 +275,7 @@ stress2grid <- function(x,
     }
   }
 
-  #lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
+  # lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
   res <- dplyr::as_tibble(SH) |>
     # dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N)) |>

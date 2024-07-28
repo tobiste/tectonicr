@@ -178,7 +178,7 @@ NULL
 
 #' @rdname stress_paths
 #' @export
-eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle=45, cw) {
+eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle = 45, cw) {
   stopifnot(is.data.frame(x), dim(x)[1] > 0)
   type <- match.arg(type)
   # if (type == "gc") {

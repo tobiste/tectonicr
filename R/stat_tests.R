@@ -190,12 +190,12 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
       p.value = p.value
       # p.value2 = p.value2
     )
-    if(!quiet){
-    if (S / 2 >= p.value) {
-      message("Reject Null Hypothesis\n")
-    } else {
-      message("Do Not Reject Null Hypothesis\n")
-    }
+    if (!quiet) {
+      if (S / 2 >= p.value) {
+        message("Reject Null Hypothesis\n")
+      } else {
+        message("Do Not Reject Null Hypothesis\n")
+      }
     }
   } else {
     data <- cbind(x = x, mu = mu)
@@ -214,12 +214,12 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
       statistic = s,
       p.value = p.value
     )
-    if(!quiet){
-    if (s >= p.value) {
-      message("Reject Null Hypothesis\n")
-    } else {
-      message("Do Not Reject Null Hypothesis\n")
-    }
+    if (!quiet) {
+      if (s >= p.value) {
+        message("Reject Null Hypothesis\n")
+      } else {
+        message("Do Not Reject Null Hypothesis\n")
+      }
     }
   }
 
@@ -336,12 +336,12 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
       statistic = s,
       p.value = p.value
     )
-    if(!quiet){
-    if (s >= p.value) {
-      message("Reject Null Hypothesis\n")
-    } else {
-      message("Do Not Reject Null Hypothesis\n")
-    }
+    if (!quiet) {
+      if (s >= p.value) {
+        message("Reject Null Hypothesis\n")
+      } else {
+        message("Do Not Reject Null Hypothesis\n")
+      }
     }
     return(result)
   }
@@ -380,7 +380,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' kuiper_test(sa.por$azi.PoR, alpha = .05)
-kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet=FALSE) {
+kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
   if (!any(c(0, 0.01, 0.025, 0.05, 0.1, 0.15) == alpha)) {
     stop("'alpha' must be one of the following values: 0, 0.01, 0.025, 0.05, 0.1, 0.15")
   }
@@ -416,12 +416,12 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet=FALSE) {
     }
   } else {
     p.value <- kuiper.crits[(1:5)[alpha == c(kuiper.crits[, 1])], 2]
-    if(!quiet){
-    if (V > p.value) {
-      message("Reject Null Hypothesis\n")
-    } else {
-      message("Do Not Reject Null Hypothesis\n")
-    }
+    if (!quiet) {
+      if (V > p.value) {
+        message("Reject Null Hypothesis\n")
+      } else {
+        message("Do Not Reject Null Hypothesis\n")
+      }
     }
   }
   return(
@@ -523,12 +523,12 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
     } else {
       index <- (1:5)[alpha == c(0, 0.01, 0.025, 0.05, 0.1)]
       p.value <- crits[index]
-      if(!quiet){
-      if (statistic > p.value) {
-        message("Reject Null Hypothesis\n")
-      } else {
-        message("Do Not Reject Null Hypothesis\n")
-      }
+      if (!quiet) {
+        if (statistic > p.value) {
+          message("Reject Null Hypothesis\n")
+        } else {
+          message("Do Not Reject Null Hypothesis\n")
+        }
       }
     }
   } else {
@@ -579,12 +579,12 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
         stop("Invalid input for alpha", "\n", "\n")
       }
       p.value <- u2.crits[row, col]
-      if(!quiet){
+      if (!quiet) {
         if (statistic > p.value) {
-        message("Reject Null Hypothesis\n")
-      } else {
-        message("Do Not Reject Null Hypothesis\n")
-      }
+          message("Reject Null Hypothesis\n")
+        } else {
+          message("Do Not Reject Null Hypothesis\n")
+        }
       }
     } else {
       if (statistic < u2.crits[row, 2]) {
@@ -686,9 +686,8 @@ rvm <- function(n, mean, kappa) {
   #   }
   # }
   # rad2deg(vm)
-  mu <-  circular::circular(mean, units = 'degrees', modulo = "2pi")
+  mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
   circular::rvonmises(n, mu, kappa) |> as.numeric()
-
 }
 
 #' @rdname vonmises
@@ -700,15 +699,15 @@ dvm <- function(theta, mean, kappa) {
 
 #' @rdname vonmises
 #' @export
-pvm <- function(theta, mean, kappa, from=NULL, tol = 1e-20) {
-  theta <-  circular::circular(theta, units = 'degrees', modulo = "2pi")
-  mu <-  circular::circular(mean, units = 'degrees', modulo = "2pi")
+pvm <- function(theta, mean, kappa, from = NULL, tol = 1e-20) {
+  theta <- circular::circular(theta, units = "degrees", modulo = "2pi")
+  mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
 
-  if(!is.null(from)){
-    from <- circular::circular(from, units = 'degrees', modulo = "2pi")
+  if (!is.null(from)) {
+    from <- circular::circular(from, units = "degrees", modulo = "2pi")
   }
 
-  circular::pvonmises(theta, mu, kappa, from=NULL, tol = tol)
+  circular::pvonmises(theta, mu, kappa, from = NULL, tol = tol)
 
   # if (mu == 0) {
   #   pvm.mu0(theta, kappa, tol)
@@ -730,14 +729,14 @@ pvm <- function(theta, mean, kappa, from=NULL, tol = 1e-20) {
 
 #' @rdname vonmises
 #' @export
-qvm <- function(p, mean=0, kappa, from=NULL, tol = .Machine$double.eps^(0.6)){
-  mu <- circular::circular(mean, units = 'degrees', modulo = "2pi")
+qvm <- function(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6)) {
+  mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
 
-  if(!is.null(from)){
-    from <- circular::circular(from, units = 'degrees', modulo = "2pi")
+  if (!is.null(from)) {
+    from <- circular::circular(from, units = "degrees", modulo = "2pi")
   }
 
-  circular::qvonmises(p, mu, kappa, from, tol=tol) |> as.numeric()
+  circular::qvonmises(p, mu, kappa, from, tol = tol) |> as.numeric()
 }
 
 
@@ -794,4 +793,3 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   }
   kappa
 }
-

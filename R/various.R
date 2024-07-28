@@ -63,7 +63,7 @@ NULL
 download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
   stopifnot(is.character(destdir))
 
-  options(timeout=999)
+  options(timeout = 999)
 
   address <- "https://datapub.gfz-potsdam.de/download/10.5880.WSM.2016.001/wsm2016.csv"
   dat_file <- tempfile("wsm2016_", destdir, fileext = ".csv")
@@ -71,7 +71,7 @@ download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
     utils::download.file(address, destfile = dat_file)
   )
 
-  options(timeout=60)
+  options(timeout = 60)
 
 
   if (load) {
@@ -264,11 +264,13 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
   list(
     result = res,
     stats =
-      rbind(mean = stats['mean'], sd = stats['sd'], var = stats['var'],
-            median = stats["median"],
-            quasi_median = stats['quasi-median'], skewness = stats['skewness'], kurtosis = stats['kurtosis'],
-            conf95 = stats['95%CI'],
-            dispersion = disp, norm_chisq = nchisq),
+      rbind(
+        mean = stats["mean"], sd = stats["sd"], var = stats["var"],
+        median = stats["median"],
+        quasi_median = stats["quasi-median"], skewness = stats["skewness"], kurtosis = stats["kurtosis"],
+        conf95 = stats["95%CI"],
+        dispersion = disp, norm_chisq = nchisq
+      ),
     test = rayleigh
   )
 }

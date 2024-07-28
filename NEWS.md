@@ -2,6 +2,7 @@
 
 * bug fixes
 * minor performance upgrade
+* qq plot
 
 # tectonicr 0.3.10 _2024-07-13_
 
