@@ -584,9 +584,6 @@ normalize_matrix <- function(x) {
 #' @examples
 #' x <- c(0, 45, 55, 40 + 180, 50 + 180, NA)
 #' circular_mean(x)
-#' circular_quasi_median(x)
-#' circular_quasi_quantile(x)
-#' circular_quasi_IQR(x)
 #' circular_var(x)
 #' circular_mean_deviation(x, 50)
 #' circular_median_deviation(x)
@@ -602,19 +599,18 @@ NULL
 circular_mean_deviation <- function(x, y, axial = TRUE, na.rm = TRUE) {
   if (axial) {
     f <- 2
-    mod <- 180
   } else {
     f <- 1
-    mod <- 360
   }
-  x <- (x * f) %% (2 * pi)
-  y <- (y * f) %% (2 * pi)
+  mod <- 360 / f
+  x <- (x * f) %% 360
+  y <- (y * f) %% 360
 
 
   if (na.rm) {
     x <- as.numeric(na.omit(x))
   }
-
+  n <- length(x)
   k <- abs(
     180 - abs(x - y)
   )
@@ -807,7 +803,7 @@ bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
 #' watson_test_boot(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc, n = 10, alpha = 0.05)
 #' watson_test_boot(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc, n = 10, alpha = 0.05)
 watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL, n = 100) {
-  f <-as.numeric(axial) + 1
+  f <- as.numeric(axial) + 1
   x <- x * f
   if (!is.null(mu)) {
     mu <- x * f
@@ -830,8 +826,3 @@ watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL,
     p.value = p.value
   )
 }
-
-
-
-
-
