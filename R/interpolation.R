@@ -278,7 +278,7 @@ stress2grid <- function(x,
   # lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
   res <- dplyr::as_tibble(SH) |>
     # dplyr::rename(lon = lon.X, lat = lat.Y) |>
-    dplyr::mutate(N = as.integer(N), sd = sd/2, mdr = md / R) |>
+    dplyr::mutate(N = as.integer(N), sd = sd / 2, mdr = md / R) |>
     dplyr::select(-md) |>
     dplyr::filter(!is.na(azi), sd <= threshold, !is.na(sd)) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
@@ -614,7 +614,6 @@ kernel_dispersion <- function(x,
         )
 
         SH <- rbind(SH, SH.ik)
-
       }
     }
   }

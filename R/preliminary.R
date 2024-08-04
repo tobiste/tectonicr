@@ -841,8 +841,6 @@ watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL,
 #' @examples
 #' x <- rvm(100, 0, 5)
 #' as.circ(x)
-as.circ <- function(x, axial = TRUE){
+as.circ <- function(x, axial = TRUE) {
   circular::circular(x, units = "degrees", modulo = "asis")
 }
-
-

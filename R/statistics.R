@@ -11,7 +11,7 @@
 #' x <- rvm(100, 0, 5)
 #' mean_SC(x)
 #' }
-mean_SC <- function(x, w=NULL, na.rm=TRUE) {
+mean_SC <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   w <- if (is.null(w)) {
@@ -40,7 +40,7 @@ mean_SC <- function(x, w=NULL, na.rm=TRUE) {
   #
   # sums <- colSums(cbind(cosx, sinx))
   sums <- c(sum(cosx), sum(sinx))
-  setNames(sums/Z, nm=c('C', 'S'))
+  setNames(sums / Z, nm = c("C", "S"))
 }
 
 
@@ -151,7 +151,7 @@ NULL
 #' @rdname circle_stats
 #' @export
 circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if(axial){
+  if (axial) {
     f <- 2
   } else {
     f <- 1

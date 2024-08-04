@@ -107,7 +107,7 @@ sa.por <- PoR_shmax(san_andreas, na_pa, "right")
 test_that("Compe to {circular} package", {
   expect_equal(
     circular_mean(sa.por$azi.PoR),
-    ((circular::mean.circular(as.circ(2*sa.por$azi.PoR)) |> as.numeric()/2) %% 180)
+    ((circular::mean.circular(circular::circular(2 * sa.por$azi.PoR, units = "degrees", modulo = "asis")) |> as.numeric() / 2) %% 180)
   )
 })
 
