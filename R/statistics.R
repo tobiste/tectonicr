@@ -1,4 +1,17 @@
-mean_SC <- function(x, w, na.rm) {
+#' Mean cosinses and sines
+#'
+#' @param x angles in degrees
+#' @param w weightings
+#' @param na.rm logical
+#'
+#' @return named two element vector
+#'
+#' @examples
+#' \dontrun{
+#' x <- rvm(100, 0, 5)
+#' mean_SC(x)
+#' }
+mean_SC <- function(x, w=NULL, na.rm=TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
   w <- if (is.null(w)) {
@@ -17,13 +30,17 @@ mean_SC <- function(x, w, na.rm) {
 
   Z <- sum(w)
 
-  sin2 <- w * sin(x)
-  cos2 <- w * cos(x)
-  sumsin2 <- sum(sin2)
-  sumcos2 <- sum(cos2)
-  meansin2 <- sumsin2 / Z
-  meancos2 <- sumcos2 / Z
-  cbind(C = meancos2, S = meansin2)
+  sinx <- w * sin(x)
+  cosx <- w * cos(x)
+  # sumsin <- sum(sinx)
+  # sumcos <- sum(cosx)
+  # meansin <- sumsin / Z
+  # meancos<- sumcos / Z
+  # cbind(C = meancos, S = meansin)
+  #
+  # sums <- colSums(cbind(cosx, sinx))
+  sums <- c(sum(cosx), sum(sinx))
+  setNames(sums/Z, nm=c('C', 'S'))
 }
 
 
@@ -58,7 +75,7 @@ mean_SC <- function(x, w, na.rm) {
 #' mean_resultant_length(finland_stria, w = NULL, na.rm = FALSE) # 0.800
 mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
   m <- mean_SC(x, w, na.rm)
-  R <- sqrt(m[, "C"]^2 + m[, "S"]^2)
+  R <- sqrt(m["C"]^2 + m["S"]^2)
   abs(unname(R))
 }
 
@@ -134,12 +151,16 @@ NULL
 #' @rdname circle_stats
 #' @export
 circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
-  mod <- 360 / f
-  x <- (x * f) %% 360
+  if(axial){
+    f <- 2
+  } else {
+    f <- 1
+  }
+
+  x <- x * f
   m <- mean_SC(x, w, na.rm)
-  meanx_rad <- atan2(m[, "S"], m[, "C"]) / f
-  meanx_deg <- rad2deg(meanx_rad + 2 * pi) %% mod
+  meanx_rad <- atan2(m["S"], m["C"]) / f
+  meanx_deg <- rad2deg(meanx_rad) %% (360 / f)
   unname(meanx_deg)
 }
 #' @rdname circle_stats

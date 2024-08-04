@@ -103,6 +103,14 @@ test_that("Output of functions is as expected", {
   expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
 })
 
+test_that("Compe to {circular} package", {
+  expect_equal(
+    circular_mean(sa.por$azi.PoR),
+    ((circular::mean.circular(as.circ(2*sa.por$azi.PoR)) |> as.numeric()/2) %% 180)
+  )
+})
+
+
 # test output is NULL ----------------------------------------------------------
 # test_that("Statistics return NULL when too few numbers", {
 #   expect_null(circular_quantiles(c(15, 16)))

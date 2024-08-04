@@ -826,3 +826,23 @@ watson_test_boot <- function(x, mu = NULL, w = NULL, axial = TRUE, alpha = NULL,
     p.value = p.value
   )
 }
+
+
+#' Convert to circular object from {circular} package
+#'
+#' shortcut for conversion
+#'
+#' @param x angles in degrees
+#' @param axial logical
+#'
+#' @return circular object
+#' @export
+#'
+#' @examples
+#' x <- rvm(100, 0, 5)
+#' as.circ(x)
+as.circ <- function(x, axial = TRUE){
+  circular::circular(x, units = "degrees", modulo = "asis")
+}
+
+

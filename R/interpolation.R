@@ -11,13 +11,13 @@ wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
   if (Z != 0) {
     m <- mean_SC(2 * x, w = w, na.rm = TRUE)
-    meanR <- sqrt(m[, "C"]^2 + m[, "S"]^2)
+    meanR <- sqrt(m["C"]^2 + m["S"]^2)
     sd_s <- if (meanR > 1) {
       0
     } else {
-      sqrt(-2 * log(meanR)) / 2
+      sqrt(-2 * log(meanR))
     }
-    mean_s <- atan2(m[, "S"], m[, "C"]) / 2
+    mean_s <- atan2(m["S"], m["C"]) / 2
     rad2deg(c(mean_s, sd_s)) %% 180
   } else {
     c(NA, NA)
@@ -32,7 +32,7 @@ wcmedian <- function(x, w) {
     iqr_s <- deviation_norm(quantiles[4], quantiles[2])
   } else if (Z > 0 & Z <= 3) {
     median_s <- circular_median(x, w)
-    iqr_s <- ceiling(deviation_norm(max(x), min(x)) / 2)
+    iqr_s <- ceiling(deviation_norm(max(x), min(x)))
   } else {
     median_s <- iqr_s <- NA
   }
@@ -216,7 +216,7 @@ stress2grid <- function(x,
   # SH <- matrix(nrow = num_G * length(R_range), ncol = 7, dimnames = list(NULL, c('lon', 'lat', 'azi', 'sd', 'R', 'mdr', 'N')))
   # SH[, 1] <- rep(G[, 1], length(R_range))
   # SH[, 2] <- rep(G[, 2], length(R_range))
-  SH <- matrix(nrow = 0, ncol = 7, dimnames = list(NULL, c("lon", "lat", "azi", "sd", "R", "mdr", "N")))
+  SH <- matrix(nrow = 0, ncol = 7, dimnames = list(NULL, c("lon", "lat", "azi", "sd", "R", "md", "N")))
 
   for (i in seq_along(G[, 1])) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
@@ -224,21 +224,21 @@ stress2grid <- function(x,
     if (min(distij) <= arte_thres) {
       for (k in seq_along(R_range)) {
         R_search <- R_range[k]
-        ids_R <-
-          which(distij <= R_search) # select those that are in search radius
-
+        ids_R <- which(distij <= R_search) # select those that are in search radius
         N_in_R <- length(ids_R)
+        # ids_R <- (distij <= R_search) # select those that are in search radius
+        # N_in_R <- sum(ids_R)
 
         if (N_in_R < min_data) {
           # not enough data within search radius
           sd <- 0
-          meanSH <- mdr <- NA
+          meanSH <- md <- NA
         } else if (N_in_R == 1) {
           sd <- 0
           meanSH <- datas[ids_R, 3]
-          mdr <- distij[ids_R] / R_search
+          md <- distij[ids_R]
         } else {
-          mdr <- mean(distij[ids_R], na.rm = TRUE) / R_search
+          md <- mean(distij[ids_R], na.rm = TRUE)
           dist_threshold_scal <- R_search * dist_threshold
 
           if (dist_weight == "linear") {
@@ -263,7 +263,7 @@ stress2grid <- function(x,
           meanSH, # azi
           sd, # sd
           R_search, # R_search
-          mdr, # mdr
+          md, # mdr
           N_in_R # N_in_R
         )
 
@@ -278,7 +278,8 @@ stress2grid <- function(x,
   # lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
   res <- dplyr::as_tibble(SH) |>
     # dplyr::rename(lon = lon.X, lat = lat.Y) |>
-    dplyr::mutate(N = as.integer(N)) |>
+    dplyr::mutate(N = as.integer(N), sd = sd/2, mdr = md / R) |>
+    dplyr::select(-md) |>
     dplyr::filter(!is.na(azi), sd <= threshold, !is.na(sd)) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 
@@ -572,7 +573,8 @@ kernel_dispersion <- function(x,
   R <- N <- numeric(nrow(G))
 
 
-  SH <- c()
+  SH <- matrix(nrow = 0, ncol = 6, dimnames = list(NULL, c("lon", "lat", "stat", "R", "md", "N")))
+
   for (i in seq_along(G[, 1])) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas$lat, datas$lon, ...)
 
@@ -585,13 +587,12 @@ kernel_dispersion <- function(x,
 
         if (N_in_R < min_data) {
           # not enough data within search radius
-          y <- NA
-          mdr <- NA
+          y <- md <- NA
         } else if (N_in_R == 1) {
           y <- NA
-          mdr <- distij[ids_R] / R_search
+          md <- distij[ids_R]
         } else {
-          mdr <- mean(distij[ids_R], na.rm = TRUE) / R_search
+          md <- mean(distij[ids_R], na.rm = TRUE)
           # dist_threshold_scal <- R_search * dist_threshold
 
           if (stat == "nchisq") {
@@ -604,26 +605,23 @@ kernel_dispersion <- function(x,
         }
 
         SH.ik <- c(
-          lon = G[i, 1],
-          lat = G[i, 2],
-          stat = y,
-          R = R_search,
-          mdr = mdr,
-          N = N_in_R
+          G[i, 1],
+          G[i, 2],
+          y,
+          R_search,
+          md,
+          N_in_R
         )
 
-        # if (SH.ik[3] <= threshold) {
         SH <- rbind(SH, SH.ik)
-        # }
+
       }
     }
   }
 
-  lat.Y <- lon.X <- numeric() # pre-allocating
-
   res <- dplyr::as_tibble(SH) |>
-    dplyr::rename(lon = lon.X, lat = lat.Y) |>
-    dplyr::mutate(N = as.integer(N)) |>
+    dplyr::mutate(N = as.integer(N), mdr = md / R) |>
+    dplyr::select(-md) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 
   return(res)

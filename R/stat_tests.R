@@ -327,7 +327,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
     f <- as.numeric(axial) + 1
 
     m <- mean_SC(f * d, w = w, na.rm = FALSE)
-    C <- as.numeric(m[, "C"])
+    C <- as.numeric(m["C"])
     s <- sqrt(2 * n) * C
     p.value <- rayleigh_p_value2(s, n)
 
