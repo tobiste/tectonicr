@@ -103,6 +103,7 @@ test_that("Output of functions is as expected", {
   expect_equal(geographical_to_cartesian(c(90, 0)), c(0, 0, 1))
 })
 
+sa.por <- PoR_shmax(san_andreas, na_pa, "right")
 test_that("Compe to {circular} package", {
   expect_equal(
     circular_mean(sa.por$azi.PoR),
