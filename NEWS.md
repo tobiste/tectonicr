@@ -1,12 +1,13 @@
 # tectonicr 0.4.0  _2024-08-08_
 
 * minor performance upgrade
+* CRAN submission
 
 # tectonicr 0.3.11 _2024-07-26_
 
 * bug fixes
 * minor performance upgrade
-* qq plot
+* QQ plot for circular data
 
 # tectonicr 0.3.10 _2024-07-13_
 
