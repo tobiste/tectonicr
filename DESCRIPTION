@@ -17,21 +17,21 @@ Depends:
     R (>= 4.1.0)
 Imports:
     boot,
-    circular,
+    circular (>= 0.5.0),
     dplyr,
     ggplot2,
-    methods,
+    methods (>= 4.3.1),
     RColorBrewer,
     sf,
-    smoothr,
-    spatstat.explore,
-    spatstat.geom,
-    spatstat.univar,
-    spatstat.utils,
+    smoothr (>= 1.0.1),
+    spatstat.explore (>= 3.2.7),
+    spatstat.geom (>= 3.2.9),
+    spatstat.univar (>= 2.0.3),
+    spatstat.utils (>= 3.0.4),
     terra,
     tidyr,
     viridis,
-    zoo
+    zoo (>= 1.8.12)
 Suggests: 
     ggforce,
     knitr,
