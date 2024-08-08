@@ -39,6 +39,18 @@ wcmedian <- function(x, w) {
   c(median_s, iqr_s)
 }
 
+
+dist_weight_linear <- function(R_search, dist_threshold, distij, idp = 0) {
+  dist_threshold_scal <- R_search * dist_threshold
+  R_search + 1 - max(dist_threshold_scal, distij)
+}
+
+dist_weight_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
+  dist_threshold_scal <- R_search * dist_threshold
+  1 / (max(dist_threshold_scal, distij))^idp
+}
+
+
 #' Spatial interpolation of SHmax
 #'
 #' Stress field interpolation and wavelength analysis using a kernel (weighted)
@@ -52,33 +64,33 @@ wcmedian <- function(x, w) {
 #' of SHmax}
 #' }
 #' @param grid (optional) Point object of class \code{sf}.
-#' @param lon_range,lat_range (optional) Numeric vector specifying the minimum
+#' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes (ignored if `grid` is specified).
-#' @param gridsize Numeric. Target spacing of the regular grid in decimal
+#' @param gridsize numeric. Target spacing of the regular grid in decimal
 #' degree. Default is `2.5`. (is ignored if `grid` is specified)
-#' @param stat Whether the direction of interpolated SHmax is based on the
+#' @param stat whether the direction of interpolated SHmax is based on the
 #' circular mean and standard deviation (\code{"mean"}, the default) or the
 #' circular median and interquartile range (\code{"median"})
-#' @param min_data Integer. Minimum number of data per bin. Default is `3`
-#' @param threshold Numeric. Threshold for deviation of direction. Default is
+#' @param min_data integer. Minimum number of data per bin. Default is `3`
+#' @param threshold numeric. Threshold for deviation of direction. Default is
 #' 25
-#' @param arte_thres Numeric. Maximum distance (in km) of the grid point to the
+#' @param arte_thres numeric. Maximum distance (in km) of the grid point to the
 #' next data point. Default is `200`
 #' @param dist_weight Distance weighting method which should be used. One of
 #' `"none"`, `"linear"`, or `"inverse"` (the default).
-#' @param idp,qp,mp Numeric. The weighting power of inverse distance, quality
+#' @param idp,qp,mp numeric. The weighting power of inverse distance, quality
 #' and method. Default is `1`. The higher the value, the more weight it will
 #' put. When set to `0`, no weighting is applied. `idp` is only effective if
 #' inverse distance weighting (`dist_weight="inverse"`) is applied.
-#' @param dist_threshold Numeric. Distance weight to prevent overweight of data
+#' @param dist_threshold numeric. Distance weight to prevent overweight of data
 #' nearby (0 to 1). Default is `0.1`
-#' @param method_weighting Logical. If a method weighting should be applied:
+#' @param method_weighting logical. If a method weighting should be applied:
 #' Default is \code{FALSE}. If `FALSE`, overwrites `mp`.
-#' @param quality_weighting Logical. If a quality weighting should be applied:
+#' @param quality_weighting logical. If a quality weighting should be applied:
 #' Default is \code{TRUE}. If `FALSE`, overwrites `qp`.
-#' @param R_range Numeric value or vector specifying the kernel half-width(s),
+#' @param R_range numeric value or vector specifying the kernel half-width(s),
 #' i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}
-#' @param ... optional arguments to [dist_greatcircle()]
+#' @param ... (optional) arguments to [dist_greatcircle()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate filter rename mutate as_tibble
@@ -101,7 +113,7 @@ wcmedian <- function(x, w) {
 #'
 #' @source \url{https://github.com/MorZieg/Stress2Grid}
 #'
-#' @references Ziegler, M. O. and Heidbach, O. (2019).
+#' @references Ziegler, M. and Heidbach, O. (2019).
 #' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
 #'
 #' @export
@@ -114,16 +126,16 @@ stress2grid <- function(x,
                         grid = NULL,
                         lon_range = NULL,
                         lat_range = NULL,
-                        gridsize = 2.5,
-                        min_data = 3,
+                        gridsize = 2,
+                        min_data = 3L,
                         threshold = 25,
                         arte_thres = 200,
                         method_weighting = FALSE,
                         quality_weighting = TRUE,
                         dist_weight = c("inverse", "linear", "none"),
-                        idp = 1.0,
-                        qp = 1.0,
-                        mp = 1.0,
+                        idp = 1,
+                        qp = 1,
+                        mp = 1,
                         dist_threshold = 0.1,
                         R_range = seq(50, 1000, 50),
                         ...) {
@@ -134,13 +146,25 @@ stress2grid <- function(x,
   )
 
   min_data <- as.integer(ceiling(min_data))
+
   dist_weight <- match.arg(dist_weight)
+  if (dist_weight == "linear") {
+    w_distance_fun <- dist_weight_linear
+  } else {
+    w_distance_fun <- dist_weight_inverse
+  }
+
   stat <- match.arg(stat)
+  if (stat == "median") {
+    stats_fun <- wcmedian
+  } else {
+    stats_fun <- wcmean
+  }
 
   colnames_x <- colnames(x)
 
   if (quality_weighting & "unc" %in% colnames_x) {
-    x <- filter(x, !is.na(unc))
+    x <- subset(x, !is.na(unc))
   }
 
   # pre-allocating
@@ -172,17 +196,15 @@ stress2grid <- function(x,
     rep(1, length_azi)
   }
 
-  x_coords <- sf::st_coordinates(x) |>
-    as.data.frame()
+  x_coords <- sf::st_coordinates(x)
 
-  datas <- data.frame(
-    lon = x_coords$X,
-    lat = x_coords$Y,
+  datas <- cbind(
+    lon = x_coords[, 1],
+    lat = x_coords[, 2],
     azi = azi,
     w_method = ifelse(is.na(w_method), 1 / 5, w_method)^mp,
     w_quality = w_quality^qp
-  ) |>
-    as.matrix()
+  )
 
   if (is.null(grid)) {
     # Regular grid
@@ -224,10 +246,10 @@ stress2grid <- function(x,
     if (min(distij) <= arte_thres) {
       for (k in seq_along(R_range)) {
         R_search <- R_range[k]
-        ids_R <- which(distij <= R_search) # select those that are in search radius
-        N_in_R <- length(ids_R)
-        # ids_R <- (distij <= R_search) # select those that are in search radius
-        # N_in_R <- sum(ids_R)
+        # ids_R <- which(distij <= R_search) # select those that are in search radius
+        # N_in_R <- length(ids_R)
+        ids_R <- (distij <= R_search) # select those that are in search radius
+        N_in_R <- sum(ids_R)
 
         if (N_in_R < min_data) {
           # not enough data within search radius
@@ -239,21 +261,14 @@ stress2grid <- function(x,
           md <- distij[ids_R]
         } else {
           md <- mean(distij[ids_R], na.rm = TRUE)
-          dist_threshold_scal <- R_search * dist_threshold
 
-          if (dist_weight == "linear") {
-            w_distance <- R_search + 1 - max(dist_threshold_scal, distij[ids_R])
-          } else {
-            w_distance <- 1 / (max(dist_threshold_scal, distij[ids_R]))^idp
-          }
+          # distance weighting
+          w_distance <- w_distance_fun(R_search, dist_threshold, distij[ids_R], idp)
+
           w <- w_distance * datas[ids_R, 5] * datas[ids_R, 4]
 
           # mean value
-          if (stat == "median") {
-            stats <- wcmedian(datas[ids_R, 3], w)
-          } else {
-            stats <- wcmean(datas[ids_R, 3], w)
-          }
+          stats <- stats_fun(x = datas[ids_R, 3], w = w)
           meanSH <- stats[1]
           sd <- stats[2]
         }
@@ -267,17 +282,12 @@ stress2grid <- function(x,
           N_in_R # N_in_R
         )
 
-        # if (SH.ik[2] <= threshold & !is.na(SH.ik[2])) {
         SH <- rbind(SH, SH.ik)
-        # }
-        # SH[i, 3:7] <- SH.ik
       }
     }
   }
 
-  # lat.Y <- lon.X <- numeric(nrow(SH)) # pre allocating
   res <- dplyr::as_tibble(SH) |>
-    # dplyr::rename(lon = lon.X, lat = lat.Y) |>
     dplyr::mutate(N = as.integer(N), sd = sd / 2, mdr = md / R) |>
     dplyr::select(-md) |>
     dplyr::filter(!is.na(azi), sd <= threshold, !is.na(sd)) |>

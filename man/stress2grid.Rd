@@ -13,8 +13,8 @@ stress2grid(
   grid = NULL,
   lon_range = NULL,
   lat_range = NULL,
-  gridsize = 2.5,
-  min_data = 3,
+  gridsize = 2,
+  min_data = 3L,
   threshold = 25,
   arte_thres = 200,
   method_weighting = FALSE,
@@ -37,47 +37,47 @@ stress2grid(
 of SHmax}
 }}
 
-\item{stat}{Whether the direction of interpolated SHmax is based on the
+\item{stat}{whether the direction of interpolated SHmax is based on the
 circular mean and standard deviation (\code{"mean"}, the default) or the
 circular median and interquartile range (\code{"median"})}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
 
-\item{lon_range, lat_range}{(optional) Numeric vector specifying the minimum
+\item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
 and maximum longitudes and latitudes (ignored if \code{grid} is specified).}
 
-\item{gridsize}{Numeric. Target spacing of the regular grid in decimal
+\item{gridsize}{numeric. Target spacing of the regular grid in decimal
 degree. Default is \code{2.5}. (is ignored if \code{grid} is specified)}
 
-\item{min_data}{Integer. Minimum number of data per bin. Default is \code{3}}
+\item{min_data}{integer. Minimum number of data per bin. Default is \code{3}}
 
-\item{threshold}{Numeric. Threshold for deviation of direction. Default is
+\item{threshold}{numeric. Threshold for deviation of direction. Default is
 25}
 
-\item{arte_thres}{Numeric. Maximum distance (in km) of the grid point to the
+\item{arte_thres}{numeric. Maximum distance (in km) of the grid point to the
 next data point. Default is \code{200}}
 
-\item{method_weighting}{Logical. If a method weighting should be applied:
+\item{method_weighting}{logical. If a method weighting should be applied:
 Default is \code{FALSE}. If \code{FALSE}, overwrites \code{mp}.}
 
-\item{quality_weighting}{Logical. If a quality weighting should be applied:
+\item{quality_weighting}{logical. If a quality weighting should be applied:
 Default is \code{TRUE}. If \code{FALSE}, overwrites \code{qp}.}
 
 \item{dist_weight}{Distance weighting method which should be used. One of
 \code{"none"}, \code{"linear"}, or \code{"inverse"} (the default).}
 
-\item{idp, qp, mp}{Numeric. The weighting power of inverse distance, quality
+\item{idp, qp, mp}{numeric. The weighting power of inverse distance, quality
 and method. Default is \code{1}. The higher the value, the more weight it will
 put. When set to \code{0}, no weighting is applied. \code{idp} is only effective if
 inverse distance weighting (\code{dist_weight="inverse"}) is applied.}
 
-\item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
+\item{dist_threshold}{numeric. Distance weight to prevent overweight of data
 nearby (0 to 1). Default is \code{0.1}}
 
-\item{R_range}{Numeric value or vector specifying the kernel half-width(s),
+\item{R_range}{numeric value or vector specifying the kernel half-width(s),
 i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
 
-\item{...}{optional arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
+\item{...}{(optional) arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
 }
 \value{
 \code{sf} object containing
@@ -102,7 +102,7 @@ data("san_andreas")
 stress2grid(san_andreas, stat = "median")
 }
 \references{
-Ziegler, M. O. and Heidbach, O. (2019).
+Ziegler, M. and Heidbach, O. (2019).
 Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
 }
 \seealso{
