@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-08-04</h4>
+            <h4 data-toc-skip class="date">2024-08-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/E_interpolation.Rmd" class="external-link"><code>vignettes/E_interpolation.Rmd</code></a></small>
       <div class="d-none name"><code>E_interpolation.Rmd</code></div>
@@ -91,15 +91,15 @@ and display the lateral patterns of stress anomalies.</p>
 <h4 id="geographic-coordinate-system">Geographic coordinate system<a class="anchor" aria-label="anchor" href="#geographic-coordinate-system"></a>
 </h4>
 <p>Spatial interpolation of stress data is based on the aforementioned
-metrics (the algorithm is a modified version of the MATLAB script
-‘stress2grid’ by Ziegler and Heidbach (2017).</p>
+metrics:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The default settings apply quality and inverse distance weighting of
 the mean, as well as a 25% cut-off for the standard deviation.</p>
 <blockquote>
-<p>The tectonicr algorithm provides additional modifications of the
-original algorithm by Ziegler and Heidbach (2017). See
+<p>The <code>tectonicr</code> algorithm is a modified version of the
+MATLAB algorithm ‘stress2grid’ by Ziegler and Heidbach (2017) but it is
+faster and provides additional features. See
 <code><a href="../reference/stress2grid.html">help(stress2grid)</a></code> for more details and settings, such as
 different statistics for calculating the orientation average,
 adjustments of the weighting power of the distance, quality or
