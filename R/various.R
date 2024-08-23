@@ -177,8 +177,8 @@ parse_wsm_quality <- function(x) {
 #' @rdname parse_wsm
 #' @export
 quantise_wsm_quality <- function(x) {
-  .Deprecated(parse_wsm_quality)
-  as.numeric(vapply(X = x, FUN = parse_wsm_quality))
+  .Deprecated("parse_wsm_quality")
+  as.numeric(sapply(X = x, FUN = parse_wsm_quality))
 }
 
 
