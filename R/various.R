@@ -27,12 +27,13 @@
 #' the reported standard deviation and the quality rank. If `load=FALSE`,
 #' the path to the downloaded file is returned.
 #'
-#' @note Differences to the original dataset:
-#' All column names have been changed from uppercase in the original dataset to
+#' @note Because of R-compatibility and easy readability reasons, the downloaded
+#' dataset is a modified version of the original, WSM server version:
+#' All column names have been changed from uppercase (in the original dataset) to
 #' lowercase characters.
 #' Unknown azimuth values are represented by `NA` values instead of `999` in
 #' the original.
-#' Unknown regime is represented by `NA` instead of "U" in the original.
+#' Unknown regimes are represented by `NA` instead of "U" in the original.
 #'
 #' @source \url{https://datapub.gfz-potsdam.de/download/10.5880.WSM.2016.001/wsm2016.csv}
 #'
@@ -287,7 +288,7 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
 #' type `"LINESTRING"`, instead of `"MULTILINESTRING"`. This is because the azimuth
 #' of the last point of a line will be calculated to the first point of the
 #' next line otherwise. This will cause a warning message (if `warn = TRUE`).
-#' For `MULTILINESTRING` objects, use `lines_azimuths()`.
+#' For `"MULTILINESTRING"` objects, use `lines_azimuths()`.
 #'
 #' @importFrom sf st_cast st_coordinates st_as_sf st_crs st_drop_geometry
 #' @export

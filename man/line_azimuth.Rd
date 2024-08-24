@@ -25,7 +25,7 @@ It is recommended to perform \code{line_azimuth()} on single line objects, i.e.
 type \code{"LINESTRING"}, instead of \code{"MULTILINESTRING"}. This is because the azimuth
 of the last point of a line will be calculated to the first point of the
 next line otherwise. This will cause a warning message (if \code{warn = TRUE}).
-For \code{MULTILINESTRING} objects, use \code{lines_azimuths()}.
+For \code{"MULTILINESTRING"} objects, use \code{lines_azimuths()}.
 }
 \examples{
 data("plates")

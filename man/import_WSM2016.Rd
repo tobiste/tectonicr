@@ -61,12 +61,13 @@ If \code{destdir} is specified, the data can be reloaded in a later R session
 using \code{load_WSM2016()} using the same arguments.
 }
 \note{
-Differences to the original dataset:
-All column names have been changed from uppercase in the original dataset to
+Because of R-compatibility and easy readability reasons, the downloaded
+dataset is a modified version of the original, WSM server version:
+All column names have been changed from uppercase (in the original dataset) to
 lowercase characters.
 Unknown azimuth values are represented by \code{NA} values instead of \code{999} in
 the original.
-Unknown regime is represented by \code{NA} instead of "U" in the original.
+Unknown regimes are represented by \code{NA} instead of "U" in the original.
 }
 \examples{
 \dontrun{
