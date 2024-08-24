@@ -5,12 +5,14 @@
 \alias{lines_azimuths}
 \title{Extract azimuths of line segments}
 \usage{
-line_azimuth(x)
+line_azimuth(x, warn = TRUE)
 
 lines_azimuths(x)
 }
 \arguments{
 \item{x}{sf object of type \code{"LINESTRING"} or \code{"MULTILINESTRING"}}
+
+\item{warn}{logical; if \code{TRUE}, warn if \code{"MULTILINESTRING"} (default).}
 }
 \value{
 sf object of type \code{"POINT"} with the columns and entries of the first row of \code{x}
@@ -22,8 +24,8 @@ Extract azimuths of line segments
 It is recommended to perform \code{line_azimuth()} on single line objects, i.e.
 type \code{"LINESTRING"}, instead of \code{"MULTILINESTRING"}. This is because the azimuth
 of the last point of a line will be calculated to the first point of the
-next line otherwise. This will cause a warning message. For \code{MULTILINESTRING}
-objects, use \code{lines_azimuths()}.
+next line otherwise. This will cause a warning message (if \code{warn = TRUE}).
+For \code{MULTILINESTRING} objects, use \code{lines_azimuths()}.
 }
 \examples{
 data("plates")

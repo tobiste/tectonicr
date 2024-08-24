@@ -128,7 +128,7 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
         TRUE ~ NA_character_,
         .default = regime
       ),
-      quality.numeric = tectonicr::parse_wsm_quality(quality),
+      quality.numeric = parse_wsm_quality(quality),
       unc = ifelse(is.na(sd), quality.numeric, sd),
       unc = ifelse(unc > quality.numeric, quality.numeric, unc),
       unc = ifelse(unc == 0, 15, unc),
@@ -178,7 +178,7 @@ parse_wsm_quality <- function(x) {
 #' @export
 quantise_wsm_quality <- function(x) {
   .Deprecated("parse_wsm_quality")
-  as.numeric(sapply(X = x, FUN = parse_wsm_quality))
+  as.numeric(sapply(x, FUN = parse_wsm_quality))
 }
 
 
@@ -239,9 +239,9 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
   tangential <- type %in% c("right", "left")
   res <- PoR_shmax(x, PoR, type)
   res <- cbind(res, PoR_coordinates(x, PoR))
-  if (!missing(pb)) {
-    res$distance <- distance_from_pb(x, PoR, pb, tangential, ...)
-  }
+  # if (!missing(pb)) {
+  res$distance <- distance_from_pb(x, PoR, pb, tangential, ...)
+  # }
   prd <- res$prd
 
   stats <- circular_summary(res$azi.PoR, 1 / x$unc)
@@ -278,6 +278,7 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
 #' Extract azimuths of line segments
 #'
 #' @param x sf object of type `"LINESTRING"` or `"MULTILINESTRING"`
+#' @param warn logical; if `TRUE`, warn if `"MULTILINESTRING"` (default).
 #'
 #' @return sf object of type `"POINT"` with the columns and entries of the first row of `x`
 #'
@@ -285,8 +286,8 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
 #' It is recommended to perform `line_azimuth()` on single line objects, i.e.
 #' type `"LINESTRING"`, instead of `"MULTILINESTRING"`. This is because the azimuth
 #' of the last point of a line will be calculated to the first point of the
-#' next line otherwise. This will cause a warning message. For `MULTILINESTRING`
-#' objects, use `lines_azimuths()`.
+#' next line otherwise. This will cause a warning message (if `warn = TRUE`).
+#' For `MULTILINESTRING` objects, use `lines_azimuths()`.
 #'
 #' @importFrom sf st_cast st_coordinates st_as_sf st_crs st_drop_geometry
 #' @export
@@ -305,18 +306,19 @@ NULL
 
 #' @rdname line_azimuth
 #' @export
-line_azimuth <- function(x) {
-  if (nrow(x) > 1) warning("It is recommended to only use single line objects")
-  if (any(sf::st_geometry_type(x) == "MULTILINESTRING")) warning("It is recommended to only use single line objects")
-  mat <- x |>
-    sf::st_cast("POINT") |>
+line_azimuth <- function(x, warn = TRUE) {
+  if (warn & (nrow(x) > 1 | any(sf::st_geometry_type(x) == "MULTILINESTRING"))) {
+    warning("MULTILINESTRING object is not recommended")
+  }
+  mat <- sf::st_cast(x, "POINT", warn = FALSE) |>
     sf::st_coordinates()
 
   n <- nrow(mat)
-  a <- numeric()
+  a <- numeric(n - 1)
   for (i in 1:(n - 1)) {
     a[i] <- get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
   }
+
   data.frame(
     x = mat[1:(n - 1), 1],
     y = mat[1:(n - 1), 2],
@@ -329,13 +331,10 @@ line_azimuth <- function(x) {
 #' @rdname line_azimuth
 #' @export
 lines_azimuths <- function(x) {
-  for (i in 1:nrow(x)) {
-    ai <- line_azimuth(x[i, ])
-    if (i == 1) {
-      a <- ai
-    } else {
-      a <- rbind(a, ai)
-    }
+  a <- NULL
+  for (i in seq_along(x[[1]])) {
+    ai <- line_azimuth(x[i, ], warn = FALSE)
+    a <- rbind(a, ai)
   }
   return(a)
 }
