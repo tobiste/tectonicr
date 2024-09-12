@@ -11,7 +11,7 @@ dispersion for each coordinate, respectively."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@ is <code><a href="kernel_dispersion.html">kernel_dispersion()</a></code>).</p></
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">compact_grid</span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 56 features and 7 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 60 features and 7 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -124.82 ymin: 24.08 xmax: -108.82 ymax: 40.08</span>
@@ -93,14 +93,14 @@ is <code><a href="kernel_dispersion.html">kernel_dispersion()</a></code>).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span>      R     lon   lat        azi        sd   N       mdr              geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   50 -108.82 24.08 179.958278 13.812793  22 0.4806675 POINT (-108.82 24.08)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  150 -108.82 26.08   0.197365 11.988758  37 0.8177757 POINT (-108.82 26.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  550 -108.82 32.08   7.261764 23.037828  34 0.9304384 POINT (-108.82 32.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  750 -108.82 34.08   5.370069 23.695511 123 0.8655165 POINT (-108.82 34.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  200 -108.82 38.08 117.675397 20.436700   3 0.7543341 POINT (-108.82 38.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  150 -108.82 40.08 113.113792 10.109964   3 0.7400434 POINT (-108.82 40.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  100 -110.82 24.08 163.894492  8.634415   4 0.8805890 POINT (-110.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   50 -110.82 26.08 179.644560  7.063926   9 0.5451022 POINT (-110.82 26.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  100 -110.82 28.08 169.091465  3.528763  11 0.8666303 POINT (-110.82 28.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 400 -110.82 32.08  12.631375 20.187457  31 0.9083505 POINT (-110.82 32.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  200 -108.82 30.08  26.287607  7.653565   3 0.6026966 POINT (-108.82 30.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  150 -108.82 32.08  24.081554  8.001669   4 0.6892362 POINT (-108.82 32.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  650 -108.82 34.08  12.153342 21.593028 117 0.8120050 POINT (-108.82 34.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  750 -108.82 36.08  12.986820 21.043816 232 0.8404008 POINT (-108.82 36.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  200 -108.82 38.08 113.388414 17.129106   6 0.7496858 POINT (-108.82 38.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  150 -108.82 40.08 115.231540 12.822209   5 0.7005066 POINT (-108.82 40.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  100 -110.82 24.08 158.848279 10.634489   5 0.7525512 POINT (-110.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  50 -110.82 26.08 179.644560  7.063926   9 0.5451022 POINT (-110.82 26.08)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

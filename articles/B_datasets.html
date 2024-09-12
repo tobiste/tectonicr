@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-08-24</h4>
+            <h4 data-toc-skip class="date">2024-09-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
       <div class="d-none name"><code>B_datasets.Rmd</code></div>
@@ -209,7 +209,7 @@ uncertainties of the measurement.</p>
 <span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
 <span>  unc <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">unc</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.1543845</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.0529064</span></span></code></pre></div>
 <p>The value is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
 0.15, indicating a significantly good fit of the model. Thus, the
@@ -445,28 +445,28 @@ coordinates and azimuths as well as the deviations can be viewed by:</p>
 azimuths can be displayed by</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">stats</span></span>
-<span><span class="co">#&gt;                     mean</span></span>
-<span><span class="co">#&gt; mean         142.4029884</span></span>
-<span><span class="co">#&gt; sd            20.3016715</span></span>
-<span><span class="co">#&gt; var            0.2220562</span></span>
-<span><span class="co">#&gt; median       137.5578600</span></span>
-<span><span class="co">#&gt; quasi_median 136.1189938</span></span>
-<span><span class="co">#&gt; skewness      -0.4526369</span></span>
-<span><span class="co">#&gt; kurtosis       1.4620392</span></span>
-<span><span class="co">#&gt; conf95         3.7636758</span></span>
-<span><span class="co">#&gt; dispersion     0.1239432</span></span>
-<span><span class="co">#&gt; norm_chisq     0.1543845</span></span></code></pre></div>
+<span><span class="co">#&gt;                      mean</span></span>
+<span><span class="co">#&gt; mean         138.90248502</span></span>
+<span><span class="co">#&gt; sd            18.57998667</span></span>
+<span><span class="co">#&gt; var            0.18967312</span></span>
+<span><span class="co">#&gt; median       138.94509179</span></span>
+<span><span class="co">#&gt; quasi_median 136.85808363</span></span>
+<span><span class="co">#&gt; skewness      -0.33779208</span></span>
+<span><span class="co">#&gt; kurtosis       2.78636137</span></span>
+<span><span class="co">#&gt; conf95         2.08549562</span></span>
+<span><span class="co">#&gt; dispersion     0.09858997</span></span>
+<span><span class="co">#&gt; norm_chisq     0.05290640</span></span></code></pre></div>
 <p>Statistical test results are shown by</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">test</span></span>
 <span><span class="co">#&gt; $C</span></span>
-<span><span class="co">#&gt; [1] 0.7521136</span></span>
+<span><span class="co">#&gt; [1] 0.8028201</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 21.45832</span></span>
+<span><span class="co">#&gt; [1] 38.09802</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 9.219372e-100</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 4.600542e-314</span></span></code></pre></div>
 <p>… and the associated plots can be displayed by setting
 <code>plot = TRUE</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
