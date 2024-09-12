@@ -1,5 +1,10 @@
 # tectonicr (development version)
 
+# tectonicr 0.4.0.9001  _2024-09-12_
+
+* bug fix in load_wsm()
+* CI now double when axial data
+
 # tectonicr 0.4.0  _2024-08-08_
 
 * minor performance upgrade
