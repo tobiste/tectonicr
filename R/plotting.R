@@ -725,7 +725,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
       IQR = circular_IQR(x, weights, axial),
       mdev = circular_sample_median_deviation(x, axial)
     )
-    rose_fan(mu, 2 * ci,
+    rose_fan(mu, ci,
       radius = 1.1, axial = axial, col = spread.col,
       border = spread.border, lty = spread.lty, lwd = spread.lwd,
       add = add, ...
@@ -734,7 +734,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 
   rose_line(mu,
     radius = 1.1, axial = axial, col = avg.col, lty = avg.lty,
-    lwd = avg.lwd, add = add, ...
+    lwd = avg.lwd, add = TRUE, ...
   )
   invisible(c(mu, ci))
 }

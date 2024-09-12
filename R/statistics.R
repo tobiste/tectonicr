@@ -1,4 +1,4 @@
-#' Mean cosinses and sines
+#' Mean cosine and sine
 #'
 #' @param x angles in degrees
 #' @param w weightings
@@ -176,7 +176,7 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   f <- as.numeric(axial) + 1
-  mod <- 360 / f
+  #mod <- 360 / f
   x <- (x * f) %% 360
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
@@ -715,10 +715,10 @@ z_score <- function(conf.level) {
 circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   if (axial) {
     f <- 2
-    mod <- 90
+    #mod <- 90
   } else {
     f <- 1
-    mod <- 180
+    #mod <- 180
   }
 
   if (is.null(w)) {
@@ -740,7 +740,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
   sde <- 1 / sqrt(n * R * kappa)
-  return(sde / f)
+  return(sde)
 }
 
 #' Confidence Interval around the Mean Direction of Circular Data
@@ -790,9 +790,15 @@ NULL
 #' @rdname confidence
 #' @export
 confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
+  if (axial) {
+    f <- 2
+  } else {
+    f <- 1
+  }
+
   Z_alpha <- z_score(conf.level)
   sde <- circular_sd_error(x, w, axial, na.rm)
-  asind(Z_alpha * sde)
+  asind(Z_alpha * sde) * f
 }
 
 #' @rdname confidence

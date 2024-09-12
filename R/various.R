@@ -99,6 +99,7 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
   )
 
   reg_flt <- regime
+  meth_flt <- method
 
   lat <- lon <- azi <- quality.numeric <- unc <- id <- depth <- numeric()
   type <- locality <- iso <- type <- character()
@@ -114,7 +115,7 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
       dplyr::between(lat, lat_range[1], lat_range[2]),
       dplyr::between(lon, lon_range[1], lon_range[2]),
       dplyr::between(depth, depth_range[1], depth_range[2]),
-      type %in% method
+      type %in% meth_flt
     ) |>
     dplyr::mutate(
       azi = ifelse(azi == 999, NA, azi),

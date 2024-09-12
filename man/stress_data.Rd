@@ -21,11 +21,11 @@ A \code{sf} object / \code{data.frame} with 10 columns. Each row represents a di
 \item{regime}{Stress regime}
 }
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 407 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 1126 rows and 10 columns.
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 947 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 1165 rows and 10 columns.
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 201 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 490 rows and 10 columns.
 }
 \source{
 \url{https://www.world-stress-map.org/}
