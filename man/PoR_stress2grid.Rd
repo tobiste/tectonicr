@@ -23,8 +23,8 @@ PoR_stress2grid(
 \item{type}{Methods used for the determination of the orientation of SHmax}
 }}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler  pole}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class
+\code{"euler.pole"} containing the geographical coordinates of the Euler pole}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
 

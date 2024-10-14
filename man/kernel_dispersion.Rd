@@ -28,8 +28,9 @@ kernel_dispersion(
 }}
 
 \item{stat}{The measurement of dispersion to be calculated. Either
-\code{"dispersion"} (default), \code{"nchisq"}, or \code{"rayleigh"} for circular dispersion,
-normalized Chi-squared test statistic, or Rayleigh test statistic.}
+\code{"dispersion"} (default), \code{"nchisq"}, or \code{"rayleigh"} for circular
+dispersion, normalized Chi-squared test statistic, or Rayleigh test
+statistic.}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
 
@@ -39,16 +40,15 @@ and maximum longitudes and latitudes (are ignored if \code{"grid"} is specified)
 \item{gridsize}{Numeric. Target spacing of the regular grid in decimal
 degree. Default is 2.5. (is ignored if \code{"grid"} is specified)}
 
-\item{min_data}{Integer. Minimum number of data per bin. Default is 3}
+\item{min_data}{Integer. Minimum number of data per bin. Default is \code{3}}
 
-\item{threshold}{Numeric. Threshold for stat value (default is 1)}
+\item{threshold}{Numeric. Threshold for stat value (default is \code{1})}
 
 \item{arte_thres}{Numeric. Maximum distance (in km) of the grid point to the
 next data point. Default is 200}
 
 \item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
-nearby
-(0 to 1). Default is 0.1}
+nearby (\code{0} to \code{1}). Default is \code{0.1}}
 
 \item{R_range}{Numeric value or vector specifying the (adaptive) kernel
 half-width(s) as search radius (in km). Default is \code{seq(50, 1000, 50)}}

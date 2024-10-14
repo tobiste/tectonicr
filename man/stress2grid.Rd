@@ -2,6 +2,7 @@
 % Please edit documentation in R/interpolation.R
 \name{stress2grid}
 \alias{stress2grid}
+\alias{stress2grid_stats}
 \title{Spatial interpolation of SHmax}
 \source{
 \url{https://github.com/MorZieg/Stress2Grid}
@@ -15,6 +16,26 @@ stress2grid(
   lat_range = NULL,
   gridsize = 2,
   min_data = 3L,
+  threshold = 25,
+  arte_thres = 200,
+  method_weighting = FALSE,
+  quality_weighting = TRUE,
+  dist_weight = c("inverse", "linear", "none"),
+  idp = 1,
+  qp = 1,
+  mp = 1,
+  dist_threshold = 0.1,
+  R_range = seq(50, 1000, 50),
+  ...
+)
+
+stress2grid_stats(
+  x,
+  grid = NULL,
+  lon_range = NULL,
+  lat_range = NULL,
+  gridsize = 2,
+  min_data = 4L,
   threshold = 25,
   arte_thres = 200,
   method_weighting = FALSE,
@@ -49,10 +70,11 @@ and maximum longitudes and latitudes (ignored if \code{grid} is specified).}
 \item{gridsize}{numeric. Target spacing of the regular grid in decimal
 degree. Default is \code{2.5}. (is ignored if \code{grid} is specified)}
 
-\item{min_data}{integer. Minimum number of data per bin. Default is \code{3}}
+\item{min_data}{integer. Minimum number of data per bin. Default is \code{3} for
+\code{\link[=stress2grid]{stress2grid()}}and \code{4} for \code{\link[=stress2grid_stats]{stress2grid_stats()}}.}
 
 \item{threshold}{numeric. Threshold for deviation of direction. Default is
-25}
+\code{25}}
 
 \item{arte_thres}{numeric. Maximum distance (in km) of the grid point to the
 next data point. Default is \code{200}}
@@ -89,17 +111,23 @@ i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
 \item{mdr}{Mean distance of datapoints per search radius}
 \item{N}{Number of data points in search radius}
 }
+When \code{\link[=stress2grid_stats]{stress2grid_stats()}}, \code{azi} and \code{sd} are replaced by the output of
+\code{\link[=circular_summary]{circular_summary()}}.
 }
 \description{
 Stress field interpolation and wavelength analysis using a kernel (weighted)
 mean/median and standard deviation/IQR of stress data
 }
 \details{
-This is a modified version of the MATLAB script "stress2grid"
+\code{\link[=stress2grid]{stress2grid()}} is a modified version of the MATLAB script
+"stress2grid" by Ziegler and Heidbach (2019).
+\code{\link[=stress2grid_stats]{stress2grid_stats()}} is based on \code{\link[=stress2grid]{stress2grid()}} but yields more circular
+summary statistics (see \code{\link[=circular_summary]{circular_summary()}}).
 }
 \examples{
 data("san_andreas")
 stress2grid(san_andreas, stat = "median")
+\dontrun{stress2grid_stats(san_andreas)}
 }
 \references{
 Ziegler, M. and Heidbach, O. (2019).
@@ -107,5 +135,5 @@ Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
 }
 \seealso{
 \code{\link[=dist_greatcircle]{dist_greatcircle()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}},
-\code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=circular_sd]{circular_sd()}}
+\code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=circular_sd]{circular_sd()}}, \code{\link[=circular_summary]{circular_summary()}}
 }
