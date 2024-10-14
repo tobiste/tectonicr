@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-09-16</h4>
+            <h4 data-toc-skip class="date">2024-10-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/E_interpolation.Rmd" class="external-link"><code>vignettes/E_interpolation.Rmd</code></a></small>
       <div class="d-none name"><code>E_interpolation.Rmd</code></div>
@@ -154,7 +154,7 @@ areas close to plate boundaries.</p>
 <div class="section level3">
 <h3 id="rasterize-the-interpolation">Rasterize the interpolation<a class="anchor" aria-label="anchor" href="#rasterize-the-interpolation"></a>
 </h3>
-<p>The function <code><a href="../reference/compact_grid.html">compact_grid()</a></code> selects only data with the
+<p>The function <code><a href="../reference/compact-grid.html">compact_grid()</a></code> selects only data with the
 minimum search radius from interpolated layers with different search
 radii. Since the interpolation was performed in the PoR CRS, the
 interpolated azimuths are additionally given in the transformed
@@ -162,7 +162,7 @@ azimuths. This allows to easily calculate misfits from predicted
 directions:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH_PoR_reduced</span> <span class="op">&lt;-</span> <span class="va">mean_SH_PoR</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/compact_grid.html">compact_grid</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/compact-grid.html">compact_grid</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cdist <span class="op">=</span> <span class="fu"><a href="../reference/dispersion.html">circular_distance</a></span><span class="op">(</span><span class="va">azi.PoR</span>, <span class="fl">135</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Using <code><a href="../reference/dispersion.html">circular_distance()</a></code> in the example above, we can
 display the spatial patterns of the misfits of the stress direction from
@@ -207,7 +207,7 @@ transformed data to avoid angle distortions due to projections.</p>
 <span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">azi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">$</span><span class="va">azi.PoR</span> <span class="co"># transform to PoR azimuth</span></span>
 <span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fl">135</span> <span class="co"># test direction</span></span>
 <span><span class="va">san_andreas_kdisp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kernel_dispersion.html">kernel_dispersion</a></span><span class="op">(</span><span class="va">san_andreas_por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">san_andreas_kdisp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compact_grid.html">compact_grid</a></span><span class="op">(</span><span class="va">san_andreas_kdisp</span>, <span class="st">"dispersion"</span><span class="op">)</span></span>
+<span><span class="va">san_andreas_kdisp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compact-grid.html">compact_grid</a></span><span class="op">(</span><span class="va">san_andreas_kdisp</span>, <span class="st">"dispersion"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas_kdisp</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggforce</span><span class="fu">::</span><span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_delvor.html" class="external-link">geom_voronoi_tile</a></span><span class="op">(</span></span>
@@ -247,7 +247,7 @@ Stress Map Technical Report 17-02. doi: <a href="https://doi.org/10.5880/wsm.201
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
