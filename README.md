@@ -1,3 +1,5 @@
+# tectonicr <a href="https://cran.r-project.org/package=tectonicr/"><img src="man/figures/logo.png" align="right" height="104" alt="tectonicr website" /></a>
+
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.org/package=tectonicr)
 [![](https://img.shields.io/badge/devel%20version-0.4.1.9001-orange.svg)](https://github.com/tobiste/tectonicr)
@@ -8,7 +10,6 @@
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11199557.svg)](https://doi.org/10.5281/zenodo.11199557) -->
 <!-- badges: end -->
 
-# tectonicr
 
 `tectonicr` is a free and open-source **R** package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates (Wdowinski, 1998; Stephan et al., 2023). The following methods are available:
 
