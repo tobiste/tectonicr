@@ -1109,7 +1109,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
   x_quant <- circular_quantiles(x, w, axial, F)
   x_median <- circular_sample_median(x, axial, F)
   x_sk <- second_central_moment(x, w, axial, F)
-  x_R <- mean_resultant_length(ax2dir(x), w = NULL, F)
+  x_R <- mean_resultant_length(ax2dir(x), w = w, F)
 
   setNames(
     c(n, x_mean, x_sd, x_var, x_quant[1], x_quant[2], x_quant[3], x_median, x_CI, x_sk$std_skewness, x_sk$std_kurtosis, x_R),
