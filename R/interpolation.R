@@ -415,7 +415,7 @@ stress2grid_stats <- function(x,
 
   r <- R <- N <- n <- numeric(num_G)
 
-  cols <- c("lon", "lat", "n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", "95%CI", "skewness", "kurtosis", "rayleigh.stat", "R", "md", "N")
+  cols <- c("lon", "lat", "n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", "95%CI", "skewness", "kurtosis", "meanR", "R", "md", "N")
   SH <- matrix(nrow = 0, ncol = length(cols), dimnames = list(NULL, cols))
 
   for (i in seq_along(G[, 1])) {
