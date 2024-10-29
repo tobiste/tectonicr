@@ -2,9 +2,21 @@
 % Please edit documentation in R/interpolation.R
 \name{PoR_stress2grid}
 \alias{PoR_stress2grid}
+\alias{PoR_stress2grid_stats}
 \title{Spatial interpolation of SHmax in PoR coordinate reference system}
 \usage{
 PoR_stress2grid(
+  x,
+  PoR,
+  grid = NULL,
+  PoR_grid = TRUE,
+  lon_range = NULL,
+  lat_range = NULL,
+  gridsize = 2.5,
+  ...
+)
+
+PoR_stress2grid_stats(
   x,
   PoR,
   grid = NULL,
@@ -66,6 +78,10 @@ data("san_andreas")
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 PoR_stress2grid(san_andreas, PoR)
+
+\dontrun{
+PoR_stress2grid_stats(san_andreas, PoR)
+}
 }
 \seealso{
 \code{\link[=stress2grid]{stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}}

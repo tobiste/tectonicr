@@ -1,0 +1,199 @@
+---
+title: "6. Spatial Analysis"
+author: "Tobias Stephan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{6. Spatial Analysis}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette demonstrates some additional spatialy interpolated statisrtics of a stress field.
+
+```{r setup, message=FALSE}
+library(tectonicr)
+library(ggplot2) # load ggplot library
+```
+
+```{r load_data}
+data("san_andreas")
+
+data("cpm_models")
+por <- cpm_models |>
+  subset(model == "NNR-MORVEL56") |>
+  equivalent_rotation("na", "pa")
+
+plate_boundary <- subset(plates, plates$pair == "na-pa")
+```
+
+`circular_summary()` yields several statistics estimates for a given vector of angles, such as mean, median, standard deviation, quasi-quantiles, 95% confidence angle, as wells as the moments (2nd = variance, 3rd = skewness, 4th = kurtosis): 
+
+```{r}
+circular_summary(san_andreas$azi, w = 1/san_andreas$unc)
+```
+
+
+## Spatial analysis
+Spatial analysis and interpolation of stress data using `stress2grid_stats()` or `PoR_stress2grid_stats()` (analysis in the PoR coordinate system) uses a moving window with a user defined cell-size (im km) and calculates the summary statistics within each cell:
+
+
+```{r interpolation,message=FALSE,warning=FALSE}
+spatial_stats_R <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = 100)
+head(spatial_stats_R)
+```
+
+
+One can also specify a range of cell-sizes for a wavelength analysis:
+
+```{r interpolation2,message=FALSE,warning=FALSE}
+spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
+```
+
+The mean azimuth for each grid cell:  
+```{r plot, warning=FALSE, message=FALSE}
+trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
+
+ggplot(spatial_stats) +
+  geom_sf(data = plate_boundary, color = "red") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
+  geom_spoke(aes(lon, lat, angle = deg2rad(90 - mean), alpha = sd, color = mdr), radius = 1, position = "center_spoke", lwd = 1) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
+  scale_alpha(name = "Standard deviation", range = c(1, .25)) +
+  scale_color_viridis_c(
+    "Wavelength\n(R-normalized mean distance)",
+    limits = c(0, 1),
+    breaks = seq(0, 1, .25)
+  ) +
+  facet_wrap(~R)
+```
+To filter the range of search windows to only keep the shortest wavelength (R) with the least variance for each grid cell, use compact_grid2().
+
+```{r}
+spatial_stats_comp <- spatial_stats |>
+  compact_grid2(var)
+``` 
+
+Interpolated stress field color-coded by the skewness within each search window:
+```{r}
+  ggplot(spatial_stats_comp) +
+  geom_sf(data = plate_boundary, color = "red") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
+  geom_spoke(aes(lon, lat, angle = deg2rad(90 - median), alpha = `95%CI`, color = skewness), radius = 1, position = "center_spoke", lwd = 1) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
+  scale_alpha(name = "95% CI", range = c(1, .25)) +
+  scale_color_viridis_c(
+    "Skewness"
+  )
+```
+
+
+## Heat maps for the spatial statistics
+
+`PoR_stress2grid_stats()` and `stress2grid_stats()` allow to create heatmaps showing the spatial patterns of any desired statistical estimate (from `circular_summary()`). Some examples:
+
+### Spatial central moments
+
+#### Spatial variance
+```{r variance, warning=FALSE, message=FALSE}
+ggplot(spatial_stats_comp) +
+  ggforce::geom_voronoi_tile(
+    aes(lon, lat, fill = var),
+    max.radius = .7, normalize = FALSE
+  ) +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  geom_sf(data = plate_boundary, color = "red") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(
+    aes(lon, lat, angle = deg2rad(90 - mean)),
+    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  ) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
+```
+
+#### Skewness:
+Skewness is a measure for the asymmetry of the probability distribution. It can be either counterclockwise or clockwise skewed, hence values can range between negative and positive numbers, respectively. This can be best visualized in a diverging color-sequence:
+
+```{r skew, warning=FALSE, message=FALSE}
+ggplot(spatial_stats_comp) +
+  ggforce::geom_voronoi_tile(
+    aes(lon, lat, fill = skewness),
+    max.radius = .7, normalize = FALSE
+  ) +
+  scale_fill_gradient2("|Skewness|", low = "#001260", mid = "#EBE5E0", high = "#590007") +
+  geom_sf(data = plate_boundary, color = "red") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(
+    aes(lon, lat, angle = deg2rad(90 - mean), alpha = var),
+    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  ) +
+  scale_alpha("variance", range = c(1, 0)) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
+```
+
+#### Kurtosis
+Kurtosis is a measure of the "tailedness" of the probability distribution. 
+Here, colors are in a square-root scale:
+```{r kurtosis, warning=FALSE, message=FALSE}
+ggplot(spatial_stats_comp) +
+  ggforce::geom_voronoi_tile(
+    aes(lon, lat, fill = abs(kurtosis)),
+    max.radius = .7, normalize = FALSE
+  ) +
+  scale_fill_viridis_c("|Kurtosis|", transform = "sqrt") +
+  geom_sf(data = plate_boundary, color = "red") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(
+    aes(lon, lat, angle = deg2rad(90 - mean), alpha = var),
+    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  ) +
+  scale_alpha("variance", range = c(1, 0)) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
+```
+
+
+### Kernel dispersion
+
+Another way to analyse spatial misfits is the kernel dispersion, i.e. the
+local dispersion within a user-defined window (kernel). The kernel´s half width 
+can be a single number (km) or a range of widths. The latter requires to compact
+the grid result (`x`) to find the smallest kernel size containing the the least 
+dispersion (`compact_grid(x, 'dispersion')`).
+
+> It is recommended to calculate the kernel dispersion on PoR transformed data to 
+avoid angle distortions due to projections.
+
+```{r kernel_disp}
+san_andreas_por <- san_andreas
+san_andreas_por$azi <- PoR_shmax(san_andreas, por, "right")$azi.PoR # transform to PoR azimuth
+san_andreas_por$prd <- 135 # test direction
+san_andreas_kdisp <- kernel_dispersion(san_andreas_por, gridsize = 1, R_range = seq(50, 350, 100))
+san_andreas_kdisp <- compact_grid(san_andreas_kdisp, "dispersion")
+
+ggplot(san_andreas_kdisp) +
+  ggforce::geom_voronoi_tile(
+    aes(lon, lat, fill = stat),
+    max.radius = .7, normalize = FALSE
+  ) +
+  scale_fill_viridis_c("Dispersion", limits = c(0, 1)) +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(
+    data = san_andreas,
+    aes(lon, lat, angle = deg2rad(90 - azi), alpha = unc),
+    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  ) +
+  scale_alpha("Standard deviation", range = c(1, .25)) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
+```

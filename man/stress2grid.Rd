@@ -127,7 +127,9 @@ summary statistics (see \code{\link[=circular_summary]{circular_summary()}}).
 \examples{
 data("san_andreas")
 stress2grid(san_andreas, stat = "median")
-\dontrun{stress2grid_stats(san_andreas)}
+\dontrun{
+stress2grid_stats(san_andreas)
+}
 }
 \references{
 Ziegler, M. and Heidbach, O. (2019).
