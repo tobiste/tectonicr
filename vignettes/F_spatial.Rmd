@@ -78,6 +78,7 @@ ggplot(spatial_stats) +
   ) +
   facet_wrap(~R)
 ```
+
 To filter the range of search windows to only keep the shortest wavelength (R) with the least variance for each grid cell, use compact_grid2().
 
 ```{r}
