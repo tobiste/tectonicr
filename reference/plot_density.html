@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@
 <span>  <span class="va">kappa</span>,</span>
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  n <span class="op">=</span> <span class="fl">512</span>,</span>
-<span>  norm_density <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  norm.density <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  scale <span class="op">=</span> <span class="fl">1.1</span>,</span>
 <span>  shrink <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -60,7 +60,8 @@
 <span>  main <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">360</span> <span class="op">-</span> <span class="fl">45</span>, <span class="fl">45</span><span class="op">)</span>,</span>
-<span>  cborder <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  cborder <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  grid <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -86,7 +87,7 @@ or biaxial (<code>TRUE</code>, the default).</p></dd>
 <dd><p>the number of equally spaced points at which the density is to be estimated.</p></dd>
 
 
-<dt id="arg-norm-density">norm_density<a class="anchor" aria-label="anchor" href="#arg-norm-density"></a></dt>
+<dt id="arg-norm-density">norm.density<a class="anchor" aria-label="anchor" href="#arg-norm-density"></a></dt>
 <dd><p>logical. Normalize the density?</p></dd>
 
 
@@ -123,6 +124,10 @@ Set <code>at=numeric(0)</code> to suppress tick marks.</p></dd>
 <dt id="arg-cborder">cborder<a class="anchor" aria-label="anchor" href="#arg-cborder"></a></dt>
 <dd><p>logical. Border of rose plot.</p></dd>
 
+
+<dt id="arg-grid">grid<a class="anchor" aria-label="anchor" href="#arg-grid"></a></dt>
+<dd><p>logical. Whether a grid should be added.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -136,9 +141,9 @@ Set <code>at=numeric(0)</code> to suppress tick marks.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"seagreen"</span>, shrink <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">100</span>, col <span class="op">=</span> <span class="st">"seagreen"</span>, shrink <span class="op">=</span> <span class="fl">1.5</span>, norm.density <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_density-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">10</span>, col <span class="op">=</span> <span class="st">"seagreen"</span>, add <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">100</span>, col <span class="op">=</span> <span class="st">"seagreen"</span>, add <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="fl">.5</span>, shrink <span class="op">=</span> <span class="fl">2</span>, norm.density <span class="op">=</span> <span class="cn">TRUE</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_density-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

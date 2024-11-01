@@ -11,7 +11,7 @@ orientation in some manner."><meta property="og:image" content="https://tobiste.
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,8 @@ p. 329). Berlin: Springer.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x_vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">0</span>, kappa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># von Mises distribution</span></span></span>
+<span class="r-in"><span><span class="va">x_vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">0</span>, kappa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_qqplot</span><span class="op">(</span><span class="va">x_vm</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="circular_qqplot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -104,6 +105,7 @@ p. 329). Berlin: Springer.</p>
 <span class="r-in"><span><span class="fu">circular_qqplot</span><span class="op">(</span><span class="va">x_norm</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="circular_qqplot-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># uniform (random) data</span></span></span>
 <span class="r-in"><span><span class="va">x_unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="fl">360</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">circular_qqplot</span><span class="op">(</span><span class="va">x_unif</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="circular_qqplot-3.png" alt="" width="700" height="433"></span>

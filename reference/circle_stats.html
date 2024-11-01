@@ -9,7 +9,7 @@ of orientation data."><meta property="og:image" content="https://tobiste.github.
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,6 +122,8 @@ database release 2008. <em>Tectonophysics</em> <strong>482</strong>, 3&lt;U+2013
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6221128</span>
 <span class="r-in"><span><span class="fu">circular_var</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01727118</span>
+<span class="r-in"><span><span class="fu">sample_circular_dispersion</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03467445</span>
 <span class="r-in"><span><span class="fu">circular_sd</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.347582</span>
 <span class="r-in"><span><span class="fu">circular_median</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">unc</span><span class="op">)</span></span></span>
@@ -151,6 +153,8 @@ database release 2008. <em>Tectonophysics</em> <strong>482</strong>, 3&lt;U+2013
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3177094</span>
 <span class="r-in"><span><span class="fu">circular_var</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.201883</span>
+<span class="r-in"><span><span class="fu">sample_circular_dispersion</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4202865</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
@@ -161,6 +165,8 @@ database release 2008. <em>Tectonophysics</em> <strong>482</strong>, 3&lt;U+2013
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 136.8581</span>
 <span class="r-in"><span><span class="fu">circular_var</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1896731</span>
+<span class="r-in"><span><span class="fu">sample_circular_dispersion</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3881716</span>
 <span class="r-in"><span><span class="fu">circular_quantiles</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      25%      50%      75% </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 124.8436 136.8581 150.2225 </span>

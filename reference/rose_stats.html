@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,7 @@
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span>, <span class="st">"sample_median"</span><span class="op">)</span>,</span>
 <span>  spread <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CI"</span>, <span class="st">"fisher"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, <span class="st">"mdev"</span><span class="op">)</span>,</span>
+<span>  f <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  avg.col <span class="op">=</span> <span class="st">"#85112AFF"</span>,</span>
 <span>  avg.lty <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  avg.lwd <span class="op">=</span> <span class="fl">1.5</span>,</span>
@@ -93,6 +94,10 @@ sample median (<code>"sample_median"</code>).</p></dd>
 Either 95% confidence interval (<code>"CI"</code>, the default), Fishers confidence interval (<code>"fisher"</code>), the circular
 standard deviation (<code>"sd"</code>), the Quasi interquartile range on the circle
 (<code>"IQR"</code>), or the sampke median deviation (<code>"mdev"</code>). <code>NULL</code> if no fan should be drawn.</p></dd>
+
+
+<dt id="arg-f">f<a class="anchor" aria-label="anchor" href="#arg-f"></a></dt>
+<dd><p>factor applied on spread. <code>1</code> by default.</p></dd>
 
 
 <dt id="arg-avg-col">avg.col<a class="anchor" aria-label="anchor" href="#arg-avg-col"></a></dt>
