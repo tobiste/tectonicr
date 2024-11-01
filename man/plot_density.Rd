@@ -62,10 +62,14 @@ Plot the multiples of a von Mises density distribution
 }
 \examples{
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-plot_density(san_andreas$azi, kappa = 100, col = "#B63679FF", shrink = 1.5,
-norm.density = FALSE)
-plot_density(san_andreas$azi, kappa = 100, col = "#B63679FF", add = FALSE,
-scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE)
+plot_density(san_andreas$azi,
+  kappa = 100, col = "#51127CFF", shrink = 1.5,
+  norm.density = FALSE
+)
+plot_density(san_andreas$azi,
+  kappa = 100, col = "#51127CFF", add = FALSE,
+  scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE
+)
 }
 \seealso{
 \code{\link[=dvm]{dvm()}}

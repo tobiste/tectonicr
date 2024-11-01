@@ -639,14 +639,16 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
     dplyr::as_tibble() |>
     dplyr::rename(lat = Y, lon = X)
 
+  # binding global variables
   azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric() # pre allocating:
+  `25%` <-  `75%` <- `25%.PoR` <- `75%.PoR` <- median.PoR <- mean.PoR <- `quasi-median` <- `quasi-median.PoR` <- `median` <- NULL
 
   x_PoR$lat <- x_PoR_coords$lat
   x_PoR$lon <- x_PoR_coords$lon
   x_PoR$azi <- PoR_shmax(x, PoR)
 
   int <- stress2grid_stats(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
-    dplyr::rename(mean.PoR = mean, `25%.por` = `25%`, `quasi-median.por` = `quasi-median`, `75%.por` = `75%`, median.por = median, lat.PoR = lat, lon.PoR = lon) |>
+    dplyr::rename(mean.PoR = mean, `25%.PoR` = `25%`, `quasi-median.PoR` = `quasi-median`, `75%.PoR` = `75%`, median.PoR = median, lat.PoR = lat, lon.PoR = lon) |>
     PoR_to_geographical_sf(PoR)
   int_coords <- sf::st_coordinates(int) |>
     dplyr::as_tibble() |>
@@ -654,12 +656,13 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   int$lat <- int_coords$lat
   int$lon <- int_coords$lon
   int$mean <- PoR2Geo_azimuth(int |> rename(azi.PoR = mean.PoR), PoR)
-  int$`25%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `25%.por`), PoR)
-  int$`quasi-median` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `quasi-median.por`), PoR)
-  int$`75%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `75%.por`), PoR)
-  int$median <- PoR2Geo_azimuth(int |> rename(azi.PoR = median.por), PoR)
+  int$`25%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `25%.PoR`), PoR)
+  int$`quasi-median` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `quasi-median.PoR`), PoR)
+  int$`75%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `75%.PoR`), PoR)
+  int$median <- PoR2Geo_azimuth(int |> rename(azi.PoR = median.PoR), PoR)
   return(int)
 }
+
 
 #' Compact smoothed stress field
 #'

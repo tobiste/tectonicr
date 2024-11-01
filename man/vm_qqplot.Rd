@@ -32,6 +32,8 @@ If \code{NULL}, it will be estimated from \code{x}.}
 
 \item{xlab, ylab, main}{plot labels.}
 
+\item{col}{color for the dots.}
+
 \item{...}{graphical parameters}
 }
 \value{

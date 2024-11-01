@@ -138,6 +138,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' @param x numeric. Angles in degrees
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' @param xlab,ylab,main plot labels.
+#' @param col color for the dots.
 #' @param ... graphical parameters
 #'
 #' @return plot
@@ -203,6 +204,7 @@ circular_qqplot <- function(x, axial = TRUE,
 #' it will be estimated from `x`.
 #' @param kappa numeric. Concentration parameter of the von Mises distribution.
 #' If `NULL`, it will be estimated from `x`.
+#' @param col color for the dots.
 #' @param ... graphical parameters
 #'
 #' @return plot
