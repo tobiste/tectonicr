@@ -161,7 +161,8 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' circular_qqplot(x_unif, pch = 20)
 circular_qqplot <- function(x, axial = TRUE,
                             xlab = paste("i/(n+1)"),
-                            ylab = NULL, main = "Circular Quantile-Quantile Plot", ...) {
+                            ylab = NULL, main = "Circular Quantile-Quantile Plot",
+                            col = "#B63679FF", ...) {
   if (axial) {
     f <- 2
   } else {
@@ -180,6 +181,7 @@ circular_qqplot <- function(x, axial = TRUE,
     type = "p", xlim = c(0, 1), ylim = c(0, 1), asp = 1,
     xlab = xlab, ylab = ylab, main = main,
     sub = bquote("N" == .(n)),
+    col = col,
     ...
   )
   graphics::abline(a = 0, b = 1, col = "slategrey")
@@ -220,7 +222,8 @@ circular_qqplot <- function(x, axial = TRUE,
 vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
                       xlab = "von Mises quantile function",
                       ylab = "Empirical quantile function",
-                      main = "von Mises Q-Q Plot", ...) {
+                      main = "von Mises Q-Q Plot",
+                      col = "#B63679FF", ...) {
   if (axial) {
     f <- 2
   } else {
@@ -239,7 +242,7 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
   if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
 
   caption <- bquote(
-    bar(alpha) == .(round(mean, 1)) * degree ~ "|" ~ kappa == .(round(kappa, 1))
+    bar(alpha) == .(round(mean, 1)) * degree ~ "|" ~ widehat(kappa) == .(round(kappa, 1))
   )
 
   xf <- (x * f) %% 360
@@ -266,9 +269,11 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
 
   tqf <- qvm(edf(xf), mean * f, kappa, from = 0)
   #
-  graphics::plot(tqf / f, xf / f, xlim = c(0, 360 / f), ylim = c(0, 360 / f), asp = 1, xlab = xlab, ylab = ylab, main = main, sub = bquote("N" == .(n)), ...)
+  graphics::plot(tqf / f, xf / f, xlim = c(0, 360 / f), ylim = c(0, 360 / f),
+                 asp = 1, xlab = xlab, ylab = ylab, col = col, main = main,
+                 sub = bquote("N" == .(n)), ...)
   graphics::abline(a = 0, b = 1, col = "slategrey")
-  mtext(caption)
+  mtext(caption, cex = .75)
   invisible(tqf)
 }
 
@@ -725,8 +730,8 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "sample_median", spread = "mdev")
 rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median", "sample_median"), spread = c("CI", "fisher", "sd", "IQR", "mdev"),
                        f = 1,
-                       avg.col = "#85112AFF", avg.lty = 2, avg.lwd = 1.5,
-                       spread.col = ggplot2::alpha("#85112AFF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL, add = TRUE, ...) {
+                       avg.col = "#B63679FF", avg.lty = 2, avg.lwd = 1.5,
+                       spread.col = ggplot2::alpha("#B63679FF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL, add = TRUE, ...) {
   avg <- match.arg(avg)
   mu <- switch(avg,
     mean = circular_mean(x, weights, axial),
@@ -997,8 +1002,8 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
 #' the azimuth as a function of the distance to the plate boundary,
 #' the Norm Chi-squared as a function of the distance to the plate boundary,
 #' the circular distance (and dispersion) a function of the distance to the
-#' plate boundary, and a rose diagram of the frequency distribution of the
-#' azimuths.
+#' plate boundary, a von-Mises QQ plot, and a rose diagram of the
+#' quality-weighted frequency distribution of the azimuths.
 #'
 #' @param azi numeric. Azimuth of \eqn{\sigma_{Hmax}}{SHmax}
 #' @param distance numeric. Distance to plate boundary
@@ -1015,7 +1020,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
 #'
 #' @seealso [PoR_shmax()], [distance_from_pb()], [circular_mean()],
 #' [circular_dispersion()], [confidence_interval_fisher()], [norm_chisq()],
-#' [weighted_rayleigh()]
+#' [weighted_rayleigh()], [vm_qqplot()]
 #'
 #' @details
 #' Plot 1 shows the transformed azimuths as a function of the distance to the
@@ -1149,7 +1154,7 @@ quick_plot <- function(
   graphics::points(azi ~ distance, data = t2, col = t2$regime)
 
   ## roll statistics
-  graphics::lines(roll_mean ~ distance, data = t, type = "S", col = "#85112AFF")
+  graphics::lines(roll_mean ~ distance, data = t, type = "S", col = "#B63679FF")
 
   ## predicted az
   graphics::abline(h = unique(prd), col = "black", lty = 2)
@@ -1173,7 +1178,7 @@ quick_plot <- function(
     roll_nchisq ~ distance,
     data = t,
     type = "S",
-    col = "#85112AFF"
+    col = "#B63679FF"
   )
   graphics::abline(h = .15, col = "black", lty = 2)
 
@@ -1196,9 +1201,12 @@ quick_plot <- function(
   graphics::points(cdist ~ distance,
     data = t, col = t$regime
   )
-  graphics::lines(roll_disp ~ distance, data = t, type = "S", col = "#85112AFF")
+  graphics::lines(roll_disp ~ distance, data = t, type = "S", col = "#B63679FF")
   # graphics::abline(h = disp, col = "black", lty = 2) # dispersion
 
+  # von Mises QQ plot
+  grDevices::dev.new()
+  vm_qqplot(azi, axial = FALSE, pch = 20)
 
   # rose plot
   grDevices::dev.new()
@@ -1210,7 +1218,7 @@ quick_plot <- function(
     mtext = "PoR"
   )
   # rose_stats(azi, weights = 1 / unc)
-  rose_line(prd, radius = 1.1, col = "#009E73") # show the predicted direction
+  rose_line(prd, radius = 1.1, col = "#FB8861FF") # show the predicted direction
   grDevices::palette("default")
 }
 

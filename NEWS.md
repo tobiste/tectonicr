@@ -1,8 +1,9 @@
 # tectonicr 0.4.3
 
-# tectonicr 0.4.2
-
-# tectonicr 0.4.1
+* performance upgrade on spatial interpolation
+* spatial interpolation of more summary statistics
+* new vignette on spatial analysis
+* optional gridlines added to rose
 
 # tectonicr 0.4.0.9001  _2024-09-12_
 

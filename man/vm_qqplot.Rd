@@ -13,6 +13,7 @@ vm_qqplot(
   xlab = "von Mises quantile function",
   ylab = "Empirical quantile function",
   main = "von Mises Q-Q Plot",
+  col = "#B63679FF",
   ...
 )
 }

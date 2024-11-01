@@ -10,6 +10,7 @@ circular_qqplot(
   xlab = paste("i/(n+1)"),
   ylab = NULL,
   main = "Circular Quantile-Quantile Plot",
+  col = "#B63679FF",
   ...
 )
 }
