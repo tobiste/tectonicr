@@ -40,7 +40,7 @@ plate_boundary <- subset(plates, plates$pair == "na-pa")
 `circular_summary()` yields several statistics estimates for a given vector of angles, such as mean, median, standard deviation, quasi-quantiles, 95% confidence angle, as wells as the moments (2nd = variance, 3rd = skewness, 4th = kurtosis): 
 
 ```{r}
-circular_summary(san_andreas$azi, w = 1/san_andreas$unc)
+circular_summary(san_andreas$azi, w = 1 / san_andreas$unc)
 ```
 
 
@@ -88,7 +88,7 @@ spatial_stats_comp <- spatial_stats |>
 
 Interpolated stress field color-coded by the skewness within each search window:
 ```{r}
-  ggplot(spatial_stats_comp) +
+ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +

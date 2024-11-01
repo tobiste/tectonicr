@@ -269,9 +269,11 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
 
   tqf <- qvm(edf(xf), mean * f, kappa, from = 0)
   #
-  graphics::plot(tqf / f, xf / f, xlim = c(0, 360 / f), ylim = c(0, 360 / f),
-                 asp = 1, xlab = xlab, ylab = ylab, col = col, main = main,
-                 sub = bquote("N" == .(n)), ...)
+  graphics::plot(tqf / f, xf / f,
+    xlim = c(0, 360 / f), ylim = c(0, 360 / f),
+    asp = 1, xlab = xlab, ylab = ylab, col = col, main = main,
+    sub = bquote("N" == .(n)), ...
+  )
   graphics::abline(a = 0, b = 1, col = "slategrey")
   mtext(caption, cex = .75)
   invisible(tqf)
@@ -490,10 +492,10 @@ add_end <- function(x, end) {
   }
 }
 
-rose_grid <- function(angles, radii, add = TRUE){
-  rose_line(angles, col = 'grey80', lty = 2, add=add)
-  for(i in radii){
-    plot(spatstat.geom::disc(i), col = NA, border = 'grey80', lty = 2, add=add)
+rose_grid <- function(angles, radii, add = TRUE) {
+  rose_line(angles, col = "grey80", lty = 2, add = add)
+  for (i in radii) {
+    plot(spatstat.geom::disc(i), col = NA, border = "grey80", lty = 2, add = add)
   }
 }
 
@@ -588,7 +590,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
-  if(grid){
+  if (grid) {
     rose_grid(angles = grid.lines, radii = grid.circles)
   }
 
@@ -966,8 +968,14 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'
 #' @examples
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-#' plot_density(san_andreas$azi, kappa = 100, col = "seagreen", shrink = 1.5, norm.density = FALSE)
-#' plot_density(san_andreas$azi, kappa = 100, col = "seagreen", add = FALSE, scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE)
+#' plot_density(san_andreas$azi,
+#'   kappa = 100, col = "#51127CFF", shrink = 1.5,
+#'   norm.density = FALSE
+#' )
+#' plot_density(san_andreas$azi,
+#'   kappa = 100, col = "#51127CFF", add = FALSE,
+#'   scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE
+#' )
 plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, ...,
                          scale = 1.1, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
@@ -979,7 +987,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
-  if(grid){
+  if (grid) {
     rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
   }
 

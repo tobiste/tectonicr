@@ -176,12 +176,12 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 }
 
 
-var_to_sd <- function(v){
+var_to_sd <- function(v) {
   s <- sqrt(-2 * log(1 - v))
   rad2deg(s)
 }
 
-sd_to_var <- function(s){
+sd_to_var <- function(s) {
   s_rad <- deg2rad(s)
   1 - exp(-s_rad^2 / 2)
 }
