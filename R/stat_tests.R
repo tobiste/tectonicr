@@ -793,3 +793,22 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   }
   kappa
 }
+
+
+
+kappa_to_var <- function(k, axial = TRUE) {
+  f <- if(axial){
+    2
+    } else {
+    1
+  }
+  v <- 1 - (besselI(k, 1) / besselI(k, 0))^2
+  v/f
+}
+
+kappa_to_sd <- function(k, axial = TRUE) {
+  kappa_to_var(k, axial) |>
+    var_to_sd()
+}
+
+

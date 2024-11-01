@@ -55,6 +55,7 @@ x <- rvm(10, 0, 100) \%\% 180
 unc <- stats::runif(100, 0, 10)
 circular_mean(x, 1 / unc)
 circular_var(x, 1 / unc)
+sample_circular_dispersion(x, 1 / unc)
 circular_sd(x, 1 / unc)
 circular_median(x, 1 / unc)
 circular_quantiles(x, 1 / unc)
@@ -69,6 +70,7 @@ circular_quantiles(san_andreas$azi)
 circular_quantiles(san_andreas$azi, 1 / san_andreas$unc)
 circular_var(san_andreas$azi)
 circular_var(san_andreas$azi, 1 / san_andreas$unc)
+sample_circular_dispersion(san_andreas$azi, 1 / san_andreas$unc)
 
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -76,6 +78,7 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_median(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
+sample_circular_dispersion(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 }
 \references{

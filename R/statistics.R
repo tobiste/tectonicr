@@ -123,6 +123,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' unc <- stats::runif(100, 0, 10)
 #' circular_mean(x, 1 / unc)
 #' circular_var(x, 1 / unc)
+#' sample_circular_dispersion(x, 1 / unc)
 #' circular_sd(x, 1 / unc)
 #' circular_median(x, 1 / unc)
 #' circular_quantiles(x, 1 / unc)
@@ -137,6 +138,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' circular_quantiles(san_andreas$azi, 1 / san_andreas$unc)
 #' circular_var(san_andreas$azi)
 #' circular_var(san_andreas$azi, 1 / san_andreas$unc)
+#' sample_circular_dispersion(san_andreas$azi, 1 / san_andreas$unc)
 #'
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -144,6 +146,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_median(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
+#' sample_circular_dispersion(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' @name circle_stats
 NULL
@@ -171,6 +174,19 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   1 - R
 }
+
+
+var_to_sd <- function(v){
+  s <- sqrt(-2 * log(1 - v))
+  rad2deg(s)
+}
+
+sd_to_var <- function(s){
+  s_rad <- deg2rad(s)
+  1 - exp(-s_rad^2 / 2)
+}
+
+
 
 #' @rdname circle_stats
 #' @export

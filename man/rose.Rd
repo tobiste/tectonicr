@@ -26,6 +26,9 @@ rose(
   dot_col = "slategrey",
   stack = FALSE,
   jitter_factor = 0,
+  grid = FALSE,
+  grid.lines = seq(0, 135, 45),
+  grid.circles = seq(0.2, 1, 0.2),
   add = FALSE,
   ...
 )
@@ -81,6 +84,12 @@ is added to \code{scale}. Jitter is ignored when \code{stack==TRUE}).
 If \code{0}, no jitter is added (by default); if negative, the points fall into
 the circle.}
 
+\item{grid}{logical. Whether to add a grid. Default is \code{FALSE}.}
+
+\item{grid.lines, grid.circles}{numeric. Adds a sequence of straight grid
+lines and circles based on angles and radii, respectively. Ignored when
+\code{grid=FALSE}}
+
 \item{add}{logical.}
 
 \item{...}{Additional arguments passed to \code{\link[spatstat.explore:rose]{spatstat.explore::rose()}}.}
@@ -105,7 +114,7 @@ If \code{"axial" == TRUE}, the binwidth is adjusted to guarantee symmetrical fan
 }
 \examples{
 x <- rvm(100, mean = 90, k = 5)
-rose(x, axial = FALSE, border = TRUE)
+rose(x, axial = FALSE, border = TRUE, grid = TRUE)
 
 data("san_andreas") #'
 rose(san_andreas$azi, main = "equal area")

@@ -149,12 +149,14 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' p. 329). Berlin: Springer.
 #'
 #' @examples
+#' # von Mises distribution
 #' x_vm <- rvm(100, mean = 0, kappa = 2)
 #' circular_qqplot(x_vm, pch = 20)
 #'
 #' x_norm <- rnorm(100, mean = 0, sd = 25)
 #' circular_qqplot(x_norm, pch = 20)
 #'
+#' # uniform (random) data
 #' x_unif <- runif(100, 0, 360)
 #' circular_qqplot(x_unif, pch = 20)
 circular_qqplot <- function(x, axial = TRUE,
@@ -208,9 +210,11 @@ circular_qqplot <- function(x, axial = TRUE,
 #' @export
 #'
 #' @examples
+#' # von Mises distribution
 #' x_vm <- rvm(100, mean = 0, kappa = 4)
 #' vm_qqplot(x_vm, axial = FALSE, pch = 20)
 #'
+#' # uniform distribution
 #' x_unif <- runif(100, 0, 360)
 #' vm_qqplot(x_unif, axial = FALSE, pch = 20)
 vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
@@ -481,6 +485,13 @@ add_end <- function(x, end) {
   }
 }
 
+rose_grid <- function(angles, radii, add = TRUE){
+  rose_line(angles, col = 'grey80', lty = 2, add=add)
+  for(i in radii){
+    plot(spatstat.geom::disc(i), col = NA, border = 'grey80', lty = 2, add=add)
+  }
+}
+
 #' @title Rose Diagram
 #'
 #' @description Plots a rose diagram (rose of directions), the analogue of a
@@ -514,6 +525,10 @@ add_end <- function(x, end) {
 #' the circle.
 #' @param stack logical. Groups and stacks the dots if `TRUE`. Default is `FALSE`.
 #' @param dot_cex,dot_pch,dot_col Plotting arguments for circular dot plot
+#' @param grid logical. Whether to add a grid. Default is `FALSE`.
+#' @param grid.lines,grid.circles numeric. Adds a sequence of straight grid
+#' lines and circles based on angles and radii, respectively. Ignored when
+#' `grid=FALSE`
 #' @param add logical.
 #' @param ... Additional arguments passed to [spatstat.explore::rose()].
 #'
@@ -538,7 +553,7 @@ add_end <- function(x, end) {
 #'
 #' @examples
 #' x <- rvm(100, mean = 90, k = 5)
-#' rose(x, axial = FALSE, border = TRUE)
+#' rose(x, axial = FALSE, border = TRUE, grid = TRUE)
 #'
 #' data("san_andreas") #'
 #' rose(san_andreas$azi, main = "equal area")
@@ -559,6 +574,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  at = seq(0, 360 - 45, 45), cborder = TRUE, labels = TRUE,
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
                  dot_col = "slategrey", stack = FALSE, jitter_factor = 0,
+                 grid = FALSE, grid.lines = seq(0, 135, 45), grid.circles = seq(.2, 1, .2),
                  add = FALSE, ...) {
   if (!add) {
     if (missing(main) || is.null(main)) {
@@ -567,12 +583,16 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
+  if(grid){
+    rose_grid(angles = grid.lines, radii = grid.circles)
+  }
+
   if (axial) {
     x <- x %% 180
-    x[x >= 180] <- 180 - 2 * .Machine$double.eps
+    # x[x >= 180] <- 180 - 2 * .Machine$double.eps
   } else {
     x <- x %% 360
-    x[x >= 360] <- 360 - 4 * .Machine$double.eps
+    # x[x >= 360] <- 360 - 4 * .Machine$double.eps
   }
 
   freqs <- rose_freq(
@@ -678,6 +698,7 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' Either 95% confidence interval (`"CI"`, the default), Fishers confidence interval (`"fisher"`), the circular
 #' standard deviation (`"sd"`), the Quasi interquartile range on the circle
 #' (`"IQR"`), or the sampke median deviation (`"mdev"`). `NULL` if no fan should be drawn.
+#' @param f factor applied on spread. `1` by default.
 #' @param avg.col color for the average line
 #' @param avg.lty line type of the average line
 #' @param avg.lwd  line width of the average line
@@ -703,6 +724,7 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, muci = FALSE)
 #' rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "sample_median", spread = "mdev")
 rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median", "sample_median"), spread = c("CI", "fisher", "sd", "IQR", "mdev"),
+                       f = 1,
                        avg.col = "#85112AFF", avg.lty = 2, avg.lwd = 1.5,
                        spread.col = ggplot2::alpha("#85112AFF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL, add = TRUE, ...) {
   avg <- match.arg(avg)
@@ -725,7 +747,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
       IQR = circular_IQR(x, weights, axial),
       mdev = circular_sample_median_deviation(x, axial)
     )
-    rose_fan(mu, ci,
+    rose_fan(mu, f * ci,
       radius = 1.1, axial = axial, col = spread.col,
       border = spread.border, lty = spread.lty, lwd = spread.lwd,
       add = add, ...
@@ -925,9 +947,10 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
 #' @param n the number of equally spaced points at which the density is to be estimated.
-#' @param norm_density logical. Normalize the density?
+#' @param norm.density logical. Normalize the density?
 #' @param scale radius of plotted circle. Default is `1.1`.
 #' @param shrink parameter that controls the size of the plotted function. Default is 1.
+#' @param grid logical. Whether a grid should be added.
 #' @param ... Further graphical parameters may also be supplied as arguments.
 #' @param add logical. Add to existing plot? (`TRUE` by default).
 #' @inheritParams circular_plot
@@ -938,12 +961,12 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'
 #' @examples
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-#' plot_density(san_andreas$azi, kappa = 10, col = "seagreen", shrink = 1.5)
-#' plot_density(san_andreas$azi, kappa = 10, col = "seagreen", add = FALSE, scale = .6)
-plot_density <- function(x, kappa, axial = TRUE, n = 512, norm_density = TRUE, ...,
+#' plot_density(san_andreas$azi, kappa = 100, col = "seagreen", shrink = 1.5, norm.density = FALSE)
+#' plot_density(san_andreas$azi, kappa = 100, col = "seagreen", add = FALSE, scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE)
+plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, ...,
                          scale = 1.1, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
-                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
+                         at = seq(0, 360 - 45, 45), cborder = TRUE, grid = FALSE) {
   if (!add) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
@@ -951,10 +974,16 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm_density = TRUE, .
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
+  if(grid){
+    rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
+  }
 
   f <- as.numeric(axial) + 1
   d <- circular_density(x, kappa = kappa, n = n, axial = axial)
-  if (norm_density) d / max(d)
+  if (norm.density) {
+    d <- d / max(d)
+    # shrink = 1/scale
+  }
   circular_lines(seq(0, 360, length = f * n), rep(d, f), axial = FALSE, n, offset = scale, shrink = shrink, ...)
   invisible(d)
 }

@@ -30,8 +30,8 @@ frame. Variable must be a column in \code{x}.}
 }
 \description{
 Filter smoothed stress field containing a range of search radii or kernel
-half widths to find smallest wavelength (R) with the least circular sd. or
-dispersion for each coordinate, respectively.
+half widths to find shortest wavelength (R) with the least circular sd. or
+dispersion (or any statistic) for each coordinate, respectively.
 }
 \examples{
 data("san_andreas")

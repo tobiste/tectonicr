@@ -9,7 +9,7 @@ plot_density(
   kappa,
   axial = TRUE,
   n = 512,
-  norm_density = TRUE,
+  norm.density = FALSE,
   ...,
   scale = 1.1,
   shrink = 1,
@@ -17,7 +17,8 @@ plot_density(
   main = NULL,
   labels = TRUE,
   at = seq(0, 360 - 45, 45),
-  cborder = TRUE
+  cborder = TRUE,
+  grid = FALSE
 )
 }
 \arguments{
@@ -31,7 +32,7 @@ or biaxial (\code{TRUE}, the default).}
 
 \item{n}{the number of equally spaced points at which the density is to be estimated.}
 
-\item{norm_density}{logical. Normalize the density?}
+\item{norm.density}{logical. Normalize the density?}
 
 \item{...}{Further graphical parameters may also be supplied as arguments.}
 
@@ -50,6 +51,8 @@ next to the tick marks, or a vector of labels for the tick marks.}
 Set \code{at=numeric(0)} to suppress tick marks.}
 
 \item{cborder}{logical. Border of rose plot.}
+
+\item{grid}{logical. Whether a grid should be added.}
 }
 \value{
 plot or calculated densities as numeric vector
@@ -59,8 +62,8 @@ Plot the multiples of a von Mises density distribution
 }
 \examples{
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-plot_density(san_andreas$azi, kappa = 10, col = "seagreen", shrink = 1.5)
-plot_density(san_andreas$azi, kappa = 10, col = "seagreen", add = FALSE, scale = .6)
+plot_density(san_andreas$azi, kappa = 100, col = "seagreen", shrink = 1.5, norm.density = FALSE)
+plot_density(san_andreas$azi, kappa = 100, col = "seagreen", add = FALSE, scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE)
 }
 \seealso{
 \code{\link[=dvm]{dvm()}}
