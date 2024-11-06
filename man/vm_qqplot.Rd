@@ -14,6 +14,7 @@ vm_qqplot(
   ylab = "Empirical quantile function",
   main = "von Mises Q-Q Plot",
   col = "#B63679FF",
+  add_line = TRUE,
   ...
 )
 }
@@ -33,6 +34,8 @@ If \code{NULL}, it will be estimated from \code{x}.}
 \item{xlab, ylab, main}{plot labels.}
 
 \item{col}{color for the dots.}
+
+\item{add_line}{logical. Whether to connect the points by straight lines?}
 
 \item{...}{graphical parameters}
 }

@@ -133,12 +133,13 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #'
 #' Uniformly distributed orientations should yield a straight line through the
 #' origin. Systematic departures from linearity will indicate preferred
-#' orientation in some manner.
+#' orientation.
 #'
 #' @param x numeric. Angles in degrees
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' @param xlab,ylab,main plot labels.
 #' @param col color for the dots.
+#' @param add_line logical. Whether to connect the points by straight lines?
 #' @param ... graphical parameters
 #'
 #' @return plot
@@ -163,6 +164,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 circular_qqplot <- function(x, axial = TRUE,
                             xlab = paste("i/(n+1)"),
                             ylab = NULL, main = "Circular Quantile-Quantile Plot",
+                            add_line = TRUE,
                             col = "#B63679FF", ...) {
   if (axial) {
     f <- 2
@@ -178,15 +180,13 @@ circular_qqplot <- function(x, axial = TRUE,
   n <- length(x)
   xin <- seq_along(x) / (n + 1)
 
-  graphics::plot(xin, x,
-    type = "p", xlim = c(0, 1), ylim = c(0, 1), asp = 1,
-    xlab = xlab, ylab = ylab, main = main,
-    sub = bquote("N" == .(n)),
-    col = col,
-    ...
-  )
+  graphics::plot(1, type="n", xlim = c(0, 1), ylim = c(0, 1), asp = 1,
+                 xlab = xlab, ylab = ylab)
   graphics::abline(a = 0, b = 1, col = "slategrey")
-  graphics::lines(xin, x)
+  if(add_line){graphics::lines(xin, x)}
+  graphics::points(xin, x, col = col, ...)
+  graphics::title(main = main, sub = bquote("N" == .(n)))
+
   invisible(xin)
   # graphics::points(xin, x, col = "slategrey")
 }
@@ -205,6 +205,7 @@ circular_qqplot <- function(x, axial = TRUE,
 #' @param kappa numeric. Concentration parameter of the von Mises distribution.
 #' If `NULL`, it will be estimated from `x`.
 #' @param col color for the dots.
+#' @param add_line logical. Whether to connect the points by straight lines?
 #' @param ... graphical parameters
 #'
 #' @return plot
@@ -225,7 +226,7 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
                       xlab = "von Mises quantile function",
                       ylab = "Empirical quantile function",
                       main = "von Mises Q-Q Plot",
-                      col = "#B63679FF", ...) {
+                      col = "#B63679FF", add_line = TRUE, ...) {
   if (axial) {
     f <- 2
   } else {
@@ -270,14 +271,13 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
   # graphics::points(sin_q, z_sort, pch=20)
 
   tqf <- qvm(edf(xf), mean * f, kappa, from = 0)
-  #
-  graphics::plot(tqf / f, xf / f,
-    xlim = c(0, 360 / f), ylim = c(0, 360 / f),
-    asp = 1, xlab = xlab, ylab = ylab, col = col, main = main,
-    sub = bquote("N" == .(n)), ...
-  )
+
+  graphics::plot(1, type="n", xlab=xlab, ylab=ylab, xlim = c(0, 360 / f), ylim = c(0, 360 / f))
   graphics::abline(a = 0, b = 1, col = "slategrey")
-  mtext(caption, cex = .75)
+  if(add_line){graphics::lines(tqf / f, xf / f)}
+  graphics::points(tqf / f, xf / f, col = col, ...)
+  graphics::mtext(caption, cex = .75)
+  graphics::title(main = main, sub = bquote("N" == .(n)))
   invisible(tqf)
 }
 
