@@ -119,6 +119,19 @@ rose_line(135, radius = 1.1, col = "#FB8861FF")
 
 The green line shows the predicted direction.
 
+## QQ Plot
+
+The (linearised) circular QQ-Plot (`circular_qqplot()`) can be used to visually 
+assess whether our stress sample is drawn from an uniform distribution or has 
+a preferred orientation.
+
+```{r qqplot, echo=TRUE}
+circular_qqplot(san_andreas.por$azi.PoR)
+```
+
+Our data clearly deviates from the diagonal line, indicating the data is not randomly distributed and has a strong preferred orientation around the 50% quantile.
+
+
 ## Statistical tests
 ### Test for random distribution
 Uniformly distributed orientation can be described by the 
