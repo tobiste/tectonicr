@@ -422,7 +422,7 @@ stress2grid_stats <- function(x,
   R_seq <- seq_along(R_range)
   nR <- length(R_seq)
 
-  cols <- c("lon", "lat", "n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", "95%CI", "skewness", "kurtosis", "meanR", "R", "md", "N")
+  cols <- c("lon", "lat", "n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", 'mode', "95%CI", "skewness", "kurtosis", "meanR", "R", "md", "N")
   SH <- matrix(nrow = 0, ncol = length(cols), dimnames = list(NULL, cols))
 
   for (i in seq_along(G[, 1])) {
@@ -440,10 +440,10 @@ stress2grid_stats <- function(x,
 
         if (N_in_R < min_data) {
           # not enough data within search radius
-          stats <- rep(NA, 12)
+          stats <- rep(NA, length(cols)-5)
           md <- NA
         } else if (N_in_R == 1) {
-          stats <- rep(NA, 12)
+          stats <- rep(NA, length(cols)-5)
           stats[2] <- datas[ids_R, 3]
           md <- distij[ids_R]
         } else {

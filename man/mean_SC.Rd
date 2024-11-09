@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{mean_SC}
 \alias{mean_SC}
-\title{Mean cosine and sine}
+\title{Mean Cosine and Sine}
 \usage{
 mean_SC(x, w = NULL, na.rm = TRUE)
 }
@@ -17,7 +17,7 @@ mean_SC(x, w = NULL, na.rm = TRUE)
 named two element vector
 }
 \description{
-Mean cosine and sine
+Mean Cosine and Sine
 }
 \examples{
 \dontrun{

@@ -4,7 +4,7 @@
 \alias{sample_median}
 \alias{circular_sample_median}
 \alias{circular_sample_median_deviation}
-\title{Circular Sample Median and deviation}
+\title{Circular Sample Median and Deviation}
 \usage{
 circular_sample_median(x, axial = TRUE, na.rm = TRUE)
 

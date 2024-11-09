@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{circular_dispersion_boot}
 \alias{circular_dispersion_boot}
-\title{Bootstrapped estimates for circular dispersion}
+\title{Bootstrapped Estimates for Circular Dispersion}
 \usage{
 circular_dispersion_boot(
   x,

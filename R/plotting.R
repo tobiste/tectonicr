@@ -770,7 +770,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
   invisible(c(mu, ci))
 }
 
-# Dot plot ---------------------------------------------------------------------
+# Dot Plot ---------------------------------------------------------------------
 
 
 #' Add Points to a Circular Plot
@@ -946,7 +946,7 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 }
 
 
-#' Circular density plot
+#' Circular Density Plot
 #'
 #' Plot the multiples of a von Mises density distribution
 #'
@@ -1006,7 +1006,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
 
 
 
-#' Plotting stress analysis results
+#' Plotting Stress Analysis Results
 #'
 #' Creates a set of plots including
 #' the azimuth as a function of the distance to the plate boundary,
@@ -1232,7 +1232,7 @@ quick_plot <- function(
   grDevices::palette("default")
 }
 
-#' Plot data in PoR map
+#' Plot Data in PoR Map
 #'
 #' @param x,pb `sf` objects of the data points and the plate
 #' boundary geometries in the geographical coordinate system

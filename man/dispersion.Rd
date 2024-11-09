@@ -6,7 +6,7 @@
 \alias{circular_dispersion}
 \alias{circular_distance_alt}
 \alias{circular_dispersion_alt}
-\title{Circular distance and dispersion}
+\title{Circular Distance and Dispersion}
 \usage{
 circular_distance(x, y, axial = TRUE, na.rm = TRUE)
 
