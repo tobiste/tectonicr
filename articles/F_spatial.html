@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2024-11-09</h4>
+            <h4 data-toc-skip class="date">2024-11-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/F_spatial.Rmd" class="external-link"><code>vignettes/F_spatial.Rmd</code></a></small>
       <div class="d-none name"><code>F_spatial.Rmd</code></div>
@@ -130,7 +130,7 @@ each cell:</p>
 <p>One can also specify a range of cell-sizes for a wavelength
 analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">spatial_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid_stats</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">spatial_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid_stats</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span>, kappa <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <p>The mean azimuth for each grid cell:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">por</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -155,8 +155,8 @@ compact_grid2().</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spatial_stats_comp</span> <span class="op">&lt;-</span> <span class="va">spatial_stats</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/compact-grid.html">compact_grid2</a></span><span class="op">(</span><span class="va">var</span><span class="op">)</span></span></code></pre></div>
-<p>Interpolated stress field color-coded by the skewness within each
-search window:</p>
+<p>Interpolated median stress field color-coded by the skewness within
+each search window:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">spatial_stats_comp</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">plate_boundary</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -169,6 +169,20 @@ search window:</p>
 <span>    <span class="st">"Skewness"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="F_spatial_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p>Interpolated mode of the stress field color-coded by the absolute
+kurtosis within each search window:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">spatial_stats_comp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">plate_boundary</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trajectories</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">san_andreas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, angle <span class="op">=</span> <span class="fu"><a href="../reference/angle-conversion.html">deg2rad</a></span><span class="op">(</span><span class="fl">90</span> <span class="op">-</span> <span class="va">azi</span><span class="op">)</span><span class="op">)</span>, radius <span class="op">=</span> <span class="fl">.5</span>, color <span class="op">=</span> <span class="st">"grey30"</span>, position <span class="op">=</span> <span class="st">"center_spoke"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_spoke.html" class="external-link">geom_spoke</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, angle <span class="op">=</span> <span class="fu"><a href="../reference/angle-conversion.html">deg2rad</a></span><span class="op">(</span><span class="fl">90</span> <span class="op">-</span> <span class="va">mode</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="va">`95%CI`</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">kurtosis</span><span class="op">)</span><span class="op">)</span>, radius <span class="op">=</span> <span class="fl">1</span>, position <span class="op">=</span> <span class="st">"center_spoke"</span>, lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"95% CI"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"|Kurtosis|"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="F_spatial_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="heat-maps-for-the-spatial-statistics">Heat maps for the spatial statistics<a class="anchor" aria-label="anchor" href="#heat-maps-for-the-spatial-statistics"></a>
@@ -183,7 +197,7 @@ spatial patterns of any desired statistical estimate (from
 <div class="section level4">
 <h4 id="spatial-variance">Spatial variance<a class="anchor" aria-label="anchor" href="#spatial-variance"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">spatial_stats_comp</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggforce</span><span class="fu">::</span><span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_delvor.html" class="external-link">geom_voronoi_tile</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, fill <span class="op">=</span> <span class="va">var</span><span class="op">)</span>,</span>
@@ -207,7 +221,7 @@ distribution. It can be either counterclockwise or clockwise skewed,
 hence values can range between negative and positive numbers,
 respectively. This can be best visualized in a diverging
 color-sequence:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">spatial_stats_comp</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggforce</span><span class="fu">::</span><span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_delvor.html" class="external-link">geom_voronoi_tile</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, fill <span class="op">=</span> <span class="va">skewness</span><span class="op">)</span>,</span>
@@ -229,7 +243,7 @@ color-sequence:</p>
 </h4>
 <p>Kurtosis is a measure of the “tailedness” of the probability
 distribution. Here, colors are in a square-root scale:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">spatial_stats_comp</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggforce</span><span class="fu">::</span><span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_delvor.html" class="external-link">geom_voronoi_tile</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">kurtosis</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -260,7 +274,7 @@ the smallest kernel size containing the the least dispersion
 <p>It is recommended to calculate the kernel dispersion on PoR
 transformed data to avoid angle distortions due to projections.</p>
 </blockquote>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">san_andreas_por</span> <span class="op">&lt;-</span> <span class="va">san_andreas</span></span>
 <span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">azi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">$</span><span class="va">azi.PoR</span> <span class="co"># transform to PoR azimuth</span></span>
 <span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fl">135</span> <span class="co"># test direction</span></span>

@@ -88,6 +88,7 @@ mean/median and standard deviation/IQR of stress data</p>
 <span>  mp <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  dist_threshold <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">1000</span>, <span class="fl">50</span><span class="op">)</span>,</span>
+<span>  kappa <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -184,6 +185,11 @@ i.e. the search radius (in km). Default is <code>seq(50, 1000, 50)</code></p></d
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>(optional) arguments to <code><a href="dist_greatcircle.html">dist_greatcircle()</a></code></p></dd>
+
+
+<dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
+<dd><p>numeric. von Mises distribution concentration parameter used
+for the circular mode.</p></dd>
 
 </dl></div>
     <div class="section level2">
