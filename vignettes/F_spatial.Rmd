@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette demonstrates some additional spatialy interpolated statisrtics of a stress field.
+This vignette demonstrates some additional spatially interpolated statistics of 
+a stress field.
 
 ```{r setup, message=FALSE}
 library(tectonicr)
@@ -37,7 +38,10 @@ por <- cpm_models |>
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 ```
 
-`circular_summary()` yields several statistics estimates for a given vector of angles, such as mean, median, standard deviation, quasi-quantiles, 95% confidence angle, as wells as the moments (2nd = variance, 3rd = skewness, 4th = kurtosis): 
+`circular_summary()` yields several statistics estimates for a given vector of 
+angles, such as mean, median, standard deviation, quasi-quantiles, mode, 95% 
+confidence angle, as wells as the moments (2nd = variance, 3rd = skewness, 
+4th = kurtosis): 
 
 ```{r}
 circular_summary(san_andreas$azi, w = 1 / san_andreas$unc)
@@ -45,7 +49,10 @@ circular_summary(san_andreas$azi, w = 1 / san_andreas$unc)
 
 
 ## Spatial analysis
-Spatial analysis and interpolation of stress data using `stress2grid_stats()` or `PoR_stress2grid_stats()` (analysis in the PoR coordinate system) uses a moving window with a user defined cell-size (im km) and calculates the summary statistics within each cell:
+Spatial analysis and interpolation of stress data using `stress2grid_stats()` 
+or `PoR_stress2grid_stats()` (analysis in the PoR coordinate system) uses a 
+moving window with a user defined cell-size (im km) and calculates the summary 
+statistics within each cell:
 
 
 ```{r interpolation,message=FALSE,warning=FALSE}
@@ -79,14 +86,16 @@ ggplot(spatial_stats) +
   facet_wrap(~R)
 ```
 
-To filter the range of search windows to only keep the shortest wavelength (R) with the least variance for each grid cell, use compact_grid2().
+To filter the range of search windows to only keep the shortest wavelength (R) 
+with the least variance for each grid cell, use compact_grid2().
 
 ```{r}
 spatial_stats_comp <- spatial_stats |>
   compact_grid2(var)
 ``` 
 
-Interpolated median stress field color-coded by the skewness within each search window:
+Interpolated median stress field color-coded by the skewness within each search 
+window:
 ```{r}
 ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
@@ -100,7 +109,8 @@ ggplot(spatial_stats_comp) +
   )
 ```
 
-Interpolated mode of the stress field color-coded by the absolute kurtosis within each search window:
+Interpolated mode of the stress field color-coded by the absolute kurtosis 
+within each search window:
 
 ```{r}
 ggplot(spatial_stats_comp) +
@@ -117,7 +127,9 @@ ggplot(spatial_stats_comp) +
 
 ## Heat maps for the spatial statistics
 
-`PoR_stress2grid_stats()` and `stress2grid_stats()` allow to create heatmaps showing the spatial patterns of any desired statistical estimate (from `circular_summary()`). Some examples:
+`PoR_stress2grid_stats()` and `stress2grid_stats()` allow to create heatmaps 
+showing the spatial patterns of any desired statistical estimate (from 
+`circular_summary()`). Some examples:
 
 ### Spatial central moments
 
@@ -139,7 +151,10 @@ ggplot(spatial_stats_comp) +
 ```
 
 #### Skewness:
-Skewness is a measure for the asymmetry of the probability distribution. It can be either counterclockwise or clockwise skewed, hence values can range between negative and positive numbers, respectively. This can be best visualized in a diverging color-sequence:
+Skewness is a measure for the asymmetry of the probability distribution. It can 
+be either counterclockwise or clockwise skewed, hence values can range between 
+negative and positive numbers, respectively. This can be best visualized in a 
+diverging color-sequence:
 
 ```{r skew, warning=FALSE, message=FALSE}
 ggplot(spatial_stats_comp) +
@@ -151,7 +166,7 @@ ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(
-    aes(lon, lat, angle = deg2rad(90 - mean), alpha = var),
+    aes(lon, lat, angle = deg2rad(90 - median), alpha = var),
     radius = .5, position = "center_spoke", lwd = .2, colour = "white"
   ) +
   scale_alpha("variance", range = c(1, 0)) +
@@ -171,7 +186,7 @@ ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
   geom_spoke(
-    aes(lon, lat, angle = deg2rad(90 - mean), alpha = var),
+    aes(lon, lat, angle = deg2rad(90 - mode), alpha = var),
     radius = .5, position = "center_spoke", lwd = .2, colour = "white"
   ) +
   scale_alpha("variance", range = c(1, 0)) +
