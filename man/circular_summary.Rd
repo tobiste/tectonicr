@@ -4,13 +4,16 @@
 \alias{circular_summary}
 \title{Circular Summary Statistics}
 \usage{
-circular_summary(x, w = NULL, axial = TRUE, na.rm = FALSE)
+circular_summary(x, w = NULL, kappa = 2, axial = TRUE, na.rm = FALSE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees.}
 
 \item{w}{(optional) Weights. A vector of positive numbers and of the same
 length as \code{x}.}
+
+\item{kappa}{numeric. von Mises distribution concentration parameter used
+for the circular mode.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}

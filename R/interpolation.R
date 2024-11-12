@@ -91,6 +91,8 @@ dist_weight_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
 #' Default is \code{TRUE}. If `FALSE`, overwrites `qp`.
 #' @param R_range numeric value or vector specifying the kernel half-width(s),
 #' i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}
+#' @param kappa  numeric. von Mises distribution concentration parameter used
+#' for the circular mode.
 #' @param ... (optional) arguments to [dist_greatcircle()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
@@ -330,6 +332,7 @@ stress2grid_stats <- function(x,
                               mp = 1,
                               dist_threshold = 0.1,
                               R_range = seq(50, 1000, 50),
+                              kappa = 2,
                               ...) {
   stopifnot(
     inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
@@ -422,7 +425,7 @@ stress2grid_stats <- function(x,
   R_seq <- seq_along(R_range)
   nR <- length(R_seq)
 
-  cols <- c("lon", "lat", "n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", 'mode', "95%CI", "skewness", "kurtosis", "meanR", "R", "md", "N")
+  cols <- c("lon", "lat", "n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", "mode", "95%CI", "skewness", "kurtosis", "meanR", "R", "md", "N")
   SH <- matrix(nrow = 0, ncol = length(cols), dimnames = list(NULL, cols))
 
   for (i in seq_along(G[, 1])) {
@@ -440,10 +443,10 @@ stress2grid_stats <- function(x,
 
         if (N_in_R < min_data) {
           # not enough data within search radius
-          stats <- rep(NA, length(cols)-5)
+          stats <- rep(NA, length(cols) - 5)
           md <- NA
         } else if (N_in_R == 1) {
-          stats <- rep(NA, length(cols)-5)
+          stats <- rep(NA, length(cols) - 5)
           stats[2] <- datas[ids_R, 3]
           md <- distij[ids_R]
         } else {
@@ -455,7 +458,7 @@ stress2grid_stats <- function(x,
           w <- w_distance * datas[ids_R, 5] * datas[ids_R, 4]
 
           # mean value
-          stats <- circular_summary(x = datas[ids_R, 3], w = w, axial = TRUE, na.rm = TRUE) |> unname()
+          stats <- circular_summary(x = datas[ids_R, 3], w = w, axial = TRUE, kappa = kappa, na.rm = TRUE) |> unname()
         }
         SH_i[k, ] <- c(
           G[i, 1], # lon
@@ -641,7 +644,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
 
   # binding global variables
   azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric() # pre allocating:
-  `25%` <-  `75%` <- `25%.PoR` <- `75%.PoR` <- median.PoR <- mean.PoR <- `quasi-median` <- `quasi-median.PoR` <- `median` <- NULL
+  `25%` <- `75%` <- `25%.PoR` <- `75%.PoR` <- median.PoR <- mean.PoR <- `quasi-median` <- `quasi-median.PoR` <- `median` <- NULL
 
   x_PoR$lat <- x_PoR_coords$lat
   x_PoR$lon <- x_PoR_coords$lon

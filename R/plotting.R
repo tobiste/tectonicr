@@ -180,10 +180,14 @@ circular_qqplot <- function(x, axial = TRUE,
   n <- length(x)
   xin <- seq_along(x) / (n + 1)
 
-  graphics::plot(1, type="n", xlim = c(0, 1), ylim = c(0, 1), asp = 1,
-                 xlab = xlab, ylab = ylab)
+  graphics::plot(1,
+    type = "n", xlim = c(0, 1), ylim = c(0, 1), asp = 1,
+    xlab = xlab, ylab = ylab
+  )
   graphics::abline(a = 0, b = 1, col = "slategrey")
-  if(add_line){graphics::lines(xin, x)}
+  if (add_line) {
+    graphics::lines(xin, x)
+  }
   graphics::points(xin, x, col = col, ...)
   graphics::title(main = main, sub = bquote("N" == .(n)))
 
@@ -272,9 +276,11 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
 
   tqf <- qvm(edf(xf), mean * f, kappa, from = 0)
 
-  graphics::plot(1, type="n", xlab=xlab, ylab=ylab, xlim = c(0, 360 / f), ylim = c(0, 360 / f))
+  graphics::plot(1, type = "n", xlab = xlab, ylab = ylab, xlim = c(0, 360 / f), ylim = c(0, 360 / f))
   graphics::abline(a = 0, b = 1, col = "slategrey")
-  if(add_line){graphics::lines(tqf / f, xf / f)}
+  if (add_line) {
+    graphics::lines(tqf / f, xf / f)
+  }
   graphics::points(tqf / f, xf / f, col = col, ...)
   graphics::mtext(caption, cex = .75)
   graphics::title(main = main, sub = bquote("N" == .(n)))

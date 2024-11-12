@@ -49,6 +49,7 @@ by the inverse of the uncertainties:
 circular_mean(san_andreas$azi, 1 / san_andreas$unc)
 circular_median(san_andreas$azi, 1 / san_andreas$unc)
 ```
+
 The spread of directional data can be expressed by the standard deviation (for 
 the mean) or the quasi-interquartile range (for the median):
 ```{r weighted_spread, echo=TRUE}
@@ -78,6 +79,7 @@ circular_sd(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 circular_median(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 circular_IQR(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 ```
+
 The collected summary statistics can be quickly obtained by `circular_summary()`:
 ```{r summary_stats, echo=TRUE}
 circular_summary(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
@@ -140,6 +142,7 @@ distributed randomly can be tested with the **Rayleigh Test**:
 ```{r random, echo=TRUE}
 rayleigh_test(san_andreas.por$azi.PoR)
 ```
+
 Here, the test rejects the Null Hypothesis (`statistic > p.value`). 
 Thus the $\sigma_{SHmax}$ directions have a preferred orientation.
 
@@ -165,6 +168,7 @@ around a specified direction. It can be measured by:
 ```{r dispersion, echo=TRUE}
 circular_dispersion(san_andreas.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 ```
+
 The value of the dispersion ranges between 0 and 2.
 
 The standard error and the confidence interval of the calculated circular 

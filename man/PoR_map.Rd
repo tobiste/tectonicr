@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{PoR_map}
 \alias{PoR_map}
-\title{Plot data in PoR map}
+\title{Plot Data in PoR Map}
 \usage{
 PoR_map(
   x,
@@ -37,7 +37,7 @@ prediction, or according to the stress regime? Is ignored if \code{type=='none'}
 plot
 }
 \description{
-Plot data in PoR map
+Plot Data in PoR Map
 }
 \examples{
 data("nuvel1")

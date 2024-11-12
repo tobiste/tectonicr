@@ -1099,12 +1099,12 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' @examples
 #' x <- rvm(10, 0, 100) %% 180
 #' circular_mode(x, kappa = 2)
-circular_mode <- function(x, kappa, axial = TRUE, n = 512){
+circular_mode <- function(x, kappa, axial = TRUE, n = 512) {
   density <- circular_density(x, kappa = kappa, n = n, axial = axial)
 
   f <- as.numeric(axial) + 1
 
-  angles <- c(1:n)/n*360/f
+  angles <- c(1:n) / n * 360 / f
   angles[which.max(density)]
 }
 
@@ -1115,6 +1115,8 @@ circular_mode <- function(x, kappa, axial = TRUE, n = 512){
 #' 95% confidence angle, standardized skewness and kurtosis
 #'
 #' @inheritParams circular_mean
+#' @param kappa  numeric. von Mises distribution concentration parameter used
+#' for the circular mode.
 #'
 #' @return named vector
 #' @export
@@ -1128,7 +1130,7 @@ circular_mode <- function(x, kappa, axial = TRUE, n = 512){
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
-circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
+circular_summary <- function(x, w = NULL, kappa = 2, axial = TRUE, na.rm = FALSE) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
@@ -1150,12 +1152,12 @@ circular_summary <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
   x_CI <- confidence_interval_fisher(x, conf.level = 0.95, w = w, axial = axial, na.rm = F, quiet = TRUE)$conf.angle
   x_quant <- circular_quantiles(x, w, axial, F)
   x_median <- circular_sample_median(x, axial, F)
-  x_mode <- circular_mode(x, kappa = 2, axial = axial)
+  x_mode <- circular_mode(x, kappa = kappa, axial = axial)
   x_sk <- second_central_moment(x, w, axial, F)
   x_R <- mean_resultant_length(ax2dir(x), w = w, F)
 
   setNames(
     c(n, x_mean, x_sd, x_var, x_quant[1], x_quant[2], x_quant[3], x_median, x_mode, x_CI, x_sk$std_skewness, x_sk$std_kurtosis, x_R),
-    c("n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", 'mode', "95%CI", "skewness", "kurtosis", "R")
+    c("n", "mean", "sd", "var", "25%", "quasi-median", "75%", "median", "mode", "95%CI", "skewness", "kurtosis", "R")
   )
 }

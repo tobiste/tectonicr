@@ -57,7 +57,7 @@ head(spatial_stats_R)
 One can also specify a range of cell-sizes for a wavelength analysis:
 
 ```{r interpolation2,message=FALSE,warning=FALSE}
-spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
+spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100), kappa = 10)
 ```
 
 The mean azimuth for each grid cell:  
@@ -86,7 +86,7 @@ spatial_stats_comp <- spatial_stats |>
   compact_grid2(var)
 ``` 
 
-Interpolated stress field color-coded by the skewness within each search window:
+Interpolated median stress field color-coded by the skewness within each search window:
 ```{r}
 ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
@@ -100,6 +100,20 @@ ggplot(spatial_stats_comp) +
   )
 ```
 
+Interpolated mode of the stress field color-coded by the absolute kurtosis within each search window:
+
+```{r}
+ggplot(spatial_stats_comp) +
+  geom_sf(data = plate_boundary, color = "red") +
+  geom_sf(data = trajectories, lty = 2) +
+  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
+  geom_spoke(aes(lon, lat, angle = deg2rad(90 - mode), alpha = `95%CI`, color = abs(kurtosis)), radius = 1, position = "center_spoke", lwd = 1) +
+  coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
+  scale_alpha(name = "95% CI", range = c(1, .25)) +
+  scale_color_viridis_c(
+    "|Kurtosis|"
+  )
+```
 
 ## Heat maps for the spatial statistics
 

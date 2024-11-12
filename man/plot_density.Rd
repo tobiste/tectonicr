@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{plot_density}
 \alias{plot_density}
-\title{Circular density plot}
+\title{Circular Density Plot}
 \usage{
 plot_density(
   x,

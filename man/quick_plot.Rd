@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{quick_plot}
 \alias{quick_plot}
-\title{Plotting stress analysis results}
+\title{Plotting Stress Analysis Results}
 \usage{
 quick_plot(azi, distance, prd, unc = NULL, regime, width = 51)
 }
