@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.3.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,12 +109,12 @@ each cell:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spatial_stats_R</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid_stats</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spatial_stats_R</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Simple feature collection with 6 features and 24 fields</span></span>
+<span><span class="co">#&gt; Simple feature collection with 6 features and 25 fields</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -108.3822 ymin: 36.60408 xmax: -106.3458 ymax: 38.89699</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 25</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 26</span></span></span>
 <span><span class="co">#&gt;   lon.PoR lat.PoR mean.PoR    sd   var `25%.PoR` `quasi-median.PoR` `75%.PoR`</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    76.8   -<span style="color: #BB0000;">62.2</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
@@ -123,10 +123,10 @@ each cell:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    80.8   -<span style="color: #BB0000;">62.2</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    81.8   -<span style="color: #BB0000;">62.2</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    82.8   -<span style="color: #BB0000;">62.2</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 17 more variables: median.PoR &lt;dbl&gt;, mode &lt;dbl&gt;, `95%CI` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 18 more variables: median.PoR &lt;dbl&gt;, mode.PoR &lt;dbl&gt;, `95%CI` &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   skewness &lt;dbl&gt;, kurtosis &lt;dbl&gt;, meanR &lt;dbl&gt;, R &lt;dbl&gt;, N &lt;int&gt;, mdr &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   geometry &lt;POINT [°]&gt;, lat &lt;dbl&gt;, lon &lt;dbl&gt;, mean &lt;dbl&gt;, `25%` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `quasi-median` &lt;dbl&gt;, `75%` &lt;dbl&gt;, median &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `quasi-median` &lt;dbl&gt;, `75%` &lt;dbl&gt;, median &lt;dbl&gt;, mode &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>One can also specify a range of cell-sizes for a wavelength
 analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
