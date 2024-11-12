@@ -651,7 +651,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   x_PoR$azi <- PoR_shmax(x, PoR)
 
   int <- stress2grid_stats(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
-    dplyr::rename(mean.PoR = mean, `25%.PoR` = `25%`, `quasi-median.PoR` = `quasi-median`, `75%.PoR` = `75%`, median.PoR = median, lat.PoR = lat, lon.PoR = lon) |>
+    dplyr::rename(mean.PoR = mean, `25%.PoR` = `25%`, `quasi-median.PoR` = `quasi-median`, `75%.PoR` = `75%`, median.PoR = median, mode.PoR = mode, lat.PoR = lat, lon.PoR = lon) |>
     PoR_to_geographical_sf(PoR)
   int_coords <- sf::st_coordinates(int) |>
     dplyr::as_tibble() |>
@@ -663,6 +663,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   int$`quasi-median` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `quasi-median.PoR`), PoR)
   int$`75%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `75%.PoR`), PoR)
   int$median <- PoR2Geo_azimuth(int |> rename(azi.PoR = median.PoR), PoR)
+  int$mode <- PoR2Geo_azimuth(int |> rename(azi.PoR = mode.PoR), PoR)
   return(int)
 }
 
