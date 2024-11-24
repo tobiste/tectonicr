@@ -25,11 +25,11 @@ data("nuvel1")
 por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 data("san_andreas")
 
-coordinates from sf object
+# coordinates from sf object
 san_andreas.por_sf <- PoR_coordinates(san_andreas, por)
 head(san_andreas.por_sf)
 
-# cooridnates from data.frame
+# coordinates from data.frame
 san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), por)
 head(san_andreas.por_df)
 }

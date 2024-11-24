@@ -644,7 +644,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
 
   # binding global variables
   azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric() # pre allocating:
-  `25%` <- `75%` <- `25%.PoR` <- `75%.PoR` <- median.PoR <- mean.PoR <- `quasi-median` <- `quasi-median.PoR` <- `median` <- NULL
+  `25%` <- `75%` <- `25%.PoR` <- `75%.PoR` <- median.PoR <- mean.PoR <- mode.PoR <- `quasi-median` <- `quasi-median.PoR` <- `median` <- NULL
 
   x_PoR$lat <- x_PoR_coords$lat
   x_PoR$lon <- x_PoR_coords$lon
