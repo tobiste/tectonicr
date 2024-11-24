@@ -1,11 +1,14 @@
 # tectonicr (development version)
 
+# tectonicr 0.4.3.92
+* PoR_distance(): function to calculate distance to PoR
+
 # tectonicr 0.4.3
 
 * performance upgrade on spatial interpolation
 * spatial interpolation of more summary statistics
 * new vignette on spatial analysis
-* optional gridlines added to rose
+* optional grid lines added to rose
 
 # tectonicr 0.4.0.9001  _2024-09-12_
 
