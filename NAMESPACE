@@ -3,6 +3,7 @@
 export(PoR2Geo_azimuth)
 export(PoR_coordinates)
 export(PoR_crs)
+export(PoR_distance)
 export(PoR_map)
 export(PoR_shmax)
 export(PoR_stress2grid)

@@ -21,6 +21,13 @@ rotations uncertainty and distance of the data point to the pole.
 }
 \examples{
 prd_err(67, 1)
+
+# San Andreas example:
+data("nuvel1")
+por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+data("san_andreas")
+d <- PoR_distance(san_andreas, por)
+prd_err(d)
 }
 \references{
 Ramsay, J.A. Folding and fracturing of rocks. McGraw-Hill, New York, 1967.

@@ -680,6 +680,13 @@ cdist2angle <- function(x, axial = TRUE) {
 #'
 #' @examples
 #' prd_err(67, 1)
+#'
+#' # San Andreas example:
+#' data("nuvel1")
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' data("san_andreas")
+#' d <- PoR_distance(san_andreas, por)
+#' prd_err(d)
 prd_err <- function(dist_PoR, sigma_PoR = 1) {
   x <- 2 * sind(sigma_PoR)^2
   y <- 1 + cosd(dist_PoR)

@@ -282,7 +282,7 @@ PoR_to_geographical <- function(x, PoR) {
 }
 
 
-#' PoR coordinates
+#' Coordinates of the Pole of Rotation Reference System
 #'
 #' Retrieve the PoR equivalent coordinates of an object
 #'
@@ -291,8 +291,8 @@ PoR_to_geographical <- function(x, PoR) {
 #' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #'
-#' @return \code{data.frame} with the PoR coordinates
-#' (\code{lat.PoR}, \code{lon.PoR})
+#' @return [PoR_coordinates()] returns \code{data.frame} with the PoR coordinates
+#' (\code{lat.PoR}, \code{lon.PoR}).
 #'
 #' @export
 #'
@@ -300,8 +300,12 @@ PoR_to_geographical <- function(x, PoR) {
 #' data("nuvel1")
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' data("san_andreas")
+#'
+#' coordinates from sf object
 #' san_andreas.por_sf <- PoR_coordinates(san_andreas, por)
 #' head(san_andreas.por_sf)
+#'
+#' # cooridnates from data.frame
 #' san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), por)
 #' head(san_andreas.por_df)
 PoR_coordinates <- function(x, PoR) {
@@ -316,6 +320,46 @@ PoR_coordinates <- function(x, PoR) {
       dplyr::rename("lon.PoR" = "X", "lat.PoR" = "Y")
   }
 }
+
+#' Distance to Pole of Rotation
+#'
+#' Retrieve the (angular) distance to the PoR (Euler pole).
+#'
+#' @inheritParams PoR_coordinates
+#' @param FUN function to calculate the great-circle distance.
+#' [orthodrome()], [haversine()] (the default), or [vincenty()].
+#' @return numeric vector
+#'
+#'
+#' @export
+#' @examples
+#' data("nuvel1")
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' data("san_andreas")
+#'
+#' # distance form sf object
+#' PoR_distance(san_andreas, por)
+#'
+#' # distance form data.frame
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por)
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN=orthodrome)
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN=vincenty)
+PoR_distance <- function(x, PoR, FUN = orthodrome) {
+  if(inherits(x, 'sf')) {
+    x_crds <- sf::st_coordinates(x)
+    lat <- x_crds[, 2]
+    lon = x_crds[, 1]
+  } else {
+    lat = x$lat
+    lon = x$lon
+  }
+  do.call(FUN, list(lat1=deg2rad(lat), lon1=deg2rad(lon), lat2=deg2rad(PoR$lat), lon2=deg2rad(PoR$lon))) |>
+    rad2deg()
+}
+# PoR_distance <- function(x, PoR) {
+#   res <- PoR_coordinates(x, PoR)
+#   90 - abs(res$lat.PoR)
+# }
 
 
 #' Conversion between PoR to geographical coordinate reference system of raster

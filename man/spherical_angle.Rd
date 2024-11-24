@@ -35,8 +35,8 @@ with equal major and minor axes}
 }
 }
 \examples{
-berlin <- c(52.52, 13.41)
-calgary <- c(51.04, -114.072)
+berlin <- c(52.52, 13.41) |> deg2rad()
+calgary <- c(51.04, -114.072) |> deg2rad()
 orthodrome(berlin[1], berlin[2], calgary[1], calgary[2])
 haversine(berlin[1], berlin[2], calgary[1], calgary[2])
 vincenty(berlin[1], berlin[2], calgary[1], calgary[2])

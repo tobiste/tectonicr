@@ -2,7 +2,7 @@
 % Please edit documentation in R/coordinates.R
 \name{PoR_coordinates}
 \alias{PoR_coordinates}
-\title{PoR coordinates}
+\title{Coordinates of the Pole of Rotation Reference System}
 \usage{
 PoR_coordinates(x, PoR)
 }
@@ -14,8 +14,8 @@ PoR_coordinates(x, PoR)
 containing the geographical coordinates of the Euler pole}
 }
 \value{
-\code{data.frame} with the PoR coordinates
-(\code{lat.PoR}, \code{lon.PoR})
+\code{\link[=PoR_coordinates]{PoR_coordinates()}} returns \code{data.frame} with the PoR coordinates
+(\code{lat.PoR}, \code{lon.PoR}).
 }
 \description{
 Retrieve the PoR equivalent coordinates of an object
@@ -24,8 +24,12 @@ Retrieve the PoR equivalent coordinates of an object
 data("nuvel1")
 por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 data("san_andreas")
+
+coordinates from sf object
 san_andreas.por_sf <- PoR_coordinates(san_andreas, por)
 head(san_andreas.por_sf)
+
+# cooridnates from data.frame
 san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), por)
 head(san_andreas.por_df)
 }
