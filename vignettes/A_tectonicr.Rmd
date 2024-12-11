@@ -28,7 +28,8 @@ relative motion of neighboring plates.
 
 The theory of intraplate tectonics (Wdowinski 1998)
 allows for calculating the first-order intraplate deformation induced by 
-horizontal displacement of deformable plate boundaries (Stephan et al., 2023). It is based on empirical
+horizontal displacement of deformable plate boundaries (Stephan et al., 2023). 
+It is based on empirical
 link between the directions of relative plate motion and the
 displacement and deformation fields within a plate interior adjacent to
 three types of deformable plate boundaries: inward-, outward-, and
@@ -115,7 +116,8 @@ library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
 
-Next, we need to specify coordinates of the Pole of Rotation (PoR) to get the directions of 
+Next, we need to specify coordinates of the Pole of Rotation (PoR) to get the 
+directions of 
 the great circles, small circles, and loxodromes around the PoR at the 
 given point (e.g. at 45$^{\circ}$N/20$^{\circ}$E). 
 
@@ -185,15 +187,16 @@ norm_chisq(obs = 90, prd$sc, unc = 10)
 
 # Models of current plate motion
 The plate motions relative to the Pacific plate according to the 
-NUVEL-1A model (DeMets et al. 1990) are included in the package and can be imported 
-through:
+NUVEL-1A model (DeMets et al. 1990) are implemented in the package and can be 
+imported through:
 
 ```{r nuvel1, eval=FALSE, include=TRUE}
 data("nuvel1")
 head(nuvel1)
 ```
 
-Other current plate motion models, in particulars NNR-MORVEL-56, GSRM2.1, REVEL, PB2002, and HS3-NUVEL1A, are available through
+Other current plate motion models, in particulars NNR-MORVEL-56, GSRM2.1, REVEL, 
+PB2002, and HS3-NUVEL1A, are implemented and available through
 ```{r cpm_models, eval=FALSE, include=TRUE}
 data("cpm_models")
 head(cpm_models)
