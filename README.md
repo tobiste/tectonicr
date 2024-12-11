@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # tectonicr <a href="https://cran.r-project.org/package=tectonicr/"><img src="man/figures/logo.png" alt="tectonicr website" align="right" height="104"/></a>
 
 <!-- badges: start -->
