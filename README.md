@@ -10,7 +10,7 @@ editor_options:
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.org/package=tectonicr)
-[![](https://img.shields.io/badge/devel%20version-0.4.3.92-orange.svg)](https://github.com/tobiste/tectonicr)
+[![](https://img.shields.io/badge/devel%20version-0.4.4-orange.svg)](https://github.com/tobiste/tectonicr)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow)](https://cran.r-project.org/package=tectonicr)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml)
 [![DOI](https://img.shields.io/badge/doi-10.32614/CRAN.package.tectonicr-slategrey.svg)](https://doi.org/10.32614/CRAN.package.tectonicr)
@@ -97,7 +97,7 @@ pb = subset(plates, pair == "na-pa")
 The code produces the underlying results for Fig. 7 from Stephan et al.
 (2023)
 
-<img src="man/figures/Figure_07_san_andreas_data.png" width="864"/>
+<img src="man/figures/Figure_07_san_andreas_data_low.jpg" width="864"/>
 
 ## Documentation
 
