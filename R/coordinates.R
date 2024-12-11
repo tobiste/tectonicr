@@ -341,18 +341,18 @@ PoR_coordinates <- function(x, PoR) {
 #'
 #' # distance form data.frame
 #' PoR_distance(sf::st_drop_geometry(san_andreas), por)
-#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN=orthodrome)
-#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN=vincenty)
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = orthodrome)
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = vincenty)
 PoR_distance <- function(x, PoR, FUN = orthodrome) {
-  if(inherits(x, 'sf')) {
+  if (inherits(x, "sf")) {
     x_crds <- sf::st_coordinates(x)
     lat <- x_crds[, 2]
-    lon = x_crds[, 1]
+    lon <- x_crds[, 1]
   } else {
-    lat = x$lat
-    lon = x$lon
+    lat <- x$lat
+    lon <- x$lon
   }
-  do.call(FUN, list(lat1=deg2rad(lat), lon1=deg2rad(lon), lat2=deg2rad(PoR$lat), lon2=deg2rad(PoR$lon))) |>
+  do.call(FUN, list(lat1 = deg2rad(lat), lon1 = deg2rad(lon), lat2 = deg2rad(PoR$lat), lon2 = deg2rad(PoR$lon))) |>
     rad2deg()
 }
 # PoR_distance <- function(x, PoR) {

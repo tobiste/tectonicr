@@ -1,4 +1,4 @@
-# tectonicr (development version)
+# tectonicr 0.4.4
 
 # tectonicr 0.4.3.92
 * PoR_distance(): function to calculate distance to PoR
