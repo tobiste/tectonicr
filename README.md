@@ -57,7 +57,7 @@ Stephan et al., 2023). The following methods are available:
 
 ## Prerequisites
 
-You must have R installed on your system (see <http://r-project.org>).
+You must have R installed on your system (see <https://www.r-project.org/>).
 To install `tectonicr` from CRAN, type the following code at the R
 command line prompt:
 

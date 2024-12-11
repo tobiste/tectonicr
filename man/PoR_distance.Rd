@@ -32,6 +32,6 @@ PoR_distance(san_andreas, por)
 
 # distance form data.frame
 PoR_distance(sf::st_drop_geometry(san_andreas), por)
-PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN=orthodrome)
-PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN=vincenty)
+PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = orthodrome)
+PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = vincenty)
 }
