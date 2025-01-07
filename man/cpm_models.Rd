@@ -30,7 +30,7 @@ HS2-NUVEL1 (Gripp and Gordon, 1990),
 HS3-NUVEL1A (Gripp and Gordon, 2002),
 P073 (Chase 1978),
 AM1-2 (Minster and Jordan, 1978),
-ITRF2020-PPM (Altamimi et al. 2023)
+ITRF2020-PPM (Altamimi et al. 2023),
 and
 PB2002 (Bird, 2003)
 }

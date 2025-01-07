@@ -246,12 +246,14 @@ ITRF2020 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_moti
 
 ITRF2020_deg <- cbind(ITRF2020$x_deg, ITRF2020$y_deg, ITRF2020$z_deg) |>
   deg2rad() %>%
-  apply(1, euler::euler_cart2geo) |> t()
+  euler::euler_cart2geo()
 
 ITRF2020_PMM <- ITRF2020 |> select(plate.name, plate.rot, plate.fix) |>
   bind_cols(ITRF2020_deg) |>
   rename(angle = mag) |>
   dplyr::mutate(
+    lon = ifelse(is.nan(lon), 0, lon),
+    lat = ifelse(is.nan(lat), 0, lat),
     plate.rot = tolower(plate.rot),
     #plate.fix = "itrf97",
     model = "ITRF2020-PMM"
@@ -291,3 +293,4 @@ usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
 
 # check all the files:
 tools::checkRdaFiles("data")
+
