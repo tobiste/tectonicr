@@ -45,13 +45,13 @@ angles derive from a distribution with a (or the specified) mean direction.
 # Load data
 data("cpm_models")
 data(san_andreas)
-PoR <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "na", "pa")
+PoR <- equivalent_rotation(cpm_models[["NNR-MORVEL56"]], "na", "pa")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 data("iceland")
-PoR.ice <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "na")
+PoR.ice <- equivalent_rotation(cpm_models[["NNR-MORVEL56"]], "eu", "na")
 ice.por <- PoR_shmax(iceland, PoR.ice, "out")
 data("tibet")
-PoR.tib <- equivalent_rotation(subset(cpm_models, model == "NNR-MORVEL56"), "eu", "in")
+PoR.tib <- equivalent_rotation(cpm_models[["NNR-MORVEL56"]], "eu", "in")
 tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
 
 # GOF test:

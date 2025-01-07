@@ -10,7 +10,7 @@ data("plates")
 na_pa_boundary <- subset(plates, plates$pair == "na-pa")
 # Load the current plate motion (cpm) models:
 data("cpm_models")
-morvel <- subset(cpm_models, model == "NNR-MORVEL56") # select MORVEL model
+morvel <- cpm_models[["NNR-MORVEL56"]] # select MORVEL model
 # Relative plate motion between Pacific and North American plates:
 na_pa <- equivalent_rotation(morvel, fixed = "na", rot = "pa")
 # Transform stress data set and test against predicted left-lateral tangential plate boundary (left):

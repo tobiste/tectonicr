@@ -31,8 +31,7 @@ library(ggplot2) # load ggplot library
 data("san_andreas")
 
 data("cpm_models")
-por <- cpm_models |>
-  subset(model == "NNR-MORVEL56") |>
+por <- cpm_models[["NNR-MORVEL56"]] |>
   equivalent_rotation("na", "pa")
 ```
 

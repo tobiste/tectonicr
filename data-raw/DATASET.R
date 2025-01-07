@@ -1,5 +1,5 @@
 ## code to prepare `san_andreas` dataset goes here  -------------
-library(dplyr)
+library(tidyverse)
 
 # wsm2016 <-
 #   readRDS("../cordillera-stress/data/wsm2016.rds") |>
@@ -148,7 +148,7 @@ nuvel1$plate.fix <- stringi::stri_enc_toascii(nuvel1$plate.fix)
 nuvel1$source <- stringi::stri_enc_toascii(nuvel1$source)
 all(validUTF8(nuvel1$plate.name))
 usethis::use_data(nuvel1, overwrite = TRUE, ascii = TRUE)
-
+nnr.nuvel1a <- nuvel1
 
 pb2002 <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "Bird") |>
@@ -168,7 +168,7 @@ usethis::use_data(pb2002, overwrite = TRUE, ascii = TRUE)
 
 morvel56 <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "NNR-MORVEL56") |>
-  dplyr::mutate(plate.rot = tolower(plate.rot), model = "NNR-MORVEL56") |>
+  dplyr::mutate(plate.rot = tolower(plate.rot), model = "NNR-MORVEL56", plate.name = str_squish(plate.name)) |>
   # rename(area = Area) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 all(validUTF8(morvel56$plate.name))
@@ -186,7 +186,16 @@ gsrm2 <-
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
-hsnuvel1a <- nuvel.hs <-
+nuvel1 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "NUVEL1") |>
+  dplyr::mutate(
+    plate.rot = tolower(plate.rot),
+    angle = rate,
+    plate.fix = "pa",
+    model = "NUVEL1"
+  ) |>
+  dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
+
+hs3nuvel1a <- nuvel.hs <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "HS3-NUVEL1A") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
@@ -195,6 +204,26 @@ hsnuvel1a <- nuvel.hs <-
     model = "HS3-NUVEL1A"
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
+
+hs2nuvel1 <-
+  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "HS2-NUVEL1") |>
+  dplyr::mutate(
+    plate.rot = tolower(plate.rot),
+    angle = rate,
+    plate.fix = "hs",
+    model = "HS2-NUVEL1"
+  ) |>
+  dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
+
+p073 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "P073") |>
+  dplyr::mutate(
+    plate.rot = tolower(plate.rot),
+    angle = rate, #* 10^(-7),
+    plate.fix = "hs",
+    model = "P073",
+  ) |>
+  dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
+
 
 revel <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "REVEL") |>
@@ -205,13 +234,16 @@ revel <-
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
-cpm_models <- rbind(
-  nuvel1 |> dplyr::mutate(model = "NNR-NUVEL1A") |> dplyr::select(-source),
+cpm_models_df <- rbind(
+  nnr.nuvel1a |> dplyr::mutate(model = "NNR-NUVEL1A") |> dplyr::select(-source),
+  nuvel1,
   morvel56,
   gsrm2,
-  hsnuvel1a,
+  hs3nuvel1a,
+  hs2nuvel1,
   revel,
-  pb2002
+  pb2002,
+  p073
 ) |>
   mutate(
     plate.name = stringi::stri_enc_toascii(plate.name),
@@ -219,10 +251,13 @@ cpm_models <- rbind(
     plate.rot = stringi::stri_enc_toascii(plate.rot),
     plate.fix = stringi::stri_enc_toascii(plate.fix),
     model = stringi::stri_enc_toascii(model)
-  )
-# ) #|> group_by(model)
-usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
+  ) |>
+  arrange(model)
 
+cpm_models <- cpm_models_df  |>  group_by(model) |> group_split()
+names(cpm_models) <- unique(cpm_models_df$model)
+
+usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
 # borders <- rnaturalearth::ne_download(returnclass = "sf") |> dplyr::select() |> sf::st_geometry()
 # usethis::use_data(borders, overwrite = TRUE, ascii = F, compress = "xz",version = 3)
 

@@ -432,7 +432,7 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
 #' @examples
 #' na_grid <- sf::st_make_grid(san_andreas, what = "centers", cellsize = 1)
 #' na_plate <- subset(plates, plateA == "na" | plateB == "na")
-#' cpm <- subset(cpm_models, cpm_models$model == "NNR-MORVEL56")
+#' cpm <- cpm_models[["NNR-MORVEL56"]]
 #'
 #' # make divergent to ridge-push:
 #' na_plate <- transform(na_plate, type = ifelse(na_plate$pair == "eu-na", "convergent", type))

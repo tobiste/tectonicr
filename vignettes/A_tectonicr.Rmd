@@ -204,7 +204,7 @@ head(cpm_models)
 
 Any desired relative plate motion can be extracted via the following:
 ```{r equivalent_rotation, eval=FALSE, include=TRUE}
-gsrm <- subset(cpm_models, model == "GSRM2.1")
+gsrm <- cpm_models[["GSRM2.1"]]
 equivalent_rotation(gsrm, rot = "na", fixed = "eu")
 ```
 

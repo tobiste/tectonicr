@@ -5,7 +5,7 @@
 \alias{cpm_models}
 \title{Global model of current plate motions}
 \format{
-An object of class \code{data.frame}
+list containing objects of class \code{data.frame}
 \describe{
 \item{plate.name}{The rotating plate}
 \item{plate.rot}{The abbreviation of the plate's name}
@@ -21,22 +21,34 @@ data('cpm_models')
 }
 \description{
 Compilation of global models for current plate motions, including
+NUVEL1 (DeMets et al. 1990),
 NNR-NUVEL1A (DeMets et al., 1990),
 NNR-MORVEL56 (Argus et al., 2011),
 REVEL (Sella et al., 2002),
 GSRM2.1 (Kreemer et al., 2014)
-HS-NUVEL1A (Gripp and Gordon, 2002), and
+HS2-NUVEL1 (Gripp and Gordon, 1990),
+HS3-NUVEL1A (Gripp and Gordon, 2002),
+P073 (Chase 1978),
+and
 PB2002 (Bird, 2003)
 }
 \examples{
 data("cpm_models")
-head("cpm_models")
+head(cpm_models[[1]])
 }
 \references{
+Argus, D.F., Gordon, R.G., 1991. No-net-rotation model of
+current plate velocities incorporating plate motion model NUVEL-1.
+\emph{Geophys. Res. Lett.} \strong{18}, 2039–2042. doi: 10.1029/91GL01532
+
 Argus, D. F., Gordon, R. G., & DeMets, C. (2011). Geologically
 current motion of 56 plates relative to the no-net-rotation reference frame.
 \emph{Geochemistry, Geophysics, Geosystems}, \strong{12}(11).
 doi: 10.1029/2011GC003751.
+
+Chase, C.G. (1978). Plate kinematics: The Americas, East Africa, and the rest
+of the world. \emph{Earth Planet. Sci. Lett.} \strong{37}, 355–368.
+doi: 10.1016/0012-821X(78)90051-1
 
 Bird, P. (2003), An updated digital model of plate boundaries,
 \emph{Geochem. Geophys. Geosyst.}, \strong{4}, 1027, doi: 10.1029/2001GC000252, 3.
