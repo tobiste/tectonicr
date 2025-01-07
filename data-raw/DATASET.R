@@ -190,7 +190,7 @@ nuvel1 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate,
-    plate.fix = "pa",
+    #plate.fix = "pa",
     model = "NUVEL1"
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
@@ -200,7 +200,7 @@ hs3nuvel1a <- nuvel.hs <-
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate,
-    plate.fix = "hs",
+    #plate.fix = "hs",
     model = "HS3-NUVEL1A"
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
@@ -210,7 +210,7 @@ hs2nuvel1 <-
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate,
-    plate.fix = "hs",
+    #plate.fix = "hs",
     model = "HS2-NUVEL1"
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
@@ -219,31 +219,59 @@ p073 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.x
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate, #* 10^(-7),
-    plate.fix = "hs",
+    #plate.fix = "hs",
     model = "P073",
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
+am <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "AM") |>
+  dplyr::mutate(
+    plate.rot = tolower(plate.rot),
+    angle = rate, #* 10^(-7),
+    #plate.fix = "hs",
+    model = "AM1-2",
+  ) |>
+  dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
 revel <-
   readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "REVEL") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
-    plate.fix = "itrf97",
+    #plate.fix = "itrf97",
     model = "REVEL"
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
+ITRF2020 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "ITRF2020-PMM")
+
+ITRF2020_deg <- cbind(ITRF2020$x_deg, ITRF2020$y_deg, ITRF2020$z_deg) |>
+  deg2rad() %>%
+  apply(1, euler::euler_cart2geo) |> t()
+
+ITRF2020_PMM <- ITRF2020 |> select(plate.name, plate.rot, plate.fix) |>
+  bind_cols(ITRF2020_deg) |>
+  rename(angle = mag) |>
+  dplyr::mutate(
+    plate.rot = tolower(plate.rot),
+    #plate.fix = "itrf97",
+    model = "ITRF2020-PMM"
+  ) |>
+  dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
+
+
+
 cpm_models_df <- rbind(
   nnr.nuvel1a |> dplyr::mutate(model = "NNR-NUVEL1A") |> dplyr::select(-source),
   nuvel1,
+  am,
   morvel56,
   gsrm2,
   hs3nuvel1a,
   hs2nuvel1,
   revel,
   pb2002,
-  p073
+  p073,
+  ITRF2020_PMM
 ) |>
   mutate(
     plate.name = stringi::stri_enc_toascii(plate.name),
