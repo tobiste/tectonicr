@@ -78,7 +78,7 @@ usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
 #  select(-LAYER, name, plateA, plateB, type, source)
 # usethis::use_data(pb2002_plates, overwrite = TRUE)
 
-plate.names <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "Bird") |>
+plate.names <- readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "Bird") |>
   dplyr::select(plate.rot, plate.name) |>
   dplyr::mutate(plate.rot = tolower(plate.rot))
 
@@ -151,7 +151,7 @@ usethis::use_data(nuvel1, overwrite = TRUE, ascii = TRUE)
 nnr.nuvel1a <- nuvel1
 
 pb2002 <-
-  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "Bird") |>
+  readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "Bird") |>
   dplyr::mutate(plate.rot = tolower(plate.rot), source = ifelse(source == "this paper", "Bird [2003]", source), model = "PB2002") |>
   dplyr::rename(area = Area) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model) |>
@@ -167,7 +167,7 @@ all(validUTF8(pb2002$plate.name))
 usethis::use_data(pb2002, overwrite = TRUE, ascii = TRUE)
 
 morvel56 <-
-  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "NNR-MORVEL56") |>
+  readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "NNR-MORVEL56") |>
   dplyr::mutate(plate.rot = tolower(plate.rot), model = "NNR-MORVEL56", plate.name = str_squish(plate.name)) |>
   # rename(area = Area) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
@@ -175,7 +175,7 @@ all(validUTF8(morvel56$plate.name))
 
 
 gsrm2 <-
-  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "GSRM") |>
+  readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "GSRM") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     lat = lat_NNR,
@@ -186,7 +186,7 @@ gsrm2 <-
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
-nuvel1 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "NUVEL1") |>
+nuvel1 <- readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "NUVEL1") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate,
@@ -196,7 +196,7 @@ nuvel1 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
 hs3nuvel1a <- nuvel.hs <-
-  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "HS3-NUVEL1A") |>
+  readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "HS3-NUVEL1A") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate,
@@ -206,7 +206,7 @@ hs3nuvel1a <- nuvel.hs <-
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
 hs2nuvel1 <-
-  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "HS2-NUVEL1") |>
+  readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "HS2-NUVEL1") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate,
@@ -215,7 +215,7 @@ hs2nuvel1 <-
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
-p073 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "P073") |>
+p073 <- readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "P073") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate, #* 10^(-7),
@@ -224,7 +224,7 @@ p073 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.x
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
-am <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "AM") |>
+am <- readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "AM1-2") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     angle = rate, #* 10^(-7),
@@ -234,7 +234,7 @@ am <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xls
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
 revel <-
-  readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "REVEL") |>
+  readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "REVEL") |>
   dplyr::mutate(
     plate.rot = tolower(plate.rot),
     #plate.fix = "itrf97",
@@ -242,7 +242,7 @@ revel <-
   ) |>
   dplyr::select(plate.name, plate.rot, lon, lat, angle, plate.fix, model)
 
-ITRF2020 <- readxl::read_excel("../europe-tectonics/data/euler/recent_plate_motion.xlsx", sheet = "ITRF2020-PMM")
+ITRF2020 <- readxl::read_excel("inst/recent_plate_motion.xlsx", sheet = "ITRF2020-PMM")
 
 ITRF2020_deg <- cbind(ITRF2020$x_deg, ITRF2020$y_deg, ITRF2020$z_deg) |>
   deg2rad() %>%
