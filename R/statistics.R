@@ -763,8 +763,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   x <- (x * f) %% 360
   R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
-  sde <- 1 / sqrt(n * R * kappa)
-  return(sde)
+  1 / sqrt(n * R * kappa)
 }
 
 #' Confidence Interval around the Mean Direction of Circular Data
@@ -822,7 +821,10 @@ confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm 
 
   Z_alpha <- z_score(conf.level)
   sde <- circular_sd_error(x, w, axial, na.rm)
-  asind(Z_alpha * sde) * f
+
+  temp <- Z_alpha * sde
+  if(temp > 1) temp <- 1 # I don't understand yet why sometimes sde > 1/Z_alpha (which makes asin undefined). Hence I set this term to 1 to make it work. Not ideal though...
+  asind(temp) * f
 }
 
 #' @rdname confidence
@@ -890,7 +892,11 @@ confidence_interval_fisher <- function(x, conf.level = 0.95, w = NULL, axial = T
     print_message <- "Parametric estimate"
     disp <- sample_circular_dispersion(x = x, w = w, axial = axial, na.rm = na.rm)
     sde <- sqrt(disp / n)
-    conf.angle <- asind(z_score(conf.level) * sde)
+
+    temp <- z_score(conf.level) * sde
+    if(temp > 1) temp <- 1 # I don't understand yet why sometimes sde > 1/Z_alpha (which makes asin undefined). Hence I set this term to 1 to make it work. Not ideal though...
+    conf.angle <- asind(temp)
+
     mu <- circular_mean(x = x, w = w, axial = axial, na.rm = na.rm)
     conf.interval <- c(mu - conf.angle, mu + conf.angle)
   }

@@ -606,6 +606,8 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 
 
 # Distribution ####
+## von Mises -------------------------------------------------------------------
+
 # pvm.mu0 <- function(theta, kappa, acc) {
 #   flag <- TRUE
 #   p <- 1
@@ -632,14 +634,16 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 #' Density, probability distribution function, quantiles, and random generation
 #' for the circular normal distribution with mean and kappa.
 #'
-#' @param n number of observations in degrees
-#' @param p numeric vector of probabilities with values in \eqn{[0,1]}{[0,1]}.
-#' @param mean mean in degrees
-#' @param kappa concentration parameter
-#' @param theta angular value in degrees
+#' @param n integer. Number of observations in degrees
+#' @param p numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.
+#' @param mean numeric. Mean angle in degrees
+#' @param kappa numeric. Concentration parameter in the range (0, Inf]
+#' @param theta numeric. Angular value in degrees
 #' @param from if `NULL` is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
 #' which the pvm and qvm are evaluated. in degrees.
-#' @param tol the precision in evaluating the distribution function or the quantile.
+#' @param tol numeric. The precision in evaluating the distribution function or the quantile.
+#' @param log logical. If `TRUE`, probabilities p are given as log(p).
+#' @param ... parameters passed to [stats::integrate()].
 #'
 #' @returns `dvm` gives the density,
 #' `pvm` gives the probability of the von Mises distribution function,
@@ -648,7 +652,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 #'
 #' @name vonmises
 #'
-#' @importFrom circular circular rvonmises pvonmises qvonmises
+#' @importFrom circular circular rvonmises pvonmises qvonmises dvonmises daxialvonmises
 #'
 #' @examples
 #' x <- rvm(100, mean = 90, kappa = 2)
@@ -660,41 +664,29 @@ NULL
 #' @rdname vonmises
 #' @export
 rvm <- function(n, mean, kappa) {
-  # vm <- c(1:n)
-  # a <- 1 + (1 + 4 * (kappa^2))^0.5
-  # b <- (a - (2 * a)^0.5) / (2 * kappa)
-  # r <- (1 + b^2) / (2 * b)
-  # obs <- 1
-  # while (obs <= n) {
-  #   U1 <- runif(1, 0, 1)
-  #   z <- cos(pi * U1)
-  #   f <- (1 + r * z) / (r + z)
-  #   c <- kappa * (r - f)
-  #   U2 <- runif(1, 0, 1)
-  #   if (c * (2 - c) - U2 > 0) {
-  #     U3 <- runif(1, 0, 1)
-  #     vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
-  #     vm[obs] <- vm[obs] %% (2 * pi)
-  #     obs <- obs + 1
-  #   } else {
-  #     if (log(c / U2) + 1 - c >= 0) {
-  #       U3 <- runif(1, 0, 1)
-  #       vm[obs] <- sign(U3 - 0.5) * acos(f) + deg2rad(mean)
-  #       vm[obs] <- vm[obs] %% (2 * pi)
-  #       obs <- obs + 1
-  #     }
-  #   }
-  # }
-  # rad2deg(vm)
   mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
   circular::rvonmises(n, mu, kappa) |> as.numeric()
 }
 
 #' @rdname vonmises
 #' @export
-dvm <- function(theta, mean, kappa) {
-  1 / (2 * pi * besselI(x = kappa, nu = 0, expon.scaled = TRUE)) *
-    (exp(cosd(theta - mean) - 1))^kappa
+dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
+if (axial) {
+  theta <- circular::circular(theta, units = "degrees", modulo = "pi")
+  mu <- circular::circular(mean, units = "degrees", modulo = "pi")
+  d <- circular::daxialvonmises(theta, mu, kappa)
+  if (log) {
+    log(d)
+  } else {
+    d
+  }
+} else {
+  # 1 / (2 * pi * besselI(x = kappa, nu = 0, expon.scaled = TRUE)) *
+  #   (exp(cosd(theta - mean) - 1))^kappa
+  theta <- circular::circular(theta, units = "degrees", modulo = "2pi")
+  mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
+  circular::dvonmises(theta, mu, kappa, log = log)
+}
 }
 
 #' @rdname vonmises
@@ -708,23 +700,6 @@ pvm <- function(theta, mean, kappa, from = NULL, tol = 1e-20) {
   }
 
   circular::pvonmises(theta, mu, kappa, from = NULL, tol = tol)
-
-  # if (mu == 0) {
-  #   pvm.mu0(theta, kappa, tol)
-  # } else {
-  #   if (theta <= mu) {
-  #     upper <- (theta - mu) %% (2 * pi)
-  #     if (upper == 0) {
-  #       upper <- 2 * pi
-  #     }
-  #     lower <- (-mu) %% (2 * pi)
-  #     pvm.mu0(upper, kappa, tol) - pvm.mu0(lower, kappa, tol)
-  #   } else {
-  #     upper <- theta - mu
-  #     lower <- mu %% (2 * pi)
-  #     pvm.mu0(upper, kappa, tol) + pvm.mu0(lower, kappa, tol)
-  #   }
-  # }
 }
 
 #' @rdname vonmises
@@ -736,7 +711,7 @@ qvm <- function(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6)
     from <- circular::circular(from, units = "degrees", modulo = "2pi")
   }
 
-  circular::qvonmises(p, mu, kappa, from, tol = tol) |> as.numeric()
+  circular::qvonmises(p, mu, kappa, from, tol = tol, ...) |> as.numeric()
 }
 
 
@@ -793,41 +768,3 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   }
   kappa
 }
-
-
-#
-# kappa_to_var <- function(k, axial = TRUE) {
-#   # f <- if (axial) {
-#   #   2
-#   # } else {
-#   #   1
-#   # }
-#   v <- 1 - (besselI(k, 1) / besselI(k, 0))^2
-#
-#   v[is.nan(v)] <- .Machine$double.eps^2
-#
-#   v #/ f
-# }
-#
-# kappa_to_sd <- function(k, axial = TRUE) {
-#   kappa_to_var(k, axial) |>
-#     var_to_sd()
-# }
-#
-# k <- seq(-10, 5, length.out = 100) |> exp()
-# v <- kappa_to_var(k)
-# kv <- data.frame(k, v)
-# kv.lm <- lm(k ~ log(v), data = kv)
-#
-# var_to_kappa <- function(var, ...){
-#   new <- data.frame(v=var)
-#   res <- predict(kv.lm, new,...) |> exp()
-#   res[is.nan(res)] <- .Machine$double.eps^2
-#   res[res>100] <- 100
-#   res
-# }
-# sd_to_kappa <- function(x, ...){
-#   sd_to_var(x) |>
-#     var_to_kappa(...)
-# }
-

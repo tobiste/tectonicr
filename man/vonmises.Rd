@@ -10,27 +10,31 @@
 \usage{
 rvm(n, mean, kappa)
 
-dvm(theta, mean, kappa)
+dvm(theta, mean, kappa, log = FALSE, axial = FALSE)
 
 pvm(theta, mean, kappa, from = NULL, tol = 1e-20)
 
 qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6))
 }
 \arguments{
-\item{n}{number of observations in degrees}
+\item{n}{integer. Number of observations in degrees}
 
-\item{mean}{mean in degrees}
+\item{mean}{numeric. Mean angle in degrees}
 
-\item{kappa}{concentration parameter}
+\item{kappa}{numeric. Concentration parameter in the range (0, Inf]}
 
-\item{theta}{angular value in degrees}
+\item{theta}{numeric. Angular value in degrees}
+
+\item{log}{logical. If \code{TRUE}, probabilities p are given as log(p).}
 
 \item{from}{if \code{NULL} is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
 which the pvm and qvm are evaluated. in degrees.}
 
-\item{tol}{the precision in evaluating the distribution function or the quantile.}
+\item{tol}{numeric. The precision in evaluating the distribution function or the quantile.}
 
-\item{p}{numeric vector of probabilities with values in \eqn{[0,1]}{[0,1]}.}
+\item{p}{numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.}
+
+\item{...}{parameters passed to \code{\link[stats:integrate]{stats::integrate()}}.}
 }
 \value{
 \code{dvm} gives the density,
