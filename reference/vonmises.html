@@ -9,7 +9,7 @@ for the circular normal distribution with mean and kappa."><meta property="og:im
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,11 +52,11 @@ for the circular normal distribution with mean and kappa.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rvm</span><span class="op">(</span><span class="va">n</span>, <span class="va">mean</span>, <span class="va">kappa</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">dvm</span><span class="op">(</span><span class="va">theta</span>, <span class="va">mean</span>, <span class="va">kappa</span><span class="op">)</span></span>
+<span><span class="fu">dvm</span><span class="op">(</span><span class="va">theta</span>, <span class="va">mean</span>, <span class="va">kappa</span>, log <span class="op">=</span> <span class="cn">FALSE</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">pvm</span><span class="op">(</span><span class="va">theta</span>, <span class="va">mean</span>, <span class="va">kappa</span>, from <span class="op">=</span> <span class="cn">NULL</span>, tol <span class="op">=</span> <span class="fl">1e-20</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">qvm</span><span class="op">(</span><span class="va">p</span>, mean <span class="op">=</span> <span class="fl">0</span>, <span class="va">kappa</span>, from <span class="op">=</span> <span class="cn">NULL</span>, tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="op">(</span><span class="fl">0.6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">qvm</span><span class="op">(</span><span class="va">p</span>, mean <span class="op">=</span> <span class="fl">0</span>, <span class="va">kappa</span>, from <span class="op">=</span> <span class="cn">NULL</span>, tol <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="op">(</span><span class="fl">0.6</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,19 +64,28 @@ for the circular normal distribution with mean and kappa.</p>
 
 
 <dl><dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
-<dd><p>number of observations in degrees</p></dd>
+<dd><p>integer. Number of observations in degrees</p></dd>
 
 
 <dt id="arg-mean">mean<a class="anchor" aria-label="anchor" href="#arg-mean"></a></dt>
-<dd><p>mean in degrees</p></dd>
+<dd><p>numeric. Mean angle in degrees</p></dd>
 
 
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
-<dd><p>concentration parameter</p></dd>
+<dd><p>numeric. Concentration parameter in the range (0, Inf]</p></dd>
 
 
 <dt id="arg-theta">theta<a class="anchor" aria-label="anchor" href="#arg-theta"></a></dt>
-<dd><p>angular value in degrees</p></dd>
+<dd><p>numeric. Angular value in degrees</p></dd>
+
+
+<dt id="arg-log">log<a class="anchor" aria-label="anchor" href="#arg-log"></a></dt>
+<dd><p>logical. If <code>TRUE</code>, probabilities p are given as log(p).</p></dd>
+
+
+<dt id="arg-axial">axial<a class="anchor" aria-label="anchor" href="#arg-axial"></a></dt>
+<dd><p>logical. Whether the data are axial, i.e. \(\pi\)-periodical
+(<code>TRUE</code>, the default) or directional, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).</p></dd>
 
 
 <dt id="arg-from">from<a class="anchor" aria-label="anchor" href="#arg-from"></a></dt>
@@ -85,11 +94,15 @@ which the pvm and qvm are evaluated. in degrees.</p></dd>
 
 
 <dt id="arg-tol">tol<a class="anchor" aria-label="anchor" href="#arg-tol"></a></dt>
-<dd><p>the precision in evaluating the distribution function or the quantile.</p></dd>
+<dd><p>numeric. The precision in evaluating the distribution function or the quantile.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
-<dd><p>numeric vector of probabilities with values in \([0,1]\).</p></dd>
+<dd><p>numeric. Vector of probabilities with values in \([0,1]\).</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>parameters passed to <code><a href="https://rdrr.io/r/stats/integrate.html" class="external-link">stats::integrate()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -103,6 +116,7 @@ which the pvm and qvm are evaluated. in degrees.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">rvm</span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">90</span>, kappa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dvm</span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="fl">90</span>, kappa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.509479911 0.094523734 0.401135165 0.015150245 0.515056867 0.504234831</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 0.510477840 0.417917149 0.482935548 0.494885825 0.505735970 0.009583728</span>
@@ -121,6 +135,25 @@ which the pvm and qvm are evaluated. in degrees.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 0.485716302 0.218614066 0.010216541 0.515870312 0.223709206 0.456517077</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 0.199515458 0.234582553 0.311868557 0.407001160 0.277497437 0.479684441</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 0.412586480 0.098842778 0.174616618 0.202228053</span>
+<span class="r-in"><span><span class="fu">dvm</span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="fl">90</span>, kappa <span class="op">=</span> <span class="fl">2</span>, axial <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.98162658 0.02071422 0.40181129 0.19508051 1.02516106 0.94216774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 0.98929554 0.46450808 0.79582728 0.87526659 0.95331646 0.97506592</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 0.43953287 0.09854573 0.84157140 0.27624556 0.30105700 0.02247366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 0.55650418 0.45869383 0.92172591 0.93440003 0.04209585 0.52300061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 0.09245245 0.90165987 0.92054296 0.23581946 0.83390635 0.03086569</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 0.99413198 0.79248180 0.70460101 0.08888982 0.21696297 0.27039021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 0.34801800 0.84317566 0.03024338 0.99893276 0.86130590 0.05046311</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] 0.07529241 0.01893244 0.33918104 0.48357842 0.05939521 1.02633451</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 0.15657584 0.89030559 0.27847783 0.18394774 1.02763012 0.31247992</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 0.82800670 0.01893941 0.90600816 0.97245877 0.04250799 0.95889293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 0.63843264 0.04922751 0.56871368 0.43551318 0.03355598 0.35043289</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] 0.24901828 1.03156093 0.40839546 0.91172273 0.96560555 1.01446665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 0.60663827 0.74434425 0.03400799 0.01889760 1.01169778 1.01831388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] 0.77782880 0.04472393 1.02719469 0.76924689 1.01424654 0.13480832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 0.81372566 0.06953838 0.75948561 1.03165003 0.07333254 0.64222888</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 0.05691430 0.08208776 0.17752903 0.42282520 0.12687856 0.77533913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 0.44372341 0.02132520 0.04378913 0.05856213</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">pvm</span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="fl">90</span>, kappa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.442544954 0.950072041 0.741008210 0.007857925 0.479326901 0.422546553</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 0.552794403 0.723003860 0.369971170 0.396093635 0.427699560 0.001131250</span>
