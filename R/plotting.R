@@ -870,10 +870,10 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, s
 
 # Plot density lines on rose ---------------------------------------------------
 
-calc_circular_density <- function(x, z, kappa) {
+calc_circular_density <- function(x, z, kappa, axial) {
   nx <- length(x)
   # if (kernel == "vonmises") {
-  y <- sapply(z, dvm, mean = x, kappa = kappa)
+  y <- sapply(z, FUN=dvm, mean = x, kappa = kappa, axial=axial, log = FALSE)
   # }
   # else if (kernel == "wrappednormal") {
   #   rho <- exp(-bw^2/2)
@@ -888,8 +888,8 @@ calc_circular_density <- function(x, z, kappa) {
 
 
 circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 360, n = 512, axial = TRUE) {
-  f <- as.numeric(axial) + 1
-  x <- x * f
+  #f <- as.numeric(axial) + 1
+  #x <- x * f
 
   if (is.null(z)) {
     z <- seq(from = from, to = to, length = n)
@@ -912,7 +912,7 @@ circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 36
     }
   }
 
-  calc_circular_density(x, z, kappa)
+  calc_circular_density(x, z, kappa=kappa, axial=axial)
 }
 
 circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shrink = 1, axial = TRUE, ...) {
@@ -999,7 +999,8 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
     rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
   }
 
-  f <- as.numeric(axial) + 1
+  # f <- as.numeric(axial) + 1
+  f <- 1
   d <- circular_density(x, kappa = kappa, n = n, axial = axial)
   if (norm.density) {
     d <- d / max(d)

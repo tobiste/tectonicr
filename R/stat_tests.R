@@ -643,6 +643,8 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 #' which the pvm and qvm are evaluated. in degrees.
 #' @param tol numeric. The precision in evaluating the distribution function or the quantile.
 #' @param log logical. If `TRUE`, probabilities p are given as log(p).
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param ... parameters passed to [stats::integrate()].
 #'
 #' @returns `dvm` gives the density,
@@ -652,11 +654,14 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 #'
 #' @name vonmises
 #'
-#' @importFrom circular circular rvonmises pvonmises qvonmises dvonmises daxialvonmises
+#' @importFrom circular circular rvonmises pvonmises qvonmises daxialvonmises dvonmises
 #'
 #' @examples
 #' x <- rvm(100, mean = 90, kappa = 2)
+#'
 #' dvm(x, mean = 90, kappa = 2)
+#' dvm(x, mean = 90, kappa = 2, axial = TRUE)
+#'
 #' pvm(x, mean = 90, kappa = 2)
 #' qvm(c(.25, .5, .75), mean = 90, kappa = 2)
 NULL
@@ -671,22 +676,46 @@ rvm <- function(n, mean, kappa) {
 #' @rdname vonmises
 #' @export
 dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
-if (axial) {
-  theta <- circular::circular(theta, units = "degrees", modulo = "pi")
-  mu <- circular::circular(mean, units = "degrees", modulo = "pi")
-  d <- circular::daxialvonmises(theta, mu, kappa)
-  if (log) {
-    log(d)
+  if (axial) {
+    x <- circular::circular(theta, units = "degrees", modulo = "pi")
+    mu <- circular::circular(mean, units = "degrees", modulo = "pi")
+    d <- circular::daxialvonmises(x, mu, kappa)
+    if (log) {
+      log(d)
+    } else {
+      d
+    }
   } else {
-    d
+    x <- circular::circular(theta, units = "degrees", modulo = "2pi")
+    mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
+    circular::dvonmises(x, mu=mu, kappa=kappa, log = log)
+
+    #x <- deg2rad(theta)
+    #mu <- deg2rad(mean)
+    #stopifnot(length(mu==1))
+    # if (log) {
+    #   if (kappa == 0) {
+    #     vm <- log(rep(1 / (2 * pi), length(x)))
+    #   } else if (kappa < 1e+05) {
+    #     vm <- -(log(2 * pi) + log(besselI(kappa,
+    #       nu = 0,
+    #       expon.scaled = TRUE
+    #     )) + kappa) + kappa * (cos(x -
+    #       mu))
+    #   } else {
+    #     vm <- ifelse(((x - mu) %% (2 * pi)) == 0, Inf, -Inf)
+    #   }
+    # } else {
+    #   if (kappa == 0) {
+    #     vm <- rep(1 / (2 * pi), length(x))
+    #   } else if (kappa < 1e+05) {
+    #     vm <- 1 / (2 * pi * besselI(x = kappa, nu = 0, expon.scaled = TRUE)) *
+    #       (exp(cos(x - mu) - 1))^kappa
+    #   } else {
+    #     vm <- ifelse(((x - mu) %% (2 * pi)) == 0, Inf, 0)
+    #   }
+    # }
   }
-} else {
-  # 1 / (2 * pi * besselI(x = kappa, nu = 0, expon.scaled = TRUE)) *
-  #   (exp(cosd(theta - mean) - 1))^kappa
-  theta <- circular::circular(theta, units = "degrees", modulo = "2pi")
-  mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
-  circular::dvonmises(theta, mu, kappa, log = log)
-}
 }
 
 #' @rdname vonmises
@@ -704,7 +733,7 @@ pvm <- function(theta, mean, kappa, from = NULL, tol = 1e-20) {
 
 #' @rdname vonmises
 #' @export
-qvm <- function(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6)) {
+qvm <- function(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...) {
   mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
 
   if (!is.null(from)) {

@@ -14,7 +14,7 @@ dvm(theta, mean, kappa, log = FALSE, axial = FALSE)
 
 pvm(theta, mean, kappa, from = NULL, tol = 1e-20)
 
-qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6))
+qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 }
 \arguments{
 \item{n}{integer. Number of observations in degrees}
@@ -26,6 +26,9 @@ qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6))
 \item{theta}{numeric. Angular value in degrees}
 
 \item{log}{logical. If \code{TRUE}, probabilities p are given as log(p).}
+
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{from}{if \code{NULL} is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
 which the pvm and qvm are evaluated. in degrees.}
@@ -48,7 +51,10 @@ for the circular normal distribution with mean and kappa.
 }
 \examples{
 x <- rvm(100, mean = 90, kappa = 2)
+
 dvm(x, mean = 90, kappa = 2)
+dvm(x, mean = 90, kappa = 2, axial = TRUE)
+
 pvm(x, mean = 90, kappa = 2)
 qvm(c(.25, .5, .75), mean = 90, kappa = 2)
 }
