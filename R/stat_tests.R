@@ -795,18 +795,39 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
 }
 
 
+#
+# kappa_to_var <- function(k, axial = TRUE) {
+#   # f <- if (axial) {
+#   #   2
+#   # } else {
+#   #   1
+#   # }
+#   v <- 1 - (besselI(k, 1) / besselI(k, 0))^2
+#
+#   v[is.nan(v)] <- .Machine$double.eps^2
+#
+#   v #/ f
+# }
+#
+# kappa_to_sd <- function(k, axial = TRUE) {
+#   kappa_to_var(k, axial) |>
+#     var_to_sd()
+# }
+#
+# k <- seq(-10, 5, length.out = 100) |> exp()
+# v <- kappa_to_var(k)
+# kv <- data.frame(k, v)
+# kv.lm <- lm(k ~ log(v), data = kv)
+#
+# var_to_kappa <- function(var, ...){
+#   new <- data.frame(v=var)
+#   res <- predict(kv.lm, new,...) |> exp()
+#   res[is.nan(res)] <- .Machine$double.eps^2
+#   res[res>100] <- 100
+#   res
+# }
+# sd_to_kappa <- function(x, ...){
+#   sd_to_var(x) |>
+#     var_to_kappa(...)
+# }
 
-kappa_to_var <- function(k, axial = TRUE) {
-  f <- if (axial) {
-    2
-  } else {
-    1
-  }
-  v <- 1 - (besselI(k, 1) / besselI(k, 0))^2
-  v / f
-}
-
-kappa_to_sd <- function(k, axial = TRUE) {
-  kappa_to_var(k, axial) |>
-    var_to_sd()
-}
