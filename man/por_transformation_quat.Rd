@@ -20,10 +20,3 @@ two-element numeric vector
 Helper function for the transformation from PoR to geographical coordinate
 system or vice versa
 }
-\examples{
-ep.geo <- c(20, 33)
-q.geo <- c(10, 45)
-q.por <- geographical_to_PoR_quat(q.geo, ep.geo)
-q.por
-PoR_to_geographical_quat(q.por, ep.geo)
-}

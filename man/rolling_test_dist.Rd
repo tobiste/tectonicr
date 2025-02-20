@@ -107,8 +107,11 @@ san_andreas$distance <- distance_from_pb(
 )
 dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 
-distroll_circstats(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc, FUN = circular_mean) |> head()
+distroll_circstats(dat$azi.PoR, distance = dat$distance,
+  w = 1 / dat$unc, FUN = circular_mean) |> head()
 distroll_confidence(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc) |> head()
-distroll_dispersion(dat$azi.PoR, y = 135, distance = dat$distance, w = 1 / dat$unc) |> head()
-distroll_dispersion_sde(dat$azi.PoR, y = 135, distance = dat$distance, w = 1 / dat$unc, R = 100) |> head()
+distroll_dispersion(dat$azi.PoR, y = 135,
+  distance = dat$distance, w = 1 / dat$unc) |> head()
+distroll_dispersion_sde(dat$azi.PoR, y = 135,
+  distance = dat$distance, w = 1 / dat$unc, R = 100) |> head()
 }

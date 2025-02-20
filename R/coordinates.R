@@ -186,13 +186,6 @@ PoR_crs <- function(x) {
 #' @name por_transformation_quat
 #'
 #' @returns two-element numeric vector
-#'
-#' @examples
-#' ep.geo <- c(20, 33)
-#' q.geo <- c(10, 45)
-#' q.por <- geographical_to_PoR_quat(q.geo, ep.geo)
-#' q.por
-#' PoR_to_geographical_quat(q.por, ep.geo)
 NULL
 
 #' @name por_transformation_quat
@@ -269,7 +262,7 @@ geographical_to_PoR <- function(x, PoR){
     geographical_to_PoR_raster(x, PoR)
   } else if(inherits(x, 'sf')){
     geographical_to_PoR_sf(x, PoR)
-  } else if(is.data.frame(x) | dplyr::is_tibble(x)){
+  } else if(is.data.frame(x)){
     geographical_to_PoR_df(x, PoR)
   } else if(is.matrix(x)){
     geographical_to_PoR_quat(x, PoR)
@@ -287,7 +280,7 @@ PoR_to_geographical <- function(x, PoR){
     PoR_to_geographical_raster(x, PoR)
   } else if(inherits(x, 'sf')){
     PoR_to_geographical_sf(x, PoR)
-  } else if(is.data.frame(x) | dplyr::is_tibble(x)){
+  } else if(is.data.frame(x)){
     PoR_to_geographical_df(x, PoR)
   } else if(is.matrix(x)){
     PoR_to_geographical_quat(x, PoR)
@@ -473,10 +466,10 @@ geographical_to_PoR_sf <- function(x, PoR) {
 PoR_coordinates <- function(x, PoR) {
   if (is.data.frame(x)) {
     # x <- sf::st_as_sf(x, coords = c("lon", "lat"))
-    geographical_to_PoR(x, PoR)
+    geographical_to_PoR_df(x, PoR)
   } else {
     x |>
-      tectonicr::geographical_to_PoR_sf(PoR = PoR) |>
+      geographical_to_PoR_sf(PoR = PoR) |>
       sf::st_coordinates() |>
       sf::st_drop_geometry() |>
       dplyr::rename("lon.PoR" = "X", "lat.PoR" = "Y")
