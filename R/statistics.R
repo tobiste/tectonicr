@@ -324,7 +324,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     setNames(res %% mod, nm = c("25%", "50%", "75%"))
   } else {
     message("x needs more than 3 values")
-    return(NULL)
+    return(rep(NA, 3))
   }
 }
 
