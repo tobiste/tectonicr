@@ -9,7 +9,7 @@ system and vice versa."><meta property="og:image" content="https://tobiste.githu
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,43 +81,6 @@ geographical coordinate system with the Euler pole coordinates being the
 translation factors.</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">san_andreas.por</span> <span class="op">&lt;-</span> <span class="fu">geographical_to_PoR_sf</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">PoR_to_geographical_sf</span><span class="op">(</span><span class="va">san_andreas.por</span>, <span class="va">PoR</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 1126 features and 9 fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -125.82 ymin: 23.08 xmax: -108 ymax: 39.94</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          id   lat     lon azi unc type depth quality regime</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  wsm00892 38.14 -118.84  50  25  FMS     7       C      S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  wsm00893 35.97 -114.71  54  25  FMS     5       C      S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  wsm00894 37.93 -118.17  24  25  FMS     5       C      S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  wsm00896 38.63 -118.21  41  25  FMS    17       C      N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  wsm00897 39.08 -115.62  30  25  FMS     5       C      N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  wsm00903 38.58 -112.58  27  25  FMS     7       C      N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  wsm00904 38.71 -112.04  29  25  FMS     9       C      N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  wsm00905 37.30 -114.94  58  25  FMS     5       C     NS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  wsm00906 37.61 -113.30  32  25  FMS     2       C     TS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 wsm00916 37.69 -115.05  47  25  FMS     3       C      S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  POINT (-118.84 38.14)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  POINT (-114.71 35.97)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  POINT (-118.17 37.93)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  POINT (-118.21 38.63)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  POINT (-115.62 39.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  POINT (-112.58 38.58)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  POINT (-112.04 38.71)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   POINT (-114.94 37.3)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   POINT (-113.3 37.61)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 POINT (-115.05 37.69)</span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

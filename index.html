@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@
 <p><code>tectonicr</code> is a free and open-source <strong>R</strong> package for modeling and analyzing the direction of the maximum horizontal stress (SHmax) based on the empirical link between the direction of intraplate stress and the direction of the relative motion of neighboring plates (Wdowinski, 1998; Stephan et al., 2023). The following methods are available:</p>
 <ul>
 <li>
-<strong>Direction of the plate boundary forces</strong>: <code><a href="reference/PoR_shmax.html">PoR_shmax()</a></code> gives the predicted stress field adjacent to a plate boundary, calculated using the relative plate motion of the neighboring plates using the function <code><a href="reference/model_shmax.html">model_shmax()</a></code>. The goodness-of-fit can be statistically tested by e.g. <code><a href="reference/norm_chisq.html">norm_chisq()</a></code>, <code><a href="reference/dispersion.html">circular_dispersion()</a></code> ,<code><a href="reference/rayleigh_test.html">rayleigh_test()</a></code>, and <code><a href="reference/confidence.html">confidence_interval()</a></code>.</li>
+<strong>Direction of the plate boundary forces</strong>: <code><a href="reference/PoR_azi.html">PoR_shmax()</a></code> gives the predicted stress field adjacent to a plate boundary, calculated using the relative plate motion of the neighboring plates using the function <code><a href="reference/model_shmax.html">model_shmax()</a></code>. The goodness-of-fit can be statistically tested by e.g. <code><a href="reference/norm_chisq.html">norm_chisq()</a></code>, <code><a href="reference/dispersion.html">circular_dispersion()</a></code> ,<code><a href="reference/rayleigh_test.html">rayleigh_test()</a></code>, and <code><a href="reference/confidence.html">confidence_interval()</a></code>.</li>
 <li>
 <strong>Distance to plate boundary</strong>: <code><a href="reference/distance_from_pb.html">distance_from_pb()</a></code> gives the distance between the stress data point and the plate boundary measured along the stress trajectories.</li>
 <li>
@@ -196,7 +196,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=tectonicr" class="external-link"><img src="https://www.r-pkg.org/badges/version/tectonicr" alt="CRAN status"></a></li>
-<li><a href="https://github.com/tobiste/tectonicr" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.4.4.9004-orange.svg"></a></li>
+<li><a href="https://github.com/tobiste/tectonicr" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.4.4.9006-orange.svg"></a></li>
 <li><a href="https://cran.r-project.org/package=tectonicr" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow"></a></li>
 <li><a href="https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://doi.org/10.32614/CRAN.package.tectonicr" class="external-link"><img src="https://img.shields.io/badge/doi-10.32614/CRAN.package.tectonicr-slategrey.svg" alt="DOI"></a></li>

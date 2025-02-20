@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,11 +141,15 @@ Set <code>at=numeric(0)</code> to suppress tick marks.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="rose.html">rose</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add density curve outside of main plot:</span></span></span>
 <span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>,</span></span>
 <span class="r-in"><span>  kappa <span class="op">=</span> <span class="fl">100</span>, col <span class="op">=</span> <span class="st">"#51127CFF"</span>, shrink <span class="op">=</span> <span class="fl">1.5</span>,</span></span>
 <span class="r-in"><span>  norm.density <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_density-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot density inside plot:</span></span></span>
 <span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>,</span></span>
 <span class="r-in"><span>  kappa <span class="op">=</span> <span class="fl">100</span>, col <span class="op">=</span> <span class="st">"#51127CFF"</span>, add <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  scale <span class="op">=</span> <span class="fl">.5</span>, shrink <span class="op">=</span> <span class="fl">2</span>, norm.density <span class="op">=</span> <span class="cn">TRUE</span>, grid <span class="op">=</span> <span class="cn">TRUE</span></span></span>

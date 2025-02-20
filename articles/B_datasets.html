@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-02-19</h4>
+            <h4 data-toc-skip class="date">2025-02-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
       <div class="d-none name"><code>B_datasets.Rmd</code></div>
@@ -117,7 +117,7 @@ tangential displacement type.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
 <span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span>
-<span><span class="va">san_andreas.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_shmax.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, type <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">san_andreas.prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, type <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
 <p>Combine the model results with the coordinates of the observed
 data</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -278,6 +278,7 @@ direction wrt. to the distance to the plate boundary:</p>
 <span>    <span class="op">)</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">.25</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span></span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">360</span>, <span class="fl">45</span><span class="op">)</span>,</span>
 <span>    sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">sec_axis</a></span><span class="op">(</span></span>
@@ -291,39 +292,36 @@ direction wrt. to the distance to the plate boundary:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span>, values <span class="op">=</span> <span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">azi_plot</span><span class="op">)</span></span></code></pre></div>
 <p><img src="B_datasets_files/figure-html/san.andreas.distanceplot1-1.png" width="700"><!-- ![](azimuth.png) --></p>
-<p>Adding a rolling statistics (e.g. weighted mean and 95% confidence
-interval) of the transformed azimuth:</p>
+<p>Binned statistics (e.g. weighted mean and 95% confidence interval) of
+the transformed azimuth can be achieved through
+<code><a href="../reference/distance_binned_stats.html">distance_binned_stats()</a></code>. Here, this gives a summary
+statistic for every
+2<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">san_andreas.res_roll</span> <span class="op">&lt;-</span> <span class="va">san_andreas.res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span><span class="op">)</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">r_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/roll_circstats.html">roll_circstats</a></span><span class="op">(</span></span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
-<span>  w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">unc</span>,</span>
-<span>  FUN <span class="op">=</span> <span class="va">circular_mean</span>, width <span class="op">=</span> <span class="fl">51</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">r_conf95</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rolling_test.html">roll_confidence</a></span><span class="op">(</span></span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
-<span>  w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">unc</span>,</span>
-<span>  width <span class="op">=</span> <span class="fl">51</span></span>
+<code class="sourceCode R"><span><span class="va">san_andreas_binned</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/distance_binned_stats.html">distance_binned_stats</a></span><span class="op">(</span></span>
+<span>  azi <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
+<span>  distance <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">distance</span>,</span>
+<span>  unc <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>,</span>
+<span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">azi_plot</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_step</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="va">san_andreas.res_roll</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance</span>, <span class="va">r_mean</span> <span class="op">-</span> <span class="va">r_conf95</span><span class="op">)</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">san_andreas_binned</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">mean</span> <span class="op">-</span> <span class="va">CI</span><span class="op">)</span>,</span>
 <span>    lty <span class="op">=</span> <span class="fl">2</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_step</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="va">san_andreas.res_roll</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance</span>, <span class="va">r_mean</span> <span class="op">+</span> <span class="va">r_conf95</span><span class="op">)</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">san_andreas_binned</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">mean</span> <span class="op">+</span> <span class="va">CI</span><span class="op">)</span>,</span>
 <span>    lty <span class="op">=</span> <span class="fl">2</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_step</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="va">san_andreas.res_roll</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance</span>, <span class="va">r_mean</span><span class="op">)</span></span>
+<span>    data <span class="op">=</span> <span class="va">san_andreas_binned</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">mean</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="B_datasets_files/figure-html/san.andreas.distanceplot1_roll-1.png" width="700"></p>
+<p><img src="B_datasets_files/figure-html/distance_bin-1.png" width="700"></p>
 <p>Close to the dextral plate boundary, the majority of the stress data
 have a strike-slip fault regime and are oriented around
 135<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
@@ -340,15 +338,7 @@ visualized by using the deviation (normalized by the data precision)
 from the the predicted stress direction, i.e. the <em>normalized</em>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Rolling norm chisq:</span></span>
-<span><span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">roll_nchisq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rolling_test.html">roll_normchisq</a></span><span class="op">(</span></span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">prd</span>,</span>
-<span>  <span class="va">san_andreas.res_roll</span><span class="op">$</span><span class="va">unc</span>,</span>
-<span>  width <span class="op">=</span> <span class="fl">51</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plotting:</span></span>
+<code class="sourceCode R"><span><span class="co"># plotting:</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">nchisq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (\u00B0)"</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">Norm</span> <span class="op">~</span> <span class="va">chi</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -357,24 +347,25 @@ from the the predicted stress direction, i.e. the <em>normalized</em>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">sec_axis</a></span><span class="op">(</span></span>
 <span>    <span class="op">~</span><span class="va">.</span>,</span>
 <span>    name <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.15</span> <span class="op">/</span> <span class="fl">2</span>, <span class="fl">.33</span>, <span class="fl">.7</span> <span class="op">+</span> <span class="fl">0.15</span><span class="op">)</span>,</span>
-<span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Good fit"</span>, <span class="st">"Random"</span>, <span class="st">"Systematic\nmisfit"</span><span class="op">)</span></span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.15</span> <span class="op">/</span> <span class="fl">2</span>, <span class="op">(</span><span class="fl">.33</span> <span class="op">-</span> <span class="fl">.15</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">.15</span>, <span class="op">(</span><span class="fl">.7</span> <span class="op">-</span> <span class="fl">.33</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">.33</span>, <span class="fl">.7</span> <span class="op">+</span> <span class="fl">0.15</span><span class="op">)</span>,</span>
+<span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Good fit"</span>, <span class="st">"Acceptable fit"</span>, <span class="st">"Random"</span>, <span class="st">"Systematic\nmisfit"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span>, values <span class="op">=</span> <span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_step</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="va">san_andreas.res_roll</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance</span>, <span class="va">roll_nchisq</span><span class="op">)</span></span>
+<span>    data <span class="op">=</span> <span class="va">san_andreas_binned</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">nchisq</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="B_datasets_files/figure-html/san.andreas.distanceplot2-1.png" width="700"><!-- ![](nchisq.png) --></p>
 <p>We can see that the data in fact starts to scatter notably beyond a
 distance of
-3.8<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
+2<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
 and becomes random at
-7<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
+6.5<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
 away from the plate boundary. Thus, the North American-Pacific plate
 boundary zone at the San Andreas Fault is approx.
-4–7<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
-(ca. 380–750 km) wide.</p>
+2–6.5<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
+(ca. 200–800 km) wide.</p>
 <blockquote>
 <p>The <em>normalized</em>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>

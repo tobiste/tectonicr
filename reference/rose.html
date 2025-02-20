@@ -9,7 +9,7 @@ histogram or density plot for angular data."><meta property="og:image" content="
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -210,7 +210,7 @@ degree for axial or directional data, respectively.</p>
 <span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">x</span>, axial <span class="op">=</span> <span class="cn">FALSE</span>, border <span class="op">=</span> <span class="cn">TRUE</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="rose-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span> <span class="co">#'</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, main <span class="op">=</span> <span class="st">"equal area"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="rose-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, equal_area <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">"equal angle"</span><span class="op">)</span></span></span>
@@ -220,9 +220,11 @@ degree for axial or directional data, respectively.</p>
 <span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, main <span class="op">=</span> <span class="st">"weighted"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="rose-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># add dots</span></span></span>
+<span class="r-in"><span><span class="co"># add dots:</span></span></span>
 <span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, dots <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"dot plot"</span>, jitter <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="rose-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># stack dots:</span></span></span>
 <span class="r-in"><span><span class="fu">rose</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>,</span></span>
 <span class="r-in"><span>  dots <span class="op">=</span> <span class="cn">TRUE</span>, stack <span class="op">=</span> <span class="cn">TRUE</span>, dot_cex <span class="op">=</span> <span class="fl">0.5</span>, dot_pch <span class="op">=</span> <span class="fl">21</span>,</span></span>
 <span class="r-in"><span>  main <span class="op">=</span> <span class="st">"stacked dot plot"</span></span></span>

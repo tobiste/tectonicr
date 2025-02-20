@@ -9,7 +9,7 @@ vice versa"><meta property="og:image" content="https://tobiste.github.io/tectoni
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,9 +50,9 @@ vice versa</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geographical_to_PoR</span><span class="op">(</span><span class="va">x</span>, <span class="va">PoR</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geographical_to_PoR_df</span><span class="op">(</span><span class="va">x</span>, <span class="va">PoR</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">PoR_to_geographical</span><span class="op">(</span><span class="va">x</span>, <span class="va">PoR</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">PoR_to_geographical_df</span><span class="op">(</span><span class="va">x</span>, <span class="va">PoR</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -77,30 +77,6 @@ containing the geographical coordinates of the Euler pole</p></dd>
 or <code>lat</code> and <code>lon</code> for geographical CRS).</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">san_andreas.por</span> <span class="op">&lt;-</span> <span class="fu">geographical_to_PoR</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    lat.PoR   lon.PoR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 59.05548 -85.46364</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 60.50445 -78.16683</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 59.38025 -84.55317</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 59.73632 -85.74431</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 61.68018 -84.31053</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 63.39714 -80.60932</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">PoR_to_geographical</span><span class="op">(</span><span class="va">san_andreas.por</span>, <span class="va">por</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     lat     lon</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 38.14 -118.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 35.97 -114.71</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 37.93 -118.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 38.63 -118.21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 39.08 -115.62</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 38.58 -112.58</span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
