@@ -30,10 +30,3 @@ The PoR coordinate reference system is oblique transformation of the
 geographical coordinate system with the Euler pole coordinates being the
 translation factors.
 }
-\examples{
-data("nuvel1")
-PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
-data("san_andreas")
-san_andreas.por <- geographical_to_PoR_sf(san_andreas, PoR)
-PoR_to_geographical_sf(san_andreas.por, PoR)
-}

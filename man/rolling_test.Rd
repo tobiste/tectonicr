@@ -153,11 +153,11 @@ distance <- distance_from_pb(
 )
 dat <- san_andreas[order(distance), ]
 dat.PoR <- PoR_shmax(san_andreas, PoR, "right")
-roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
-roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
-roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc)
-roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc)
+roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc) |> head()
+roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc) |> head()
+roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc) |> head()
+roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc) |> head()
 \donttest{
-roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10)
+roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10) |> head()
 }
 }

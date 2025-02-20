@@ -196,9 +196,9 @@ deviation_shmax <- function(prd, obs) {
 #' \eqn{\chi^2}{chi-squared} statistics.
 #'
 #' @param df `sf` object or a \code{data.frame} containing the coordinates of the point(s)
-#' (\code{lat}, \code{lon}), the direction of
-#' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
-#' \code{unc} (optional)
+#' (\code{lat}, \code{lon}). `df` must contain the direction of
+#' \eqn{\sigma_{Hmax}}{SHmax} as column \code{azi} and its standard deviation
+#' as \code{unc} (the latter is optional)
 #' @param PoR \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler  pole
 #' @param type Character. Type of plate boundary (optional). Can be
@@ -236,7 +236,7 @@ deviation_shmax <- function(prd, obs) {
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
 #' *Sci Rep* 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 #'
-#' @name PoR-azi
+#' @name PoR_azi
 #'
 #' @examples
 #' data("nuvel1")
@@ -248,7 +248,7 @@ deviation_shmax <- function(prd, obs) {
 #' head(res)
 NULL
 
-#' @rdname PoR-azi
+#' @rdname PoR_azi
 #' @export
 PoR_azimuth <- function(df, PoR){
   stopifnot(is.data.frame(df), is.data.frame(PoR) | is.euler(PoR))
@@ -262,7 +262,7 @@ PoR_azimuth <- function(df, PoR){
   (df$azi - theta + 180) %% 180
 }
 
-#' @rdname PoR-azi
+#' @rdname PoR_azi
 #' @export
 PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
   type <- match.arg(type)
@@ -320,7 +320,7 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 #' san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
 #'
 #' # convert back to geo CRS
-#' PoR2Geo_azimuth(san_andreas, PoR)
+#' PoR2Geo_azimuth(san_andreas, PoR) |> head()
 PoR2Geo_azimuth <- function(x, PoR) {
   # Northern Hemisphere Euler pole
   # if (PoR$lat < 0) {

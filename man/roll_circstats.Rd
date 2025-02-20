@@ -72,5 +72,5 @@ distance <- distance_from_pb(
   tangential = TRUE
 )
 dat <- san_andreas[order(distance), ]
-roll_circstats(dat$azi, w = 1 / dat$unc, circular_mean, width = 51)
+roll_circstats(dat$azi, w = 1 / dat$unc, circular_mean, width = 51) |> head()
 }

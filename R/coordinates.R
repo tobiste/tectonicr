@@ -196,7 +196,6 @@ PoR_crs <- function(x) {
 NULL
 
 #' @name por_transformation_quat
-#' @export
 geographical_to_PoR_quat <- function(x, PoR) {
   p <- geographical_to_cartesian(x)
   euler_y <- euler_pole(0, 1, 0, angle = 90 - PoR[1], geo = FALSE)
@@ -211,7 +210,6 @@ geographical_to_PoR_quat <- function(x, PoR) {
 }
 
 #' @name por_transformation_quat
-#' @export
 PoR_to_geographical_quat <- function(x, PoR) {
   x[2] <- longitude_modulo(x[2] - 180)
   p_trans <- geographical_to_cartesian(x)
@@ -233,6 +231,72 @@ PoR_to_geographical_helper <- function(lat.PoR, lon.PoR, PoR) {
   PoR_to_geographical_quat(c(lat.PoR, lon.PoR), PoR = PoR)
 }
 
+
+#' Conversion between spherical PoR to geographical coordinate system
+#'
+#' Transformation from spherical PoR to geographical coordinate system and
+#' vice versa
+#'
+#' @param x Can be either a \code{"data.frame"} containing \code{lat} and \code{lon}
+#' coordinates of a point in the geographical CRS or the \code{lat.PoR},
+#' \code{lon.PoR}) of the point in the PoR CRS,
+#' a two-column matrix containing the lat and lon coordinates,
+#' a `sf` object, or a `raster` object.
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
+#'
+#' @returns object of same type of `x` with the transformed coordinates. If `x`
+#' was a `data.frame`, transformed coordinates are named \code{lat.PoR} and \code{lon.PoR} for PoR CRS,
+#' or \code{lat} and \code{lon} for geographical CRS).
+#'
+#' @name por_transformation
+#'
+#' @examples
+#' data("nuvel1")
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
+#' data("san_andreas")
+#' san_andreas.por <- geographical_to_PoR(san_andreas, por)
+#' head(san_andreas.por)
+#' head(PoR_to_geographical(san_andreas.por, por))
+NULL
+
+#' @rdname por_transformation
+#' @export
+geographical_to_PoR <- function(x, PoR){
+  stopifnot(is.data.frame(PoR) | is.euler(PoR))
+
+  if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
+    geographical_to_PoR_raster(x, PoR)
+  } else if(inherits(x, 'sf')){
+    geographical_to_PoR_sf(x, PoR)
+  } else if(is.data.frame(x) | dplyr::is_tibble(x)){
+    geographical_to_PoR_df(x, PoR)
+  } else if(is.matrix(x)){
+    geographical_to_PoR_quat(x, PoR)
+  } else {
+    NULL
+  }
+}
+
+#' @rdname por_transformation
+#' @export
+PoR_to_geographical <- function(x, PoR){
+  stopifnot(is.data.frame(PoR) | is.euler(PoR))
+
+  if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
+    PoR_to_geographical_raster(x, PoR)
+  } else if(inherits(x, 'sf')){
+    PoR_to_geographical_sf(x, PoR)
+  } else if(is.data.frame(x) | dplyr::is_tibble(x)){
+    PoR_to_geographical_df(x, PoR)
+  } else if(is.matrix(x)){
+    PoR_to_geographical_quat(x, PoR)
+  } else {
+    NULL
+  }
+}
+
+
 #' Conversion between spherical PoR to geographical coordinate system
 #'
 #' Transformation from spherical PoR to geographical coordinate system and
@@ -249,37 +313,135 @@ PoR_to_geographical_helper <- function(lat.PoR, lon.PoR, PoR) {
 #' or \code{lat} and \code{lon} for geographical CRS).
 #'
 #' @name por_transformation_df
-#'
-#' @examples
-#' data("nuvel1")
-#' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
-#' data("san_andreas")
-#' san_andreas.por <- geographical_to_PoR(san_andreas, por)
-#' head(san_andreas.por)
-#' head(PoR_to_geographical(san_andreas.por, por))
 NULL
 
+
 #' @name por_transformation_df
-#' @export
-geographical_to_PoR <- function(x, PoR) {
-  stopifnot(is.data.frame(PoR) | is.euler(PoR))
+geographical_to_PoR_df <- function(x, PoR) {
+  stopifnot(c('lat', 'lon') %in% colnames(x))
   ep.geo <- c(PoR$lat, PoR$lon)
   lat.PoR <- lon.PoR <- numeric(nrow(x))
+
 
   x_por <- mapply(geographical_to_PoR_helper, x$lat, x$lon, MoreArgs = list(PoR = ep.geo))
   data.frame(lat.PoR = x_por[1, ], lon.PoR = x_por[2, ])
 }
 
 #' @name por_transformation_df
-#' @export
-PoR_to_geographical <- function(x, PoR) {
-  stopifnot(is.data.frame(PoR) | is.euler(PoR))
+PoR_to_geographical_df <- function(x, PoR) {
+  stopifnot(c('lat.PoR', 'lon.PoR') %in% colnames(x))
   ep.geo <- c(PoR$lat, PoR$lon)
   lat <- lon <- numeric(nrow(x))
 
   x_geo <- mapply(PoR_to_geographical_helper, x$lat.PoR, x$lon.PoR, MoreArgs = list(PoR = ep.geo))
   data.frame(lat = x_geo[1, ], lon = x_geo[2, ])
 }
+
+#' Conversion between PoR to geographical coordinate reference system of raster
+#' data
+#'
+#' Helper function to transform raster data set from PoR to geographical
+#' coordinates
+#'
+#' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
+#'
+#' @returns terra "SpatRaster" object
+#'
+#' @importFrom terra crs project rast
+#' @importFrom methods extends
+#'
+#' @name raster_transformation
+NULL
+
+#' @rdname raster_transformation
+geographical_to_PoR_raster <- function(x, PoR) {
+  if (methods::extends(class(x), "BasicRaster")) {
+    x <- terra::rast(x)
+  }
+  stopifnot(inherits(x, "SpatRaster"))
+  crs.wgs84 <- "epsg:4326"
+  crs.ep <- PoR_crs(PoR)
+  terra::crs(x) <- crs.ep$wkt
+  x.por <- terra::project(x, crs.wgs84)
+  terra::crs(x.por) <- crs.ep$wkt
+  return(x.por)
+}
+
+#' @rdname raster_transformation
+PoR_to_geographical_raster <- function(x, PoR) {
+  if (methods::extends(class(x), "BasicRaster")) {
+    x <- terra::rast(x)
+  }
+  stopifnot(inherits(x, "SpatRaster"))
+  crs.wgs84 <- "epsg:4326"
+  crs.PoR <- PoR_crs(PoR)
+  terra::crs(x) <- crs.wgs84
+  x.geo <- terra::project(x, crs.PoR$wkt)
+  terra::crs(x.geo) <- crs.wgs84
+  return(x.geo)
+}
+
+
+#' Conversion between PoR to geographical coordinates of spatial data
+#'
+#' Transform spatial objects from PoR to geographical coordinate reference
+#' system and vice versa.
+#'
+#' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
+#' points in geographical or PoR coordinate system
+#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
+#' containing the geographical coordinates of the Euler pole
+#'
+#' @return \code{sf} or \code{SpatRast} object of the data points in the
+#' transformed geographical or PoR coordinate system
+#'
+#' @details The PoR coordinate reference system is oblique transformation of the
+#' geographical coordinate system with the Euler pole coordinates being the
+#' translation factors.
+#'
+#' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
+#' @importFrom methods extends
+#'
+#' @name por_transformation_sf
+NULL
+
+#' @rdname por_transformation_sf
+PoR_to_geographical_sf <- function(x, PoR) {
+  crs.wgs84 <- sf::st_crs("epsg:4326")
+  crs.PoR <- PoR_crs(PoR)
+  suppressMessages(
+    suppressWarnings(
+      x |>
+        sf::st_set_crs(crs.wgs84) |>
+        sf::st_transform(crs.PoR) |>
+        sf::st_set_crs(crs.wgs84) |>
+        sf::st_wrap_dateline()
+    )
+  )
+}
+
+#' @rdname por_transformation_sf
+geographical_to_PoR_sf <- function(x, PoR) {
+  crs.wgs84 <- sf::st_crs("epsg:4326")
+  crs.PoR <- PoR_crs(PoR)
+  suppressMessages(
+    suppressWarnings(
+      x |>
+        sf::st_set_crs(crs.PoR) |>
+        sf::st_transform(crs.wgs84) |>
+        sf::st_set_crs(crs.PoR) |>
+        sf::st_wrap_dateline(
+          options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
+        )
+    )
+  )
+
+}
+
+
+
 
 
 #' Coordinates of the Pole of Rotation Reference System
@@ -361,122 +523,4 @@ PoR_distance <- function(x, PoR, FUN = orthodrome) {
 # }
 
 
-#' Conversion between PoR to geographical coordinate reference system of raster
-#' data
-#'
-#' Helper function to transform raster data set from PoR to geographical
-#' coordinates
-#'
-#' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
-#'
-#' @returns terra "SpatRaster" object
-#'
-#' @importFrom terra crs project rast
-#' @importFrom methods extends
-#'
-#' @name raster_transformation
-NULL
 
-#' @rdname raster_transformation
-geographical_to_PoR_raster <- function(x, PoR) {
-  if (methods::extends(class(x), "BasicRaster")) {
-    x <- terra::rast(x)
-  }
-  stopifnot(inherits(x, "SpatRaster"))
-  crs.wgs84 <- "epsg:4326"
-  crs.ep <- PoR_crs(PoR)
-  terra::crs(x) <- crs.ep$wkt
-  x.por <- terra::project(x, crs.wgs84)
-  terra::crs(x.por) <- crs.ep$wkt
-  return(x.por)
-}
-
-#' @rdname raster_transformation
-PoR_to_geographical_raster <- function(x, PoR) {
-  if (methods::extends(class(x), "BasicRaster")) {
-    x <- terra::rast(x)
-  }
-  stopifnot(inherits(x, "SpatRaster"))
-  crs.wgs84 <- "epsg:4326"
-  crs.PoR <- PoR_crs(PoR)
-  terra::crs(x) <- crs.wgs84
-  x.geo <- terra::project(x, crs.PoR$wkt)
-  terra::crs(x.geo) <- crs.wgs84
-  return(x.geo)
-}
-
-
-#' Conversion between PoR to geographical coordinates of spatial data
-#'
-#' Transform spatial objects from PoR to geographical coordinate reference
-#' system and vice versa.
-#'
-#' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
-#' points in geographical or PoR coordinate system
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
-#'
-#' @return \code{sf} or \code{SpatRast} object of the data points in the
-#' transformed geographical or PoR coordinate system
-#'
-#' @details The PoR coordinate reference system is oblique transformation of the
-#' geographical coordinate system with the Euler pole coordinates being the
-#' translation factors.
-#'
-#' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
-#' @importFrom methods extends
-#'
-#' @examples
-#' data("nuvel1")
-#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
-#' data("san_andreas")
-#' san_andreas.por <- geographical_to_PoR_sf(san_andreas, PoR)
-#' PoR_to_geographical_sf(san_andreas.por, PoR)
-#' @name por_transformation_sf
-NULL
-
-#' @rdname por_transformation_sf
-#' @export
-PoR_to_geographical_sf <- function(x, PoR) {
-  if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
-    x.por <- geographical_to_PoR_raster(x, PoR)
-  } else {
-    crs.wgs84 <- sf::st_crs("epsg:4326")
-    crs.PoR <- PoR_crs(PoR)
-    suppressMessages(
-      suppressWarnings(
-        x.por <- x |>
-          sf::st_set_crs(crs.wgs84) |>
-          sf::st_transform(crs.PoR) |>
-          sf::st_set_crs(crs.wgs84) |>
-          sf::st_wrap_dateline()
-      )
-    )
-  }
-  return(x.por)
-}
-
-#' @rdname por_transformation_sf
-#' @export
-geographical_to_PoR_sf <- function(x, PoR) {
-  if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
-    x.geo <- geographical_to_PoR_raster(x, PoR)
-  } else {
-    crs.wgs84 <- sf::st_crs("epsg:4326")
-    crs.PoR <- PoR_crs(PoR)
-    suppressMessages(
-      suppressWarnings(
-        x.geo <- x |>
-          sf::st_set_crs(crs.PoR) |>
-          sf::st_transform(crs.wgs84) |>
-          sf::st_set_crs(crs.PoR) |>
-          sf::st_wrap_dateline(
-            options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
-          )
-      )
-    )
-  }
-  return(x.geo)
-}

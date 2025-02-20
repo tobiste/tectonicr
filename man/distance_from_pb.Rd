@@ -7,11 +7,13 @@
 distance_from_pb(x, PoR, pb, tangential = FALSE, km = FALSE, ...)
 }
 \arguments{
-\item{x, pb}{\code{sf} objects of the data points and the plate boundary
-geometries in the geographical coordinate system}
+\item{x}{\code{sf} or \code{data.frame} objects of the data.points in geographical coordinate system}
 
 \item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Pole of Rotation}
+
+\item{pb}{\code{sf} objects of the  plate boundary
+geometries in the geographical coordinate system}
 
 \item{tangential}{Logical. Whether the plate boundary is a tangential
 boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the

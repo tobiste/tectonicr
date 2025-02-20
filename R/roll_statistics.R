@@ -40,7 +40,7 @@
 #'   tangential = TRUE
 #' )
 #' dat <- san_andreas[order(distance), ]
-#' roll_circstats(dat$azi, w = 1 / dat$unc, circular_mean, width = 51)
+#' roll_circstats(dat$azi, w = 1 / dat$unc, circular_mean, width = 51) |> head()
 roll_circstats <- function(x, w = NULL,
                            FUN,
                            axial = TRUE, na.rm = TRUE,
@@ -118,12 +118,12 @@ roll_circstats <- function(x, w = NULL,
 #' )
 #' dat <- san_andreas[order(distance), ]
 #' dat.PoR <- PoR_shmax(san_andreas, PoR, "right")
-#' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc)
-#' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc)
-#' roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc)
-#' roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc)
+#' roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc) |> head()
+#' roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc) |> head()
+#' roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc) |> head()
+#' roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc) |> head()
 #' \donttest{
-#' roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10)
+#' roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10) |> head()
 #' }
 NULL
 
@@ -315,10 +315,10 @@ optimal_rollwidth <- function(x) {
 #' )
 #' dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 #'
-#' distroll_circstats(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc, FUN = circular_mean)
-#' distroll_confidence(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc)
-#' distroll_dispersion(dat$azi.PoR, y = 135, distance = dat$distance, w = 1 / dat$unc)
-#' distroll_dispersion_sde(dat$azi.PoR, y = 135, distance = dat$distance, w = 1 / dat$unc, R = 100)
+#' distroll_circstats(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc, FUN = circular_mean) |> head()
+#' distroll_confidence(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc) |> head()
+#' distroll_dispersion(dat$azi.PoR, y = 135, distance = dat$distance, w = 1 / dat$unc) |> head()
+#' distroll_dispersion_sde(dat$azi.PoR, y = 135, distance = dat$distance, w = 1 / dat$unc, R = 100) |> head()
 NULL
 
 #' @rdname rolling_test_dist
@@ -512,7 +512,7 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #' @param n.breaks numeric. number (greater than or equal to 2) giving the number of intervals into which `distance` is to be cut. Default is 4.
 #' @param width numeric. the range across `distance` on which statistics should be
 #' applied on `x`. If `NULL`, then width is a number that separates the distances in 4 equal-sized bins.
-#' @param w (optional) Uncertainties of `azi` (in degrees) acting as inverse weighting factors for statistics.
+#' @param unc (optional) Uncertainties of `azi` (in degrees) acting as inverse weighting factors for statistics.
 #' @param kappa numeric. Concentration parameter applied for the circular mode.
 #' @param R integer. Number of bootstrap iterates for estimating the error of the dispersion.
 #' @param conf.level The level of confidence for confidence interval and bootstrapped standard error of dispersion.
@@ -540,7 +540,7 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #' )
 #' dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 #'
-#' distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, unc = dat$unc, prd = 135)
+#' distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, unc = dat$unc, prd = 135) |> head()
 distance_binned_stats <- function(azi, distance, n.breaks = 4, width = NULL, unc = NULL, prd = NULL, prd.error = NULL, kappa = 2, R = 1000, conf.level = 0.95, ...) {
   if (!is.null(width)) {
     n.breaks <- round(diff(range(distance)) / width)

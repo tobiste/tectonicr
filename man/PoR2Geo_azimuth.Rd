@@ -28,7 +28,7 @@ data("san_andreas")
 san_andreas$azi.PoR <- PoR_shmax(san_andreas, PoR)
 
 # convert back to geo CRS
-PoR2Geo_azimuth(san_andreas, PoR)
+PoR2Geo_azimuth(san_andreas, PoR) |> head()
 }
 \references{
 Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the

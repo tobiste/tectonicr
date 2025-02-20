@@ -657,7 +657,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 #' @importFrom circular circular rvonmises pvonmises qvonmises daxialvonmises dvonmises
 #'
 #' @examples
-#' x <- rvm(100, mean = 90, kappa = 2)
+#' x <- rvm(5, mean = 90, kappa = 2)
 #'
 #' dvm(x, mean = 90, kappa = 2)
 #' dvm(x, mean = 90, kappa = 2, axial = TRUE)

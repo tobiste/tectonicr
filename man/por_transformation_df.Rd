@@ -2,13 +2,13 @@
 % Please edit documentation in R/coordinates.R
 \name{por_transformation_df}
 \alias{por_transformation_df}
-\alias{geographical_to_PoR}
-\alias{PoR_to_geographical}
+\alias{geographical_to_PoR_df}
+\alias{PoR_to_geographical_df}
 \title{Conversion between spherical PoR to geographical coordinate system}
 \usage{
-geographical_to_PoR(x, PoR)
+geographical_to_PoR_df(x, PoR)
 
-PoR_to_geographical(x, PoR)
+PoR_to_geographical_df(x, PoR)
 }
 \arguments{
 \item{x}{\code{"data.frame"} containing \code{lat} and \code{lon}
@@ -26,12 +26,4 @@ or \code{lat} and \code{lon} for geographical CRS).
 \description{
 Transformation from spherical PoR to geographical coordinate system and
 vice versa
-}
-\examples{
-data("nuvel1")
-por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
-data("san_andreas")
-san_andreas.por <- geographical_to_PoR(san_andreas, por)
-head(san_andreas.por)
-head(PoR_to_geographical(san_andreas.por, por))
 }

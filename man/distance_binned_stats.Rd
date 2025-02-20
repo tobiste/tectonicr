@@ -28,6 +28,8 @@ distance_binned_stats(
 \item{width}{numeric. the range across \code{distance} on which statistics should be
 applied on \code{x}. If \code{NULL}, then width is a number that separates the distances in 4 equal-sized bins.}
 
+\item{unc}{(optional) Uncertainties of \code{azi} (in degrees) acting as inverse weighting factors for statistics.}
+
 \item{prd}{(optional) numeric. A predicted orientation in degrees.}
 
 \item{prd.error}{(optional) numeric. The uncertainty of the predicted orientation in degrees.}
@@ -39,8 +41,6 @@ applied on \code{x}. If \code{NULL}, then width is a number that separates the d
 \item{conf.level}{The level of confidence for confidence interval and bootstrapped standard error of dispersion.}
 
 \item{...}{optional arguments passed to \code{\link[=cut]{cut()}}}
-
-\item{w}{(optional) Uncertainties of \code{azi} (in degrees) acting as inverse weighting factors for statistics.}
 }
 \value{
 tibble containing the \code{n} values for \code{azi}in each bin, min/median/max distance of the bin, and the summary statistics for \code{azi}.
@@ -62,7 +62,7 @@ san_andreas$distance <- distance_from_pb(
 )
 dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 
-distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, unc = dat$unc, prd = 135)
+distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, unc = dat$unc, prd = 135) |> head()
 }
 \seealso{
 \code{\link[=circular_summary]{circular_summary()}}, \code{\link[=circular_dispersion]{circular_dispersion()}}, and \code{\link[=circular_dispersion_boot]{circular_dispersion_boot()}}

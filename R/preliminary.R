@@ -151,46 +151,6 @@ get_azimuth_half <- function(lat_a, lon_a, lat_b, lon_b, gc = c("haversine", "or
 }
 
 
-#' Azimuth relative to PoR
-#'
-#' Transform azimuth from geographical to PoR system according to Wdowinski 1998
-#'
-#' @param x \code{"data.frame"}. coordinates of data point (lat, lon) and the azimuth
-#' @param euler \code{"data.frame"}. coordinates of Euler pole (PoR)
-#' @return \code{"numeric"}. Transformed azimuth relative to PoR
-#' @references Wdowinski, S., 1998, A theory of intraplate
-#'   tectonics: Journal of Geophysical Research: Solid Earth, v. 103, p.
-#'   5037-5059, \doi{10.1029/97JB03390}.
-#' @examples
-#' \dontrun{
-#' data("nuvel1")
-#' # North America relative to Pacific plate:
-#' euler <- subset(nuvel1, nuvel1$plate.rot == "na")
-#'
-#' data("san_andreas")
-#' res <- PoR_azimuth(san_andreas, euler)
-#' head(res)
-#' }
-PoR_azimuth <- function(x, euler) {
-  # .Deprecated("PoR_shmax")
-  # convert latitude to colatitude and to radians
-  x <- data.frame(lat = x$lat, lon = x$lon, azi = x$azi) * pi / 180
-  ep <- data.frame(lat = euler$lat, lon = euler$lon) * pi / 180
-
-  S <-
-    cos(ep$lat) * cos(ep$lon) * cos(x$lat) * cos(x$lon) +
-    cos(ep$lat) * sin(ep$lon) * cos(x$lat) * sin(x$lon) +
-    sin(ep$lat) * sin(x$lat)
-
-  beta <- acos(
-    (sin(ep$lat) - S * sin(x$lat)) /
-      (sqrt(1 - S * S) * abs(cos(x$lat)))
-  )
-
-  azi.por <- x$azi - beta
-  (azi.por * 180 / pi + 360) %% 180
-}
-
 
 #' Displacement vector and stress matrix in PoR
 #'

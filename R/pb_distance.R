@@ -47,7 +47,8 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #'
 #' Absolute distance of data points from the nearest plate boundary in degree
 #'
-#' @param x,pb `sf` objects of the data points and the plate boundary
+#' @param x `sf` or `data.frame` objects of the data.points in geographical coordinate system
+#' @param pb `sf` objects of the  plate boundary
 #' geometries in the geographical coordinate system
 #' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Pole of Rotation
@@ -93,15 +94,14 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' range(res.km)
 distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
-    inherits(x, "sf"),
+    #inherits(x, "sf"),
     inherits(pb, "sf"),
     is.logical(tangential),
     is.logical(km),
     is.data.frame(PoR) | is.euler(PoR)
   )
 
-  x.coords <- sf::st_geometry(x) |>
-    geographical_to_PoR_sf(PoR = PoR) |>
+  x.coords <- geographical_to_PoR(x, PoR = PoR) |>
     sf::st_coordinates()
   pb.coords <-
     sf::st_geometry(pb) |>
