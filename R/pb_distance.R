@@ -94,7 +94,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' range(res.km)
 distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
   stopifnot(
-    #inherits(x, "sf"),
+    # inherits(x, "sf"),
     inherits(pb, "sf"),
     is.logical(tangential),
     is.logical(km),

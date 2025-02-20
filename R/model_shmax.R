@@ -250,10 +250,10 @@ NULL
 
 #' @rdname PoR_azi
 #' @export
-PoR_azimuth <- function(df, PoR){
+PoR_azimuth <- function(df, PoR) {
   stopifnot(is.data.frame(df), is.data.frame(PoR) | is.euler(PoR))
-  if(inherits(df, 'sf')){
-    crds <- sf::st_transform(df, crs = 'WGS84') |> sf::st_coordinates()
+  if (inherits(df, "sf")) {
+    crds <- sf::st_transform(df, crs = "WGS84") |> sf::st_coordinates()
     df$lon <- crds[, 1]
     df$lat <- crds[, 2]
   }

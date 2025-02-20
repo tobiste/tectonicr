@@ -255,16 +255,16 @@ NULL
 
 #' @rdname por_transformation
 #' @export
-geographical_to_PoR <- function(x, PoR){
+geographical_to_PoR <- function(x, PoR) {
   stopifnot(is.data.frame(PoR) | is.euler(PoR))
 
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     geographical_to_PoR_raster(x, PoR)
-  } else if(inherits(x, 'sf')){
+  } else if (inherits(x, "sf")) {
     geographical_to_PoR_sf(x, PoR)
-  } else if(is.data.frame(x)){
+  } else if (is.data.frame(x)) {
     geographical_to_PoR_df(x, PoR)
-  } else if(is.matrix(x)){
+  } else if (is.matrix(x)) {
     geographical_to_PoR_quat(x, PoR)
   } else {
     NULL
@@ -273,16 +273,16 @@ geographical_to_PoR <- function(x, PoR){
 
 #' @rdname por_transformation
 #' @export
-PoR_to_geographical <- function(x, PoR){
+PoR_to_geographical <- function(x, PoR) {
   stopifnot(is.data.frame(PoR) | is.euler(PoR))
 
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     PoR_to_geographical_raster(x, PoR)
-  } else if(inherits(x, 'sf')){
+  } else if (inherits(x, "sf")) {
     PoR_to_geographical_sf(x, PoR)
-  } else if(is.data.frame(x)){
+  } else if (is.data.frame(x)) {
     PoR_to_geographical_df(x, PoR)
-  } else if(is.matrix(x)){
+  } else if (is.matrix(x)) {
     PoR_to_geographical_quat(x, PoR)
   } else {
     NULL
@@ -311,7 +311,7 @@ NULL
 
 #' @name por_transformation_df
 geographical_to_PoR_df <- function(x, PoR) {
-  stopifnot(c('lat', 'lon') %in% colnames(x))
+  stopifnot(c("lat", "lon") %in% colnames(x))
   ep.geo <- c(PoR$lat, PoR$lon)
   lat.PoR <- lon.PoR <- numeric(nrow(x))
 
@@ -322,7 +322,7 @@ geographical_to_PoR_df <- function(x, PoR) {
 
 #' @name por_transformation_df
 PoR_to_geographical_df <- function(x, PoR) {
-  stopifnot(c('lat.PoR', 'lon.PoR') %in% colnames(x))
+  stopifnot(c("lat.PoR", "lon.PoR") %in% colnames(x))
   ep.geo <- c(PoR$lat, PoR$lon)
   lat <- lon <- numeric(nrow(x))
 
@@ -430,7 +430,6 @@ geographical_to_PoR_sf <- function(x, PoR) {
         )
     )
   )
-
 }
 
 
@@ -514,6 +513,3 @@ PoR_distance <- function(x, PoR, FUN = orthodrome) {
 #   res <- PoR_coordinates(x, PoR)
 #   90 - abs(res$lat.PoR)
 # }
-
-
-

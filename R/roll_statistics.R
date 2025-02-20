@@ -315,13 +315,19 @@ optimal_rollwidth <- function(x) {
 #' )
 #' dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 #'
-#' distroll_circstats(dat$azi.PoR, distance = dat$distance,
-#'   w = 1 / dat$unc, FUN = circular_mean) |> head()
+#' distroll_circstats(dat$azi.PoR,
+#'   distance = dat$distance,
+#'   w = 1 / dat$unc, FUN = circular_mean
+#' ) |> head()
 #' distroll_confidence(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc) |> head()
-#' distroll_dispersion(dat$azi.PoR, y = 135,
-#'   distance = dat$distance, w = 1 / dat$unc) |> head()
-#' distroll_dispersion_sde(dat$azi.PoR, y = 135,
-#'   distance = dat$distance, w = 1 / dat$unc, R = 100) |> head()
+#' distroll_dispersion(dat$azi.PoR,
+#'   y = 135,
+#'   distance = dat$distance, w = 1 / dat$unc
+#' ) |> head()
+#' distroll_dispersion_sde(dat$azi.PoR,
+#'   y = 135,
+#'   distance = dat$distance, w = 1 / dat$unc, R = 100
+#' ) |> head()
 NULL
 
 #' @rdname rolling_test_dist
@@ -543,8 +549,10 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #' )
 #' dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 #'
-#' distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2,
-#'   unc = dat$unc, prd = 135) |> head()
+#' distance_binned_stats(dat$azi.PoR,
+#'   distance = dat$distance, width = 2,
+#'   unc = dat$unc, prd = 135
+#' ) |> head()
 distance_binned_stats <- function(azi, distance, n.breaks = 4, width = NULL,
                                   unc = NULL, prd = NULL, prd.error = NULL,
                                   kappa = 2, R = 1000, conf.level = 0.95, ...) {
@@ -553,11 +561,13 @@ distance_binned_stats <- function(azi, distance, n.breaks = 4, width = NULL,
   }
   no_prd <- is.null(prd)
 
-  res <- dplyr::tibble(azi = azi, w = unc, prd = prd, prderr = prd.error,
-                       distance = distance) |>
+  res <- dplyr::tibble(
+    azi = azi, w = unc, prd = prd, prderr = prd.error,
+    distance = distance
+  ) |>
     dplyr::mutate(
       bins = cut(distance, breaks = n.breaks, ...),
-      w = ifelse(is.null(w), 1, 1/w),
+      w = ifelse(is.null(w), 1, 1 / w),
       w.prd = ifelse(is.null(prd.error), 1, 1 / prd.error),
       prd = ifelse(is.null(prd), NA, prd)
     ) |>
@@ -580,8 +590,10 @@ distance_binned_stats <- function(azi, distance, n.breaks = 4, width = NULL,
       kurtosis = second_central_moment(azi, w = w)$kurtosis,
       nchisq = norm_chisq(azi, prd, w),
       dispersion = circular_dispersion(azi, prd, w = w, w.y = w.prd),
-      dispersion_sde = circular_dispersion_boot(azi, prd, w = w, w.y = w.prd,
-                                                conf.level = conf.level, R = R)$sde
+      dispersion_sde = circular_dispersion_boot(azi, prd,
+        w = w, w.y = w.prd,
+        conf.level = conf.level, R = R
+      )$sde
     )
 
   if (no_prd) {

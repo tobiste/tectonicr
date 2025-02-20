@@ -688,11 +688,11 @@ dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
   } else {
     x <- circular::circular(theta, units = "degrees", modulo = "2pi")
     mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
-    circular::dvonmises(x, mu=mu, kappa=kappa, log = log)
+    circular::dvonmises(x, mu = mu, kappa = kappa, log = log)
 
-    #x <- deg2rad(theta)
-    #mu <- deg2rad(mean)
-    #stopifnot(length(mu==1))
+    # x <- deg2rad(theta)
+    # mu <- deg2rad(mean)
+    # stopifnot(length(mu==1))
     # if (log) {
     #   if (kappa == 0) {
     #     vm <- log(rep(1 / (2 * pi), length(x)))

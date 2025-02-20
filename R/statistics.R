@@ -823,7 +823,7 @@ confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm 
   sde <- circular_sd_error(x, w, axial, na.rm)
 
   temp <- Z_alpha * sde
-  if(temp > 1) temp <- 1 # I don't understand yet why sometimes sde > 1/Z_alpha (which makes asin undefined). Hence I set this term to 1 to make it work. Not ideal though...
+  if (temp > 1) temp <- 1 # I don't understand yet why sometimes sde > 1/Z_alpha (which makes asin undefined). Hence I set this term to 1 to make it work. Not ideal though...
   asind(temp) * f
 }
 
@@ -894,7 +894,7 @@ confidence_interval_fisher <- function(x, conf.level = 0.95, w = NULL, axial = T
     sde <- sqrt(disp / n)
 
     temp <- z_score(conf.level) * sde
-    if(temp > 1) temp <- 1 # I don't understand yet why sometimes sde > 1/Z_alpha (which makes asin undefined). Hence I set this term to 1 to make it work. Not ideal though...
+    if (temp > 1) temp <- 1 # I don't understand yet why sometimes sde > 1/Z_alpha (which makes asin undefined). Hence I set this term to 1 to make it work. Not ideal though...
     conf.angle <- asind(temp)
 
     mu <- circular_mean(x = x, w = w, axial = axial, na.rm = na.rm)

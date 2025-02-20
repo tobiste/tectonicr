@@ -225,12 +225,12 @@ print(azi_plot)
 Binned statistics (e.g. weighted mean and 95% confidence interval) of the transformed azimuth can be achieved through `distance_binned_stats()`. Here, this gives a summary statistic for every 2$^{\circ}$.
 ```{r distance_bin, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 san_andreas_binned <- distance_binned_stats(
-  azi = san_andreas.res$azi.PoR, 
+  azi = san_andreas.res$azi.PoR,
   distance = san_andreas.res$distance,
   unc = san_andreas$unc,
   prd = 135,
   width = 2
-  )
+)
 
 azi_plot +
   geom_step(
@@ -264,7 +264,6 @@ by using the deviation (normalized by the data precision) from the the predicted
 stress direction, i.e. the *normalized* $\chi^2$:
 
 ```{r san.andreas.distanceplot2, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-
 # plotting:
 ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   coord_cartesian(ylim = c(0, 1)) +
@@ -274,7 +273,7 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   scale_y_continuous(sec.axis = sec_axis(
     ~.,
     name = NULL,
-    breaks = c(.15 / 2, (.33 - .15)/2 + .15, (.7 - .33)/2 + .33, .7 + 0.15),
+    breaks = c(.15 / 2, (.33 - .15) / 2 + .15, (.7 - .33) / 2 + .33, .7 + 0.15),
     labels = c("Good fit", "Acceptable fit", "Random", "Systematic\nmisfit")
   )) +
   scale_x_continuous(breaks = seq(-10, 10, 2)) +
