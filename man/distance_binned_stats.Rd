@@ -7,9 +7,9 @@
 distance_binned_stats(
   azi,
   distance,
-  n.breaks = 10,
+  n.breaks = 4,
   width = NULL,
-  w = NULL,
+  unc = NULL,
   prd = NULL,
   prd.error = NULL,
   kappa = 2,
@@ -23,12 +23,10 @@ distance_binned_stats(
 
 \item{distance}{numeric. the independent variable along the values in \code{azi} are sorted, e.g. the plate boundary distances}
 
-\item{n.breaks}{numeric. number (greater than or equal to 2) giving the number of intervals into which \code{distance} is to be cut.}
+\item{n.breaks}{numeric. number (greater than or equal to 2) giving the number of intervals into which \code{distance} is to be cut. Default is 4.}
 
 \item{width}{numeric. the range across \code{distance} on which statistics should be
-applied on \code{x}. If \code{NULL}, then width is a number that separates the distances in 10 equal groups.}
-
-\item{w}{(optional) Weights. A vector of positive numbers and of the same length as \code{azi}}
+applied on \code{x}. If \code{NULL}, then width is a number that separates the distances in 4 equal-sized bins.}
 
 \item{prd}{(optional) numeric. A predicted orientation in degrees.}
 
@@ -41,6 +39,8 @@ applied on \code{x}. If \code{NULL}, then width is a number that separates the d
 \item{conf.level}{The level of confidence for confidence interval and bootstrapped standard error of dispersion.}
 
 \item{...}{optional arguments passed to \code{\link[=cut]{cut()}}}
+
+\item{w}{(optional) Uncertainties of \code{azi} (in degrees) acting as inverse weighting factors for statistics.}
 }
 \value{
 tibble containing the \code{n} values for \code{azi}in each bin, min/median/max distance of the bin, and the summary statistics for \code{azi}.
@@ -62,7 +62,7 @@ san_andreas$distance <- distance_from_pb(
 )
 dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 
-distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, w = 1 / dat$unc, prd = 135)
+distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, unc = dat$unc, prd = 135)
 }
 \seealso{
 \code{\link[=circular_summary]{circular_summary()}}, \code{\link[=circular_dispersion]{circular_dispersion()}}, and \code{\link[=circular_dispersion_boot]{circular_dispersion_boot()}}

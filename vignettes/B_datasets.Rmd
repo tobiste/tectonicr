@@ -227,7 +227,7 @@ Binned statistics (e.g. weighted mean and 95% confidence interval) of the transf
 san_andreas_binned <- distance_binned_stats(
   azi = san_andreas.res$azi.PoR, 
   distance = san_andreas.res$distance,
-  w = 1/san_andreas$unc,
+  unc = san_andreas$unc,
   prd = 135,
   width = 2
   )

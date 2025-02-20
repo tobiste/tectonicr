@@ -509,10 +509,10 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #' @param prd (optional) numeric. A predicted orientation in degrees.
 #' @param prd.error (optional) numeric. The uncertainty of the predicted orientation in degrees.
 #' @param distance  numeric. the independent variable along the values in `azi` are sorted, e.g. the plate boundary distances
-#' @param n.breaks numeric. number (greater than or equal to 2) giving the number of intervals into which `distance` is to be cut.
+#' @param n.breaks numeric. number (greater than or equal to 2) giving the number of intervals into which `distance` is to be cut. Default is 4.
 #' @param width numeric. the range across `distance` on which statistics should be
-#' applied on `x`. If `NULL`, then width is a number that separates the distances in 10 equal groups.
-#' @param w (optional) Weights. A vector of positive numbers and of the same length as `azi`
+#' applied on `x`. If `NULL`, then width is a number that separates the distances in 4 equal-sized bins.
+#' @param w (optional) Uncertainties of `azi` (in degrees) acting as inverse weighting factors for statistics.
 #' @param kappa numeric. Concentration parameter applied for the circular mode.
 #' @param R integer. Number of bootstrap iterates for estimating the error of the dispersion.
 #' @param conf.level The level of confidence for confidence interval and bootstrapped standard error of dispersion.
@@ -540,49 +540,45 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #' )
 #' dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 #'
-#' distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, w = 1 / dat$unc, prd = 135)
-distance_binned_stats <- function(azi, distance, n.breaks = 10, width = NULL, w=NULL, prd=NULL, prd.error=NULL, kappa = 2, R = 1000, conf.level = 0.95, ...){
-  if(!is.null(width)) {
-    n.breaks = round(diff(range(distance)) / width)
+#' distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, unc = dat$unc, prd = 135)
+distance_binned_stats <- function(azi, distance, n.breaks = 4, width = NULL, unc = NULL, prd = NULL, prd.error = NULL, kappa = 2, R = 1000, conf.level = 0.95, ...) {
+  if (!is.null(width)) {
+    n.breaks <- round(diff(range(distance)) / width)
   }
   no_prd <- is.null(prd)
 
-    res <- dplyr::tibble(azi=azi,unc=unc,prd=prd,prderr = prd.error, distance=distance) |>
+  res <- dplyr::tibble(azi = azi, w = unc, prd = prd, prderr = prd.error, distance = distance) |>
     dplyr::mutate(
       bins = cut(distance, breaks = n.breaks, ...),
-
       w = ifelse(is.null(w), 1, 1/w),
-      w.prd = ifelse(is.null(prd.error), 1, 1/prd.error),
+      w.prd = ifelse(is.null(prd.error), 1, 1 / prd.error),
       prd = ifelse(is.null(prd), NA, prd)
-      ) |>
+    ) |>
     dplyr::summarise(
       .by = bins,
       n = length(azi),
       distance_min = min(distance),
       distance_median = stats::median(distance, na.rm = TRUE),
       distance_max = max(distance),
-
-      mean = circular_mean(azi, w=w),
-      sd = circular_sd(azi, w=w),
-      var = circular_var(azi, w=w),
+      mean = circular_mean(azi, w = w),
+      sd = circular_sd(azi, w = w),
+      var = circular_var(azi, w = w),
       lq = ifelse(n > 3, circular_quantiles(azi, w = w)[1], NA),
-      quasimedian = circular_median(azi, w=w),
+      quasimedian = circular_median(azi, w = w),
       uq = ifelse(n > 3, circular_quantiles(azi, w = w)[3], NA),
       median = circular_sample_median(azi),
       mode = circular_mode(azi, kappa = kappa),
-      CI = confidence_angle(azi, w=w, conf.level=conf.level),
-      skewness = second_central_moment(azi, w=w)$skewness,
-      kurtosis = second_central_moment(azi, w=w)$kurtosis,
-
-      nchisq = norm_chisq(azi, prd, 1/w),
-      dispersion = circular_dispersion(azi, prd, w = w, w.y=w.prd),
-      dispersion_sde = circular_dispersion_boot(azi, prd, w = w, w.y = w.prd, conf.level=conf.level, R = R)$sde
+      CI = confidence_angle(azi, w = w, conf.level = conf.level),
+      skewness = second_central_moment(azi, w = w)$skewness,
+      kurtosis = second_central_moment(azi, w = w)$kurtosis,
+      nchisq = norm_chisq(azi, prd, w),
+      dispersion = circular_dispersion(azi, prd, w = w, w.y = w.prd),
+      dispersion_sde = circular_dispersion_boot(azi, prd, w = w, w.y = w.prd, conf.level = conf.level, R = R)$sde
     )
 
-    if(no_prd){
-      dplyr::select(res, -c(nchisq, dispersion, dispersion_sde))
-    } else {
-      res
-    }
+  if (no_prd) {
+    dplyr::select(res, -c(nchisq, dispersion, dispersion_sde))
+  } else {
+    res
+  }
 }
-
