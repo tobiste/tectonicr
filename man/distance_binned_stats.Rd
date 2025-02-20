@@ -62,8 +62,10 @@ san_andreas$distance <- distance_from_pb(
 )
 dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 
-distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2,
-  unc = dat$unc, prd = 135) |> head()
+distance_binned_stats(dat$azi.PoR,
+  distance = dat$distance, width = 2,
+  unc = dat$unc, prd = 135
+) |> head()
 }
 \seealso{
 \code{\link[=circular_summary]{circular_summary()}}, \code{\link[=circular_dispersion]{circular_dispersion()}}, and \code{\link[=circular_dispersion_boot]{circular_dispersion_boot()}}

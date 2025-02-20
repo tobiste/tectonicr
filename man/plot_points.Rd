@@ -72,7 +72,13 @@ Add points to a plot of circular data points on the current graphics device.
 }
 \examples{
 x <- rvm(100, mean = 90, k = 5)
+
+# plot poinit without jitter
 plot_points(x, add = FALSE)
-plot_points(x, jitter_factor = .2, add = FALSE) # jittered plot
-plot_points(x, stack = TRUE, binwidth = 3, add = FALSE) # stacked plot
+
+# with some jitter
+plot_points(x, jitter_factor = .2, add = FALSE)
+
+# stacked dots:
+plot_points(x, stack = TRUE, binwidth = 3, add = FALSE)
 }

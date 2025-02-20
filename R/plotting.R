@@ -570,15 +570,17 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' x <- rvm(100, mean = 90, k = 5)
 #' rose(x, axial = FALSE, border = TRUE, grid = TRUE)
 #'
-#' data("san_andreas") #'
+#' data("san_andreas")
 #' rose(san_andreas$azi, main = "equal area")
 #' rose(san_andreas$azi, equal_area = FALSE, main = "equal angle")
 #'
 #' # weighted frequencies:
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 #'
-#' # add dots
+#' # add dots:
 #' rose(san_andreas$azi, dots = TRUE, main = "dot plot", jitter = .2)
+#'
+#' # stack dots:
 #' rose(san_andreas$azi,
 #'   dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21,
 #'   main = "stacked dot plot"
@@ -814,9 +816,15 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #'
 #' @examples
 #' x <- rvm(100, mean = 90, k = 5)
+#'
+#' # plot poinit without jitter
 #' plot_points(x, add = FALSE)
-#' plot_points(x, jitter_factor = .2, add = FALSE) # jittered plot
-#' plot_points(x, stack = TRUE, binwidth = 3, add = FALSE) # stacked plot
+#'
+#' # with some jitter
+#' plot_points(x, jitter_factor = .2, add = FALSE)
+#'
+#' # stacked dots:
+#' plot_points(x, stack = TRUE, binwidth = 3, add = FALSE)
 plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, sep = 0.025, jitter_factor = 0, ..., scale = 1.1, add = TRUE,
                         main = NULL, labels = TRUE,
                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
@@ -976,10 +984,14 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'
 #' @examples
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+#'
+#' # Add density curve outside of main plot:
 #' plot_density(san_andreas$azi,
 #'   kappa = 100, col = "#51127CFF", shrink = 1.5,
 #'   norm.density = FALSE
 #' )
+#'
+#' # Plot density inside plot:
 #' plot_density(san_andreas$azi,
 #'   kappa = 100, col = "#51127CFF", add = FALSE,
 #'   scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE

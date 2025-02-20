@@ -116,15 +116,17 @@ If \code{"axial" == TRUE}, the binwidth is adjusted to guarantee symmetrical fan
 x <- rvm(100, mean = 90, k = 5)
 rose(x, axial = FALSE, border = TRUE, grid = TRUE)
 
-data("san_andreas") #'
+data("san_andreas")
 rose(san_andreas$azi, main = "equal area")
 rose(san_andreas$azi, equal_area = FALSE, main = "equal angle")
 
 # weighted frequencies:
 rose(san_andreas$azi, weights = 1 / san_andreas$unc, main = "weighted")
 
-# add dots
+# add dots:
 rose(san_andreas$azi, dots = TRUE, main = "dot plot", jitter = .2)
+
+# stack dots:
 rose(san_andreas$azi,
   dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21,
   main = "stacked dot plot"
