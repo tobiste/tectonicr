@@ -206,6 +206,7 @@ azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
     ),
     size = .25
   ) +
+  scale_x_continuous(breaks = seq(-10, 10, 2)) +
   scale_y_continuous(
     breaks = seq(-180, 360, 45),
     sec.axis = sec_axis(
@@ -221,36 +222,30 @@ print(azi_plot)
 ```
 <!-- ![](azimuth.png) -->
 
-Adding a rolling statistics (e.g. weighted mean and 95% confidence interval) of the transformed azimuth:
-```{r san.andreas.distanceplot1_roll, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-san_andreas.res_roll <- san_andreas.res[order(san_andreas.res$distance), ]
-
-san_andreas.res_roll$r_mean <- roll_circstats(
-  san_andreas.res_roll$azi.PoR,
-  w = 1 / san_andreas.res_roll$unc,
-  FUN = circular_mean, width = 51
-)
-
-san_andreas.res_roll$r_conf95 <- roll_confidence(
-  san_andreas.res_roll$azi.PoR,
-  w = 1 / san_andreas.res_roll$unc,
-  width = 51
-)
+Binned statistics (e.g. weighted mean and 95% confidence interval) of the transformed azimuth can be achieved through `distance_binned_stats()`. Here, this gives a summary statistic for every 2$^{\circ}$.
+```{r distance_bin, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+san_andreas_binned <- distance_binned_stats(
+  azi = san_andreas.res$azi.PoR, 
+  distance = san_andreas.res$distance,
+  w = 1/san_andreas$unc,
+  prd = 135,
+  width = 2
+  )
 
 azi_plot +
   geom_step(
-    data = san_andreas.res_roll,
-    aes(distance, r_mean - r_conf95),
+    data = san_andreas_binned,
+    aes(distance_median, mean - CI),
     lty = 2
   ) +
   geom_step(
-    data = san_andreas.res_roll,
-    aes(distance, r_mean + r_conf95),
+    data = san_andreas_binned,
+    aes(distance_median, mean + CI),
     lty = 2
   ) +
   geom_step(
-    data = san_andreas.res_roll,
-    aes(distance, r_mean)
+    data = san_andreas_binned,
+    aes(distance_median, mean)
   )
 ```
 
@@ -269,13 +264,6 @@ by using the deviation (normalized by the data precision) from the the predicted
 stress direction, i.e. the *normalized* $\chi^2$:
 
 ```{r san.andreas.distanceplot2, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-# Rolling norm chisq:
-san_andreas.res_roll$roll_nchisq <- roll_normchisq(
-  san_andreas.res_roll$azi.PoR,
-  san_andreas.res_roll$prd,
-  san_andreas.res_roll$unc,
-  width = 51
-)
 
 # plotting:
 ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
@@ -286,22 +274,23 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   scale_y_continuous(sec.axis = sec_axis(
     ~.,
     name = NULL,
-    breaks = c(.15 / 2, .33, .7 + 0.15),
-    labels = c("Good fit", "Random", "Systematic\nmisfit")
+    breaks = c(.15 / 2, (.33 - .15)/2 + .15, (.7 - .33)/2 + .33, .7 + 0.15),
+    labels = c("Good fit", "Acceptable fit", "Random", "Systematic\nmisfit")
   )) +
+  scale_x_continuous(breaks = seq(-10, 10, 2)) +
   scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors())) +
   geom_step(
-    data = san_andreas.res_roll,
-    aes(distance, roll_nchisq)
+    data = san_andreas_binned,
+    aes(distance_median, nchisq)
   )
 ```
 <!-- ![](nchisq.png) -->
 
 We can see that the data in fact starts to scatter notably 
-beyond a distance of 3.8$^{\circ}$ and becomes random at 7$^{\circ}$ away from 
+beyond a distance of 2$^{\circ}$ and becomes random at 6.5$^{\circ}$ away from 
 the plate boundary. 
 Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is 
-approx. 4--7$^{\circ}$ (ca. 380--750 km) wide. 
+approx. 2--6.5$^{\circ}$ (ca. 200--800 km) wide. 
 
 > The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
 plate boundary zone.

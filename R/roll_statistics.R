@@ -326,6 +326,8 @@ NULL
 distroll_circstats <- function(x, distance, FUN, width = NULL, min_n = 2,
                                align = c("right", "center", "left"), w = NULL,
                                sort = TRUE, ...) {
+  .Deprecated("distance_binned_stats")
+
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
   if (is.null(w)) w <- rep(1, length(x))
@@ -368,6 +370,8 @@ distroll_circstats <- function(x, distance, FUN, width = NULL, min_n = 2,
 distroll_confidence <- function(x, distance, w = NULL, width = NULL, min_n = 2,
                                 align = c("right", "center", "left"),
                                 sort = TRUE, ...) {
+  .Deprecated("distance_binned_stats")
+
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
   if (is.null(w)) w <- rep(1, length(x))
@@ -410,6 +414,8 @@ distroll_dispersion <- function(x, y, w = NULL, w.y = NULL, distance,
                                 width = NULL, min_n = 2,
                                 align = c("right", "center", "left"),
                                 sort = TRUE, ...) {
+  .Deprecated("distance_binned_stats")
+
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
   if (length(y) == 1) y <- rep(y, length(x))
@@ -455,6 +461,8 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
                                     width = NULL, min_n = 2,
                                     align = c("right", "center", "left"),
                                     sort = TRUE, ...) {
+  .Deprecated("distance_binned_stats")
+
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
   if (length(y) == 1) y <- rep(y, length(x))
@@ -493,3 +501,88 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
   }
   return(cbind(distance = ds, x = res, n = ns))
 }
+
+
+#' Distance Binned Summary Statistics
+#'
+#' @param azi numeric. Azimuth values in degrees.
+#' @param prd (optional) numeric. A predicted orientation in degrees.
+#' @param prd.error (optional) numeric. The uncertainty of the predicted orientation in degrees.
+#' @param distance  numeric. the independent variable along the values in `azi` are sorted, e.g. the plate boundary distances
+#' @param n.breaks numeric. number (greater than or equal to 2) giving the number of intervals into which `distance` is to be cut.
+#' @param width numeric. the range across `distance` on which statistics should be
+#' applied on `x`. If `NULL`, then width is a number that separates the distances in 10 equal groups.
+#' @param w (optional) Weights. A vector of positive numbers and of the same length as `azi`
+#' @param kappa numeric. Concentration parameter applied for the circular mode.
+#' @param R integer. Number of bootstrap iterates for estimating the error of the dispersion.
+#' @param conf.level The level of confidence for confidence interval and bootstrapped standard error of dispersion.
+#' @param ... optional arguments passed to [cut()]
+#'
+#' @return tibble containing the `n` values for `azi`in each bin, min/median/max distance of the bin, and the summary statistics for `azi`.
+#' If `prd` is specified, the normal Chi-squared statistic, dispersion and its standard error are returned as well.
+#'
+#' @importFrom dplyr tibble mutate summarise select
+#'
+#' @seealso [circular_summary()], [circular_dispersion()], and [circular_dispersion_boot()]
+#'
+#' @export
+#'
+#' @examples
+#' data("plates")
+#' plate_boundary <- subset(plates, plates$pair == "na-pa")
+#' data("san_andreas")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' san_andreas$distance <- distance_from_pb(
+#'   x = san_andreas,
+#'   PoR = PoR,
+#'   pb = plate_boundary,
+#'   tangential = TRUE
+#' )
+#' dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
+#'
+#' distance_binned_stats(dat$azi.PoR, distance = dat$distance, width = 2, w = 1 / dat$unc, prd = 135)
+distance_binned_stats <- function(azi, distance, n.breaks = 10, width = NULL, w=NULL, prd=NULL, prd.error=NULL, kappa = 2, R = 1000, conf.level = 0.95, ...){
+  if(!is.null(width)) {
+    n.breaks = round(diff(range(distance)) / width)
+  }
+  no_prd <- is.null(prd)
+
+    res <- dplyr::tibble(azi=azi,unc=unc,prd=prd,prderr = prd.error, distance=distance) |>
+    dplyr::mutate(
+      bins = cut(distance, breaks = n.breaks, ...),
+
+      w = ifelse(is.null(w), 1, 1/w),
+      w.prd = ifelse(is.null(prd.error), 1, 1/prd.error),
+      prd = ifelse(is.null(prd), NA, prd)
+      ) |>
+    dplyr::summarise(
+      .by = bins,
+      n = length(azi),
+      distance_min = min(distance),
+      distance_median = stats::median(distance, na.rm = TRUE),
+      distance_max = max(distance),
+
+      mean = circular_mean(azi, w=w),
+      sd = circular_sd(azi, w=w),
+      var = circular_var(azi, w=w),
+      lq = ifelse(n > 3, circular_quantiles(azi, w = w)[1], NA),
+      quasimedian = circular_median(azi, w=w),
+      uq = ifelse(n > 3, circular_quantiles(azi, w = w)[3], NA),
+      median = circular_sample_median(azi),
+      mode = circular_mode(azi, kappa = kappa),
+      CI = confidence_angle(azi, w=w, conf.level=conf.level),
+      skewness = second_central_moment(azi, w=w)$skewness,
+      kurtosis = second_central_moment(azi, w=w)$kurtosis,
+
+      nchisq = norm_chisq(azi, prd, 1/w),
+      dispersion = circular_dispersion(azi, prd, w = w, w.y=w.prd),
+      dispersion_sde = circular_dispersion_boot(azi, prd, w = w, w.y = w.prd, conf.level=conf.level, R = R)$sde
+    )
+
+    if(no_prd){
+      dplyr::select(res, -c(nchisq, dispersion, dispersion_sde))
+    } else {
+      res
+    }
+}
+

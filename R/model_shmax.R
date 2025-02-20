@@ -186,17 +186,16 @@ deviation_shmax <- function(prd, obs) {
 }
 
 
-#' @title Direction of Maximum Horizontal Stress in PoR reference
-#' system
+#' @title #' Azimuth conversion from geographical to PoR coordinate reference system
 #'
-#' @description Models the direction of maximum horizontal stress
+#' @description Transforms azimuths and models the direction of maximum horizontal stress
 #' \eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
 #' coordinate reference system. When type of plate boundary is given, it also
 #' gives the deviation from the theoretically predicted azimuth of
-#' \eqn{\sigma_{Hmax}}{SHmax}, the deviation, and the normalized
+#' \eqn{\sigma_{Hmax}}{SHmax}, the circular distance, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #'
-#' @param df \code{data.frame} containing the coordinates of the point(s)
+#' @param df `sf` object or a \code{data.frame} containing the coordinates of the point(s)
 #' (\code{lat}, \code{lon}), the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} \code{azi} and its standard deviation
 #' \code{unc} (optional)
@@ -208,8 +207,9 @@ deviation_shmax <- function(prd, obs) {
 #' moving plate boundaries, respectively. If \code{"none"} (the default), only
 #' the PoR-equivalent azimuth is returned.
 #'
-#' @returns Either a numeric vector of the azimuths in the transformed coordinate
-#' system (in degrees), or a \code{"data.frame"} with
+#' @returns `PoR_azimuth` returns numeric vector of the transformed azimuth in degrees.
+#' `PoR_shmax` returns either a numeric vector of the azimuths in the
+#' transformed coordinate system (in degrees), or a \code{"data.frame"} with
 #' \describe{
 #' \item{`azi.PoR`}{the transformed azimuths (in degrees),}
 #' \item{`prd`}{the predicted azimuths (in degrees),}
@@ -236,7 +236,7 @@ deviation_shmax <- function(prd, obs) {
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
 #' *Sci Rep* 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
 #'
-#' @export
+#' @name PoR-azi
 #'
 #' @examples
 #' data("nuvel1")
@@ -246,12 +246,28 @@ deviation_shmax <- function(prd, obs) {
 #' data("san_andreas")
 #' res <- PoR_shmax(san_andreas, PoR, type = "right")
 #' head(res)
-PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
+NULL
+
+#' @rdname PoR-azi
+#' @export
+PoR_azimuth <- function(df, PoR){
   stopifnot(is.data.frame(df), is.data.frame(PoR) | is.euler(PoR))
-  type <- match.arg(type)
+  if(inherits(df, 'sf')){
+    crds <- sf::st_transform('WGS84') |> sf::st_coordinates()
+    df$lon <- crds[, 1]
+    df$lat <- crds[, 2]
+  }
 
   theta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = PoR$lat, lon_b = PoR$lon)
-  azi.por <- (df$azi - theta + 180) %% 180
+  (df$azi - theta + 180) %% 180
+}
+
+#' @rdname PoR-azi
+#' @export
+PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
+  type <- match.arg(type)
+
+  azi.por <- PoR_azimuth(df, PoR)
 
   if (type != "none" && !is.null(df$unc)) {
     prd <- switch(type,
@@ -274,6 +290,7 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
     azi.por
   }
 }
+
 
 #' Azimuth conversion from PoR to geographical coordinate reference system
 #'
