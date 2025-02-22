@@ -516,21 +516,31 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #'
 #' @param azi numeric. Azimuth values in degrees.
 #' @param prd (optional) numeric. A predicted orientation in degrees.
-#' @param prd.error (optional) numeric. The uncertainty of the predicted orientation in degrees.
-#' @param distance  numeric. the independent variable along the values in `azi` are sorted, e.g. the plate boundary distances
-#' @param n.breaks numeric. number (greater than or equal to 2) giving the number of intervals into which `distance` is to be cut. Default is 4.
-#' @param width numeric. the range across `distance` on which statistics should be
-#' applied on `x`. If `NULL`, then width is a number that separates the distances in 4 equal-sized bins.
-#' @param unc (optional) Uncertainties of `azi` (in degrees) acting as inverse weighting factors for statistics.
+#' @param prd.error (optional) numeric. The uncertainty of the predicted
+#' orientation in degrees.
+#' @param distance  numeric. the independent variable along the values in `azi`
+#' are sorted, e.g. the plate boundary distances
+#' @param n.breaks numeric. number (greater than or equal to 2) giving the
+#' number of equal-sized intervals into which `distance` is to be cut.
+#' Default is 10. Will be ignored if `width.breaks` is specified.
+#' @param width.breaks numeric. The width of the intervals into which `distance`
+#' is to be cut.
+#' @param unc (optional) Uncertainties of `azi` (in degrees) acting as inverse
+#' weighting factors for statistics.
 #' @param kappa numeric. Concentration parameter applied for the circular mode.
-#' @param R integer. Number of bootstrap iterates for estimating the error of the dispersion.
-#' @param conf.level The level of confidence for confidence interval and bootstrapped standard error of dispersion.
-#' @param ... optional arguments passed to [cut()]
+#' @param R integer. Number of bootstrap iterates for estimating the error of
+#' the dispersion.
+#' @param conf.level The level of confidence for confidence interval and
+#' bootstrapped standard error of dispersion.
+#' @param ... optional arguments passed to [ggplot2::cut_interval()] and [[ggplot2::cut_width()]
 #'
-#' @return tibble containing the `n` values for `azi`in each bin, min/median/max distance of the bin, and the summary statistics for `azi`.
-#' If `prd` is specified, the normal Chi-squared statistic, dispersion and its standard error are returned as well.
+#' @return tibble containing the `n` values for `azi`in each bin, min/median/max
+#' distance of the bin, and the summary statistics for `azi`.
+#' If `prd` is specified, the normal Chi-squared statistic, dispersion and its
+#' standard error are returned as well.
 #'
 #' @importFrom dplyr tibble mutate summarise select
+#' @importFrom ggplot2 cut_width cut_number
 #'
 #' @seealso [circular_summary()], [circular_dispersion()], and [circular_dispersion_boot()]
 #'
@@ -550,50 +560,57 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #' dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 #'
 #' distance_binned_stats(dat$azi.PoR,
-#'   distance = dat$distance, width = 2,
+#'   distance = dat$distance, width.breaks = 1,
 #'   unc = dat$unc, prd = 135
 #' ) |> head()
-distance_binned_stats <- function(azi, distance, n.breaks = 4, width = NULL,
+distance_binned_stats <- function(azi, distance, n.breaks = 10, width.breaks = NULL,
                                   unc = NULL, prd = NULL, prd.error = NULL,
                                   kappa = 2, R = 1000, conf.level = 0.95, ...) {
-  if (!is.null(width)) {
-    n.breaks <- round(diff(range(distance)) / width)
+  if (!is.null(width.breaks)) {
+    bins <- ggplot2::cut_width(distance, width.breaks, ...)
+  } else {
+    bins <- ggplot2::cut_number(distance, n.breaks, ...)
   }
   no_prd <- is.null(prd)
 
   res <- dplyr::tibble(
-    azi = azi, w = unc, prd = prd, prderr = prd.error,
-    distance = distance
+    azi = azi,
+    unc = unc,
+    prd = prd,
+    prderr = prd.error,
+    distance = distance,
+    bins = bins
   ) |>
     dplyr::mutate(
-      bins = cut(distance, breaks = n.breaks, ...),
-      w = ifelse(is.null(w), 1, 1 / w),
+      # bins = cut(distance, n = n.breaks, ...),
+      # bins = cut_fun(distance, cut_param, ...),
+      w = ifelse(is.null(unc), 1, 1 / unc),
       w.prd = ifelse(is.null(prd.error), 1, 1 / prd.error),
       prd = ifelse(is.null(prd), NA, prd)
     ) |>
+    dplyr::group_by(bins) |>
     dplyr::summarise(
-      .by = bins,
       n = length(azi),
       distance_min = min(distance),
       distance_median = stats::median(distance, na.rm = TRUE),
       distance_max = max(distance),
-      mean = circular_mean(azi, w = w),
-      sd = circular_sd(azi, w = w),
-      var = circular_var(azi, w = w),
-      lq = circular_quantiles(azi, w = w)[1],
-      quasimedian = circular_median(azi, w = w),
-      uq = circular_quantiles(azi, w = w)[3],
+      mean = ifelse(n > 2, circular_mean(azi, w = w), NA),
+      sd = ifelse(n > 2, circular_sd(azi, w = w), NA),
+      var = ifelse(n > 2, circular_var(azi, w = w), NA),
+      lq = ifelse(n > 3, circular_quantiles(azi, w = w)[1], NA),
+      quasimedian = ifelse(n > 2, circular_median(azi, w = w), NA),
+      uq = ifelse(n > 3, circular_quantiles(azi, w = w)[3], NA),
       median = circular_sample_median(azi),
-      mode = circular_mode(azi, kappa = kappa),
-      CI = confidence_angle(azi, w = w, conf.level = conf.level),
-      skewness = second_central_moment(azi, w = w)$skewness,
-      kurtosis = second_central_moment(azi, w = w)$kurtosis,
+      mode = ifelse(n > 2, circular_mode(azi, kappa = kappa), NA),
+      CI = ifelse(n > 2, confidence_angle(azi, w = w, conf.level = conf.level), NA),
+      skewness = ifelse(n > 2, second_central_moment(azi, w = w)$skewness, NA),
+      kurtosis = ifelse(n > 2, second_central_moment(azi, w = w)$kurtosis, NA),
       nchisq = norm_chisq(azi, prd, w),
-      dispersion = circular_dispersion(azi, prd, w = w, w.y = w.prd),
-      dispersion_sde = circular_dispersion_boot(azi, prd,
+      dispersion = ifelse(n > 2, circular_dispersion(azi, prd, w = w, w.y = w.prd), NA),
+      dispersion_sde = ifelse(n > 2, circular_dispersion_boot(azi, prd,
         w = w, w.y = w.prd,
         conf.level = conf.level, R = R
-      )$sde
+      )$sde, NA)
     )
 
   if (no_prd) {

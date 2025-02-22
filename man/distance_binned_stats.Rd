@@ -7,8 +7,8 @@
 distance_binned_stats(
   azi,
   distance,
-  n.breaks = 4,
-  width = NULL,
+  n.breaks = 10,
+  width.breaks = NULL,
   unc = NULL,
   prd = NULL,
   prd.error = NULL,
@@ -21,30 +21,39 @@ distance_binned_stats(
 \arguments{
 \item{azi}{numeric. Azimuth values in degrees.}
 
-\item{distance}{numeric. the independent variable along the values in \code{azi} are sorted, e.g. the plate boundary distances}
+\item{distance}{numeric. the independent variable along the values in \code{azi}
+are sorted, e.g. the plate boundary distances}
 
-\item{n.breaks}{numeric. number (greater than or equal to 2) giving the number of intervals into which \code{distance} is to be cut. Default is 4.}
+\item{n.breaks}{numeric. number (greater than or equal to 2) giving the
+number of equal-sized intervals into which \code{distance} is to be cut.
+Default is 10. Will be ignored if \code{width.breaks} is specified.}
 
-\item{width}{numeric. the range across \code{distance} on which statistics should be
-applied on \code{x}. If \code{NULL}, then width is a number that separates the distances in 4 equal-sized bins.}
+\item{width.breaks}{numeric. The width of the intervals into which \code{distance}
+is to be cut.}
 
-\item{unc}{(optional) Uncertainties of \code{azi} (in degrees) acting as inverse weighting factors for statistics.}
+\item{unc}{(optional) Uncertainties of \code{azi} (in degrees) acting as inverse
+weighting factors for statistics.}
 
 \item{prd}{(optional) numeric. A predicted orientation in degrees.}
 
-\item{prd.error}{(optional) numeric. The uncertainty of the predicted orientation in degrees.}
+\item{prd.error}{(optional) numeric. The uncertainty of the predicted
+orientation in degrees.}
 
 \item{kappa}{numeric. Concentration parameter applied for the circular mode.}
 
-\item{R}{integer. Number of bootstrap iterates for estimating the error of the dispersion.}
+\item{R}{integer. Number of bootstrap iterates for estimating the error of
+the dispersion.}
 
-\item{conf.level}{The level of confidence for confidence interval and bootstrapped standard error of dispersion.}
+\item{conf.level}{The level of confidence for confidence interval and
+bootstrapped standard error of dispersion.}
 
-\item{...}{optional arguments passed to \code{\link[=cut]{cut()}}}
+\item{...}{optional arguments passed to \code{\link[ggplot2:cut_interval]{ggplot2::cut_interval()}} and [\code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}}}
 }
 \value{
-tibble containing the \code{n} values for \code{azi}in each bin, min/median/max distance of the bin, and the summary statistics for \code{azi}.
-If \code{prd} is specified, the normal Chi-squared statistic, dispersion and its standard error are returned as well.
+tibble containing the \code{n} values for \code{azi}in each bin, min/median/max
+distance of the bin, and the summary statistics for \code{azi}.
+If \code{prd} is specified, the normal Chi-squared statistic, dispersion and its
+standard error are returned as well.
 }
 \description{
 Distance Binned Summary Statistics
@@ -63,7 +72,7 @@ san_andreas$distance <- distance_from_pb(
 dat <- san_andreas |> cbind(PoR_shmax(san_andreas, PoR, "right"))
 
 distance_binned_stats(dat$azi.PoR,
-  distance = dat$distance, width = 2,
+  distance = dat$distance, width.breaks = 1,
   unc = dat$unc, prd = 135
 ) |> head()
 }

@@ -1080,7 +1080,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
 #' data("san_andreas")
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
-#' quick_plot(res$azi.PoR, d, res$prd, san_andreas$unc, san_andreas$regime)
+#' quick_plot(res$azi.PoR, distance = d, prd = res$prd, unc = san_andreas$unc, regime = san_andreas$regime)
 quick_plot <- function(
     azi,
     distance,

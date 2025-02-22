@@ -229,7 +229,7 @@ san_andreas_binned <- distance_binned_stats(
   distance = san_andreas.res$distance,
   unc = san_andreas$unc,
   prd = 135,
-  width = 2
+  width.breaks = 2
 )
 
 azi_plot +
