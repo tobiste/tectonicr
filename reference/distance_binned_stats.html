@@ -50,8 +50,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">distance_binned_stats</span><span class="op">(</span></span>
 <span>  <span class="va">azi</span>,</span>
 <span>  <span class="va">distance</span>,</span>
-<span>  n.breaks <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  n.breaks <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  width.breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  unc <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  prd <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  prd.error <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -71,20 +71,24 @@
 
 
 <dt id="arg-distance">distance<a class="anchor" aria-label="anchor" href="#arg-distance"></a></dt>
-<dd><p>numeric. the independent variable along the values in <code>azi</code> are sorted, e.g. the plate boundary distances</p></dd>
+<dd><p>numeric. the independent variable along the values in <code>azi</code>
+are sorted, e.g. the plate boundary distances</p></dd>
 
 
 <dt id="arg-n-breaks">n.breaks<a class="anchor" aria-label="anchor" href="#arg-n-breaks"></a></dt>
-<dd><p>numeric. number (greater than or equal to 2) giving the number of intervals into which <code>distance</code> is to be cut. Default is 4.</p></dd>
+<dd><p>numeric. number (greater than or equal to 2) giving the
+number of equal-sized intervals into which <code>distance</code> is to be cut.
+Default is 10. Will be ignored if <code>width.breaks</code> is specified.</p></dd>
 
 
-<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
-<dd><p>numeric. the range across <code>distance</code> on which statistics should be
-applied on <code>x</code>. If <code>NULL</code>, then width is a number that separates the distances in 4 equal-sized bins.</p></dd>
+<dt id="arg-width-breaks">width.breaks<a class="anchor" aria-label="anchor" href="#arg-width-breaks"></a></dt>
+<dd><p>numeric. The width of the intervals into which <code>distance</code>
+is to be cut.</p></dd>
 
 
 <dt id="arg-unc">unc<a class="anchor" aria-label="anchor" href="#arg-unc"></a></dt>
-<dd><p>(optional) Uncertainties of <code>azi</code> (in degrees) acting as inverse weighting factors for statistics.</p></dd>
+<dd><p>(optional) Uncertainties of <code>azi</code> (in degrees) acting as inverse
+weighting factors for statistics.</p></dd>
 
 
 <dt id="arg-prd">prd<a class="anchor" aria-label="anchor" href="#arg-prd"></a></dt>
@@ -92,7 +96,8 @@ applied on <code>x</code>. If <code>NULL</code>, then width is a number that sep
 
 
 <dt id="arg-prd-error">prd.error<a class="anchor" aria-label="anchor" href="#arg-prd-error"></a></dt>
-<dd><p>(optional) numeric. The uncertainty of the predicted orientation in degrees.</p></dd>
+<dd><p>(optional) numeric. The uncertainty of the predicted
+orientation in degrees.</p></dd>
 
 
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
@@ -100,21 +105,25 @@ applied on <code>x</code>. If <code>NULL</code>, then width is a number that sep
 
 
 <dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
-<dd><p>integer. Number of bootstrap iterates for estimating the error of the dispersion.</p></dd>
+<dd><p>integer. Number of bootstrap iterates for estimating the error of
+the dispersion.</p></dd>
 
 
 <dt id="arg-conf-level">conf.level<a class="anchor" aria-label="anchor" href="#arg-conf-level"></a></dt>
-<dd><p>The level of confidence for confidence interval and bootstrapped standard error of dispersion.</p></dd>
+<dd><p>The level of confidence for confidence interval and
+bootstrapped standard error of dispersion.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>optional arguments passed to <code><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut()</a></code></p></dd>
+<dd><p>optional arguments passed to <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">ggplot2::cut_interval()</a></code> and [<code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">ggplot2::cut_width()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>tibble containing the <code>n</code> values for <code>azi</code>in each bin, min/median/max distance of the bin, and the summary statistics for <code>azi</code>.
-If <code>prd</code> is specified, the normal Chi-squared statistic, dispersion and its standard error are returned as well.</p>
+    <p>tibble containing the <code>n</code> values for <code>azi</code>in each bin, min/median/max
+distance of the bin, and the summary statistics for <code>azi</code>.
+If <code>prd</code> is specified, the normal Chi-squared statistic, dispersion and its
+standard error are returned as well.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -136,20 +145,18 @@ If <code>prd</code> is specified, the normal Chi-squared statistic, dispersion a
 <span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">san_andreas</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">distance_binned_stats</span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">azi.PoR</span>,</span></span>
-<span class="r-in"><span>  distance <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">distance</span>, width <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  distance <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">distance</span>, width.breaks <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>  unc <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span>, prd <span class="op">=</span> <span class="fl">135</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> x needs more than 3 values</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> x needs more than 3 values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 19</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   bins       n distance_min distance_median distance_max  mean    sd   var    lq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> (-2.9…   159       -<span style="color: #BB0000;">2.85</span>          -<span style="color: #BB0000;">1.56</span>         -<span style="color: #BB0000;">0.903</span>  140.  23.1 0.277 126. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> (-5.0…    39       -<span style="color: #BB0000;">5.02</span>          -<span style="color: #BB0000;">3.84</span>         -<span style="color: #BB0000;">3.03</span>   151.  32.0 0.464 112. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> (-7.1…    23       -<span style="color: #BB0000;">7.13</span>          -<span style="color: #BB0000;">6.27</span>         -<span style="color: #BB0000;">5.11</span>   145.  40.5 0.632  77.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> (-0.8…   862       -<span style="color: #BB0000;">0.884</span>          0.016<span style="text-decoration: underline;">8</span>        1.20   141.  21.7 0.249 125. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> (1.2,…    28        1.23           1.89          2.77   129.  30.5 0.433 108. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> (-9.2…    12       -<span style="color: #BB0000;">9.23</span>          -<span style="color: #BB0000;">7.91</span>         -<span style="color: #BB0000;">7.46</span>   101.  50.4 0.788  57.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   bins      n distance_min distance_median distance_max  mean    sd    var    lq</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> [-9.…     2        -<span style="color: #BB0000;">9.23</span>           -<span style="color: #BB0000;">9.09</span>        -<span style="color: #BB0000;">8.95</span>   <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> (-8.…     8        -<span style="color: #BB0000;">8.26</span>           -<span style="color: #BB0000;">7.91</span>        -<span style="color: #BB0000;">7.56</span>  102.  44.7  0.703  71.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> (-7.…     9        -<span style="color: #BB0000;">7.47</span>           -<span style="color: #BB0000;">6.84</span>        -<span style="color: #BB0000;">6.60</span>  134.  36.2  0.550  92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> (-6.…    11        -<span style="color: #BB0000;">6.44</span>           -<span style="color: #BB0000;">6.18</span>        -<span style="color: #BB0000;">5.87</span>  150.  29.4  0.410 126. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> (-5.…    10        -<span style="color: #BB0000;">5.32</span>           -<span style="color: #BB0000;">5.06</span>        -<span style="color: #BB0000;">4.64</span>  149.  37.9  0.583  65.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> (-4.…    23        -<span style="color: #BB0000;">4.41</span>           -<span style="color: #BB0000;">3.91</span>        -<span style="color: #BB0000;">3.57</span>  159.  33.7  0.500  80.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10 more variables: quasimedian &lt;dbl&gt;, uq &lt;dbl&gt;, median &lt;dbl&gt;, mode &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CI &lt;dbl&gt;, skewness &lt;dbl&gt;, kurtosis &lt;dbl&gt;, nchisq &lt;dbl&gt;, dispersion &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dispersion_sde &lt;dbl&gt;</span></span>
