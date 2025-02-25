@@ -187,7 +187,7 @@ roll_dispersion <- function(x, y, w = NULL, w.y = NULL,
     width = width,
     FUN = function(x) {
       suppressMessages(
-        circular_dispersion(x[, 1], x[, 2], x[, 3], x[, 4], norm = TRUE)
+        circular_dispersion(x[, 1], x[, 2], x[, 3], x[, 4])
       )
     },
     by.column = by.column,

@@ -355,8 +355,6 @@ sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) 
 #' `1` or `length(x)`
 #' @param w,w.y (optional) Weights. A vector of positive numbers and of the same
 #' length as \code{x}. `w.y` is the (optional) weight of `y`.
-#' @param norm logical. Whether the dispersion should be normalized by the
-#' maximum possible angular difference.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param na.rm logical. Whether \code{NA} values in \code{x}
@@ -425,12 +423,12 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   }
 
   diff <- x - y
-  (1 - cosd(f * diff)) / f
+  (1 - cosd(f * diff)) / 2
 }
 
 #' @rdname dispersion
 #' @export
-circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE, axial = TRUE, na.rm = TRUE) {
+circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE, na.rm = TRUE) {
   if (is.null(y)) {
     circular_var(x, w, axial, na.rm)
   } else {
@@ -460,10 +458,14 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE,
 
     Z <- sum(w)
 
-    md <- ifelse(norm, 2, 1)
 
     cdists <- circular_distance(x, y, axial, na.rm = FALSE)
-    sum(w * cdists) / (Z * md)
+
+    # norm <- !axial
+    # md <- ifelse(norm, 2, 1)
+    # sum(w * cdists) / (Z * md)
+    sum(w * cdists) / Z
+
   }
 }
 
@@ -494,7 +496,7 @@ circular_distance_alt <- function(x, y, axial = TRUE, na.rm = TRUE) {
 
 #' @rdname dispersion
 #' @export
-circular_dispersion_alt <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FALSE, axial = TRUE, na.rm = TRUE) {
+circular_dispersion_alt <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE, na.rm = TRUE) {
   if (is.null(y)) {
     circular_var(x, w, axial, na.rm)
   } else {
@@ -524,10 +526,10 @@ circular_dispersion_alt <- function(x, y = NULL, w = NULL, w.y = NULL, norm = FA
 
     Z <- sum(w)
 
-    md <- ifelse(norm, 2, 1)
+    # md <- ifelse(norm, 2, 1)
 
     cdists <- circular_distance_alt(x, y, axial, na.rm = FALSE)
-    sum(w * cdists) / (Z * md)
+    sum(w * cdists) / Z
   }
 }
 

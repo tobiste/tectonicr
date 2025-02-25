@@ -15,7 +15,6 @@ circular_dispersion(
   y = NULL,
   w = NULL,
   w.y = NULL,
-  norm = FALSE,
   axial = TRUE,
   na.rm = TRUE
 )
@@ -27,7 +26,6 @@ circular_dispersion_alt(
   y = NULL,
   w = NULL,
   w.y = NULL,
-  norm = FALSE,
   axial = TRUE,
   na.rm = TRUE
 )
@@ -44,9 +42,6 @@ should be stripped before the computation proceeds.}
 
 \item{w, w.y}{(optional) Weights. A vector of positive numbers and of the same
 length as \code{x}. \code{w.y} is the (optional) weight of \code{y}.}
-
-\item{norm}{logical. Whether the dispersion should be normalized by the
-maximum possible angular difference.}
 }
 \value{
 \code{circular_distance}returns a numeric vector of positive numbers,
