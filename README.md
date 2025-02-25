@@ -4,7 +4,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.org/package=tectonicr)
-[![](https://img.shields.io/badge/devel%20version-0.4.4.9006-orange.svg)](https://github.com/tobiste/tectonicr)
+[![](https://img.shields.io/badge/devel%20version-0.4.4.9007-orange.svg)](https://github.com/tobiste/tectonicr)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow)](https://cran.r-project.org/package=tectonicr)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml)
 [![DOI](https://img.shields.io/badge/doi-10.32614/CRAN.package.tectonicr-slategrey.svg)](https://doi.org/10.32614/CRAN.package.tectonicr)
