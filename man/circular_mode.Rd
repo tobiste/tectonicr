@@ -4,12 +4,13 @@
 \alias{circular_mode}
 \title{Circular Mode}
 \usage{
-circular_mode(x, kappa, axial = TRUE, n = 512)
+circular_mode(x, kappa = NULL, axial = TRUE, n = 512)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees.}
 
-\item{kappa}{von Mises distribution concentration parameter}
+\item{kappa}{von Mises distribution concentration parameter. Will be
+estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).#' @param kappa}
@@ -25,5 +26,5 @@ specified concentration.
 }
 \examples{
 x <- rvm(10, 0, 100)
-circular_mode(x, kappa = 2)
+circular_mode(x, kappa = est.kappa(x))
 }

@@ -900,6 +900,9 @@ circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 36
   # f <- as.numeric(axial) + 1
   # x <- x * f
 
+  if(is.null(kappa)) kappa = est.kappa(x, axial = axial, na.rm = na.rm)
+
+
   if (is.null(z)) {
     z <- seq(from = from, to = to, length = n)
   } else {
@@ -931,7 +934,6 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
     x <- c(x, x + pi)
     y <- rep(y, 2)
   }
-
 
   n <- length(x)
   if (!nosort) {
@@ -967,7 +969,7 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'
 #' @param x Data to be plotted. A numeric vector containing angles (in degrees).
 #' @param kappa Concentration parameter for the von Mises distribution.
-#' Small kappa gives smooth density lines.
+#' Small kappa gives smooth density lines. Will be estimated using [est.kappa()] if not provided.
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
 #' @param n the number of equally spaced points at which the density is to be estimated.
@@ -984,6 +986,7 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #' @export
 #'
 #' @examples
+#' # Plot the rose histogram first:
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 #'
 #' # Add density curve outside of main plot:
@@ -992,12 +995,12 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'   norm.density = FALSE
 #' )
 #'
-#' # Plot density inside plot:
+#' # Plot density inside plot only:
 #' plot_density(san_andreas$azi,
 #'   kappa = 100, col = "#51127CFF", add = FALSE,
 #'   scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE
 #' )
-plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, ...,
+plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512, norm.density = FALSE, ...,
                          scale = 1.1, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
                          at = seq(0, 360 - 45, 45), cborder = TRUE, grid = FALSE) {
@@ -1011,6 +1014,7 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
   if (grid) {
     rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
   }
+
 
   # f <- as.numeric(axial) + 1
   f <- 1
@@ -1081,7 +1085,8 @@ plot_density <- function(x, kappa, axial = TRUE, n = 512, norm.density = FALSE, 
 #' data("san_andreas")
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
-#' quick_plot(res$azi.PoR, distance = d, prd = res$prd, unc = san_andreas$unc, regime = san_andreas$regime)
+#' quick_plot(res$azi.PoR, distance = d, prd = res$prd, unc = san_andreas$unc,
+#' regime = san_andreas$regime)
 quick_plot <- function(
     azi,
     distance,
@@ -1292,7 +1297,7 @@ PoR_map <- function(x, PoR, pb = NULL, type = c("none", "in", "out", "right", "l
   val <- val2 <- character()
   type <- match.arg(type)
   x_por_df <- PoR_shmax(x, PoR, type = type)
-  if (type == "none") {
+  if (type == "none" | is.null(type)) {
     x_por_df <- data.frame(azi.PoR = x_por_df)
   }
 

@@ -1106,7 +1106,8 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' @param x numeric vector. Values in degrees.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).#' @param kappa
-#' @param kappa von Mises distribution concentration parameter
+#' @param kappa von Mises distribution concentration parameter. Will be
+#' estimated using [est.kappa()] if not provided.
 #' @param n the number of equally spaced points at which the density is to be estimated.
 #'
 #' @return numeric
@@ -1114,8 +1115,9 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #'
 #' @examples
 #' x <- rvm(10, 0, 100)
-#' circular_mode(x, kappa = 2)
-circular_mode <- function(x, kappa, axial = TRUE, n = 512) {
+#' circular_mode(x, kappa = est.kappa(x))
+circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
+  if(is.null(kappa)) kappa <- est.kappa(x, axial = axial, na.rm = TRUE)
   dns <- circular_density(x, kappa = kappa, n = n, axial = axial)
 
   f <- as.numeric(axial) + 1
@@ -1135,7 +1137,7 @@ circular_mode <- function(x, kappa, axial = TRUE, n = 512) {
 #'
 #' @inheritParams circular_mean
 #' @param kappa  numeric. von Mises distribution concentration parameter used
-#' for the circular mode.
+#' for the circular mode. Will be estimated using [est.kappa()] if not provided.
 #'
 #' @return named vector
 #' @export
@@ -1149,7 +1151,7 @@ circular_mode <- function(x, kappa, axial = TRUE, n = 512) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
-circular_summary <- function(x, w = NULL, kappa = 2, axial = TRUE, na.rm = FALSE) {
+circular_summary <- function(x, w = NULL, kappa = NULL, axial = TRUE, na.rm = FALSE) {
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
@@ -1164,6 +1166,8 @@ circular_summary <- function(x, w = NULL, kappa = 2, axial = TRUE, na.rm = FALSE
   w <- data[, "w"]
 
   n <- length(x)
+
+  if(is.null(kappa)) kappa = est.kappa(x, w = w, axial = axial, na.rm = FALSE)
 
   x_mean <- circular_mean(x, w, axial, F)
   x_sd <- circular_sd(x, w, axial, F)

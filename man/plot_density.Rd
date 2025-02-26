@@ -6,7 +6,7 @@
 \usage{
 plot_density(
   x,
-  kappa,
+  kappa = NULL,
   axial = TRUE,
   n = 512,
   norm.density = FALSE,
@@ -25,7 +25,7 @@ plot_density(
 \item{x}{Data to be plotted. A numeric vector containing angles (in degrees).}
 
 \item{kappa}{Concentration parameter for the von Mises distribution.
-Small kappa gives smooth density lines.}
+Small kappa gives smooth density lines. Will be estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
 
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
@@ -61,6 +61,7 @@ plot or calculated densities as numeric vector
 Plot the multiples of a von Mises density distribution
 }
 \examples{
+# Plot the rose histogram first:
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 
 # Add density curve outside of main plot:
@@ -69,7 +70,7 @@ plot_density(san_andreas$azi,
   norm.density = FALSE
 )
 
-# Plot density inside plot:
+# Plot density inside plot only:
 plot_density(san_andreas$azi,
   kappa = 100, col = "#51127CFF", add = FALSE,
   scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE
