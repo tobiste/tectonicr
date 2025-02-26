@@ -91,8 +91,14 @@ two-column vectors of (sorted) \code{x} and the rolled statistics along
 \code{distance}.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 A generic function for applying a function to rolling margins of an array
 along an additional value.
+}
+\note{
+\code{distroll_circstats()} and friends are complete, and for new code it is
+recommended switching to \code{\link[=distance_binned_stats]{distance_binned_stats()}},
+which is fasrter, easier to use, more featureful, and still under active development.
 }
 \examples{
 data("plates")
@@ -120,4 +126,10 @@ distroll_dispersion_sde(dat$azi.PoR,
   y = 135,
   distance = dat$distance, w = 1 / dat$unc, R = 100
 ) |> head()
+
+# New functions
+distance_binned_stats(
+  dat$azi.PoR, distance = dat$distance, width.breaks = 1, unc = dat$unc, prd = 135
+) |> head()
 }
+\keyword{internal}

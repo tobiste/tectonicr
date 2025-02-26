@@ -273,6 +273,7 @@ optimal_rollwidth <- function(x) {
 
 #' Apply Rolling Functions using Circular Statistics
 #'
+#' `r lifecycle::badge('superseded')`
 #' A generic function for applying a function to rolling margins of an array
 #' along an additional value.
 #'
@@ -295,10 +296,15 @@ optimal_rollwidth <- function(x) {
 #' (2 by default), otherwise `NA`.
 #' @param ... optional arguments to `FUN`
 #'
+#' @note `distroll_circstats()` and friends are complete, and for new code it is
+#' recommended switching to [distance_binned_stats()],
+#' which is fasrter, easier to use, more featureful, and still under active development.
+#'
 #' @return two-column vectors of (sorted) `x` and the rolled statistics along
 #' `distance`.
 #'
 #' @name rolling_test_dist
+#' @keywords internal
 #'
 #' @importFrom dplyr first arrange filter between
 #'
@@ -328,6 +334,11 @@ optimal_rollwidth <- function(x) {
 #'   y = 135,
 #'   distance = dat$distance, w = 1 / dat$unc, R = 100
 #' ) |> head()
+#'
+#' # New functions
+#' distance_binned_stats(
+#'   dat$azi.PoR, distance = dat$distance, width.breaks = 1, unc = dat$unc, prd = 135
+#' ) |> head()
 NULL
 
 #' @rdname rolling_test_dist
@@ -335,7 +346,7 @@ NULL
 distroll_circstats <- function(x, distance, FUN, width = NULL, min_n = 2,
                                align = c("right", "center", "left"), w = NULL,
                                sort = TRUE, ...) {
-  .Deprecated("distance_binned_stats")
+  lifecycle::deprecate_warn("0.4.4.9009", "distroll_circstats()", "distance_binned_stats()")
 
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
@@ -379,7 +390,7 @@ distroll_circstats <- function(x, distance, FUN, width = NULL, min_n = 2,
 distroll_confidence <- function(x, distance, w = NULL, width = NULL, min_n = 2,
                                 align = c("right", "center", "left"),
                                 sort = TRUE, ...) {
-  .Deprecated("distance_binned_stats")
+  lifecycle::deprecate_warn("0.4.4.9009", "distroll_circstats()", "distance_binned_stats()")
 
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
@@ -423,7 +434,7 @@ distroll_dispersion <- function(x, y, w = NULL, w.y = NULL, distance,
                                 width = NULL, min_n = 2,
                                 align = c("right", "center", "left"),
                                 sort = TRUE, ...) {
-  .Deprecated("distance_binned_stats")
+  lifecycle::deprecate_warn("0.4.4.9009", "distroll_circstats()", "distance_binned_stats()")
 
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
@@ -470,7 +481,7 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
                                     width = NULL, min_n = 2,
                                     align = c("right", "center", "left"),
                                     sort = TRUE, ...) {
-  .Deprecated("distance_binned_stats")
+  lifecycle::deprecate_warn("0.4.4.9009", "distroll_circstats()", "distance_binned_stats()")
 
   align <- match.arg(align)
   stopifnot(length(x) == length(distance))
@@ -513,6 +524,9 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 
 
 #' Distance Binned Summary Statistics
+#'
+#' `r lifecycle::badge('experimental')`
+#' Circular summary statistics over intervals of distances.
 #'
 #' @param azi numeric. Azimuth values in degrees.
 #' @param prd (optional) numeric. A predicted orientation in degrees.
@@ -566,6 +580,8 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 distance_binned_stats <- function(azi, distance, n.breaks = 10, width.breaks = NULL,
                                   unc = NULL, prd = NULL, prd.error = NULL,
                                   kappa = 2, R = 1000, conf.level = 0.95, ...) {
+  lifecycle::signal_stage("experimental", "distance_binned_stats()")
+
   if (!is.null(width.breaks)) {
     bins <- ggplot2::cut_width(distance, width.breaks, ...)
   } else {

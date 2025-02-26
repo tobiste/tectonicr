@@ -56,7 +56,8 @@ If \code{prd} is specified, the normal Chi-squared statistic, dispersion and its
 standard error are returned as well.
 }
 \description{
-Distance Binned Summary Statistics
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Circular summary statistics over intervals of distances.
 }
 \examples{
 data("plates")
