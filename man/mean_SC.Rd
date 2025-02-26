@@ -21,6 +21,7 @@ Mean Cosine and Sine
 }
 \examples{
 \dontrun{
+set.seed(1)
 x <- rvm(100, 0, 5)
 mean_SC(x)
 }

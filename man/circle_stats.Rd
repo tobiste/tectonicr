@@ -51,6 +51,7 @@ Weightings have no effect on quasi-median and quasi-quantiles if
 \code{length(x) \%\% 2 != 1} and \code{length(x) \%\% 4 == 0}, respectively.
 }
 \examples{
+set.seed(1)
 x <- rvm(10, 0, 100) \%\% 180
 unc <- stats::runif(100, 0, 10)
 circular_mean(x, 1 / unc)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_shmax.R
 \name{PoR2Geo_azimuth}
 \alias{PoR2Geo_azimuth}
-\title{Azimuth conversion from PoR to geographical coordinate reference system}
+\title{Azimuth Conversion From PoR to Geographical Coordinate Reference System}
 \usage{
 PoR2Geo_azimuth(x, PoR)
 }

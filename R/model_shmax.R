@@ -186,7 +186,7 @@ deviation_shmax <- function(prd, obs) {
 }
 
 
-#' @title #' Azimuth conversion from geographical to PoR coordinate reference system
+#' @title Azimuth Conversion from Geographical to PoR Coordinate Reference System
 #'
 #' @description Transforms azimuths and models the direction of maximum horizontal stress
 #' \eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
@@ -195,8 +195,8 @@ deviation_shmax <- function(prd, obs) {
 #' \eqn{\sigma_{Hmax}}{SHmax}, the circular distance, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #'
-#' @param df `sf` object or a \code{data.frame} containing the coordinates of the point(s)
-#' (\code{lat}, \code{lon}). `df` must contain the direction of
+#' @param x `sf` object or a \code{data.frame} containing the coordinates of the point(s)
+#' (\code{lat}, \code{lon}). `x` must contain the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} as column \code{azi} and its standard deviation
 #' as \code{unc} (the latter is optional)
 #' @param PoR \code{"data.frame"} or object of class \code{"euler.pole"}
@@ -250,26 +250,26 @@ NULL
 
 #' @rdname PoR_azi
 #' @export
-PoR_azimuth <- function(df, PoR) {
-  stopifnot(is.data.frame(df), is.data.frame(PoR) | is.euler(PoR))
-  if (inherits(df, "sf")) {
-    crds <- sf::st_transform(df, crs = "WGS84") |> sf::st_coordinates()
-    df$lon <- crds[, 1]
-    df$lat <- crds[, 2]
+PoR_azimuth <- function(x, PoR) {
+  stopifnot(is.data.frame(x), is.data.frame(PoR) | is.euler(PoR))
+  if (inherits(x, "sf")) {
+    crds <- sf::st_transform(x, crs = "WGS84") |> sf::st_coordinates()
+    x$lon <- crds[, 1]
+    x$lat <- crds[, 2]
   }
 
-  theta <- mapply(FUN = get_azimuth, lat_a = df$lat, lon_a = df$lon, lat_b = PoR$lat, lon_b = PoR$lon)
-  (df$azi - theta + 180) %% 180
+  theta <- mapply(FUN = get_azimuth, lat_a = x$lat, lon_a = x$lon, lat_b = PoR$lat, lon_b = PoR$lon)
+  (x$azi - theta + 180) %% 180
 }
 
 #' @rdname PoR_azi
 #' @export
-PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
+PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left")) {
   type <- match.arg(type)
 
-  azi.por <- PoR_azimuth(df, PoR)
+  azi.por <- PoR_azimuth(x, PoR)
 
-  if (type != "none" && !is.null(df$unc)) {
+  if (type != "none" && !is.null(x$unc)) {
     prd <- switch(type,
       "none" = NA,
       "out" = 180,
@@ -292,7 +292,7 @@ PoR_shmax <- function(df, PoR, type = c("none", "in", "out", "right", "left")) {
 }
 
 
-#' Azimuth conversion from PoR to geographical coordinate reference system
+#' Azimuth Conversion From PoR to Geographical Coordinate Reference System
 #'
 #' Conversion of PoR azimuths into geographical azimuths
 #'
@@ -341,6 +341,9 @@ PoR2Geo_azimuth <- function(x, PoR) {
   }
   azi.geo %% 180
 }
+
+
+
 
 #' SHmax direction resulting from multiple plate boundaries
 #'

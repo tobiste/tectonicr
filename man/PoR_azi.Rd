@@ -4,15 +4,15 @@
 \alias{PoR_azi}
 \alias{PoR_azimuth}
 \alias{PoR_shmax}
-\title{#' Azimuth conversion from geographical to PoR coordinate reference system}
+\title{Azimuth Conversion from Geographical to PoR Coordinate Reference System}
 \usage{
-PoR_azimuth(df, PoR)
+PoR_azimuth(x, PoR)
 
-PoR_shmax(df, PoR, type = c("none", "in", "out", "right", "left"))
+PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"))
 }
 \arguments{
-\item{df}{\code{sf} object or a \code{data.frame} containing the coordinates of the point(s)
-(\code{lat}, \code{lon}). \code{df} must contain the direction of
+\item{x}{\code{sf} object or a \code{data.frame} containing the coordinates of the point(s)
+(\code{lat}, \code{lon}). \code{x} must contain the direction of
 \eqn{\sigma_{Hmax}}{SHmax} as column \code{azi} and its standard deviation
 as \code{unc} (the latter is optional)}
 

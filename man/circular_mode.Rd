@@ -25,6 +25,7 @@ MLE angle (maximum density) using a von Mises distribution kernel with
 specified concentration.
 }
 \examples{
+set.seed(1)
 x <- rvm(10, 0, 100)
 circular_mode(x, kappa = est.kappa(x))
 }

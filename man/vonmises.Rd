@@ -50,6 +50,7 @@ Density, probability distribution function, quantiles, and random generation
 for the circular normal distribution with mean and kappa.
 }
 \examples{
+set.seed(1)
 x <- rvm(5, mean = 90, kappa = 2)
 
 dvm(x, mean = 90, kappa = 2)

@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' set.seed(1)
 #' x <- rvm(100, 0, 5)
 #' mean_SC(x)
 #' }
@@ -119,6 +120,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' \doi{10.1016/j.tecto.2009.07.023}
 #'
 #' @examples
+#' set.seed(1)
 #' x <- rvm(10, 0, 100) %% 180
 #' unc <- stats::runif(100, 0, 10)
 #' circular_mean(x, 1 / unc)
@@ -1060,7 +1062,8 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 #' @name sample_median
 #'
 #' @examples
-#' x <- rvm(n = 100, mean = 0, kappa = 1)
+#' set.seed(1)
+#' x <- rvm(n = 100, mean = 0, kappa = 10)
 #' circular_sample_median(x)
 #' circular_sample_median_deviation(x)
 #'
@@ -1113,6 +1116,7 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' @export
 #'
 #' @examples
+#' set.seed(1)
 #' x <- rvm(10, 0, 100)
 #' circular_mode(x, kappa = est.kappa(x))
 circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {

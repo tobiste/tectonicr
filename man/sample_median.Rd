@@ -26,7 +26,8 @@ numeric
 Sample median direction for a vector of circular data
 }
 \examples{
-x <- rvm(n = 100, mean = 0, kappa = 1)
+set.seed(1)
+x <- rvm(n = 100, mean = 0, kappa = 10)
 circular_sample_median(x)
 circular_sample_median_deviation(x)
 

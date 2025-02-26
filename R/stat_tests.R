@@ -657,6 +657,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 #' @importFrom circular circular rvonmises pvonmises qvonmises daxialvonmises
 #'
 #' @examples
+#' set.seed(1)
 #' x <- rvm(5, mean = 90, kappa = 2)
 #'
 #' dvm(x, mean = 90, kappa = 2)
@@ -769,6 +770,7 @@ A1inv <- function(x) {
 #' @export
 #'
 #' @examples
+#' set.seed(123)
 #' est.kappa(rvm(100, 90, 10), w = 1 / runif(100, 0, 10))
 est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   w <- if (is.null(w)) {

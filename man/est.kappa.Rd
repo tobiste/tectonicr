@@ -25,5 +25,6 @@ Computes the maximum likelihood estimate of \eqn{\kappa}, the concentration
 parameter of a von Mises distribution, given a set of angular measurements.
 }
 \examples{
+set.seed(123)
 est.kappa(rvm(100, 90, 10), w = 1 / runif(100, 0, 10))
 }
