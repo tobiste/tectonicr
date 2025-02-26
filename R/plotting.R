@@ -882,6 +882,7 @@ calc_circular_density <- function(x, z, kappa, axial) {
   nx <- length(x)
   # if (kernel == "vonmises") {
   y <- sapply(z, FUN = dvm, mean = x, kappa = kappa, axial = axial, log = FALSE)
+
   # }
   # else if (kernel == "wrappednormal") {
   #   rho <- exp(-bw^2/2)

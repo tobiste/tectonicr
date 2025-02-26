@@ -1100,7 +1100,8 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 
 #' Circular Mode
 #'
-#' Angle of maximum density of a specified von Mises distribution
+#' MLE angle (maximum density) using a von Mises distribution kernel with
+#' specified concentration.
 #'
 #' @param x numeric vector. Values in degrees.
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
@@ -1112,15 +1113,18 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' @export
 #'
 #' @examples
-#' x <- rvm(10, 0, 100) %% 180
+#' x <- rvm(10, 0, 100)
 #' circular_mode(x, kappa = 2)
 circular_mode <- function(x, kappa, axial = TRUE, n = 512) {
-  density <- circular_density(x, kappa = kappa, n = n, axial = axial)
+  dns <- circular_density(x, kappa = kappa, n = n, axial = axial)
 
   f <- as.numeric(axial) + 1
 
-  angles <- c(1:n) / n * 360 / f
-  angles[which.max(density)]
+  # angles <- (c(1:n) / n) * 360 / f
+  angles <- seq(0, 360, length.out = n)
+  angles[which.max(dns)]
+
+
 }
 
 

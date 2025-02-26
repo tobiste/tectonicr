@@ -654,7 +654,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 #'
 #' @name vonmises
 #'
-#' @importFrom circular circular rvonmises pvonmises qvonmises daxialvonmises dvonmises
+#' @importFrom circular circular rvonmises pvonmises qvonmises daxialvonmises
 #'
 #' @examples
 #' x <- rvm(5, mean = 90, kappa = 2)
@@ -686,35 +686,34 @@ dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
       d
     }
   } else {
-    x <- circular::circular(theta, units = "degrees", modulo = "2pi")
-    mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
-    circular::dvonmises(x, mu = mu, kappa = kappa, log = log)
+    # x <- circular::circular(theta, units = "degrees", modulo = "2pi")
+    # mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
+    # circular::dvonmises(x, mu = mu, kappa = kappa, log = log)
 
-    # x <- deg2rad(theta)
-    # mu <- deg2rad(mean)
+    x <- deg2rad(theta) %% 2 * pi
+    mu <- deg2rad(mean) %% 2 * pi
     # stopifnot(length(mu==1))
-    # if (log) {
-    #   if (kappa == 0) {
-    #     vm <- log(rep(1 / (2 * pi), length(x)))
-    #   } else if (kappa < 1e+05) {
-    #     vm <- -(log(2 * pi) + log(besselI(kappa,
-    #       nu = 0,
-    #       expon.scaled = TRUE
-    #     )) + kappa) + kappa * (cos(x -
-    #       mu))
-    #   } else {
-    #     vm <- ifelse(((x - mu) %% (2 * pi)) == 0, Inf, -Inf)
-    #   }
-    # } else {
-    #   if (kappa == 0) {
-    #     vm <- rep(1 / (2 * pi), length(x))
-    #   } else if (kappa < 1e+05) {
-    #     vm <- 1 / (2 * pi * besselI(x = kappa, nu = 0, expon.scaled = TRUE)) *
-    #       (exp(cos(x - mu) - 1))^kappa
-    #   } else {
-    #     vm <- ifelse(((x - mu) %% (2 * pi)) == 0, Inf, 0)
-    #   }
-    # }
+    if (log) {
+      if (kappa == 0) {
+        vm <- log(rep(1 / (2 * pi), length(x)))
+      } else if (kappa < 1e+05) {
+        vm <- -(log(2 * pi) + log(besselI(kappa,
+          nu = 0,
+          expon.scaled = TRUE
+        )) + kappa) + kappa * (cos(x - mu))
+      } else {
+        vm <- ifelse(((x - mu) %% (2 * pi)) == 0, Inf, -Inf)
+      }
+    } else {
+      if (kappa == 0) {
+        vm <- rep(1 / (2 * pi), length(x))
+      } else if (kappa < 1e+05) {
+        vm <- 1 / (2 * pi * besselI(x = kappa, nu = 0, expon.scaled = TRUE)) *
+          (exp(cos(x - mu) - 1))^kappa
+      } else {
+        vm <- ifelse(((x - mu) %% (2 * pi)) == 0, Inf, 0)
+      }
+    }
   }
 }
 

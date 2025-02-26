@@ -20,9 +20,10 @@ circular_mode(x, kappa, axial = TRUE, n = 512)
 numeric
 }
 \description{
-Angle of maximum density of a specified von Mises distribution
+MLE angle (maximum density) using a von Mises distribution kernel with
+specified concentration.
 }
 \examples{
-x <- rvm(10, 0, 100) \%\% 180
+x <- rvm(10, 0, 100)
 circular_mode(x, kappa = 2)
 }
