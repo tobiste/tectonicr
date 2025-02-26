@@ -3,7 +3,7 @@
 \name{PoR_stress2grid}
 \alias{PoR_stress2grid}
 \alias{PoR_stress2grid_stats}
-\title{Spatial interpolation of SHmax in PoR coordinate reference system}
+\title{Spatial Interpolation of SHmax in PoR Coordinate Reference System}
 \usage{
 PoR_stress2grid(
   x,

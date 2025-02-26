@@ -82,7 +82,7 @@ circular_IQR(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 
 The collected summary statistics can be quickly obtained by `circular_summary()`:
 ```{r summary_stats, echo=TRUE}
-circular_summary(san_andreas.por$azi.PoR, 1 / san_andreas$unc, kappa = 20)
+circular_summary(san_andreas.por$azi.PoR, 1 / san_andreas$unc)
 ```
 
 The summary statistics additionally include the circular quasi-quantiles, the 

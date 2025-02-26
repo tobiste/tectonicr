@@ -63,7 +63,7 @@ head(spatial_stats_R)
 One can also specify a range of cell-sizes for a wavelength analysis:
 
 ```{r interpolation2,message=FALSE,warning=FALSE}
-spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100), kappa = 10)
+spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
 The mean azimuth for each grid cell:  

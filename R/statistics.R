@@ -465,7 +465,6 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE,
     # md <- ifelse(norm, 2, 1)
     # sum(w * cdists) / (Z * md)
     sum(w * cdists) / Z
-
   }
 }
 
@@ -1117,7 +1116,7 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' x <- rvm(10, 0, 100)
 #' circular_mode(x, kappa = est.kappa(x))
 circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
-  if(is.null(kappa)) kappa <- est.kappa(x, axial = axial, na.rm = TRUE)
+  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial, na.rm = TRUE)
   dns <- circular_density(x, kappa = kappa, n = n, axial = axial)
 
   f <- as.numeric(axial) + 1
@@ -1125,8 +1124,6 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
   # angles <- (c(1:n) / n) * 360 / f
   angles <- seq(0, 360, length.out = n)
   angles[which.max(dns)]
-
-
 }
 
 
@@ -1167,7 +1164,7 @@ circular_summary <- function(x, w = NULL, kappa = NULL, axial = TRUE, na.rm = FA
 
   n <- length(x)
 
-  if(is.null(kappa)) kappa = est.kappa(x, w = w, axial = axial, na.rm = FALSE)
+  if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
 
   x_mean <- circular_mean(x, w, axial, F)
   x_sd <- circular_sd(x, w, axial, F)

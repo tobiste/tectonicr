@@ -900,7 +900,7 @@ circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 36
   # f <- as.numeric(axial) + 1
   # x <- x * f
 
-  if(is.null(kappa)) kappa = est.kappa(x, axial = axial, na.rm = na.rm)
+  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial, na.rm = na.rm)
 
 
   if (is.null(z)) {
@@ -1085,8 +1085,10 @@ plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512, norm.density = 
 #' data("san_andreas")
 #' res <- PoR_shmax(san_andreas, na_pa, "right")
 #' d <- distance_from_pb(san_andreas, na_pa, plate_boundary, tangential = TRUE)
-#' quick_plot(res$azi.PoR, distance = d, prd = res$prd, unc = san_andreas$unc,
-#' regime = san_andreas$regime)
+#' quick_plot(res$azi.PoR,
+#'   distance = d, prd = res$prd, unc = san_andreas$unc,
+#'   regime = san_andreas$regime
+#' )
 quick_plot <- function(
     azi,
     distance,

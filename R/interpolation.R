@@ -51,26 +51,26 @@ dist_weight_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
 }
 
 
-#' Spatial interpolation of SHmax
+#' Spatial Interpolation of SHmax
 #'
 #' Stress field interpolation and wavelength analysis using a kernel (weighted)
 #' mean/median and standard deviation/IQR of stress data
 #'
-#' @param x \code{sf} object containing
+#' @param x `sf` object containing
 #' \describe{
 #' \item{azi}{SHmax in degree}
 #' \item{unc}{(optional) Uncertainties of SHmax in degree}
 #' \item{type}{(optional) Methods used for the determination of the direction
 #' of SHmax}
 #' }
-#' @param grid (optional) Point object of class \code{sf}.
+#' @param grid (optional) Point object of class `sf`.
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes (ignored if `grid` is specified).
 #' @param gridsize numeric. Target spacing of the regular grid in decimal
 #' degree. Default is `2.5`. (is ignored if `grid` is specified)
 #' @param stat whether the direction of interpolated SHmax is based on the
-#' circular mean and standard deviation (\code{"mean"}, the default) or the
-#' circular median and interquartile range (\code{"median"})
+#' circular mean and standard deviation (`"mean"`, the default) or the
+#' circular median and interquartile range (`"median"`)
 #' @param min_data integer. Minimum number of data per bin. Default is `3` for
 #' [stress2grid()]and `4` for [stress2grid_stats()].
 #' @param threshold numeric. Threshold for deviation of direction. Default is
@@ -86,20 +86,19 @@ dist_weight_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
 #' @param dist_threshold numeric. Distance weight to prevent overweight of data
 #' nearby (0 to 1). Default is `0.1`
 #' @param method_weighting logical. If a method weighting should be applied:
-#' Default is \code{FALSE}. If `FALSE`, overwrites `mp`.
+#' Default is `FALSE`. If `FALSE`, overwrites `mp`.
 #' @param quality_weighting logical. If a quality weighting should be applied:
-#' Default is \code{TRUE}. If `FALSE`, overwrites `qp`.
+#' Default is `TRUE`. If `FALSE`, overwrites `qp`.
 #' @param R_range numeric value or vector specifying the kernel half-width(s),
-#' i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}
+#' i.e. the search radius (in km). Default is `seq(50, 1000, 50)`
 #' @param kappa  numeric. von Mises distribution concentration parameter used
-#' for the circular mode.
+#' for the circular mode. Will be estimated using [est.kappa()] if not provided.
 #' @param ... (optional) arguments to [dist_greatcircle()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate filter rename mutate as_tibble
 #'
-#' @returns
-#' \code{sf} object containing
+#' @returns `sf` object containing
 #' \describe{
 #' \item{lon,lat}{longitude and latitude in degrees}
 #' \item{azi}{Mean SHmax in degree}
@@ -332,7 +331,7 @@ stress2grid_stats <- function(x,
                               mp = 1,
                               dist_threshold = 0.1,
                               R_range = seq(50, 1000, 50),
-                              kappa = 2,
+                              kappa = NULL,
                               ...) {
   stopifnot(
     inherits(x, "sf"), is.numeric(gridsize), is.numeric(threshold), is.numeric(arte_thres),
@@ -484,7 +483,7 @@ stress2grid_stats <- function(x,
 
 
 
-#' Spatial interpolation of SHmax in PoR coordinate reference system
+#' Spatial Interpolation of SHmax in PoR Coordinate Reference System
 #'
 #' Stress field and wavelength analysis in PoR system and back-transformed
 #'
@@ -668,7 +667,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
 }
 
 
-#' Compact smoothed stress field
+#' Compact Smoothed Stress Field
 #'
 #' Filter smoothed stress field containing a range of search radii or kernel
 #' half widths to find shortest wavelength (R) with the least circular sd. or

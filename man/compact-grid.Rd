@@ -4,7 +4,7 @@
 \alias{compact-grid}
 \alias{compact_grid}
 \alias{compact_grid2}
-\title{Compact smoothed stress field}
+\title{Compact Smoothed Stress Field}
 \usage{
 compact_grid(x, type = c("stress", "dispersion"))
 

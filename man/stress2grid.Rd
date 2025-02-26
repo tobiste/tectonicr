@@ -3,7 +3,7 @@
 \name{stress2grid}
 \alias{stress2grid}
 \alias{stress2grid_stats}
-\title{Spatial interpolation of SHmax}
+\title{Spatial Interpolation of SHmax}
 \source{
 \url{https://github.com/MorZieg/Stress2Grid}
 }
@@ -46,7 +46,7 @@ stress2grid_stats(
   mp = 1,
   dist_threshold = 0.1,
   R_range = seq(50, 1000, 50),
-  kappa = 2,
+  kappa = NULL,
   ...
 )
 }
@@ -103,7 +103,7 @@ i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
 \item{...}{(optional) arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
 
 \item{kappa}{numeric. von Mises distribution concentration parameter used
-for the circular mode.}
+for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
 }
 \value{
 \code{sf} object containing
