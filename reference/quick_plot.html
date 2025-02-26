@@ -17,7 +17,7 @@ quality-weighted frequency distribution of the azimuths."><meta property="og:ima
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,7 +132,10 @@ red line shows the rolling circular dispersion about the prediction.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">na_pa</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="distance_from_pb.html">distance_from_pb</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">na_pa</span>, <span class="va">plate_boundary</span>, tangential <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">quick_plot</span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">azi.PoR</span>, distance <span class="op">=</span> <span class="va">d</span>, prd <span class="op">=</span> <span class="va">res</span><span class="op">$</span><span class="va">prd</span>, unc <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, regime <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">regime</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">quick_plot</span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">azi.PoR</span>,</span></span>
+<span class="r-in"><span>  distance <span class="op">=</span> <span class="va">d</span>, prd <span class="op">=</span> <span class="va">res</span><span class="op">$</span><span class="va">prd</span>, unc <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>,</span></span>
+<span class="r-in"><span>  regime <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">regime</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
