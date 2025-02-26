@@ -17,3 +17,4 @@ three-column vector (Cartesian coordinates) of unit length
 \description{
 Rotation of a vector by a quaternion
 }
+\keyword{internal}

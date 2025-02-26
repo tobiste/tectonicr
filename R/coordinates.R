@@ -184,6 +184,7 @@ PoR_crs <- function(x) {
 #' @param x,PoR two-column vectors containing the lat and lon coordinates
 #'
 #' @name por_transformation_quat
+#' @keywords internal
 #'
 #' @returns two-element numeric vector
 NULL
@@ -290,7 +291,7 @@ PoR_to_geographical <- function(x, PoR) {
 }
 
 
-#' Conversion between spherical PoR to geographical coordinate system
+#' Conversion between spherical PoR to geographical coordinate system of data.frames
 #'
 #' Transformation from spherical PoR to geographical coordinate system and
 #' vice versa
@@ -304,7 +305,7 @@ PoR_to_geographical <- function(x, PoR) {
 #' @returns \code{"data.frame"} with the transformed coordinates
 #' (\code{lat.PoR} and \code{lon.PoR} for PoR CRS,
 #' or \code{lat} and \code{lon} for geographical CRS).
-#'
+#' @keywords internal
 #' @name por_transformation_df
 NULL
 
@@ -344,7 +345,7 @@ PoR_to_geographical_df <- function(x, PoR) {
 #'
 #' @importFrom terra crs project rast
 #' @importFrom methods extends
-#'
+#' @keywords internal
 #' @name raster_transformation
 NULL
 
@@ -377,7 +378,7 @@ PoR_to_geographical_raster <- function(x, PoR) {
 }
 
 
-#' Conversion between PoR to geographical coordinates of spatial data
+#' Conversion between PoR to geographical coordinates of sf data
 #'
 #' Transform spatial objects from PoR to geographical coordinate reference
 #' system and vice versa.
@@ -396,7 +397,7 @@ PoR_to_geographical_raster <- function(x, PoR) {
 #'
 #' @importFrom sf st_crs st_as_sf st_set_crs st_transform st_wrap_dateline
 #' @importFrom methods extends
-#'
+#' @keywords internal
 #' @name por_transformation_sf
 NULL
 

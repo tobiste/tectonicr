@@ -2,6 +2,7 @@
 % Please edit documentation in R/interpolation.R
 \name{kernel_dispersion}
 \alias{kernel_dispersion}
+\alias{dispersion_grid}
 \title{Adaptive Kernel Dispersion}
 \usage{
 kernel_dispersion(
@@ -18,6 +19,8 @@ kernel_dispersion(
   R_range = seq(100, 2000, 100),
   ...
 )
+
+dispersion_grid(...)
 }
 \arguments{
 \item{x}{\code{sf} object containing
@@ -69,6 +72,10 @@ half-width(s) as search radius (in km). Default is \code{seq(50, 1000, 50)}}
 Stress field and wavelength analysis using circular dispersion
 (or other statistical estimators for dispersion)
 }
+\note{
+\code{dispersion_grid()} was renamed to \code{kernel_dispersion()} to create
+a more consistent API.
+}
 \examples{
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -80,3 +87,4 @@ kernel_dispersion(san_andreas_por)
 \seealso{
 \code{\link[=circular_dispersion]{circular_dispersion()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=rayleigh_test]{rayleigh_test()}}
 }
+\keyword{internal}

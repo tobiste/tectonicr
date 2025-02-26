@@ -15,3 +15,4 @@ object of class \code{"quaternion"}
 \description{
 Quaternion normalization
 }
+\keyword{internal}

@@ -26,3 +26,4 @@ x <- rvm(100, 0, 5)
 mean_SC(x)
 }
 }
+\keyword{internal}

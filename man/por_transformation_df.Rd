@@ -4,7 +4,7 @@
 \alias{por_transformation_df}
 \alias{geographical_to_PoR_df}
 \alias{PoR_to_geographical_df}
-\title{Conversion between spherical PoR to geographical coordinate system}
+\title{Conversion between spherical PoR to geographical coordinate system of data.frames}
 \usage{
 geographical_to_PoR_df(x, PoR)
 
@@ -27,3 +27,4 @@ or \code{lat} and \code{lon} for geographical CRS).
 Transformation from spherical PoR to geographical coordinate system and
 vice versa
 }
+\keyword{internal}

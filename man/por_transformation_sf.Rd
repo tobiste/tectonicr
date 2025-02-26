@@ -4,7 +4,7 @@
 \alias{por_transformation_sf}
 \alias{PoR_to_geographical_sf}
 \alias{geographical_to_PoR_sf}
-\title{Conversion between PoR to geographical coordinates of spatial data}
+\title{Conversion between PoR to geographical coordinates of sf data}
 \usage{
 PoR_to_geographical_sf(x, PoR)
 
@@ -30,3 +30,4 @@ The PoR coordinate reference system is oblique transformation of the
 geographical coordinate system with the Euler pole coordinates being the
 translation factors.
 }
+\keyword{internal}

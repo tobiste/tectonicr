@@ -161,10 +161,12 @@ angle_vectors <- function(x, y) {
   }
 }
 
+#' @keywords internal
 hav <- function(x) {
   sin(x / 2)^2
 }
 
+#' @keywords internal
 ahav <- function(x) {
   2 * asin(sqrt(x))
 }
@@ -239,7 +241,7 @@ vincenty <- function(lat1, lon1, lat2, lon2) {
   atan2(y, x)
 }
 
-
+#' @keywords internal
 ddistance <- function(theta1, phi1, theta2, phi2, r = earth_radius()) {
   # Method after to Ziegler & Heidbach:  (2017)
   x1 <- r * cos(theta1) * cos(phi1)

@@ -24,3 +24,4 @@ terra "SpatRaster" object
 Helper function to transform raster data set from PoR to geographical
 coordinates
 }
+\keyword{internal}

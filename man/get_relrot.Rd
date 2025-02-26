@@ -19,3 +19,4 @@ Helper function to Equivalent rotation
 \seealso{
 \code{\link[=equivalent_rotation]{equivalent_rotation()}}
 }
+\keyword{internal}

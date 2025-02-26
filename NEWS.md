@@ -1,6 +1,17 @@
 # tectonicr (development version)
 
+# tectonicr 0.4.5 _2025-02-26_
+
+* new function `distance_binned_stats()` to calculate summary statistics along distance intervals: The function superseds which superseded `distroll_circstats()` and friends because it is faster and more flexible
+* `PoR_to_geographical()` and `geographical_to_PoR()` now accept `data.frame`, `sf` or raster as input
+* new `PoR_azimuth()` function to transform directions in the PoR coordinate system / doesn't need to be Shmax data
+* bug fix in `circular_distance()` and `circular_dispersion()` when using `axial=FALSE`
+* bug fix in `dvm()` when using `axial=FALSE`
+
 # tectonicr 0.4.4
+
+* additional plate motion models available in `cpm_models`
+* Use of {circular} package in `dvm()`, `pvm()`, `qvm()` and `rvm()`
 
 # tectonicr 0.4.3.92
 * PoR_distance(): function to calculate distance to PoR

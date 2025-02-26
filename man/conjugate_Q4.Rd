@@ -17,3 +17,4 @@ object of class \code{"quaternion"}
 \description{
 Inverse rotation given by conjugated quaternion
 }
+\keyword{internal}

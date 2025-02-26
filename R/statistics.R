@@ -6,6 +6,7 @@
 #'
 #' @return named two element vector
 #'
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' set.seed(1)
@@ -177,12 +178,13 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   1 - R
 }
 
-
+#' @keywords internal
 var_to_sd <- function(v) {
   s <- sqrt(-2 * log(1 - v))
   rad2deg(s)
 }
 
+#' @keywords internal
 sd_to_var <- function(s) {
   s_rad <- deg2rad(s)
   1 - exp(-s_rad^2 / 2)
@@ -697,7 +699,8 @@ prd_err <- function(dist_PoR, sigma_PoR = 1) {
   acosd(acos_beta) / 2
 }
 
-
+#' @keywords internal
+#' @importFrom stats qnorm
 z_score <- function(conf.level) {
   stats::qnorm(1 - (1 - conf.level) / 2)
 }
@@ -907,7 +910,7 @@ confidence_interval_fisher <- function(x, conf.level = 0.95, w = NULL, axial = T
   list(mu = mu, conf.angle = conf.angle, conf.interval = conf.interval)
 }
 
-
+#' @keywords internal
 circular_dispersion_i <- function(x, id, ...) {
   circular_dispersion(x$x[id], y = x$mean[id], w = x$w[id], w.y = x$w.y[id], ...)
 }

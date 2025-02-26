@@ -1,4 +1,5 @@
 # Tests ####
+#' @keywords internal
 nchisq_eq <- function(obs, prd, unc) {
   if (is.na(unc) || unc == 0) unc <- 1 # uncertainty cannot be 0
   w <- deviation_norm(obs, prd)
@@ -226,6 +227,7 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
   return(result)
 }
 
+#' @keywords internal
 rayleigh_p_value1 <- function(K, n, wilkie = FALSE) {
   if (!wilkie) {
     # Pearson. 1906; Greenwood and Durand, 1955
@@ -247,6 +249,7 @@ rayleigh_p_value1 <- function(K, n, wilkie = FALSE) {
   }
 }
 
+#' @keywords internal
 rayleigh_p_value2 <- function(K, n) {
   # Greenwood and Durand, 1957
   pK <- stats::pnorm(K) # distribution function of standard normal distribution
@@ -744,6 +747,7 @@ qvm <- function(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6)
 }
 
 
+#' @keywords internal
 A1inv <- function(x) {
   if (0 <= x & x < 0.53) {
     2 * x + x^3 + (5 * x^5) / 6

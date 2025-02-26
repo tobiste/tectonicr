@@ -337,7 +337,8 @@ optimal_rollwidth <- function(x) {
 #'
 #' # New functions
 #' distance_binned_stats(
-#'   dat$azi.PoR, distance = dat$distance, width.breaks = 1, unc = dat$unc, prd = 135
+#'   dat$azi.PoR,
+#'   distance = dat$distance, width.breaks = 1, unc = dat$unc, prd = 135
 #' ) |> head()
 NULL
 

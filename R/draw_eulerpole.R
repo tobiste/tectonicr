@@ -19,6 +19,7 @@ rotate_lines <- function(theta, p, centre) {
   matrix(c(new_x, new_y), ncol = 2)
 }
 
+#' @keywords internal
 get_loxodromes <- function(lon, lat, line, theta) {
   line.dummy.rot <-
     rotate_lines(

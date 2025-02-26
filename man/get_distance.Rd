@@ -19,3 +19,4 @@ Helper function to Distance from plate boundary
 \seealso{
 \code{\link[=distance_from_pb]{distance_from_pb()}}
 }
+\keyword{internal}

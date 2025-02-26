@@ -15,3 +15,4 @@ logical
 \description{
 Check if object is quaternion
 }
+\keyword{internal}

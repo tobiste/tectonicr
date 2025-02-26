@@ -21,3 +21,4 @@ Concatenation of two rotations R1 followed by R2
 \note{
 Multiplication is not commutative.
 }
+\keyword{internal}

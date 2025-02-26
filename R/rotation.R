@@ -132,7 +132,7 @@ relative_rotation <- function(r1, r2) {
 #' @param plate.rot,fixed character or numeric
 #' @param lat,lon,angle numeric
 #' @param fixed.ep data.frame
-#'
+#' @keywords internal
 #' @seealso [equivalent_rotation()]
 get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep) {
   if (plate.rot == fixed) {
@@ -268,7 +268,7 @@ euler_to_Q4 <- function(x, normalize = FALSE) {
 #' Euler angle/axis from quaternion
 #'
 #' @param q object of class \code{"quaternion"}
-#'
+#' @keywords internal
 #' @returns \code{"euler.pole"} object
 Q4_to_euler <- function(q) {
   stopifnot(is.Q4(q))
@@ -284,6 +284,7 @@ Q4_to_euler <- function(q) {
   euler_pole(x = axis[1], y = axis[2], z = axis[3], angle = rad2deg(angle), geo = FALSE)
 }
 
+#' @keywords internal
 QScVec_to_Q4 <- function(x) {
   stopifnot(is.Q4(x), x$Sc != 0)
   x.euler <- Q4_to_euler(x)
@@ -295,6 +296,7 @@ QScVec_to_Q4 <- function(x) {
   q
 }
 
+#' @keywords internal
 Q4_to_QScVec <- function(x, normalize = FALSE) {
   stopifnot(x[1] != 0, is.logical(normalize))
   angle <- 2 * acos(x[1])
@@ -316,6 +318,7 @@ Q4_to_QScVec <- function(x, normalize = FALSE) {
 #' @param q quaternion
 #'
 #' @returns object of class \code{"quaternion"}
+#' @keywords internal
 normalize_Q4 <- function(q) {
   q4 <- QScVec_to_Q4(q)
   q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
@@ -335,6 +338,7 @@ normalize_Q4 <- function(q) {
 #' @note Multiplication is not commutative.
 #'
 #' @returns object of class \code{"quaternion"}
+#' @keywords internal
 product_Q4 <- function(q1, q2, normalize = FALSE) {
   stopifnot(is.Q4(q1), is.Q4(q2), is.logical(normalize))
   Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
@@ -355,6 +359,7 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
 #' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
 #'
 #' @return object of class \code{"quaternion"}
+#' @keywords internal
 conjugate_Q4 <- function(q, normalize = FALSE) {
   stopifnot(is.Q4(q), is.logical(normalize))
   q <- structure(list(Sc = q$Sc, Vec = -q$Vec), class = "quaternion")
@@ -367,6 +372,7 @@ conjugate_Q4 <- function(q, normalize = FALSE) {
 #' Check if object is quaternion
 #' @param x object of class \code{"quaternion"}
 #' @returns logical
+#' @keywords internal
 is.Q4 <- function(x) {
   class(x) == "quaternion"
 }
@@ -377,6 +383,7 @@ is.Q4 <- function(x) {
 #' @param p three-column vector (Cartesian coordinates) of unit length
 #'
 #' @returns three-column vector (Cartesian coordinates) of unit length
+#' @keywords internal
 rotation_Q4 <- function(q, p) {
   stopifnot(is.Q4(q))
 

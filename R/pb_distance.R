@@ -4,7 +4,7 @@
 #' the range of 0 to 180 degrees
 #'
 #' @param x numeric, angular distance (in degrees)
-#'
+#' @keywords internal
 #' @returns numeric vector
 distance_mod <- function(x) {
   # sapply(X = x, FUN = get_distance_mod)
@@ -16,7 +16,7 @@ distance_mod <- function(x) {
 #' @param lon,lat numeric vectors
 #' @param pb.coords matrix
 #' @param tangential,km logical
-#'
+#' @keywords internal
 #' @seealso [distance_from_pb()]
 get_distance <- function(lon, lat, pb.coords, tangential, km) {
   delta.lat <- distance_mod(pb.coords[, 2] - lat)
@@ -123,7 +123,7 @@ distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
 #' @param lon,lat,pb.bearing numeric vectors
 #' @param pb.coords matrix
 #' @param tangential logical
-#'
+#' @keywords internal
 #' @seealso [projected_pb_strike()]
 get_projected_pb_strike <- function(lon, lat, pb.coords, pb.bearing, tangential) {
   delta.lat <- distance_mod(pb.coords[, 2] - lat)

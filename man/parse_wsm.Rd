@@ -20,6 +20,10 @@ quantise_wsm_quality(x)
 Assigns numeric values of the precision (sd.) of each measurement to the
 categorical quality ranking of the World Stress Map (A, B, C, D, E).
 }
+\note{
+\code{quantise_wsm_quality()} was renamed to \code{parse_wsm_quality()} to create
+a more consistent API.
+}
 \examples{
 parse_wsm_quality(c("A", "B", "C", "D", NA, "E"))
 data("san_andreas")

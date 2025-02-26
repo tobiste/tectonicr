@@ -15,3 +15,4 @@ Q4_to_euler(q)
 \description{
 Euler angle/axis from quaternion
 }
+\keyword{internal}

@@ -157,6 +157,9 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
 #' indicator. *World Stress Map Technical Report* **16-01**, GFZ German Research
 #' Centre for Geosciences. \doi{10.2312/wsm.2016.001}
 #'
+#' @note `quantise_wsm_quality()` was renamed to `parse_wsm_quality()` to create
+#'  a more consistent API.
+#'
 #' @name parse_wsm
 #' @examples
 #' parse_wsm_quality(c("A", "B", "C", "D", NA, "E"))
@@ -179,7 +182,7 @@ parse_wsm_quality <- function(x) {
 #' @rdname parse_wsm
 #' @export
 quantise_wsm_quality <- function(x) {
-  .Deprecated("parse_wsm_quality")
+  lifecycle::deprecate_warn("0.3.7", "quantise_wsm_quality()", "parse_wsm_quality()")
   as.numeric(sapply(x, FUN = parse_wsm_quality))
 }
 

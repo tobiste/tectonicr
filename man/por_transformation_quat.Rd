@@ -20,3 +20,4 @@ two-element numeric vector
 Helper function for the transformation from PoR to geographical coordinate
 system or vice versa
 }
+\keyword{internal}

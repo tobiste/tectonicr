@@ -19,3 +19,4 @@ Helper function to get Distance from plate boundary
 \seealso{
 \code{\link[=projected_pb_strike]{projected_pb_strike()}}
 }
+\keyword{internal}

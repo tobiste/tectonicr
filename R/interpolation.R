@@ -7,6 +7,7 @@
 #' @export
 earth_radius <- function() 6371.0087714
 
+#' @keywords internal
 wcmean <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
   if (Z != 0) {
@@ -24,6 +25,7 @@ wcmean <- function(x, w) {
   }
 }
 
+#' @keywords internal
 wcmedian <- function(x, w) {
   Z <- sum(w, na.rm = TRUE)
   if (Z > 3) {
@@ -39,12 +41,13 @@ wcmedian <- function(x, w) {
   c(median_s, iqr_s)
 }
 
-
+#' @keywords internal
 dist_weight_linear <- function(R_search, dist_threshold, distij, idp = 0) {
   dist_threshold_scal <- R_search * dist_threshold
   R_search + 1 - max(dist_threshold_scal, distij)
 }
 
+#' @keywords internal
 dist_weight_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
   dist_threshold_scal <- R_search * dist_threshold
   1 / (max(dist_threshold_scal, distij))^idp
@@ -783,7 +786,10 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #'
 #' @seealso [circular_dispersion()], [norm_chisq()], [rayleigh_test()]
 #'
-#' @export
+#' @note `dispersion_grid()` was renamed to `kernel_dispersion()` to create
+#'  a more consistent API.
+#'
+#' @name kernel_dispersion
 #'
 #' @examples
 #' data("nuvel1")
@@ -792,6 +798,10 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' san_andreas_por$azi <- PoR_shmax(san_andreas, PoR, "right")$azi.PoR
 #' san_andreas_por$prd <- 135
 #' kernel_dispersion(san_andreas_por)
+NULL
+
+#' @rdname kernel_dispersion
+#' @export
 kernel_dispersion <- function(x,
                               stat = c("dispersion", "nchisq", "rayleigh"),
                               grid = NULL,
@@ -918,7 +928,11 @@ kernel_dispersion <- function(x,
   return(res)
 }
 
+
+#' @rdname kernel_dispersion
+#' @export
+#' @keywords internal
 dispersion_grid <- function(...) {
-  .Deprecated("kernel_dispersion")
+  lifecycle::deprecate_warn(" 0.2.97", "dispersion_grid()", "kernel_dispersion")
   kernel_dispersion(...)
 }
