@@ -109,7 +109,7 @@ and you can run `tectonicr` on your browser:
 ## Author
 
 Tobias Stephan
-([tstephan\@lakeheadu.ca](mailto:tstephan@lakeheadu.ca){.email})
+([tstephan\@lakeheadu.ca](mailto:tstephan@lakeheadu.ca))
 
 ## Feedback, issues, and contributions
 
