@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.4.9009</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,8 +44,24 @@
 <h2 class="pkg-version" data-toc-text="development version" id="tectonicr-development-version">tectonicr (development version)<a class="anchor" aria-label="anchor" href="#tectonicr-development-version"></a></h2>
 </div>
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.5" id="tectonicr-045-2025-02-26">tectonicr 0.4.5 <em>2025-02-26</em>
+<a class="anchor" aria-label="anchor" href="#tectonicr-045-2025-02-26"></a></h2>
+<ul><li>new function <code><a href="../reference/distance_binned_stats.html">distance_binned_stats()</a></code> to calculate summary statistics along distance intervals: The function superseds which superseded <code><a href="../reference/rolling_test_dist.html">distroll_circstats()</a></code> and friends because it is faster and more flexible</li>
+<li>
+<code><a href="../reference/por_transformation.html">PoR_to_geographical()</a></code> and <code><a href="../reference/por_transformation.html">geographical_to_PoR()</a></code> now accept <code>data.frame</code>, <code>sf</code> or raster as input</li>
+<li>new <code><a href="../reference/PoR_azi.html">PoR_azimuth()</a></code> function to transform directions in the PoR coordinate system / doesn’t need to be Shmax data</li>
+<li>bug fix in <code><a href="../reference/dispersion.html">circular_distance()</a></code> and <code><a href="../reference/dispersion.html">circular_dispersion()</a></code> when using <code>axial=FALSE</code>
+</li>
+<li>bug fix in <code><a href="../reference/vonmises.html">dvm()</a></code> when using <code>axial=FALSE</code>
+</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.4" id="tectonicr-044">tectonicr 0.4.4<a class="anchor" aria-label="anchor" href="#tectonicr-044"></a></h2><p class="text-muted">CRAN release: 2024-12-11</p>
-</div>
+<ul><li>additional plate motion models available in <code>cpm_models</code>
+</li>
+<li>Use of {circular} package in <code><a href="../reference/vonmises.html">dvm()</a></code>, <code><a href="../reference/vonmises.html">pvm()</a></code>, <code><a href="../reference/vonmises.html">qvm()</a></code> and <code><a href="../reference/vonmises.html">rvm()</a></code>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.3.92" id="tectonicr-04392">tectonicr 0.4.3.92<a class="anchor" aria-label="anchor" href="#tectonicr-04392"></a></h2>
 <ul><li>PoR_distance(): function to calculate distance to PoR</li>
@@ -128,7 +144,7 @@
 <h2 class="pkg-version" data-toc-text="0.2.97" id="tectonicr-0297-2024-04-07">tectonicr 0.2.97 <em>2024-04-07</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-0297-2024-04-07"></a></h2>
 <ul><li>
-<code>dispersion_grid()</code> deprecated and replaced by <code><a href="../reference/kernel_dispersion.html">kernel_dispersion()</a></code> (details in vignette E)</li>
+<code><a href="../reference/kernel_dispersion.html">dispersion_grid()</a></code> deprecated and replaced by <code><a href="../reference/kernel_dispersion.html">kernel_dispersion()</a></code> (details in vignette E)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.96" id="tectonicr-0296-2023-10-15">tectonicr 0.2.96 <em>2023-10-15</em>
