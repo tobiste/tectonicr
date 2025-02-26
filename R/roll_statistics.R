@@ -582,6 +582,10 @@ distance_binned_stats <- function(azi, distance, n.breaks = 10, width.breaks = N
                                   unc = NULL, prd = NULL, prd.error = NULL,
                                   kappa = 2, R = 1000, conf.level = 0.95, ...) {
   lifecycle::signal_stage("experimental", "distance_binned_stats()")
+  stopifnot(length(azi) == length(distance))
+
+  # binding of to be defined variables
+  n <- w <- w.prd <- nchisq <- dispersion <- dispersion_sde <- NULL
 
   if (!is.null(width.breaks)) {
     bins <- ggplot2::cut_width(distance, width.breaks, ...)
