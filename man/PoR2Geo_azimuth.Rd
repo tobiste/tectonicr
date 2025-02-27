@@ -4,7 +4,7 @@
 \alias{PoR2Geo_azimuth}
 \title{Azimuth Conversion From PoR to Geographical Coordinate Reference System}
 \usage{
-PoR2Geo_azimuth(x, PoR)
+PoR2Geo_azimuth(x, PoR, axial = TRUE)
 }
 \arguments{
 \item{x}{\code{data.frame} containing the PoR equivalent azimuths
@@ -13,6 +13,8 @@ point(s) or the PoR-equivalent coordinates.}
 
 \item{PoR}{\code{data.frame} containing the geographical location of
 the Euler pole (\code{lat}, \code{lon})}
+
+\item{axial}{logical. Whether the azimuth is axial (0-180) or directional (0-360).}
 }
 \value{
 numeric vector of transformed azimuths (in degrees)

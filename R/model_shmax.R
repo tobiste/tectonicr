@@ -206,6 +206,7 @@ deviation_shmax <- function(prd, obs) {
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
 #' moving plate boundaries, respectively. If \code{"none"} (the default), only
 #' the PoR-equivalent azimuth is returned.
+#' @param axial logical. Whether the azimuth is axial (0-180) or directional (0-360).
 #'
 #' @returns `PoR_azimuth` returns numeric vector of the transformed azimuth in degrees.
 #' `PoR_shmax` returns either a numeric vector of the azimuths in the
@@ -250,7 +251,7 @@ NULL
 
 #' @rdname PoR_azi
 #' @export
-PoR_azimuth <- function(x, PoR) {
+PoR_azimuth <- function(x, PoR, axial = TRUE) {
   stopifnot(is.data.frame(x), is.data.frame(PoR) | is.euler(PoR))
   if (inherits(x, "sf")) {
     crds <- sf::st_transform(x, crs = "WGS84") |> sf::st_coordinates()
@@ -259,7 +260,11 @@ PoR_azimuth <- function(x, PoR) {
   }
 
   theta <- mapply(FUN = get_azimuth, lat_a = x$lat, lon_a = x$lon, lat_b = PoR$lat, lon_b = PoR$lon)
-  (x$azi - theta + 180) %% 180
+  if (axial) {
+    (x$azi - theta + 180) %% 180
+  } else {
+      (x$azi - theta + 360) %% 360
+  }
 }
 
 #' @rdname PoR_azi
@@ -301,6 +306,7 @@ PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left")) {
 #' point(s) or the PoR-equivalent coordinates.
 #' @param PoR \code{data.frame} containing the geographical location of
 #' the Euler pole (\code{lat}, \code{lon})
+#' @param axial logical. Whether the azimuth is axial (0-180) or directional (0-360).
 #'
 #' @seealso [PoR_shmax()]
 #'
@@ -321,12 +327,13 @@ PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left")) {
 #'
 #' # convert back to geo CRS
 #' PoR2Geo_azimuth(san_andreas, PoR) |> head()
-PoR2Geo_azimuth <- function(x, PoR) {
+PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
   # Northern Hemisphere Euler pole
   # if (PoR$lat < 0) {
   #   PoR$lat <- -PoR$lat
   #   PoR$lon <- longitude_modulo(180 + PoR$lon)
   # }
+  f <-ifelse(axial, 1, 2)
 
   if (unique(c("lat.PoR", "lon.PoR") %in% colnames(x))) {
     northpole <- geographical_to_PoR(
@@ -339,7 +346,7 @@ PoR2Geo_azimuth <- function(x, PoR) {
     beta <- mapply(FUN = get_azimuth, lat_a = x$lat, lon_a = x$lon, lat_b = PoR$lat, lon_b = PoR$lon)
     azi.geo <- x$azi.PoR + beta
   }
-  azi.geo %% 180
+  azi.geo %% (f * 180)
 }
 
 

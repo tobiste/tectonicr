@@ -6,7 +6,7 @@
 \alias{PoR_shmax}
 \title{Azimuth Conversion from Geographical to PoR Coordinate Reference System}
 \usage{
-PoR_azimuth(x, PoR)
+PoR_azimuth(x, PoR, axial = TRUE)
 
 PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"))
 }
@@ -18,6 +18,8 @@ as \code{unc} (the latter is optional)}
 
 \item{PoR}{\code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler  pole}
+
+\item{axial}{logical. Whether the azimuth is axial (0-180) or directional (0-360).}
 
 \item{type}{Character. Type of plate boundary (optional). Can be
 \code{"out"}, \code{"in"}, \code{"right"}, or
