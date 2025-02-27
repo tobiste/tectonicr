@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,6 +80,8 @@ For <code>"MULTILINESTRING"</code> objects, use <code>lines_azimuths()</code>.</
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"plates"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># one line:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">pair</span> <span class="op">==</span> <span class="st">"af-eu"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">smoothr</span><span class="fu">::</span><span class="fu"><a href="https://strimas.com/smoothr/reference/densify.html" class="external-link">densify</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">line_azimuth</span><span class="op">(</span><span class="op">)</span></span></span>
@@ -113,9 +115,36 @@ For <code>"MULTILINESTRING"</code> objects, use <code>lines_azimuths()</code>.</
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  Eurasia POINT (-5.478858 33.99182)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 Eurasia POINT (-5.437719 33.98841)</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu">lines_azimuths</span><span class="op">(</span><span class="va">plates</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># multiple lines:</span></span></span>
+<span class="r-in"><span><span class="fu">lines_azimuths</span><span class="op">(</span><span class="va">plates</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 150 features and 9 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -0.4379 ymin: -54.8518 xmax: 42.0332 ymax: 37.8039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            azi  pair plateA plateB      type displacement            name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1   52.98880 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.2   51.23433 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.3  141.83793 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.4   44.60702 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.5   47.34529 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.6   45.71276 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.7  132.21165 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.8  130.50217 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.9  138.80081 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.10  41.99286 af-an     af     an divergent          out af-an_divergent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       nameA      nameB                    geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1  Africa Antarctica    POINT (-0.4379 -54.8518)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.2  Africa Antarctica POINT (-0.0388257 -54.6772)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.3  Africa Antarctica   POINT (0.443182 -54.4512)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.4  Africa Antarctica   POINT (0.964534 -54.8322)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.5  Africa Antarctica     POINT (1.69481 -54.399)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.6  Africa Antarctica    POINT (2.35975 -54.0374)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.7  Africa Antarctica    POINT (3.02542 -53.6507)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.8  Africa Antarctica    POINT (3.36894 -53.8341)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.9  Africa Antarctica    POINT (3.95638 -54.1267)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.10 Africa Antarctica    POINT (4.41458 -54.4303)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
