@@ -1,4 +1,4 @@
-# tectonicr (development version)
+# tectonicr 0.4.8
 
 # tectonicr 0.4.7 _2025-02-27_
 
