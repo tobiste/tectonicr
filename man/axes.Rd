@@ -36,7 +36,7 @@ inches). (Ignored if \code{arrow.code = 1})}
 No return value, called for side effects
 }
 \description{
-Plot axes
+Show direction axes in a map
 }
 \examples{
 data("san_andreas")

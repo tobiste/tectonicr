@@ -78,6 +78,8 @@ stress_colors <- function() {
 
 #' Plot axes
 #'
+#' Show direction axes in a map
+#'
 #' @param x,y coordinates of points
 #' @param angle Azimuth in degrees
 #' @param radius length of axis
@@ -1259,7 +1261,10 @@ quick_plot <- function(
   grDevices::palette("default")
 }
 
-#' Plot Data in PoR Map
+#' Map of data in Pole of Rotation reference frame
+#'
+#' Transforms the spatial data and azimuths into the PoR reference frame and
+#' shows them in a map
 #'
 #' @param x,pb `sf` objects of the data points and the plate
 #' boundary geometries in the geographical coordinate system

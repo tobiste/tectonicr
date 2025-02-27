@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{PoR_map}
 \alias{PoR_map}
-\title{Plot Data in PoR Map}
+\title{Map of data in Pole of Rotation reference frame}
 \usage{
 PoR_map(
   x,
@@ -37,7 +37,8 @@ prediction, or according to the stress regime? Is ignored if \code{type=='none'}
 plot
 }
 \description{
-Plot Data in PoR Map
+Transforms the spatial data and azimuths into the PoR reference frame and
+shows them in a map
 }
 \examples{
 data("nuvel1")
