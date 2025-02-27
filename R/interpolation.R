@@ -589,16 +589,17 @@ stress2grid_stats <- function(x,
   R_seq <- seq_along(R_range)
   # nR <- length(R_seq)
 
-  cols <- c("lon", "lat", "n", "mean", "sd", "var",
-            "25%", "quasi-median", "75%", "median", "mode", "95%CI",
-            "skewness", "kurtosis", "meanR", "R", "md", "N")
+  cols <- c(
+    "lon", "lat", "n", "mean", "sd", "var",
+    "25%", "quasi-median", "75%", "median", "mode", "95%CI",
+    "skewness", "kurtosis", "meanR", "R", "md", "N"
+  )
 
   SH <- sapply(seq_along(G[, 1]), function(i) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
 
     if (min(distij) <= arte_thres) {
-
-      t(sapply(R_seq, function(k){
+      t(sapply(R_seq, function(k) {
         R_search <- R_range[k]
         ids_R <- (distij <= R_search) # select those that are in search radius
         N_in_R <- sum(ids_R)
@@ -1006,8 +1007,8 @@ kernel_dispersion <- function(x,
   if (is.null(grid)) {
     # Regular grid
     if (is.null(lon_range) || is.null(lat_range)) {
-      lon_range <- range(datas[, 'lon'], na.rm = TRUE)
-      lat_range <- range(datas[, 'lat'], na.rm = TRUE)
+      lon_range <- range(datas[, "lon"], na.rm = TRUE)
+      lat_range <- range(datas[, "lat"], na.rm = TRUE)
     }
 
     grid <- sf::st_bbox(
@@ -1038,7 +1039,7 @@ kernel_dispersion <- function(x,
 
   SH <- sapply(seq_along(G[, 1]), function(i) {
     # for (i in seq_along(G[, 1])) {
-    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 'lat'], datas[, 'lon'], ...)
+    distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, "lat"], datas[, "lon"], ...)
 
     if (min(distij) <= arte_thres) {
       t(sapply(R_seq, function(k) {
@@ -1056,11 +1057,11 @@ kernel_dispersion <- function(x,
           md <- mean(distij[ids_R], na.rm = TRUE)
 
           if (stat == "nchisq") {
-            y <- norm_chisq(datas[ids_R, 'azi'], prd = datas[ids_R, 'prd'], datas[ids_R, 'unc'])
+            y <- norm_chisq(datas[ids_R, "azi"], prd = datas[ids_R, "prd"], datas[ids_R, "unc"])
           } else if (stat == "rayleigh") {
-            y <- weighted_rayleigh(datas[ids_R, 'azi'], mu = datas[ids_R, 'prd'], w = 1 /  datas[ids_R, 'unc'], ...)$statistic
+            y <- weighted_rayleigh(datas[ids_R, "azi"], mu = datas[ids_R, "prd"], w = 1 / datas[ids_R, "unc"], ...)$statistic
           } else {
-            y <- circular_dispersion(datas[ids_R, 'azi'], y = datas[ids_R, 'prd'], w = 1 /  datas[ids_R, 'unc'], ...)
+            y <- circular_dispersion(datas[ids_R, "azi"], y = datas[ids_R, "prd"], w = 1 / datas[ids_R, "unc"], ...)
           }
         }
 

@@ -206,15 +206,18 @@ projected_pb_strike <- function(x, PoR, pb, tangential = FALSE, ...) {
     sf::st_coordinates()
 
   n <- nrow(pb.coords)
-  pb.bearing <- numeric(n)
-  for (i in 1:(n - 1)) {
-    pb.bearing[i] <- get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
-  }
+  # pb.bearing <- numeric(n)
+  # for (i in 1:(n - 1)) {
+  #   pb.bearing[i] <- get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
+  # }
+  pb.bearing <- sapply(1:(n - 1), function(i) {
+    get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
+  })
   pb.bearing[n] <- NA
 
   mapply(
     FUN = get_projected_pb_strike,
     lon = x.coords[, 1], lat = x.coords[, 2],
-    MoreArgs = list(pb.coords = pb.coords, pb.bearing = pb.bearing %% 180, tangential = tangential)
+    MoreArgs = list(pb.coords = pb.coords, pb.bearing = unname(pb.bearing) %% 180, tangential = tangential)
   )
 }

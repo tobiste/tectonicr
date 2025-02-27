@@ -600,14 +600,24 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
   n <- length(x)
 
 
-  d <- matrix(nrow = n, ncol = n)
-  for (j in seq_along(x)) {
-    for (i in seq_along(x)) {
-      diff <- x[i] - x[j]
-      cdists <- (180 - abs(180 - abs(diff))) / f
-      d[i, j] <- (w[i] * w[j]) * sum(cdists)
-    }
-  }
+  # d <- matrix(nrow = n, ncol = n)
+  # for (j in seq_along(x)) {
+  #   for (i in seq_along(x)) {
+  #     diff <- x[i] - x[j]
+  #     cdists <- (180 - abs(180 - abs(diff))) / f
+  #     d[i, j] <- (w[i] * w[j]) * sum(cdists) # why sum? cdist has only one element
+  #   }
+  # }
+
+  diffmat <- outer(x, x, function(a, b) {
+    a - b
+  })
+  cdists <- (180 - abs(180 - abs(diffmat))) / f
+  wmat <- outer(w, w)
+  # d <- wmat * sum(cdists)
+  d <- wmat * cdists
+
+
   (sum(d) / Z^2)
 }
 
@@ -645,10 +655,13 @@ circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
   x <- sort(x)
   n <- length(x)
 
-  t <- numeric(n)
-  for (i in 1:(n - 1)) {
-    t[i] <- x[i + 1] - x[i]
-  }
+  # t <- numeric(n)
+  # for (i in 1:(n - 1)) {
+  #   t[i] <- x[i + 1] - x[i]
+  # }
+  t <- sapply(1:(n - 1), function(i) {
+    x[i + 1] - x[i]
+  })
   t[n] <- 360 - x[n] - x[1]
 
   w <- 360 - max(t)

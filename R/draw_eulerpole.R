@@ -70,18 +70,15 @@ smallcircle_dummy <- function(n) {
     "small_circle" = as.numeric()
   )
 
-  for (i in sm_range) {
-    # loop through all small circles
-    sm <- sm_range[sm_range == i]
-    lat <- sm - 90
+  sm_list <- lapply(sm_range, function(x) {
+    lat <- x - 90
     sm.l <- data.frame(
       "lat" = rep(lat, length(lons)),
       "lon" = lons,
-      "small_circle" = i
+      "small_circle" = x
     )
-    sm.df <- rbind(sm.df, sm.l)
-  }
-  return(sm.df)
+  })
+  do.call(rbind, sm_list)
 }
 
 #' @rdname dummy
@@ -104,21 +101,29 @@ loxodrome_dummy <- function(n, angle, cw) {
 
   lx <- mapply(FUN = get_loxodromes, lon = line.dummy$lon, lat = line.dummy$lat, line = line.dummy$line, theta = s * angle)
   loxodrome.dummy <- data.frame(lon = as.numeric(lx[1, ]), lat = as.numeric(lx[2, ]), loxodrome = as.numeric(lx[3, ]))
-  for (i in seq(-360, 360, 360 / n)) {
-    line.i <- loxodrome.dummy |>
-      mutate(
-        lon = lon - i,
-        loxodrome = i
-      )
 
-    if (i == -360) {
-      loxodromes <- line.i
-    } else {
-      loxodromes <- rbind(loxodromes, line.i)
-    }
-  }
 
-  loxodromes |>
+  # for (i in seq(-360, 360, 360 / n)) {
+  #   line.i <- loxodrome.dummy |>
+  #     mutate(
+  #       lon = lon - i,
+  #       loxodrome = i
+  #     )
+  #
+  #   if (i == -360) {
+  #     loxodromes <- line.i
+  #   } else {
+  #     loxodromes <- rbind(loxodromes, line.i)
+  #   }
+  # }
+  loxodromes <- lapply(seq(-360, 360, 360 / n), function(x) {
+    mutate(loxodrome.dummy,
+      lon = lon - x,
+      loxodrome = x
+    )
+  })
+
+  do.call(rbind, loxodromes) |>
     unique() |>
     filter(abs(lat) <= 90) |>
     filter(abs(lon) <= 180)

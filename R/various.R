@@ -300,13 +300,14 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
 #' @name line_azimuth
 #' @examples
 #' data("plates")
+#'
+#' # one line:
 #' subset(plates, pair == "af-eu") |>
 #'   smoothr::densify() |>
 #'   line_azimuth()
 #'
-#' \dontrun{
-#' lines_azimuths(plates)
-#' }
+#' # multiple lines:
+#' lines_azimuths(plates[1:5, ])
 NULL
 
 #' @rdname line_azimuth
@@ -319,10 +320,13 @@ line_azimuth <- function(x, warn = TRUE) {
     sf::st_coordinates()
 
   n <- nrow(mat)
-  a <- numeric(n - 1)
-  for (i in 1:(n - 1)) {
-    a[i] <- get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
-  }
+  # a <- numeric(n - 1)
+  # for (i in 1:(n - 1)) {
+  #   a[i] <- get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
+  # }
+  a <- sapply(1:(n - 1), function(i) {
+    get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
+  })
 
   data.frame(
     x = mat[1:(n - 1), 1],
@@ -336,10 +340,7 @@ line_azimuth <- function(x, warn = TRUE) {
 #' @rdname line_azimuth
 #' @export
 lines_azimuths <- function(x) {
-  a <- NULL
-  for (i in seq_along(x[[1]])) {
-    ai <- line_azimuth(x[i, ], warn = FALSE)
-    a <- rbind(a, ai)
-  }
-  return(a)
+  la <- split(x, 1:nrow(x)) |>
+    lapply(line_azimuth, warn = FALSE)
+  do.call(rbind, la)
 }

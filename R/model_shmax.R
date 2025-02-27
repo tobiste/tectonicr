@@ -263,7 +263,7 @@ PoR_azimuth <- function(x, PoR, axial = TRUE) {
   if (axial) {
     (x$azi - theta + 180) %% 180
   } else {
-      (x$azi - theta + 360) %% 360
+    (x$azi - theta + 360) %% 360
   }
 }
 
@@ -333,7 +333,7 @@ PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
   #   PoR$lat <- -PoR$lat
   #   PoR$lon <- longitude_modulo(180 + PoR$lon)
   # }
-  f <-ifelse(axial, 1, 2)
+  f <- ifelse(axial, 1, 2)
 
   if (unique(c("lat.PoR", "lon.PoR") %in% colnames(x))) {
     northpole <- geographical_to_PoR(
