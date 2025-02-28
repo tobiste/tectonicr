@@ -14,20 +14,20 @@ morvel <- cpm_models[["NNR-MORVEL56"]] # select MORVEL model
 # Relative plate motion between Pacific and North American plates:
 na_pa <- equivalent_rotation(morvel, fixed = "na", rot = "pa")
 # Transform stress data set and test against predicted left-lateral tangential plate boundary (left):
-stress_analysis(san_andreas, PoR = na_pa, type = "right", pb = na_pa_boundary, plot = FALSE)
+# stress_analysis(san_andreas, PoR = na_pa, type = "right", pb = na_pa_boundary, plot = FALSE)
 # Interpolate the stress field in the PoR coordinate system:
 PoR_stress2grid(san_andreas, na_pa)
 
 data("tibet")
 eu_in_boundary <- subset(plates, plates$pair == "eu-in")
 eu_in <- equivalent_rotation(morvel, fixed = "eu", rot = "in")
-stress_analysis(tibet, PoR = eu_in, type = "in", pb = eu_in_boundary, plot = FALSE)
+# stress_analysis(tibet, PoR = eu_in, type = "in", pb = eu_in_boundary, plot = FALSE)
 PoR_stress2grid(tibet, eu_in)
 
 data("iceland")
 eu_na_boundary <- subset(plates, plates$pair == "eu-na")
 eu_na <- equivalent_rotation(morvel, fixed = "na", rot = "eu")
-stress_analysis(iceland, PoR = eu_na, type = "out", pb = eu_na_boundary, plot = FALSE)
+# stress_analysis(iceland, PoR = eu_na, type = "out", pb = eu_na_boundary, plot = FALSE)
 PoR_stress2grid(iceland, eu_na)
 
 
