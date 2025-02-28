@@ -395,7 +395,7 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
     PoR_weighting <- rep(1, nrow(PoRs))
   }
 
-  pbty <- sapply(types, switch,
+  pbty <- vapply(types, switch, FUN.VALUE = character(1),
     "in" = "sc",
     "out" = "gc",
     "right" = "ld.ccw",
@@ -499,7 +499,7 @@ superimposed_shmax_PB <- function(x, pbs, model,
   colnames(pb_rot) <- pb_types
   colnames(pb_weights) <- pb_types
 
-  pbs$pbty <- sapply(pbs$type, switch,
+  pbs$pbty <- vapply(pbs$type, switch, FUN.VALUE = character(1),
     "divergent" = "gc",
     "convergent" = "sc",
     "transform_L" = "ld.cw",

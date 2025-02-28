@@ -193,6 +193,8 @@ test_that("Error message if incorrect type argument", {
 #   expect_equal(round(PoR2Geo_azimuth(san_andreas_por, na_pa), 12), san_andreas$azi %% 180)
 # })
 
+## tes coordinates -------------------------------------------------------------
+
 test_that("Coordinate conversion sf", {
   san_andreas_por <- geographical_to_PoR(san_andreas, na_pa) |>
     PoR_to_geographical_sf(na_pa)
@@ -210,4 +212,21 @@ test_that("Coordinate conversion df", {
   por_crds2 <- cbind(X = san_andreas_por2$lon, Y = san_andreas_por2$lat)
 
   expect_equal(por_crds2, geo_crds)
+})
+
+
+## test dispersion -------------------------------------------------------------
+
+test_that("Max Circular dispersion is 1!", {
+  expect_equal(circular_dispersion(c(0, 180), 90, axial = TRUE), 1)
+  expect_equal(circular_dispersion(c(0, 180), 90, axial = FALSE), .5)
+  expect_equal(circular_dispersion(rep(270, 2), 90, axial = TRUE), 0)
+  expect_equal(circular_dispersion(rep(270, 2), 90, axial = FALSE), 1)
+})
+
+test_that("Max Circular distance is 1!", {
+  expect_equal(circular_distance(0, 90, axial = TRUE), 1)
+  expect_equal(circular_distance(0, 90, axial = FALSE), .5)
+  expect_equal(circular_distance(270, 90, axial = TRUE), 0)
+  expect_equal(circular_distance(270, 90, axial = FALSE), 1)
 })

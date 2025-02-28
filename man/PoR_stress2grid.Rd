@@ -77,10 +77,10 @@ Stress field and wavelength analysis in PoR system and back-transformed
 data("san_andreas")
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
-PoR_stress2grid(san_andreas, PoR)
+PoR_stress2grid(san_andreas, PoR) |> head()
 
 \dontrun{
-PoR_stress2grid_stats(san_andreas, PoR)
+PoR_stress2grid_stats(san_andreas, PoR)|> head()
 }
 }
 \seealso{

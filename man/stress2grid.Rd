@@ -46,7 +46,7 @@ stress2grid_stats(
   mp = 1,
   dist_threshold = 0.1,
   R_range = seq(50, 1000, 50),
-  kappa = NULL,
+  kappa = 10,
   ...
 )
 }
@@ -130,9 +130,9 @@ summary statistics (see \code{\link[=circular_summary]{circular_summary()}}).
 }
 \examples{
 data("san_andreas")
-stress2grid(san_andreas, stat = "median")
+stress2grid(san_andreas, stat = "median") |> head()
 \dontrun{
-stress2grid_stats(san_andreas)
+stress2grid_stats(san_andreas) |> head()
 }
 }
 \references{

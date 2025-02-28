@@ -324,9 +324,10 @@ line_azimuth <- function(x, warn = TRUE) {
   # for (i in 1:(n - 1)) {
   #   a[i] <- get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
   # }
-  a <- sapply(1:(n - 1), function(i) {
+  a <- vapply(1:(n - 1), function(i) {
     get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
-  })
+  },
+  numeric(1))
 
   data.frame(
     x = mat[1:(n - 1), 1],

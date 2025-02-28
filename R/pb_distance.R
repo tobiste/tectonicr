@@ -210,9 +210,9 @@ projected_pb_strike <- function(x, PoR, pb, tangential = FALSE, ...) {
   # for (i in 1:(n - 1)) {
   #   pb.bearing[i] <- get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
   # }
-  pb.bearing <- sapply(1:(n - 1), function(i) {
+  pb.bearing <- vapply(1:(n - 1), function(i) {
     get_azimuth(pb.coords[i, 2], pb.coords[i, 1], pb.coords[i + 1, 2], pb.coords[i + 1, 1])
-  })
+  }, numeric(1))
   pb.bearing[n] <- NA
 
   mapply(
