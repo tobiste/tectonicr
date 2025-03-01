@@ -1,3 +1,5 @@
+# tectonicr (development version)
+
 # tectonicr 0.4.6 _2025-02-27_
 
 * performance boost for stress2grid() and friends
