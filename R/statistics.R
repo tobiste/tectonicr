@@ -1153,6 +1153,7 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
 #' 95% confidence angle, standardized skewness and kurtosis
 #'
 #' @inheritParams circular_mean
+#' @param mode logical. Whether the circular mode should be calculated or not.
 #' @param kappa  numeric. von Mises distribution concentration parameter used
 #' for the circular mode. Will be estimated using [est.kappa()] if not provided.
 #'
@@ -1168,7 +1169,7 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
-circular_summary <- function(x, w = NULL, kappa = NULL, axial = TRUE, na.rm = FALSE) {
+circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NULL, na.rm = FALSE) {
   if (is.null(w)) {
   w <- rep(1, times = length(x))
 }
@@ -1183,14 +1184,12 @@ x <- data[, "x"]
 w <- data[, "w"]
 
 # n <- length(x)
-
-if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
-
 x_CI <- confidence_interval_fisher(x, conf.level = 0.95, w = w, axial = axial, na.rm = FALSE, quiet = TRUE)
 x_quant <- circular_quantiles(x, w, axial, FALSE)
 x_sk <- second_central_moment(x, w, axial, FALSE)
 
-c(
+
+res <- c(
   n = length(x),
   mean = circular_mean(x, w, axial, FALSE),
   sd = circular_sd(x, w, axial, FALSE),
@@ -1199,11 +1198,19 @@ c(
   "quasi-median" = unname(x_quant[2]),
   x_quant[3],
   "median" = circular_sample_median(x, axial, FALSE),
-  mode = circular_mode(x, kappa = kappa, axial = axial),
+  # mode = circular_mode(x, kappa = kappa, axial = axial),
   "95%CI" = x_CI$conf.angle,
   skewness = x_sk$std_skewness,
   kurtosis = x_sk$std_kurtosi,
   R = mean_resultant_length(ax2dir(x), w = w, FALSE)
 )
+
+if(mode){
+  if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
+  mode <- circular_mode(x, kappa = kappa, axial = axial)
+  append(res, c('mode' = mode), after = 8)
+} else {
+  res
+}
 
 }

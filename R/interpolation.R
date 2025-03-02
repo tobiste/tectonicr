@@ -94,6 +94,7 @@ dist_weight_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
 #' Default is `TRUE`. If `FALSE`, overwrites `qp`.
 #' @param R_range numeric value or vector specifying the kernel half-width(s),
 #' i.e. the search radius (in km). Default is `seq(50, 1000, 50)`
+#' @param mode logical. Should the circular mode be included in the statistical summary (slow)?
 #' @param kappa  numeric. von Mises distribution concentration parameter used
 #' for the circular mode. Will be estimated using [est.kappa()] if not provided.
 #' @param ... (optional) arguments to [dist_greatcircle()]
@@ -321,6 +322,7 @@ stress2grid_stats <- function(x,
                               mp = 1,
                               dist_threshold = 0.1,
                               R_range = seq(50, 1000, 50),
+                              mode = FALSE,
                               kappa = 10,
                               ...) {
   stopifnot(
@@ -417,9 +419,12 @@ stress2grid_stats <- function(x,
 
   cols <- c(
     "lon", "lat", "n", "mean", "sd", "var",
-    "25%", "quasi-median", "75%", "median", "mode", "95%CI",
+    "25%", "quasi-median", "75%", "median", "95%CI",
     "skewness", "kurtosis", "meanR", "R", "md", "N"
   )
+  if(mode){
+    cols <- append(cols, 'mode', after = 10)
+  }
 
   SH <- sapply(seq_along(G[, 1]), function(i) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
@@ -447,7 +452,7 @@ stress2grid_stats <- function(x,
           w <- w_distance * datas[ids_R, 5] * datas[ids_R, 4]
 
           # mean value
-          stats <- circular_summary(x = datas[ids_R, 3], w = w, axial = TRUE, kappa = kappa, na.rm = TRUE) |> unname()
+          stats <- circular_summary(x = datas[ids_R, 3], w = w, axial = TRUE, mode = mode, kappa = kappa, na.rm = TRUE) |> unname()
         }
         c(
           lon = G[i, 1], # lon
@@ -525,7 +530,7 @@ stress2grid_stats <- function(x,
 #' PoR_stress2grid(san_andreas, PoR) |> head()
 #'
 #' \dontrun{
-#' PoR_stress2grid_stats(san_andreas, PoR)|> head()
+#' PoR_stress2grid_stats(san_andreas, PoR, mode = TRUE)|> head()
 #' }
 NULL
 
@@ -640,7 +645,10 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   x_PoR$azi <- PoR_shmax(x, PoR)
 
   int <- stress2grid_stats(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
-    dplyr::rename(mean.PoR = mean, `25%.PoR` = `25%`, `quasi-median.PoR` = `quasi-median`, `75%.PoR` = `75%`, median.PoR = median, mode.PoR = mode, lat.PoR = lat, lon.PoR = lon) |>
+    dplyr::rename(mean.PoR = mean, `25%.PoR` = `25%`, `quasi-median.PoR` = `quasi-median`,
+                  `75%.PoR` = `75%`, median.PoR = median,
+                  'mode.PoR' = dplyr::matches('mode'),
+                  lat.PoR = lat, lon.PoR = lon) |>
     PoR_to_geographical_sf(PoR)
   int_coords <- sf::st_coordinates(int) |>
     dplyr::as_tibble() |>
@@ -652,7 +660,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   int$`quasi-median` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `quasi-median.PoR`), PoR)
   int$`75%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `75%.PoR`), PoR)
   int$median <- PoR2Geo_azimuth(int |> rename(azi.PoR = median.PoR), PoR)
-  int$mode <- PoR2Geo_azimuth(int |> rename(azi.PoR = mode.PoR), PoR)
+  if('mode.PoR' %in% colnames(int)) int$mode <- PoR2Geo_azimuth(int |> rename(azi.PoR = mode.PoR), PoR)
   return(int)
 }
 

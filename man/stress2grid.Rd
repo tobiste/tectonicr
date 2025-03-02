@@ -46,6 +46,7 @@ stress2grid_stats(
   mp = 1,
   dist_threshold = 0.1,
   R_range = seq(50, 1000, 50),
+  mode = FALSE,
   kappa = 10,
   ...
 )
@@ -101,6 +102,8 @@ nearby (0 to 1). Default is \code{0.1}}
 i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
 
 \item{...}{(optional) arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
+
+\item{mode}{logical. Should the circular mode be included in the statistical summary (slow)?}
 
 \item{kappa}{numeric. von Mises distribution concentration parameter used
 for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
