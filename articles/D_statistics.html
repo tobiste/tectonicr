@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-03-01</h4>
+            <h4 data-toc-skip class="date">2025-03-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/D_statistics.Rmd" class="external-link"><code>vignettes/D_statistics.Rmd</code></a></small>
       <div class="d-none name"><code>D_statistics.Rmd</code></div>
@@ -144,7 +144,7 @@ using the transformed orientations of the PoR reference frame.</p>
 <p>The collected summary statistics can be quickly obtained by
 <code><a href="../reference/circular_summary.html">circular_summary()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_summary.html">circular_summary</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_summary.html">circular_summary</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span>, mode <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            n         mean           sd          var          25% quasi-median </span></span>
 <span><span class="co">#&gt; 1126.0000000  137.9960403   18.6710044    0.1913452  123.4943787  135.6498736 </span></span>
 <span><span class="co">#&gt;          75%       median         mode        95%CI     skewness     kurtosis </span></span>

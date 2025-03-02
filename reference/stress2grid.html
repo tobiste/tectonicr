@@ -9,7 +9,7 @@ mean/median and standard deviation/IQR of stress data"><meta property="og:image"
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,6 +88,7 @@ mean/median and standard deviation/IQR of stress data</p>
 <span>  mp <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  dist_threshold <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">1000</span>, <span class="fl">50</span><span class="op">)</span>,</span>
+<span>  mode <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  kappa <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -185,6 +186,10 @@ i.e. the search radius (in km). Default is <code>seq(50, 1000, 50)</code></p></d
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>(optional) arguments to <code><a href="dist_greatcircle.html">dist_greatcircle()</a></code></p></dd>
+
+
+<dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
+<dd><p>logical. Should the circular mode be included in the statistical summary (slow)?</p></dd>
 
 
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>

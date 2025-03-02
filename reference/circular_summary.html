@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">circular_summary</span><span class="op">(</span><span class="va">x</span>, w <span class="op">=</span> <span class="cn">NULL</span>, kappa <span class="op">=</span> <span class="cn">NULL</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">circular_summary</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  mode <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  kappa <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,14 +73,18 @@
 length as <code>x</code>.</p></dd>
 
 
-<dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
-<dd><p>numeric. von Mises distribution concentration parameter used
-for the circular mode. Will be estimated using <code><a href="est.kappa.html">est.kappa()</a></code> if not provided.</p></dd>
-
-
 <dt id="arg-axial">axial<a class="anchor" aria-label="anchor" href="#arg-axial"></a></dt>
 <dd><p>logical. Whether the data are axial, i.e. pi-periodical
 (<code>TRUE</code>, the default) or directional, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).</p></dd>
+
+
+<dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
+<dd><p>logical. Whether the circular mode should be calculated or not.</p></dd>
+
+
+<dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
+<dd><p>numeric. von Mises distribution concentration parameter used
+for the circular mode. Will be estimated using <code><a href="est.kappa.html">est.kappa()</a></code> if not provided.</p></dd>
 
 
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
@@ -100,17 +111,13 @@ should be stripped before the computation proceeds.</p></dd>
 <span class="r-in"><span><span class="fu">circular_summary</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            n         mean           sd          var          25% quasi-median </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1126.0000000  140.8777709   23.4183183    0.2840287  124.8495460  136.8274701 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          75%       median         mode        95%CI     skewness     kurtosis </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2163335  138.9450918  318.4344423    2.6012976   -0.1758456    1.4538046 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            R </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.7159713 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          75%       median        95%CI     skewness     kurtosis            R </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2163335  138.9450918    2.6012976   -0.1758456    1.4538046    0.7159713 </span>
 <span class="r-in"><span><span class="fu">circular_summary</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            n         mean           sd          var          25% quasi-median </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1126.0000000  138.9024850   18.5799867    0.1896731  124.8436061  136.8580836 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          75%       median         mode        95%CI     skewness     kurtosis </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2225367  138.9450918  318.4344423    2.0854956   -0.3377921    2.7863614 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            R </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8103269 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          75%       median        95%CI     skewness     kurtosis            R </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2225367  138.9450918    2.0854956   -0.3377921    2.7863614    0.8103269 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
