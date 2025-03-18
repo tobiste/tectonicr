@@ -137,15 +137,17 @@ which.nsmallest <- function(x, n){
 #' When [stress2grid_stats()], `azi` and `sd` are replaced by the output of
 #' [circular_summary()].
 #'
-#' @details [stress2grid()] is a modified version of the MATLAB script
-#' "stress2grid" by Ziegler and Heidbach (2019).
+#' @details [stress2grid()] is originally based on the MATLAB script
+#' "stress2grid" by Ziegler and Heidbach (2019):
+#' \url{https://github.com/MorZieg/Stress2Grid}.
+#' The {tectonicr} version has been significantly modified to provide better
+#' performance and more flexibility.
+#'
 #' [stress2grid_stats()] is based on [stress2grid()] but calculates circular
 #' summary statistics (see [circular_summary()]).
 #'
 #' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()],
 #' [circular_mean()], [circular_median()], [circular_sd()], [circular_summary()]
-#'
-#' @source \url{https://github.com/MorZieg/Stress2Grid}
 #'
 #' @references Ziegler, M. and Heidbach, O. (2019).
 #' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}

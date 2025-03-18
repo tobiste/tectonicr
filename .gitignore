@@ -25,5 +25,6 @@ tectonicr_qr.pdf
 data-raw/*.csv
 data-raw/*.txt
 tests/benchmarking_and_testing.R
+tests/HR_interpolation.R
 *.pdf
 tests/testthat/*.pdf

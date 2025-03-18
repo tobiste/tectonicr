@@ -4,9 +4,6 @@
 \alias{stress2grid}
 \alias{stress2grid_stats}
 \title{Spatial Interpolation of SHmax}
-\source{
-\url{https://github.com/MorZieg/Stress2Grid}
-}
 \usage{
 stress2grid(
   x,
@@ -148,8 +145,12 @@ Parameters can be adjusted to have inverse-distance-weighting (IDW) or
 nearest-neighbor interpolations (NN).
 }
 \details{
-\code{\link[=stress2grid]{stress2grid()}} is a modified version of the MATLAB script
-"stress2grid" by Ziegler and Heidbach (2019).
+\code{\link[=stress2grid]{stress2grid()}} is originally based on the MATLAB script
+"stress2grid" by Ziegler and Heidbach (2019):
+\url{https://github.com/MorZieg/Stress2Grid}.
+The {tectonicr} version has been significantly modified to provide better
+performance and more flexibility.
+
 \code{\link[=stress2grid_stats]{stress2grid_stats()}} is based on \code{\link[=stress2grid]{stress2grid()}} but calculates circular
 summary statistics (see \code{\link[=circular_summary]{circular_summary()}}).
 }
@@ -161,6 +162,7 @@ stress2grid(san_andreas, stat = "median") |> head()
 
 # Nearest Neighbor interpolation:
 stress2grid(san_andreas, stat = "median", max_data = 5) |> head()
+
 \dontrun{
 stress2grid_stats(san_andreas) |> head()
 }
