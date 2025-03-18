@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,10 +57,11 @@
 <span>  lon_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gridsize <span class="op">=</span> <span class="fl">2.5</span>,</span>
-<span>  min_data <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  threshold <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  arte_thres <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  min_data <span class="op">=</span> <span class="fl">3L</span>,</span>
+<span>  max_data <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  min_dist_threshold <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  dist_threshold <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  stat_threshold <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">2000</span>, <span class="fl">100</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -111,11 +112,13 @@ degree. Default is 2.5. (is ignored if <code>"grid"</code> is specified)</p></dd
 <dd><p>Integer. Minimum number of data per bin. Default is <code>3</code></p></dd>
 
 
-<dt id="arg-threshold">threshold<a class="anchor" aria-label="anchor" href="#arg-threshold"></a></dt>
-<dd><p>Numeric. Threshold for stat value (default is <code>1</code>)</p></dd>
+<dt id="arg-max-data">max_data<a class="anchor" aria-label="anchor" href="#arg-max-data"></a></dt>
+<dd><p>integer. The number of nearest observations that should be
+used for prediction, where "nearest" is defined in terms of the space of the
+spatial locations. Default is <code>Inf</code>.</p></dd>
 
 
-<dt id="arg-arte-thres">arte_thres<a class="anchor" aria-label="anchor" href="#arg-arte-thres"></a></dt>
+<dt id="arg-min-dist-threshold">min_dist_threshold<a class="anchor" aria-label="anchor" href="#arg-min-dist-threshold"></a></dt>
 <dd><p>Numeric. Maximum distance (in km) of the grid point to the
 next data point. Default is 200</p></dd>
 
@@ -123,6 +126,11 @@ next data point. Default is 200</p></dd>
 <dt id="arg-dist-threshold">dist_threshold<a class="anchor" aria-label="anchor" href="#arg-dist-threshold"></a></dt>
 <dd><p>Numeric. Distance weight to prevent overweight of data
 nearby (<code>0</code> to <code>1</code>). Default is <code>0.1</code></p></dd>
+
+
+<dt id="arg-stat-threshold">stat_threshold<a class="anchor" aria-label="anchor" href="#arg-stat-threshold"></a></dt>
+<dd><p>numeric. Generates missing values when the kernel
+<code>stat</code> value exceeds this threshold. Default is <code>Inf</code>.</p></dd>
 
 
 <dt id="arg-r-range">R_range<a class="anchor" aria-label="anchor" href="#arg-r-range"></a></dt>
