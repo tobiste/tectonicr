@@ -16,11 +16,14 @@ stress2grid(
   lat_range = NULL,
   gridsize = 2,
   min_data = 3L,
-  threshold = 25,
-  arte_thres = 200,
+  max_data = Inf,
+  max_sd = Inf,
+  threshold = deprecated(),
+  min_dist_threshold = 200,
+  arte_thres = deprecated(),
   method_weighting = FALSE,
   quality_weighting = TRUE,
-  dist_weight = c("inverse", "linear", "none"),
+  dist_weighting = c("inverse", "linear", "none"),
   idp = 1,
   qp = 1,
   mp = 1,
@@ -36,11 +39,13 @@ stress2grid_stats(
   lat_range = NULL,
   gridsize = 2,
   min_data = 4L,
-  threshold = 25,
-  arte_thres = 200,
+  max_data = Inf,
+  threshold = deprecated(),
+  min_dist_threshold = 200,
+  arte_thres = deprecated(),
   method_weighting = FALSE,
   quality_weighting = TRUE,
-  dist_weight = c("inverse", "linear", "none"),
+  dist_weighting = c("inverse", "linear", "none"),
   idp = 1,
   qp = 1,
   mp = 1,
@@ -62,7 +67,7 @@ of SHmax}
 
 \item{stat}{whether the direction of interpolated SHmax is based on the
 circular mean and standard deviation (\code{"mean"}, the default) or the
-circular median and interquartile range (\code{"median"})}
+quasi-circular median and quasi-interquartile range (\code{"median"}).}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
 
@@ -72,14 +77,26 @@ and maximum longitudes and latitudes (ignored if \code{grid} is specified).}
 \item{gridsize}{numeric. Target spacing of the regular grid in decimal
 degree. Default is \code{2.5}. (is ignored if \code{grid} is specified)}
 
-\item{min_data}{integer. Minimum number of data per bin. Default is \code{3} for
-\code{\link[=stress2grid]{stress2grid()}}and \code{4} for \code{\link[=stress2grid_stats]{stress2grid_stats()}}.}
+\item{min_data}{integer. If the number of observations within distance
+\code{R_range} is less than \code{min_data}, a missing value \code{NA} will be generated.
+Default is \code{3} for \code{\link[=stress2grid]{stress2grid()}} and \code{4} for \code{\link[=stress2grid_stats]{stress2grid_stats()}}.}
 
-\item{threshold}{numeric. Threshold for deviation of direction. Default is
-\code{25}}
+\item{max_data}{integer. The number of nearest observations that should be
+used for prediction, where "nearest" is defined in terms of the space of the
+spatial locations. Default is \code{Inf}.}
 
-\item{arte_thres}{numeric. Maximum distance (in km) of the grid point to the
-next data point. Default is \code{200}}
+\item{max_sd}{numeric. Threshold for deviation of direction in degrees;
+if exceeds, missing values will be generated.}
+
+\item{threshold}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} is no
+longer supported; use \code{max_sd} instead.}
+
+\item{min_dist_threshold}{numeric. Distance threshold for smallest distance
+of the prediction location to the next observation location.
+Default is \code{200} km.}
+
+\item{arte_thres}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} is no
+longer supported; use \code{min_dist_threshold} instead.}
 
 \item{method_weighting}{logical. If a method weighting should be applied:
 Default is \code{FALSE}. If \code{FALSE}, overwrites \code{mp}.}
@@ -87,19 +104,22 @@ Default is \code{FALSE}. If \code{FALSE}, overwrites \code{mp}.}
 \item{quality_weighting}{logical. If a quality weighting should be applied:
 Default is \code{TRUE}. If \code{FALSE}, overwrites \code{qp}.}
 
-\item{dist_weight}{Distance weighting method which should be used. One of
+\item{dist_weighting}{Distance weighting method which should be used. One of
 \code{"none"}, \code{"linear"}, or \code{"inverse"} (the default).}
 
 \item{idp, qp, mp}{numeric. The weighting power of inverse distance, quality
-and method. Default is \code{1}. The higher the value, the more weight it will
-put. When set to \code{0}, no weighting is applied. \code{idp} is only effective if
-inverse distance weighting (\code{dist_weight="inverse"}) is applied.}
+and method (the higher the value, the more weight).
+Default is \code{1}. When set to \code{0}, no weighting is applied. Only effective when
+\code{dist_weighting=="inverse"}.}
 
 \item{dist_threshold}{numeric. Distance weight to prevent overweight of data
 nearby (0 to 1). Default is \code{0.1}}
 
-\item{R_range}{numeric value or vector specifying the kernel half-width(s),
-i.e. the search radius (in km). Default is \code{seq(50, 1000, 50)}}
+\item{R_range}{numeric value or vector specifying the kernel half-width(s)
+search radii,
+i.e. the maximum distance from the prediction location to be used for
+prediction (in km). Default is \code{seq(50, 1000, 50)}. If combined with
+\code{max_data}, both criteria apply.}
 
 \item{...}{(optional) arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
 
@@ -123,17 +143,24 @@ When \code{\link[=stress2grid_stats]{stress2grid_stats()}}, \code{azi} and \code
 }
 \description{
 Stress field interpolation and wavelength analysis using a kernel (weighted)
-mean/median and standard deviation/IQR of stress data
+mean/median and standard deviation/IQR of stress data.
+Parameters can be adjusted to have inverse-distance-weighting (IDW) or
+nearest-neighbor interpolations (NN).
 }
 \details{
 \code{\link[=stress2grid]{stress2grid()}} is a modified version of the MATLAB script
 "stress2grid" by Ziegler and Heidbach (2019).
-\code{\link[=stress2grid_stats]{stress2grid_stats()}} is based on \code{\link[=stress2grid]{stress2grid()}} but yields more circular
+\code{\link[=stress2grid_stats]{stress2grid_stats()}} is based on \code{\link[=stress2grid]{stress2grid()}} but calculates circular
 summary statistics (see \code{\link[=circular_summary]{circular_summary()}}).
 }
 \examples{
 data("san_andreas")
+
+# Inverse Distance Weighting interpolation:
 stress2grid(san_andreas, stat = "median") |> head()
+
+# Nearest Neighbor interpolation:
+stress2grid(san_andreas, stat = "median", max_data = 5) |> head()
 \dontrun{
 stress2grid_stats(san_andreas) |> head()
 }

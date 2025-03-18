@@ -12,10 +12,11 @@ kernel_dispersion(
   lon_range = NULL,
   lat_range = NULL,
   gridsize = 2.5,
-  min_data = 3,
-  threshold = 1,
-  arte_thres = 200,
+  min_data = 3L,
+  max_data = Inf,
+  min_dist_threshold = 200,
   dist_threshold = 0.1,
+  stat_threshold = Inf,
   R_range = seq(100, 2000, 100),
   ...
 )
@@ -45,13 +46,18 @@ degree. Default is 2.5. (is ignored if \code{"grid"} is specified)}
 
 \item{min_data}{Integer. Minimum number of data per bin. Default is \code{3}}
 
-\item{threshold}{Numeric. Threshold for stat value (default is \code{1})}
+\item{max_data}{integer. The number of nearest observations that should be
+used for prediction, where "nearest" is defined in terms of the space of the
+spatial locations. Default is \code{Inf}.}
 
-\item{arte_thres}{Numeric. Maximum distance (in km) of the grid point to the
+\item{min_dist_threshold}{Numeric. Maximum distance (in km) of the grid point to the
 next data point. Default is 200}
 
 \item{dist_threshold}{Numeric. Distance weight to prevent overweight of data
 nearby (\code{0} to \code{1}). Default is \code{0.1}}
+
+\item{stat_threshold}{numeric. Generates missing values when the kernel
+\code{stat} value exceeds this threshold. Default is \code{Inf}.}
 
 \item{R_range}{Numeric value or vector specifying the (adaptive) kernel
 half-width(s) as search radius (in km). Default is \code{seq(50, 1000, 50)}}
