@@ -106,10 +106,6 @@ nearest-neighbor interpolations (NN).</p>
     </div>
 
     <div class="section level2">
-    <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p><a href="https://github.com/MorZieg/Stress2Grid" class="external-link">https://github.com/MorZieg/Stress2Grid</a></p>
-    </div>
-    <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
@@ -255,9 +251,12 @@ for the circular mode. Will be estimated using <code><a href="est.kappa.html">es
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>stress2grid()</code> is a modified version of the MATLAB script
-"stress2grid" by Ziegler and Heidbach (2019).
-<code>stress2grid_stats()</code> is based on <code>stress2grid()</code> but calculates circular
+    <p><code>stress2grid()</code> is originally based on the MATLAB script
+"stress2grid" by Ziegler and Heidbach (2019):
+<a href="https://github.com/MorZieg/Stress2Grid" class="external-link">https://github.com/MorZieg/Stress2Grid</a>.
+The tectonicr version has been significantly modified to provide better
+performance and more flexibility.</p>
+<p><code>stress2grid_stats()</code> is based on <code>stress2grid()</code> but calculates circular
 summary statistics (see <code><a href="circular_summary.html">circular_summary()</a></code>).</p>
     </div>
     <div class="section level2">
@@ -308,6 +307,7 @@ Matlab Script Stress2Grid v1.1. GFZ Data Services. <a href="https://doi.org/10.5
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">113.</span>  24.1  35.6     0   300     5 0.471 (-112.82 24.08)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> -<span style="color: #BB0000;">113.</span>  24.1  35.6     0   350     5 0.404 (-112.82 24.08)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> -<span style="color: #BB0000;">113.</span>  24.1  35.6     0   400     5 0.353 (-112.82 24.08)</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">stress2grid_stats</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
