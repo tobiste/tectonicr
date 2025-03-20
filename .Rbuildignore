@@ -20,7 +20,6 @@
 ^R/preliminary\.R$
 ^R/utils-tidy-eval\.R$
 ^tests/benchmarking_and_testing\.R$
+^tests/HR_interpolation\.R$
 ^man/figures/logo_$
 ^man/figures/Figure_07_san_andreas_data.png$
-^tests/HR_interpolation\.R$
-^test/HR_interpolation\.R$
