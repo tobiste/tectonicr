@@ -5,3 +5,4 @@ tests/benchmarking_and_testing.R
 tests/HR_interpolation.R
 HR_interpolation.R
 benchmarking_and_testing.R
+data-raw/**
