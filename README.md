@@ -7,6 +7,7 @@ status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.
 [![](https://img.shields.io/badge/devel%20version-0.4.9.9001-orange.svg)](https://github.com/tobiste/tectonicr)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow)](https://cran.r-project.org/package=tectonicr)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/tobiste/tectonicr/graph/badge.svg?token=bY7i7QHdix)](https://codecov.io/gh/tobiste/tectonicr)
 [![DOI](https://img.shields.io/badge/doi-10.32614/CRAN.package.tectonicr-slategrey.svg)](https://doi.org/10.32614/CRAN.package.tectonicr)
 [![License: GPLv3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11199557.svg)](https://doi.org/10.5281/zenodo.11199557) -->
