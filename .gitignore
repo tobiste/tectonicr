@@ -24,7 +24,7 @@ vignettes/*.pdf
 tectonicr_qr.pdf
 data-raw/*.csv
 data-raw/*.txt
-tests/benchmarking_and_testing.R
-tests/HR_interpolation.R
+**/benchmarking_and_testing.*
+**/HR_interpolation.*
 *.pdf
 tests/testthat/*.pdf
