@@ -1,25 +1,6 @@
 ## code to prepare `san_andreas` dataset goes here  -------------
 library(tidyverse)
 
-# wsm2016 <-
-#   readRDS("../cordillera-stress/data/wsm2016.rds") |>
-#   dplyr::rename_all(tolower) |>
-#   dplyr::mutate(
-#     azi = ifelse(azi == 999, NA, azi),
-#     quality = forcats::fct_relevel(quality, "A", "B", "C", "D", "E"),
-#     regime = ifelse(regime == "NF", "N", regime),
-#     regime = ifelse(regime == "TF", "T", regime),
-#     regime = ifelse(regime == "SS", "S", regime),
-#     regime = ifelse(regime == "U", NA, regime),
-#     quality.quant = parse_wsm_quality(quality),
-#     unc = ifelse(is.na(sd), quality.quant, sd),
-#     unc = ifelse(unc > quality.quant, quality.quant, unc),
-#     unc = ifelse(unc == 0, 15, unc),
-#   ) |>
-#   dplyr::arrange(quality, unc) |>
-#   sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE) |>
-#   dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime)
-
 wsm2016 <- download_WSM2016() |>
   dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime)
 

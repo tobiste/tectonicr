@@ -102,7 +102,8 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
   meth_flt <- method
 
   lat <- lon <- azi <- quality.numeric <- unc <- id <- depth <- numeric()
-  type <- locality <- iso <- type <- character()
+  type <- locality <- iso <- type <- date <- time <- character()
+  eq_mag <- NULL
 
   qlt_flt <- quality
   lat_range <- sort(lat_range)
@@ -135,6 +136,12 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
       unc = ifelse(unc > quality.numeric, quality.numeric, unc),
       unc = ifelse(unc == 0, 15, unc),
       unc = as.numeric(unc),
+      dplyr::across(dplyr::where(is.character), function(x) {
+        ifelse(x == "", NA, x)
+      }),
+      eq_mag = as.numeric(eq_mag),
+      # date = ymd(date),
+      # time = hms(time)
     ) |>
     dplyr::filter(quality %in% qlt_flt, regime %in% reg_flt) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE) |>
@@ -324,10 +331,12 @@ line_azimuth <- function(x, warn = TRUE) {
   # for (i in 1:(n - 1)) {
   #   a[i] <- get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
   # }
-  a <- vapply(1:(n - 1), function(i) {
-    get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
-  },
-  numeric(1))
+  a <- vapply(
+    1:(n - 1), function(i) {
+      get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
+    },
+    numeric(1)
+  )
 
   data.frame(
     x = mat[1:(n - 1), 1],
