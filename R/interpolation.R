@@ -19,7 +19,7 @@ wcmean <- function(x, w) {
       sqrt(-2 * log(meanR))
     }
     mean_s <- atan2(m["S"], m["C"]) / 2
-    rad2deg(c(mean_s, sd_s)) %% 180
+    unname(rad2deg(c(mean_s, sd_s)) %% 180)
   } else {
     c(NA, NA)
   }
@@ -38,7 +38,7 @@ wcmedian <- function(x, w) {
   } else {
     median_s <- iqr_s <- NA
   }
-  c(median_s, iqr_s)
+  unname(c(median_s, iqr_s))
 }
 
 #' @keywords internal
@@ -128,10 +128,10 @@ which.nsmallest <- function(x, n){
 #' @returns `sf` object containing
 #' \describe{
 #' \item{lon,lat}{longitude and latitude in degrees}
-#' \item{azi}{Mean SHmax in degree}
-#' \item{sd}{Standard deviation of SHmax in degrees}
+#' \item{azi}{Mean od median SHmax in degree}
+#' \item{sd}{Standard deviation or Quasi-IQR of SHmax in degrees}
 #' \item{R}{Search radius in km}
-#' \item{mdr}{Mean distance of datapoints per search radius}
+#' \item{mdr}{Mean distance between grid point and datapoints per search radius}
 #' \item{N}{Number of data points in search radius}
 #' }
 #' When [stress2grid_stats()], `azi` and `sd` are replaced by the output of
@@ -329,10 +329,10 @@ stress2grid <- function(x,
 
         if (N_in_R < min_data) {
           # not enough data within search radius
-          sd <- 0
+          sdSH <- 0
           meanSH <- md <- NA
         } else if (N_in_R == 1) {
-          sd <- 0
+          sdSH <- 0
           meanSH <- datas[ids_R, 3]
           md <- distij[ids_R]
         } else {
@@ -346,14 +346,14 @@ stress2grid <- function(x,
           # mean value
           stats <- stats_fun(x = datas[ids_R, 3], w = w)
           meanSH <- stats[1]
-          sd <- stats[2]
+          sdSH <- stats[2]
         }
 
         c(
           lon = G[i, 1], # lon
           lat = G[i, 2], # lat
           azi = meanSH, # azi
-          sd = sd, # sd
+          sd = sdSH, # sd
           R = R_search, # R_search
           md = md, # mdr
           N = N_in_R # N_in_R
@@ -365,7 +365,7 @@ stress2grid <- function(x,
   do.call(rbind, SH_t) |>
     as.data.frame() |>
     dplyr::as_tibble() |>
-    dplyr::mutate(N = as.integer(N), sd = sd, mdr = md / R) |>
+    dplyr::mutate(N = as.integer(N), mdr = md / R) |>
     dplyr::select(-md) |>
     dplyr::filter(!is.na(azi), sd <= max_sd, !is.na(sd)) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)

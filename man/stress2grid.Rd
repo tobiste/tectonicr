@@ -129,10 +129,10 @@ for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa
 \code{sf} object containing
 \describe{
 \item{lon,lat}{longitude and latitude in degrees}
-\item{azi}{Mean SHmax in degree}
-\item{sd}{Standard deviation of SHmax in degrees}
+\item{azi}{Mean od median SHmax in degree}
+\item{sd}{Standard deviation or Quasi-IQR of SHmax in degrees}
 \item{R}{Search radius in km}
-\item{mdr}{Mean distance of datapoints per search radius}
+\item{mdr}{Mean distance between grid point and datapoints per search radius}
 \item{N}{Number of data points in search radius}
 }
 When \code{\link[=stress2grid_stats]{stress2grid_stats()}}, \code{azi} and \code{sd} are replaced by the output of
