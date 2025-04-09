@@ -521,7 +521,7 @@ stress2grid_stats <- function(x,
 
   cols <- c(
     "lon", "lat", "n", "mean", "sd", "var",
-    "25%", "quasi-median", "75%", "median", "95%CI",
+    "25%", "quasi-median", "75%", "median", "CI",
     "skewness", "kurtosis", "meanR", "R", "md", "N"
   )
   if(mode){

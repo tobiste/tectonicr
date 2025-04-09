@@ -280,7 +280,7 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
         mean = stats["mean"], sd = stats["sd"], var = stats["var"],
         median = stats["median"],
         quasi_median = stats["quasi-median"], skewness = stats["skewness"], kurtosis = stats["kurtosis"],
-        conf95 = stats["95%CI"],
+        conf95 = stats["CI"],
         dispersion = disp, norm_chisq = nchisq
       ),
     test = rayleigh

@@ -1,5 +1,11 @@
 comment: false
 
+ignore:
+  - "**/DATASET.*"
+  - "**/Fisher_*"
+  - "**/benchmarking_and_testing.*"
+  - "**/HR_interpolation.*"
+
 coverage:
   status:
     project:
@@ -12,10 +18,3 @@ coverage:
         target: auto
         threshold: 1%
         informational: true
-
-# Ignore test files themselves in the Codecov report
-# see: https://about.codecov.io/blog/should-i-include-test-files-in-code-coverage-calculations/
-ignore:
-  - "**/DATASET.R"
-  - "**/benchmarking_and_testing.*"
-  - "**/HR_interpolation.*"

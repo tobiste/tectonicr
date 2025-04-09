@@ -1171,8 +1171,10 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
 #' @param mode logical. Whether the circular mode should be calculated or not.
 #' @param kappa  numeric. von Mises distribution concentration parameter used
 #' for the circular mode. Will be estimated using [est.kappa()] if not provided.
-#' @param fisher_CI logical. Whether Fisher's or the default Mardia/Batchelet's
+#' @param fisher.CI logical. Whether Fisher's or the default Mardia/Batchelet's
 #' confidence interval should be calculated.
+#' @param conf.level numeric. Level of confidence: \eqn{(1 - \alpha \%)/100}.
+#' (`0.95` by default).
 #'
 #' @return named vector
 #' @export
@@ -1186,7 +1188,7 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
-circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NULL, fisher_CI = FALSE, na.rm = FALSE) {
+circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NULL, fisher.CI = FALSE, conf.level = .95, na.rm = FALSE) {
   if (is.null(w)) {
   w <- rep(1, times = length(x))
 }
@@ -1201,14 +1203,15 @@ x <- data[, "x"]
 w <- data[, "w"]
 
 # n <- length(x)
-if(fisher_CI){
-  x_CI <- confidence_interval_fisher(x, conf.level = 0.95, w = w, axial = axial, na.rm = FALSE, quiet = TRUE)
 
-} else {
-  x_CI <- confidence_interval(x, conf.level = 0.95, w = w, axial = axial, na.rm = FALSE)
-}
+# confidence interval
+ci_fun <- ifelse(fisher.CI, confidence_interval_fisher, confidence_interval)
+x_CI <- ci_fun(x, conf.level = conf.level, w = w, axial = axial, na.rm = FALSE)
 
+# circular quantiles
 x_quant <- circular_quantiles(x, w, axial, FALSE)
+
+# central moments
 x_sk <- second_central_moment(x, w, axial, FALSE)
 
 
@@ -1222,7 +1225,7 @@ res <- c(
   x_quant[3],
   "median" = circular_sample_median(x, axial, FALSE),
   # mode = circular_mode(x, kappa = kappa, axial = axial),
-  "95%CI" = x_CI$conf.angle,
+  "CI" = x_CI$conf.angle,
   skewness = x_sk$std_skewness,
   kurtosis = x_sk$std_kurtosi,
   R = mean_resultant_length(ax2dir(x), w = w, FALSE)

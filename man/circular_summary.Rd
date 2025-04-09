@@ -10,7 +10,8 @@ circular_summary(
   axial = TRUE,
   mode = FALSE,
   kappa = NULL,
-  fisher_CI = FALSE,
+  fisher.CI = FALSE,
+  conf.level = 0.95,
   na.rm = FALSE
 )
 }
@@ -28,8 +29,11 @@ length as \code{x}.}
 \item{kappa}{numeric. von Mises distribution concentration parameter used
 for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
 
-\item{fisher_CI}{logical. Whether Fisher's or the default Mardia/Batchelet's
+\item{fisher.CI}{logical. Whether Fisher's or the default Mardia/Batchelet's
 confidence interval should be calculated.}
+
+\item{conf.level}{numeric. Level of confidence: \eqn{(1 - \alpha \%)/100}.
+(\code{0.95} by default).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
