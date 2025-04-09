@@ -31,7 +31,7 @@ list containing
 Measures the skewness (a measure of the asymmetry of the probability
 distribution) and the kurtosis (measure of the "tailedness" of the probability
 distribution). Standardized versions are the skewness and kurtosis normalized
-by the mean resultant length, Mardia 1972).
+by the mean resultant length (Mardia 1972).
 }
 \details{
 Negative values of skewness indicate skewed data in counterclockwise

@@ -29,3 +29,6 @@ set.seed(1)
 x <- rvm(10, 0, 100)
 circular_mode(x, kappa = est.kappa(x))
 }
+\references{
+N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+}

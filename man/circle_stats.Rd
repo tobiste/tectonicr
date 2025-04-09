@@ -90,6 +90,8 @@ Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
 Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
 Hoboken, NJ, USA. \doi{10.1002/9780470316979}
 
+N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+
 Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
 Stress2Grid v1.1. \emph{WSM Technical Report} 19-02,
 GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}

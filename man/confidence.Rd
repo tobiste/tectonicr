@@ -4,7 +4,7 @@
 \alias{confidence}
 \alias{confidence_angle}
 \alias{confidence_interval}
-\title{Confidence Interval around the Mean Direction of Circular Data}
+\title{Confidence Interval around the Mean Direction of Circular Data after Batschelet (1971)}
 \usage{
 confidence_angle(x, conf.level = 0.95, w = NULL, axial = TRUE, na.rm = TRUE)
 
@@ -57,6 +57,11 @@ confidence_interval(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 }
 \references{
 \itemize{
+\item Batschelet, E. (1971). Recent statistical methods for orientation data.
+"Animal Orientation, Symposium 1970 on Wallops Island". Amer. Inst. Biol.
+Sciences, Washington.
+\item Mardia, K.V. (1972). Statistics of Directional Data: Probability and
+Mathematical Statistics. London: Academic Press. (p. 146)
 \item Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley
 & Sons.
 \item Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular

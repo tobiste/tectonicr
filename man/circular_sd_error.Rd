@@ -23,7 +23,7 @@ numeric
 }
 \description{
 Measure of the chance variation expected from sample to sample in estimates
-of the mean direction.
+of the mean direction (after Mardia 1972).
 It is a parametric estimate of the the circular standard error of the mean direction
 by the particular form of the standard error for the von Mises distribution.
 The approximated standard error of the mean direction is computed by the mean
@@ -46,9 +46,15 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 }
 \references{
-N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
-
-Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
+\itemize{
+\item Batschelet, E. (1971). Recent statistical methods for orientation data.
+"Animal Orientation, Symposium 1970 on Wallops Island". Amer. Inst. Biol.
+Sciences, Washington.
+\item Mardia, K.V. (1972). Statistics of Directional Data: Probability and
+Mathematical Statistics. London: Academic Press.
+\item N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+\item Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
+}
 }
 \seealso{
 \code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}

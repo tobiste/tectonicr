@@ -111,6 +111,8 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
 #' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
 #'
+#' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+#'
 #' Ziegler, M. O.; Heidbach O. (2019). Manual of the Matlab Script
 #' Stress2Grid v1.1. *WSM Technical Report* 19-02,
 #' GFZ German Research Centre for Geosciences. \doi{10.2312/wsm.2019.002}
@@ -343,6 +345,7 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
+  # after Fisher 1996
   if (axial) x <- ax2dir(x)
   Rbar2 <- mean_resultant_length(2 * x, w = w)
   Rbar <- mean_resultant_length(x, w = w)
@@ -721,7 +724,7 @@ z_score <- function(conf.level) {
 #' Standard Error of Mean Direction of Circular Data
 #'
 #' Measure of the chance variation expected from sample to sample in estimates
-#' of the mean direction.
+#' of the mean direction (after Mardia 1972).
 #' It is a parametric estimate of the the circular standard error of the mean direction
 #' by the particular form of the standard error for the von Mises distribution.
 #' The approximated standard error of the mean direction is computed by the mean
@@ -734,9 +737,13 @@ z_score <- function(conf.level) {
 #' @seealso [mean_resultant_length()], [circular_mean()]
 #'
 #' @references
-#' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
-#'
-#' Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
+#' * Batschelet, E. (1971). Recent statistical methods for orientation data.
+#' "Animal Orientation, Symposium 1970 on Wallops Island". Amer. Inst. Biol.
+#' Sciences, Washington.
+#' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
+#' Mathematical Statistics. London: Academic Press.
+#' * N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+#' * Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley & Sons.
 #'
 #' @export
 #'
@@ -785,7 +792,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   1 / sqrt(n * R * kappa)
 }
 
-#' Confidence Interval around the Mean Direction of Circular Data
+#' Confidence Interval around the Mean Direction of Circular Data after Batschelet (1971)
 #'
 #' Probabilistic limit on the location of the true or population mean direction,
 #' assuming that the estimation errors are normally distributed.
@@ -799,6 +806,11 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @seealso [mean_resultant_length()], [circular_sd_error()]
 #'
 #' @references
+#' * Batschelet, E. (1971). Recent statistical methods for orientation data.
+#' "Animal Orientation, Symposium 1970 on Wallops Island". Amer. Inst. Biol.
+#' Sciences, Washington.
+#' * Mardia, K.V. (1972). Statistics of Directional Data: Probability and
+#' Mathematical Statistics. London: Academic Press. (p. 146)
 #' * Davis (1986) Statistics and data analysis in geology. 2nd ed., John Wiley
 #' & Sons.
 #' * Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular
@@ -994,7 +1006,7 @@ circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000
 #' Measures the skewness (a measure of the asymmetry of the probability
 #' distribution) and the kurtosis (measure of the "tailedness" of the probability
 #' distribution). Standardized versions are the skewness and kurtosis normalized
-#' by the mean resultant length, Mardia 1972).
+#' by the mean resultant length (Mardia 1972).
 #'
 #' @inheritParams circular_mean
 #'
@@ -1131,6 +1143,9 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' @return numeric
 #' @export
 #'
+#' @references
+#' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
+#'
 #' @examples
 #' set.seed(1)
 #' x <- rvm(10, 0, 100)
@@ -1156,6 +1171,8 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
 #' @param mode logical. Whether the circular mode should be calculated or not.
 #' @param kappa  numeric. von Mises distribution concentration parameter used
 #' for the circular mode. Will be estimated using [est.kappa()] if not provided.
+#' @param fisher_CI logical. Whether Fisher's or the default Mardia/Batchelet's
+#' confidence interval should be calculated.
 #'
 #' @return named vector
 #' @export
@@ -1169,7 +1186,7 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_summary(sa.por$azi.PoR)
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
-circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NULL, na.rm = FALSE) {
+circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NULL, fisher_CI = FALSE, na.rm = FALSE) {
   if (is.null(w)) {
   w <- rep(1, times = length(x))
 }
@@ -1184,7 +1201,13 @@ x <- data[, "x"]
 w <- data[, "w"]
 
 # n <- length(x)
-x_CI <- confidence_interval_fisher(x, conf.level = 0.95, w = w, axial = axial, na.rm = FALSE, quiet = TRUE)
+if(fisher_CI){
+  x_CI <- confidence_interval_fisher(x, conf.level = 0.95, w = w, axial = axial, na.rm = FALSE, quiet = TRUE)
+
+} else {
+  x_CI <- confidence_interval(x, conf.level = 0.95, w = w, axial = axial, na.rm = FALSE)
+}
+
 x_quant <- circular_quantiles(x, w, axial, FALSE)
 x_sk <- second_central_moment(x, w, axial, FALSE)
 
