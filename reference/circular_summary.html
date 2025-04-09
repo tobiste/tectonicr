@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,6 +56,7 @@
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  mode <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  kappa <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fisher_CI <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -87,6 +88,11 @@ length as <code>x</code>.</p></dd>
 for the circular mode. Will be estimated using <code><a href="est.kappa.html">est.kappa()</a></code> if not provided.</p></dd>
 
 
+<dt id="arg-fisher-ci">fisher_CI<a class="anchor" aria-label="anchor" href="#arg-fisher-ci"></a></dt>
+<dd><p>logical. Whether Fisher's or the default Mardia/Batchelet's
+confidence interval should be calculated.</p></dd>
+
+
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>logical value indicating whether <code>NA</code> values in <code>x</code>
 should be stripped before the computation proceeds.</p></dd>
@@ -112,12 +118,12 @@ should be stripped before the computation proceeds.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            n         mean           sd          var          25% quasi-median </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1126.0000000  140.8777709   23.4183183    0.2840287  124.8495460  136.8274701 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          75%       median        95%CI     skewness     kurtosis            R </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2163335  138.9450918    2.6012976   -0.1758456    1.4538046    0.7159713 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2163335  138.9450918    4.1348884   -0.1758456    1.4538046    0.7159713 </span>
 <span class="r-in"><span><span class="fu">circular_summary</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            n         mean           sd          var          25% quasi-median </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1126.0000000  138.9024850   18.5799867    0.1896731  124.8436061  136.8580836 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          75%       median        95%CI     skewness     kurtosis            R </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2225367  138.9450918    2.0854956   -0.3377921    2.7863614    0.8103269 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  150.2225367  138.9450918    3.8579868   -0.3377921    2.7863614    0.8103269 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
