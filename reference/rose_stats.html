@@ -53,7 +53,6 @@
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span>, <span class="st">"sample_median"</span><span class="op">)</span>,</span>
 <span>  spread <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CI"</span>, <span class="st">"fisher"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, <span class="st">"mdev"</span><span class="op">)</span>,</span>
-<span>  f <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  avg.col <span class="op">=</span> <span class="st">"#B63679FF"</span>,</span>
 <span>  avg.lty <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  avg.lwd <span class="op">=</span> <span class="fl">1.5</span>,</span>
@@ -91,13 +90,10 @@ sample median (<code>"sample_median"</code>).</p></dd>
 
 <dt id="arg-spread">spread<a class="anchor" aria-label="anchor" href="#arg-spread"></a></dt>
 <dd><p>character. The measure of spread to be plotted as a fan.
-Either 95% confidence interval (<code>"CI"</code>, the default), Fishers confidence interval (<code>"fisher"</code>), the circular
+Either Batchelet's 95% confidence interval by (<code>"CI"</code>, the default),
+Fisher's 95% confidence interval (<code>"fisher"</code>), the circular
 standard deviation (<code>"sd"</code>), the Quasi interquartile range on the circle
-(<code>"IQR"</code>), or the sampke median deviation (<code>"mdev"</code>). <code>NULL</code> if no fan should be drawn.</p></dd>
-
-
-<dt id="arg-f">f<a class="anchor" aria-label="anchor" href="#arg-f"></a></dt>
-<dd><p>factor applied on spread. <code>1</code> by default.</p></dd>
+(<code>"IQR"</code>), or the sample median deviation (<code>"mdev"</code>). <code>NULL</code> if no fan should be drawn.</p></dd>
 
 
 <dt id="arg-avg-col">avg.col<a class="anchor" aria-label="anchor" href="#arg-avg-col"></a></dt>
@@ -138,7 +134,8 @@ standard deviation (<code>"sd"</code>), the Quasi interquartile range on the cir
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>No return value, called for side effects</p>
+    <p>plot or a two-element vector containing the calculated average and
+spread when assigned.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
