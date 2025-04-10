@@ -10,7 +10,6 @@ rose_stats(
   axial = TRUE,
   avg = c("mean", "median", "sample_median"),
   spread = c("CI", "fisher", "sd", "IQR", "mdev"),
-  f = 1,
   avg.col = "#B63679FF",
   avg.lty = 2,
   avg.lwd = 1.5,
@@ -35,11 +34,10 @@ or biaxial (\code{TRUE}, the default).}
 sample median (\code{"sample_median"}).}
 
 \item{spread}{character. The measure of spread to be plotted as a fan.
-Either 95\% confidence interval (\code{"CI"}, the default), Fishers confidence interval (\code{"fisher"}), the circular
+Either Batchelet's 95\% confidence interval by (\code{"CI"}, the default),
+Fisher's 95\% confidence interval (\code{"fisher"}), the circular
 standard deviation (\code{"sd"}), the Quasi interquartile range on the circle
-(\code{"IQR"}), or the sampke median deviation (\code{"mdev"}). \code{NULL} if no fan should be drawn.}
-
-\item{f}{factor applied on spread. \code{1} by default.}
+(\code{"IQR"}), or the sample median deviation (\code{"mdev"}). \code{NULL} if no fan should be drawn.}
 
 \item{avg.col}{color for the average line}
 
@@ -60,7 +58,8 @@ standard deviation (\code{"sd"}), the Quasi interquartile range on the circle
 \item{...}{optional arguments to \code{circular_plot()} if add is \code{FALSE}.}
 }
 \value{
-No return value, called for side effects
+plot or a two-element vector containing the calculated average and
+spread when assigned.
 }
 \description{
 Adds the average direction (and its spread) to an existing rose diagram.

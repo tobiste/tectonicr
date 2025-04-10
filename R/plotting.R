@@ -714,10 +714,10 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' (`"mean"`, the default), the circular Quasi Median (`"median"`), or the
 #' sample median (`"sample_median"`).
 #' @param spread character. The measure of spread to be plotted as a fan.
-#' Either 95% confidence interval (`"CI"`, the default), Fishers confidence interval (`"fisher"`), the circular
+#' Either Batchelet's 95% confidence interval by (`"CI"`, the default),
+#' Fisher's 95% confidence interval (`"fisher"`), the circular
 #' standard deviation (`"sd"`), the Quasi interquartile range on the circle
-#' (`"IQR"`), or the sampke median deviation (`"mdev"`). `NULL` if no fan should be drawn.
-#' @param f factor applied on spread. `1` by default.
+#' (`"IQR"`), or the sample median deviation (`"mdev"`). `NULL` if no fan should be drawn.
 #' @param avg.col color for the average line
 #' @param avg.lty line type of the average line
 #' @param avg.lwd  line width of the average line
@@ -735,7 +735,8 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' [circular_sd()], [circular_IQR()], [circular_sample_median_deviation()]
 #' for statistical parameters.
 #'
-#' @returns No return value, called for side effects
+#' @returns plot or a two-element vector containing the calculated average and
+#' spread when assigned.
 #' @export
 #'
 #' @examples
@@ -743,7 +744,6 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' rose(san_andreas$azi, weights = 1 / san_andreas$unc, muci = FALSE)
 #' rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "sample_median", spread = "mdev")
 rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median", "sample_median"), spread = c("CI", "fisher", "sd", "IQR", "mdev"),
-                       f = 1,
                        avg.col = "#B63679FF", avg.lty = 2, avg.lwd = 1.5,
                        spread.col = ggplot2::alpha("#B63679FF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL, add = TRUE, ...) {
   avg <- match.arg(avg)
@@ -766,7 +766,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
       IQR = circular_IQR(x, weights, axial),
       mdev = circular_sample_median_deviation(x, axial)
     )
-    rose_fan(mu, f * ci,
+    rose_fan(mu, 2 * ci,
       radius = 1.1, axial = axial, col = spread.col,
       border = spread.border, lty = spread.lty, lwd = spread.lwd,
       add = add, ...
