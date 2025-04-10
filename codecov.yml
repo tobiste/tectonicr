@@ -3,8 +3,8 @@ comment: false
 ignore:
   - "**/DATASET.*"
   - "**/Fisher_*"
-  - "**/benchmarking_and_testing.*"
-  - "**/HR_interpolation.*"
+  - "**/benchmarking_and_testing.R*"
+  - "**/HR_interpolation.R*"
   - "^tests/benchmarking_and_testing\.R$"
   - "^tests/HR_interpolation\.R$"
 
