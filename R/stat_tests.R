@@ -768,7 +768,8 @@ A1inv <- function(x) {
 #' @param bias logical parameter determining whether a bias correction is used
 #' in the computation of the MLE. Default for bias is `FALSE` for no bias
 #' correction.
-#' @param ... optional parameters passed to `circular_mean()`
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
 #' @returns numeric.
 #' @export
@@ -776,11 +777,16 @@ A1inv <- function(x) {
 #' @examples
 #' set.seed(123)
 #' est.kappa(rvm(100, 90, 10), w = 1 / runif(100, 0, 10))
-est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
+est.kappa <- function(x, w = NULL, bias = FALSE, axial = TRUE) {
   w <- if (is.null(w)) {
     rep(1, times = length(x))
   } else {
     as.numeric(w)
+  }
+  if(axial){
+    x <- (x * 2) %% 360
+  } else {
+    x <- x %% 360
   }
 
   data <- cbind(x = x, w = w)
@@ -788,7 +794,7 @@ est.kappa <- function(x, w = NULL, bias = FALSE, ...) {
   x <- data[, "x"]
   w <- data[, "w"]
 
-  mean.dir <- circular_mean(x, w = w, ...)
+  mean.dir <- circular_mean(x, w = w, axial = FALSE, na.rm = FALSE)
   kappa <- abs(A1inv(mean(cosd(x - mean.dir))))
   if (bias) {
     kappa.ml <- kappa

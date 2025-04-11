@@ -4,7 +4,7 @@
 \alias{est.kappa}
 \title{Concentration parameter of von Mises distribution}
 \usage{
-est.kappa(x, w = NULL, bias = FALSE, ...)
+est.kappa(x, w = NULL, bias = FALSE, axial = TRUE)
 }
 \arguments{
 \item{x}{numeric. angles in degrees}
@@ -15,7 +15,8 @@ est.kappa(x, w = NULL, bias = FALSE, ...)
 in the computation of the MLE. Default for bias is \code{FALSE} for no bias
 correction.}
 
-\item{...}{optional parameters passed to \code{circular_mean()}}
+\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 }
 \value{
 numeric.

@@ -784,9 +784,9 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   n <- length(x)
   # n <- sum(w)
 
-  kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
 
   x <- (x * f) %% 360
+  kappa <- est.kappa(x, w = w, axial = FALSE)
   R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
   1 / sqrt(n * R * kappa)
@@ -1151,7 +1151,7 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' x <- rvm(10, 0, 100)
 #' circular_mode(x, kappa = est.kappa(x))
 circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
-  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial, na.rm = TRUE)
+  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial)
   dns <- circular_density(x, kappa = kappa, n = n, axial = axial)
 
   f <- as.numeric(axial) + 1
@@ -1232,7 +1232,7 @@ res <- c(
 )
 
 if(mode){
-  if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial, na.rm = FALSE)
+  if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
   mode <- circular_mode(x, kappa = kappa, axial = axial)
   append(res, c('mode' = mode), after = 8)
 } else {
