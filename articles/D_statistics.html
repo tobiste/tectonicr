@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-04-10</h4>
+            <h4 data-toc-skip class="date">2025-04-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/D_statistics.Rmd" class="external-link"><code>vignettes/D_statistics.Rmd</code></a></small>
       <div class="d-none name"><code>D_statistics.Rmd</code></div>
@@ -148,7 +148,7 @@ using the transformed orientations of the PoR reference frame.</p>
 <span><span class="co">#&gt;            n         mean           sd          var          25% quasi-median </span></span>
 <span><span class="co">#&gt; 1126.0000000  137.9960403   18.6710044    0.1913452  123.4943787  135.6498736 </span></span>
 <span><span class="co">#&gt;          75%       median         mode           CI     skewness     kurtosis </span></span>
-<span><span class="co">#&gt;  149.4280453  137.4843360  317.0254403    3.8350838   -0.3386996    2.7427489 </span></span>
+<span><span class="co">#&gt;  149.4280453  137.4843360  138.0821918    5.1715084   -0.3386996    2.7427489 </span></span>
 <span><span class="co">#&gt;            R </span></span>
 <span><span class="co">#&gt;    0.8086548</span></span></code></pre></div>
 <p>The summary statistics additionally include the circular
@@ -244,10 +244,10 @@ the orientation data, a
 <span><span class="co">#&gt; [1] 137.996</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $conf.angle</span></span>
-<span><span class="co">#&gt; [1] 3.835084</span></span>
+<span><span class="co">#&gt; [1] 5.171508</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $conf.interval</span></span>
-<span><span class="co">#&gt; [1] 134.1610 141.8311</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 132.8245 143.1675</span></span></code></pre></div>
 <p>The prediction for the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>S</mi><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{SHmax}</annotation></semantics></math>
 orientation is
@@ -292,8 +292,8 @@ predicted direction of
 <span><span class="co">#&gt; $p.value</span></span>
 <span><span class="co">#&gt; [1] 3.589557e-315</span></span></code></pre></div>
 <p>Here, the Null Hypothesis is rejected, and thus, the alternative,
-that is a uniform distribution around the predicted direction, cannot be
-excluded.</p>
+i.e. an non-uniform distribution with the predicted direction as the
+mean cannot be excluded.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
