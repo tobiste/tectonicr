@@ -902,7 +902,7 @@ circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 36
   # f <- as.numeric(axial) + 1
   # x <- x * f
 
-  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial, na.rm = na.rm)
+  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial)
 
 
   if (is.null(z)) {

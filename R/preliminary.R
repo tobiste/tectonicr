@@ -490,7 +490,7 @@ get.u2 <- function(x, mu = NULL, w = NULL) {
     mu <- circular_mean(x, w, axial = FALSE, na.rm = FALSE)
   }
 
-  kappa.hat <- est.kappa(x, w, bias = FALSE, axial = FALSE, na.rm = FALSE)
+  kappa.hat <- est.kappa(x, w, bias = FALSE, axial = FALSE)
   x <- (x - mu) %% 360
   x <- matrix(x, ncol = 1)
   z <- apply(x, 1, pvm, mean = 0, kappa = kappa.hat) |> sort()
@@ -516,7 +516,7 @@ bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
     mu <- circular_mean(x, w, axial = FALSE, na.rm = FALSE)
   }
 
-  kappa.hat <- est.kappa(x, w, bias = FALSE, axial = FALSE, na.rm = FALSE)
+  kappa.hat <- est.kappa(x, w, bias = FALSE, axial = FALSE)
   bootstrap.u2.distrib <- double(n)
 
   for (i in 1:n) {
