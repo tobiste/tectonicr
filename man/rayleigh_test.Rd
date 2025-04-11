@@ -35,10 +35,10 @@ assessing the significance of the mean resultant length.
 \details{
 \describe{
 \item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
-\item{\eqn{H_1}{H1}:}{angles are from unimodal distribution with unknown mean
+\item{\eqn{H_1}{H1}:}{angles are from non-uniformly distribution with unknown mean
 direction and mean resultant length (when \code{mu} is \code{NULL}. Alternatively (when
 \code{mu} is specified),
-angles are uniformly distributed around a specified direction.}
+angles are non-uniformly distributed around a specified direction.}
 }
 If \code{statistic > p.value}, the null hypothesis is rejected,
 i.e. the length of the mean resultant differs significantly from zero, and

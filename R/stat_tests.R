@@ -99,10 +99,10 @@ norm_chisq <- function(obs, prd, unc) {
 #'
 #' @details \describe{
 #' \item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
-#' \item{\eqn{H_1}{H1}:}{angles are from unimodal distribution with unknown mean
+#' \item{\eqn{H_1}{H1}:}{angles are from non-uniformly distribution with unknown mean
 #' direction and mean resultant length (when `mu` is `NULL`. Alternatively (when
 #' `mu` is specified),
-#' angles are uniformly distributed around a specified direction.}
+#' angles are non-uniformly distributed around a specified direction.}
 #' }
 #' If `statistic > p.value`, the null hypothesis is rejected,
 #' i.e. the length of the mean resultant differs significantly from zero, and

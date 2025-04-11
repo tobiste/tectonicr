@@ -184,8 +184,9 @@ with a specified mean direction (here the predicted direction of $135^{\circ}$:
 ```{r rayleigh2, echo=TRUE}
 weighted_rayleigh(san_andreas.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
 ```
-Here, the Null Hypothesis is rejected, and thus, the alternative, that is a 
-uniform distribution around the predicted direction, cannot be excluded.
+
+Here, the Null Hypothesis is rejected, and thus, the alternative, i.e. an 
+non-uniform distribution with the predicted direction as the mean cannot be excluded.
 
 
 # References
