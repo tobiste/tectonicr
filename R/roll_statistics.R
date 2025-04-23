@@ -547,7 +547,7 @@ distroll_dispersion_sde <- function(x, y, w = NULL, w.y = NULL, distance,
 #' the dispersion.
 #' @param conf.level The level of confidence for confidence interval and
 #' bootstrapped standard error of dispersion.
-#' @param ... optional arguments passed to [ggplot2::cut_interval()] and [ggplot2::cut_width()]
+#' @param ... optional arguments passed to [ggplot2::cut_number()] and [ggplot2::cut_width()]
 #'
 #' @return tibble containing the `n` values for `azi`in each bin, min/median/max
 #' distance of the bin, and the summary statistics for `azi`.

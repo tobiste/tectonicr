@@ -47,7 +47,7 @@ the dispersion.}
 \item{conf.level}{The level of confidence for confidence interval and
 bootstrapped standard error of dispersion.}
 
-\item{...}{optional arguments passed to \code{\link[ggplot2:cut_interval]{ggplot2::cut_interval()}} and \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}}}
+\item{...}{optional arguments passed to \code{\link[ggplot2:cut_interval]{ggplot2::cut_number()}} and \code{\link[ggplot2:cut_interval]{ggplot2::cut_width()}}}
 }
 \value{
 tibble containing the \code{n} values for \code{azi}in each bin, min/median/max
