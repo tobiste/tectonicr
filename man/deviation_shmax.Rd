@@ -33,6 +33,10 @@ of maximum horizontal stresses (\eqn{\sigma_{Hmax}}{SHmax}) along
 great circles, small circles, and
 loxodromes of the relative plate motion's Euler pole
 }
+\details{
+Deviation is positive for clockwise deviation of observed azimuth wrt.
+predicted azimuth.
+}
 \examples{
 data("nuvel1")
 # North America relative to Pacific plate:

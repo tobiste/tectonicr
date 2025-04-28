@@ -59,7 +59,7 @@ model_shmax <- function(df, euler) {
   sc <- (theta + 90) %% 180
 
   # counterclockwise loxodrome
-  ld.ccw <- (theta + 135) %% 180
+  ld.ccw <- (theta - 45) %% 180
 
   # clockwise loxodrome
   ld.cw <- (theta + 45) %% 180
@@ -152,12 +152,19 @@ deviation_norm <- function(x, y = NULL) {
 #'   \item{dev.ld.ccw}{Counter-clockwise loxodromes}
 #' }
 #'
+#' @details
+#' Deviation is positive for clockwise deviation of observed azimuth wrt.
+#' predicted azimuth.
+#'
+#'
 #' @seealso [model_shmax()] to calculate the theoretical direction of
 #' \eqn{\sigma_{Hmax}}{SHmax}.
 #'
 #' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
 #' *Sci Rep* 13. 15590 (2023). \doi{10.1038/s41598-023-42433-2}.
+#'
+#' @importFrom dplyr mutate across everything if_else
 #'
 #' @export
 #'
@@ -175,27 +182,40 @@ deviation_shmax <- function(prd, obs) {
   stopifnot(length(obs) == length(seq_along(prd$gc)))
 
   # normalize azimuth
-  obs <- (obs + 360) %% 180
+  obs <- obs %% 180
 
-  dev.gc <- prd$gc - obs
-  dev.sc <- prd$sc - obs
-  dev.ld.cw <- prd$ld.cw - obs
-  dev.ld.ccw <- prd$ld.ccw - obs
+  dev.gc <- obs - prd$gc
+  dev.sc <- obs - prd$sc
+  dev.ld.cw <- obs - prd$ld.cw
+  dev.ld.ccw <- obs - prd$ld.ccw
 
-  data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw)
+  data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw) |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::everything(),
+        ~ if_else(
+          abs(.x) > 90,
+          (180 - abs(.x)) * sign(.x),
+          .x
+        )
+      )
+    )
 }
 
 
-#' @title Azimuth Conversion from Geographical to PoR Coordinate Reference System
+#' @title Azimuth Conversion from Geographical to PoR Coordinate Reference
+#' System
 #'
-#' @description Transforms azimuths and models the direction of maximum horizontal stress
+#' @description Transforms azimuths and models the direction of maximum
+#' horizontal stress
 #' \eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
 #' coordinate reference system. When type of plate boundary is given, it also
 #' gives the deviation from the theoretically predicted azimuth of
 #' \eqn{\sigma_{Hmax}}{SHmax}, the circular distance, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #'
-#' @param x `sf` object or a \code{data.frame} containing the coordinates of the point(s)
+#' @param x `sf` object or a \code{data.frame} containing the coordinates of the
+#'  point(s)
 #' (\code{lat}, \code{lon}). `x` must contain the direction of
 #' \eqn{\sigma_{Hmax}}{SHmax} as column \code{azi} and its standard deviation
 #' as \code{unc} (the latter is optional)
@@ -206,17 +226,22 @@ deviation_shmax <- function(prd, obs) {
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
 #' moving plate boundaries, respectively. If \code{"none"} (the default), only
 #' the PoR-equivalent azimuth is returned.
-#' @param axial logical. Whether the azimuth is axial (0-180) or directional (0-360).
+#' @param axial logical. Whether the azimuth is axial (0-180) or directional
+#' (0-360).
 #'
-#' @returns `PoR_azimuth` returns numeric vector of the transformed azimuth in degrees.
+#' @returns `PoR_azimuth` returns numeric vector of the transformed azimuth in
+#' degrees.
 #' `PoR_shmax` returns either a numeric vector of the azimuths in the
 #' transformed coordinate system (in degrees), or a \code{"data.frame"} with
 #' \describe{
 #' \item{`azi.PoR`}{the transformed azimuths (in degrees),}
 #' \item{`prd`}{the predicted azimuths (in degrees),}
-#' \item{`dev`}{the deviation between the transformed and the predicted azimuth (in degrees),}
+#' \item{`dev`}{the deviation between the transformed and the predicted azimuth
+#' in degrees (positive for clockwise deviation of observed azimuth wrt.
+#' predicted azimuth),}
 #' \item{`nchisq`}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
-#' \item{`cdist`}{the angular distance between the transformed and the predicted azimuth.}
+#' \item{`cdist`}{the angular distance between the transformed and the predicted
+#' azimuth.}
 #' }
 #'
 #' @seealso [model_shmax()] to compute the theoretical direction of
@@ -226,9 +251,9 @@ deviation_shmax <- function(prd, obs) {
 #'  [norm_chisq()] to calculate the normalized \eqn{\chi^2}{chi-squared}
 #'  statistics. [circular_distance()] to calculate the angular distance.
 #'
-#' @details The azimuth of \eqn{\sigma_{Hmax}}{SHmax} in the pole of rotation
-#' reference system is
-#' approximate 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
+#' @details The theoretical azimuth of \eqn{\sigma_{Hmax}}{SHmax} in the pole of
+#' rotation reference system is
+#' 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
 #' outward, sinistral, inward, or dextral moving plate boundary, respectively.
 #' directions of \eqn{\sigma_{Hmax}}{SHmax} with respect to the four
 #' plate boundary types.
@@ -269,22 +294,29 @@ PoR_azimuth <- function(x, PoR, axial = TRUE) {
 
 #' @rdname PoR_azi
 #' @export
-PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left")) {
+PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left"), axial = TRUE) {
   type <- match.arg(type)
 
-  azi.por <- PoR_azimuth(x, PoR)
+  azi.por <- PoR_azimuth(x, PoR, axial = axial)
 
   if (type != "none" && !is.null(x$unc)) {
     prd <- switch(type,
       "none" = NA,
-      "out" = 180,
+      "out" = 0,
       "right" = 135,
       "in" = 90,
       "left" = 45
     )
 
-    dev <- azi.por - prd
+    dev <- (azi.por %% 180) - prd
     cdist <- (1 - cosd(2 * dev)) / 2
+
+    dev <- ifelse(
+      abs(dev) > 90,
+      (180 - abs(dev)) * sign(dev),
+      dev
+    )
+
     nchisq.i <- (deviation_norm(azi.por, prd) / 90)^2
 
     data.frame(
@@ -395,7 +427,8 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
     PoR_weighting <- rep(1, nrow(PoRs))
   }
 
-  pbty <- vapply(types, switch, FUN.VALUE = character(1),
+  pbty <- vapply(types, switch,
+    FUN.VALUE = character(1),
     "in" = "sc",
     "out" = "gc",
     "right" = "ld.ccw",
@@ -499,7 +532,8 @@ superimposed_shmax_PB <- function(x, pbs, model,
   colnames(pb_rot) <- pb_types
   colnames(pb_weights) <- pb_types
 
-  pbs$pbty <- vapply(pbs$type, switch, FUN.VALUE = character(1),
+  pbs$pbty <- vapply(pbs$type, switch,
+    FUN.VALUE = character(1),
     "divergent" = "gc",
     "convergent" = "sc",
     "transform_L" = "ld.cw",

@@ -4,14 +4,16 @@
 \alias{PoR_azi}
 \alias{PoR_azimuth}
 \alias{PoR_shmax}
-\title{Azimuth Conversion from Geographical to PoR Coordinate Reference System}
+\title{Azimuth Conversion from Geographical to PoR Coordinate Reference
+System}
 \usage{
 PoR_azimuth(x, PoR, axial = TRUE)
 
-PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"))
+PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"), axial = TRUE)
 }
 \arguments{
-\item{x}{\code{sf} object or a \code{data.frame} containing the coordinates of the point(s)
+\item{x}{\code{sf} object or a \code{data.frame} containing the coordinates of the
+point(s)
 (\code{lat}, \code{lon}). \code{x} must contain the direction of
 \eqn{\sigma_{Hmax}}{SHmax} as column \code{azi} and its standard deviation
 as \code{unc} (the latter is optional)}
@@ -19,7 +21,8 @@ as \code{unc} (the latter is optional)}
 \item{PoR}{\code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Euler  pole}
 
-\item{axial}{logical. Whether the azimuth is axial (0-180) or directional (0-360).}
+\item{axial}{logical. Whether the azimuth is axial (0-180) or directional
+(0-360).}
 
 \item{type}{Character. Type of plate boundary (optional). Can be
 \code{"out"}, \code{"in"}, \code{"right"}, or
@@ -28,19 +31,24 @@ moving plate boundaries, respectively. If \code{"none"} (the default), only
 the PoR-equivalent azimuth is returned.}
 }
 \value{
-\code{PoR_azimuth} returns numeric vector of the transformed azimuth in degrees.
+\code{PoR_azimuth} returns numeric vector of the transformed azimuth in
+degrees.
 \code{PoR_shmax} returns either a numeric vector of the azimuths in the
 transformed coordinate system (in degrees), or a \code{"data.frame"} with
 \describe{
 \item{\code{azi.PoR}}{the transformed azimuths (in degrees),}
 \item{\code{prd}}{the predicted azimuths (in degrees),}
-\item{\code{dev}}{the deviation between the transformed and the predicted azimuth (in degrees),}
+\item{\code{dev}}{the deviation between the transformed and the predicted azimuth
+in degrees (positive for clockwise deviation of observed azimuth wrt.
+predicted azimuth),}
 \item{\code{nchisq}}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
-\item{\code{cdist}}{the angular distance between the transformed and the predicted azimuth.}
+\item{\code{cdist}}{the angular distance between the transformed and the predicted
+azimuth.}
 }
 }
 \description{
-Transforms azimuths and models the direction of maximum horizontal stress
+Transforms azimuths and models the direction of maximum
+horizontal stress
 \eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
 coordinate reference system. When type of plate boundary is given, it also
 gives the deviation from the theoretically predicted azimuth of
@@ -48,9 +56,9 @@ gives the deviation from the theoretically predicted azimuth of
 \eqn{\chi^2}{chi-squared} statistics.
 }
 \details{
-The azimuth of \eqn{\sigma_{Hmax}}{SHmax} in the pole of rotation
-reference system is
-approximate 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
+The theoretical azimuth of \eqn{\sigma_{Hmax}}{SHmax} in the pole of
+rotation reference system is
+0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
 outward, sinistral, inward, or dextral moving plate boundary, respectively.
 directions of \eqn{\sigma_{Hmax}}{SHmax} with respect to the four
 plate boundary types.
