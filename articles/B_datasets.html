@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-04-23</h4>
+            <h4 data-toc-skip class="date">2025-04-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
       <div class="d-none name"><code>B_datasets.Rmd</code></div>
@@ -425,13 +425,13 @@ coordinates and azimuths as well as the deviations can be viewed by:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      azi.PoR prd        dev     nchisq      cdist  lat.PoR   lon.PoR  distance</span></span>
-<span><span class="co">#&gt; 1 173.240166 135   38.24017 0.18053214 0.38311043 59.05548 -85.46364 -2.446542</span></span>
-<span><span class="co">#&gt; 2   1.058195 135 -133.94180 2.21486507 0.51846479 60.50445 -78.16683 -2.751949</span></span>
-<span><span class="co">#&gt; 3 147.609558 135   12.60956 0.01962975 0.04765752 59.38025 -84.55317 -2.705483</span></span>
-<span><span class="co">#&gt; 4 163.607388 135   28.60739 0.10103489 0.22925429 59.73632 -85.74431 -3.162091</span></span>
-<span><span class="co">#&gt; 5 152.233017 135   17.23302 0.03666381 0.08776909 61.68018 -84.31053 -4.988116</span></span>
-<span><span class="co">#&gt; 6 150.611386 135   15.61139 0.03008832 0.07242085 63.39714 -80.60932 -6.358818</span></span></code></pre></div>
+<span><span class="co">#&gt;      azi.PoR prd       dev     nchisq      cdist  lat.PoR   lon.PoR  distance</span></span>
+<span><span class="co">#&gt; 1 173.240166 135  38.24017 0.18053214 0.38311043 59.05548 -85.46364 -2.446542</span></span>
+<span><span class="co">#&gt; 2   1.058195 135 -46.05820 2.21486507 0.51846479 60.50445 -78.16683 -2.751949</span></span>
+<span><span class="co">#&gt; 3 147.609558 135  12.60956 0.01962975 0.04765752 59.38025 -84.55317 -2.705483</span></span>
+<span><span class="co">#&gt; 4 163.607388 135  28.60739 0.10103489 0.22925429 59.73632 -85.74431 -3.162091</span></span>
+<span><span class="co">#&gt; 5 152.233017 135  17.23302 0.03666381 0.08776909 61.68018 -84.31053 -4.988116</span></span>
+<span><span class="co">#&gt; 6 150.611386 135  15.61139 0.03008832 0.07242085 63.39714 -80.60932 -6.358818</span></span></code></pre></div>
 <p>Statistical parameters describing the distribution of the transformed
 azimuths can be displayed by</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
