@@ -148,7 +148,7 @@ nearest-neighbor interpolations (NN).
 \code{\link[=stress2grid]{stress2grid()}} is originally based on the MATLAB script
 "stress2grid" by Ziegler and Heidbach (2019):
 \url{https://github.com/MorZieg/Stress2Grid}.
-The {tectonicr} version has been significantly modified to provide better
+The tectonicr version has been significantly modified to provide better
 performance and more flexibility.
 
 \code{\link[=stress2grid_stats]{stress2grid_stats()}} is based on \code{\link[=stress2grid]{stress2grid()}} but calculates circular

@@ -3,9 +3,22 @@
 \name{sample_dispersion}
 \alias{sample_dispersion}
 \alias{sample_circular_variance}
+\alias{sample_circular_distance}
+\alias{sample_circular_dispersion}
 \title{Sample circular dispersion}
 \usage{
 sample_circular_variance(x, w = NULL, axial = TRUE, na.rm = TRUE)
+
+sample_circular_distance(x, y, axial = TRUE, na.rm = TRUE)
+
+sample_circular_dispersion(
+  x,
+  y = NULL,
+  w = NULL,
+  w.y = NULL,
+  axial = TRUE,
+  na.rm = TRUE
+)
 }
 \arguments{
 \item{x, y}{vectors of numeric values in degrees. \code{length(y)} is either

@@ -341,7 +341,7 @@ shortest_distance_to_line <- function(x, line, ellipsoidal = FALSE) {
     nrow()
 
   suppressMessages(
-    sf_use_s2(!ellipsoidal)
+    sf::sf_use_s2(!ellipsoidal)
   )
 
   line_pts <- sf::st_cast(line, "MULTILINESTRING", warn = FALSE) |>
@@ -355,7 +355,7 @@ shortest_distance_to_line <- function(x, line, ellipsoidal = FALSE) {
     radius = 1000 * earth_radius()
   )
   suppressMessages(
-    sf_use_s2(ellipsoidal)
+    sf::sf_use_s2(ellipsoidal)
   )
 
   if (n == 1) {

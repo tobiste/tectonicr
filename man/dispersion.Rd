@@ -5,8 +5,6 @@
 \alias{circular_distance}
 \alias{circular_dispersion}
 \alias{circular_sd2}
-\alias{sample_circular_distance}
-\alias{sample_circular_dispersion}
 \title{Circular Distance and Dispersion}
 \usage{
 circular_distance(x, y, axial = TRUE, na.rm = TRUE)
@@ -21,17 +19,6 @@ circular_dispersion(
 )
 
 circular_sd2(x, y, w = NULL, axial = TRUE, na.rm = TRUE)
-
-sample_circular_distance(x, y, axial = TRUE, na.rm = TRUE)
-
-sample_circular_dispersion(
-  x,
-  y = NULL,
-  w = NULL,
-  w.y = NULL,
-  axial = TRUE,
-  na.rm = TRUE
-)
 }
 \arguments{
 \item{x, y}{vectors of numeric values in degrees. \code{length(y)} is either

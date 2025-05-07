@@ -527,7 +527,7 @@ sample_circular_variance <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   (1 - Rbar2) / (2 * Rbar^2)
 }
 
-#' @rdname dispersion
+#' @rdname sample_dispersion
 #' @export
 sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   f <- as.numeric(axial) + 1
@@ -552,7 +552,7 @@ sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   (180 - abs(180 - abs(diff))) / f
 }
 
-#' @rdname dispersion
+#' @rdname sample_dispersion
 #' @export
 sample_circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE, na.rm = TRUE) {
   if (is.null(y)) {

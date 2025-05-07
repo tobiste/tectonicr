@@ -140,7 +140,7 @@ which.nsmallest <- function(x, n){
 #' @details [stress2grid()] is originally based on the MATLAB script
 #' "stress2grid" by Ziegler and Heidbach (2019):
 #' \url{https://github.com/MorZieg/Stress2Grid}.
-#' The {tectonicr} version has been significantly modified to provide better
+#' The tectonicr version has been significantly modified to provide better
 #' performance and more flexibility.
 #'
 #' [stress2grid_stats()] is based on [stress2grid()] but calculates circular
