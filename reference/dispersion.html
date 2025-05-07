@@ -61,18 +61,18 @@ about a specified angle.</p>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">circular_distance_alt</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">circular_sd2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, w <span class="op">=</span> <span class="cn">NULL</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">circular_dispersion_alt</span><span class="op">(</span></span>
+<span><span class="fu">sample_circular_distance</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sample_circular_dispersion</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  w.y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">circular_sd2</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, w <span class="op">=</span> <span class="cn">NULL</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -101,20 +101,17 @@ length as <code>x</code>. <code>w.y</code> is the (optional) weight of <code>y</
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>circular_distance</code>returns a numeric vector of positive numbers,
-<code>circular_dispersion</code>returns a positive number.</p>
+    <p><code>circular_distance</code> returns a numeric vector of positive numbers,
+<code>circular_dispersion</code> and <code>circular_sd2()</code> return a positive number.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Circular dispersion is a measure for the spread of data like the variance.
-Dispersion measures the spread around a specified mean direction, whereas
-the variance measures the spread around an unknown mean. Hence, when
-<code>y = NULL</code> the dispersion is equal to the variance.</p>
-<p><code>circular_sd2()</code> is the circular standard deviation based on the dispersion
+Dispersion measures the spread about a given angles, whereas
+the variance measures the spread about the mean (Mardia and Jupp, 1999). When
+<code>y = NULL</code> the dispersion is identical to the variance.</p>
+<p>Circular standard deviation in <code>circular_sd2()</code> is the transformed dispersion
 instead of the variance as for <code><a href="circle_stats.html">circular_sd()</a></code>.</p>
-<p><code>circular_distance_alt()</code> and <code>circular_dispersion_alt()</code> are the alternative
-versions in Mardia and Jupp (2000), pp. 19-20.
-These alternative dispersion has a minimum at the sample median.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
