@@ -128,7 +128,6 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' unc <- stats::runif(100, 0, 10)
 #' circular_mean(x, 1 / unc)
 #' circular_var(x, 1 / unc)
-#' sample_circular_dispersion(x, 1 / unc)
 #' circular_sd(x, 1 / unc)
 #' circular_median(x, 1 / unc)
 #' circular_quantiles(x, 1 / unc)
@@ -143,7 +142,6 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' circular_quantiles(san_andreas$azi, 1 / san_andreas$unc)
 #' circular_var(san_andreas$azi)
 #' circular_var(san_andreas$azi, 1 / san_andreas$unc)
-#' sample_circular_dispersion(san_andreas$azi, 1 / san_andreas$unc)
 #'
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -151,7 +149,6 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_median(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
-#' sample_circular_dispersion(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 #' @name circle_stats
 NULL
@@ -342,16 +339,6 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   unname(res)
 }
 
-#' @rdname circle_stats
-#' @export
-sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  # after Fisher 1996
-  if (axial) x <- ax2dir(x)
-  Rbar2 <- mean_resultant_length(2 * x, w = w)
-  Rbar <- mean_resultant_length(x, w = w)
-  (1 - Rbar2) / (2 * Rbar^2)
-}
-
 
 #' Circular Distance and Dispersion
 #'
@@ -369,16 +356,12 @@ sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) 
 #'
 #' @details
 #' Circular dispersion is a measure for the spread of data like the variance.
-#' Dispersion measures the spread around a specified mean direction, whereas
-#' the variance measures the spread around an unknown mean. Hence, when
-#' `y = NULL` the dispersion is equal to the variance.
+#' Dispersion measures the spread about a given angles, whereas
+#' the variance measures the spread about the mean (Mardia and Jupp, 1999). When
+#' `y = NULL` the dispersion is identical to the variance.
 #'
-#' [circular_sd2()] is the circular standard deviation based on the dispersion
+#' Circular standard deviation in [circular_sd2()] is the transformed dispersion
 #' instead of the variance as for [circular_sd()].
-#'
-#' [circular_distance_alt()] and [circular_dispersion_alt()] are the alternative
-#' versions in Mardia and Jupp (2000), pp. 19-20.
-#' These alternative dispersion has a minimum at the sample median.
 #'
 #' @references Mardia, K.V. (1972). Statistics of Directional Data: Probability
 #' and Mathematical Statistics. London: Academic Press.
@@ -389,8 +372,8 @@ sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) 
 #'
 #' @importFrom stats complete.cases
 #'
-#' @returns `circular_distance`returns a numeric vector of positive numbers,
-#' `circular_dispersion`returns a positive number.
+#' @returns `circular_distance` returns a numeric vector of positive numbers,
+#' `circular_dispersion` and [circular_sd2()] return a positive number.
 #'
 #' @note
 #' If `y` is `NULL`, than the circular variance is returned.
@@ -485,7 +468,68 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE,
 
 #' @rdname dispersion
 #' @export
-circular_distance_alt <- function(x, y, axial = TRUE, na.rm = TRUE) {
+circular_sd2 <- function(x, y, w = NULL, axial = TRUE, na.rm = TRUE) {
+  f <- as.numeric(axial) + 1
+
+  D <- circular_dispersion(x, y, w, axial, na.rm)
+  R <- 1 - D
+  sd <- sqrt(-2 * log(R))
+  rad2deg(sd / f)
+}
+
+#' Sample circular dispersion
+#'
+#' Alternative versions of variance, dispersion a distance
+#' (Mardia and Jupp, 1999; pp. 19-20).
+#' These alternative dispersion has a minimum at the sample median.
+#'
+#' @param x,y vectors of numeric values in degrees. `length(y)` is either
+#' `1` or `length(x)`
+#' @param w,w.y (optional) Weights. A vector of positive numbers and of the same
+#' length as \code{x}. `w.y` is the (optional) weight of `y`.
+#' @param axial logical. Whether the data are axial, i.e. pi-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @param na.rm logical. Whether \code{NA} values in \code{x}
+#' should be stripped before the computation proceeds.
+#'
+#' @references
+#' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge
+#' University Press.
+#'
+#' Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
+#' Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
+#' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
+#'
+#' @name sample_dispersion
+#'
+#' @examples
+#' a <- c(0, 2, 359, 6, 354)
+#' sample_circular_distance(a, 10) # distance to single value
+#'
+#' b <- a + 90
+#' sample_circular_distance(a, b) # distance to multiple values
+#'
+#' data("nuvel1")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' sample_circular_variance(sa.por$azi.PoR)
+#' sample_circular_dispersion(sa.por$azi.PoR, y = 135)
+#' sample_circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
+NULL
+
+#' @rdname sample_dispersion
+#' @export
+sample_circular_variance <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
+  # after Fisher 1996
+  if (axial) x <- ax2dir(x)
+  Rbar2 <- mean_resultant_length(2 * x, w = w)
+  Rbar <- mean_resultant_length(x, w = w)
+  (1 - Rbar2) / (2 * Rbar^2)
+}
+
+#' @rdname dispersion
+#' @export
+sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   f <- as.numeric(axial) + 1
 
   stopifnot(length(y) == 1 | length(y) == length(x))
@@ -510,7 +554,7 @@ circular_distance_alt <- function(x, y, axial = TRUE, na.rm = TRUE) {
 
 #' @rdname dispersion
 #' @export
-circular_dispersion_alt <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE, na.rm = TRUE) {
+sample_circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE, na.rm = TRUE) {
   if (is.null(y)) {
     circular_var(x, w, axial, na.rm)
   } else {
@@ -542,25 +586,14 @@ circular_dispersion_alt <- function(x, y = NULL, w = NULL, w.y = NULL, axial = T
 
     # md <- ifelse(norm, 2, 1)
 
-    cdists <- circular_distance_alt(x, y, axial, na.rm = FALSE)
+    cdists <- sample_circular_distance(x, y, axial, na.rm = FALSE)
     sum(w * cdists) / Z
   }
 }
 
-#' @rdname dispersion
-#' @export
-circular_sd2 <- function(x, y, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
-
-  D <- circular_dispersion(x, y, w, axial, na.rm)
-  R <- 1 - D
-  sd <- sqrt(-2 * log(R))
-  rad2deg(sd / f)
-}
-
-
-
 #' Circular Mean Difference
+#'
+#' The circular mean difference is based on the sample circular distance
 #'
 #' @param x numeric vector. Values in degrees.
 #' @param w (optional) Weights. A vector of positive numbers and of the same
@@ -576,6 +609,8 @@ circular_sd2 <- function(x, y, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
 #'
 #' @return numeric
+#'
+#' @seealso [sample_circular_distance()]
 #'
 #' @examples
 #' data("san_andreas")
@@ -647,6 +682,7 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
 #' Circular Range
 #'
 #' Length of the smallest arc which contains all the observations.
+#' The circular range is based on the sample circular distance.
 #'
 #' @param x numeric vector. Values in degrees.
 #' @param na.rm logical value indicating whether \code{NA} values in \code{x}
@@ -656,6 +692,8 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
 #'
 #' @return numeric. angle in degrees
 #' @export
+#'
+#' @seealso [sample_circular_distance()]
 #'
 #' @references
 #' Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
@@ -1090,7 +1128,7 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 }
 
 
-#' Circular Sample Median and Deviation
+#' Sample Circular Median and Deviation
 #'
 #' Sample median direction for a vector of circular data
 #'

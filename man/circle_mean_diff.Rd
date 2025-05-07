@@ -26,7 +26,7 @@ should be stripped before the computation proceeds.}
 numeric
 }
 \description{
-Circular Mean Difference
+The circular mean difference is based on the sample circular distance
 }
 \examples{
 data("san_andreas")
@@ -40,4 +40,7 @@ circular_mean_difference_alt(san_andreas$azi, 1 / san_andreas$unc)
 Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
 Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
 Hoboken, NJ, USA. \doi{10.1002/9780470316979}
+}
+\seealso{
+\code{\link[=sample_circular_distance]{sample_circular_distance()}}
 }

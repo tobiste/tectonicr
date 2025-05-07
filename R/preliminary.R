@@ -564,7 +564,7 @@ bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
 #' @export
 #'
 #' @examples
-#' # Example data from Mardia and Jupp (2001), pp. 93
+#' # Example data from Mardia and Jupp (1999), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' watson_test_boot(pidgeon_homing, axial = FALSE, alpha = 0.05)
 #'
@@ -578,7 +578,7 @@ bootstrap.u2 <- function(x, mu = NULL, w = NULL, n = 100) {
 #' watson_test_boot(finland_stria, axial = FALSE, alpha = 0.05)
 #' watson_test_boot(finland_stria, mu = 105, axial = FALSE, alpha = 0.05)
 #'
-#' # Example data from Mardia and Jupp (2001), pp. 99
+#' # Example data from Mardia and Jupp (1999), pp. 99
 #' atomic_weight <- c(
 #'   rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1),
 #'   rep(108, 2), rep(169.2, 1), rep(324, 1)

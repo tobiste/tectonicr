@@ -8,7 +8,6 @@
 \alias{circular_median}
 \alias{circular_quantiles}
 \alias{circular_IQR}
-\alias{sample_circular_dispersion}
 \title{Summary Statistics of Circular Data}
 \usage{
 circular_mean(x, w = NULL, axial = TRUE, na.rm = TRUE)
@@ -22,8 +21,6 @@ circular_median(x, w = NULL, axial = TRUE, na.rm = TRUE)
 circular_quantiles(x, w = NULL, axial = TRUE, na.rm = TRUE)
 
 circular_IQR(x, w = NULL, axial = TRUE, na.rm = TRUE)
-
-sample_circular_dispersion(x, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees.}
@@ -56,7 +53,6 @@ x <- rvm(10, 0, 100) \%\% 180
 unc <- stats::runif(100, 0, 10)
 circular_mean(x, 1 / unc)
 circular_var(x, 1 / unc)
-sample_circular_dispersion(x, 1 / unc)
 circular_sd(x, 1 / unc)
 circular_median(x, 1 / unc)
 circular_quantiles(x, 1 / unc)
@@ -71,7 +67,6 @@ circular_quantiles(san_andreas$azi)
 circular_quantiles(san_andreas$azi, 1 / san_andreas$unc)
 circular_var(san_andreas$azi)
 circular_var(san_andreas$azi, 1 / san_andreas$unc)
-sample_circular_dispersion(san_andreas$azi, 1 / san_andreas$unc)
 
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -79,7 +74,6 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_mean(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_median(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_var(sa.por$azi.PoR, 1 / san_andreas$unc)
-sample_circular_dispersion(sa.por$azi.PoR, 1 / san_andreas$unc)
 circular_quantiles(sa.por$azi.PoR, 1 / san_andreas$unc)
 }
 \references{

@@ -20,6 +20,7 @@ numeric. angle in degrees
 }
 \description{
 Length of the smallest arc which contains all the observations.
+The circular range is based on the sample circular distance.
 }
 \examples{
 roulette <- c(43, 45, 52, 61, 75, 88, 88, 279, 357)
@@ -32,4 +33,7 @@ circular_range(san_andreas$azi)
 Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
 Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
 Hoboken, NJ, USA. \doi{10.1002/9780470316979}
+}
+\seealso{
+\code{\link[=sample_circular_distance]{sample_circular_distance()}}
 }

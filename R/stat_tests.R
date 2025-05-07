@@ -140,7 +140,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' @export
 #'
 #' @examples
-#' # Example data from Mardia and Jupp (2001), pp. 93
+#' # Example data from Mardia and Jupp (1999), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' rayleigh_test(pidgeon_homing, axial = FALSE)
 #'
@@ -154,7 +154,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' rayleigh_test(finland_stria, axial = FALSE)
 #' rayleigh_test(finland_stria, mu = 105, axial = FALSE)
 #'
-#' # Example data from Mardia and Jupp (2001), pp. 99
+#' # Example data from Mardia and Jupp (1999), pp. 99
 #' atomic_weight <- c(
 #'   rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1),
 #'   rep(108, 2), rep(169.2, 1), rep(324, 1)
@@ -373,7 +373,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
 #' @export
 #'
 #' @examples
-#' # Example data from Mardia and Jupp (2001), pp. 93
+#' # Example data from Mardia and Jupp (1999), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' kuiper_test(pidgeon_homing, alpha = .05)
 #'
@@ -459,13 +459,13 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' If `statistic > p.value`, the null hypothesis is rejected.
 #' If not, randomness (uniform distribution) cannot be excluded.
 #'
-#' @references Mardia and Jupp (2000). Directional Statistics. John Wiley and
+#' @references Mardia and Jupp (1999). Directional Statistics. John Wiley and
 #' Sons.
 #'
 #' @export
 #'
 #' @examples
-#' # Example data from Mardia and Jupp (2001), pp. 93
+#' # Example data from Mardia and Jupp (1999), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 #' watson_test(pidgeon_homing, alpha = .05)
 #'

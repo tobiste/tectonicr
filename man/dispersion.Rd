@@ -4,9 +4,9 @@
 \alias{dispersion}
 \alias{circular_distance}
 \alias{circular_dispersion}
-\alias{circular_distance_alt}
-\alias{circular_dispersion_alt}
 \alias{circular_sd2}
+\alias{sample_circular_distance}
+\alias{sample_circular_dispersion}
 \title{Circular Distance and Dispersion}
 \usage{
 circular_distance(x, y, axial = TRUE, na.rm = TRUE)
@@ -20,9 +20,11 @@ circular_dispersion(
   na.rm = TRUE
 )
 
-circular_distance_alt(x, y, axial = TRUE, na.rm = TRUE)
+circular_sd2(x, y, w = NULL, axial = TRUE, na.rm = TRUE)
 
-circular_dispersion_alt(
+sample_circular_distance(x, y, axial = TRUE, na.rm = TRUE)
+
+sample_circular_dispersion(
   x,
   y = NULL,
   w = NULL,
@@ -30,8 +32,6 @@ circular_dispersion_alt(
   axial = TRUE,
   na.rm = TRUE
 )
-
-circular_sd2(x, y, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
 \item{x, y}{vectors of numeric values in degrees. \code{length(y)} is either
@@ -47,8 +47,8 @@ should be stripped before the computation proceeds.}
 length as \code{x}. \code{w.y} is the (optional) weight of \code{y}.}
 }
 \value{
-\code{circular_distance}returns a numeric vector of positive numbers,
-\code{circular_dispersion}returns a positive number.
+\code{circular_distance} returns a numeric vector of positive numbers,
+\code{circular_dispersion} and \code{\link[=circular_sd2]{circular_sd2()}} return a positive number.
 }
 \description{
 Circular distance between two angles and circular dispersion of angles
@@ -56,16 +56,12 @@ about a specified angle.
 }
 \details{
 Circular dispersion is a measure for the spread of data like the variance.
-Dispersion measures the spread around a specified mean direction, whereas
-the variance measures the spread around an unknown mean. Hence, when
-\code{y = NULL} the dispersion is equal to the variance.
+Dispersion measures the spread about a given angles, whereas
+the variance measures the spread about the mean (Mardia and Jupp, 1999). When
+\code{y = NULL} the dispersion is identical to the variance.
 
-\code{\link[=circular_sd2]{circular_sd2()}} is the circular standard deviation based on the dispersion
+Circular standard deviation in \code{\link[=circular_sd2]{circular_sd2()}} is the transformed dispersion
 instead of the variance as for \code{\link[=circular_sd]{circular_sd()}}.
-
-\code{\link[=circular_distance_alt]{circular_distance_alt()}} and \code{\link[=circular_dispersion_alt]{circular_dispersion_alt()}} are the alternative
-versions in Mardia and Jupp (2000), pp. 19-20.
-These alternative dispersion has a minimum at the sample median.
 }
 \note{
 If \code{y} is \code{NULL}, than the circular variance is returned.

@@ -31,7 +31,7 @@ If \code{statistic > p.value}, the null hypothesis is rejected.
 If not, randomness (uniform distribution) cannot be excluded.
 }
 \examples{
-# Example data from Mardia and Jupp (2001), pp. 93
+# Example data from Mardia and Jupp (1999), pp. 93
 pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
 kuiper_test(pidgeon_homing, alpha = .05)
 
