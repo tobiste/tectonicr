@@ -6,6 +6,7 @@
 \alias{circular_dispersion}
 \alias{circular_distance_alt}
 \alias{circular_dispersion_alt}
+\alias{circular_sd2}
 \title{Circular Distance and Dispersion}
 \usage{
 circular_distance(x, y, axial = TRUE, na.rm = TRUE)
@@ -29,6 +30,8 @@ circular_dispersion_alt(
   axial = TRUE,
   na.rm = TRUE
 )
+
+circular_sd2(x, y, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
 \item{x, y}{vectors of numeric values in degrees. \code{length(y)} is either
@@ -52,9 +55,17 @@ Circular distance between two angles and circular dispersion of angles
 about a specified angle.
 }
 \details{
+Circular dispersion is a measure for the spread of data like the variance.
+Dispersion measures the spread around a specified mean direction, whereas
+the variance measures the spread around an unknown mean. Hence, when
+\code{y = NULL} the dispersion is equal to the variance.
+
+\code{\link[=circular_sd2]{circular_sd2()}} is the circular standard deviation based on the dispersion
+instead of the variance as for \code{\link[=circular_sd]{circular_sd()}}.
+
 \code{\link[=circular_distance_alt]{circular_distance_alt()}} and \code{\link[=circular_dispersion_alt]{circular_dispersion_alt()}} are the alternative
 versions in Mardia and Jupp (2000), pp. 19-20.
-The alternative dispersion has a minimum at the sample median.
+These alternative dispersion has a minimum at the sample median.
 }
 \note{
 If \code{y} is \code{NULL}, than the circular variance is returned.
@@ -71,6 +82,7 @@ PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_dispersion(sa.por$azi.PoR, y = 135)
 circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
+circular_sd2(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 }
 \references{
 Mardia, K.V. (1972). Statistics of Directional Data: Probability

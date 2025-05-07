@@ -5,8 +5,6 @@ ignore:
   - "**/Fisher_*"
   - "**/benchmarking_and_testing.R*"
   - "**/HR_interpolation.R*"
-  - "^tests/benchmarking_and_testing\.R$"
-  - "^tests/HR_interpolation\.R$"
 
 coverage:
   status:
