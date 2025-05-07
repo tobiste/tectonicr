@@ -368,10 +368,17 @@ sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) 
 #' should be stripped before the computation proceeds.
 #'
 #' @details
+#' Circular dispersion is a measure for the spread of data like the variance.
+#' Dispersion measures the spread around a specified mean direction, whereas
+#' the variance measures the spread around an unknown mean. Hence, when
+#' `y = NULL` the dispersion is equal to the variance.
+#'
+#' [circular_sd2()] is the circular standard deviation based on the dispersion
+#' instead of the variance as for [circular_sd()].
+#'
 #' [circular_distance_alt()] and [circular_dispersion_alt()] are the alternative
 #' versions in Mardia and Jupp (2000), pp. 19-20.
-#' The alternative dispersion has a minimum at the sample median.
-#'
+#' These alternative dispersion has a minimum at the sample median.
 #'
 #' @references Mardia, K.V. (1972). Statistics of Directional Data: Probability
 #' and Mathematical Statistics. London: Academic Press.
@@ -404,6 +411,7 @@ sample_circular_dispersion <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) 
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_dispersion(sa.por$azi.PoR, y = 135)
 #' circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
+#' circular_sd2(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 NULL
 
 #' @rdname dispersion
@@ -537,6 +545,17 @@ circular_dispersion_alt <- function(x, y = NULL, w = NULL, w.y = NULL, axial = T
     cdists <- circular_distance_alt(x, y, axial, na.rm = FALSE)
     sum(w * cdists) / Z
   }
+}
+
+#' @rdname dispersion
+#' @export
+circular_sd2 <- function(x, y, w = NULL, axial = TRUE, na.rm = TRUE) {
+  f <- as.numeric(axial) + 1
+
+  D <- circular_dispersion(x, y, w, axial, na.rm)
+  R <- 1 - D
+  sd <- sqrt(-2 * log(R))
+  rad2deg(sd / f)
 }
 
 

@@ -10,7 +10,7 @@
 ^\.github$
 ^doc$
 ^Meta$
-^cran-comments\.md$
+^cran-comments\.md$data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==
 ^codecov\.yml$
 ^\.covrignore$
 ^data-raw$
