@@ -43,11 +43,13 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 }
 
 
+
 #' Distance from plate boundary
 #'
-#' Absolute distance of data points from the nearest plate boundary in degree
+#' Absolute distance of data points from the nearest plate boundary
 #'
-#' @param x `sf` or `data.frame` objects of the data.points in geographical coordinate system
+#' @param x `sf` or `data.frame` objects of the data points in geographical
+#' coordinate system
 #' @param pb `sf` objects of the  plate boundary
 #' geometries in the geographical coordinate system
 #' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
@@ -59,12 +61,19 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
 #' (`TRUE`) or in degrees (`FALSE`, the default).
 #' @param ... optional arguments passed to [smoothr::densify()]
 #'
-#' @returns Numeric vector of the great circle distances
+#' @returns Numeric vector of the great circle distances in units defined by `km`.
 #'
 #' @details The distance to the plate boundary is the longitudinal or
 #' latitudinal difference between the data point and the plate boundary
 #' (along the closest latitude or longitude) for inward/outward or tangential
 #' plate boundaries, respectively.
+#'
+#' @note Stresses emanate from the plate boundary along great circles, small
+#' circles or loxodromes associated with the pole of rotation.
+#' Hence the emanation distance is not necessarily the shortest distance to the
+#' plate boundary, which is measured along a great circle unrelated to the pole
+#' of rotation. The differences are particularly notable when the plate boundary
+#' is kinked or for convergent and divergent plate boundaries.
 #'
 #' @export
 #'
@@ -103,8 +112,8 @@ distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
 
   x.coords <- geographical_to_PoR(x, PoR = PoR) |>
     sf::st_coordinates()
-  pb.coords <-
-    sf::st_geometry(pb) |>
+
+  pb.coords <- sf::st_geometry(pb) |>
     geographical_to_PoR_sf(PoR = PoR) |>
     sf::st_cast(to = "MULTILINESTRING", warn = FALSE) |>
     sf::st_cast(to = "LINESTRING", warn = FALSE) |>

@@ -7,7 +7,8 @@
 distance_from_pb(x, PoR, pb, tangential = FALSE, km = FALSE, ...)
 }
 \arguments{
-\item{x}{\code{sf} or \code{data.frame} objects of the data.points in geographical coordinate system}
+\item{x}{\code{sf} or \code{data.frame} objects of the data points in geographical
+coordinate system}
 
 \item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
 containing the geographical coordinates of the Pole of Rotation}
@@ -25,16 +26,24 @@ default).}
 \item{...}{optional arguments passed to \code{\link[smoothr:densify]{smoothr::densify()}}}
 }
 \value{
-Numeric vector of the great circle distances
+Numeric vector of the great circle distances in units defined by \code{km}.
 }
 \description{
-Absolute distance of data points from the nearest plate boundary in degree
+Absolute distance of data points from the nearest plate boundary
 }
 \details{
 The distance to the plate boundary is the longitudinal or
 latitudinal difference between the data point and the plate boundary
 (along the closest latitude or longitude) for inward/outward or tangential
 plate boundaries, respectively.
+}
+\note{
+Stresses emanate from the plate boundary along great circles, small
+circles or loxodromes associated with the pole of rotation.
+Hence the emanation distance is not necessarily the shortest distance to the
+plate boundary, which is measured along a great circle unrelated to the pole
+of rotation. The differences are particularly notable when the plate boundary
+is kinked or for convergent and divergent plate boundaries.
 }
 \examples{
 data("nuvel1")

@@ -319,6 +319,53 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
   return(d)
 }
 
+#' Shortest distance between pairs of geometries
+#'
+#' The shortest Great Circle distance between pairs of geometries
+#'
+#' @param x,line objects of class `sfg`, `sfc` or `sf`
+#' @param ellipsoidal Logical. Whether the distance is calculated using
+#' spherical distances ([sf::st_distance()]) or
+#' ellipsoidal distances (`lwgeom::st_geod_distance()`).
+#'
+#' @returns numeric. Shortest distance in meters
+#'
+#' @export
+#'
+#' @examples
+#' plate_boundary <- subset(plates, plates$pair == "na-pa")
+#' shortest_distance_to_line(san_andreas, plate_boundary) |>
+#'   head()
+shortest_distance_to_line <- function(x, line, ellipsoidal = FALSE) {
+  n <- sf::st_coordinates(x) |>
+    nrow()
+
+  suppressMessages(
+    sf_use_s2(!ellipsoidal)
+  )
+
+  line_pts <- sf::st_cast(line, "MULTILINESTRING", warn = FALSE) |>
+    sf::st_cast("LINESTRING", warn = FALSE) |>
+    sf::st_cast("POINT", warn = FALSE)
+
+  dmat <- sf::st_distance(
+    x,
+    line_pts,
+    which = "Great Circle",
+    radius = 1000 * earth_radius()
+  )
+  suppressMessages(
+    sf_use_s2(ellipsoidal)
+  )
+
+  if (n == 1) {
+    min(dmat)
+  } else {
+    sapply(1:n, function(i) min((dmat[i, ])))
+  }
+}
+
+
 #' @title Azimuth Between two Points
 #'
 #' @description Calculate initial bearing (or forward azimuth/direction) to go

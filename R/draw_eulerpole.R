@@ -214,7 +214,7 @@ eulerpole_smallcircles <-
       sf::st_as_sf(coords = c("lon", "lat")) |>
       dplyr::group_by(small_circle) |>
       dplyr::summarise(do_union = FALSE) |>
-      sf::st_cast("MULTILINESTRING") |>
+      sf::st_cast("MULTILINESTRING", warn = FALSE) |>
       smoothr::densify()
 
     sm.sf <- dplyr::mutate(sm.sf, d = ifelse(
@@ -266,7 +266,7 @@ eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
     sf::st_as_sf(coords = c("lon", "lat")) |>
     dplyr::group_by(loxodrome) |>
     dplyr::summarise(do_union = FALSE) |>
-    sf::st_cast("MULTILINESTRING") |>
+    sf::st_cast("MULTILINESTRING", warn = FALSE) |>
     smoothr::densify()
 
   ld.sf <- ld.sf |>
