@@ -129,7 +129,7 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "X"),
   out <- utils::read.csv(file) |>
     dplyr::rename_with(tolower) |>
     dplyr::filter(
-      !is.na(lat), !is.na(lon),
+      # !is.na(lat), !is.na(lon),
       dplyr::between(lat, lat_range[1], lat_range[2]),
       dplyr::between(lon, lon_range[1], lon_range[2]),
       dplyr::between(depth, depth_range[1], depth_range[2]),
@@ -162,7 +162,7 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "X"),
       # time = hms(time)
     ) |>
     dplyr::filter(quality %in% qlt_flt, regime %in% reg_flt) |>
-    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE)
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE, na.fail = FALSE)
 
   if ("isc_id" %in% colnames(out)) {
     dplyr::select(out, id, lat, lon, azi, unc, type, depth, quality, regime, isc_id, locality:dist)
