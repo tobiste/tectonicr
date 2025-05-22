@@ -36,7 +36,7 @@ usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
 #       y = lat,
 #       radius = 1,
 #       angle = deg2rad(90-azi),
-#       alpha = san_andreas$quality
+#       alpha = quality
 #     ),
 #     position = "center_spoke",
 #     na.rm = TRUE

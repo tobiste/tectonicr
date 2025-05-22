@@ -21,11 +21,11 @@ A \code{sf} object / \code{data.frame} with 10 columns. Each row represents a di
 \item{regime}{Stress regime}
 }
 
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2624 rows and 9 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 2624 rows and 10 columns.
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 1165 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 1235 rows and 10 columns.
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 490 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 643 rows and 10 columns.
 }
 \source{
 \url{https://www.world-stress-map.org/}
@@ -62,14 +62,14 @@ data("iceland")
 head(iceland)
 }
 \references{
-Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M<U+00FC>ller, J.
-Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
-M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
-release 2016: Crustal stress pattern across scales. \emph{Tectonophysics},
-\strong{744}, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
+Heidbach, Oliver; Rajabi, Mojtaba; Di Giacomo, Domenico; Harris, James;
+Lammers, Steffi; Morawietz, Sophia; Pierdominici, Simona; Reiter, Karsten;
+von Specht, Sebastian; Storchak, Dmitry; Ziegler, Moritz O. (2025): World
+Stress Map Database Release 2025. GFZ Data Services.
+\doi{10.5880/WSM.2025.001}
 }
 \seealso{
-\code{\link[=download_WSM2016]{download_WSM2016()}} for description of columns and stress regime
+\code{\link[=download_WSM]{download_WSM()}} for description of columns and stress regime
 acronyms
 }
 \keyword{datasets}

@@ -51,9 +51,10 @@ load_WSM2016(
 \item{load}{\code{TRUE} load the dataset into R, \code{FALSE} return the
 file name of the downloaded object.}
 
-\item{version}{character. Version of the World stress map database. Either \code{"2025"} or \code{"2016"}}
+\item{version}{character. Version of the World stress map database. Either
+\code{"2025"} (default) or \code{"2016"}}
 
-\item{...}{(optional) arguments passed to \code{\link[=load_WSM2016]{load_WSM2016()}}}
+\item{...}{(optional) arguments passed to \code{\link[=load_WSM]{load_WSM()}}}
 
 \item{file}{the name of the file which the data are to be read from.}
 

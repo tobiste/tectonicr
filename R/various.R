@@ -18,11 +18,12 @@
 #' `"NS"` - oblique normal, `"TS"` - oblique thrust, and `NA` - unknown faulting
 #' @param load `TRUE` load the dataset into R, `FALSE` return the
 #' file name of the downloaded object.
-#' @param version character. Version of the World stress map database. Either `"2025"` or `"2016"`
+#' @param version character. Version of the World stress map database. Either
+#' `"2025"` (default) or `"2016"`
 #' @param file 	the name of the file which the data are to be read from.
 #' @param destdir where to save files, defaults to [base::tempdir()],
 #' [base::getwd()] is also possible.
-#' @param ... (optional) arguments passed to [load_WSM2016()]
+#' @param ... (optional) arguments passed to [load_WSM()]
 #'
 #' @returns `sf` object of and the parsed numeric uncertainty (`unc`) based on
 #' the reported standard deviation and the quality rank. If `load=FALSE`,
@@ -170,7 +171,7 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "Xmi", "Xne", "X
 #' @rdname import_WSM
 #' @export
 download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
-  lifecycle::deprecate_warn("0.4.7", "load_WSM2016()", "load_WSM()")
+  lifecycle::deprecate_warn("0.4.7", "download_WSM2016()", "download_WSM2016()")
 
   stopifnot(is.character(destdir))
 

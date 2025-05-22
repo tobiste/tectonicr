@@ -1,4 +1,7 @@
-# tectonicr (development version)
+# tectonicr 0.4.7 _2025-05-22_
+
+* compatibility for World Stress Map Database 2025
+* calculate shortest distance to plate boundary
 
 # tectonicr 0.4.6 _2025-02-27_
 

@@ -29,17 +29,18 @@
 #'  \item{regime}{Stress regime}
 #' }
 #'
-#' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M<U+00FC>ller, J.
-#' Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
-#' M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
-#' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
-#' **744**, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
+#' @references
+#' Heidbach, Oliver; Rajabi, Mojtaba; Di Giacomo, Domenico; Harris, James;
+#' Lammers, Steffi; Morawietz, Sophia; Pierdominici, Simona; Reiter, Karsten;
+#' von Specht, Sebastian; Storchak, Dmitry; Ziegler, Moritz O. (2025): World
+#' Stress Map Database Release 2025. GFZ Data Services.
+#' \doi{10.5880/WSM.2025.001}
 #'
 #' @source \url{https://www.world-stress-map.org/}
 #'
 #' @keywords datasets
 #'
-#' @seealso [download_WSM2016()] for description of columns and stress regime
+#' @seealso [download_WSM()] for description of columns and stress regime
 #' acronyms
 #'
 #' @name stress_data
