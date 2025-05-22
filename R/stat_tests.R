@@ -783,7 +783,7 @@ est.kappa <- function(x, w = NULL, bias = FALSE, axial = TRUE) {
   } else {
     as.numeric(w)
   }
-  if(axial){
+  if (axial) {
     x <- (x * 2) %% 360
   } else {
     x <- x %% 360

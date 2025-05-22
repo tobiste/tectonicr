@@ -80,7 +80,7 @@ PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 PoR_stress2grid(san_andreas, PoR) |> head()
 
 \dontrun{
-PoR_stress2grid_stats(san_andreas, PoR, mode = TRUE)|> head()
+PoR_stress2grid_stats(san_andreas, PoR, mode = TRUE) |> head()
 }
 }
 \seealso{

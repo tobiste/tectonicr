@@ -22,12 +22,12 @@ download_WSM(
 
 load_WSM(
   file,
-  quality = c("A", "B", "C", "D", "E", "Xmi", "Xne", "Xru"),
+  quality = c("A", "B", "C", "D", "E", "X"),
   lat_range = c(-90, 90),
   lon_range = c(-180, 180),
   depth_range = c(-Inf, Inf),
-  method = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS",
-    "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
+  type = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS",
+    "GVA", "HF", "HFG", "HFM", "HFH", "HFP", "HFS", "OC", "PC", "SWB", "SWL", "SWS"),
   regime = c("N", "NS", "T", "TS", "S", NA)
 )
 
@@ -39,7 +39,7 @@ load_WSM2016(
   lat_range = c(-90, 90),
   lon_range = c(-180, 180),
   depth_range = c(-Inf, Inf),
-  method = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS",
+  type = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS",
     "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
   regime = c("N", "NS", "T", "TS", "S", NA)
 )
@@ -67,7 +67,7 @@ latitudes and longitudes (in degrees).}
 \item{depth_range}{two-element numeric vectors giving the depth interval
 (in km)}
 
-\item{method}{a character vectors containing the methods of stress inversion
+\item{type}{a character vectors containing the methods of stress inversion
 to be included. Includes all methods by default. See WSM2016 manual for used
 acronyms.}
 
@@ -98,7 +98,7 @@ Unknown regimes are represented by \code{NA} instead of "U" in the original.
 \dontrun{
 download_WSM(
   quality = c("A", "B", "C"), lat_range = c(51, 72),
-  lon_range = c(-180, -130), depth_range = c(0, 10), method = "FMS"
+  lon_range = c(-180, -130), depth_range = c(0, 10), type = "FMS"
 )
 }
 }

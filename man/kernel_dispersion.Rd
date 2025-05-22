@@ -88,7 +88,7 @@ PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 san_andreas_por <- san_andreas
 san_andreas_por$azi <- PoR_shmax(san_andreas, PoR, "right")$azi.PoR
 san_andreas_por$prd <- 135
-kernel_dispersion(san_andreas_por)|> head()
+kernel_dispersion(san_andreas_por) |> head()
 }
 \seealso{
 \code{\link[=circular_dispersion]{circular_dispersion()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=rayleigh_test]{rayleigh_test()}}

@@ -36,7 +36,7 @@ dispersion (or any statistic) for each coordinate, respectively.
 \examples{
 data("san_andreas")
 res <- stress2grid(san_andreas)
-compact_grid(res)|> head()
+compact_grid(res) |> head()
 
 \dontrun{
 res2 <- stress2grid_stats(san_andreas)

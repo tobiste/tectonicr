@@ -1247,53 +1247,52 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
 #' circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NULL, fisher.CI = FALSE, conf.level = .95, na.rm = FALSE) {
   if (is.null(w)) {
-  w <- rep(1, times = length(x))
-}
+    w <- rep(1, times = length(x))
+  }
 
-data <- cbind(x = x, w = w)
-if (na.rm) {
-  data <- data[stats::complete.cases(data), ] # remove NA values
-}
+  data <- cbind(x = x, w = w)
+  if (na.rm) {
+    data <- data[stats::complete.cases(data), ] # remove NA values
+  }
 
-data <- data[order(data[, "x"]), ]
-x <- data[, "x"]
-w <- data[, "w"]
+  data <- data[order(data[, "x"]), ]
+  x <- data[, "x"]
+  w <- data[, "w"]
 
-# n <- length(x)
+  # n <- length(x)
 
-# confidence interval
-ci_fun <- ifelse(fisher.CI, confidence_interval_fisher, confidence_interval)
-x_CI <- ci_fun(x, conf.level = conf.level, w = w, axial = axial, na.rm = FALSE)
+  # confidence interval
+  ci_fun <- ifelse(fisher.CI, confidence_interval_fisher, confidence_interval)
+  x_CI <- ci_fun(x, conf.level = conf.level, w = w, axial = axial, na.rm = FALSE)
 
-# circular quantiles
-x_quant <- circular_quantiles(x, w, axial, FALSE)
+  # circular quantiles
+  x_quant <- circular_quantiles(x, w, axial, FALSE)
 
-# central moments
-x_sk <- second_central_moment(x, w, axial, FALSE)
+  # central moments
+  x_sk <- second_central_moment(x, w, axial, FALSE)
 
 
-res <- c(
-  n = length(x),
-  mean = circular_mean(x, w, axial, FALSE),
-  sd = circular_sd(x, w, axial, FALSE),
-  var = circular_var(x, w, axial, FALSE),
-  x_quant[1],
-  "quasi-median" = unname(x_quant[2]),
-  x_quant[3],
-  "median" = circular_sample_median(x, axial, FALSE),
-  # mode = circular_mode(x, kappa = kappa, axial = axial),
-  "CI" = x_CI$conf.angle,
-  skewness = x_sk$std_skewness,
-  kurtosis = x_sk$std_kurtosi,
-  R = mean_resultant_length(ax2dir(x), w = w, FALSE)
-)
+  res <- c(
+    n = length(x),
+    mean = circular_mean(x, w, axial, FALSE),
+    sd = circular_sd(x, w, axial, FALSE),
+    var = circular_var(x, w, axial, FALSE),
+    x_quant[1],
+    "quasi-median" = unname(x_quant[2]),
+    x_quant[3],
+    "median" = circular_sample_median(x, axial, FALSE),
+    # mode = circular_mode(x, kappa = kappa, axial = axial),
+    "CI" = x_CI$conf.angle,
+    skewness = x_sk$std_skewness,
+    kurtosis = x_sk$std_kurtosi,
+    R = mean_resultant_length(ax2dir(x), w = w, FALSE)
+  )
 
-if(mode){
-  if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
-  mode <- circular_mode(x, kappa = kappa, axial = axial)
-  append(res, c('mode' = mode), after = 8)
-} else {
-  res
-}
-
+  if (mode) {
+    if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
+    mode <- circular_mode(x, kappa = kappa, axial = axial)
+    append(res, c("mode" = mode), after = 8)
+  } else {
+    res
+  }
 }

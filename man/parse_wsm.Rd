@@ -21,9 +21,9 @@ Assigns numeric values of the precision (sd.) of each measurement to the
 categorical quality ranking of the World Stress Map (A, B, C, D, E, X).
 }
 \examples{
-parse_wsm_quality(c("A", "B", "C", "D", NA, "E"))
+parse_wsm_quality(c("A", "B", "C", "D", NA, "E", "X"))
 data("san_andreas")
-parse_wsm_quality(san_andreas$quality)
+head(parse_wsm_quality(san_andreas$quality))
 }
 \references{
 Heidbach, O., Barth, A., M<U+00FC>ller, B., Reinecker, J.,

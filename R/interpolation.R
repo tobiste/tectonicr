@@ -55,10 +55,10 @@ dist_weighting_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
 
 #' Indices of n smallest values in array
 #' @keywords internal
-which.nsmallest <- function(x, n){
+which.nsmallest <- function(x, n) {
   # n <- min(c(length(x), Inf))
   # nsmallest <- sort(x)[1:n]
-  nsmallest <- head(sort(x), n)
+  nsmallest <- utils::head(sort(x), n)
 
   which(x %in% nsmallest)
 }
@@ -317,7 +317,7 @@ stress2grid <- function(x,
 
   SH_t <- sapply(seq_along(G[, 1]), function(i) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1])
-    if(max_data < Inf) distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
+    if (max_data < Inf) distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
 
     # min_dist_thresholdij <- min(c(max(distij), min_dist_threshold))
 
@@ -524,8 +524,8 @@ stress2grid_stats <- function(x,
     "25%", "quasi-median", "75%", "median", "CI",
     "skewness", "kurtosis", "meanR", "R", "md", "N"
   )
-  if(mode){
-    cols <- append(cols, 'mode', after = 10)
+  if (mode) {
+    cols <- append(cols, "mode", after = 10)
   }
 
   SH <- sapply(seq_along(G[, 1]), function(i) {
@@ -633,7 +633,7 @@ stress2grid_stats <- function(x,
 #' PoR_stress2grid(san_andreas, PoR) |> head()
 #'
 #' \dontrun{
-#' PoR_stress2grid_stats(san_andreas, PoR, mode = TRUE)|> head()
+#' PoR_stress2grid_stats(san_andreas, PoR, mode = TRUE) |> head()
 #' }
 NULL
 
@@ -748,10 +748,12 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   x_PoR$azi <- PoR_shmax(x, PoR)
 
   int <- stress2grid_stats(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
-    dplyr::rename(mean.PoR = mean, `25%.PoR` = `25%`, `quasi-median.PoR` = `quasi-median`,
-                  `75%.PoR` = `75%`, median.PoR = median,
-                  'mode.PoR' = dplyr::matches('mode'),
-                  lat.PoR = lat, lon.PoR = lon) |>
+    dplyr::rename(
+      mean.PoR = mean, `25%.PoR` = `25%`, `quasi-median.PoR` = `quasi-median`,
+      `75%.PoR` = `75%`, median.PoR = median,
+      "mode.PoR" = dplyr::matches("mode"),
+      lat.PoR = lat, lon.PoR = lon
+    ) |>
     PoR_to_geographical_sf(PoR)
   int_coords <- sf::st_coordinates(int) |>
     dplyr::as_tibble() |>
@@ -763,7 +765,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   int$`quasi-median` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `quasi-median.PoR`), PoR)
   int$`75%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `75%.PoR`), PoR)
   int$median <- PoR2Geo_azimuth(int |> rename(azi.PoR = median.PoR), PoR)
-  if('mode.PoR' %in% colnames(int)) int$mode <- PoR2Geo_azimuth(int |> rename(azi.PoR = mode.PoR), PoR)
+  if ("mode.PoR" %in% colnames(int)) int$mode <- PoR2Geo_azimuth(int |> rename(azi.PoR = mode.PoR), PoR)
   return(int)
 }
 
@@ -798,7 +800,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
 #' @examples
 #' data("san_andreas")
 #' res <- stress2grid(san_andreas)
-#' compact_grid(res)|> head()
+#' compact_grid(res) |> head()
 #'
 #' \dontrun{
 #' res2 <- stress2grid_stats(san_andreas)
@@ -899,7 +901,7 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' san_andreas_por <- san_andreas
 #' san_andreas_por$azi <- PoR_shmax(san_andreas, PoR, "right")$azi.PoR
 #' san_andreas_por$prd <- 135
-#' kernel_dispersion(san_andreas_por)|> head()
+#' kernel_dispersion(san_andreas_por) |> head()
 NULL
 
 #' @rdname kernel_dispersion
@@ -985,7 +987,7 @@ kernel_dispersion <- function(x,
   SH <- sapply(seq_along(G[, 1]), function(i) {
     # for (i in seq_along(G[, 1])) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, "lat"], datas[, "lon"], ...)
-    if(max_data < Inf) distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
+    if (max_data < Inf) distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
 
     if (min(distij) <= min_dist_threshold) {
       t(vapply(R_seq, function(k) {
@@ -1027,10 +1029,11 @@ kernel_dispersion <- function(x,
     as.data.frame() |>
     # setNames(c("lon", "lat", "stat", "R", "md", "N")) |>
     dplyr::as_tibble() |>
-    dplyr::mutate(N = as.integer(N),
-                  mdr = md / R,
-                  stat = ifelse(stat>=stat_threshold, NA, stat)
-                  ) |>
+    dplyr::mutate(
+      N = as.integer(N),
+      mdr = md / R,
+      stat = ifelse(stat >= stat_threshold, NA, stat)
+    ) |>
     dplyr::select(-md) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 }

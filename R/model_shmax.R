@@ -414,11 +414,13 @@ PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' data(san_andreas)
 #' data(nuvel1)
 #' pors <- subset(nuvel1, plate.rot %in% c("eu", "na"))
 #' res <- superimposed_shmax(san_andreas, pors, types = c("in", "right"), PoR_weighting = c(2, 1))
 #' head(res)
+#' }
 superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting = NULL) {
   res <- c()
   lats <- c()

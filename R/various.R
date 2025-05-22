@@ -10,7 +10,7 @@
 #' latitudes and longitudes (in degrees).
 #' @param depth_range two-element numeric vectors giving the depth interval
 #' (in km)
-#' @param method a character vectors containing the methods of stress inversion
+#' @param type a character vectors containing the methods of stress inversion
 #' to be included. Includes all methods by default. See WSM2016 manual for used
 #' acronyms.
 #' @param regime a character vectors containing the stress regimes to be
@@ -64,7 +64,7 @@
 #' \dontrun{
 #' download_WSM(
 #'   quality = c("A", "B", "C"), lat_range = c(51, 72),
-#'   lon_range = c(-180, -130), depth_range = c(0, 10), method = "FMS"
+#'   lon_range = c(-180, -130), depth_range = c(0, 10), type = "FMS"
 #' )
 #' }
 NULL
@@ -99,26 +99,27 @@ download_WSM <- function(destdir = tempdir(), load = TRUE, version = c("2025", "
 
 #' @rdname import_WSM
 #' @export
-load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "Xmi", "Xne", "Xru"), lat_range = c(-90, 90), lon_range = c(-180, 180),
+load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "X"),
+                     lat_range = c(-90, 90), lon_range = c(-180, 180),
                      depth_range = c(-Inf, Inf),
-                     method = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
+                     type = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFH", "HFP", "HFS", "OC", "PC", "SWB", "SWL", "SWS"),
                      regime = c("N", "NS", "T", "TS", "S", NA)) {
   stopifnot(
     is.character(quality),
     is.character(file),
     is.character(regime) | is.na(regime),
-    is.character(method),
+    is.character(type),
     is.numeric(lon_range),
     is.numeric(lat_range),
     is.numeric(depth_range)
   )
 
   reg_flt <- regime
-  meth_flt <- method
+  meth_flt <- type
 
   lat <- lon <- azi <- quality.numeric <- unc <- id <- depth <- numeric()
-  type <- locality <- iso <- type <- date <- time <- character()
-  eq_mag <- NULL
+  type <- locality <- iso <- type <- date <- time <- isc_id <- character()
+  eq_mag <- dist <- NULL
 
   qlt_flt <- quality
   lat_range <- sort(lat_range)
@@ -128,6 +129,7 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "Xmi", "Xne", "X
   out <- utils::read.csv(file) |>
     dplyr::rename_with(tolower) |>
     dplyr::filter(
+      !is.na(lat), !is.na(lon),
       dplyr::between(lat, lat_range[1], lat_range[2]),
       dplyr::between(lon, lon_range[1], lon_range[2]),
       dplyr::between(depth, depth_range[1], depth_range[2]),
@@ -135,6 +137,8 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "Xmi", "Xne", "X
     ) |>
     dplyr::mutate(
       azi = ifelse(azi == 999, NA, azi),
+      quality = gsub("^X.*", "X", quality),
+      quality.numeric = parse_wsm_quality(quality),
       quality = factor(quality),
       regime = dplyr::case_when(
         regime == "NF" ~ "N",
@@ -146,7 +150,6 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "Xmi", "Xne", "X
         TRUE ~ NA_character_,
         .default = regime
       ),
-      quality.numeric = parse_wsm_quality(quality),
       unc = ifelse(is.na(sd), quality.numeric, sd),
       unc = ifelse(unc > quality.numeric, quality.numeric, unc),
       unc = ifelse(unc == 0, 15, unc),
@@ -196,7 +199,7 @@ download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
 #' @export
 load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range = c(-90, 90), lon_range = c(-180, 180),
                          depth_range = c(-Inf, Inf),
-                         method = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
+                         type = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
                          regime = c("N", "NS", "T", "TS", "S", NA)) {
   lifecycle::deprecate_warn("0.4.7", "load_WSM2016()", "load_WSM()")
 
@@ -204,14 +207,14 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
     is.character(quality),
     is.character(file),
     is.character(regime) | is.na(regime),
-    is.character(method),
+    is.character(type),
     is.numeric(lon_range),
     is.numeric(lat_range),
     is.numeric(depth_range)
   )
 
   reg_flt <- regime
-  meth_flt <- method
+  meth_flt <- type
 
   lat <- lon <- azi <- quality.numeric <- unc <- id <- depth <- numeric()
   type <- locality <- iso <- type <- date <- time <- character()
@@ -278,9 +281,9 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
 #'
 #' @name parse_wsm
 #' @examples
-#' parse_wsm_quality(c("A", "B", "C", "D", NA, "E"))
+#' parse_wsm_quality(c("A", "B", "C", "D", NA, "E", "X"))
 #' data("san_andreas")
-#' parse_wsm_quality(san_andreas$quality)
+#' head(parse_wsm_quality(san_andreas$quality))
 NULL
 
 #' @rdname parse_wsm
@@ -292,9 +295,10 @@ parse_wsm_quality <- function(x) {
     "C" = 25,
     "D" = 40,
     "E" = 90,
-    "Xmi" = 90,
-    "Xne" = 90,
-    "Xru" = 90
+    "X" = 180,
+    "Xmi" = 180,
+    "Xne" = 180,
+    "Xru" = 180
   )[x]
 }
 
