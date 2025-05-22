@@ -9,7 +9,7 @@ crustal present-day stress field (Version 1.1. 2019)."><meta property="og:image"
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,9 +87,9 @@ crustal present-day stress field (Version 1.1. 2019).</p>
 <dd><p>Stress regime</p></dd>
 
 
-</dl><p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 1126 rows and 10 columns.</p>
-<p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 1165 rows and 10 columns.</p>
-<p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 490 rows and 10 columns.</p>
+</dl><p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 2624 rows and 10 columns.</p>
+<p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 1235 rows and 10 columns.</p>
+<p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 643 rows and 10 columns.</p>
     </div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
@@ -114,16 +114,15 @@ outward-moving displaced plate boundary.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M&lt;U+00FC&gt;ller, J.
-Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
-M.-L. Zoback, and M. D. Zoback (2018): The World Stress Map database
-release 2016: Crustal stress pattern across scales. <em>Tectonophysics</em>,
-<strong>744</strong>, 484-498, <a href="https://doi.org/10.1016/j.tecto.2018.07.007" class="external-link">doi:10.1016/j.tecto.2018.07.007</a>
-.</p>
+    <p>Heidbach, Oliver; Rajabi, Mojtaba; Di Giacomo, Domenico; Harris, James;
+Lammers, Steffi; Morawietz, Sophia; Pierdominici, Simona; Reiter, Karsten;
+von Specht, Sebastian; Storchak, Dmitry; Ziegler, Moritz O. (2025): World
+Stress Map Database Release 2025. GFZ Data Services.
+<a href="https://doi.org/10.5880/WSM.2025.001" class="external-link">doi:10.5880/WSM.2025.001</a></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="import_WSM2016.html">download_WSM2016()</a></code> for description of columns and stress regime
+    <div class="dont-index"><p><code><a href="import_WSM.html">download_WSM()</a></code> for description of columns and stress regime
 acronyms</p></div>
     </div>
 
@@ -134,37 +133,44 @@ acronyms</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -118.84 ymin: 35.97 xmax: -112.58 ymax: 39.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -117.92 ymin: 33.65 xmax: -117.41 ymax: 34.73</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         id   lat     lon azi unc type depth quality regime</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 wsm00892 38.14 -118.84  50  25  FMS     7       C      S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 wsm00893 35.97 -114.71  54  25  FMS     5       C      S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 wsm00894 37.93 -118.17  24  25  FMS     5       C      S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 wsm00896 38.63 -118.21  41  25  FMS    17       C      N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 wsm00897 39.08 -115.62  30  25  FMS     5       C      N</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 wsm00903 38.58 -112.58  27  25  FMS     7       C      N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 wsm00954 33.65 -117.67   1  26  FMF  0.00       E      S</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 wsm00955 33.85 -117.92   9  28  FMF  0.00       E      S</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 wsm00956 34.05 -117.92   1  25  FMF  0.00       E      S</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 wsm00957 34.05 -117.67 180  22  FMF  0.00       E      S</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 wsm00958 34.30 -117.41  57  19   BO  2.62       B      S</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 wsm00959 34.73 -117.78   4  40   HF  0.49       D      S</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 POINT (-118.84 38.14)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 POINT (-114.71 35.97)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 POINT (-118.17 37.93)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 POINT (-118.21 38.63)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 POINT (-115.62 39.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 POINT (-112.58 38.58)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 POINT (-117.67 33.65)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 POINT (-117.92 33.85)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 POINT (-117.92 34.05)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 POINT (-117.67 34.05)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  POINT (-117.41 34.3)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 POINT (-117.78 34.73)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tibet"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tibet</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 73.7 ymin: 35.4 xmax: 77.4 ymax: 42.63</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 74.9 ymin: 37.2 xmax: 102.167 ymax: 44.961</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         id   lat   lon azi unc type depth quality regime            geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 wsm01766 35.40 73.70 100  40  FMS     0       D      T   POINT (73.7 35.4)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 wsm01860 42.10 75.98  62  25  FMS    10       C      T  POINT (75.98 42.1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 wsm01861 42.00 77.40  18  25  FMS     0       C     NS     POINT (77.4 42)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 wsm01869 42.57 75.08   5  25  FMS    10       C      T POINT (75.08 42.57)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 wsm01877 40.90 73.93 177  25  FMS    10       C      T  POINT (73.93 40.9)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 wsm01880 42.63 75.33 167  25  FMS     5       C      T POINT (75.33 42.63)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         id    lat     lon azi unc type depth quality regime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 wsm02008 37.200  74.900  31   7   BO  3.15       C   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 wsm02039 40.500  78.500 171  90  FMA 15.00     Xru      T</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 wsm02086 44.961  85.008  80  25   BO  2.83       C   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 wsm04371 38.667 102.167  32  90   OC  0.00       E   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 wsm04372 38.667 102.167 167  90   OC  0.00       E   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 wsm04373 38.667 102.167 155  90   OC  0.00       E   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      POINT (74.9 37.2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      POINT (78.5 40.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  POINT (85.008 44.961)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 POINT (102.167 38.667)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 POINT (102.167 38.667)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 POINT (102.167 38.667)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"iceland"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iceland</span><span class="op">)</span></span></span>
@@ -175,7 +181,7 @@ acronyms</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         id   lat    lon azi unc type depth quality regime             geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 wsm00187 64.38 -15.16 167  25  FMS  26.0       C      N POINT (-15.16 64.38)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 wsm00188 66.33 -16.29 172  25  FMS  33.0       C      S POINT (-16.29 66.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 wsm00188 66.33 -16.29 172  40  FMS  33.0       D      S POINT (-16.29 66.33)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 wsm00190 66.20 -16.70 174  25  FMS   0.0       C      S   POINT (-16.7 66.2)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 wsm00191 64.90 -16.94 164  25  FMS  10.0       C      T  POINT (-16.94 64.9)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 wsm00192 64.57 -16.95 140  90  FMS  13.8       E      N POINT (-16.95 64.57)</span>
