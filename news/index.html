@@ -43,18 +43,28 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.7" id="tectonicr-047-2025-05-22">tectonicr 0.4.7 <em>2025-05-22</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-047-2025-05-22"></a></h2>
-<ul><li>compatibility for World Stress Map Database 2025</li>
-<li>calculate shortest distance to plate boundary</li>
+<ul><li>NEW: compatibility for World Stress Map Database 2025.</li>
+<li>
+<code><a href="../reference/import_WSM.html">download_WSM()</a></code> has option <code>"version"</code> for the user to decide which WSM version should be downloaded. The most recent 2025 version is the default.</li>
+<li>
+<code>parse_quality()</code> assigns an uncertainty of 90 degrees to X-ranked stress data in the 2025 WSM version.</li>
+<li>NEW: calculate shortest distance to plate boundary (which is not always the best choice! see function description for details.)</li>
+<li>major bug fix in <code><a href="../reference/est.kappa.html">est.kappa()</a></code>: converts to directional data by doubling the angles</li>
+<li>calculating circular mode in <code><a href="../reference/circular_summary.html">circular_summary()</a></code> now optional due to performance issues</li>
+<li>some weighting parameters in <code><a href="../reference/stress2grid.html">stress2grid()</a></code> have been renamed to me more alike with {gstat}</li>
+<li>choice of algorithm to calculate confidence interval now optional in <code><a href="../reference/circular_summary.html">circular_summary()</a></code>
+</li>
+<li>minor bug fixes</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.6" id="tectonicr-046-2025-02-27">tectonicr 0.4.6 <em>2025-02-27</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-046-2025-02-27"></a></h2><p class="text-muted">CRAN release: 2025-03-01</p>
-<ul><li>performance boost for stress2grid() and friends</li>
+<ul><li>performance boost for <code><a href="../reference/stress2grid.html">stress2grid()</a></code> and friends</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.5" id="tectonicr-045-2025-02-26">tectonicr 0.4.5 <em>2025-02-26</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-045-2025-02-26"></a></h2><p class="text-muted">CRAN release: 2025-02-26</p>
-<ul><li>new function <code><a href="../reference/distance_binned_stats.html">distance_binned_stats()</a></code> to calculate summary statistics along distance intervals: The function superseds which superseded <code><a href="../reference/rolling_test_dist.html">distroll_circstats()</a></code> and friends because it is faster and more flexible</li>
+<ul><li>new function <code><a href="../reference/distance_binned_stats.html">distance_binned_stats()</a></code> to calculate summary statistics along distance intervals: The function supersedes <code><a href="../reference/rolling_test_dist.html">distroll_circstats()</a></code> and friends because it is faster and more flexible</li>
 <li>
 <code><a href="../reference/por_transformation.html">PoR_to_geographical()</a></code> and <code><a href="../reference/por_transformation.html">geographical_to_PoR()</a></code> now accept <code>data.frame</code>, <code>sf</code> or raster as input</li>
 <li>new <code><a href="../reference/PoR_azi.html">PoR_azimuth()</a></code> function to transform directions in the PoR coordinate system / doesn’t need to be Shmax data</li>
@@ -72,7 +82,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.3.92" id="tectonicr-04392">tectonicr 0.4.3.92<a class="anchor" aria-label="anchor" href="#tectonicr-04392"></a></h2>
-<ul><li>PoR_distance(): function to calculate distance to PoR</li>
+<ul><li>
+<code><a href="../reference/PoR_distance.html">PoR_distance()</a></code>: function to calculate distance to PoR</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.3" id="tectonicr-043">tectonicr 0.4.3<a class="anchor" aria-label="anchor" href="#tectonicr-043"></a></h2>
@@ -84,7 +95,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0.9001" id="tectonicr-0409001-2024-09-12">tectonicr 0.4.0.9001 <em>2024-09-12</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-0409001-2024-09-12"></a></h2>
-<ul><li>bug fix in load_wsm()</li>
+<ul><li>bug fix in <code>load_wsm()</code>
+</li>
 <li>CI now double when axial data</li>
 </ul></div>
     <div class="section level2">

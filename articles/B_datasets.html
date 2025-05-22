@@ -90,25 +90,25 @@ as an example data set and can be imported through:</p>
 <span><span class="co">#&gt; Simple feature collection with 6 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -117.92 ymin: 33.65 xmax: -117.41 ymax: 34.73</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -118.84 ymin: 35.97 xmax: -112.58 ymax: 39.08</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt;         id   lat     lon azi unc type depth quality regime</span></span>
-<span><span class="co">#&gt; 1 wsm00954 33.65 -117.67   1  26  FMF  0.00       E      S</span></span>
-<span><span class="co">#&gt; 2 wsm00955 33.85 -117.92   9  28  FMF  0.00       E      S</span></span>
-<span><span class="co">#&gt; 3 wsm00956 34.05 -117.92   1  25  FMF  0.00       E      S</span></span>
-<span><span class="co">#&gt; 4 wsm00957 34.05 -117.67 180  22  FMF  0.00       E      S</span></span>
-<span><span class="co">#&gt; 5 wsm00958 34.30 -117.41  57  19   BO  2.62       B      S</span></span>
-<span><span class="co">#&gt; 6 wsm00959 34.73 -117.78   4  40   HF  0.49       D      S</span></span>
+<span><span class="co">#&gt; 1 wsm00892 38.14 -118.84  50  25  FMS     7       C      S</span></span>
+<span><span class="co">#&gt; 2 wsm00893 35.97 -114.71  54  25  FMS     5       C      S</span></span>
+<span><span class="co">#&gt; 3 wsm00894 37.93 -118.17  24  25  FMS     5       C      S</span></span>
+<span><span class="co">#&gt; 4 wsm00896 38.63 -118.21  41  25  FMS    17       C      N</span></span>
+<span><span class="co">#&gt; 5 wsm00897 39.08 -115.62  30  25  FMS     5       C      N</span></span>
+<span><span class="co">#&gt; 6 wsm00903 38.58 -112.58  27  25  FMS     7       C      N</span></span>
 <span><span class="co">#&gt;                geometry</span></span>
-<span><span class="co">#&gt; 1 POINT (-117.67 33.65)</span></span>
-<span><span class="co">#&gt; 2 POINT (-117.92 33.85)</span></span>
-<span><span class="co">#&gt; 3 POINT (-117.92 34.05)</span></span>
-<span><span class="co">#&gt; 4 POINT (-117.67 34.05)</span></span>
-<span><span class="co">#&gt; 5  POINT (-117.41 34.3)</span></span>
-<span><span class="co">#&gt; 6 POINT (-117.78 34.73)</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 POINT (-118.84 38.14)</span></span>
+<span><span class="co">#&gt; 2 POINT (-114.71 35.97)</span></span>
+<span><span class="co">#&gt; 3 POINT (-118.17 37.93)</span></span>
+<span><span class="co">#&gt; 4 POINT (-118.21 38.63)</span></span>
+<span><span class="co">#&gt; 5 POINT (-115.62 39.08)</span></span>
+<span><span class="co">#&gt; 6 POINT (-112.58 38.58)</span></span></code></pre></div>
 <blockquote>
 <p>The full or an individually filtered world stress map dataset can be
-downloaded by <code><a href="../reference/import_WSM.html">download_WSM2016()</a></code></p>
+downloaded by <code><a href="../reference/import_WSM.html">download_WSM()</a></code></p>
 </blockquote>
 <p>Modeling the stress directions (wrt. to the geographic North pole)
 using the Pole of Oration (PoR) of the motion of North America relative
@@ -209,7 +209,7 @@ uncertainties of the measurement.</p>
 <span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
 <span>  unc <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">unc</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.06606304</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.0529064</span></span></code></pre></div>
 <p>The value is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
 0.15, indicating a significantly good fit of the model. Thus, the
@@ -425,46 +425,39 @@ coordinates and azimuths as well as the deviations can be viewed by:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_analysis.html">stress_analysis</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">por</span>, <span class="st">"right"</span>, <span class="va">plate_boundary</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      azi.PoR prd        dev      nchisq       cdist  lat.PoR   lon.PoR</span></span>
-<span><span class="co">#&gt; 1 130.280291 135  -4.719709 0.002750081 0.006770218 57.16030 -77.54563</span></span>
-<span><span class="co">#&gt; 2 137.975868 135   2.975868 0.001093308 0.002695203 57.12526 -78.07337</span></span>
-<span><span class="co">#&gt; 3 129.734307 135  -5.265693 0.003423151 0.008422534 57.25074 -78.36079</span></span>
-<span><span class="co">#&gt; 4 128.796594 135  -6.203406 0.004750895 0.011676629 57.41224 -78.12052</span></span>
-<span><span class="co">#&gt; 5   5.554911 135 -50.554911 2.068645818 0.596345088 57.73640 -78.23381</span></span>
-<span><span class="co">#&gt; 6 131.930211 135  -3.069789 0.001163408 0.002867848 57.76312 -79.22036</span></span>
-<span><span class="co">#&gt;       distance</span></span>
-<span><span class="co">#&gt; 1  0.757568934</span></span>
-<span><span class="co">#&gt; 2  0.651118490</span></span>
-<span><span class="co">#&gt; 3  0.465936542</span></span>
-<span><span class="co">#&gt; 4  0.352196872</span></span>
-<span><span class="co">#&gt; 5  0.004153313</span></span>
-<span><span class="co">#&gt; 6 -0.277913588</span></span></code></pre></div>
+<span><span class="co">#&gt;      azi.PoR prd       dev     nchisq      cdist  lat.PoR   lon.PoR  distance</span></span>
+<span><span class="co">#&gt; 1 173.240166 135  38.24017 0.18053214 0.38311043 59.05548 -85.46364 -2.446542</span></span>
+<span><span class="co">#&gt; 2   1.058195 135 -46.05820 2.21486507 0.51846479 60.50445 -78.16683 -2.751949</span></span>
+<span><span class="co">#&gt; 3 147.609558 135  12.60956 0.01962975 0.04765752 59.38025 -84.55317 -2.705483</span></span>
+<span><span class="co">#&gt; 4 163.607388 135  28.60739 0.10103489 0.22925429 59.73632 -85.74431 -3.162091</span></span>
+<span><span class="co">#&gt; 5 152.233017 135  17.23302 0.03666381 0.08776909 61.68018 -84.31053 -4.988116</span></span>
+<span><span class="co">#&gt; 6 150.611386 135  15.61139 0.03008832 0.07242085 63.39714 -80.60932 -6.358818</span></span></code></pre></div>
 <p>Statistical parameters describing the distribution of the transformed
 azimuths can be displayed by</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">stats</span></span>
 <span><span class="co">#&gt;                      mean</span></span>
-<span><span class="co">#&gt; mean         138.78854553</span></span>
-<span><span class="co">#&gt; sd            21.14949341</span></span>
-<span><span class="co">#&gt; var            0.23853525</span></span>
-<span><span class="co">#&gt; median       138.62049785</span></span>
-<span><span class="co">#&gt; quasi_median 135.48369201</span></span>
-<span><span class="co">#&gt; skewness      -0.21690362</span></span>
-<span><span class="co">#&gt; kurtosis       2.09774161</span></span>
-<span><span class="co">#&gt; conf95         3.71650883</span></span>
-<span><span class="co">#&gt; dispersion     0.12259205</span></span>
-<span><span class="co">#&gt; norm_chisq     0.06606304</span></span></code></pre></div>
+<span><span class="co">#&gt; mean         138.90248502</span></span>
+<span><span class="co">#&gt; sd            18.57998667</span></span>
+<span><span class="co">#&gt; var            0.18967312</span></span>
+<span><span class="co">#&gt; median       138.94509179</span></span>
+<span><span class="co">#&gt; quasi_median 136.85808363</span></span>
+<span><span class="co">#&gt; skewness      -0.33779208</span></span>
+<span><span class="co">#&gt; kurtosis       2.78636137</span></span>
+<span><span class="co">#&gt; conf95         5.13534451</span></span>
+<span><span class="co">#&gt; dispersion     0.09858997</span></span>
+<span><span class="co">#&gt; norm_chisq     0.05290640</span></span></code></pre></div>
 <p>Statistical test results are shown by</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">test</span></span>
 <span><span class="co">#&gt; $C</span></span>
-<span><span class="co">#&gt; [1] 0.7548159</span></span>
+<span><span class="co">#&gt; [1] 0.8028201</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 54.68119</span></span>
+<span><span class="co">#&gt; [1] 38.09802</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 4.600542e-314</span></span></code></pre></div>
 <p>… and the associated plots can be displayed by setting
 <code>plot = TRUE</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">

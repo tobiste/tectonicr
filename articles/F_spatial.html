@@ -92,9 +92,9 @@ i.e. 2nd moment = variance, 3rd = skewness, 4th = kurtosis):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_summary.html">circular_summary</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            n         mean           sd          var          25% quasi-median </span></span>
-<span><span class="co">#&gt; 2624.0000000   11.0924148   21.5321247    0.2460740   13.0000000   30.0000000 </span></span>
+<span><span class="co">#&gt; 1126.0000000    9.9840096   19.2389339    0.2018830   15.0000000   35.6250119 </span></span>
 <span><span class="co">#&gt;          75%       median           CI     skewness     kurtosis            R </span></span>
-<span><span class="co">#&gt;  133.0000000   12.0000000    3.7885420   -0.2236151    1.9191963    0.7539260</span></span></code></pre></div>
+<span><span class="co">#&gt;  160.0000000    9.0000000    5.4361579   -0.3002548    2.4245403    0.7981170</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="spatial-analysis">Spatial analysis<a class="anchor" aria-label="anchor" href="#spatial-analysis"></a>
 </h2>
@@ -109,17 +109,17 @@ each cell:</p>
 <span><span class="co">#&gt; Simple feature collection with 6 features and 23 fields</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -109.5422 ymin: 37.87493 xmax: -108.4623 ymax: 40.00611</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -110.8569 ymin: 34.99224 xmax: -107.9222 ymax: 39.97615</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 24</span></span></span>
-<span><span class="co">#&gt;   lon.PoR lat.PoR mean.PoR    sd    var `25%.PoR` `quasi-median.PoR` `75%.PoR`</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    83.5   -<span style="color: #BB0000;">62.3</span>     53.6 22.5  0.266       36.0               52.4      52.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    84.5   -<span style="color: #BB0000;">62.3</span>     53.6 22.5  0.266       36.0               52.4      52.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    85.5   -<span style="color: #BB0000;">62.3</span>     47.8  9.80 0.056<span style="text-decoration: underline;">9</span>      51.5               52.0      56.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    81.5   -<span style="color: #BB0000;">61.3</span>     56.9  9.82 0.057<span style="text-decoration: underline;">1</span>      55.9               59.4      70.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    82.5   -<span style="color: #BB0000;">61.3</span>     63.4 20.5  0.226       47.3               62.9      64.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    83.5   -<span style="color: #BB0000;">61.3</span>     63.4 20.5  0.226       47.3               62.9      64.9</span></span>
+<span><span class="co">#&gt;   lon.PoR lat.PoR mean.PoR    sd   var `25%.PoR` `quasi-median.PoR` `75%.PoR`</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    84.8   -<span style="color: #BB0000;">61.2</span>     62.8  32.7 0.479      45.8               70.7      72.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    85.8   -<span style="color: #BB0000;">61.2</span>     84.3  35.0 0.527      70.7               74.9     128. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    86.8   -<span style="color: #BB0000;">61.2</span>    116.   49.9 0.781      54.9               90.7     111. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    75.8   -<span style="color: #BB0000;">60.2</span>    148.   22.2 0.259     148.               151.      158. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    82.8   -<span style="color: #BB0000;">60.2</span>     72.7  14.9 0.127      67.8               75.9      95.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    83.8   -<span style="color: #BB0000;">60.2</span>     81.6  22.0 0.255      47.9               76.9      78.0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: median.PoR &lt;dbl&gt;, CI &lt;dbl&gt;, skewness &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   kurtosis &lt;dbl&gt;, meanR &lt;dbl&gt;, R &lt;dbl&gt;, N &lt;int&gt;, mdr &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   geometry &lt;POINT [°]&gt;, lat &lt;dbl&gt;, lon &lt;dbl&gt;, mean &lt;dbl&gt;, `25%` &lt;dbl&gt;,</span></span></span>

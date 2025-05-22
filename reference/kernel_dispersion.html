@@ -178,21 +178,21 @@ a more consistent API.</p>
 <span class="r-in"><span><span class="va">san_andreas_por</span> <span class="op">&lt;-</span> <span class="va">san_andreas</span></span></span>
 <span class="r-in"><span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">azi</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span><span class="op">$</span><span class="va">azi.PoR</span></span></span>
 <span class="r-in"><span><span class="va">san_andreas_por</span><span class="op">$</span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fl">135</span></span></span>
-<span class="r-in"><span><span class="fu">kernel_dispersion</span><span class="op">(</span><span class="va">san_andreas_por</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">kernel_dispersion</span><span class="op">(</span><span class="va">san_andreas_por</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 6 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -112.73 ymin: 24.48 xmax: -112.73 ymax: 24.48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -114.57 ymin: 24.33 xmax: -114.57 ymax: 24.33</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lon   lat    stat     R     N    mdr        geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;POINT [°]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> -<span style="color: #BB0000;">113.</span>  24.5 <span style="color: #BB0000;">NA</span>        100     2 <span style="color: #BB0000;">NA</span>     (-112.73 24.48)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">113.</span>  24.5  0.272    200     3  0.403 (-112.73 24.48)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">113.</span>  24.5  0.083<span style="text-decoration: underline;">0</span>   300    24  0.796 (-112.73 24.48)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">113.</span>  24.5  0.076<span style="text-decoration: underline;">6</span>   400    52  0.738 (-112.73 24.48)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> -<span style="color: #BB0000;">113.</span>  24.5  0.077<span style="text-decoration: underline;">7</span>   500    59  0.635 (-112.73 24.48)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> -<span style="color: #BB0000;">113.</span>  24.5  0.084<span style="text-decoration: underline;">2</span>   600    66  0.573 (-112.73 24.48)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> -<span style="color: #BB0000;">115.</span>  24.3 <span style="color: #BB0000;">NA</span>        100     0 <span style="color: #BB0000;">NA</span>     (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">115.</span>  24.3 <span style="color: #BB0000;">NA</span>        200     1 <span style="color: #BB0000;">NA</span>     (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">115.</span>  24.3  0.230    300     4  0.743 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">115.</span>  24.3  0.111    400    18  0.816 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> -<span style="color: #BB0000;">115.</span>  24.3  0.077<span style="text-decoration: underline;">4</span>   500   109  0.878 (-114.57 24.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> -<span style="color: #BB0000;">115.</span>  24.3  0.071<span style="text-decoration: underline;">7</span>   600   175  0.801 (-114.57 24.33)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

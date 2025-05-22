@@ -188,42 +188,42 @@ which is fasrter, easier to use, more featureful, and still under active develop
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`distroll_circstats()` was deprecated in tectonicr 0.4.4.9009.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `distance_binned_stats()` instead.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       distance         x   n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.360675  55.75671   7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -8.043067  98.24388  16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -6.725460 135.66819  27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -5.407853 159.25671  64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -4.090245 154.14967 203</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -2.772638 131.67283 441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.226505  68.11323   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -7.604482 127.98953  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -5.982458 155.84338  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -4.360435 154.02577  39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -2.738412 138.55072 125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -1.116388 138.29357 759</span>
 <span class="r-in"><span><span class="fu">distroll_confidence</span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">azi.PoR</span>, distance <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">distance</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       distance         x   n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.360675  80.75452   7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -8.043067 180.00000  16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -6.725460  49.89361  27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -5.407853  27.15125  64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -4.090245  11.09443 203</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -2.772638   8.50674 441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       distance          x   n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.226505 180.000000   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -7.604482  82.942137  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -5.982458 180.000000  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -4.360435  55.581771  39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -2.738412  13.587015 125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -1.116388   5.914822 759</span>
 <span class="r-in"><span><span class="fu">distroll_dispersion</span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">azi.PoR</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="fl">135</span>,</span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">distance</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       distance         x   n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.360675 0.8374008   7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -8.043067 0.4641002  16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -6.725460 0.2419860  27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -5.407853 0.3013829  64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -4.090245 0.1920951 203</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -2.772638 0.1354966 441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       distance          x   n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.226505 0.56974161   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -7.604482 0.31555788  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -5.982458 0.39396588  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -4.360435 0.32627346  39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -2.738412 0.06582746 125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -1.116388 0.09488957 759</span>
 <span class="r-in"><span><span class="fu">distroll_dispersion_sde</span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">azi.PoR</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="fl">135</span>,</span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">distance</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span>, R <span class="op">=</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       distance          x   n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.360675 0.15332659   7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -8.043067 0.13598926  16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -6.725460 0.14284611  27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -5.407853 0.10722048  64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -4.090245 0.03181123 203</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -2.772638 0.03219256 441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       distance           x   n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -9.226505 0.201484943   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -7.604482 0.159818950  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -5.982458 0.220841424  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -4.360435 0.128962883  39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -2.738412 0.021238920 125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -1.116388 0.009849735 759</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># New functions</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="distance_binned_stats.html">distance_binned_stats</a></span><span class="op">(</span></span></span>
@@ -233,12 +233,12 @@ which is fasrter, easier to use, more featureful, and still under active develop
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 19</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   bins      n distance_min distance_median distance_max  mean    sd    var    lq</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> [-9.…     4        -<span style="color: #BB0000;">9.36</span>           -<span style="color: #BB0000;">9.18</span>        -<span style="color: #BB0000;">8.95</span>  48.3  11.3 0.075<span style="text-decoration: underline;">2</span>  52.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> (-8.…     8        -<span style="color: #BB0000;">8.24</span>           -<span style="color: #BB0000;">7.75</span>        -<span style="color: #BB0000;">7.53</span> 116.   44.7 0.703   91.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> (-7.…    14        -<span style="color: #BB0000;">7.47</span>           -<span style="color: #BB0000;">7.22</span>        -<span style="color: #BB0000;">6.56</span> 106.   46.4 0.730   60.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> (-6.…    24        -<span style="color: #BB0000;">6.48</span>           -<span style="color: #BB0000;">5.99</span>        -<span style="color: #BB0000;">5.52</span> 141.   27.7 0.373  126. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> (-5.…    40        -<span style="color: #BB0000;">5.35</span>           -<span style="color: #BB0000;">5.00</span>        -<span style="color: #BB0000;">4.58</span> 156.   24.9 0.315  136. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> (-4.…    54        -<span style="color: #BB0000;">4.49</span>           -<span style="color: #BB0000;">4.06</span>        -<span style="color: #BB0000;">3.50</span> 160.   28.5 0.391  125. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> [-9.…     2        -<span style="color: #BB0000;">9.23</span>           -<span style="color: #BB0000;">9.09</span>        -<span style="color: #BB0000;">8.95</span>   <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> (-8.…     8        -<span style="color: #BB0000;">8.26</span>           -<span style="color: #BB0000;">7.91</span>        -<span style="color: #BB0000;">7.56</span>  102.  44.7  0.703  71.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> (-7.…     9        -<span style="color: #BB0000;">7.47</span>           -<span style="color: #BB0000;">6.84</span>        -<span style="color: #BB0000;">6.60</span>  134.  36.2  0.550  92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> (-6.…    11        -<span style="color: #BB0000;">6.44</span>           -<span style="color: #BB0000;">6.18</span>        -<span style="color: #BB0000;">5.87</span>  150.  29.4  0.410 126. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> (-5.…    10        -<span style="color: #BB0000;">5.32</span>           -<span style="color: #BB0000;">5.06</span>        -<span style="color: #BB0000;">4.64</span>  149.  37.9  0.583  65.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> (-4.…    23        -<span style="color: #BB0000;">4.41</span>           -<span style="color: #BB0000;">3.91</span>        -<span style="color: #BB0000;">3.57</span>  159.  33.7  0.500  80.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10 more variables: quasimedian &lt;dbl&gt;, uq &lt;dbl&gt;, median &lt;dbl&gt;, mode &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CI &lt;dbl&gt;, skewness &lt;dbl&gt;, kurtosis &lt;dbl&gt;, nchisq &lt;dbl&gt;, dispersion &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   dispersion_sde &lt;dbl&gt;</span></span>
