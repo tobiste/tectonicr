@@ -8,24 +8,25 @@
 \alias{iceland}
 \title{Example crustal stress dataset}
 \format{
-A \code{sf} object / \code{data.frame} with 10 columns. Each row represents a different in-situ stress measurement:
+A \code{sf} object / \code{data.frame} with 10 columns. Each row represents a
+different in-situ stress measurement:
 \describe{
 \item{id}{Measurement identifier}
-\item{lat}{latitude in degrees}
-\item{lon}{longitude in degrees}
+\item{lat}{Latitude in degrees}
+\item{lon}{Longitude in degrees}
 \item{azi}{SHmax azimuth in degrees}
-\item{unc}{MMeasruement standard eviation (in degrees)}
+\item{unc}{Measurement standard deviation (in degrees)}
 \item{type}{Type of measurement}
 \item{depth}{Depth in km}
 \item{quality}{WSM quality rank}
 \item{regime}{Stress regime}
 }
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 2624 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 1126 rows and 10 columns.
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 1235 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 1165 rows and 10 columns.
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 643 rows and 10 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 490 rows and 10 columns.
 }
 \source{
 \url{https://www.world-stress-map.org/}
@@ -45,7 +46,7 @@ crustal present-day stress field (Version 1.1. 2019).
 \describe{
 \item{\verb{'san_andreas"}}{contains 407 stress data adjacent to the San Andreas
 Fault to be tested against a tangentially displaced plate boundary.}
-\item{\code{"tibet"}}{ contains 947 stress data from the Himalaya and Tibetan
+\item{\code{"tibet"}}{contains 947 stress data from the Himalaya and Tibetan
 plateau to be tested against an inward-moving displaced plate boundary.}
 \item{\verb{'iceland}}{contains 201 stress data from Iceland to be tested against a
 outward-moving displaced plate boundary.}
@@ -62,11 +63,10 @@ data("iceland")
 head(iceland)
 }
 \references{
-Heidbach, Oliver; Rajabi, Mojtaba; Di Giacomo, Domenico; Harris, James;
-Lammers, Steffi; Morawietz, Sophia; Pierdominici, Simona; Reiter, Karsten;
-von Specht, Sebastian; Storchak, Dmitry; Ziegler, Moritz O. (2025): World
-Stress Map Database Release 2025. GFZ Data Services.
-\doi{10.5880/WSM.2025.001}
+Heidbach, O., Barth, A., Müller, B., Reinecker, J., Stephansson, O., Tingay,
+M., & Zang, A. (2016). WSM quality ranking scheme, database description and
+analysis guidelines for stress indicator. WSM Technical Report; 16-01.
+GFZ German Research Centre for Geosciences. \doi{10.2312/WSM.2016.001}
 }
 \seealso{
 \code{\link[=download_WSM]{download_WSM()}} for description of columns and stress regime

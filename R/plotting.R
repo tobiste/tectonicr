@@ -118,7 +118,7 @@ position_center_spoke <- function() PositionCenterSpoke #
 #'
 #' @export
 #' @keywords internal
-#' @source \url{https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin/}
+#' @source https://stackoverflow.com/questions/55474143/how-to-center-geom-spoke-around-their-origin/
 #'
 #' @importFrom ggplot2 ggproto Position
 PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position,
