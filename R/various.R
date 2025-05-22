@@ -1,11 +1,11 @@
-#' World Stress Map Database (WSM) Release 2016
+#' World Stress Map Database (WSM)
 #'
-#' Download WSM2016 database from the GFZ sever and applies optional filters.
+#' Download WSM2025 or WSM2016 database from the GFZ sever and applies optional filters.
 #' If `destdir` is specified, the data can be reloaded in a later R session
-#' using `load_WSM2016()` using the same arguments.
+#' using `load_WSM()` using the same arguments.
 #'
 #' @param quality a character vectors containing the quality levels to be
-#' included. Includes all quality ranks (A-E) by default.
+#' included. Includes all quality ranks (A-X) by default.
 #' @param lat_range,lon_range two-element numeric vectors giving the range of
 #' latitudes and longitudes (in degrees).
 #' @param depth_range two-element numeric vectors giving the depth interval
@@ -18,6 +18,7 @@
 #' `"NS"` - oblique normal, `"TS"` - oblique thrust, and `NA` - unknown faulting
 #' @param load `TRUE` load the dataset into R, `FALSE` return the
 #' file name of the downloaded object.
+#' @param version character. Version of the World stress map database. Either `"2025"` or `"2016"`
 #' @param file 	the name of the file which the data are to be read from.
 #' @param destdir where to save files, defaults to [base::tempdir()],
 #' [base::getwd()] is also possible.
@@ -35,7 +36,9 @@
 #' the original.
 #' Unknown regimes are represented by `NA` instead of "U" in the original.
 #'
-#' @source \url{https://datapub.gfz-potsdam.de/download/10.5880.WSM.2016.001/wsm2016.csv}
+#' @source \url{https://datapub.gfz.de/download/10.5880.WSM.2025.001-Scbwez/WSM_Database_2025.csv}
+#'
+#' \url{https://datapub.gfz-potsdam.de/download/10.5880.WSM.2016.001/wsm2016.csv}
 #'
 #' @references Heidbach, O., M. Rajabi, X. Cui, K. Fuchs, B. M<U+00FC>ller, J.
 #' Reinecker, K. Reiter, M. Tingay, F. Wenzel, F. Xie, M. O. Ziegler,
@@ -43,25 +46,132 @@
 #' release 2016: Crustal stress pattern across scales. *Tectonophysics*,
 #' **744**, 484-498, \doi{10.1016/j.tecto.2018.07.007}.
 #'
+#' Heidbach, Oliver; Rajabi, Mojtaba; Di Giacomo, Domenico; Harris, James;
+#' Lammers, Steffi; Morawietz, Sophia; Pierdominici, Simona; Reiter, Karsten;
+#' von Specht, Sebastian; Storchak, Dmitry; Ziegler, Moritz O. (2025): World
+#' Stress Map Database Release 2025. GFZ Data Services.
+#' \doi{10.5880/WSM.2025.001}
+#'
 #' @importFrom dplyr rename_with filter between mutate select case_when
 #' @importFrom sf st_as_sf st_crs
 #' @importFrom utils read.csv download.file
 #'
 #' @keywords datasets
 #'
-#' @name import_WSM2016
+#' @name import_WSM
 #' @examples
 #' \dontrun{
-#' download_WSM2016(
+#' download_WSM(
 #'   quality = c("A", "B", "C"), lat_range = c(51, 72),
 #'   lon_range = c(-180, -130), depth_range = c(0, 10), method = "FMS"
 #' )
 #' }
 NULL
 
-#' @rdname import_WSM2016
+#' @rdname import_WSM
+#' @export
+download_WSM <- function(destdir = tempdir(), load = TRUE, version = c("2025", "2016"), ...) {
+  stopifnot(is.character(destdir))
+  version <- match.arg(version)
+
+  options(timeout = 999)
+
+  if (version == "2025") {
+    address <- "https://datapub.gfz.de/download/10.5880.WSM.2025.001-Scbwez/WSM_Database_2025.csv"
+  } else {
+    address <- "https://datapub.gfz-potsdam.de/download/10.5880.WSM.2016.001/wsm2016.csv"
+  }
+  dat_file <- tempfile("wsm", destdir, fileext = ".csv")
+
+  tryCatch(
+    utils::download.file(address, destfile = dat_file)
+  )
+
+  options(timeout = 60)
+
+  if (load) {
+    load_WSM(dat_file, ...)
+  } else {
+    return(dat_file)
+  }
+}
+
+#' @rdname import_WSM
+#' @export
+load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "Xmi", "Xne", "Xru"), lat_range = c(-90, 90), lon_range = c(-180, 180),
+                     depth_range = c(-Inf, Inf),
+                     method = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
+                     regime = c("N", "NS", "T", "TS", "S", NA)) {
+  stopifnot(
+    is.character(quality),
+    is.character(file),
+    is.character(regime) | is.na(regime),
+    is.character(method),
+    is.numeric(lon_range),
+    is.numeric(lat_range),
+    is.numeric(depth_range)
+  )
+
+  reg_flt <- regime
+  meth_flt <- method
+
+  lat <- lon <- azi <- quality.numeric <- unc <- id <- depth <- numeric()
+  type <- locality <- iso <- type <- date <- time <- character()
+  eq_mag <- NULL
+
+  qlt_flt <- quality
+  lat_range <- sort(lat_range)
+  lon_range <- sort(lon_range)
+  depth_range <- sort(depth_range)
+
+  out <- utils::read.csv(file) |>
+    dplyr::rename_with(tolower) |>
+    dplyr::filter(
+      dplyr::between(lat, lat_range[1], lat_range[2]),
+      dplyr::between(lon, lon_range[1], lon_range[2]),
+      dplyr::between(depth, depth_range[1], depth_range[2]),
+      type %in% meth_flt
+    ) |>
+    dplyr::mutate(
+      azi = ifelse(azi == 999, NA, azi),
+      quality = factor(quality),
+      regime = dplyr::case_when(
+        regime == "NF" ~ "N",
+        regime == "NS" ~ "NS",
+        regime == "TF" ~ "T",
+        regime == "TS" ~ "TS",
+        regime == "SS" ~ "S",
+        regime == "U" ~ NA,
+        TRUE ~ NA_character_,
+        .default = regime
+      ),
+      quality.numeric = parse_wsm_quality(quality),
+      unc = ifelse(is.na(sd), quality.numeric, sd),
+      unc = ifelse(unc > quality.numeric, quality.numeric, unc),
+      unc = ifelse(unc == 0, 15, unc),
+      unc = as.numeric(unc),
+      dplyr::across(dplyr::where(is.character), function(x) {
+        ifelse(x == "", NA, x)
+      }),
+      eq_mag = as.numeric(eq_mag),
+      # date = ymd(date),
+      # time = hms(time)
+    ) |>
+    dplyr::filter(quality %in% qlt_flt, regime %in% reg_flt) |>
+    sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs("WGS84"), remove = FALSE)
+
+  if ("isc_id" %in% colnames(out)) {
+    dplyr::select(out, id, lat, lon, azi, unc, type, depth, quality, regime, isc_id, locality:dist)
+  } else {
+    dplyr::select(out, id, lat, lon, azi, unc, type, depth, quality, regime, locality:iso) # 2016
+  }
+}
+
+#' @rdname import_WSM
 #' @export
 download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
+  lifecycle::deprecate_warn("0.4.7", "load_WSM2016()", "load_WSM()")
+
   stopifnot(is.character(destdir))
 
   options(timeout = 999)
@@ -74,7 +184,6 @@ download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
 
   options(timeout = 60)
 
-
   if (load) {
     load_WSM2016(dat_file, ...)
   } else {
@@ -82,12 +191,14 @@ download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
   }
 }
 
-#' @rdname import_WSM2016
+#' @rdname import_WSM
 #' @export
 load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range = c(-90, 90), lon_range = c(-180, 180),
                          depth_range = c(-Inf, Inf),
                          method = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
                          regime = c("N", "NS", "T", "TS", "S", NA)) {
+  lifecycle::deprecate_warn("0.4.7", "load_WSM2016()", "load_WSM()")
+
   stopifnot(
     is.character(quality),
     is.character(file),
@@ -152,7 +263,7 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
 #' Numerical values to World Stress Map Quality Ranking
 #'
 #' Assigns numeric values of the precision (sd.) of each measurement to the
-#' categorical quality ranking of the World Stress Map (A, B, C, D, E).
+#' categorical quality ranking of the World Stress Map (A, B, C, D, E, X).
 #'
 #' @param x Either a string or a character/factor vector of WSM quality ranking
 #'
@@ -163,9 +274,6 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
 #' ranking scheme, database description and analysis guidelines for stress
 #' indicator. *World Stress Map Technical Report* **16-01**, GFZ German Research
 #' Centre for Geosciences. \doi{10.2312/wsm.2016.001}
-#'
-#' @note `quantise_wsm_quality()` was renamed to `parse_wsm_quality()` to create
-#'  a more consistent API.
 #'
 #' @name parse_wsm
 #' @examples
@@ -182,7 +290,10 @@ parse_wsm_quality <- function(x) {
     "B" = 20,
     "C" = 25,
     "D" = 40,
-    "E" = 90
+    "E" = 90,
+    "Xmi" = 90,
+    "Xne" = 90,
+    "Xru" = 90
   )[x]
 }
 

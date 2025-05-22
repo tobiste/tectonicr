@@ -1,15 +1,15 @@
 ## code to prepare `san_andreas` dataset goes here  -------------
 library(tidyverse)
 
-wsm2016 <- download_WSM2016() |>
+wsm2025 <- download_WSM() |>
   dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime)
 
-all(validUTF8(wsm2016$id))
-all(validUTF8(wsm2016$type))
-all(validUTF8(wsm2016$regime))
+all(validUTF8(wsm2025$id))
+all(validUTF8(wsm2025$type))
+all(validUTF8(wsm2025$regime))
 
 san_andreas <- filter(
-  wsm2016,
+  wsm2025,
   between(lat, 23, 40),
   between(lon, -126, -108),
   !is.na(azi)
@@ -17,13 +17,13 @@ san_andreas <- filter(
 usethis::use_data(san_andreas, overwrite = TRUE, ascii = TRUE)
 
 frame_iceland <- readRDS("../europe-tectonics/data-raw/iceland_frame.rds")
-iceland <- sf::st_intersection(wsm2016, frame_iceland) |>
+iceland <- sf::st_intersection(wsm2025, frame_iceland) |>
   filter(!is.na(azi)) |>
   select(-c(Name, Description))
 usethis::use_data(iceland, overwrite = TRUE, ascii = TRUE)
 
 zoom_asia <- readRDS("../europe-tectonics/data-raw/asia_zoom.rds")
-tibet <- sf::st_intersection(wsm2016, zoom_asia) |>
+tibet <- sf::st_intersection(wsm2025, zoom_asia) |>
   filter(!is.na(azi)) |>
   select(-c(Name, Description))
 usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
@@ -42,8 +42,8 @@ usethis::use_data(tibet, overwrite = TRUE, ascii = TRUE)
 #     na.rm = TRUE
 #   ) +
 #   coord_sf(
-#     xlim = range(san_andreas.res$lon),
-#     ylim = range(san_andreas.res$lat),
+#     xlim = range(san_andreas$lon),
+#     ylim = range(san_andreas$lat),
 #     expand = FALSE,
 #     default_crs = "WGS84"
 #   ) +
