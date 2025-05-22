@@ -1,15 +1,24 @@
 # tectonicr 0.4.7 _2025-05-22_
 
-* compatibility for World Stress Map Database 2025
-* calculate shortest distance to plate boundary
+* NEW: compatibility for World Stress Map Database 2025. 
+* `download_WSM()` has option `"version"` for the user to decide which WSM version should be downloaded. The most recent 2025 version is the default.
+* `parse_quality()` assigns an uncertainty of 90 degrees to X-ranked stress data in the 2025 WSM version.
+* NEW: calculate shortest distance to plate boundary (which is not always the best choice! see function description for details.)
+* major bug fix in `est.kappa()`: converts to directional data by doubling the angles
+* calculating circular mode in `circular_summary()` now optional due to performance issues
+* some weighting parameters in `stress2grid()` have been renamed to me more alike with {gstat}
+* choice of algorithm to calculate confidence interval now optional in `circular_summary()`
+* minor bug fixes
 
 # tectonicr 0.4.6 _2025-02-27_
 
-* performance boost for stress2grid() and friends
+* performance boost for `stress2grid()` and friends
 
 # tectonicr 0.4.5 _2025-02-26_
 
-* new function `distance_binned_stats()` to calculate summary statistics along distance intervals: The function superseds which superseded `distroll_circstats()` and friends because it is faster and more flexible
+* new function `distance_binned_stats()` to calculate summary statistics along 
+distance intervals: The function supersedes `distroll_circstats()` and friends 
+because it is faster and more flexible
 * `PoR_to_geographical()` and `geographical_to_PoR()` now accept `data.frame`, `sf` or raster as input
 * new `PoR_azimuth()` function to transform directions in the PoR coordinate system / doesn't need to be Shmax data
 * bug fix in `circular_distance()` and `circular_dispersion()` when using `axial=FALSE`
@@ -21,7 +30,7 @@
 * Use of {circular} package in `dvm()`, `pvm()`, `qvm()` and `rvm()`
 
 # tectonicr 0.4.3.92
-* PoR_distance(): function to calculate distance to PoR
+* `PoR_distance()`: function to calculate distance to PoR
 
 # tectonicr 0.4.3
 
@@ -32,7 +41,7 @@
 
 # tectonicr 0.4.0.9001  _2024-09-12_
 
-* bug fix in load_wsm()
+* bug fix in `load_wsm()`
 * CI now double when axial data
 
 # tectonicr 0.4.0  _2024-08-08_
