@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-05-22</h4>
+            <h4 data-toc-skip class="date">2025-05-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/F_spatial.Rmd" class="external-link"><code>vignettes/F_spatial.Rmd</code></a></small>
       <div class="d-none name"><code>F_spatial.Rmd</code></div>
@@ -111,19 +111,34 @@ each cell:</p>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -110.8569 ymin: 34.99224 xmax: -107.9222 ymax: 39.97615</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 24</span></span></span>
-<span><span class="co">#&gt;   lon.PoR lat.PoR mean.PoR    sd   var `25%.PoR` `quasi-median.PoR` `75%.PoR`</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    84.8   -<span style="color: #BB0000;">61.2</span>     62.8  32.7 0.479      45.8               70.7      72.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    85.8   -<span style="color: #BB0000;">61.2</span>     84.3  35.0 0.527      70.7               74.9     128. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    86.8   -<span style="color: #BB0000;">61.2</span>    116.   49.9 0.781      54.9               90.7     111. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    75.8   -<span style="color: #BB0000;">60.2</span>    148.   22.2 0.259     148.               151.      158. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    82.8   -<span style="color: #BB0000;">60.2</span>     72.7  14.9 0.127      67.8               75.9      95.5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    83.8   -<span style="color: #BB0000;">60.2</span>     81.6  22.0 0.255      47.9               76.9      78.0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: median.PoR &lt;dbl&gt;, CI &lt;dbl&gt;, skewness &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   kurtosis &lt;dbl&gt;, meanR &lt;dbl&gt;, R &lt;dbl&gt;, N &lt;int&gt;, mdr &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   geometry &lt;POINT [°]&gt;, lat &lt;dbl&gt;, lon &lt;dbl&gt;, mean &lt;dbl&gt;, `25%` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `quasi-median` &lt;dbl&gt;, `75%` &lt;dbl&gt;, median &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;     lon.PoR   lat.PoR  mean.PoR       sd       var   25%.PoR quasi-median.PoR</span></span>
+<span><span class="co">#&gt; 24 84.83339 -61.15394  62.75215 32.70755 0.4788668  45.75289         70.68846</span></span>
+<span><span class="co">#&gt; 25 85.83339 -61.15394  84.28615 35.03544 0.5266049  70.68846         74.88230</span></span>
+<span><span class="co">#&gt; 26 86.83339 -61.15394 115.54625 49.91392 0.7808168  54.91857         90.72089</span></span>
+<span><span class="co">#&gt; 35 75.83339 -60.15394 148.00270 22.18433 0.2590570 148.14101        150.69395</span></span>
+<span><span class="co">#&gt; 42 82.83339 -60.15394  72.66492 14.94546 0.1272296  67.77922         75.91797</span></span>
+<span><span class="co">#&gt; 43 83.83339 -60.15394  81.60114 22.00234 0.2554180  47.91126         76.92189</span></span>
+<span><span class="co">#&gt;      75%.PoR median.PoR        CI   skewness   kurtosis     meanR   R N</span></span>
+<span><span class="co">#&gt; 24  72.28118   70.68846 180.00000 -1.5897927  1.1003251 0.5211332 100 5</span></span>
+<span><span class="co">#&gt; 25 127.81138   80.70468 180.00000 -1.0181445 -1.6083568 0.4733951 100 4</span></span>
+<span><span class="co">#&gt; 26 111.23202   90.72089 180.00000  0.6657998 -0.7271910 0.2191832 100 5</span></span>
+<span><span class="co">#&gt; 35 157.91252  151.01426 132.03984  1.7075040  3.5695991 0.7409430 100 4</span></span>
+<span><span class="co">#&gt; 42  95.51644   72.35056  73.76277  1.0204726  4.1055756 0.8727704 100 4</span></span>
+<span><span class="co">#&gt; 43  78.01755   76.92189  90.71189 -0.1367145  0.1865552 0.7445820 100 5</span></span>
+<span><span class="co">#&gt;          mdr                   geometry      lat       lon      mean       25%</span></span>
+<span><span class="co">#&gt; 24 0.6719937 POINT (-110.1257 39.15542) 39.15542 -110.1257 120.36224 103.36298</span></span>
+<span><span class="co">#&gt; 25 0.1758576 POINT (-110.4569 39.56431) 39.56431 -110.4569 142.56213 128.96443</span></span>
+<span><span class="co">#&gt; 26 0.6370203 POINT (-110.7839 39.97615) 39.97615 -110.7839 174.48900 113.86132</span></span>
+<span><span class="co">#&gt; 35 0.6239140 POINT (-107.9222 34.99224) 34.99224 -107.9222  19.09291  19.23121</span></span>
+<span><span class="co">#&gt; 42 0.6932675 POINT (-110.5034 37.78685) 37.78685 -110.5034 128.29658 123.41089</span></span>
+<span><span class="co">#&gt; 43 0.6433647 POINT (-110.8569 38.19922) 38.19922 -110.8569 137.88256 104.19268</span></span>
+<span><span class="co">#&gt;    quasi-median        75%    median</span></span>
+<span><span class="co">#&gt; 24    128.29855 129.891269 128.29855</span></span>
+<span><span class="co">#&gt; 25    133.15827   6.087356 138.98065</span></span>
+<span><span class="co">#&gt; 26    149.66364 170.174771 149.66364</span></span>
+<span><span class="co">#&gt; 35     21.78415  29.002725  22.10446</span></span>
+<span><span class="co">#&gt; 42    131.54964 151.148106 127.98222</span></span>
+<span><span class="co">#&gt; 43    133.20331 134.298968 133.20331</span></span></code></pre></div>
 <p>One can also specify a range of cell-sizes for a wavelength
 analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">

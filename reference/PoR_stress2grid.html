@@ -11,7 +11,7 @@ and azimuths."><meta property="og:image" content="https://tobiste.github.io/tect
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,16 +171,20 @@ degree. Default is 2.5 (is ignored if <code>grid</code> is specified)</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -125.0802 ymin: 34.07892 xmax: -125.0802 ymax: 34.07892</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   lon.PoR lat.PoR azi.PoR    sd     R     N   mdr             geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;POINT [°]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   -<span style="color: #BB0000;">84.8</span>    52.6    171.  63.4   400     9 0.874 (-125.0802 34.07892)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   -<span style="color: #BB0000;">84.8</span>    52.6    160.  49.2   450    46 0.922 (-125.0802 34.07892)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>   -<span style="color: #BB0000;">84.8</span>    52.6    156.  45.6   500    85 0.887 (-125.0802 34.07892)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>   -<span style="color: #BB0000;">84.8</span>    52.6    157.  42.3   550   187 0.891 (-125.0802 34.07892)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>   -<span style="color: #BB0000;">84.8</span>    52.6    150.  42.1   600   298 0.867 (-125.0802 34.07892)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>   -<span style="color: #BB0000;">84.8</span>    52.6    143.  42.8   650   385 0.837 (-125.0802 34.07892)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 3 more variables: lat &lt;dbl&gt;, lon &lt;dbl&gt;, azi &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     lon.PoR  lat.PoR  azi.PoR       sd   R   N       mdr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -84.77055 52.59628 170.9189 63.41127 400   9 0.8735345</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -84.77055 52.59628 159.7174 49.17816 450  46 0.9219984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -84.77055 52.59628 156.3241 45.59581 500  85 0.8866905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -84.77055 52.59628 157.2108 42.26910 550 187 0.8907467</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -84.77055 52.59628 149.8193 42.12546 600 298 0.8673966</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -84.77055 52.59628 143.4995 42.83745 650 385 0.8371344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     geometry      lat       lon      azi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 POINT (-125.0802 34.07892) 34.07892 -125.0802 43.42221</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 POINT (-125.0802 34.07892) 34.07892 -125.0802 32.22071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 POINT (-125.0802 34.07892) 34.07892 -125.0802 28.82740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 POINT (-125.0802 34.07892) 34.07892 -125.0802 29.71412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 POINT (-125.0802 34.07892) 34.07892 -125.0802 22.32255</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 POINT (-125.0802 34.07892) 34.07892 -125.0802 16.00277</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">PoR_stress2grid_stats</span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, mode <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
