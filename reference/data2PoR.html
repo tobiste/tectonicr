@@ -51,6 +51,22 @@
     </div>
 
     <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p><code>sf</code> object or a <code>data.frame</code> containing the coordinates of the
+point(s) (<code>lat</code>, <code>lon</code> columns). <code>x</code> must contain the direction of
+\(\sigma_{Hmax}\) as column <code>azi</code>, its standard deviation
+(column <code>unc</code>) is optional).</p></dd>
+
+
+<dt id="arg-por">PoR<a class="anchor" aria-label="anchor" href="#arg-por"></a></dt>
+<dd><p><code>data.frame</code> or object of class <code>euler.pole</code> containing the
+geographical coordinates of the Eule pole.</p></dd>
+
+</dl></div>
+    <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>sf</code> object in PoR CRS with additional columns <code>lon.PoR</code>,
 <code>lat.PoR</code>, and <code>azi.PoR</code></p>
