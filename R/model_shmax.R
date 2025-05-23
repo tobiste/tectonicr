@@ -153,7 +153,7 @@ deviation_norm <- function(x, y = NULL) {
 #' }
 #'
 #' @details
-#' Deviation is positive for clockwise deviation of observed azimuth wrt.
+#' Deviation is positive for counterclockwise deviation of observed azimuth wrt.
 #' predicted azimuth.
 #'
 #'
@@ -184,10 +184,10 @@ deviation_shmax <- function(prd, obs) {
   # normalize azimuth
   obs <- obs %% 180
 
-  dev.gc <- obs - prd$gc
-  dev.sc <- obs - prd$sc
-  dev.ld.cw <- obs - prd$ld.cw
-  dev.ld.ccw <- obs - prd$ld.ccw
+  dev.gc <- prd$gc - obs
+  dev.sc <- prd$sc  - obs
+  dev.ld.cw <- prd$ld.cw  - obs
+  dev.ld.ccw <- prd$ld.ccw  - obs
 
   data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw) |>
     dplyr::mutate(
@@ -236,7 +236,7 @@ deviation_shmax <- function(prd, obs) {
 #' \item{`azi.PoR`}{the transformed azimuths (in degrees),}
 #' \item{`prd`}{the predicted azimuths (in degrees),}
 #' \item{`dev`}{the deviation between the transformed and the predicted azimuth
-#' in degrees (positive for clockwise deviation of observed azimuth wrt.
+#' in degrees (positive for counterclockwise deviation of observed azimuth wrt.
 #' predicted azimuth),}
 #' \item{`nchisq`}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
 #' \item{`cdist`}{the angular distance between the transformed and the predicted
@@ -307,7 +307,7 @@ PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left"), ax
       "left" = 45
     )
 
-    dev <- (azi.por %% 180) - prd
+    dev <- prd - (azi.por %% 180)
     cdist <- (1 - cosd(2 * dev)) / 2
 
     dev <- ifelse(
@@ -391,7 +391,7 @@ PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
 #' @export
 #'
 #' @importFrom sf st_coordinates
-#' @importFrom dplyr bind_cols as_tibble rename
+#' @importFrom dplyr bind_cols rename
 #'
 #' @examples
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -401,7 +401,7 @@ data2PoR <- function(x, PoR) {
   x2 <- geographical_to_PoR(x, PoR)
   dplyr::bind_cols(x2,
     sf::st_coordinates(x2) |>
-      dplyr::as_tibble() |>
+      as.data.frame() |>
       dplyr::rename(lon.PoR = X, lat.PoR = Y),
     azi.PoR = PoR_azimuth(x, PoR)
   )

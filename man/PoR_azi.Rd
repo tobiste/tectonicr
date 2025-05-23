@@ -38,7 +38,7 @@ transformed coordinate system (in degrees), or a \code{"data.frame"} with
 \item{\code{azi.PoR}}{the transformed azimuths (in degrees),}
 \item{\code{prd}}{the predicted azimuths (in degrees),}
 \item{\code{dev}}{the deviation between the transformed and the predicted azimuth
-in degrees (positive for clockwise deviation of observed azimuth wrt.
+in degrees (positive for counterclockwise deviation of observed azimuth wrt.
 predicted azimuth),}
 \item{\code{nchisq}}{the Norm \eqn{\chi^2}{chi-squared} test statistic, and}
 \item{\code{cdist}}{the angular distance between the transformed and the predicted

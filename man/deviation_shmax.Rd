@@ -34,7 +34,7 @@ great circles, small circles, and
 loxodromes of the relative plate motion's Euler pole
 }
 \details{
-Deviation is positive for clockwise deviation of observed azimuth wrt.
+Deviation is positive for counterclockwise deviation of observed azimuth wrt.
 predicted azimuth.
 }
 \examples{
