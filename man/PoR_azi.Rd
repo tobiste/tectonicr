@@ -12,6 +12,14 @@ PoR_azimuth(x, PoR, axial = TRUE)
 PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"), axial = TRUE)
 }
 \arguments{
+\item{x}{\code{sf} object or a \code{data.frame} containing the coordinates of the
+point(s) (\code{lat}, \code{lon} columns). \code{x} must contain the direction of
+\eqn{\sigma_{Hmax}}{SHmax} as column \code{azi}, its standard deviation
+(column \code{unc}) is optional).}
+
+\item{PoR}{\code{data.frame} or object of class \code{euler.pole} containing the
+geographical coordinates of the Eule pole.}
+
 \item{axial}{logical. Whether the azimuth is axial (0-180) or directional
 (0-360).}
 

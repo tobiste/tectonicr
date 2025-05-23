@@ -45,7 +45,7 @@ Stephan et al., 2023). The following methods are available:
     polar coordinates
 -   **Stress anomaly map**: spatial distribution of the dispersion of
     the observed stress field from the directions of plate boundary
-    forces
+    forces with `kernel_dispersion()`
 -   **Download and filter world stress map data** using
     `download_WSM()`
 

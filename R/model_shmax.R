@@ -214,7 +214,12 @@ deviation_shmax <- function(prd, obs) {
 #' \eqn{\sigma_{Hmax}}{SHmax}, the circular distance, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #'
-#' @inheritParams PoR_azimuth
+#' @param x `sf` object or a `data.frame` containing the coordinates of the
+#' point(s) (`lat`, `lon` columns). `x` must contain the direction of
+#' \eqn{\sigma_{Hmax}}{SHmax} as column `azi`, its standard deviation
+#' (column `unc`) is optional).
+#' @param PoR `data.frame` or object of class `euler.pole` containing the
+#' geographical coordinates of the Eule pole.
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
@@ -392,6 +397,7 @@ PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' data2PoR(san_andreas, por)
 data2PoR <- function(x, PoR) {
+  X <- Y <- NULL
   x2 <- geographical_to_PoR(x, PoR)
   dplyr::bind_cols(x2,
     sf::st_coordinates(x2) |>
