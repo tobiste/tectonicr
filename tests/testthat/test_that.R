@@ -17,19 +17,31 @@ na_pa <- equivalent_rotation(morvel, fixed = "na", rot = "pa")
 # stress_analysis(san_andreas, PoR = na_pa, type = "right", pb = na_pa_boundary, plot = FALSE)
 # Interpolate the stress field in the PoR coordinate system:
 PoR_stress2grid(san_andreas, na_pa)
+PoR_stress2grid_stats(san_andreas, na_pa)
+san_andreas_por <- data2PoR(san_andreas, na_pa)
+san_andreas_por$prd <- 135
+kernel_dispersion(san_andreas_por) |> head()
+
 
 data("tibet")
 eu_in_boundary <- subset(plates, plates$pair == "eu-in")
 eu_in <- equivalent_rotation(morvel, fixed = "eu", rot = "in")
 # stress_analysis(tibet, PoR = eu_in, type = "in", pb = eu_in_boundary, plot = FALSE)
 PoR_stress2grid(tibet, eu_in)
+PoR_stress2grid_stats(tibet, eu_in)
+tibet_por <- data2PoR(tibet, eu_in)
+tibet_por$prd <- 90
+kernel_dispersion(tibet_por) |> head()
 
 data("iceland")
 eu_na_boundary <- subset(plates, plates$pair == "eu-na")
 eu_na <- equivalent_rotation(morvel, fixed = "na", rot = "eu")
 # stress_analysis(iceland, PoR = eu_na, type = "out", pb = eu_na_boundary, plot = FALSE)
 PoR_stress2grid(iceland, eu_na)
-
+PoR_stress2grid_stats(iceland, eu_na)
+iceland_por <- data2PoR(iceland, eu_na)
+iceland_por$prd <- 0
+kernel_dispersion(iceland_por) |> head()
 
 # test model_shmax
 euler <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific

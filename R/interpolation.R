@@ -123,13 +123,13 @@ which.nsmallest <- function(x, n) {
 #' @param ... (optional) arguments to [dist_greatcircle()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
-#' @importFrom dplyr group_by mutate filter rename mutate as_tibble
+#' @importFrom dplyr group_by mutate filter rename mutate bind_rows select
 #'
 #' @returns `sf` object containing
 #' \describe{
 #' \item{lon,lat}{longitude and latitude in degrees}
-#' \item{azi}{Mean od median SHmax in degree}
-#' \item{sd}{Standard deviation or Quasi-IQR of SHmax in degrees}
+#' \item{azi}{Circular mean od median SHmax in degree}
+#' \item{sd}{Circular standard deviation or Quasi-IQR on the Circle of SHmax in degrees}
 #' \item{R}{Search radius in km}
 #' \item{mdr}{Mean distance between grid point and datapoints per search radius}
 #' \item{N}{Number of data points in search radius}
@@ -315,7 +315,7 @@ stress2grid <- function(x,
   G <- unname(sf::st_coordinates(grid))
   R_seq <- seq_along(R_range)
 
-  SH_t <- sapply(seq_along(G[, 1]), function(i) {
+  lapply(seq_along(G[, 1]), function(i) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1])
     if (max_data < Inf) distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
 
@@ -326,6 +326,7 @@ stress2grid <- function(x,
         R_search <- R_range[k]
         ids_R <- (distij <= R_search) # select those that are in search radius
         N_in_R <- sum(ids_R)
+        # if(is.null(N_in_R)) N_in_R <- 0L
 
         if (N_in_R < min_data) {
           # not enough data within search radius
@@ -360,12 +361,13 @@ stress2grid <- function(x,
         )
       }, FUN.VALUE = numeric(7)))
     }
-  })
-
-  do.call(rbind, SH_t) |>
-    as.data.frame() |>
-    dplyr::as_tibble() |>
-    dplyr::mutate(N = as.integer(N), mdr = md / R) |>
+  }) |>
+    lapply(as.data.frame) |>
+    dplyr::bind_rows() |>
+    dplyr::mutate(
+      N = as.integer(N),
+      mdr = md / R
+    ) |>
     dplyr::select(-md) |>
     dplyr::filter(!is.na(azi), sd <= max_sd, !is.na(sd)) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
@@ -528,7 +530,7 @@ stress2grid_stats <- function(x,
     cols <- append(cols, "mode", after = 10)
   }
 
-  SH <- sapply(seq_along(G[, 1]), function(i) {
+  lapply(seq_along(G[, 1]), function(i) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, 2], datas[, 1], ...)
     distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
 
@@ -567,12 +569,10 @@ stress2grid_stats <- function(x,
         )
       }, FUN.VALUE = numeric(length(cols))))
     }
-  })
-
-  do.call(rbind, SH) |>
-    as.data.frame() |>
+  }) |>
+    lapply(as.data.frame) |>
+    dplyr::bind_rows() |>
     setNames(cols) |>
-    dplyr::as_tibble() |>
     dplyr::mutate(N = as.integer(N), mdr = md / R) |>
     dplyr::select(-c(md, n)) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
@@ -607,7 +607,7 @@ stress2grid_stats <- function(x,
 #' interpolation. The interpolation grid is returned in geographical coordinates
 #'  and azimuths.
 #'
-#' @importFrom dplyr rename as_tibble group_by
+#' @importFrom dplyr rename group_by
 #' @importFrom sf st_coordinates st_as_sf st_bbox st_make_grid
 #'
 #' @returns \code{sf} object containing
@@ -676,7 +676,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 
   x_PoR <- geographical_to_PoR_sf(x, PoR)
   x_PoR_coords <- sf::st_coordinates(x_PoR) |>
-    dplyr::as_tibble() |>
+    as.data.frame() |>
     dplyr::rename(lat = Y, lon = X)
 
   azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric() # pre allocating:
@@ -689,7 +689,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
     dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) |>
     PoR_to_geographical_sf(PoR)
   int_coords <- sf::st_coordinates(int) |>
-    dplyr::as_tibble() |>
+    as.data.frame() |>
     dplyr::rename(lat = Y, lon = X)
   int$lat <- int_coords$lat
   int$lon <- int_coords$lon
@@ -736,7 +736,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
 
   x_PoR <- geographical_to_PoR_sf(x, PoR)
   x_PoR_coords <- sf::st_coordinates(x_PoR) |>
-    dplyr::as_tibble() |>
+    as.data.frame() |>
     dplyr::rename(lat = Y, lon = X)
 
   # binding global variables
@@ -756,7 +756,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
     ) |>
     PoR_to_geographical_sf(PoR)
   int_coords <- sf::st_coordinates(int) |>
-    dplyr::as_tibble() |>
+    as.data.frame() |>
     dplyr::rename(lat = Y, lon = X)
   int$lat <- int_coords$lat
   int$lon <- int_coords$lon
@@ -788,7 +788,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
 #' `R`. Default is [min()].
 #' @returns \code{sf} object
 #'
-#' @importFrom dplyr ungroup mutate select left_join as_tibble
+#' @importFrom dplyr ungroup mutate select left_join
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
 #' @importFrom stats aggregate
@@ -829,7 +829,6 @@ compact_grid2 <- function(x, ..., FUN = min) {
   group <- character()
 
   data <- x |>
-    dplyr::as_tibble() |>
     tidyr::drop_na(...) |>
     dplyr::mutate(group = paste(lon, lat))
 
@@ -898,8 +897,7 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' @examples
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
-#' san_andreas_por <- san_andreas
-#' san_andreas_por$azi <- PoR_shmax(san_andreas, PoR, "right")$azi.PoR
+#' san_andreas_por <- data2PoR(san_andreas, PoR)
 #' san_andreas_por$prd <- 135
 #' kernel_dispersion(san_andreas_por) |> head()
 NULL
@@ -984,7 +982,7 @@ kernel_dispersion <- function(x,
 
   # SH <- matrix(nrow = 0, ncol = 6, dimnames = list(NULL, c("lon", "lat", "stat", "R", "md", "N")))
 
-  SH <- sapply(seq_along(G[, 1]), function(i) {
+  lapply(seq_along(G[, 1]), function(i) {
     # for (i in seq_along(G[, 1])) {
     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, "lat"], datas[, "lon"], ...)
     if (max_data < Inf) distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
@@ -1023,12 +1021,9 @@ kernel_dispersion <- function(x,
         )
       }, FUN.VALUE = numeric(6)))
     }
-  })
-
-  do.call(rbind, SH) |>
-    as.data.frame() |>
-    # setNames(c("lon", "lat", "stat", "R", "md", "N")) |>
-    dplyr::as_tibble() |>
+  }) |>
+    lapply(as.data.frame) |>
+    dplyr::bind_rows() |>
     dplyr::mutate(
       N = as.integer(N),
       mdr = md / R,

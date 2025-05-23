@@ -129,8 +129,8 @@ for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa
 \code{sf} object containing
 \describe{
 \item{lon,lat}{longitude and latitude in degrees}
-\item{azi}{Mean od median SHmax in degree}
-\item{sd}{Standard deviation or Quasi-IQR of SHmax in degrees}
+\item{azi}{Circular mean od median SHmax in degree}
+\item{sd}{Circular standard deviation or Quasi-IQR on the Circle of SHmax in degrees}
 \item{R}{Search radius in km}
 \item{mdr}{Mean distance between grid point and datapoints per search radius}
 \item{N}{Number of data points in search radius}

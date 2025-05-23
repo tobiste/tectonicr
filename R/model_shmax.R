@@ -214,13 +214,7 @@ deviation_shmax <- function(prd, obs) {
 #' \eqn{\sigma_{Hmax}}{SHmax}, the circular distance, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #'
-#' @param x `sf` object or a \code{data.frame} containing the coordinates of the
-#'  point(s)
-#' (\code{lat}, \code{lon}). `x` must contain the direction of
-#' \eqn{\sigma_{Hmax}}{SHmax} as column \code{azi} and its standard deviation
-#' as \code{unc} (the latter is optional)
-#' @param PoR \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler  pole
+#' @inheritParams PoR_azimuth
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
@@ -381,6 +375,31 @@ PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
   azi.geo %% (f * 180)
 }
 
+#' Transforms coordinates and azimuths into PoR coordinates system
+#'
+#' Convenience function to add PoR coordinates and PoR azimuths to data
+#'
+#' @inheritParams PoR_azimuth
+#'
+#' @returns `sf` object in PoR CRS with additional columns `lon.PoR`,
+#' `lat.PoR`, and `azi.PoR`
+#' @export
+#'
+#' @importFrom sf st_coordinates
+#' @importFrom dplyr bind_cols as_tibble rename
+#'
+#' @examples
+#' por <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' data2PoR(san_andreas, por)
+data2PoR <- function(x, PoR) {
+  x2 <- geographical_to_PoR(x, PoR)
+  dplyr::bind_cols(x2,
+    sf::st_coordinates(x2) |>
+      dplyr::as_tibble() |>
+      dplyr::rename(lon.PoR = X, lat.PoR = Y),
+    azi.PoR = PoR_azimuth(x, PoR)
+  )
+}
 
 
 
@@ -461,6 +480,7 @@ superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting =
   }
   return(cbind(azi = azi, R = R))
 }
+
 
 #' SHmax direction resulting from multiple plate boundaries considering distance
 #' to plate boundaries
