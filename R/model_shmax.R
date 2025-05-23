@@ -193,9 +193,9 @@ deviation_shmax <- function(prd, obs) {
     dplyr::mutate(
       dplyr::across(
         dplyr::everything(),
-        ~ if_else(
+        ~ dplyr::if_else(
           abs(.x) > 90,
-          (180 - abs(.x)) * sign(.x),
+          (abs(.x) - 180) * sign(.x),
           .x
         )
       )
@@ -312,7 +312,7 @@ PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left"), ax
 
     dev <- ifelse(
       abs(dev) > 90,
-      (180 - abs(dev)) * sign(dev),
+      (abs(dev) - 180) * sign(dev),
       dev
     )
 
