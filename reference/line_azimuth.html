@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,67 +84,50 @@ For <code>"MULTILINESTRING"</code> objects, use <code>lines_azimuths()</code>.</
 <span class="r-in"><span><span class="co"># one line:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">plates</span>, <span class="va">pair</span> <span class="op">==</span> <span class="st">"af-eu"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">smoothr</span><span class="fu">::</span><span class="fu"><a href="https://strimas.com/smoothr/reference/densify.html" class="external-link">densify</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">line_azimuth</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">line_azimuth</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>MULTILINESTRING object is not recommended</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 1861 features and 9 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -29.7698 ymin: 33.985 xmax: 20.3001 ymax: 39.412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -5.80797 ymin: 34.00205 xmax: -5.602275 ymax: 34.0191</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         azi  pair plateA plateB       type displacement             name  nameA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  95.69929 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  95.69906 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  95.69883 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  95.69861 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  95.69838 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  95.69815 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  95.69793 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  95.69770 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  95.69747 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 95.69725 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      nameB                   geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Eurasia   POINT (-5.80797 34.0191)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Eurasia POINT (-5.766831 34.01569)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Eurasia POINT (-5.725692 34.01228)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Eurasia POINT (-5.684553 34.00887)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Eurasia POINT (-5.643414 34.00546)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Eurasia POINT (-5.602275 34.00205)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  Eurasia POINT (-5.561136 33.99864)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Eurasia POINT (-5.519997 33.99523)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Eurasia POINT (-5.478858 33.99182)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Eurasia POINT (-5.437719 33.98841)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        azi  pair plateA plateB       type displacement             name  nameA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 95.69929 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 95.69906 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 95.69883 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 95.69861 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 95.69838 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 95.69815 af-eu     af     eu convergent           in af-eu_convergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     nameB                   geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Eurasia   POINT (-5.80797 34.0191)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Eurasia POINT (-5.766831 34.01569)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Eurasia POINT (-5.725692 34.01228)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Eurasia POINT (-5.684553 34.00887)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Eurasia POINT (-5.643414 34.00546)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Eurasia POINT (-5.602275 34.00205)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># multiple lines:</span></span></span>
-<span class="r-in"><span><span class="fu">lines_azimuths</span><span class="op">(</span><span class="va">plates</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 150 features and 9 fields</span>
+<span class="r-in"><span><span class="fu">lines_azimuths</span><span class="op">(</span><span class="va">plates</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -0.4379 ymin: -54.8518 xmax: 42.0332 ymax: 37.8039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -0.4379 ymin: -54.8518 xmax: 2.35975 ymax: -54.0374</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            azi  pair plateA plateB      type displacement            name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1   52.98880 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.2   51.23433 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.3  141.83793 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.4   44.60702 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.5   47.34529 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.6   45.71276 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.7  132.21165 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.8  130.50217 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.9  138.80081 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.10  41.99286 af-an     af     an divergent          out af-an_divergent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       nameA      nameB                    geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1  Africa Antarctica    POINT (-0.4379 -54.8518)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.2  Africa Antarctica POINT (-0.0388257 -54.6772)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.3  Africa Antarctica   POINT (0.443182 -54.4512)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.4  Africa Antarctica   POINT (0.964534 -54.8322)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.5  Africa Antarctica     POINT (1.69481 -54.399)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.6  Africa Antarctica    POINT (2.35975 -54.0374)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.7  Africa Antarctica    POINT (3.02542 -53.6507)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.8  Africa Antarctica    POINT (3.36894 -53.8341)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.9  Africa Antarctica    POINT (3.95638 -54.1267)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.10 Africa Antarctica    POINT (4.41458 -54.4303)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         azi  pair plateA plateB      type displacement            name  nameA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  52.98880 af-an     af     an divergent          out af-an_divergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  51.23433 af-an     af     an divergent          out af-an_divergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 141.83793 af-an     af     an divergent          out af-an_divergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  44.60702 af-an     af     an divergent          out af-an_divergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  47.34529 af-an     af     an divergent          out af-an_divergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  45.71276 af-an     af     an divergent          out af-an_divergent Africa</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        nameB                    geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Antarctica    POINT (-0.4379 -54.8518)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Antarctica POINT (-0.0388257 -54.6772)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Antarctica   POINT (0.443182 -54.4512)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Antarctica   POINT (0.964534 -54.8322)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Antarctica     POINT (1.69481 -54.399)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Antarctica    POINT (2.35975 -54.0374)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -156,7 +139,7 @@ For <code>"MULTILINESTRING"</code> objects, use <code>lines_azimuths()</code>.</
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

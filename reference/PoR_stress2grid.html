@@ -11,7 +11,7 @@ and azimuths."><meta property="og:image" content="https://tobiste.github.io/tect
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +61,7 @@ and azimuths.</p>
 <span>  lon_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gridsize <span class="op">=</span> <span class="fl">2.5</span>,</span>
+<span>  remove_PoR <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -72,6 +73,7 @@ and azimuths.</p>
 <span>  lon_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gridsize <span class="op">=</span> <span class="fl">2.5</span>,</span>
+<span>  remove_PoR <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -95,7 +97,7 @@ and azimuths.</p>
 
 
 <dt id="arg-por">PoR<a class="anchor" aria-label="anchor" href="#arg-por"></a></dt>
-<dd><p>Pole of Rotation. <code>"data.frame"</code> or object of class
+<dd><p>Pole of Rotation. <code>data.frame</code> or object of class
 <code>"euler.pole"</code> containing the geographical coordinates of the Euler pole</p></dd>
 
 
@@ -111,12 +113,17 @@ coordinate range in the PoR (<code>TRUE</code>, the default) CRS or the geograph
 
 <dt id="arg-lon-range-lat-range">lon_range, lat_range<a class="anchor" aria-label="anchor" href="#arg-lon-range-lat-range"></a></dt>
 <dd><p>(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes (are ignored if <code>"grid"</code> is specified).</p></dd>
+and maximum longitudes and latitudes (are ignored if <code>grid</code> is specified).</p></dd>
 
 
 <dt id="arg-gridsize">gridsize<a class="anchor" aria-label="anchor" href="#arg-gridsize"></a></dt>
 <dd><p>Numeric. Target spacing of the regular grid in decimal
 degree. Default is 2.5 (is ignored if <code>grid</code> is specified)</p></dd>
+
+
+<dt id="arg-remove-por">remove_PoR<a class="anchor" aria-label="anchor" href="#arg-remove-por"></a></dt>
+<dd><p>logical. Whether PoR azimuths and coordinates will be
+removed from final output or not (the default.)</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -129,13 +136,14 @@ degree. Default is 2.5 (is ignored if <code>grid</code> is specified)</p></dd>
 <dd><p>longitude and latitude in geographical CRS (in degrees)</p></dd>
 
 <dt>lon.PoR,lat.PoR</dt>
-<dd><p>longitude and latitude in PoR CRS (in degrees)</p></dd>
+<dd><p>longitude and latitude in PoR CRS (in degrees).
+Only if <code>remove_PoR=TRUE</code></p></dd>
 
 <dt>azi</dt>
 <dd><p>geographical mean SHmax in degree</p></dd>
 
 <dt>azi.PoR</dt>
-<dd><p>PoR mean SHmax in degree</p></dd>
+<dd><p>PoR mean SHmax in degree. Only if <code>remove_PoR=TRUE</code></p></dd>
 
 <dt>sd</dt>
 <dd><p>Standard deviation of SHmax in degrees</p></dd>
@@ -200,7 +208,7 @@ degree. Default is 2.5 (is ignored if <code>grid</code> is specified)</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

@@ -9,7 +9,7 @@ difference from rotation 1 to rotation 2."><meta property="og:image" content="ht
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,14 +84,14 @@ doi: 10.1007/978-3-030-26050-7_435-1.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="euler_pole.html">euler_pole</a></span><span class="op">(</span><span class="fl">90</span>, <span class="fl">0</span>, angle <span class="op">=</span> <span class="fl">45</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="euler_pole.html">euler_pole</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, geo <span class="op">=</span> <span class="cn">FALSE</span>, angle <span class="op">=</span> <span class="op">-</span><span class="fl">15</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">relative_rotation</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">relative_rotation</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span> <span class="co"># axis: -90, -180; angle: 60</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $axis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  -90 -180</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $angle</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">relative_rotation</span><span class="op">(</span><span class="va">b</span>, <span class="va">a</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">relative_rotation</span><span class="op">(</span><span class="va">b</span>, <span class="va">a</span><span class="op">)</span> <span class="co"># axis: 90, 0; angle: 60</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $axis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 90  0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -109,7 +109,7 @@ doi: 10.1007/978-3-030-26050-7_435-1.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
