@@ -13,6 +13,7 @@ PoR_stress2grid(
   lon_range = NULL,
   lat_range = NULL,
   gridsize = 2.5,
+  remove_PoR = FALSE,
   ...
 )
 
@@ -24,6 +25,7 @@ PoR_stress2grid_stats(
   lon_range = NULL,
   lat_range = NULL,
   gridsize = 2.5,
+  remove_PoR = FALSE,
   ...
 )
 }
@@ -35,7 +37,7 @@ PoR_stress2grid_stats(
 \item{type}{Methods used for the determination of the orientation of SHmax}
 }}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class
+\item{PoR}{Pole of Rotation. \code{data.frame} or object of class
 \code{"euler.pole"} containing the geographical coordinates of the Euler pole}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
@@ -45,10 +47,13 @@ coordinate range in the PoR (\code{TRUE}, the default) CRS or the geographical C
 (\code{FALSE}). Is ignored if \code{grid} is specified.}
 
 \item{lon_range, lat_range}{(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes (are ignored if \code{"grid"} is specified).}
+and maximum longitudes and latitudes (are ignored if \code{grid} is specified).}
 
 \item{gridsize}{Numeric. Target spacing of the regular grid in decimal
 degree. Default is 2.5 (is ignored if \code{grid} is specified)}
+
+\item{remove_PoR}{logical. Whether PoR azimuths and coordinates will be
+removed from final output or not (the default.)}
 
 \item{...}{Arguments passed to \code{\link[=stress2grid]{stress2grid()}}}
 }
@@ -56,9 +61,10 @@ degree. Default is 2.5 (is ignored if \code{grid} is specified)}
 \code{sf} object containing
 \describe{
 \item{lon,lat}{longitude and latitude in geographical CRS (in degrees)}
-\item{lon.PoR,lat.PoR}{longitude and latitude in PoR CRS (in degrees)}
+\item{lon.PoR,lat.PoR}{longitude and latitude in PoR CRS (in degrees).
+Only if \code{remove_PoR=TRUE}}
 \item{azi}{geographical mean SHmax in degree}
-\item{azi.PoR}{PoR mean SHmax in degree}
+\item{azi.PoR}{PoR mean SHmax in degree. Only if \code{remove_PoR=TRUE}}
 \item{sd}{Standard deviation of SHmax in degrees}
 \item{R}{Search radius in km}
 \item{mdr}{Mean distance of datapoints per search radius}

@@ -15,8 +15,7 @@ PoR_to_geographical_df(x, PoR)
 coordinates of a point in the geographical CRS or the \code{lat.PoR},
 \code{lon.PoR}) of the point in the PoR CRS.}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler pole}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole}
 }
 \value{
 \code{"data.frame"} with the transformed coordinates

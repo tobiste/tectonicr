@@ -146,18 +146,15 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "X"),
         regime == "TF" ~ "T",
         regime == "TS" ~ "TS",
         regime == "SS" ~ "S",
-        regime == "U" ~ NA,
-        TRUE ~ NA_character_,
-        .default = regime
+        regime == "U" ~ NA_character_,
+        TRUE ~ regime,
       ),
       unc = ifelse(is.na(sd), quality.numeric, sd),
       unc = ifelse(unc > quality.numeric, quality.numeric, unc),
       unc = ifelse(unc == 0, 15, unc),
       unc = as.numeric(unc),
-      dplyr::across(dplyr::where(is.character), function(x) {
-        ifelse(x == "", NA, x)
-      }),
-      eq_mag = as.numeric(eq_mag),
+      dplyr::across(dplyr::where(is.character), ~ dplyr::na_if(.x, "")),
+      eq_mag = suppressWarnings(as.numeric(eq_mag)),
       # date = ymd(date),
       # time = hms(time)
     ) |>
@@ -243,18 +240,16 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
         regime == "TS" ~ "TS",
         regime == "SS" ~ "S",
         regime == "U" ~ NA,
-        TRUE ~ NA_character_,
-        .default = regime
+        regime == "U" ~ NA_character_,
+        TRUE ~ regime
       ),
       quality.numeric = parse_wsm_quality(quality),
       unc = ifelse(is.na(sd), quality.numeric, sd),
       unc = ifelse(unc > quality.numeric, quality.numeric, unc),
       unc = ifelse(unc == 0, 15, unc),
-      unc = as.numeric(unc),
-      dplyr::across(dplyr::where(is.character), function(x) {
-        ifelse(x == "", NA, x)
-      }),
-      eq_mag = as.numeric(eq_mag),
+      unc = suppressWarnings(as.numeric(unc)),
+      dplyr::across(dplyr::where(is.character), ~ dplyr::na_if(.x, "")),
+      eq_mag = suppressWarnings(as.numeric(eq_mag)),
       # date = ymd(date),
       # time = hms(time)
     ) |>
@@ -427,10 +422,11 @@ stress_analysis <- function(x, PoR, type = c("none", "in", "out", "right", "left
 #' # one line:
 #' subset(plates, pair == "af-eu") |>
 #'   smoothr::densify() |>
-#'   line_azimuth()
+#'   line_azimuth() |>
+#'   head()
 #'
 #' # multiple lines:
-#' lines_azimuths(plates[1:5, ])
+#' lines_azimuths(plates[1:5, ]) |> head()
 NULL
 
 #' @rdname line_azimuth
@@ -443,30 +439,26 @@ line_azimuth <- function(x, warn = TRUE) {
     sf::st_coordinates()
 
   n <- nrow(mat)
-  # a <- numeric(n - 1)
-  # for (i in 1:(n - 1)) {
-  #   a[i] <- get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
-  # }
-  a <- vapply(
-    1:(n - 1), function(i) {
-      get_azimuth(mat[i, 2], mat[i, 1], mat[i + 1, 2], mat[i + 1, 1])
-    },
-    numeric(1)
+  a <- get_azimuth(
+    mat[1:(n - 1), 2], mat[1:(n - 1), 1],
+    mat[2:n, 2], mat[2:n, 1]
   )
 
-  data.frame(
-    x = mat[1:(n - 1), 1],
-    y = mat[1:(n - 1), 2],
-    azi = a
-  ) |>
-    cbind(sf::st_drop_geometry(x[1, ])) |>
-    sf::st_as_sf(coords = c("x", "y"), crs = sf::st_crs(x))
+  ldf <- cbind(
+    data.frame(
+      x = mat[1:(n - 1), 1],
+      y = mat[1:(n - 1), 2],
+      azi = a
+    ),
+    sf::st_drop_geometry(x[1, ])
+  )
+
+  sf::st_as_sf(ldf, coords = c("x", "y"), crs = sf::st_crs(x))
 }
 
 #' @rdname line_azimuth
 #' @export
 lines_azimuths <- function(x) {
-  la <- split(x, 1:nrow(x)) |>
-    lapply(line_azimuth, warn = FALSE)
-  do.call(rbind, la)
+  la <- lapply(split(x, 1:nrow(x)), line_azimuth, warn = FALSE)
+  dplyr::bind_rows(la)
 }

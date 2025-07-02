@@ -10,21 +10,23 @@
 #' @name coordinate_mod
 #'
 #' @examples
-#' longitude_modulo(-361 + 5 * 360)
-#' latitude_modulo(-91 + 5 * 180)
+#' longitude_modulo(-361 + 5 * 360) # -1
+#' latitude_modulo(-91 + 5 * 180) # 89
 NULL
 
 #' @rdname coordinate_mod
 #' @export
 longitude_modulo <- function(x) {
   # longitude.mod <- (longitude %% 360 + 540) %% 360 - 180
-  (x + 540) %% 360 - 180
+  #(x + 540) %% 360 - 180
+  ((x + 180) %% 360) - 180
 }
 
 #' @rdname coordinate_mod
 #' @export
 latitude_modulo <- function(x) {
   asind(sind(x))
+  # ((x + 90) %% 180) - 90
 }
 
 
@@ -54,26 +56,23 @@ NULL
 #' @export
 cartesian_to_geographical <- function(n) {
   stopifnot(length(n) == 3)
-  r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
-  p <- numeric(2)
-  p[1] <- asind(n[3] / r) # lat
-  p[2] <- atan2d(n[2], n[1]) # lon
-  # if (abs(lat) > 90) {
-  #   lat <- latitude_modulo(lat)
-  #   lon <- longitude_modulo(lon + 180)
-  # }
-  p
+  # r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
+  r <- sqrt(sum(n^2))
+  c(
+    asind(n[3] / r),        # latitude
+    atan2d(n[2], n[1])      # longitude
+  )
 }
 
 #' @rdname coordinates
 #' @export
 geographical_to_cartesian <- function(p) {
   stopifnot(length(p) == 2)
-  x <- numeric(3)
-  x[1] <- cosd(p[1]) * cosd(p[2])
-  x[2] <- cosd(p[1]) * sind(p[2])
-  x[3] <- sind(p[1])
-  x
+  c(
+    cosd(p[1]) * cosd(p[2]),  # x
+    cosd(p[1]) * sind(p[2]),  # y
+    sind(p[1])                # z
+  )
 }
 
 #' @rdname coordinates
@@ -99,32 +98,34 @@ geographical_to_spherical <- function(p) {
 #'
 #' @examples
 #' n <- c(1, -2, 3)
-#' cartesian_to_spherical(n)
+#' cartesian_to_spherical(n) # 36.699, -63.435
 #' p <- c(50, 10)
-#' spherical_to_cartesian(p)
+#' spherical_to_cartesian(p) # 0.75, 0.13, 0.64
 #' @name coordinates2
 NULL
 
 #' @rdname coordinates2
 #' @export
 cartesian_to_spherical <- function(n) {
-  stopifnot(length(n) == 3)
-  r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
-  p <- numeric(2)
-  p[1] <- acosd(n[3] / r) # colat/inclination
-  p[2] <- atan2d(n[2], n[1]) # azimuth
-  p
+  stopifnot(is.numeric(n), length(n) == 3)
+  r <- sqrt(sum(n^2))
+  stopifnot(r > 0)  # avoid division by zero
+
+  c(
+  acosd(n[3] / r),  # inclination (0° at north pole)
+  atan2d(n[2], n[1])  # azimuth (-180° to 180°)
+  )
 }
 
 #' @rdname coordinates2
 #' @export
 spherical_to_cartesian <- function(p) {
   stopifnot(length(p) == 2)
-  x <- numeric(3)
-  x[1] <- sind(p[1]) * cosd(p[2])
-  x[2] <- sind(p[1]) * sind(p[2])
-  x[3] <- cosd(p[1])
-  x
+  c(
+    sind(p[1]) * cosd(p[2]), #x
+    sind(p[1]) * sind(p[2]), # y
+    cosd(p[1]) #y
+  )
 }
 
 #' @rdname coordinates2
@@ -159,20 +160,20 @@ spherical_to_geographical <- function(p) {
 #' por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Pacific plate
 #' PoR_crs(por)
 PoR_crs <- function(x) {
-  stopifnot(is.data.frame(x) | is.euler(x))
-  x <- as.data.frame(x)
+  stopifnot(is.data.frame(x), c("lat", "lon") %in% names(x))
+
   # if (x$lat < 0) {
   #   x$lat <- -x$lat
   #   x$lon <- longitude_modulo(x$lon + 180)
   # }
-  sf::st_crs(
-    paste0(
-      "+proj=ob_tran +o_proj=longlat +datum=WGS84 +o_lat_p=",
-      x$lat,
-      " +o_lon_p=",
-      x$lon
-    )
+  #
+  proj_str <- paste0(
+    "+proj=ob_tran +o_proj=longlat +datum=WGS84",
+    " +o_lat_p=", x$lat,
+    " +o_lon_p=", x$lon
   )
+
+  sf::st_crs(proj_str)
 }
 
 
@@ -191,6 +192,9 @@ NULL
 
 #' @name por_transformation_quat
 geographical_to_PoR_quat <- function(x, PoR) {
+  stopifnot(is.numeric(x), length(x) == 2)
+  stopifnot(is.numeric(PoR), length(PoR) == 2)
+
   p <- geographical_to_cartesian(x)
   euler_y <- euler_pole(0, 1, 0, angle = 90 - PoR[1], geo = FALSE)
   euler_z <- euler_pole(0, 0, 1, angle = 180 - PoR[2], geo = FALSE)
@@ -205,6 +209,9 @@ geographical_to_PoR_quat <- function(x, PoR) {
 
 #' @name por_transformation_quat
 PoR_to_geographical_quat <- function(x, PoR) {
+  stopifnot(is.numeric(x), length(x) == 2)
+  stopifnot(is.numeric(PoR), length(PoR) == 2)
+
   x[2] <- longitude_modulo(x[2] - 180)
   p_trans <- geographical_to_cartesian(x)
   PoR_yt <- euler_pole(0, -1, 0, angle = 90 - PoR[1], geo = FALSE)
@@ -236,8 +243,7 @@ PoR_to_geographical_helper <- function(lat.PoR, lon.PoR, PoR) {
 #' \code{lon.PoR}) of the point in the PoR CRS,
 #' a two-column matrix containing the lat and lon coordinates,
 #' a `sf` object, or a `raster` object.
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
+#' @param PoR Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole
 #'
 #' @returns object of same type of `x` with the transformed coordinates. If `x`
 #' was a `data.frame`, transformed coordinates are named \code{lat.PoR} and \code{lon.PoR} for PoR CRS,
@@ -257,8 +263,6 @@ NULL
 #' @rdname por_transformation
 #' @export
 geographical_to_PoR <- function(x, PoR) {
-  stopifnot(is.data.frame(PoR) | is.euler(PoR))
-
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     geographical_to_PoR_raster(x, PoR)
   } else if (inherits(x, "sf")) {
@@ -275,8 +279,6 @@ geographical_to_PoR <- function(x, PoR) {
 #' @rdname por_transformation
 #' @export
 PoR_to_geographical <- function(x, PoR) {
-  stopifnot(is.data.frame(PoR) | is.euler(PoR))
-
   if (methods::extends(class(x), "BasicRaster") | inherits(x, "SpatRaster")) {
     PoR_to_geographical_raster(x, PoR)
   } else if (inherits(x, "sf")) {
@@ -299,8 +301,7 @@ PoR_to_geographical <- function(x, PoR) {
 #' @param x \code{"data.frame"} containing \code{lat} and \code{lon}
 #' coordinates of a point in the geographical CRS or the \code{lat.PoR},
 #' \code{lon.PoR}) of the point in the PoR CRS.
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
+#' @param PoR Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole
 #'
 #' @returns \code{"data.frame"} with the transformed coordinates
 #' (\code{lat.PoR} and \code{lon.PoR} for PoR CRS,
@@ -313,9 +314,10 @@ NULL
 #' @name por_transformation_df
 geographical_to_PoR_df <- function(x, PoR) {
   stopifnot(c("lat", "lon") %in% colnames(x))
+  stopifnot(c("lat", "lon") %in% colnames(PoR))
+
   ep.geo <- c(PoR$lat, PoR$lon)
   lat.PoR <- lon.PoR <- numeric(nrow(x))
-
 
   x_por <- mapply(geographical_to_PoR_helper, x$lat, x$lon, MoreArgs = list(PoR = ep.geo))
   data.frame(lat.PoR = x_por[1, ], lon.PoR = x_por[2, ])
@@ -324,6 +326,8 @@ geographical_to_PoR_df <- function(x, PoR) {
 #' @name por_transformation_df
 PoR_to_geographical_df <- function(x, PoR) {
   stopifnot(c("lat.PoR", "lon.PoR") %in% colnames(x))
+  stopifnot(c("lat", "lon") %in% colnames(PoR))
+
   ep.geo <- c(PoR$lat, PoR$lon)
   lat <- lon <- numeric(nrow(x))
 
@@ -464,15 +468,15 @@ geographical_to_PoR_sf <- function(x, PoR) {
 #' san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), por)
 #' head(san_andreas.por_df)
 PoR_coordinates <- function(x, PoR) {
-  if (is.data.frame(x)) {
-    # x <- sf::st_as_sf(x, coords = c("lon", "lat"))
-    geographical_to_PoR_df(x, PoR)
-  } else {
+  if (inherits(x, 'sf')) {
     x |>
       geographical_to_PoR_sf(PoR = PoR) |>
       sf::st_coordinates() |>
       sf::st_drop_geometry() |>
+      as.data.frame() |>
       dplyr::rename("lon.PoR" = "X", "lat.PoR" = "Y")
+  } else if(inherits(x, 'data.frame')) {
+    geographical_to_PoR_df(x, PoR)
   }
 }
 
@@ -492,12 +496,12 @@ PoR_coordinates <- function(x, PoR) {
 #' data("san_andreas")
 #'
 #' # distance form sf object
-#' PoR_distance(san_andreas, por)
+#' PoR_distance(san_andreas, por) |> head()
 #'
 #' # distance form data.frame
-#' PoR_distance(sf::st_drop_geometry(san_andreas), por)
-#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = orthodrome)
-#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = vincenty)
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por) |> head()
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = orthodrome) |> head()
+#' PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = vincenty) |> head()
 PoR_distance <- function(x, PoR, FUN = orthodrome) {
   if (inherits(x, "sf")) {
     x_crds <- sf::st_coordinates(x)

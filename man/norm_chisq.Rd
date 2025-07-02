@@ -49,7 +49,7 @@ PoR <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to
 data(san_andreas)
 point <- data.frame(lat = 45, lon = 20)
 prd <- model_shmax(point, PoR)
-norm_chisq(obs = c(50, 40, 42), prd$sc, unc = c(10, NA, 5))
+norm_chisq(obs = c(50, 40, 42), prd = prd$sc, unc = c(10, NA, 5))
 
 data(san_andreas)
 prd2 <- PoR_shmax(san_andreas, PoR, type = "right")

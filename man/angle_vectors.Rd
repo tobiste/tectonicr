@@ -19,5 +19,5 @@ Calculates the angle between two vectors
 \examples{
 u <- c(1, -2, 3)
 v <- c(-2, 1, 1)
-angle_vectors(u, v)
+angle_vectors(u, v) # 96.26395
 }

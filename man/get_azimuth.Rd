@@ -33,7 +33,7 @@ longitude).
 \examples{
 berlin <- c(52.517, 13.4) # Berlin
 tokyo <- c(35.7, 139.767) # Tokyo
-get_azimuth(berlin[1], berlin[2], tokyo[1], tokyo[2])
+get_azimuth(berlin[1], berlin[2], tokyo[1], tokyo[2]) # 41.57361
 }
 \references{
 \url{http://www.movable-type.co.uk/scripts/latlong.html}

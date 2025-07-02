@@ -17,8 +17,7 @@ coordinates of a point in the geographical CRS or the \code{lat.PoR},
 a two-column matrix containing the lat and lon coordinates,
 a \code{sf} object, or a \code{raster} object.}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler pole}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole}
 }
 \value{
 object of same type of \code{x} with the transformed coordinates. If \code{x}

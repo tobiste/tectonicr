@@ -19,7 +19,7 @@ vincenty(lat1, lon1, lat2, lon2)
 \item{lon1, lon2}{numeric vector. longitudes of point 1 and 2 (in radians)}
 }
 \value{
-numeric. angle in radians
+numeric. Angle in radians
 }
 \description{
 Smallest angle between two points on the surface of a sphere, measured along
@@ -37,9 +37,9 @@ with equal major and minor axes}
 \examples{
 berlin <- c(52.52, 13.41) |> deg2rad()
 calgary <- c(51.04, -114.072) |> deg2rad()
-orthodrome(berlin[1], berlin[2], calgary[1], calgary[2])
-haversine(berlin[1], berlin[2], calgary[1], calgary[2])
-vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
+orthodrome(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
+haversine(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
+vincenty(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
 }
 \references{
 \itemize{

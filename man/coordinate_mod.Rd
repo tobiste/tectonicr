@@ -21,6 +21,6 @@ Corrects the longitudes or latitudes to value between -180.0 and
 180.0 or -90 and 90 degree
 }
 \examples{
-longitude_modulo(-361 + 5 * 360)
-latitude_modulo(-91 + 5 * 180)
+longitude_modulo(-361 + 5 * 360) # -1
+latitude_modulo(-91 + 5 * 180) # 89
 }

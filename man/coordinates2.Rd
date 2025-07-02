@@ -28,9 +28,9 @@ systems
 }
 \examples{
 n <- c(1, -2, 3)
-cartesian_to_spherical(n)
+cartesian_to_spherical(n) # 36.699, -63.435
 p <- c(50, 10)
-spherical_to_cartesian(p)
+spherical_to_cartesian(p) # 0.75, 0.13, 0.64
 }
 \seealso{
 \code{\link[=cartesian_to_geographical]{cartesian_to_geographical()}} and \code{\link[=geographical_to_cartesian]{geographical_to_cartesian()}} for

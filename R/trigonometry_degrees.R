@@ -120,13 +120,15 @@ atan2_spec <- function(x, y) {
   # } else if (y == 0 && x == 0) {
   #   Inf
   # }
-  dplyr::case_when(
-    y > 0 && x >= 0 ~ atan(x / y),
-    y == 0 && x > 0 ~ pi / 2,
-    y < 0 ~ atan(x / y + pi),
-    y > 0 && x < 0 ~ atan(x / y) + 2 * pi,
-    y == 0 && x == 0 ~ Inf
-  )
+  # dplyr::case_when(
+  #   y > 0 & x >= 0 ~ atan(x / y),
+  #   y == 0 & x > 0 ~ pi / 2,
+  #   y < 0 ~ atan(x / y + pi),
+  #   y > 0 & x < 0 ~ atan(x / y) + 2 * pi,
+  #   y == 0 & x == 0 ~ Inf
+  # )
+  angle <- atan2(x, y)
+  ifelse(angle < 0, angle + 2 * pi, angle)
 }
 
 #' @rdname spec_atan
@@ -151,15 +153,24 @@ atan2d_spec <- function(x, y) {
 #' @examples
 #' u <- c(1, -2, 3)
 #' v <- c(-2, 1, 1)
-#' angle_vectors(u, v)
+#' angle_vectors(u, v) # 96.26395
 angle_vectors <- function(x, y) {
-  if (length(x) == length(y)) {
-    angle.d <- rad2deg(
-      acos(sum(x * y) / (sqrt(sum(x * x)) * sqrt(sum(y * y))))
-    )
-    return(angle.d)
-  }
+  stopifnot(length(x) == length(y))
+
+  dot <- sum(x * y)
+  norm_x <- sqrt(sum(x^2))
+  norm_y <- sqrt(sum(y^2))
+
+  cos_angle <- dot / (norm_x * norm_y)
+  cos_angle <- pmin(pmax(cos_angle, -1), 1)
+
+  # cos_angle <- dot / (sqrt(sum(x^2) * sum(y^2)))
+
+  angle_deg <- acos(cos_angle) * 180 / pi
+
+  return(angle_deg)
 }
+
 
 #' @keywords internal
 hav <- function(x) {
@@ -168,7 +179,7 @@ hav <- function(x) {
 
 #' @keywords internal
 ahav <- function(x) {
-  2 * asin(sqrt(x))
+  2 * asin(sqrt(pmin(pmax(x, 0), 1)))
 }
 
 #' Angle along great circle on spherical surface
@@ -186,7 +197,7 @@ ahav <- function(x) {
 #' with equal major and minor axes}
 #' }
 #'
-#' @returns numeric. angle in radians
+#' @returns numeric. Angle in radians
 #'
 #' @references
 #' * Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
@@ -206,27 +217,38 @@ ahav <- function(x) {
 #' @examples
 #' berlin <- c(52.52, 13.41) |> deg2rad()
 #' calgary <- c(51.04, -114.072) |> deg2rad()
-#' orthodrome(berlin[1], berlin[2], calgary[1], calgary[2])
-#' haversine(berlin[1], berlin[2], calgary[1], calgary[2])
-#' vincenty(berlin[1], berlin[2], calgary[1], calgary[2])
+#' orthodrome(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
+#' haversine(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
+#' vincenty(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
 NULL
 
 #' @rdname spherical_angle
 #' @export
 orthodrome <- function(lat1, lon1, lat2, lon2) {
   dlon <- lon2 - lon1
-  acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(dlon))
+
+  sin_lat1 <- sin(lat1)
+  sin_lat2 <- sin(lat2)
+  cos_lat1 <- cos(lat1)
+  cos_lat2 <- cos(lat2)
+  cos_dlon <- cos(dlon)
+
+  acos(pmin(pmax(sin_lat1 * sin_lat2 + cos_lat1 * cos_lat2 * cos_dlon, -1), 1))
 }
 
 #' @rdname spherical_angle
 #' @export
 haversine <- function(lat1, lon1, lat2, lon2) {
   dlon <- lon2 - lon1
-  havdlat <- hav(lat2 - lat1)
+  dlat <- lat2 - lat1
 
-  ahav(
-    havdlat + (1 - havdlat - hav(lat2 + lat1)) * hav(dlon)
-  )
+  hav_dlat <- hav(dlat)
+  hav_dlon <- hav(dlon)
+  hav_lat_sum <- hav(lat2 + lat1)
+
+  arg <- hav_dlat + (1 - hav_dlat - hav_lat_sum) * hav_dlon
+
+  ahav(arg)
 }
 
 #' @rdname spherical_angle
@@ -234,10 +256,17 @@ haversine <- function(lat1, lon1, lat2, lon2) {
 vincenty <- function(lat1, lon1, lat2, lon2) {
   dlon <- lon2 - lon1
 
-  y <- sqrt(
-    (cos(lat2) * sin(dlon))^2 + (cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dlon))^2
-  )
-  x <- sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(dlon)
+  sin_lat1 <- sin(lat1)
+  cos_lat1 <- cos(lat1)
+  sin_lat2 <- sin(lat2)
+  cos_lat2 <- cos(lat2)
+  sin_dlon <- sin(dlon)
+  cos_dlon <- cos(dlon)
+
+  y <- sqrt((cos_lat2 * sin_dlon)^2 +
+              (cos_lat1 * sin_lat2 - sin_lat1 * cos_lat2 * cos_dlon)^2)
+  x <- sin_lat1 * sin_lat2 + cos_lat1 * cos_lat2 * cos_dlon
+
   atan2(y, x)
 }
 
@@ -276,22 +305,29 @@ ddistance <- function(theta1, phi1, theta2, phi2, r = earth_radius()) {
 #' \item{"euclidean"}{Euclidean distance (not great circle distance!)}
 #' }
 #'
-#' @returns numeric vector with length equal to `length(lat1)`
+#' @returns numeric vector with length equal to `length(lat1)` or `length(lat2)`
 #'
 #' @export
 #'
 #' @seealso [orthodrome()], [haversine()], [vincenty()]
 #'
 #' @examples
+#' # Haversine: (4149.157, 2296.583) km
 #' dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
+#'
+#' # Orthodrome: (4149.157, 2296.583) km
 #' dist_greatcircle(
 #'   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
 #'   method = "orthodrome"
 #' )
+#'
+#' # Vincenty: (4149.157, 2296.583) km
 #' dist_greatcircle(
 #'   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
 #'   method = "vincenty"
 #' )
+#'
+#' # Euclidean (4076.220, 2284.169) km
 #' dist_greatcircle(
 #'   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
 #'   method = "euclidean"
@@ -300,22 +336,23 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
                              r = earth_radius(),
                              method = c("haversine", "orthodrome", "vincenty", "euclidean")) {
   method <- match.arg(method)
-  stopifnot(is.numeric(r), length(lat1) == length(lon1), length(lat2) == length(lat2))
+  #n <- length(lat1)
+  if (!is.numeric(r) || length(r) != 1) stop("'r' must be a single numeric value.")
+  # if (length(lon1) != n || length(lat2) != n || length(lon2) != n) {
+  #   stop("lat1, lon1, lat2, and lon2 must all have the same length.")
+  # }
 
-  lat1 <- deg2rad(lat1)
-  lon1 <- deg2rad(lon1)
-  lat2 <- deg2rad(lat2)
-  lon2 <- deg2rad(lon2)
+  lat1_rad <- deg2rad(lat1)
+  lon1_rad <- deg2rad(lon1)
+  lat2_rad <- deg2rad(lat2)
+  lon2_rad <- deg2rad(lon2)
 
-  if (method == "haversine") {
-    d <- haversine(lat1, lon1, lat2, lon2) * r
-  } else if (method == "orthodrome") {
-    d <- orthodrome(lat1, lon1, lat2, lon2) * r
-  } else if (method == "vincenty") {
-    d <- vincenty(lat1, lon1, lat2, lon2) * r
-  } else {
-    d <- ddistance(lat1, lon1, lat2, lon2, r)
-  }
+  d <- switch(method,
+              "haversine"  = haversine(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
+              "orthodrome" = orthodrome(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
+              "vincenty"   = vincenty(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
+              "euclidean"  = ddistance(lat1_rad, lon1_rad, lat2_rad, lon2_rad, r)
+  )
   return(d)
 }
 
@@ -393,18 +430,19 @@ shortest_distance_to_line <- function(x, line, ellipsoidal = FALSE) {
 #' @examples
 #' berlin <- c(52.517, 13.4) # Berlin
 #' tokyo <- c(35.7, 139.767) # Tokyo
-#' get_azimuth(berlin[1], berlin[2], tokyo[1], tokyo[2])
+#' get_azimuth(berlin[1], berlin[2], tokyo[1], tokyo[2]) # 41.57361
 get_azimuth <- function(lat_a, lon_a, lat_b, lon_b) {
-  la <- deg2rad(lat_a)
-  lb <- deg2rad(lat_b)
+  dr <- pi / 180 # degrees to radians
 
-  dphi <- deg2rad(lon_b - lon_a)
+  la <- lat_a * dr
+  lb <- lat_b * dr
+
+  dphi <- (lon_b - lon_a) * dr
   cos_lb <- cos(lb)
 
   y <- sin(dphi) * cos_lb
   x <- cos(la) * sin(lb) - sin(la) * cos_lb * cos(dphi)
-  theta <- atan2d(y, x)
-  # theta <- atand(y / x) + 360
+  theta <- atan2(y, x)
 
-  (theta + 360) %% 360
+  (theta / dr) %% 360 # Convert to degrees and wrap to [0, 360)
 }

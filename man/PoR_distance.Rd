@@ -28,10 +28,10 @@ por <- subset(nuvel1, nuvel1$plate.rot == "na") # North America relative to Paci
 data("san_andreas")
 
 # distance form sf object
-PoR_distance(san_andreas, por)
+PoR_distance(san_andreas, por) |> head()
 
 # distance form data.frame
-PoR_distance(sf::st_drop_geometry(san_andreas), por)
-PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = orthodrome)
-PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = vincenty)
+PoR_distance(sf::st_drop_geometry(san_andreas), por) |> head()
+PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = orthodrome) |> head()
+PoR_distance(sf::st_drop_geometry(san_andreas), por, FUN = vincenty) |> head()
 }

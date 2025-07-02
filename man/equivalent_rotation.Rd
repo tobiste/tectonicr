@@ -35,7 +35,7 @@ data(nuvel1) # load the NUVEL1 rotation parameters
 # all nuvel1 rotation equivalent to fixed Africa:
 equivalent_rotation(nuvel1, fixed = "af")
 # relative plate motion between Eurasia and India:
-equivalent_rotation(nuvel1, "eu", "in")
+equivalent_rotation(nuvel1, "eu", "in") # lat = 24.58, lon = 18.07, angle = 0.528
 }
 \seealso{
 \code{\link[=relative_rotation]{relative_rotation()}}

@@ -7,7 +7,7 @@
 \alias{sample_circular_dispersion}
 \title{Sample circular dispersion}
 \usage{
-sample_circular_variance(x, w = NULL, axial = TRUE, na.rm = TRUE)
+sample_circular_variance(x, w = NULL, axial = TRUE)
 
 sample_circular_distance(x, y, axial = TRUE, na.rm = TRUE)
 

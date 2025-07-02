@@ -21,7 +21,7 @@ wcmean <- function(x, w) {
     mean_s <- atan2(m["S"], m["C"]) / 2
     unname(rad2deg(c(mean_s, sd_s)) %% 180)
   } else {
-    c(NA, NA)
+    c(NA_real_, NA_real_)
   }
 }
 
@@ -32,11 +32,11 @@ wcmedian <- function(x, w) {
     quantiles <- circular_quantiles(x, w)
     median_s <- (quantiles[3])
     iqr_s <- deviation_norm(quantiles[4], quantiles[2])
-  } else if (Z > 0 & Z <= 3) {
+  } else if (Z > 0 && Z <= 3) {
     median_s <- circular_median(x, w)
     iqr_s <- ceiling(deviation_norm(max(x), min(x)))
   } else {
-    median_s <- iqr_s <- NA
+    median_s <- iqr_s <- NA_real_
   }
   unname(c(median_s, iqr_s))
 }
@@ -193,20 +193,20 @@ stress2grid <- function(x,
                         ...) {
   stopifnot(
     inherits(x, "sf"),
-    is.numeric(gridsize),
+    is.numeric(gridsize) && length(gridsize) == 1,
     is.numeric(max_sd) | is.infinite(max_sd),
     is.numeric(max_data) | is.infinite(max_data),
     is.numeric(min_data) | is.infinite(min_data),
     max_data >= min_data,
     is.numeric(min_dist_threshold),
     is.numeric(dist_threshold),
-    min_dist_threshold > 0,
+    min_dist_threshold > 0 && length(min_dist_threshold) == 1,
     is.numeric(R_range),
     is.logical(method_weighting),
     is.logical(quality_weighting),
-    is.numeric(idp),
-    is.numeric(qp),
-    is.numeric(mp)
+    is.numeric(idp) && length(idp) == 1,
+    is.numeric(qp) && length(qp) == 1,
+    is.numeric(mp) && length(mp) == 1
   )
 
   if (lifecycle::is_present(arte_thres)) {
@@ -230,18 +230,10 @@ stress2grid <- function(x,
   min_data <- as.integer(ceiling(min_data))
 
   dist_weighting <- match.arg(dist_weighting)
-  if (dist_weighting == "linear") {
-    w_distance_fun <- dist_weighting_linear
-  } else {
-    w_distance_fun <- dist_weighting_inverse
-  }
+  w_distance_fun <- if (dist_weighting == "linear") dist_weighting_linear else dist_weighting_inverse
 
   stat <- match.arg(stat)
-  if (stat == "median") {
-    stats_fun <- wcmedian
-  } else {
-    stats_fun <- wcmean
-  }
+  stats_fun <- if (stat == "median") wcmedian else wcmean
 
   colnames_x <- colnames(x)
 
@@ -290,7 +282,7 @@ stress2grid <- function(x,
 
   if (is.null(grid)) {
     # Regular grid
-    if (is.null(lon_range) || is.null(lat_range)) {
+    if (is.null(lon_range) | is.null(lat_range)) {
       lon_range <- range(datas[, 1], na.rm = TRUE)
       lat_range <- range(datas[, 2], na.rm = TRUE)
     }
@@ -331,7 +323,7 @@ stress2grid <- function(x,
         if (N_in_R < min_data) {
           # not enough data within search radius
           sdSH <- 0
-          meanSH <- md <- NA
+          meanSH <- md <- NA_real_
         } else if (N_in_R == 1) {
           sdSH <- 0
           meanSH <- datas[ids_R, 3]
@@ -542,10 +534,10 @@ stress2grid_stats <- function(x,
 
         if (N_in_R < min_data) {
           # not enough data within search radius
-          stats <- rep(NA, length(cols) - 5)
+          stats <- rep(NA_real_, length(cols) - 5)
           md <- NA
         } else if (N_in_R == 1) {
-          stats <- rep(NA, length(cols) - 5)
+          stats <- rep(NA_real_, length(cols) - 5)
           stats[2] <- datas[ids_R, 3]
           md <- distij[ids_R]
         } else {
@@ -591,16 +583,18 @@ stress2grid_stats <- function(x,
 #' \item{unc}{Uncertainties of SHmax in degree}
 #' \item{type}{Methods used for the determination of the orientation of SHmax}
 #' }
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class
+#' @param PoR Pole of Rotation. `data.frame` or object of class
 #' \code{"euler.pole"} containing the geographical coordinates of the Euler pole
-#' @param grid (optional) Point object of class \code{sf}.
+#' @param grid (optional) Point object of class `sf`.
 #' @param PoR_grid logical. Whether the grid should be generated based on the
 #' coordinate range in the PoR (`TRUE`, the default) CRS or the geographical CRS
 #' (`FALSE`). Is ignored if `grid` is specified.
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
-#' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
+#' and maximum longitudes and latitudes (are ignored if `grid` is specified).
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
 #' degree. Default is 2.5 (is ignored if `grid` is specified)
+#' @param remove_PoR logical. Whether PoR azimuths and coordinates will be
+#' removed from final output or not (the default.)
 #' @param ... Arguments passed to [stress2grid()]
 #'
 #' @description The data is transformed into the PoR system before the
@@ -613,9 +607,10 @@ stress2grid_stats <- function(x,
 #' @returns \code{sf} object containing
 #' \describe{
 #' \item{lon,lat}{longitude and latitude in geographical CRS (in degrees)}
-#' \item{lon.PoR,lat.PoR}{longitude and latitude in PoR CRS (in degrees)}
+#' \item{lon.PoR,lat.PoR}{longitude and latitude in PoR CRS (in degrees).
+#' Only if `remove_PoR=TRUE`}
 #' \item{azi}{geographical mean SHmax in degree}
-#' \item{azi.PoR}{PoR mean SHmax in degree}
+#' \item{azi.PoR}{PoR mean SHmax in degree. Only if `remove_PoR=TRUE`}
 #' \item{sd}{Standard deviation of SHmax in degrees}
 #' \item{R}{Search radius in km}
 #' \item{mdr}{Mean distance of datapoints per search radius}
@@ -639,7 +634,7 @@ NULL
 
 #' @rdname PoR_stress2grid
 #' @export
-PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
+PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, remove_PoR = FALSE, ...) {
   if (!is.null(grid)) {
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
@@ -668,7 +663,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
   }
 
   grid_PoR <- if (!PoR_grid) {
-    sf::st_as_sf(grid) |>
+    sf::st_as_sf(grid, crs = sf::st_crs(x)) |>
       geographical_to_PoR_sf(PoR)
   } else {
     NULL
@@ -694,12 +689,15 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
   int$lat <- int_coords$lat
   int$lon <- int_coords$lon
   int$azi <- PoR2Geo_azimuth(int, PoR)
+
+  if(remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
+
   return(int)
 }
 
 #' @rdname PoR_stress2grid
 #' @export
-PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, ...) {
+PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, remove_PoR = FALSE, ...) {
   if (!is.null(grid)) {
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
@@ -766,6 +764,9 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   int$`75%` <- PoR2Geo_azimuth(int |> rename(azi.PoR = `75%.PoR`), PoR)
   int$median <- PoR2Geo_azimuth(int |> rename(azi.PoR = median.PoR), PoR)
   if ("mode.PoR" %in% colnames(int)) int$mode <- PoR2Geo_azimuth(int |> rename(azi.PoR = mode.PoR), PoR)
+
+  if(remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
+
   return(int)
 }
 

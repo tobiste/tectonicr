@@ -16,19 +16,15 @@
 mean_SC <- function(x, w = NULL, na.rm = TRUE) {
   stopifnot(any(is.numeric(x)), is.logical(na.rm))
 
-  w <- if (is.null(w)) {
-    rep(1, times = length(x))
-  } else {
-    w
-  }
+  if (is.null(w)) w <- rep(1, times = length(x))
 
-  data <- cbind(x = x, w = w)
   if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
+    keep <- !is.na(x) & !is.na(w)
+    x <- x[keep]
+    w <- w[keep]
   }
 
-  x <- deg2rad(data[, "x"])
-  w <- data[, "w"]
+  x <- deg2rad(x)
 
   Z <- sum(w)
 
@@ -94,7 +90,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
-#' @importFrom stats complete.cases runif setNames
+#' @importFrom stats runif setNames
 #'
 #' @returns numeric vector
 #'
@@ -156,11 +152,7 @@ NULL
 #' @rdname circle_stats
 #' @export
 circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
-  } else {
-    f <- 1
-  }
+  f <- if (axial) 2 else 1
 
   x <- x * f
   m <- mean_SC(x, w, na.rm)
@@ -194,7 +186,7 @@ sd_to_var <- function(s) {
 #' @rdname circle_stats
 #' @export
 circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
   # mod <- 360 / f
   x <- (x * f) %% 360
 
@@ -211,17 +203,21 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     w <- rep(1, times = length(x)) |> unname()
   }
 
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
   mod <- 360 / f
   x <- deg2rad(x * f) %% (2 * pi)
-  data <- cbind(x = x, w = w)
+
+  #remove NA
   if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
+    keep <- !is.na(x) & !is.na(w)
+    x <- x[keep]
+    w <- w[keep]
   }
 
-  data <- data[order(data[, "x"]), ]
-  x <- data[, "x"]
-  w <- data[, "w"]
+  # order x
+  ord <- order(x)
+  x <- x[ord]
+  w <- w[ord]
 
   n <- length(x)
 
@@ -241,7 +237,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
   mod <- 360 / f
   x <- deg2rad(f * x) %% (2 * pi)
 
@@ -249,15 +245,18 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     w <- rep(1, times = length(x))
   }
 
-  data <- cbind(x = x, w = w)
+  # remove NA
   if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
+    keep <- !is.na(x) & !is.na(w)
+    x <- x[keep]
+    w <- w[keep]
   }
-  data <- data[order(data[, "x"]), ]
 
+  # order x
+  ord <- order(x)
+  x <- x[ord]
+  w <- w[ord]
 
-  x <- data[, "x"]
-  w <- data[, "w"]
   n <- length(x)
 
   if (n > 3) {
@@ -370,8 +369,6 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' Wiley Series in Probability and Statistics. John Wiley & Sons, Inc.,
 #' Hoboken, NJ, USA. \doi{10.1002/9780470316979}
 #'
-#' @importFrom stats complete.cases
-#'
 #' @returns `circular_distance` returns a numeric vector of positive numbers,
 #' `circular_dispersion` and [circular_sd2()] return a positive number.
 #'
@@ -400,24 +397,25 @@ NULL
 #' @rdname dispersion
 #' @export
 circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
+  nx <- length(x)
+  ny <- length(y)
 
-  stopifnot(length(y) == 1 | length(y) == length(x))
-  if (length(y) == 1) {
-    y <- rep(y, length(x))
+  stopifnot(ny == 1 || ny == nx)
+
+  if (ny == 1) {
+    y <- rep(y, nx)
   }
-  if (length(x) == 1) {
-    x <- rep(x, length(y))
+  if (nx == 1) {
+    x <- rep(x, ny)
   }
 
-  if (length(x) > 1) {
-    data <- cbind(x = x, y = y)
+  if (nx > 1) {
     if (na.rm) {
-      data <- data[stats::complete.cases(data), ] # remove NA values
+      keep <- !is.na(x) & !is.na(y)
+      x <- x[keep]
+      y <- y[keep]
     }
-
-    x <- data[, "x"]
-    y <- data[, "y"]
   }
 
   diff <- x - y
@@ -427,35 +425,33 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
 #' @rdname dispersion
 #' @export
 circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE, na.rm = TRUE) {
+  n <- length(x)
   if (is.null(y)) {
     circular_var(x, w, axial, na.rm)
   } else {
-    stopifnot(length(y) == 1 | length(y) == length(x))
+    stopifnot(length(y) == 1 | length(y) == n)
 
     if (is.null(w)) {
-      w <- rep(1, times = length(x))
+      w <- rep(1, times = n)
     }
     if (is.null(w.y)) {
-      w.y <- rep(1, times = length(x))
+      w.y <- rep(1, times = n)
     }
     if (length(y) == 1) {
-      y <- rep(y, times = length(x))
+      y <- rep(y, times = n)
     }
 
-    data <- cbind(x = x, w = w, y = y, w.y = w.y)
+    # remove NA
     if (na.rm) {
-      data <- data[stats::complete.cases(data), ] # remove NA values
+      keep <- !is.na(x) & !is.na(w) & !is.na(y) & !is.na(w.y)
+      x <- x[keep]
+      w <- w[keep]
+      y <- y[keep]
+      w.y <- w.y[keep]
     }
 
-    x <- data[, "x"]
-    w.x <- data[, "w"]
-    y <- data[, "y"]
-    w.y <- data[, "w.y"]
-
-    w <- w.x * w.y
-
+    w <- w * w.y
     Z <- sum(w)
-
 
     cdists <- circular_distance(x, y, axial, na.rm = FALSE)
 
@@ -469,7 +465,7 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE,
 #' @rdname dispersion
 #' @export
 circular_sd2 <- function(x, y, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
 
   D <- circular_dispersion(x, y, w, axial, na.rm)
   R <- 1 - D
@@ -519,7 +515,7 @@ NULL
 
 #' @rdname sample_dispersion
 #' @export
-sample_circular_variance <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
+sample_circular_variance <- function(x, w = NULL, axial = TRUE) {
   # after Fisher 1996
   if (axial) x <- ax2dir(x)
   Rbar2 <- mean_resultant_length(2 * x, w = w)
@@ -530,7 +526,7 @@ sample_circular_variance <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname sample_dispersion
 #' @export
 sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
 
   stopifnot(length(y) == 1 | length(y) == length(x))
   if (length(y) == 1) {
@@ -538,13 +534,12 @@ sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   }
 
   if (length(x) > 1) {
-    data <- cbind(x = x, y = y)
+    # remove NA
     if (na.rm) {
-      data <- data[stats::complete.cases(data), ] # remove NA values
+      keep <- !is.na(x) & !is.na(y)
+      x <- x[keep]
+      y <- y[keep]
     }
-
-    x <- data[, "x"]
-    y <- data[, "y"]
   }
 
   diff <- x - y
@@ -555,33 +550,33 @@ sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
 #' @rdname sample_dispersion
 #' @export
 sample_circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE, na.rm = TRUE) {
+  n <- length(x)
+
   if (is.null(y)) {
     circular_var(x, w, axial, na.rm)
   } else {
-    stopifnot(length(y) == 1 | length(y) == length(x))
+    stopifnot(length(y) == 1 | length(y) == n)
+
 
     if (is.null(w)) {
-      w <- rep(1, times = length(x))
+      w <- rep(1, times = n)
     }
     if (is.null(w.y)) {
-      w.y <- rep(1, times = length(x))
+      w.y <- rep(1, times = n)
     }
     if (length(y) == 1) {
-      y <- rep(y, times = length(x))
+      y <- rep(y, times = n)
     }
 
-    data <- cbind(x = x, w = w, y = y, w.y = w.y)
     if (na.rm) {
-      data <- data[stats::complete.cases(data), ] # remove NA values
+      keep <- !is.na(x) & !is.na(w) & !is.na(y) & !is.na(w.y)
+      x <- x[keep]
+      w <- w[keep]
+      y <- y[keep]
+      w.y <- w.y[keep]
     }
 
-    x <- data[, "x"]
-    w.x <- data[, "w"]
-    y <- data[, "y"]
-    w.y <- data[, "w.y"]
-
-    w <- w.x * w.y
-
+    w <- w * w.y
     Z <- sum(w)
 
     # md <- ifelse(norm, 2, 1)
@@ -644,18 +639,14 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
     unname(w)
   }
 
-  data <- cbind(x = x, w = w)
   if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
+    keep <- !is.na(x) & !is.na(w)
+    x <- x[keep]
+    w <- w[keep]
   }
 
-  x <- data[, "x"]
-  w <- data[, "w"]
-
   Z <- sum(w)
-
   n <- length(x)
-
 
   # d <- matrix(nrow = n, ncol = n)
   # for (j in seq_along(x)) {
@@ -707,10 +698,10 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
 #' data("san_andreas")
 #' circular_range(san_andreas$azi)
 circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
   mod <- 360 / f
 
-  if (na.rm) x <- na.omit(x)
+  if (na.rm) x <- x[!is.na(x)]
   x <- (x * f) %% 360
   x <- sort(x)
   n <- length(x)
@@ -731,7 +722,7 @@ circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
 
 
 cdist2angle <- function(x, axial = TRUE) {
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
   acosd(1 - f * x) / f
 }
 
@@ -820,23 +811,17 @@ z_score <- function(conf.level) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
-    # mod <- 90
-  } else {
-    f <- 1
-    # mod <- 180
-  }
+  f <- if (axial) 2 else 1
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
-  data <- cbind(x = x, w = w)
+
   if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
+    keep <- !is.na(x) & !is.na(w)
+    x <- x[keep]
+    w <- w[keep]
   }
-  x <- data[, "x"]
-  w <- data[, "w"]
 
   n <- length(x)
   # n <- sum(w)
@@ -901,11 +886,7 @@ NULL
 #' @rdname confidence
 #' @export
 confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) {
-    f <- 2
-  } else {
-    f <- 1
-  }
+  f <- if (axial) 2 else 1
 
   Z_alpha <- z_score(conf.level)
   sde <- circular_sd_error(x, w, axial, na.rm)
@@ -966,7 +947,7 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 #' confidence_interval_fisher(sa.por$azi.PoR, w = 1 / san_andreas$unc)
 #' confidence_interval_fisher(sa.por$azi.PoR, w = 1 / san_andreas$unc, boot = TRUE)
 confidence_interval_fisher <- function(x, conf.level = 0.95, w = NULL, axial = TRUE, na.rm = TRUE, boot = FALSE, R = 1000L, quiet = FALSE) {
-  n <- ifelse(na.rm, length(na.omit(x)), length(x))
+  n <- ifelse(na.rm, length(x[!is.na(x)]), length(x))
 
   if (n < 25 | boot) {
     print_message <- paste("Bootstrap estimate based on", R, "replicates")
@@ -1034,11 +1015,12 @@ circular_dispersion_i <- function(x, id, ...) {
 #' circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
 #' circular_dispersion_boot(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
 circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000, conf.level = .95, ...) {
+  n <- length(x)
   if (is.null(w)) {
-    w <- rep(1, length(x))
+    w <- rep(1, n)
   }
   if (is.null(w.y)) {
-    w.y <- rep(1, length(x))
+    w.y <- rep(1, n)
   }
 
   dat <- data.frame(x = x, y = y, w = w, w.y = w.y)
@@ -1097,14 +1079,17 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
     w <- rep(1, times = length(x))
   }
 
-  data <- cbind(x = x, w = w)
+  #remove NA
   if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
+    keep <- !is.na(x) & !is.na(w)
+    x <- x[keep]
+    w <- w[keep]
   }
 
-  data <- data[order(data[, "x"]), ]
-  x <- data[, "x"]
-  w <- data[, "w"]
+  # order x
+  ord <- order(x)
+  x <- x[ord]
+  w <- w[ord]
 
   n <- length(x)
   Z <- sum(w)
@@ -1161,7 +1146,7 @@ NULL
 #' @export
 circular_sample_median <- function(x, axial = TRUE, na.rm = TRUE) {
   if (axial) x <- ax2dir(x)
-  if (na.rm) x <- na.omit(x)
+  if (na.rm) x <- x[!is.na(x)]
 
   x_circular <- circular::circular(deg2rad(x))
   median <- circular::median.circular(x_circular) |>
@@ -1175,7 +1160,7 @@ circular_sample_median <- function(x, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
   if (axial) x <- ax2dir(x)
-  if (na.rm) x <- na.omit(x)
+  if (na.rm) x <- x[!is.na(x)]
 
   x_circular <- circular::circular(deg2rad(x))
   md <- circular::meandeviation(x_circular) |>
@@ -1211,8 +1196,7 @@ circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
   if (is.null(kappa)) kappa <- est.kappa(x, axial = axial)
   dns <- circular_density(x, kappa = kappa, n = n, axial = axial)
 
-  f <- as.numeric(axial) + 1
-
+  # f <- if (axial) 2 else 1
   # angles <- (c(1:n) / n) * 360 / f
   angles <- seq(0, 360, length.out = n)
   angles[which.max(dns)]
@@ -1250,14 +1234,17 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
     w <- rep(1, times = length(x))
   }
 
-  data <- cbind(x = x, w = w)
+  #remove NA
   if (na.rm) {
-    data <- data[stats::complete.cases(data), ] # remove NA values
+    keep <- !is.na(x) & !is.na(w)
+    x <- x[keep]
+    w <- w[keep]
   }
 
-  data <- data[order(data[, "x"]), ]
-  x <- data[, "x"]
-  w <- data[, "w"]
+  # order x
+  ord <- order(x)
+  x <- x[ord]
+  w <- w[ord]
 
   # n <- length(x)
 

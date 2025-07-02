@@ -23,8 +23,8 @@ difference from rotation 1 to rotation 2.
 \examples{
 a <- euler_pole(90, 0, angle = 45)
 b <- euler_pole(0, 0, 1, geo = FALSE, angle = -15)
-relative_rotation(a, b)
-relative_rotation(b, a)
+relative_rotation(a, b) # axis: -90, -180; angle: 60
+relative_rotation(b, a) # axis: 90, 0; angle: 60
 }
 \references{
 Schaeben, H., Kroner, U. and Stephan, T. (2021). Euler Poles of

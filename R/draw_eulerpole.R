@@ -30,12 +30,12 @@ get_loxodromes <- function(lon, lat, line, theta) {
       ),
       centre = c(lon, 0)
     )
-  loxodrome.dummy <- data.frame(
+
+  data.frame(
     lon = line.dummy.rot[, 1],
     lat = line.dummy.rot[, 2],
     loxodrome = line
   )
-  loxodrome.dummy
 }
 
 
@@ -70,15 +70,15 @@ smallcircle_dummy <- function(n) {
     "small_circle" = as.numeric()
   )
 
-  sm_list <- lapply(sm_range, function(x) {
+  lapply(sm_range, function(x) {
     lat <- x - 90
     sm.l <- data.frame(
       "lat" = rep(lat, length(lons)),
       "lon" = lons,
       "small_circle" = x
     )
-  })
-  do.call(rbind, sm_list)
+  }) |>
+    dplyr::bind_rows()
 }
 
 #' @rdname dummy
@@ -116,17 +116,16 @@ loxodrome_dummy <- function(n, angle, cw) {
   #     loxodromes <- rbind(loxodromes, line.i)
   #   }
   # }
-  loxodromes <- lapply(seq(-360, 360, 360 / n), function(x) {
+  lapply(seq(-360, 360, 360 / n), function(x) {
     mutate(loxodrome.dummy,
       lon = lon - x,
       loxodrome = x
     )
-  })
-
-  do.call(rbind, loxodromes) |>
+  }) |>
+    dplyr::bind_rows() |>
     unique() |>
-    filter(abs(lat) <= 90) |>
-    filter(abs(lon) <= 180)
+    dplyr::filter(abs(lat) <= 90) |>
+    dplyr::filter(abs(lon) <= 180)
 }
 
 #' @title Theoretical Plate Tectonic Stress Paths

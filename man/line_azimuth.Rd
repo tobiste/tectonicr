@@ -33,8 +33,9 @@ data("plates")
 # one line:
 subset(plates, pair == "af-eu") |>
   smoothr::densify() |>
-  line_azimuth()
+  line_azimuth() |>
+  head()
 
 # multiple lines:
-lines_azimuths(plates[1:5, ])
+lines_azimuths(plates[1:5, ]) |> head()
 }

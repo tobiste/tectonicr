@@ -33,21 +33,28 @@ ellipsoid with equal major and minor axes}
 }}
 }
 \value{
-numeric vector with length equal to \code{length(lat1)}
+numeric vector with length equal to \code{length(lat1)} or \code{length(lat2)}
 }
 \description{
 Returns the great circle distance between a location and all grid point in km
 }
 \examples{
+# Haversine: (4149.157, 2296.583) km
 dist_greatcircle(lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32))
+
+# Orthodrome: (4149.157, 2296.583) km
 dist_greatcircle(
   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
   method = "orthodrome"
 )
+
+# Vincenty: (4149.157, 2296.583) km
 dist_greatcircle(
   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
   method = "vincenty"
 )
+
+# Euclidean (4076.220, 2284.169) km
 dist_greatcircle(
   lat1 = 20, lon1 = 12, lat2 = c(50, 30), lon2 = c(40, 32),
   method = "euclidean"

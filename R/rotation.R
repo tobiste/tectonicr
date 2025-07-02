@@ -100,26 +100,37 @@ vcross <- function(x, y) {
 #' @examples
 #' a <- euler_pole(90, 0, angle = 45)
 #' b <- euler_pole(0, 0, 1, geo = FALSE, angle = -15)
-#' relative_rotation(a, b)
-#' relative_rotation(b, a)
+#' relative_rotation(a, b) # axis: -90, -180; angle: 60
+#' relative_rotation(b, a) # axis: 90, 0; angle: 60
 relative_rotation <- function(r1, r2) {
+  stopifnot(is.euler(r1) | c("x", "y", "z", "angle") %in% colnames(r2))
+  stopifnot(is.euler(r1) | c("x", "y", "z", "angle") %in% colnames(r2))
+
   w1 <- r1$angle
   w2 <- r2$angle
 
   e1 <- c(r1$x, r1$y, r1$z)
   e2 <- c(r2$x, r2$y, r2$z)
 
-  angle <- as.numeric(
-    2 * acos(
-      cos(w2 / 2) * cos(w1 / 2) + (sin(w2 / 2) * e2) %*% (sin(w1 / 2) * e1)
-    )
-  )
+  # Compute inner term for acos, clamp to [-1,1] to avoid NaN
+  cos_angle <- cos(w2 / 2) * cos(w1 / 2) + sum(sin(w2 / 2) * e2 * sin(w1 / 2) * e1)
+  cos_angle <- min(max(cos_angle, -1), 1)
 
-  a <- 1 / sin(angle / 2)
-  b <- -cos(w2 / 2) * sin(w1 / 2) * e1 + cos(w1 / 2) * sin(w2 / 2) *
-    e2 - vcross(sin(w2 / 2) * e2, sin(w1 / 2) * e1)
+  angle <- 2 * acos(cos_angle)
 
-  axis <- a * b
+  # Handle near-zero angle to avoid division by zero
+  sin_half_angle <- sin(angle / 2)
+  if (abs(sin_half_angle) < .Machine$double.eps) {
+    # No rotation (or very small), axis can be anything; choose zero vector
+    axis <- c(0, 0, 0)
+  } else {
+    a <- 1 / sin_half_angle
+
+    b <- -cos(w2 / 2) * sin(w1 / 2) * e1 + cos(w1 / 2) * sin(w2 / 2) * e2 -
+      vcross(sin(w2 / 2) * e2, sin(w1 / 2) * e1)
+
+    axis <- a * b
+  }
 
   list(
     axis = cartesian_to_geographical(axis),
@@ -183,19 +194,21 @@ get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep) {
 #' # all nuvel1 rotation equivalent to fixed Africa:
 #' equivalent_rotation(nuvel1, fixed = "af")
 #' # relative plate motion between Eurasia and India:
-#' equivalent_rotation(nuvel1, "eu", "in")
+#' equivalent_rotation(nuvel1, "eu", "in") # lat = 24.58, lon = 18.07, angle = 0.528
 equivalent_rotation <- function(x, fixed, rot) {
+  stopifnot(inherits(x, 'data.frame') | c("plate.rot","lat","lon","angle") %in% colnames(x))
   stopifnot(fixed %in% x$plate.rot)
   plate.rot <- NULL
 
-  fixed.plate <- subset(x, x$plate.rot == fixed)
+  fixed.plate <- subset(x, plate.rot == fixed)
   fixed.ep <- euler_pole(
     fixed.plate$lat,
     fixed.plate$lon,
     angle = fixed.plate$angle
   )
 
-  if (exists(paste0("fixed.plate$plate.fix"))) {
+  #if ("plate.fix" %in% names(fixed.plate) && !is.null(fixed.plate$plate.fix)) {
+  if(exists(paste0("fixed.plate$plate.fix"))){
     fixed0.plate <- subset(x, x$plate.rot == fixed.plate$plate.fix)
     fixed0.ep <- euler_pole(
       fixed0.plate$lat,
@@ -254,10 +267,19 @@ abs_vel <- function(w, alpha, r = earth_radius()) {
 #' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
 #'
 #' @returns object of class \code{"quaternion"}
+#'
+#' @noRd
+#'
+#' @examples
+#' # example code
+#' ep <- euler_pole(90, 0, angle = 45)
+#' euler_to_Q4(ep)
 euler_to_Q4 <- function(x, normalize = FALSE) {
+  stopifnot(is.euler(x) | c("x", "y", "z", "angle") %in% colnames(x))
   axis <- c(x$x, x$y, x$z)
-  Sc <- cos(x$angle / 2)
-  Vec <- axis * sin(x$angle / 2)
+  half_angle <- x$angle / 2
+  Sc <- cos(half_angle)
+  Vec <- axis * sin(half_angle)
   q <- structure(list(Sc = c(Sc), Vec = Vec), class = "quaternion")
   if (normalize) {
     q <- normalize_Q4(q)
@@ -277,10 +299,12 @@ Q4_to_euler <- function(q) {
 
   # angle <- 2 * acos(Sc)
   # numerically more stable:
-  Vec_l <- sqrt(Vec[1]^2 + Vec[2]^2 + Vec[3]^2)
+  Vec_l <- sqrt(sum(Vec^2))
   angle <- 2 * atan2(Vec_l, Sc)
 
   axis <- Vec / sin(angle / 2)
+
+
   euler_pole(x = axis[1], y = axis[2], z = axis[3], angle = rad2deg(angle), geo = FALSE)
 }
 
@@ -298,7 +322,7 @@ QScVec_to_Q4 <- function(x) {
 
 #' @keywords internal
 Q4_to_QScVec <- function(x, normalize = FALSE) {
-  stopifnot(x[1] != 0, is.logical(normalize))
+  stopifnot(x[1] != 0, length(x)==4, is.numeric(x),  is.logical(normalize))
   angle <- 2 * acos(x[1])
   q1 <- x[2] / sin(angle / 2)
   q2 <- x[3] / sin(angle / 2)
@@ -320,6 +344,7 @@ Q4_to_QScVec <- function(x, normalize = FALSE) {
 #' @returns object of class \code{"quaternion"}
 #' @keywords internal
 normalize_Q4 <- function(q) {
+  stopifnot(is.Q4(q))
   q4 <- QScVec_to_Q4(q)
   q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
   q.norm <- structure(list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4])), class = "quaternion")
@@ -374,8 +399,11 @@ conjugate_Q4 <- function(q, normalize = FALSE) {
 #' @returns logical
 #' @keywords internal
 is.Q4 <- function(x) {
-  class(x) == "quaternion"
+  inherits(x, "quaternion") | c('Vec', 'Sc') %in% names(q)
 }
+# is.QScVec <- function(x) {
+#   is.numeric(x) & length(x)==4
+# }
 
 #' Rotation of a vector by a quaternion
 #'
@@ -395,5 +423,6 @@ rotation_Q4 <- function(q, p) {
   axis <- c(q.euler$x, q.euler$y, q.euler$z)
   angle <- q.euler$angle
   vap <- vcross(axis, p)
-  p + vap * sin(angle) + vcross(axis, vap) * 2 * (sin(angle / 2))^2
+  #p + vap * sin(angle) + vcross(axis, vap) * 2 * (sin(angle / 2))^2
+  p + vap * sin(angle) + vcross(axis, vap) * (1 - cos(angle))
 }

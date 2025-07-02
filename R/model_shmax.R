@@ -181,7 +181,7 @@ deviation_norm <- function(x, y = NULL) {
 deviation_shmax <- function(prd, obs) {
   stopifnot(length(obs) == length(seq_along(prd$gc)))
 
-  # normalize azimuth
+  # Normalize observed azimuth to [0, 180)
   obs <- obs %% 180
 
   dev.gc <- prd$gc - obs
@@ -276,18 +276,22 @@ NULL
 #' @rdname PoR_azi
 #' @export
 PoR_azimuth <- function(x, PoR, axial = TRUE) {
-  stopifnot(is.data.frame(x), is.data.frame(PoR) | is.euler(PoR))
+  stopifnot(is.data.frame(x), is.data.frame(PoR))
   if (inherits(x, "sf")) {
     crds <- sf::st_transform(x, crs = "WGS84") |> sf::st_coordinates()
-    x$lon <- crds[, 1]
-    x$lat <- crds[, 2]
-  }
-
-  theta <- mapply(FUN = get_azimuth, lat_a = x$lat, lon_a = x$lon, lat_b = PoR$lat, lon_b = PoR$lon)
-  if (axial) {
-    (x$azi - theta + 180) %% 180
+    lon <- crds[, 1]
+    lat <- crds[, 2]
   } else {
-    (x$azi - theta + 360) %% 360
+    lon <- x$lon
+    lat <- x$lat
+  }
+  azi <- x$azi
+
+  theta <- mapply(FUN = get_azimuth, lat_a = lat, lon_a = lon, lat_b = PoR$lat, lon_b = PoR$lon)
+  if (axial) {
+    (azi - theta + 180) %% 180
+  } else {
+    (azi - theta + 360) %% 360
   }
 }
 
@@ -364,7 +368,7 @@ PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
   #   PoR$lat <- -PoR$lat
   #   PoR$lon <- longitude_modulo(180 + PoR$lon)
   # }
-  f <- ifelse(axial, 1, 2)
+  f <- if(axial) 1 else 2
 
   if (unique(c("lat.PoR", "lon.PoR") %in% colnames(x))) {
     northpole <- geographical_to_PoR(
@@ -445,8 +449,8 @@ data2PoR <- function(x, PoR) {
 #' res <- superimposed_shmax(san_andreas, pors, types = c("in", "right"), PoR_weighting = c(2, 1))
 #' head(res)
 superimposed_shmax <- function(df, PoRs, types, absolute = TRUE, PoR_weighting = NULL) {
-  res <- c()
-  lats <- c()
+  res <- lats <- NULL
+
   stopifnot(is.character(types))
   if (is.null(PoR_weighting)) {
     PoR_weighting <- rep(1, nrow(PoRs))

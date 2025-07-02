@@ -22,13 +22,15 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
   delta.lat <- distance_mod(pb.coords[, 2] - lat)
   delta.lon <- distance_mod(pb.coords[, 1] - lon)
 
+  r_earth <- earth_radius()
+
   if (tangential) {
     # latitudinal differences for tangential plate boundaries and
     # select the one with the closest longitude
     q <- which.min(abs(delta.lon))
     dist <- delta.lat[q] # latitudinal difference in degree
     if (km) {
-      dist <- deg2rad(dist) * earth_radius() # great circle distance
+      dist <- dist * pi / 180 * r_earth # great circle distance
     }
   } else {
     # longitudinal differences for inward/outward plate boundaries and
@@ -36,7 +38,7 @@ get_distance <- function(lon, lat, pb.coords, tangential, km) {
     q <- which.min(abs(delta.lat))
     dist <- delta.lon[q] # longitudinal difference in degree
     if (km) {
-      dist <- deg2rad(dist) * earth_radius() * cosd(lat) # small circle distance (PoR lat (colat) is 0 at equator!)
+      dist <- dist * pi / 180 * r_earth * cosd(lat) # small circle distance (PoR lat (colat) is 0 at equator!)
     }
   }
   dist
@@ -107,7 +109,7 @@ distance_from_pb <- function(x, PoR, pb, tangential = FALSE, km = FALSE, ...) {
     inherits(pb, "sf"),
     is.logical(tangential),
     is.logical(km),
-    is.data.frame(PoR) | is.euler(PoR)
+    is.data.frame(PoR)
   )
 
   x.coords <- geographical_to_PoR(x, PoR = PoR) |>
