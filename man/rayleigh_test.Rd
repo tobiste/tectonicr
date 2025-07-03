@@ -55,41 +55,37 @@ include Kuiper's test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson's \
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
 pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-rayleigh_test(pidgeon_homing, axial = FALSE)
+rayleigh_test(pidgeon_homing, axial = FALSE) # Do not reject null hypothesis.
+# R = 0.22; stat = 0.497, p = 0.62
 
 # Example data from Davis (1986), pp. 316
-finland_stria <- c(
+finland_striae <- c(
   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
   165, 171, 172, 179, 181, 186, 190, 212
 )
-rayleigh_test(finland_stria, axial = FALSE)
-rayleigh_test(finland_stria, mu = 105, axial = FALSE)
+rayleigh_test(finland_striae, axial = FALSE) # reject null hypothesis
+rayleigh_test(finland_striae, mu = 105, axial = FALSE) # reject null hypothesis
 
 # Example data from Mardia and Jupp (1999), pp. 99
 atomic_weight <- c(
   rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1),
   rep(108, 2), rep(169.2, 1), rep(324, 1)
 )
-rayleigh_test(atomic_weight, 0, axial = FALSE)
+rayleigh_test(atomic_weight, 0, axial = FALSE) # reject null hypothesis
 
 # San Andreas Fault Data:
 data(san_andreas)
-rayleigh_test(san_andreas$azi)
+rayleigh_test(san_andreas$azi) # reject null hypothesis
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-rayleigh_test(sa.por$azi.PoR, mu = 135)
+rayleigh_test(sa.por$azi.PoR, mu = 135) # reject null hypothesis
 }
 \references{
-Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
-
-Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl.
-Statist. 32, No. 3, pp. 311-312
-
-Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics,
-Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+Fisher, N. I. (1993) Statistical Analysis of Circular Data, Cambridge
+University Press.
 }
 \seealso{
 \code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=norm_chisq]{norm_chisq()}},

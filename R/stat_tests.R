@@ -124,13 +124,8 @@ norm_chisq <- function(obs, prd, unc) {
 #' }
 #'
 #' @references
-#' Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
-#'
-#' Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl.
-#' Statist. 32, No. 3, pp. 311-312
-#'
-#' Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics,
-#' Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.
+#' Fisher, N. I. (1993) Statistical Analysis of Circular Data, Cambridge
+#' University Press.
 #'
 #' @seealso [mean_resultant_length()], [circular_mean()], [norm_chisq()],
 #' [kuiper_test()], [watson_test()], [weighted_rayleigh()]
@@ -140,58 +135,61 @@ norm_chisq <- function(obs, prd, unc) {
 #' @examples
 #' # Example data from Mardia and Jupp (1999), pp. 93
 #' pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-#' rayleigh_test(pidgeon_homing, axial = FALSE)
+#' rayleigh_test(pidgeon_homing, axial = FALSE) # Do not reject null hypothesis.
+#' # R = 0.22; stat = 0.497, p = 0.62
 #'
 #' # Example data from Davis (1986), pp. 316
-#' finland_stria <- c(
+#' finland_striae <- c(
 #'   23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
 #'   113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
 #'   132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
 #'   165, 171, 172, 179, 181, 186, 190, 212
 #' )
-#' rayleigh_test(finland_stria, axial = FALSE)
-#' rayleigh_test(finland_stria, mu = 105, axial = FALSE)
+#' rayleigh_test(finland_striae, axial = FALSE) # reject null hypothesis
+#' rayleigh_test(finland_striae, mu = 105, axial = FALSE) # reject null hypothesis
 #'
 #' # Example data from Mardia and Jupp (1999), pp. 99
 #' atomic_weight <- c(
 #'   rep(0, 12), rep(3.6, 1), rep(36, 6), rep(72, 1),
 #'   rep(108, 2), rep(169.2, 1), rep(324, 1)
 #' )
-#' rayleigh_test(atomic_weight, 0, axial = FALSE)
+#' rayleigh_test(atomic_weight, 0, axial = FALSE) # reject null hypothesis
 #'
 #' # San Andreas Fault Data:
 #' data(san_andreas)
-#' rayleigh_test(san_andreas$azi)
+#' rayleigh_test(san_andreas$azi) # reject null hypothesis
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' rayleigh_test(sa.por$azi.PoR, mu = 135)
+#' rayleigh_test(sa.por$azi.PoR, mu = 135) # reject null hypothesis
 rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
   f <- if (axial) 2 else 1
 
   if (is.null(mu)) {
     x <- x[!is.na(x)]
-    x <- (x * f) %% 360
+    xf <- (x * f) %% 360
     n <- length(x)
 
-    R <- mean_resultant_length(x, na.rm = FALSE)
+    R <- mean_resultant_length(xf, na.rm = FALSE)
     S <- 2 * n * R^2
-    # S2 <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
+    Z <- S/2
+    # S_mod <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
     # if(n <= 10){
     #  p.value <- p_value3(R, n)
     # } else  {
-    p.value <- rayleigh_p_value1(S / 2, n)
+    p.value <- rayleigh_p_value1(Z, n)
     # }
-    # p.value2 <- rayleigh_p_value1(S2 / 2, n)
+    # p.value2 <- rayleigh_p_value1(S_mod /2 , n)
 
     result <- list(
       R = R,
-      statistic = S / 2,
-      p.value = p.value
-      # p.value2 = p.value2
+      statistic = Z ,
+      # statistic_mod = S_mod,
+      p.value = p.value#,
+      # p.value_mod = p.value2
     )
     if (!quiet) {
-      if (S / 2 >= p.value) {
+      if (result$statistic >= p.value) {
         message("Reject Null Hypothesis\n")
       } else {
         message("Do Not Reject Null Hypothesis\n")
@@ -202,13 +200,14 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
     #remove NA's
     keep <- !is.na(x) & !is.na(mu)
     x <- x[keep]
-    mu <- mu[keep]
+    # mu <- mu[keep]
 
-    x <- (x * f) %% 360
-    mu <- (dmu * f) %% 360
+    x <- x * f
+    mu <- mu * f
+    xmu <- x - mu
     n <- length(x)
 
-    C <- (sum(cosd(x - mu))) / n
+    C <- (sum(cosd(xmu))) / n
     s <- sqrt(2 * n) * C
     p.value <- rayleigh_p_value2(s, n)
 
@@ -433,7 +432,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
   return(
     list(
       statistic = V,
-      p.value = p.value
+      p.value = unname(p.value)
     )
   )
 }
