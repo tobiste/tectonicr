@@ -119,11 +119,8 @@ include Kuiper's test (<code><a href="kuiper_test.html">kuiper_test()</a></code>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.</p>
-<p>Wilkie (1983): Rayleigh Test for Randomness of Circular Data. Appl.
-Statist. 32, No. 3, pp. 311-312</p>
-<p>Jammalamadaka, S. Rao and Sengupta, A. (2001). Topics in Circular Statistics,
-Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.</p>
+    <p>Fisher, N. I. (1993) Statistical Analysis of Circular Data, Cambridge
+University Press.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -135,7 +132,7 @@ Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example data from Mardia and Jupp (1999), pp. 93</span></span></span>
 <span class="r-in"><span><span class="va">pidgeon_homing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">55</span>, <span class="fl">60</span>, <span class="fl">65</span>, <span class="fl">95</span>, <span class="fl">100</span>, <span class="fl">110</span>, <span class="fl">260</span>, <span class="fl">275</span>, <span class="fl">285</span>, <span class="fl">295</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">pidgeon_homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">pidgeon_homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Do not reject null hypothesis.</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Do Not Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2228717</span>
@@ -146,15 +143,16 @@ Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6201354</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># R = 0.22; stat = 0.497, p = 0.62</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example data from Davis (1986), pp. 316</span></span></span>
-<span class="r-in"><span><span class="va">finland_stria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">finland_striae</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fl">23</span>, <span class="fl">27</span>, <span class="fl">53</span>, <span class="fl">58</span>, <span class="fl">64</span>, <span class="fl">83</span>, <span class="fl">85</span>, <span class="fl">88</span>, <span class="fl">93</span>, <span class="fl">99</span>, <span class="fl">100</span>, <span class="fl">105</span>, <span class="fl">113</span>,</span></span>
 <span class="r-in"><span>  <span class="fl">113</span>, <span class="fl">114</span>, <span class="fl">117</span>, <span class="fl">121</span>, <span class="fl">123</span>, <span class="fl">125</span>, <span class="fl">126</span>, <span class="fl">126</span>, <span class="fl">126</span>, <span class="fl">127</span>, <span class="fl">127</span>, <span class="fl">128</span>, <span class="fl">128</span>, <span class="fl">129</span>, <span class="fl">132</span>,</span></span>
 <span class="r-in"><span>  <span class="fl">132</span>, <span class="fl">132</span>, <span class="fl">134</span>, <span class="fl">135</span>, <span class="fl">137</span>, <span class="fl">144</span>, <span class="fl">145</span>, <span class="fl">145</span>, <span class="fl">146</span>, <span class="fl">153</span>, <span class="fl">155</span>, <span class="fl">155</span>, <span class="fl">155</span>, <span class="fl">157</span>, <span class="fl">163</span>,</span></span>
 <span class="r-in"><span>  <span class="fl">165</span>, <span class="fl">171</span>, <span class="fl">172</span>, <span class="fl">179</span>, <span class="fl">181</span>, <span class="fl">186</span>, <span class="fl">190</span>, <span class="fl">212</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_stria</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_striae</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8003694</span>
@@ -165,20 +163,38 @@ Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.479397e-15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_stria</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rayleigh_test(finland_stria, mu = 105, axial = FALSE):</span> object 'dmu' not found</span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_striae</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7300887</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.373534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.130845e-13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example data from Mardia and Jupp (1999), pp. 99</span></span></span>
 <span class="r-in"><span><span class="va">atomic_weight</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">12</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3.6</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">36</span>, <span class="fl">6</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">72</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">108</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">169.2</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">324</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">atomic_weight</span>, <span class="fl">0</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rayleigh_test(atomic_weight, 0, axial = FALSE):</span> object 'dmu' not found</span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">atomic_weight</span>, <span class="fl">0</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7237434</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.014241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.348331e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># San Andreas Fault Data:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6822906</span>
@@ -192,8 +208,17 @@ Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rayleigh_test(sa.por$azi.PoR, mu = 135):</span> object 'dmu' not found</span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7009544</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 33.26396</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.420092e-239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
