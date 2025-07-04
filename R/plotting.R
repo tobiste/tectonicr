@@ -606,13 +606,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     rose_grid(angles = grid.lines, radii = grid.circles)
   }
 
-  if (axial) {
-    x <- x %% 180
-    # x[x >= 180] <- 180 - 2 * .Machine$double.eps
-  } else {
-    x <- x %% 360
-    # x[x >= 360] <- 360 - 4 * .Machine$double.eps
-  }
+  f <- if (axial) 2 else 1
+  x <- x %% (360/f)
 
   freqs <- rose_freq(
     x,
@@ -837,7 +832,7 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, s
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
-  f <- as.numeric(axial) + 1
+  f <- if (axial) 2 else 1
 
   if (!stack) {
     if (axial) {
@@ -899,11 +894,7 @@ calc_circular_density <- function(x, z, kappa, axial) {
 
 
 circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 360, n = 512, axial = TRUE) {
-  # f <- as.numeric(axial) + 1
-  # x <- x * f
-
   if (is.null(kappa)) kappa <- est.kappa(x, axial = axial)
-
 
   if (is.null(z)) {
     z <- seq(from = from, to = to, length = n)
