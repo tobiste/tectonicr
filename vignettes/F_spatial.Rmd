@@ -72,8 +72,8 @@ trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
 ggplot(spatial_stats) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .3, linewisth = .5, color = "grey30", position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90 - mean), alpha = sd, color = mdr), radius = .75, position = "center_spoke", lwd = 1) +
+  geom_azimuth(data = san_andreas, aes(lon, lat, angle = azi), radius = .17, linewidth = .5, color = "grey30") +
+  geom_azimuth(aes(lon, lat, angle = mean, alpha = sd, color = mdr), radius = .5, lwd = 1) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
   scale_alpha(name = "Standard deviation", range = c(1, .25)) +
   scale_color_viridis_c(
@@ -98,8 +98,8 @@ window:
 ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .3, color = "grey30", position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90 - median), alpha = CI, color = skewness), radius = .5, position = "center_spoke", lwd = 1) +
+  geom_azimuth(data = san_andreas, aes(lon, lat, angle = azi), radius = .15, color = "grey30") +
+  geom_azimuth(aes(lon, lat, angle = median, alpha = CI, color = skewness), radius = .25, lwd = 1) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
   scale_alpha(name = "95% CI", range = c(1, .25)) +
   scale_color_viridis_c(
@@ -114,8 +114,8 @@ within each search window:
 ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .3, color = "grey30", position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90 - mode), alpha = CI, color = abs(kurtosis)), radius = .5, position = "center_spoke", lwd = 1) +
+  geom_azimuth(data = san_andreas, aes(lon, lat, angle = azi), radius = .15, color = "grey30") +
+  geom_azimuth(aes(lon, lat, angle = mode, alpha = CI, color = abs(kurtosis)), radius = .25, lwd = 1) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
   scale_alpha(name = "95% CI", range = c(1, .25)) +
   scale_color_viridis_c(
@@ -141,9 +141,9 @@ ggplot(spatial_stats_comp) +
   scale_fill_viridis_c(limits = c(0, 1)) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(
-    aes(lon, lat, angle = deg2rad(90 - mean)),
-    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  geom_azimuth(
+    aes(lon, lat, angle = mean),
+    radius = .25, lwd = .2, colour = "white"
   ) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
 ```
@@ -163,9 +163,9 @@ ggplot(spatial_stats_comp) +
   scale_fill_gradient2("|Skewness|", low = "#001260", mid = "#EBE5E0", high = "#590007") +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(
-    aes(lon, lat, angle = deg2rad(90 - median), alpha = var),
-    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  geom_azimuth(
+    aes(lon, lat, angle = median, alpha = var),
+    radius = .2, lwd = .2, colour = "white"
   ) +
   scale_alpha("variance", range = c(1, 0)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
@@ -183,9 +183,9 @@ ggplot(spatial_stats_comp) +
   scale_fill_viridis_c("|Kurtosis|", transform = "sqrt") +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(
-    aes(lon, lat, angle = deg2rad(90 - mode), alpha = var),
-    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  geom_azimuth(
+    aes(lon, lat, angle = mode, alpha = var),
+    radius = .25, lwd = .2, colour = "white"
   ) +
   scale_alpha("variance", range = c(1, 0)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
@@ -217,10 +217,10 @@ ggplot(san_andreas_kdisp) +
   ) +
   scale_fill_viridis_c("Dispersion", limits = c(0, 1)) +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(
+  geom_azimuth(
     data = san_andreas,
-    aes(lon, lat, angle = deg2rad(90 - azi), alpha = unc),
-    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+    aes(lon, lat, angle = azi, alpha = unc),
+    radius = .25, lwd = .2, colour = "white"
   ) +
   scale_alpha("Standard deviation", range = c(1, .25)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))

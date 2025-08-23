@@ -60,8 +60,8 @@ trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
 
 ggplot(mean_SH) +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", lwd = 1) +
+  geom_azimuth(data = san_andreas, aes(lon, lat, angle = azi), radius = .25, color = "grey30") +
+  geom_azimuth(aes(lon, lat, angle = azi, alpha = sd, color = mdr), lwd = 1) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
   scale_alpha(name = "Standard deviation", range = c(1, .25)) +
   scale_color_viridis_c(
@@ -88,8 +88,8 @@ mean_SH_PoR <- PoR_stress2grid(san_andreas, PoR = por, gridsize = 1, R_range = s
 ```{r plot2, warning=FALSE, message=FALSE}
 ggplot(mean_SH_PoR) +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(data = san_andreas, aes(lon, lat, angle = deg2rad(90 - azi)), radius = .5, color = "grey30", position = "center_spoke") +
-  geom_spoke(aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd, color = mdr), radius = 1, position = "center_spoke", lwd = 1) +
+  geom_azimuth(data = san_andreas, aes(lon, lat, angle = azi), radius = .25, color = "grey30") +
+  geom_azimuth(aes(lon, lat, angle = azi, alpha = sd, color = mdr), radius = .5, lwd = 1) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat)) +
   scale_alpha(name = "Standard deviation", range = c(1, .25)) +
   scale_color_viridis_c(
@@ -129,9 +129,9 @@ ggplot(mean_SH_PoR_reduced) +
   ) +
   scale_fill_viridis_c("Angular distance", limits = c(0, 1)) +
   geom_sf(data = trajectories, lty = 2) +
-  geom_spoke(
-    aes(lon, lat, angle = deg2rad(90 - azi), alpha = sd),
-    radius = .5, position = "center_spoke", lwd = .2, colour = "white"
+  geom_azimuth(
+    aes(lon, lat, angle = azi, alpha = sd),
+    radius = .25, lwd = .2, colour = "white"
   ) +
   scale_alpha("Standard deviation", range = c(1, .25)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))

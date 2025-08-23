@@ -4,7 +4,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.org/package=tectonicr)
-[![](https://img.shields.io/badge/devel%20version-0.4.7.9001-orange.svg)](https://github.com/tobiste/tectonicr)
+[![](https://img.shields.io/badge/devel%20version-0.4.7.9003-orange.svg)](https://github.com/tobiste/tectonicr)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow)](https://cran.r-project.org/package=tectonicr)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/tobiste/tectonicr/graph/badge.svg?token=bY7i7QHdix)](https://app.codecov.io/gh/tobiste/tectonicr)
@@ -32,6 +32,8 @@ Stephan et al., 2023). The following methods are available:
 -   **Trajectories of the theoretical stress field** `eulerpole_paths()`
     generates an `sf` object containing spatial information that is
     suitable to plot with, for instance, `ggplot()`.
+-   **Azimuth plotting** using `geom_azimuth()` or `geom_azimuthpoint()` in 
+    ggplot.
 -   **Relative rotations from a given set of plate motion parameters**:
     `equivalent_rotation()` transfers a set of plate motion parameters
     into the relative plate motions among the given plates.

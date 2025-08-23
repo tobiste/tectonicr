@@ -62,8 +62,8 @@ san_andreas.res <- data.frame(
 
 ## Stress map
 `ggplot2::ggplot()` can be used to visualize the results. The
-orientation of the axis can be displayed with the function
-`geom_spoke()`. The position argument `position = "center_spoke"` aligns
+orientation of the axis can be displayed with the {tectonicr} function
+`geom_azimuth()`. The argument `center = TRUE` (the default) aligns
 the marker symbol at the center of the point. The deviation can be color
 coded. `deviation_norm()` yields the normalized value of the deviation,
 i.e. absolute values between 0 and 90$^{\circ}$.
@@ -110,18 +110,15 @@ map +
     data = trajectories,
     lty = 2
   ) +
-  geom_spoke(
+  geom_azimuth(
     data = san_andreas.res,
     aes(
       x = lon,
       y = lat,
-      angle = deg2rad(90 - azi),
+      angle = azi,
       color = deviation_norm(dev),
       alpha = quality
-    ),
-    radius = 1,
-    position = "center_spoke",
-    na.rm = TRUE
+    )
   ) +
   coord_sf(
     xlim = range(san_andreas$lon),

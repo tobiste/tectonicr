@@ -130,6 +130,197 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
   }
 )
 
+
+#' Azimuth visualization
+#'
+#' @description
+#' `geom_azimuth()` visualizes axial-directional vector fields using a geom to
+#' produce a new graphical layer, which allows aesthetic options.
+#' This layer can be overlaid on a map to improve visualisation of mapped data.
+#' The geom draws line segments (spokes) centered at (x, y) with a given
+#' orientation (`angle` in degrees) and length (`radius`). By default the spoke
+#' is centered using [`PositionCenterSpoke`], so that the given coordinates mark
+#' the middle of the line. The azimuths are given as angles in degrees increasing clockwise from North.
+#'
+#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()].
+#' @param data A data frame. If `NULL`, the default, the data is inherited from
+#'   the plot data as specified in the call to [ggplot2::ggplot()].
+#' @param stat The statistical transformation to use on the data. Defaults to
+#'   `"identity"`.
+#' @param center Logical; if `TRUE` (the default) spokes are centered on (x, y) using
+#'   [`PositionCenterSpoke`]  - useful for axial data. If `FALSE`, behaves like
+#'   [ggplot2::geom_spoke()] (line starts at (x, y)) - useful for directional data
+#'   (especially when in combination with `arrow()`).
+#' @param na.rm If `FALSE`, the default, missing values are removed with a
+#'   warning. If `TRUE`, missing values are silently removed.
+#' @param show.legend Logical. Should this layer be included in the legends?
+#' @param inherit.aes If `FALSE`, overrides the default aesthetics, rather than
+#'   combining with them.
+#' @param ... Other arguments passed on to [ggplot2::layer()]. These are often
+#'   aesthetics (e.g. `colour`, `linetype`, `linewidth`, `alpha`).
+#'
+#' @section Aesthetics:
+#' `geom_azimuth()` understands the following aesthetics (required aesthetics in **bold**):
+#' \itemize{
+#'   \item **x**
+#'   \item **y**
+#'   \item angle (in degrees, transformed internally)
+#'   \item radius
+#'   \item colour
+#'   \item alpha
+#'   \item linewidth
+#'   \item linetype
+#' }
+#'
+#' @return A ggplot2 layer that adds axis-like spokes.
+#' @seealso [ggplot2::geom_spoke()], [geom_azimuthpoint()]
+#' @examples
+#' df <- data.frame(
+#'   x = runif(5), y = runif(5),
+#'   angle_deg = rvm(5, mean = 90, kappa = 10),
+#'   radius = runif(5, 0.5, 2)
+#' )
+#'
+#' if (require("ggplot2")) {
+#' ggplot(df, aes(x, y)) +
+#'   geom_azimuth(aes(angle = angle_deg), linewidth = 1.2, colour = "blue")
+#' if(require("grid")) {
+#' ggplot(df, aes(x, y), radius = radius) +
+#'   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
+#' }}
+#'
+#' @export
+geom_azimuth <- function(mapping = NULL, data = NULL,
+                     stat = "identity", center = TRUE,
+                     na.rm = FALSE, show.legend = NA,
+                     inherit.aes = TRUE, ...) {
+
+  # decide position based on center flag
+  position <- if (isTRUE(center)) "center_spoke" else "identity"
+
+  # convert user-specified angle_deg -> radians
+  if (!is.null(mapping$angle)) {
+    mapping$angle <- rlang::expr((90 - !!mapping$angle) * pi/180)
+  }
+
+  ggplot2::layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = ggplot2::GeomSpoke,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      radius = if (isTRUE(center)) .5 else 1, # default radius (overridden if mapped in aes)
+      na.rm = na.rm,
+      ...
+    )
+  )
+}
+
+#' Azimuth + point visualization
+#'
+#' @description
+#' `geom_azimuthpoint()` draws line segments (spokes) like [geom_azimuth()], but also
+#' places a point (marker) at the spoke's center `(x, y)`.
+#'
+#' Aesthetic rules:
+#' - `linewidth`, `linetype` affect the spoke only
+#' - `shape` affects the point only
+#' - `colour`, `alpha` affect both spoke and point
+#' - `size` sets the size of the point only
+#'
+#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()].
+#' @param data A data frame. If `NULL`, the default, the data is inherited from
+#'   the plot data as specified in the call to [ggplot2::ggplot()].
+#' @param stat The statistical transformation to use on the data. Defaults to
+#'   `"identity"`.
+#' @param center Logical; if `TRUE` spokes are centered on (x, y) using
+#'   [`PositionCenterSpoke`]. If `FALSE`, behaves like
+#'   [ggplot2::geom_spoke()] (line starts at (x, y)).
+#' @param na.rm If `FALSE`, the default, missing values are removed with a
+#'   warning. If `TRUE`, missing values are silently removed.
+#' @param show.legend Logical. Should this layer be included in the legends?
+#' @param inherit.aes If `FALSE`, overrides the default aesthetics, rather than
+#'   combining with them.
+#' @param size Size of the point marker (default = 2).
+#' @param ... Other arguments passed on to [ggplot2::geom_spoke()] and
+#'   [ggplot2::geom_point()]. These may include `arrow`, `fill`, etc.
+#'
+#' @section Aesthetics:
+#' `geom_azimuthpoint()` understands the following aesthetics (required aesthetics in **bold**):
+#' \itemize{
+#'   \item **x**
+#'   \item **y**
+#'   \item angle (in degrees, transformed internally; spoke only)
+#'   \item radius (spoke only)
+#'   \item colour (shared)
+#'   \item alpha (shared)
+#'   \item linewidth (spoke only)
+#'   \item linetype (spoke only)
+#'   \item shape (point only)
+#'   \item size (point only, or via argument)
+#'   \item fill (point only, for shapes that accept fill)
+#' }
+#'
+#' @return A list of ggplot2 layers (spokes + points).
+#' @seealso [geom_azimuth()], [ggplot2::geom_spoke()], [ggplot2::geom_point()]
+#' @examples
+#' set.seed(20250411)
+#' df <- data.frame(
+#'   x = runif(5), y = runif(5),
+#'   angle_deg = rvm(5, mean = 90, kappa = 10),
+#'   radius = runif(5, 0.5, 2),
+#'   group = rep(1:2, length.out = 5)
+#' )
+#'
+#' if (require("ggplot2")) {
+#' ggplot(df, aes(x, y)) +
+#'   geom_azimuthpoint(aes(angle = angle_deg, radius = radius,
+#'                     colour = factor(group), shape = factor(group)),
+#'                 linewidth = 1.1, linetype = "dashed",
+#'                 size = 3, alpha = 0.8)
+#' }
+#'
+#' @export
+geom_azimuthpoint <- function(mapping = NULL, data = NULL,
+                          stat = "identity", center = TRUE,
+                          na.rm = FALSE, show.legend = NA,
+                          inherit.aes = TRUE, size = 2,
+                          ...) {
+
+  # ----- Spoke layer mapping -----
+  line_mapping <- mapping
+  if (!is.null(line_mapping)) {
+    # drop point-specific aesthetics from line mapping
+    line_mapping <- line_mapping[!names(line_mapping) %in% c("shape")]
+  }
+
+  line_layer <- geom_azimuth(mapping = line_mapping, data = data,
+                         stat = stat, center = center,
+                         na.rm = na.rm, show.legend = show.legend,
+                         inherit.aes = inherit.aes, ...)
+
+  # ----- Point layer mapping -----
+  point_mapping <- mapping
+  if (!is.null(point_mapping)) {
+    # drop spoke-specific aesthetics from point mapping
+    point_mapping <- point_mapping[!names(point_mapping) %in% c("angle", "radius", "linewidth", "linetype")]
+  }
+
+  suppressWarnings(
+  point_layer <- ggplot2::geom_point(mapping = point_mapping, data = data,
+                                     size = size,
+                                     inherit.aes = inherit.aes, ...)
+  )
+
+  list(line_layer, point_layer)
+}
+
+
+
+
 #' Quantile-Quantile Linearised Plot for Circular Distributions
 #'
 #'
