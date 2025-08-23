@@ -36,6 +36,7 @@ Imports:
     zoo (>= 1.8.12)
 Suggests: 
     ggforce,
+    grid,
     knitr,
     rmarkdown,
     roxygen2,

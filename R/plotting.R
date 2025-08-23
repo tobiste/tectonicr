@@ -131,22 +131,26 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 )
 
 
-#' Axis-like spoke layer
+#' Azimuth visualization
 #'
 #' @description
-#' `geom_axe()` draws line segments (spokes) centered at (x, y) with a given
+#' `geom_azimuth()` visualizes axial-directional vector fields using a geom to
+#' produce a new graphical layer, which allows aesthetic options.
+#' This layer can be overlaid on a map to improve visualisation of mapped data.
+#' The geom draws line segments (spokes) centered at (x, y) with a given
 #' orientation (`angle` in degrees) and length (`radius`). By default the spoke
 #' is centered using [`PositionCenterSpoke`], so that the given coordinates mark
-#' the middle of the line. Azimuths are given as angles in degrees increasing clockwise from North.
+#' the middle of the line. The azimuths are given as angles in degrees increasing clockwise from North.
 #'
 #' @param mapping Set of aesthetic mappings created by [ggplot2::aes()].
 #' @param data A data frame. If `NULL`, the default, the data is inherited from
 #'   the plot data as specified in the call to [ggplot2::ggplot()].
 #' @param stat The statistical transformation to use on the data. Defaults to
 #'   `"identity"`.
-#' @param center Logical; if `TRUE` spokes are centered on (x, y) using
-#'   [`PositionCenterSpoke`]. If `FALSE`, behaves like
-#'   [ggplot2::geom_spoke()] (line starts at (x, y)).
+#' @param center Logical; if `TRUE` (the default) spokes are centered on (x, y) using
+#'   [`PositionCenterSpoke`]  - useful for axial data. If `FALSE`, behaves like
+#'   [ggplot2::geom_spoke()] (line starts at (x, y)) - useful for directional data
+#'   (especially when in combination with `arrow()`).
 #' @param na.rm If `FALSE`, the default, missing values are removed with a
 #'   warning. If `TRUE`, missing values are silently removed.
 #' @param show.legend Logical. Should this layer be included in the legends?
@@ -156,7 +160,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #'   aesthetics (e.g. `colour`, `linetype`, `linewidth`, `alpha`).
 #'
 #' @section Aesthetics:
-#' `geom_axe()` understands the following aesthetics (required aesthetics in **bold**):
+#' `geom_azimuth()` understands the following aesthetics (required aesthetics in **bold**):
 #' \itemize{
 #'   \item **x**
 #'   \item **y**
@@ -180,10 +184,10 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' if (require("ggplot2")) {
 #' ggplot(df, aes(x, y)) +
 #'   geom_azimuth(aes(angle = angle_deg), linewidth = 1.2, colour = "blue")
-#'
+#' if(require("grid")) {
 #' ggplot(df, aes(x, y), radius = radius) +
-#'   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red")
-#' }
+#'   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
+#' }}
 #'
 #' @export
 geom_azimuth <- function(mapping = NULL, data = NULL,
@@ -215,7 +219,7 @@ geom_azimuth <- function(mapping = NULL, data = NULL,
   )
 }
 
-#' Axis-like spoke layer with center point
+#' Azimuth + point visualization
 #'
 #' @description
 #' `geom_azimuthpoint()` draws line segments (spokes) like [geom_azimuth()], but also

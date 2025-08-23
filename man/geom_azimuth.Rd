@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{geom_azimuth}
 \alias{geom_azimuth}
-\title{Axis-like spoke layer}
+\title{Azimuth visualization}
 \usage{
 geom_azimuth(
   mapping = NULL,
@@ -24,9 +24,10 @@ the plot data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot2::g
 \item{stat}{The statistical transformation to use on the data. Defaults to
 \code{"identity"}.}
 
-\item{center}{Logical; if \code{TRUE} spokes are centered on (x, y) using
-\code{\link{PositionCenterSpoke}}. If \code{FALSE}, behaves like
-\code{\link[ggplot2:geom_spoke]{ggplot2::geom_spoke()}} (line starts at (x, y)).}
+\item{center}{Logical; if \code{TRUE} (the default) spokes are centered on (x, y) using
+\code{\link{PositionCenterSpoke}}  - useful for axial data. If \code{FALSE}, behaves like
+\code{\link[ggplot2:geom_spoke]{ggplot2::geom_spoke()}} (line starts at (x, y)) - useful for directional data
+(especially when in combination with \code{arrow()}).}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with a
 warning. If \code{TRUE}, missing values are silently removed.}
@@ -43,14 +44,17 @@ aesthetics (e.g. \code{colour}, \code{linetype}, \code{linewidth}, \code{alpha})
 A ggplot2 layer that adds axis-like spokes.
 }
 \description{
-\code{geom_axe()} draws line segments (spokes) centered at (x, y) with a given
+\code{geom_azimuth()} visualizes axial-directional vector fields using a geom to
+produce a new graphical layer, which allows aesthetic options.
+This layer can be overlaid on a map to improve visualisation of mapped data.
+The geom draws line segments (spokes) centered at (x, y) with a given
 orientation (\code{angle} in degrees) and length (\code{radius}). By default the spoke
 is centered using \code{\link{PositionCenterSpoke}}, so that the given coordinates mark
-the middle of the line. Azimuths are given as angles in degrees increasing clockwise from North.
+the middle of the line. The azimuths are given as angles in degrees increasing clockwise from North.
 }
 \section{Aesthetics}{
 
-\code{geom_axe()} understands the following aesthetics (required aesthetics in \strong{bold}):
+\code{geom_azimuth()} understands the following aesthetics (required aesthetics in \strong{bold}):
 \itemize{
 \item \strong{x}
 \item \strong{y}
@@ -73,10 +77,10 @@ df <- data.frame(
 if (require("ggplot2")) {
 ggplot(df, aes(x, y)) +
   geom_azimuth(aes(angle = angle_deg), linewidth = 1.2, colour = "blue")
-
+if(require("grid")) {
 ggplot(df, aes(x, y), radius = radius) +
-  geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red")
-}
+  geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
+}}
 
 }
 \seealso{

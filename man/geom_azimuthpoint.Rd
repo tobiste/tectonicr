@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{geom_azimuthpoint}
 \alias{geom_azimuthpoint}
-\title{Axis-like spoke layer with center point}
+\title{Azimuth + point visualization}
 \usage{
 geom_azimuthpoint(
   mapping = NULL,
