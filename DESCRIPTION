@@ -23,6 +23,7 @@ Imports:
     lifecycle,
     methods,
     RColorBrewer,
+    rlang,
     sf,
     smoothr (>= 1.0.1),
     spatstat.explore (>= 3.2.7),
