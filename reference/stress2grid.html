@@ -13,7 +13,7 @@ nearest-neighbor interpolations (NN)."><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -281,28 +281,28 @@ Matlab Script Stress2Grid v1.1. GFZ Data Services. <a href="https://doi.org/10.5
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -112.82 ymin: 24.08 xmax: -112.82 ymax: 24.08</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       lon   lat     azi sd   R   N       mdr              geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -112.82 24.08 140.608  7 150   4 0.8224433 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -112.82 24.08 140.608  7 200   4 0.6168325 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -112.82 24.08 147.000  7 250   7 0.6785179 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -112.82 24.08 163.000  1 300  17 0.7787910 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -112.82 24.08 163.000  0 350  73 0.8790139 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -112.82 24.08 165.000  0 400 127 0.8402209 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       lon   lat      azi sd   R   N       mdr              geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -112.82 24.08 148.7449  7 150   4 0.8224433 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -112.82 24.08 148.7449  7 200   4 0.6168325 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -112.82 24.08 147.0000  7 250   7 0.6785179 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -112.82 24.08 163.0000  1 300  17 0.7787910 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -112.82 24.08 163.0000  0 350  73 0.8790139 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -112.82 24.08 165.0000  0 400 127 0.8402209 POINT (-112.82 24.08)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Nearest Neighbor interpolation:</span></span></span>
 <span class="r-in"><span><span class="fu">stress2grid</span><span class="op">(</span><span class="va">san_andreas</span>, stat <span class="op">=</span> <span class="st">"median"</span>, max_data <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 7 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -112.82 ymin: 24.08 xmax: -112.82 ymax: 24.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -120.82 ymin: 30.08 xmax: -120.82 ymax: 30.08</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       lon   lat      azi sd   R N       mdr              geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -112.82 24.08 37.00000  0 150 4 0.8224433 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -112.82 24.08 37.00000  0 200 4 0.6168325 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -112.82 24.08 35.62501  0 250 5 0.5653079 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -112.82 24.08 35.62501  0 300 5 0.4710899 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -112.82 24.08 35.62501  0 350 5 0.4037914 POINT (-112.82 24.08)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -112.82 24.08 35.62501  0 400 5 0.3533175 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -120.82 30.08 35.00000  0 350 4 0.6995191 POINT (-120.82 30.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -120.82 30.08 35.53572  0 400 5 0.6828824 POINT (-120.82 30.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -120.82 30.08 35.53572  0 450 5 0.6070066 POINT (-120.82 30.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -120.82 30.08 35.53572  0 500 5 0.5463060 POINT (-120.82 30.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -120.82 30.08 35.53572  0 550 5 0.4966418 POINT (-120.82 30.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -120.82 30.08 35.53572  0 600 5 0.4552550 POINT (-120.82 30.08)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">stress2grid_stats</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>

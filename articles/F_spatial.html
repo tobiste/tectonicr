@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-09-12</h4>
+            <h4 data-toc-skip class="date">2025-10-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/F_spatial.Rmd" class="external-link"><code>vignettes/F_spatial.Rmd</code></a></small>
       <div class="d-none name"><code>F_spatial.Rmd</code></div>
@@ -90,11 +90,11 @@ for a given vector of angles, such as mean, median, standard deviation,
 quasi-quantiles, mode, 95% confidence angle, as wells as the moments (,
 i.e. 2nd moment = variance, 3rd = skewness, 4th = kurtosis):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_summary.html">circular_summary</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_summary.html">circular_summary</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, w <span class="op">=</span> <span class="fu"><a href="../reference/weighting.html">weighting</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            n         mean           sd          var          25% quasi-median </span></span>
-<span><span class="co">#&gt; 1126.0000000    9.9840096   19.2389339    0.2018830   15.0000000   35.6250119 </span></span>
+<span><span class="co">#&gt; 1126.0000000   10.8538228   23.8438493    0.2927477   15.0000000   35.5357179 </span></span>
 <span><span class="co">#&gt;          75%       median           CI     skewness     kurtosis            R </span></span>
-<span><span class="co">#&gt;  160.0000000    9.0000000    5.4361579   -0.3002548    2.4245403    0.7981170</span></span></code></pre></div>
+<span><span class="co">#&gt;  160.0000000    9.0000000    5.7737140   -0.2710770    1.1239222    0.7072523</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="spatial-analysis">Spatial analysis<a class="anchor" aria-label="anchor" href="#spatial-analysis"></a>
 </h2>
@@ -112,33 +112,33 @@ each cell:</p>
 <span><span class="co">#&gt; Bounding box:  xmin: -110.8569 ymin: 34.99224 xmax: -107.9222 ymax: 39.97615</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt;     lon.PoR   lat.PoR  mean.PoR       sd       var   25%.PoR quasi-median.PoR</span></span>
-<span><span class="co">#&gt; 24 84.83339 -61.15394  62.75215 32.70755 0.4788668  45.75289         70.68846</span></span>
-<span><span class="co">#&gt; 25 85.83339 -61.15394  84.28615 35.03544 0.5266049  70.68846         74.88230</span></span>
-<span><span class="co">#&gt; 26 86.83339 -61.15394 115.54625 49.91392 0.7808168  54.91857         90.72089</span></span>
-<span><span class="co">#&gt; 35 75.83339 -60.15394 148.00270 22.18433 0.2590570 148.14101        150.69395</span></span>
-<span><span class="co">#&gt; 42 82.83339 -60.15394  72.66492 14.94546 0.1272296  67.77922         75.91797</span></span>
-<span><span class="co">#&gt; 43 83.83339 -60.15394  81.60114 22.00234 0.2554180  47.91126         76.92189</span></span>
+<span><span class="co">#&gt; 24 84.83339 -61.15394  62.49110 34.19146 0.5094509  45.83768         70.68846</span></span>
+<span><span class="co">#&gt; 25 85.83339 -61.15394  79.28662 37.82152 0.5816725  70.68846         70.68846</span></span>
+<span><span class="co">#&gt; 26 86.83339 -61.15394 112.88278 55.51173 0.8470109  53.79210         90.72089</span></span>
+<span><span class="co">#&gt; 35 75.83339 -60.15394 146.61405 24.94924 0.3156098 148.14101        150.90749</span></span>
+<span><span class="co">#&gt; 42 82.83339 -60.15394  71.36347 18.55806 0.1892709  67.77922         73.54519</span></span>
+<span><span class="co">#&gt; 43 83.83339 -60.15394  80.79428 24.57849 0.3079105  49.43459         76.92189</span></span>
 <span><span class="co">#&gt;      75%.PoR median.PoR        CI   skewness   kurtosis     meanR   R N</span></span>
-<span><span class="co">#&gt; 24  72.28118   70.68846 180.00000 -1.5897927  1.1003251 0.5211332 100 5</span></span>
-<span><span class="co">#&gt; 25 127.81138   80.70468 180.00000 -1.0181445 -1.6083568 0.4733951 100 4</span></span>
-<span><span class="co">#&gt; 26 111.23202   90.72089 180.00000  0.6657998 -0.7271910 0.2191832 100 5</span></span>
-<span><span class="co">#&gt; 35 157.91252  151.01426 132.03984  1.7075040  3.5695991 0.7409430 100 4</span></span>
-<span><span class="co">#&gt; 42  95.51644   72.35056  73.76277  1.0204726  4.1055756 0.8727704 100 4</span></span>
-<span><span class="co">#&gt; 43  78.01755   76.92189  90.71189 -0.1367145  0.1865552 0.7445820 100 5</span></span>
+<span><span class="co">#&gt; 24  70.68846   70.68846 180.00000 -1.7582271  1.3664213 0.4905491 100 5</span></span>
+<span><span class="co">#&gt; 25 127.81138   80.70468 180.00000 -1.6526557 -1.5511149 0.4183275 100 4</span></span>
+<span><span class="co">#&gt; 26 127.81138   90.72089 180.00000  0.7532090 -0.8523197 0.1529891 100 5</span></span>
+<span><span class="co">#&gt; 35 157.91252  151.01426 142.32537  2.0902540  2.8515751 0.6843902 100 4</span></span>
+<span><span class="co">#&gt; 42  95.51644   72.35056  76.92846  0.5162450 -1.9988085 0.8107291 100 4</span></span>
+<span><span class="co">#&gt; 43  80.57092   76.92189  94.92920  0.1517067 -1.6394874 0.6920895 100 5</span></span>
 <span><span class="co">#&gt;          mdr                   geometry      lat       lon      mean       25%</span></span>
-<span><span class="co">#&gt; 24 0.6719937 POINT (-110.1257 39.15542) 39.15542 -110.1257 120.36224 103.36298</span></span>
-<span><span class="co">#&gt; 25 0.1758576 POINT (-110.4569 39.56431) 39.56431 -110.4569 142.56213 128.96443</span></span>
-<span><span class="co">#&gt; 26 0.6370203 POINT (-110.7839 39.97615) 39.97615 -110.7839 174.48900 113.86132</span></span>
-<span><span class="co">#&gt; 35 0.6239140 POINT (-107.9222 34.99224) 34.99224 -107.9222  19.09291  19.23121</span></span>
-<span><span class="co">#&gt; 42 0.6932675 POINT (-110.5034 37.78685) 37.78685 -110.5034 128.29658 123.41089</span></span>
-<span><span class="co">#&gt; 43 0.6433647 POINT (-110.8569 38.19922) 38.19922 -110.8569 137.88256 104.19268</span></span>
+<span><span class="co">#&gt; 24 0.6719937 POINT (-110.1257 39.15542) 39.15542 -110.1257 120.10119 103.44777</span></span>
+<span><span class="co">#&gt; 25 0.1758576 POINT (-110.4569 39.56431) 39.56431 -110.4569 137.56260 128.96443</span></span>
+<span><span class="co">#&gt; 26 0.6370203 POINT (-110.7839 39.97615) 39.97615 -110.7839 171.82553 112.73485</span></span>
+<span><span class="co">#&gt; 35 0.6239140 POINT (-107.9222 34.99224) 34.99224 -107.9222  17.70425  19.23121</span></span>
+<span><span class="co">#&gt; 42 0.6932675 POINT (-110.5034 37.78685) 37.78685 -110.5034 126.99513 123.41089</span></span>
+<span><span class="co">#&gt; 43 0.6433647 POINT (-110.8569 38.19922) 38.19922 -110.8569 137.07570 105.71601</span></span>
 <span><span class="co">#&gt;    quasi-median        75%    median</span></span>
-<span><span class="co">#&gt; 24    128.29855 129.891269 128.29855</span></span>
-<span><span class="co">#&gt; 25    133.15827   6.087356 138.98065</span></span>
-<span><span class="co">#&gt; 26    149.66364 170.174771 149.66364</span></span>
-<span><span class="co">#&gt; 35     21.78415  29.002725  22.10446</span></span>
-<span><span class="co">#&gt; 42    131.54964 151.148106 127.98222</span></span>
-<span><span class="co">#&gt; 43    133.20331 134.298968 133.20331</span></span></code></pre></div>
+<span><span class="co">#&gt; 24    128.29855 128.298547 128.29855</span></span>
+<span><span class="co">#&gt; 25    128.96443   6.087356 138.98065</span></span>
+<span><span class="co">#&gt; 26    149.66364   6.754129 149.66364</span></span>
+<span><span class="co">#&gt; 35     21.99769  29.002725  22.10446</span></span>
+<span><span class="co">#&gt; 42    129.17685 151.148106 127.98222</span></span>
+<span><span class="co">#&gt; 43    133.20331 136.852339 133.20331</span></span></code></pre></div>
 <p>One can also specify a range of cell-sizes for a wavelength
 analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
