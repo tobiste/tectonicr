@@ -64,8 +64,8 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_dispersion(sa.por$azi.PoR, y = 135)
-circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
-circular_sd2(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
+circular_dispersion(sa.por$azi.PoR, y = 135, w = weighting(san_andreas$unc))
+circular_sd2(sa.por$azi.PoR, y = 135, w = weighting(san_andreas$unc))
 }
 \references{
 Mardia, K.V. (1972). Statistics of Directional Data: Probability

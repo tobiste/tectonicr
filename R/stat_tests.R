@@ -764,7 +764,7 @@ A1inv <- function(x) {
 #'
 #' @examples
 #' set.seed(123)
-#' est.kappa(rvm(100, 90, 10), w = 1 / runif(100, 0, 10))
+#' est.kappa(rvm(100, 90, 10), w = weighting(runif(100, 0, 10)))
 est.kappa <- function(x, w = NULL, bias = FALSE, axial = TRUE) {
   # Default weights
   if (is.null(w)) {

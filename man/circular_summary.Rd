@@ -50,7 +50,7 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_summary(sa.por$azi.PoR)
-circular_summary(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+circular_summary(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 }
 \seealso{
 \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_sd]{circular_sd()}}, \code{\link[=circular_var]{circular_var()}},

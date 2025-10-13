@@ -31,10 +31,10 @@ The circular mean difference is based on the sample circular distance
 \examples{
 data("san_andreas")
 circular_mean_difference(san_andreas$azi)
-circular_mean_difference(san_andreas$azi, 1 / san_andreas$unc)
+circular_mean_difference(san_andreas$azi, weighting(san_andreas$unc))
 
 circular_mean_difference_alt(san_andreas$azi)
-circular_mean_difference_alt(san_andreas$azi, 1 / san_andreas$unc)
+circular_mean_difference_alt(san_andreas$azi, weighting(san_andreas$unc))
 }
 \references{
 Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,

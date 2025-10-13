@@ -265,7 +265,7 @@ stress2grid <- function(x,
   }
 
   w_quality <- if ("unc" %in% colnames_x) {
-    1 / x$unc
+    weighting(x$unc)
   } else {
     rep(1, length_azi)
   }
@@ -467,7 +467,7 @@ stress2grid_stats <- function(x,
   }
 
   w_quality <- if ("unc" %in% colnames_x) {
-    1 / x$unc
+    weighting(x$unc)
   } else {
     rep(1, length_azi)
   }
@@ -1006,9 +1006,9 @@ kernel_dispersion <- function(x,
           if (stat == "nchisq") {
             y <- norm_chisq(datas[ids_R, "azi"], prd = datas[ids_R, "prd"], datas[ids_R, "unc"])
           } else if (stat == "rayleigh") {
-            y <- weighted_rayleigh(datas[ids_R, "azi"], mu = datas[ids_R, "prd"], w = 1 / datas[ids_R, "unc"], ...)$statistic
+            y <- weighted_rayleigh(datas[ids_R, "azi"], mu = datas[ids_R, "prd"], w = weighting(datas[ids_R, "unc"]), ...)$statistic
           } else {
-            y <- circular_dispersion(datas[ids_R, "azi"], y = datas[ids_R, "prd"], w = 1 / datas[ids_R, "unc"], ...)
+            y <- circular_dispersion(datas[ids_R, "azi"], y = datas[ids_R, "prd"], w = weighting(datas[ids_R, "unc"]), ...)
           }
         }
 

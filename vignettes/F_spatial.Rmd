@@ -43,7 +43,7 @@ confidence angle, as wells as the moments (, i.e. 2nd moment = variance,
 3rd = skewness, 4th = kurtosis): 
 
 ```{r}
-circular_summary(san_andreas$azi, w = 1 / san_andreas$unc)
+circular_summary(san_andreas$azi, w = weighting(san_andreas$unc))
 ```
 
 

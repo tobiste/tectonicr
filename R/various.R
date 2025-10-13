@@ -462,3 +462,46 @@ lines_azimuths <- function(x) {
   la <- lapply(split(x, 1:nrow(x)), line_azimuth, warn = FALSE)
   dplyr::bind_rows(la)
 }
+
+
+#' Weighting Factors
+#'
+#' Helper function to transform uncertainty angles into weighting factors
+#'
+#' @param x numeric. Uncertainty angle in degrees.
+#' @param method character. One of `"linear-inverse"` (the default), `"inverse"`, `"cosine"`, or `"none"` (no transformation).
+#' @param max.err numeric. The maximum expected error for x (90 by default).
+#'
+#' @details
+#' Linear inverse: \eqn{w = 1 - x/\sigma}, where \eqn{\sigma} is the maximum error expected for \eqn{x} (e.g. \eqn{90^\circ}).
+#'
+#' Inverse: \eqn{w = 1/x}
+#'
+#' Cosine: \eqn{w = \cos{x}}
+#'
+#'
+#' @returns numeric
+#' @export
+#'
+#' @examples
+#' x <- seq(0, 90, 1)
+#'
+#' plot(x, weighting(x, "inverse"), col = 1, type = "l",
+#' xlab = "Uncertainty angle in degrees", ylab = "weight")
+#' lines(x, weighting(x, "cosine"), col = 2)
+#' lines(x, weighting(x, "linear-inverse"), col = 3)
+#' legend("topright", col = 1:3, lty = 1,
+#' legend = c("inverse", "cosine", "linear-inverse"))
+weighting <- function(x, method = c("linear-inverse", "inverse", "cosine", "none"), max.err = 90) {
+  method <- match.arg(method)
+
+  if (method == "linear-inverse") {
+    1 - abs(x) / max.err
+  } else if (method == "inverse") {
+    1 / abs(x)
+  } else if (method == "cosine") {
+    cos(abs(x) * pi / 180)
+  } else {
+    x
+  }
+}

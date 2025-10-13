@@ -43,7 +43,7 @@ data(san_andreas)
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-circular_sd_error(sa.por$azi.PoR, w = 1 / san_andreas$unc)
+circular_sd_error(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 }
 \references{
 \itemize{

@@ -46,8 +46,8 @@ its standard error and its confidence interval.
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-circular_dispersion(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc)
-circular_dispersion_boot(sa.por$azi.PoR, y = 135, w = 1 / san_andreas$unc, R = 1000)
+circular_dispersion(sa.por$azi.PoR, y = 135, w = weighting(san_andreas$unc))
+circular_dispersion_boot(sa.por$azi.PoR, y = 135, w = weighting(san_andreas$unc), R = 1000)
 }
 \seealso{
 \code{\link[=circular_dispersion]{circular_dispersion()}}

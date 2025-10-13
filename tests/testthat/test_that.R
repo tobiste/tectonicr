@@ -28,7 +28,7 @@ eu_in_boundary <- subset(plates, plates$pair == "eu-in")
 eu_in <- equivalent_rotation(morvel, fixed = "eu", rot = "in")
 # stress_analysis(tibet, PoR = eu_in, type = "in", pb = eu_in_boundary, plot = FALSE)
 PoR_stress2grid(tibet, eu_in)
-PoR_stress2grid_stats(tibet, eu_in)
+# sPoR_stress2grid_stats(tibet, eu_in)
 tibet_por <- data2PoR(tibet, eu_in)
 tibet_por$prd <- 90
 kernel_dispersion(tibet_por) |> head()
@@ -104,7 +104,7 @@ distance_from_pb(
 )
 
 test.vals <- c(175, 179, 2, 4)
-test.weights <- 1 / c(5, 1, 2, 4)
+test.weights <- weighting(c(5, 1, 2, 4))
 
 # test expected output values --------------------------------------------------
 test_that("Output of functions is as expected", {

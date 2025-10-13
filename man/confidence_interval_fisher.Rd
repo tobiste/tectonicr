@@ -59,8 +59,8 @@ data(san_andreas)
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-confidence_interval_fisher(sa.por$azi.PoR, w = 1 / san_andreas$unc)
-confidence_interval_fisher(sa.por$azi.PoR, w = 1 / san_andreas$unc, boot = TRUE)
+confidence_interval_fisher(sa.por$azi.PoR, w = weighting(san_andreas$unc))
+confidence_interval_fisher(sa.por$azi.PoR, w = weighting(san_andreas$unc), boot = TRUE)
 }
 \references{
 N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
