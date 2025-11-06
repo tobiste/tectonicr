@@ -24,8 +24,8 @@ Stephan et al., 2023). The following methods are available:
     predicted stress field adjacent to a plate boundary, calculated
     using the relative plate motion of the neighboring plates using the
     function `model_shmax()`. The goodness-of-fit can be statistically
-    tested by e.g. `norm_chisq()`, `circular_dispersion()`
-    ,`rayleigh_test()`, and `confidence_interval()`.
+    tested by e.g.`circular_dispersion()`,`rayleigh_test()`, and 
+    `confidence_interval()`.
 -   **Distance to plate boundary**: `distance_from_pb()` gives the
     distance between the stress data point and the plate boundary
     measured along the stress trajectories.
