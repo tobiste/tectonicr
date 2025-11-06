@@ -51,6 +51,8 @@ Stephan et al., 2023). The following methods are available:
 -   **Download and filter world stress map data** using
     `download_WSM()`
 
+> The {tectonicr} package is all about orientation data in 2D. For analyzing orientations in 3D (spherical statistics, equal-area projections, etc. ), check out the [structr](https://github.com/tobiste/structr) package!
+
 ## Prerequisites
 
 You must have R installed on your system (see <https://www.r-project.org/>).

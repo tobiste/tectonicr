@@ -1185,7 +1185,7 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #' # Add density curve outside of main plot:
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 #' plot_density(san_andreas$azi, kappa = 100,
-#'   scale = 1.1, shrink = 3, xpd = NA
+#'   scale = 1.1, shrink = 3, xpd = NA,
 #'   col = "#51127CFF")
 plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512L, norm.density = TRUE,
                          ...,
