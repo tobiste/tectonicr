@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-10-13</h4>
+            <h4 data-toc-skip class="date">2025-11-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/B_datasets.Rmd" class="external-link"><code>vignettes/B_datasets.Rmd</code></a></small>
       <div class="d-none name"><code>B_datasets.Rmd</code></div>
@@ -188,25 +188,30 @@ trajectories and data points:</p>
 <span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,</span>
 <span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="B_datasets_files/figure-html/plot2-1.png" width="700"><!-- ![](san_andreas_map.png) --></p>
+<p><img src="B_datasets_files/figure-html/plot2-1.png" width="700"></p>
 <p>The map shows generally low deviation of the observed
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
 directions from the modeled stress direction using counter-clockwise
 45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
 loxodromes.</p>
-<p>The <em>normalized</em>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
-test quantifies the fit between the modeled
+<!-- The *normalized* $\chi^2$ test quantifies the fit between the -->
+<!-- modeled $\sigma_{Hmax}$ direction the observed stress direction -->
+<!-- considering the reported uncertainties of the measurement. -->
+<!-- ```{r san_andreas_nchisq, echo=TRUE} -->
+<!-- norm_chisq( -->
+<!--   obs = san_andreas.res$azi.PoR, -->
+<!--   prd = 135, -->
+<!--   unc = weighting(san_andreas.res$unc) -->
+<!-- ) -->
+<!-- ``` -->
+<p>The weighted <strong>circular dispersion</strong> (average circular
+distance) quantifies the fit between the modeled
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
 direction the observed stress direction considering the reported
 uncertainties of the measurement.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span></span>
-<span>  obs <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span>,</span>
-<span>  prd <span class="op">=</span> <span class="fl">135</span>,</span>
-<span>  unc <span class="op">=</span> <span class="va">san_andreas.res</span><span class="op">$</span><span class="va">unc</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.0529064</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dispersion.html">circular_dispersion</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">135</span>, w <span class="op">=</span> <span class="fu"><a href="../reference/weighting.html">weighting</a></span><span class="op">(</span><span class="va">san_andreas.res</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.1384805</span></span></code></pre></div>
 <p>The value is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
 0.15, indicating a significantly good fit of the model. Thus, the
@@ -332,13 +337,12 @@ displaced boundary.</p>
 </blockquote>
 <p>The relationship between the azimuth and the distance can be better
 visualized by using the deviation (normalized by the data precision)
-from the the predicted stress direction, i.e. the <em>normalized</em>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>:</p>
+from the the predicted stress direction, i.e. the circular distance:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plotting:</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">nchisq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">san_andreas.res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">cdist</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (\u00B0)"</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">Norm</span> <span class="op">~</span> <span class="va">chi</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance from plate boundary (\u00B0)"</span>, y <span class="op">=</span> <span class="st">"Circular distance"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">.33</span>, <span class="fl">.7</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">san_andreas</span><span class="op">$</span><span class="va">regime</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>sec.axis <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">sec_axis</a></span><span class="op">(</span></span>
@@ -351,7 +355,7 @@ from the the predicted stress direction, i.e. the <em>normalized</em>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span>, values <span class="op">=</span> <span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_step</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">san_andreas_binned</span>,</span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">nchisq</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">dispersion</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="B_datasets_files/figure-html/san.andreas.distanceplot2-1.png" width="700"><!-- ![](nchisq.png) --></p>
 <p>We can see that the data in fact starts to scatter notably beyond a
@@ -364,10 +368,8 @@ boundary zone at the San Andreas Fault is approx.
 2–6.5<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
 (ca. 200–800 km) wide.</p>
 <blockquote>
-<p>The <em>normalized</em>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
-vs. distance plot allows to specify the width of the plate boundary
-zone.</p>
+<p>The <strong>weighted</strong> circular distance vs. distance plot
+allows to specify the width of the plate boundary zone.</p>
 </blockquote>
 </div>
 <div class="section level2">
