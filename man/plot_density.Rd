@@ -8,10 +8,10 @@ plot_density(
   x,
   kappa = NULL,
   axial = TRUE,
-  n = 512,
-  norm.density = FALSE,
+  n = 512L,
+  norm.density = TRUE,
   ...,
-  scale = 1.1,
+  scale = 0,
   shrink = 1,
   add = TRUE,
   main = NULL,
@@ -22,23 +22,23 @@ plot_density(
 )
 }
 \arguments{
-\item{x}{Data to be plotted. A numeric vector containing angles (in degrees).}
+\item{x}{numeric. Data to be plotted, i.e. vector containing angles (in degrees).}
 
-\item{kappa}{Concentration parameter for the von Mises distribution.
+\item{kappa}{numeric. Concentration parameter for the von Mises distribution.
 Small kappa gives smooth density lines. Will be estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
 
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
-\item{n}{the number of equally spaced points at which the density is to be estimated.}
+\item{n}{integer. the number of equally spaced points at which the density is to be estimated.}
 
 \item{norm.density}{logical. Normalize the density?}
 
 \item{...}{Further graphical parameters may also be supplied as arguments.}
 
-\item{scale}{radius of plotted circle. Default is \code{1.1}.}
+\item{scale}{numeric. radius of plotted circle. Default is \code{1.1}.}
 
-\item{shrink}{parameter that controls the size of the plotted function. Default is 1.}
+\item{shrink}{numeric. parameter that controls the size of the plotted function. Default is 1.}
 
 \item{add}{logical. Add to existing plot? (\code{TRUE} by default).}
 
@@ -61,21 +61,24 @@ plot or calculated densities as numeric vector
 Plot the multiples of a von Mises density distribution
 }
 \examples{
-# Plot the rose histogram first:
-rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+# Plot density inside plot only:
+rose(san_andreas$azi,  grid = TRUE)
+plot_density(san_andreas$azi, kappa = 100, col = "#51127CFF",
+  add = TRUE, lwd = 3)
 
 # Add density curve outside of main plot:
-plot_density(san_andreas$azi,
-  kappa = 100, col = "#51127CFF", shrink = 1.5,
-  norm.density = FALSE
-)
-
-# Plot density inside plot only:
-plot_density(san_andreas$azi,
-  kappa = 100, col = "#51127CFF", add = FALSE,
-  scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE
-)
+rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+plot_density(san_andreas$azi, kappa = 100,
+  scale = 1.1, shrink = 3, xpd = NA
+  col = "#51127CFF")
 }
 \seealso{
 \code{\link[=dvm]{dvm()}}
+
+Other rose-plot: 
+\code{\link{plot_points}()},
+\code{\link{rose}()},
+\code{\link{rose_geom}},
+\code{\link{rose_stats}()}
 }
+\concept{rose-plot}

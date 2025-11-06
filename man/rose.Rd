@@ -132,3 +132,11 @@ rose(san_andreas$azi,
   main = "stacked dot plot"
 )
 }
+\seealso{
+Other rose-plot: 
+\code{\link{plot_density}()},
+\code{\link{plot_points}()},
+\code{\link{rose_geom}},
+\code{\link{rose_stats}()}
+}
+\concept{rose-plot}
