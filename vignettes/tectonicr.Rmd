@@ -19,27 +19,61 @@ knitr::opts_chunk$set(
 )
 ```
 
-`tectonicr` is a free and open-source R package for modeling and analyzing the
-direction of the maximum horizontal stress based on the empirical link
-between the direction of intraplate stress and the direction of the
-relative motion of neighboring plates.
+`tectonicr` is a free and open-source R package for modeling and
+analyzing the direction of the maximum horizontal stress based on the
+empirical link between the direction of intraplate stress and the
+direction of the relative motion of neighboring plates.
+
+## Prerequisites
+
+Before you start you need to have R and and R-compatible IDE installed
+on your computer:
+
+1.  You will need R installed on your computer. You can download R from
+    the CRAN website: <https://cran.r-project.org/>
+
+2.  Once you downloaded and successfully installed R, you can use R in
+    your preferred IDE. I recommend installing and using
+    [RStudio](https://posit.co/download/rstudio-desktop/). However,
+    [Positron](https://positron.posit.co/) and
+    [VisualStudio](https://visualstudio.microsoft.com/) are also great
+    alternatives. You are also allowed to use R's native GUI or use R in
+    your terminal only.
+
+3.  Open your IDE and now you can install the {tectonicr} package by
+    typing into the commando console the following code. This will
+    install the package and every required library as well.
+
+```{r installl, echo=FALSE, eval=FALSE}
+install.packages("tectonicr")
+
+# or install the current development version from github:
+remotes::install_github('tobiste/tectonicr')
+```
+
+4.  Next you must "load" the library to use the functions of
+    {tectonicr}:
+
+```{r setup, warning=FALSE, message=FALSE}
+library(tectonicr)
+```
 
 ## Theoretical background
 
-The theory of intraplate tectonics (Wdowinski 1998)
-allows for calculating the first-order intraplate deformation induced by 
-horizontal displacement of deformable plate boundaries (Stephan et al., 2023). 
-It is based on empirical
-link between the directions of relative plate motion and the
-displacement and deformation fields within a plate interior adjacent to
-three types of deformable plate boundaries: inward-, outward-, and
-tangential-displaced boundaries. The model predicts the direction of
-intraplate displacement, displacement rate, strain, and stress fields in
-terms of small circles, great circles, and 45$^{\circ}$ loxodromes around the
-pole of rotation of two adjacent plates. According to the theory, the principal 
-axis of the maximum horizontal stress follows small circles for inward-displaced
-boundaries, great circles for outward-displaced boundaries, and
-loxodromes for tangential-displaced boundaries.
+The theory of intraplate tectonics (Wdowinski 1998) allows for
+calculating the first-order intraplate deformation induced by horizontal
+displacement of deformable plate boundaries (Stephan et al., 2023). It
+is based on empirical link between the directions of relative plate
+motion and the displacement and deformation fields within a plate
+interior adjacent to three types of deformable plate boundaries:
+inward-, outward-, and tangential-displaced boundaries. The model
+predicts the direction of intraplate displacement, displacement rate,
+strain, and stress fields in terms of small circles, great circles, and
+45$^{\circ}$ loxodromes around the pole of rotation of two adjacent
+plates. According to the theory, the principal axis of the maximum
+horizontal stress follows small circles for inward-displaced boundaries,
+great circles for outward-displaced boundaries, and loxodromes for
+tangential-displaced boundaries.
 
 The theory assumes that the first-order intraplate deformation is
 predominantly induced by horizontal forces acting on plate boundaries
@@ -56,72 +90,77 @@ Thus, stresses across convergent plate boundaries are characterized by
 the dominance of thrusting or strike-slip faulting
 ($\sigma_1 \approx \sigma_{Hmax}$) with $\sigma_{Hmax}$ (maximum
 horizontal stress) trending parallel to the plate convergence, i.e.
-parallel to *small circles* around the pole of the relative plate
-motion (pole of rotation, PoR).
+parallel to *small circles* around the pole of the relative plate motion
+(pole of rotation, PoR).
 
 **Outward moving plate boundaries** produce tensional tractions and
 displacements directed away from the plate interior. Along spreading
 ridges and intracontinental rifting stresses are dominated by normal
 faulting ($\sigma_1 \approx \sigma_{vertical}$,
 $\sigma_2 \approx \sigma_{Hmax}$) with $\sigma_{Hmax}$ trending
-perpendicular to the plate motion trajectories (i.e. along
-*great circles*). In the case of intracontinental setting, stresses and
+perpendicular to the plate motion trajectories (i.e. along *great
+circles*). In the case of intracontinental setting, stresses and
 displacements may be associated to slab-retreat, back-arc extension, or
 the release of the excess of gravitational potential energy stored in
 thickened crust through, e.g., gravitational collapse.
 
 Along transform boundaries (**tangential displaced boundaries**), the
 two neighboring plates exert shear tractions tangential to the
-orientation of the boundary (Forsyth and Uyeda, 1975). 
-Faulting and displacement adjacent to these plate boundaries are characterized 
-by strike-slip parallel to the plate motion, and thus, the principal axes
-of maximum and minimum stress are orientated at an angle of c. 45$^{\circ}$ to
-the plate motion trajectory. 
-Geometrically, $\sigma_{Hmax}$ direction follows along 45$^{\circ}$ 
-*loxodromes* (lines of constant bearing) 
-which diverge ---depending on the sense of the transform boundary--- clockwise 
-or counterclockwise from the relative PoR and intersect both small and 
-great circles at an angle of 45$^{\circ}$.
+orientation of the boundary (Forsyth and Uyeda, 1975). Faulting and
+displacement adjacent to these plate boundaries are characterized by
+strike-slip parallel to the plate motion, and thus, the principal axes
+of maximum and minimum stress are orientated at an angle of c.
+45$^{\circ}$ to the plate motion trajectory. Geometrically,
+$\sigma_{Hmax}$ direction follows along 45$^{\circ}$ *loxodromes* (lines
+of constant bearing) which diverge ---depending on the sense of the
+transform boundary--- clockwise or counterclockwise from the relative
+PoR and intersect both small and great circles at an angle of
+45$^{\circ}$.
 
 ## Theoretical direction of Horizontal Stress and Deviation From the Measured Stress
 
 <!-- **tectonicr** basically calculates the bearing from a point of  -->
+
 <!-- interest to a given Euler pole of the relative plate motion by the formula: -->
 
 <!-- ```{=tex} -->
+
 <!-- \begin{equation}  -->
+
 <!--   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda) -->
+
 <!-- \end{equation} -->
+
 <!-- ``` -->
 
 <!-- where $\psi_1$, $\lambda_1$ are the longitude and latitude of the point,  -->
+
 <!-- $\psi_2$, $\lambda_2$ the longitude and latitude of the Euler pole  -->
+
 <!-- ($\Delta\lambda$ is the difference in longitude).  -->
 
 <!-- > The bearing $\theta$ is the orientation of a great circle that passes through  -->
+
 <!-- the point and the Euler pole. Thus, it reflects the theoretical direction of  -->
+
 <!-- $\sigma_{Hmax}$ that follows great circles trajectories.  -->
+
 <!-- Small circle directions then are $90^{\circ}$ and loxodrome directions  -->
+
+```{=html}
 <!-- are $\pm45^{\circ}$ to $\theta$. 
 
 <!-- --- -->
-
-Trajectories of theoretical directions can modeled by the following 
-steps:
-
-First, load the package:
-
-```{r setup, echo=TRUE}
-library(tectonicr)
-library(ggplot2) # load ggplot library
 ```
 
-Next, we need to specify coordinates of the Pole of Rotation (PoR) to get the 
-directions of 
-the great circles, small circles, and loxodromes around the PoR at the 
-given point (e.g. at 45$^{\circ}$N/20$^{\circ}$E). 
+Trajectories of theoretical directions can modeled by the following
+steps:
 
-For example, the PoR has the coordinates: 90$^{\circ}$N/0$^{\circ}$E. 
+First, we need to specify coordinates of the Pole of Rotation (PoR) to
+get the directions of the great circles, small circles, and loxodromes
+around the PoR at the given point (e.g. at 45$^{\circ}$N/20$^{\circ}$E).
+
+For example, the PoR has the coordinates: 90$^{\circ}$N/0$^{\circ}$E.
 Then $\sigma_{Hmax}$ following great and small circles and loxodromes
 geometries can be modeled with `model_shmax()`:
 
@@ -145,20 +184,31 @@ print(deviation)
 ## Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress
 
 The **normalized** $\chi^2$ test quantitatively compares the predicted
-(`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the reported
-$\sigma$ standard deviation (Wdowinski 1998).
+(`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the
+reported $\sigma$ standard deviation (Wdowinski 1998).
 
 <!-- ```{=tex} -->
+
 <!-- \begin{equation}  -->
+
 <!--   \textrm{Norm} \chi^2_i =  -->
+
 <!--  \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} -->
+
 <!--  {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation} -->
+
 <!-- ``` -->
+
 <!-- with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted -->
+
 <!-- directions of $\sigma_{Hmax}$ with respect to the pole of rotation,  -->
+
 <!-- respectively. -->
+
 <!-- The $\sigma_i$ parameter is the reported uncertainty of the observed -->
+
 <!-- azimuth and $M$ is the number of observations that are used in each -->
+
 <!-- test. -->
 
 The normalized $\chi^2$ test yields a number in the range between 0-1
@@ -166,13 +216,14 @@ which indicates the quality of the fit. Low values of the normalized
 $\chi^2$ test ($\leq$ 0.15 indicate good agreement between predicted and
 observed directions. High values ($>$ 0.7) indicate a systematic misfit
 between predicted and observed directions of about 90$^{\circ}$. Random
-distribution of $\sigma_{Hmax}$ directions results in Norm $\chi^2 = 0.33$
+distribution of $\sigma_{Hmax}$ directions results in Norm
+$\chi^2 = 0.33$
 
-The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a numeric
-vector with the observed $\sigma_{Hmax}$; `prd` is a vector with the predicted 
-$\sigma_{Hmax}$ (vector must be of length of `obs`); and `unc` is the 
-uncertainty of observed $\sigma_{Hmax}$ (either numeric vector of length of 
-`obs` or a number).
+The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a
+numeric vector with the observed $\sigma_{Hmax}$; `prd` is a vector with
+the predicted $\sigma_{Hmax}$ (vector must be of length of `obs`); and
+`unc` is the uncertainty of observed $\sigma_{Hmax}$ (either numeric
+vector of length of `obs` or a number).
 
 ```{r shmax_test, echo=TRUE}
 data("nuvel1") # import example data set for Euler rotations
@@ -186,23 +237,27 @@ norm_chisq(obs = 90, prd$sc, unc = 10)
 ```
 
 # Models of current plate motion
-The plate motions relative to the Pacific plate according to the 
-NUVEL-1A model (DeMets et al. 1990) are implemented in the package and can be 
-imported through:
+
+The plate motions relative to the Pacific plate according to the
+NUVEL-1A model (DeMets et al. 1990) are implemented in the package and
+can be imported through:
 
 ```{r nuvel1, eval=FALSE, include=TRUE}
 data("nuvel1")
 head(nuvel1)
 ```
 
-Other current plate motion models, in particulars NNR-MORVEL-56, GSRM2.1, REVEL, 
-PB2002, and HS3-NUVEL1A, are implemented and available through
+Other current plate motion models, in particulars NNR-MORVEL-56,
+GSRM2.1, REVEL, PB2002, and HS3-NUVEL1A, are implemented and available
+through
+
 ```{r cpm_models, eval=FALSE, include=TRUE}
 data("cpm_models")
 head(cpm_models)
 ```
 
 Any desired relative plate motion can be extracted via the following:
+
 ```{r equivalent_rotation, eval=FALSE, include=TRUE}
 gsrm <- cpm_models[["GSRM2.1"]]
 equivalent_rotation(gsrm, rot = "na", fixed = "eu")
@@ -210,19 +265,21 @@ equivalent_rotation(gsrm, rot = "na", fixed = "eu")
 
 # References
 
-DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current Plate 
-Motions” *Geophysical Journal International* 101 (2): 425–78. 
-doi: [10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x)
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current
+Plate Motions” *Geophysical Journal International* 101 (2): 425–78. doi:
+[10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x)
 
-Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the Driving 
-Forces of Plate Motion” *Geophysical Journal International* 43 (1): 163–200. 
-doi: [10.1111/j.1365-246x.1975.tb00631.x](https://doi.org/10.1111/j.1365-246x.1975.tb00631.x)
+Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the
+Driving Forces of Plate Motion” *Geophysical Journal International* 43
+(1): 163–200. doi:
+[10.1111/j.1365-246x.1975.tb00631.x](https://doi.org/10.1111/j.1365-246x.1975.tb00631.x)
 
-Stephan, T., Enkelmann, E., and Kroner, U. (2023). "Analyzing the horizontal 
-orientation of the crustal stress adjacent to plate boundaries" 
-*Scientific Reports* (13), 15590. 
-doi:[10.1038/s41598-023-42433-2](https://doi.org/10.1038/s41598-023-42433-2)
+Stephan, T., Enkelmann, E., and Kroner, U. (2023). "Analyzing the
+horizontal orientation of the crustal stress adjacent to plate
+boundaries" *Scientific Reports* (13), 15590.
+[doi:[10.1038/s41598-023-42433-2](doi:%5B10.1038/s41598-023-42433-2){.uri}](<https://doi.org/10.1038/s41598-023-42433-2>)
 
-Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics” 
-*Journal of Geophysical Research: Solid Earth* 103 (B3): 5037–59. doi: 10.1029/97jb03390.
+Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics” *Journal of
+Geophysical Research: Solid Earth* 103 (B3): 5037–59. doi:
+10.1029/97jb03390.
 <!---[10.1029/97jb03390](https://doi.org/10.1029/97JB03390).-->
