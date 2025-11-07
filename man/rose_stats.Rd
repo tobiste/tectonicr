@@ -70,9 +70,15 @@ rose(san_andreas$azi, weights = 1 / san_andreas$unc, muci = FALSE)
 rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "sample_median", spread = "mdev")
 }
 \seealso{
-\code{\link[=rose]{rose()}} for plotting the rose diagram, and
 \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=circular_sample_median]{circular_sample_median()}},
 \code{\link[=confidence_interval]{confidence_interval()}}, \code{\link[=confidence_interval_fisher]{confidence_interval_fisher()}},
 \code{\link[=circular_sd]{circular_sd()}}, \code{\link[=circular_IQR]{circular_IQR()}}, \code{\link[=circular_sample_median_deviation]{circular_sample_median_deviation()}}
 for statistical parameters.
+
+Other rose-plot: 
+\code{\link{plot_density}()},
+\code{\link{plot_points}()},
+\code{\link{rose}()},
+\code{\link{rose_geom}}
 }
+\concept{rose-plot}

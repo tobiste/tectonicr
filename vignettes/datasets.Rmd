@@ -102,6 +102,7 @@ map <- ggplot() +
   ) +
   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.4))
 ```
+
 ...and add the $\sigma_{Hmax}$ trajectories and data points:
 
 ```{r plot2, echo=TRUE, warning=FALSE, message=FALSE}
@@ -125,22 +126,29 @@ map +
     ylim = range(san_andreas$lat)
   )
 ```
-<!-- ![](san_andreas_map.png) -->
 
 The map shows generally low deviation of the observed $\sigma_{Hmax}$ directions
 from the modeled stress direction using counter-clockwise 45$^{\circ}$ 
 loxodromes. 
 
-The *normalized* $\chi^2$ test quantifies the fit between the
+<!-- The *normalized* $\chi^2$ test quantifies the fit between the -->
+<!-- modeled $\sigma_{Hmax}$ direction the observed stress direction -->
+<!-- considering the reported uncertainties of the measurement. -->
+
+<!-- ```{r san_andreas_nchisq, echo=TRUE} -->
+<!-- norm_chisq( -->
+<!--   obs = san_andreas.res$azi.PoR, -->
+<!--   prd = 135, -->
+<!--   unc = weighting(san_andreas.res$unc) -->
+<!-- ) -->
+<!-- ``` -->
+
+The weighted **circular dispersion** (average circular distance) quantifies the fit between the
 modeled $\sigma_{Hmax}$ direction the observed stress direction
 considering the reported uncertainties of the measurement.
 
-```{r san_andreas_nchisq, echo=TRUE}
-norm_chisq(
-  obs = san_andreas.res$azi.PoR,
-  prd = 135,
-  unc = san_andreas.res$unc
-)
+```{r san_andreas_dipersion}
+circular_dispersion(san_andreas.res$azi.PoR, 135, w = weighting(san_andreas.res$unc))
 ```
 
 The value is $\leq$ 0.15, indicating a significantly good fit of the
@@ -220,6 +228,7 @@ print(azi_plot)
 <!-- ![](azimuth.png) -->
 
 Binned statistics (e.g. weighted mean and 95% confidence interval) of the transformed azimuth can be achieved through `distance_binned_stats()`. Here, this gives a summary statistic for every 2$^{\circ}$.
+
 ```{r distance_bin, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 san_andreas_binned <- distance_binned_stats(
   azi = san_andreas.res$azi.PoR,
@@ -258,13 +267,13 @@ boundary.
 
 The relationship between the azimuth and the distance can be better visualized 
 by using the deviation (normalized by the data precision) from the the predicted
-stress direction, i.e. the *normalized* $\chi^2$:
+stress direction, i.e. the circular distance:
 
 ```{r san.andreas.distanceplot2, echo=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 # plotting:
-ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
+ggplot(san_andreas.res, aes(x = distance, y = cdist)) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Distance from plate boundary (\u00B0)", y = expression(Norm ~ chi^2)) +
+  labs(x = "Distance from plate boundary (\u00B0)", y = "Circular distance") +
   geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +
   geom_point(aes(color = san_andreas$regime)) +
   scale_y_continuous(sec.axis = sec_axis(
@@ -277,7 +286,7 @@ ggplot(san_andreas.res, aes(x = distance, y = nchisq)) +
   scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors())) +
   geom_step(
     data = san_andreas_binned,
-    aes(distance_median, nchisq)
+    aes(distance_median, dispersion)
   )
 ```
 <!-- ![](nchisq.png) -->
@@ -288,12 +297,13 @@ the plate boundary.
 Thus, the North American-Pacific plate boundary zone at the San Andreas Fault is 
 approx. 2--6.5$^{\circ}$ (ca. 200--800 km) wide. 
 
-> The *normalized* $\chi^2$ vs. distance plot allows to specify the width of the
+> The **weighted** circular distance vs. distance plot allows to specify the width of the
 plate boundary zone.
 
 
 ## R base plots for quick analysis
 The data deviation map can also be build using base R's plotting engine:
+
 ```{r plot_base, echo=TRUE, warning=FALSE, message=FALSE}
 # Setup the colors for the deviation
 cols <- tectonicr.colors(

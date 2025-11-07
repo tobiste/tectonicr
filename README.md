@@ -24,8 +24,8 @@ Stephan et al., 2023). The following methods are available:
     predicted stress field adjacent to a plate boundary, calculated
     using the relative plate motion of the neighboring plates using the
     function `model_shmax()`. The goodness-of-fit can be statistically
-    tested by e.g. `norm_chisq()`, `circular_dispersion()`
-    ,`rayleigh_test()`, and `confidence_interval()`.
+    tested by e.g.`circular_dispersion()`,`rayleigh_test()`, and 
+    `confidence_interval()`.
 -   **Distance to plate boundary**: `distance_from_pb()` gives the
     distance between the stress data point and the plate boundary
     measured along the stress trajectories.
@@ -50,6 +50,8 @@ Stephan et al., 2023). The following methods are available:
     forces with `kernel_dispersion()`
 -   **Download and filter world stress map data** using
     `download_WSM()`
+
+> The {tectonicr} package is all about orientation data in 2D. For analyzing orientations in 3D (spherical statistics, equal-area projections, etc. ), check out the [structr](https://github.com/tobiste/structr) package!
 
 ## Prerequisites
 

@@ -757,6 +757,8 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' @importFrom graphics hist title points mtext
 #' @importFrom stats na.omit
 #'
+#' @family rose-plot
+#'
 #' @export
 #'
 #' @examples
@@ -786,7 +788,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  dot_col = "slategrey", stack = FALSE, jitter_factor = 0,
                  grid = FALSE, grid.lines = seq(0, 135, 45), grid.circles = seq(.2, 1, .2),
                  add = FALSE, ...) {
-  if (!add) {
+  if (isFALSE(add)) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
     }
@@ -821,7 +823,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 
   if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
   graphics::title(main = NULL, sub = sub, ylab = NULL)
-  graphics::mtext(mtext)
+  graphics::mtext(mtext, font = 2)
 
   if (muci) rose_stats(x, weights = weights, axial = axial)
   invisible(freqs)
@@ -843,6 +845,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #'
 #' @importFrom graphics segments polygon
 #' @name rose_geom
+#' @family rose-plot
 #' @examples
 #' angles <- c(0, 10, 45)
 #' radius <- c(.7, 1, .2)
@@ -915,8 +918,9 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @param ... optional arguments to `circular_plot()` if add is `FALSE`.
 #' @importFrom ggplot2 alpha
 #'
-#' @seealso [rose()] for plotting the rose diagram, and
-#' [circular_mean()], [circular_median()], [circular_sample_median()],
+#' @family rose-plot
+#'
+#' @seealso [circular_mean()], [circular_median()], [circular_sample_median()],
 #' [confidence_interval()], [confidence_interval_fisher()],
 #' [circular_sd()], [circular_IQR()], [circular_sample_median_deviation()]
 #' for statistical parameters.
@@ -999,6 +1003,8 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #'
 #' @importFrom graphics points
 #'
+#' @family rose-plot
+#'
 #' @return A list with information on the plot
 #' @export
 #'
@@ -1012,7 +1018,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' plot_points(x, jitter_factor = .2, add = FALSE)
 #'
 #' # stacked dots:
-#' plot_points(x, stack = TRUE, binwidth = 3, add = FALSE)
+#' plot_points(x, stack = TRUE, binwidth = 3, add = FALSE, xpd = TRUE)
 plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, sep = 0.025, jitter_factor = 0, ..., scale = 1.1, add = TRUE,
                         main = NULL, labels = TRUE,
                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
@@ -1151,41 +1157,39 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'
 #' Plot the multiples of a von Mises density distribution
 #'
-#' @param x Data to be plotted. A numeric vector containing angles (in degrees).
-#' @param kappa Concentration parameter for the von Mises distribution.
+#' @param x numeric. Data to be plotted, i.e. vector containing angles (in degrees).
+#' @param kappa numeric. Concentration parameter for the von Mises distribution.
 #' Small kappa gives smooth density lines. Will be estimated using [est.kappa()] if not provided.
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
-#' @param n the number of equally spaced points at which the density is to be estimated.
+#' @param n integer. the number of equally spaced points at which the density is to be estimated.
 #' @param norm.density logical. Normalize the density?
-#' @param scale radius of plotted circle. Default is `1.1`.
-#' @param shrink parameter that controls the size of the plotted function. Default is 1.
+#' @param scale numeric. radius of plotted circle. Default is `1.1`.
+#' @param shrink numeric. parameter that controls the size of the plotted function. Default is 1.
 #' @param grid logical. Whether a grid should be added.
 #' @param ... Further graphical parameters may also be supplied as arguments.
 #' @param add logical. Add to existing plot? (`TRUE` by default).
 #' @inheritParams circular_plot
 #'
 #' @seealso [dvm()]
+#' @family rose-plot
 #' @return plot or calculated densities as numeric vector
 #' @export
 #'
 #' @examples
-#' # Plot the rose histogram first:
-#' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+#' # Plot density inside plot only:
+#' rose(san_andreas$azi,  grid = TRUE)
+#' plot_density(san_andreas$azi, kappa = 100, col = "#51127CFF",
+#'   add = TRUE, lwd = 3)
 #'
 #' # Add density curve outside of main plot:
-#' plot_density(san_andreas$azi,
-#'   kappa = 100, col = "#51127CFF", shrink = 1.5,
-#'   norm.density = FALSE
-#' )
-#'
-#' # Plot density inside plot only:
-#' plot_density(san_andreas$azi,
-#'   kappa = 100, col = "#51127CFF", add = FALSE,
-#'   scale = .5, shrink = 2, norm.density = TRUE, grid = TRUE
-#' )
-plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512, norm.density = FALSE, ...,
-                         scale = 1.1, shrink = 1,
+#' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+#' plot_density(san_andreas$azi, kappa = 100,
+#'   scale = 1.1, shrink = 3, xpd = NA,
+#'   col = "#51127CFF")
+plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512L, norm.density = TRUE,
+                         ...,
+                         scale = 0, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
                          at = seq(0, 360 - 45, 45), cborder = TRUE, grid = FALSE) {
   if (!add) {

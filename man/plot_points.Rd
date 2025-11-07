@@ -80,5 +80,13 @@ plot_points(x, add = FALSE)
 plot_points(x, jitter_factor = .2, add = FALSE)
 
 # stacked dots:
-plot_points(x, stack = TRUE, binwidth = 3, add = FALSE)
+plot_points(x, stack = TRUE, binwidth = 3, add = FALSE, xpd = TRUE)
 }
+\seealso{
+Other rose-plot: 
+\code{\link{plot_density}()},
+\code{\link{rose}()},
+\code{\link{rose_geom}},
+\code{\link{rose_stats}()}
+}
+\concept{rose-plot}
