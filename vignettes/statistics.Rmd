@@ -50,6 +50,11 @@ are either **directional** or **axial**.
     direction, including the angle of the maximum horizontal stress
     $\sigma_\text{Hmax}$).
 
+> In (almost) every function in the **tectonicr** library, the `axial`
+> argument specifies whether your angles `x` are axial (`TRUE`) or
+> directional (`FALSE`). Because this package is mainly designed for
+> analyzing stress orientations, the default is `axial=TRUE`.
+
 ```{r directional_vs_axial, echo=TRUE}
 angles <- rvm(10, mean = 35, kappa = 20)
 
@@ -60,11 +65,6 @@ rose_line(angles, axial = FALSE, col = "#B63679FF")
 circular_plot(main = "Axial")
 rose_line(angles, axial = TRUE, col = "#B63679FF")
 ```
-
-> In (almost) every function in the **tectonicr** library, the `axial`
-> argument specifies whether your angles `x` are axial (`TRUE`) or
-> directional (`FALSE`). Because this package is mainly designed for
-> analyzing stress orientations, the default is `axial=TRUE`.
 
 ## Mean direction
 
