@@ -1,10 +1,10 @@
 ---
-title: "5. Spatial interpolation"
+title: "Spatial interpolation"
 author: "Tobias Stephan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{5. Spatial interpolation}
+  %\VignetteIndexEntry{Spatial interpolation}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

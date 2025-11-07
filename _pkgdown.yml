@@ -5,5 +5,18 @@ template:
 
 authors:
   Tobias Stephan:
-    href: https://tobiasstephan1.wixsite.com/tobi
+    href: https://tobiste.github.io/
 
+articles:
+- title: Basics
+  navbar: "Basics"
+  contents:
+  - datasets
+  - stress_trajectories
+
+- title: Statistics
+  navbar: "Circular Statistics"
+  contents:
+  - statistics
+  - spatial
+  - interpolation
