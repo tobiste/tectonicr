@@ -121,6 +121,14 @@ compression direction, including the angle of the maximum horizontal
 stress
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mtext mathvariant="normal">Hmax</mtext></msub><annotation encoding="application/x-tex">\sigma_\text{Hmax}</annotation></semantics></math>).</li>
 </ul>
+<blockquote>
+<p>In (almost) every function in the <strong>tectonicr</strong> library,
+the <code>axial</code> argument specifies whether your angles
+<code>x</code> are axial (<code>TRUE</code>) or directional
+(<code>FALSE</code>). Because this package is mainly designed for
+analyzing stress orientations, the default is
+<code>axial=TRUE</code>.</p>
+</blockquote>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">angles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">10</span>, mean <span class="op">=</span> <span class="fl">35</span>, kappa <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span></span>
@@ -131,14 +139,6 @@ stress
 <span><span class="fu"><a href="../reference/circular_plot.html">circular_plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Axial"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="va">angles</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"#B63679FF"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="statistics_files/figure-html/directional_vs_axial-1.png" width="700"></p>
-<blockquote>
-<p>In (almost) every function in the <strong>tectonicr</strong> library,
-the <code>axial</code> argument specifies whether your angles
-<code>x</code> are axial (<code>TRUE</code>) or directional
-(<code>FALSE</code>). Because this package is mainly designed for
-analyzing stress orientations, the default is
-<code>axial=TRUE</code>.</p>
-</blockquote>
 </div>
 <div class="section level3">
 <h3 id="mean-direction">Mean direction<a class="anchor" aria-label="anchor" href="#mean-direction"></a>
