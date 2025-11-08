@@ -69,7 +69,7 @@ interior adjacent to three types of deformable plate boundaries:
 inward-, outward-, and tangential-displaced boundaries. The model
 predicts the direction of intraplate displacement, displacement rate,
 strain, and stress fields in terms of small circles, great circles, and
-45$^{\circ}$ loxodromes around the pole of rotation of two adjacent
+45&deg; loxodromes around the pole of rotation of two adjacent
 plates. According to the theory, the principal axis of the maximum
 horizontal stress follows small circles for inward-displaced boundaries,
 great circles for outward-displaced boundaries, and loxodromes for
@@ -110,131 +110,136 @@ orientation of the boundary (Forsyth and Uyeda, 1975). Faulting and
 displacement adjacent to these plate boundaries are characterized by
 strike-slip parallel to the plate motion, and thus, the principal axes
 of maximum and minimum stress are orientated at an angle of c.
-45$^{\circ}$ to the plate motion trajectory. Geometrically,
-$\sigma_{Hmax}$ direction follows along 45$^{\circ}$ *loxodromes* (lines
+45&deg; to the plate motion trajectory. Geometrically,
+$\sigma_{Hmax}$ direction follows along 45&deg; *loxodromes* (lines
 of constant bearing) which diverge ---depending on the sense of the
 transform boundary--- clockwise or counterclockwise from the relative
 PoR and intersect both small and great circles at an angle of
-45$^{\circ}$.
+45&deg;.
 
 ## Theoretical direction of Horizontal Stress and Deviation From the Measured Stress
-
-<!-- **tectonicr** basically calculates the bearing from a point of  -->
-
-<!-- interest to a given Euler pole of the relative plate motion by the formula: -->
-
-<!-- ```{=tex} -->
-
-<!-- \begin{equation}  -->
-
-<!--   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda) -->
-
-<!-- \end{equation} -->
-
-<!-- ``` -->
-
-<!-- where $\psi_1$, $\lambda_1$ are the longitude and latitude of the point,  -->
-
-<!-- $\psi_2$, $\lambda_2$ the longitude and latitude of the Euler pole  -->
-
-<!-- ($\Delta\lambda$ is the difference in longitude).  -->
-
-<!-- > The bearing $\theta$ is the orientation of a great circle that passes through  -->
-
-<!-- the point and the Euler pole. Thus, it reflects the theoretical direction of  -->
-
-<!-- $\sigma_{Hmax}$ that follows great circles trajectories.  -->
-
-<!-- Small circle directions then are $90^{\circ}$ and loxodrome directions  -->
-
-```{=html}
-<!-- are $\pm45^{\circ}$ to $\theta$. 
-
-<!-- --- -->
-```
 
 Trajectories of theoretical directions can modeled by the following
 steps:
 
 First, we need to specify coordinates of the Pole of Rotation (PoR) to
 get the directions of the great circles, small circles, and loxodromes
-around the PoR at the given point (e.g. at 45$^{\circ}$N/20$^{\circ}$E).
+around the PoR at the given point (e.g. at 45&deg;N/20&deg;E).
 
-For example, the PoR has the coordinates: 90$^{\circ}$N/0$^{\circ}$E.
-Then $\sigma_{Hmax}$ following great and small circles and loxodromes
-geometries can be modeled with `model_shmax()`:
+For example, a PoR has the coordinates:
+48.7&deg;N/-78.2&deg;E (relativ emotion of North America and Pacific plate). 
+Then $\sigma_{Hmax}$ following great
+and small circles and loxodromes geometries can be modeled with
+`model_shmax()`:
 
 ```{r direction_of_plate_motion, echo=TRUE}
-# Example:
+# import example data set for Euler rotations
+data("nuvel1")
+
+# North America relative to Pacific plate
+por <- subset(nuvel1, nuvel1$plate.rot == "na")
+
+# Example stress:
 point <- data.frame(lat = 45, lon = 20)
-por <- data.frame(lat = 90, lon = 0)
-model <- model_shmax(point, por)
-print(model)
+prd <- model_shmax(point, por)
+print(prd)
 ```
 
 If there is an observed stress direction at the point, e.g. azimuth of
-$\sigma_{Hmax}$ is 90$^{\circ}$, the deviation from the modeled stress
-directions can be calculated through `deviation_shmax()`:
+$\sigma_{Hmax}$ is 90&deg;, the angle deviation from the modeled
+stress directions can be calculated through `deviation_shmax()`:
 
 ```{r deviation_of_plate_motion, echo=TRUE}
-deviation <- deviation_shmax(model, 90)
+deviation <- deviation_shmax(prd, 90)
 print(deviation)
 ```
 
+> More details on calculating the theoretical stress orientations are
+> given in this
+> [tutorial](https://tobiste.github.io/tectonicr/articles/datasets.html).
+
 ## Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress
 
-The **normalized** $\chi^2$ test quantitatively compares the predicted
+<!-- The **normalized** $\chi^2$ test quantitatively compares the predicted -->
+
+<!-- (`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the -->
+
+<!-- reported $\sigma$ standard deviation (Wdowinski 1998). -->
+
+<!-- The normalized $\chi^2$ test yields a number in the range between 0-1 -->
+
+<!-- which indicates the quality of the fit. Low values of the normalized -->
+
+<!-- $\chi^2$ test ($\leq$ 0.15 indicate good agreement between predicted and -->
+
+<!-- observed directions. High values ($>$ 0.7) indicate a systematic misfit -->
+
+<!-- between predicted and observed directions of about 90&deg;. Random -->
+
+<!-- distribution of $\sigma_{Hmax}$ directions results in Norm -->
+
+<!-- $\chi^2 = 0.33$ -->
+
+<!-- The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a -->
+
+<!-- numeric vector with the observed $\sigma_{Hmax}$; `prd` is a vector with -->
+
+<!-- the predicted $\sigma_{Hmax}$ (vector must be of length of `obs`); and -->
+
+<!-- `unc` is the uncertainty of observed $\sigma_{Hmax}$ (either numeric -->
+
+<!-- vector of length of `obs` or a number). -->
+
+<!-- The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a -->
+
+<!-- numeric vector with the observed $\sigma_{Hmax}$; `prd` is a vector with -->
+
+<!-- the predicted $\sigma_{Hmax}$ (vector must be of length of `obs`); and -->
+
+<!-- `unc` is the uncertainty of observed $\sigma_{Hmax}$ (either numeric -->
+
+<!-- vector of length of `obs` or a number). -->
+
+The **circular dispersion** $D$ quantitatively compares the predicted
 (`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the
-reported $\sigma$ standard deviation (Wdowinski 1998).
+reported $\sigma$ standard deviation (Stephan and Enkelmann, 2025). The
+measure is (weighted) average of the circular distance $d$ defined as
+$$d = 1 - \cos{\left[ k(\theta - \mu)\right]}$$ where $\theta$ are the
+observed angles (here $\sigma_{Hmax}$), $\mu$ is the theoretical angles,
+and $k=1$ for directional data and $k=2$ for directional data. The
+weighted dispersion is
 
-<!-- ```{=tex} -->
+$$D = \frac{1}{Z} \sum_{i=1}^{n} w_i d_i$$ where $n$ s the number if
+observations, $w_i$ are weights of each observation, and $Z$ is the sum
+of all weights $Z=\sum_{i=1}^{n} w_i$.
 
-<!-- \begin{equation}  -->
+The dispersion parameter yields a number in the range between 0-1 which
+indicates the quality of the fit. Low dispersion values ($D \le 0.15$)
+indicate good agreement between predicted and observed directions (angle
+difference $\le 22.5^\circ$). High values ($D > 0.5$) indicate a
+systematic misfit between predicted and observed directions of about
+$> 45^\circ$. A misfit of $90^\circ$ and/or a random distribution of
+$\sigma_{Hmax}$ directions results in $D = 1$
 
-<!--   \textrm{Norm} \chi^2_i =  -->
-
-<!--  \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} -->
-
-<!--  {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation} -->
-
-<!-- ``` -->
-
-<!-- with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted -->
-
-<!-- directions of $\sigma_{Hmax}$ with respect to the pole of rotation,  -->
-
-<!-- respectively. -->
-
-<!-- The $\sigma_i$ parameter is the reported uncertainty of the observed -->
-
-<!-- azimuth and $M$ is the number of observations that are used in each -->
-
-<!-- test. -->
-
-The normalized $\chi^2$ test yields a number in the range between 0-1
-which indicates the quality of the fit. Low values of the normalized
-$\chi^2$ test ($\leq$ 0.15 indicate good agreement between predicted and
-observed directions. High values ($>$ 0.7) indicate a systematic misfit
-between predicted and observed directions of about 90$^{\circ}$. Random
-distribution of $\sigma_{Hmax}$ directions results in Norm
-$\chi^2 = 0.33$
-
-The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a
-numeric vector with the observed $\sigma_{Hmax}$; `prd` is a vector with
-the predicted $\sigma_{Hmax}$ (vector must be of length of `obs`); and
-`unc` is the uncertainty of observed $\sigma_{Hmax}$ (either numeric
-vector of length of `obs` or a number).
+Assuming $\sigma_{Hmax}$ has an azimuth of 90° at the given coordinate
+with a angle precision of 10°, we can compare all test all theoretical
+observations using `circular_dispersion()`:
 
 ```{r shmax_test, echo=TRUE}
-data("nuvel1") # import example data set for Euler rotations
-por <- subset(
-  nuvel1, nuvel1$plate.rot == "na"
-) # North America relative to Pacific plate
-point <- data.frame(lat = 45, lon = 20)
-
-prd <- model_shmax(point, por)
-norm_chisq(obs = 90, prd$sc, unc = 10)
+sapply(as.numeric(prd), function(p) {
+  circular_dispersion(90, y = p, w = weighting(10))
+}) |>
+  setNames(nm = names(prd))
 ```
+
+`ld.ccw` (counter-clockwise loxodrome) yields the smallest dispersion
+from the observation, indicating that counter-clockwise loxodrome
+geometry has a good fit with the observed stress orientation.
+
+> More details on the statistical treatment, including variance
+> estimation, statistical testing, and confidence intervals, are given
+> in this
+> [tutorial](https://tobiste.github.io/tectonicr/articles/statistics.html).
 
 # Models of current plate motion
 
@@ -277,9 +282,12 @@ Driving Forces of Plate Motion” *Geophysical Journal International* 43
 Stephan, T., Enkelmann, E., and Kroner, U. (2023). "Analyzing the
 horizontal orientation of the crustal stress adjacent to plate
 boundaries" *Scientific Reports* (13), 15590.
-[doi:[10.1038/s41598-023-42433-2](doi:%5B10.1038/s41598-023-42433-2){.uri}](<https://doi.org/10.1038/s41598-023-42433-2>)
+[doi:[10.1038/s41598-023-42433-2](doi:%5B10.1038/s41598-023-42433-2){.uri}](https://doi.org/10.1038/s41598-023-42433-2)
+
+Stephan, T., & Enkelmann, E. (2025). All Aligned on the Western Front of
+North America? Analyzing the Stress Field in the Northern Cordillera.
+Tectonics, 44(9). <https://doi.org/10.1029/2025TC009014>
 
 Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics” *Journal of
 Geophysical Research: Solid Earth* 103 (B3): 5037–59. doi:
-10.1029/97jb03390.
-<!---[10.1029/97jb03390](https://doi.org/10.1029/97JB03390).-->
+10.1029/97jb03390. <https://doi.org/10.1029/97JB03390>
