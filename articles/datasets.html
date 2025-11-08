@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-11-07</h4>
+            <h4 data-toc-skip class="date">2025-11-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/datasets.Rmd" class="external-link"><code>vignettes/datasets.Rmd</code></a></small>
       <div class="d-none name"><code>datasets.Rmd</code></div>
@@ -192,7 +192,7 @@ trajectories and data points:</p>
 <span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>,</span>
 <span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="datasets_files/figure-html/plot2-1.png" width="700"></p>
+<p><img src="datasets_files/figure-html/plot2-1.png" class="r-plt" width="700"></p>
 <p>The map shows generally low deviation of the observed
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
 directions from the modeled stress direction using counter-clockwise
@@ -297,7 +297,7 @@ direction wrt. to the distance to the plate boundary:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Quality rank"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Tectonic regime"</span>, values <span class="op">=</span> <span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/stress_colors.html">stress_colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">azi_plot</span><span class="op">)</span></span></code></pre></div>
-<p><img src="datasets_files/figure-html/san.andreas.distanceplot1-1.png" width="700"><!-- ![](azimuth.png) --></p>
+<p><img src="datasets_files/figure-html/san.andreas.distanceplot1-1.png" class="r-plt" width="700"><!-- ![](azimuth.png) --></p>
 <p>Binned statistics (e.g. weighted mean and 95% confidence interval) of
 the transformed azimuth can be achieved through
 <code><a href="../reference/distance_binned_stats.html">distance_binned_stats()</a></code>. Here, this gives a summary
@@ -327,7 +327,7 @@ statistic for every
 <span>    data <span class="op">=</span> <span class="va">san_andreas_binned</span>,</span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">mean</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="datasets_files/figure-html/distance_bin-1.png" width="700"></p>
+<p><img src="datasets_files/figure-html/distance_bin-1.png" class="r-plt" width="700"></p>
 <p>Close to the dextral plate boundary, the majority of the stress data
 have a strike-slip fault regime and are oriented around
 135<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
@@ -361,7 +361,7 @@ from the the predicted stress direction, i.e. the circular distance:</p>
 <span>    data <span class="op">=</span> <span class="va">san_andreas_binned</span>,</span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance_median</span>, <span class="va">dispersion</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="datasets_files/figure-html/san.andreas.distanceplot2-1.png" width="700"><!-- ![](nchisq.png) --></p>
+<p><img src="datasets_files/figure-html/san.andreas.distanceplot2-1.png" class="r-plt" width="700"><!-- ![](nchisq.png) --></p>
 <p>We can see that the data in fact starts to scatter notably beyond a
 distance of
 2<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
@@ -421,7 +421,7 @@ engine:</p>
 <span>  inset <span class="op">=</span> <span class="fl">.05</span>, cex <span class="op">=</span> <span class="fl">.75</span>,</span>
 <span>  legend <span class="op">=</span> <span class="va">col.legend</span><span class="op">$</span><span class="va">val</span>, fill <span class="op">=</span> <span class="va">col.legend</span><span class="op">$</span><span class="va">col</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="datasets_files/figure-html/plot_base-1.png" width="700"></p>
+<p><img src="datasets_files/figure-html/plot_base-1.png" class="r-plt" width="700"></p>
 <p>A quick analysis the results can be obtained
 <code><a href="../reference/stress_analysis.html">stress_analysis()</a></code> that returns a list. The transformed
 coordinates and azimuths as well as the deviations can be viewed by:</p>
@@ -491,7 +491,7 @@ Data Services. doi: <a href="https://doi.org/10.5880/WSM.2016.001" class="extern
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

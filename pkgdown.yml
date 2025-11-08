@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   datasets: datasets.html
@@ -8,7 +8,7 @@ articles:
   statistics: statistics.html
   stress_trajectories: stress_trajectories.html
   tectonicr: tectonicr.html
-last_built: 2025-11-07T19:07Z
+last_built: 2025-11-08T15:58Z
 urls:
   reference: https://tobiste.github.io/tectonicr/reference
   article: https://tobiste.github.io/tectonicr/articles

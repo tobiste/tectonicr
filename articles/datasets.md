@@ -1,0 +1,427 @@
+# Handling large datasets
+
+This vignette teaches you how to handle large stress datasets and how to
+retrieve relative plate motions parameters from a set of plate motions.
+
+``` r
+library(tectonicr)
+library(ggplot2) # load ggplot library
+```
+
+## Larger Data Sets
+
+**tectonicr** also handles larger data sets. A subset of the World
+Stress Map data compilation (Heidbach et al. 2016) is included as an
+example data set and can be imported through:
+
+``` r
+data("san_andreas")
+head(san_andreas)
+#> Simple feature collection with 6 features and 9 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -118.84 ymin: 35.97 xmax: -112.58 ymax: 39.08
+#> Geodetic CRS:  WGS 84
+#>         id   lat     lon azi unc type depth quality regime
+#> 1 wsm00892 38.14 -118.84  50  25  FMS     7       C      S
+#> 2 wsm00893 35.97 -114.71  54  25  FMS     5       C      S
+#> 3 wsm00894 37.93 -118.17  24  25  FMS     5       C      S
+#> 4 wsm00896 38.63 -118.21  41  25  FMS    17       C      N
+#> 5 wsm00897 39.08 -115.62  30  25  FMS     5       C      N
+#> 6 wsm00903 38.58 -112.58  27  25  FMS     7       C      N
+#>                geometry
+#> 1 POINT (-118.84 38.14)
+#> 2 POINT (-114.71 35.97)
+#> 3 POINT (-118.17 37.93)
+#> 4 POINT (-118.21 38.63)
+#> 5 POINT (-115.62 39.08)
+#> 6 POINT (-112.58 38.58)
+```
+
+> The full or an individually filtered world stress map dataset can be
+> downloaded by
+> [`download_WSM()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)
+
+Modeling the stress directions (wrt. to the geographic North pole) using
+the Pole of Oration (PoR) of the motion of North America relative to the
+Pacific Plate. We test the dataset against a right-laterally tangential
+displacement type.
+
+``` r
+data("nuvel1")
+por <- subset(nuvel1, nuvel1$plate.rot == "na")
+san_andreas.prd <- PoR_shmax(san_andreas, por, type = "right")
+```
+
+Combine the model results with the coordinates of the observed data
+
+``` r
+san_andreas.res <- data.frame(
+  sf::st_drop_geometry(san_andreas),
+  san_andreas.prd
+)
+```
+
+## Stress map
+
+[`ggplot2::ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html)
+can be used to visualize the results. The orientation of the axis can be
+displayed with the {tectonicr} function
+[`geom_azimuth()`](https://tobiste.github.io/tectonicr/reference/geom_azimuth.md).
+The argument `center = TRUE` (the default) aligns the marker symbol at
+the center of the point. The deviation can be color coded.
+[`deviation_norm()`](https://tobiste.github.io/tectonicr/reference/deviation_norm.md)
+yields the normalized value of the deviation, i.e. absolute values
+between 0 and 90$^{\circ}$.
+
+Also included are the plate boundary geometries after Bird (2003):
+
+``` r
+data("plates") # load plate boundary data set
+```
+
+Alternatively, there is also the NUVEL1 plate boundary model by DeMets
+et al.  (1990) stored under `data("nuvel1_plates")`.
+
+First we create the predicted trajectories of $\sigma_{Hmax}$ (more
+details in Article 3.):
+
+``` r
+trajectories <- eulerpole_loxodromes(por, 40, cw = FALSE)
+```
+
+Then we initialize the plot `map`…
+
+``` r
+map <- ggplot() +
+  geom_sf(
+    data = plates,
+    color = "red",
+    lwd = 2,
+    alpha = .5
+  ) +
+  scale_color_continuous(
+    type = "viridis",
+    limits = c(0, 90),
+    name = "|Deviation| in (\u00B0)",
+    breaks = seq(0, 90, 22.5)
+  ) +
+  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.4))
+```
+
+…and add the $\sigma_{Hmax}$ trajectories and data points:
+
+``` r
+map +
+  geom_sf(
+    data = trajectories,
+    lty = 2
+  ) +
+  geom_azimuth(
+    data = san_andreas.res,
+    aes(
+      x = lon,
+      y = lat,
+      angle = azi,
+      color = deviation_norm(dev),
+      alpha = quality
+    )
+  ) +
+  coord_sf(
+    xlim = range(san_andreas$lon),
+    ylim = range(san_andreas$lat)
+  )
+```
+
+![](datasets_files/figure-html/plot2-1.png)
+
+The map shows generally low deviation of the observed $\sigma_{Hmax}$
+directions from the modeled stress direction using counter-clockwise
+45$^{\circ}$ loxodromes.
+
+The weighted **circular dispersion** (average circular distance)
+quantifies the fit between the modeled $\sigma_{Hmax}$ direction the
+observed stress direction considering the reported uncertainties of the
+measurement.
+
+``` r
+circular_dispersion(san_andreas.res$azi.PoR, 135, w = weighting(san_andreas.res$unc))
+#> [1] 0.1384805
+```
+
+The value is $\leq$ 0.15, indicating a significantly good fit of the
+model. Thus, the traction of the transform plate boundary explain the
+stress direction of the area.
+
+## Variation of the Direction of the Maximum Horizontal Stress wrt. to the Distance to the Plate Boundary
+
+The direction of the maximum horizontal stress correlates with plate
+motion direction at the plate boundary zone. Towards the plate interior,
+plate boundary forces become weaker and other stress sources will
+probably dominate.
+
+To visualize the variation of the $\sigma_{Hmax}$ wrt. to the distance
+to the plate boundary, we need to transfer the direction of
+$\sigma_{Hmax}$ from the geographic reference system (i.e. azimuth is
+the deviation of a direction from geographic North pole) to the **Pole
+of Rotation (PoR)** reference system (i.e. azimuth is the deviation from
+the PoR).
+
+> The *PoR coordinate reference system* is the oblique transformation of
+> the geographical coordinate system with the PoR coordinates being the
+> the translation factors.
+
+The azimuth in the *PoR reference system* $\alpha_{PoR}$ is the angular
+difference between the azimuth in geographic reference system
+$\alpha_{geo}$ and the (initial) bearing of the great circle that passes
+through the data point and the PoR $\theta$.
+
+To calculate the distance to the plate boundary, both the plate boundary
+geometries and the data points (in geographical coordinates) will be
+transformed in to the *PoR* reference system. In the *PoR* system, the
+distance is the latitudinal or longitudinal difference between the data
+points and the inward/outward or tangential moving plate boundaries,
+respectively.
+
+This is done with the function
+[`distance_from_pb()`](https://tobiste.github.io/tectonicr/reference/distance_from_pb.md),
+which returns the angular distances.
+
+``` r
+plate_boundary <- subset(plates, plates$pair == "na-pa")
+san_andreas.res$distance <-
+  distance_from_pb(
+    x = san_andreas,
+    PoR = por,
+    pb = plate_boundary,
+    tangential = TRUE
+  )
+```
+
+Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the distance
+to the plate boundary:
+
+``` r
+azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
+  coord_cartesian(ylim = c(0, 180)) +
+  labs(x = "Distance from plate boundary (\u00B0)", y = "Azimuth in PoR (\u00B0)") +
+  geom_hline(yintercept = c(0, 45, 90, 135, 180), lty = 3) +
+  geom_pointrange(
+    aes(
+      ymin = azi.PoR - unc, ymax = azi.PoR + unc,
+      color = san_andreas$regime, alpha = san_andreas$quality
+    ),
+    size = .25
+  ) +
+  scale_x_continuous(breaks = seq(-10, 10, 2)) +
+  scale_y_continuous(
+    breaks = seq(-180, 360, 45),
+    sec.axis = sec_axis(
+      ~.,
+      name = NULL,
+      breaks = c(0, 45, 90, 135, 180),
+      labels = c("Outward", "Tan (L)", "Inward", "Tan (R)", "Outward")
+    )
+  ) +
+  scale_alpha_discrete(name = "Quality rank", range = c(1, 0.1)) +
+  scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors()))
+print(azi_plot)
+```
+
+![](datasets_files/figure-html/san.andreas.distanceplot1-1.png)
+
+Binned statistics (e.g. weighted mean and 95% confidence interval) of
+the transformed azimuth can be achieved through
+[`distance_binned_stats()`](https://tobiste.github.io/tectonicr/reference/distance_binned_stats.md).
+Here, this gives a summary statistic for every 2$^{\circ}$.
+
+``` r
+san_andreas_binned <- distance_binned_stats(
+  azi = san_andreas.res$azi.PoR,
+  distance = san_andreas.res$distance,
+  unc = san_andreas$unc,
+  prd = 135,
+  width.breaks = 2
+)
+
+azi_plot +
+  geom_step(
+    data = san_andreas_binned,
+    aes(distance_median, mean - CI),
+    lty = 2
+  ) +
+  geom_step(
+    data = san_andreas_binned,
+    aes(distance_median, mean + CI),
+    lty = 2
+  ) +
+  geom_step(
+    data = san_andreas_binned,
+    aes(distance_median, mean)
+  )
+```
+
+![](datasets_files/figure-html/distance_bin-1.png)
+
+Close to the dextral plate boundary, the majority of the stress data
+have a strike-slip fault regime and are oriented around 135$^{\circ}$
+wrt. to the PoR. Thus, the date are parallel to the predicted stress
+sourced by a right-lateral displaced plate boundary. Away from the plate
+boundary, the data becomes more noisy.
+
+> This azimuth (PoR) vs. distance plot also allows to identify whether a
+> less known plate boundary represents a inward, outward, or tangential
+> displaced boundary.
+
+The relationship between the azimuth and the distance can be better
+visualized by using the deviation (normalized by the data precision)
+from the the predicted stress direction, i.e. the circular distance:
+
+``` r
+# plotting:
+ggplot(san_andreas.res, aes(x = distance, y = cdist)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Distance from plate boundary (\u00B0)", y = "Circular distance") +
+  geom_hline(yintercept = c(0.15, .33, .7), lty = 3) +
+  geom_point(aes(color = san_andreas$regime)) +
+  scale_y_continuous(sec.axis = sec_axis(
+    ~.,
+    name = NULL,
+    breaks = c(.15 / 2, (.33 - .15) / 2 + .15, (.7 - .33) / 2 + .33, .7 + 0.15),
+    labels = c("Good fit", "Acceptable fit", "Random", "Systematic\nmisfit")
+  )) +
+  scale_x_continuous(breaks = seq(-10, 10, 2)) +
+  scale_color_manual(name = "Tectonic regime", values = stress_colors(), breaks = names(stress_colors())) +
+  geom_step(
+    data = san_andreas_binned,
+    aes(distance_median, dispersion)
+  )
+```
+
+![](datasets_files/figure-html/san.andreas.distanceplot2-1.png)
+
+We can see that the data in fact starts to scatter notably beyond a
+distance of 2$^{\circ}$ and becomes random at 6.5$^{\circ}$ away from
+the plate boundary. Thus, the North American-Pacific plate boundary zone
+at the San Andreas Fault is approx. 2–6.5$^{\circ}$ (ca. 200–800 km)
+wide.
+
+> The **weighted** circular distance vs. distance plot allows to specify
+> the width of the plate boundary zone.
+
+## R base plots for quick analysis
+
+The data deviation map can also be build using base R’s plotting engine:
+
+``` r
+# Setup the colors for the deviation
+cols <- tectonicr.colors(
+  deviation_norm(san_andreas.res$dev),
+  categorical = FALSE
+)
+
+# Setup the legend
+col.legend <- data.frame(col = cols, val = names(cols)) |>
+  dplyr::mutate(val2 = gsub("\\(", "", val), val2 = gsub("\\[", "", val2)) |>
+  unique() |>
+  dplyr::arrange(val2)
+
+# Initialize the plot
+plot(
+  san_andreas$lon, san_andreas$lat,
+  cex = 0,
+  xlab = "PoR longitude", ylab = "PoR latitude",
+  asp = 1
+)
+
+# Plot the axis and colors
+axes(
+  san_andreas$lon, san_andreas$lat, san_andreas$azi,
+  col = cols, add = TRUE
+)
+
+# Plot the plate boundary
+plot(sf::st_geometry(plates), col = "red", lwd = 2, add = TRUE)
+
+# Plot the trajectories
+plot(sf::st_geometry(trajectories), add = TRUE, lty = 2)
+
+# Create the legend
+graphics::legend(
+  "bottomleft",
+  title = "|Deviation| in (\u00B0)",
+  inset = .05, cex = .75,
+  legend = col.legend$val, fill = col.legend$col
+)
+```
+
+![](datasets_files/figure-html/plot_base-1.png)
+
+A quick analysis the results can be obtained
+[`stress_analysis()`](https://tobiste.github.io/tectonicr/reference/stress_analysis.md)
+that returns a list. The transformed coordinates and azimuths as well as
+the deviations can be viewed by:
+
+``` r
+results <- stress_analysis(san_andreas, por, "right", plate_boundary, plot = FALSE)
+head(results$result)
+#>      azi.PoR prd       dev     nchisq      cdist   lon.PoR  lat.PoR  distance
+#> 1 173.240166 135 -38.24017 0.18053214 0.38311043 -85.46364 59.05548 -2.446542
+#> 2   1.058195 135 -46.05820 2.21486507 0.51846479 -78.16683 60.50445 -2.751949
+#> 3 147.609558 135 -12.60956 0.01962975 0.04765752 -84.55317 59.38025 -2.705483
+#> 4 163.607388 135 -28.60739 0.10103489 0.22925429 -85.74431 59.73632 -3.162091
+#> 5 152.233017 135 -17.23302 0.03666381 0.08776909 -84.31053 61.68018 -4.988116
+#> 6 150.611386 135 -15.61139 0.03008832 0.07242085 -80.60932 63.39714 -6.358818
+```
+
+Statistical parameters describing the distribution of the transformed
+azimuths can be displayed by
+
+``` r
+results$stats
+#>                      mean
+#> mean         138.90248502
+#> sd            18.57998667
+#> var            0.18967312
+#> median       138.94509179
+#> quasi_median 136.85808363
+#> skewness      -0.33779208
+#> kurtosis       2.78636137
+#> conf95         5.13534451
+#> dispersion     0.09858997
+#> norm_chisq     0.05290640
+```
+
+Statistical test results are shown by
+
+``` r
+results$test
+#> $C
+#> [1] 0.8028201
+#> 
+#> $statistic
+#> [1] 38.09802
+#> 
+#> $p.value
+#> [1] 4.600542e-314
+```
+
+… and the associated plots can be displayed by setting `plot = TRUE`:
+
+``` r
+stress_analysis(san_andreas, por, "right", plate_boundary, plot = TRUE)
+```
+
+## References
+
+Bird, Peter. 2003. “An Updated Digital Model of Plate Boundaries”
+*Geochemistry, Geophysics, Geosystems* 4 (3). doi: 10.1029/2001gc000252.
+
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current
+Plate Motions” *Geophysical Journal International* 101 (2): 425–78. doi:
+[10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x).
+
+Heidbach, Oliver, Mojtaba Rajabi, Karsten Reiter, Moritz Ziegler, and
+WSM Team. 2016. “World Stress Map Database Release 2016. V. 1.1.” GFZ
+Data Services. doi:
+[10.5880/WSM.2016.001](https://doi.org/10.5880/WSM.2016.001).

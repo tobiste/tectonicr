@@ -1,0 +1,234 @@
+# Introduction
+
+`tectonicr` is a free and open-source R package for modeling and
+analyzing the direction of the maximum horizontal stress based on the
+empirical link between the direction of intraplate stress and the
+direction of the relative motion of neighboring plates.
+
+### Prerequisites
+
+Before you start you need to have R and and R-compatible IDE installed
+on your computer:
+
+1.  You will need R installed on your computer. You can download R from
+    the CRAN website: <https://cran.r-project.org/>
+
+2.  Once you downloaded and successfully installed R, you can use R in
+    your preferred IDE. I recommend installing and using
+    [RStudio](https://posit.co/download/rstudio-desktop/). However,
+    [Positron](https://positron.posit.co/) and
+    [VisualStudio](https://visualstudio.microsoft.com/) are also great
+    alternatives. You are also allowed to use R’s native GUI or use R in
+    your terminal only.
+
+3.  Open your IDE and now you can install the {tectonicr} package by
+    typing into the commando console the following code. This will
+    install the package and every required library as well.
+
+4.  Next you must “load” the library to use the functions of
+    {tectonicr}:
+
+``` r
+library(tectonicr)
+```
+
+### Theoretical background
+
+The theory of intraplate tectonics (Wdowinski 1998) allows for
+calculating the first-order intraplate deformation induced by horizontal
+displacement of deformable plate boundaries (Stephan et al., 2023). It
+is based on empirical link between the directions of relative plate
+motion and the displacement and deformation fields within a plate
+interior adjacent to three types of deformable plate boundaries:
+inward-, outward-, and tangential-displaced boundaries. The model
+predicts the direction of intraplate displacement, displacement rate,
+strain, and stress fields in terms of small circles, great circles, and
+45° loxodromes around the pole of rotation of two adjacent plates.
+According to the theory, the principal axis of the maximum horizontal
+stress follows small circles for inward-displaced boundaries, great
+circles for outward-displaced boundaries, and loxodromes for
+tangential-displaced boundaries.
+
+The theory assumes that the first-order intraplate deformation is
+predominantly induced by horizontal forces acting on plate boundaries
+and by buoyancy forces that arise from lateral density variations
+between mid-ocean ridges and plate interiors (ridge push).
+
+#### Inward, Outward and Tangential Displaced Boundaries
+
+**Inward-moving plate boundaries** induce compressional horizontal
+tractions from the plate boundary towards the plate’s interior along the
+direction of relative plate motion. These compressional tractions are
+produced by forces related to subduction, collision, or ridge-push.
+Thus, stresses across convergent plate boundaries are characterized by
+the dominance of thrusting or strike-slip faulting
+($\sigma_{1} \approx \sigma_{Hmax}$) with $\sigma_{Hmax}$ (maximum
+horizontal stress) trending parallel to the plate convergence, i.e.
+parallel to *small circles* around the pole of the relative plate motion
+(pole of rotation, PoR).
+
+**Outward moving plate boundaries** produce tensional tractions and
+displacements directed away from the plate interior. Along spreading
+ridges and intracontinental rifting stresses are dominated by normal
+faulting ($\sigma_{1} \approx \sigma_{vertical}$,
+$\sigma_{2} \approx \sigma_{Hmax}$) with $\sigma_{Hmax}$ trending
+perpendicular to the plate motion trajectories (i.e. along *great
+circles*). In the case of intracontinental setting, stresses and
+displacements may be associated to slab-retreat, back-arc extension, or
+the release of the excess of gravitational potential energy stored in
+thickened crust through, e.g., gravitational collapse.
+
+Along transform boundaries (**tangential displaced boundaries**), the
+two neighboring plates exert shear tractions tangential to the
+orientation of the boundary (Forsyth and Uyeda, 1975). Faulting and
+displacement adjacent to these plate boundaries are characterized by
+strike-slip parallel to the plate motion, and thus, the principal axes
+of maximum and minimum stress are orientated at an angle of c. 45° to
+the plate motion trajectory. Geometrically, $\sigma_{Hmax}$ direction
+follows along 45° *loxodromes* (lines of constant bearing) which diverge
+—depending on the sense of the transform boundary— clockwise or
+counterclockwise from the relative PoR and intersect both small and
+great circles at an angle of 45°.
+
+### Theoretical direction of Horizontal Stress and Deviation From the Measured Stress
+
+Trajectories of theoretical directions can modeled by the following
+steps:
+
+First, we need to specify coordinates of the Pole of Rotation (PoR) to
+get the directions of the great circles, small circles, and loxodromes
+around the PoR at the given point (e.g. at 45°N/20°E).
+
+For example, a PoR has the coordinates: 48.7°N/-78.2°E (relativ emotion
+of North America and Pacific plate). Then $\sigma_{Hmax}$ following
+great and small circles and loxodromes geometries can be modeled with
+[`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md):
+
+``` r
+# import example data set for Euler rotations
+data("nuvel1")
+
+# North America relative to Pacific plate
+por <- subset(nuvel1, nuvel1$plate.rot == "na")
+
+# Example stress:
+point <- data.frame(lat = 45, lon = 20)
+prd <- model_shmax(point, por)
+print(prd)
+#>         sc   ld.ccw       gc    ld.cw
+#> 1 42.45436 87.45436 132.4544 177.4544
+```
+
+If there is an observed stress direction at the point, e.g. azimuth of
+$\sigma_{Hmax}$ is 90°, the angle deviation from the modeled stress
+directions can be calculated through
+[`deviation_shmax()`](https://tobiste.github.io/tectonicr/reference/deviation_shmax.md):
+
+``` r
+deviation <- deviation_shmax(prd, 90)
+print(deviation)
+#>     dev.gc    dev.sc dev.ld.cw dev.ld.ccw
+#> 1 42.45436 -47.54564  87.45436  -2.545636
+```
+
+> More details on calculating the theoretical stress orientations are
+> given in this
+> [tutorial](https://tobiste.github.io/tectonicr/articles/datasets.html).
+
+### Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress
+
+The **circular dispersion** $D$ quantitatively compares the predicted
+([`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md))
+and observed $\sigma_{Hmax}$ azimuth relative to the reported $\sigma$
+standard deviation (Stephan and Enkelmann, 2025). The measure is
+(weighted) average of the circular distance $d$ defined as
+$$d = 1 - \cos\left\lbrack k(\theta - \mu) \right\rbrack$$ where
+$\theta$ are the observed angles (here $\sigma_{Hmax}$), $\mu$ is the
+theoretical angles, and $k = 1$ for directional data and $k = 2$ for
+directional data. The weighted dispersion is
+
+$$D = \frac{1}{Z}\sum\limits_{i = 1}^{n}w_{i}d_{i}$$ where $n$ s the
+number if observations, $w_{i}$ are weights of each observation, and $Z$
+is the sum of all weights $Z = \sum_{i = 1}^{n}w_{i}$.
+
+The dispersion parameter yields a number in the range between 0-1 which
+indicates the quality of the fit. Low dispersion values ($D \leq 0.15$)
+indicate good agreement between predicted and observed directions (angle
+difference $\leq 22.5^{\circ}$). High values ($D > 0.5$) indicate a
+systematic misfit between predicted and observed directions of about
+$> 45^{\circ}$. A misfit of $90^{\circ}$ and/or a random distribution of
+$\sigma_{Hmax}$ directions results in $D = 1$
+
+Assuming $\sigma_{Hmax}$ has an azimuth of 90° at the given coordinate
+with a angle precision of 10°, we can compare all test all theoretical
+observations using
+[`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md):
+
+``` r
+sapply(as.numeric(prd), function(p) {
+  circular_dispersion(90, y = p, w = weighting(10))
+}) |>
+  setNames(nm = names(prd))
+#>          sc      ld.ccw          gc       ld.cw 
+#> 0.544371290 0.001972703 0.455628710 0.998027297
+```
+
+`ld.ccw` (counter-clockwise loxodrome) yields the smallest dispersion
+from the observation, indicating that counter-clockwise loxodrome
+geometry has a good fit with the observed stress orientation.
+
+> More details on the statistical treatment, including variance
+> estimation, statistical testing, and confidence intervals, are given
+> in this
+> [tutorial](https://tobiste.github.io/tectonicr/articles/statistics.html).
+
+## Models of current plate motion
+
+The plate motions relative to the Pacific plate according to the
+NUVEL-1A model (DeMets et al. 1990) are implemented in the package and
+can be imported through:
+
+``` r
+data("nuvel1")
+head(nuvel1)
+```
+
+Other current plate motion models, in particulars NNR-MORVEL-56,
+GSRM2.1, REVEL, PB2002, and HS3-NUVEL1A, are implemented and available
+through
+
+``` r
+data("cpm_models")
+head(cpm_models)
+```
+
+Any desired relative plate motion can be extracted via the following:
+
+``` r
+gsrm <- cpm_models[["GSRM2.1"]]
+equivalent_rotation(gsrm, rot = "na", fixed = "eu")
+```
+
+## References
+
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein. 1990. “Current
+Plate Motions” *Geophysical Journal International* 101 (2): 425–78. doi:
+[10.1111/j.1365-246x.1990.tb06579.x](https://doi.org/10.1111/j.1365-246x.1990.tb06579.x)
+
+Forsyth, D., and S. Uyeda. 1975. “On the Relative Importance of the
+Driving Forces of Plate Motion” *Geophysical Journal International* 43
+(1): 163–200. doi:
+[10.1111/j.1365-246x.1975.tb00631.x](https://doi.org/10.1111/j.1365-246x.1975.tb00631.x)
+
+Stephan, T., Enkelmann, E., and Kroner, U. (2023). “Analyzing the
+horizontal orientation of the crustal stress adjacent to plate
+boundaries” *Scientific Reports* (13), 15590.
+[doi:\[10.1038/s41598-023-42433-2\](doi:%5B10.1038/s41598-023-42433-2){.uri}](https://doi.org/10.1038/s41598-023-42433-2)
+
+Stephan, T., & Enkelmann, E. (2025). All Aligned on the Western Front of
+North America? Analyzing the Stress Field in the Northern Cordillera.
+Tectonics, 44(9). <https://doi.org/10.1029/2025TC009014>
+
+Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics” *Journal of
+Geophysical Research: Solid Earth* 103 (B3): 5037–59. doi:
+10.1029/97jb03390. <https://doi.org/10.1029/97JB03390>

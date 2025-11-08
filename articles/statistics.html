@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-11-07</h4>
+            <h4 data-toc-skip class="date">2025-11-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/statistics.Rmd" class="external-link"><code>vignettes/statistics.Rmd</code></a></small>
       <div class="d-none name"><code>statistics.Rmd</code></div>
@@ -138,7 +138,7 @@ analyzing stress orientations, the default is
 <span></span>
 <span><span class="fu"><a href="../reference/circular_plot.html">circular_plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Axial"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="va">angles</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"#B63679FF"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/directional_vs_axial-1.png" width="700"></p>
+<p><img src="statistics_files/figure-html/directional_vs_axial-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mean-direction">Mean direction<a class="anchor" aria-label="anchor" href="#mean-direction"></a>
@@ -243,7 +243,7 @@ for angular data.</p>
 <span></span>
 <span><span class="co"># add the density curve</span></span>
 <span><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"#51127CFF"</span>, scale <span class="op">=</span> <span class="fl">1.1</span>, shrink <span class="op">=</span> <span class="fl">2</span>, xpd <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/rose1-1.png" width="700"></p>
+<p><img src="statistics_files/figure-html/rose1-1.png" class="r-plt" width="700"></p>
 <p>The diagram shows the uncertainty-weighted frequencies (equal area
 rose fans), the von Mises density distribution (blue curve), and the
 circular mean (red line) incl. its 95% confidence interval (transparent
@@ -260,7 +260,7 @@ due to the arbitrarily chosen geographic coordinate system.</p>
 <span></span>
 <span><span class="co"># show the predicted direction</span></span>
 <span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="fl">135</span>, radius <span class="op">=</span> <span class="fl">1.1</span>, col <span class="op">=</span> <span class="st">"#FB8861FF"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/rose2-1.png" width="700"></p>
+<p><img src="statistics_files/figure-html/rose2-1.png" class="r-plt" width="700"></p>
 <p>The green line shows the predicted direction.</p>
 </div>
 <div class="section level3">
@@ -271,7 +271,7 @@ can be used to visually assess whether our stress sample is drawn from
 an uniform distribution or has a preferred orientation.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_qqplot.html">circular_qqplot</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/qqplot-1.png" width="700"></p>
+<p><img src="statistics_files/figure-html/qqplot-1.png" class="r-plt" width="700"></p>
 <p>Our data clearly deviates from the diagonal line, indicating the data
 is not randomly distributed and has a strong preferred orientation
 around the 50% quantile.</p>
@@ -283,9 +283,10 @@ around the 50% quantile.</p>
 <h4 id="test-for-random-distribution">Test for random distribution<a class="anchor" aria-label="anchor" href="#test-for-random-distribution"></a>
 </h4>
 <p>Uniformly distributed orientation can be described by the <em>von
-Mises distribution</em> (Mardia and Jupp, 1999). If the directions are
-distributed randomly can be tested with the <strong>Rayleigh
-Test</strong>:</p>
+Mises distribution</em><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Mardia, K. V., and Jupp, P. E. (Eds.). (1999).
+“Directional Statistics” Hoboken, NJ, USA: John Wiley &amp;amp; Sons,
+Inc. doi: 10.1002/9780470316979.&lt;/p&gt;"><sup>1</sup></a>. If the directions are distributed randomly
+can be tested with the <strong>Rayleigh Test</strong>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh_test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
@@ -309,10 +310,14 @@ directions have a preferred orientation.</p>
 <div class="section level3">
 <h3 id="test-for-goodness-of-fit">Test for goodness-of-fit<a class="anchor" aria-label="anchor" href="#test-for-goodness-of-fit"></a>
 </h3>
+<div class="section level4">
+<h4 id="confidence-intervals">Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"></a>
+</h4>
 <p>Assuming a von Mises Distribution (circular normal distribution) of
 the orientation data, a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>%</mi></mrow><annotation encoding="application/x-tex">100(1-\alpha)\%</annotation></semantics></math><strong>confidence interval</strong> can be calculated (Mardia and Jupp,
-1999):</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>%</mi></mrow><annotation encoding="application/x-tex">100(1-\alpha)\%</annotation></semantics></math><strong>confidence interval</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Mardia, K. V., and Jupp, P. E. (Eds.). (1999).
+“Directional Statistics” Hoboken, NJ, USA: John Wiley &amp;amp; Sons,
+Inc. doi: 10.1002/9780470316979.&lt;/p&gt;"><sup>2</sup></a> can be calculated:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/confidence.html">confidence_interval</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mu</span></span>
@@ -331,14 +336,57 @@ Since the prediction lies within the confidence interval, it can be
 concluded with 95% confidence that the orientations follow the predicted
 trend of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>S</mi><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{SHmax}</annotation></semantics></math>.</p>
+</div>
+<div class="section level4">
+<h4 id="circular-dispersion">Circular dispersion<a class="anchor" aria-label="anchor" href="#circular-dispersion"></a>
+</h4>
 <p>The (weighted) <strong>circular dispersion</strong> of the
 orientation angles around the prediction is another way of assessing the
-significance of a normal distribution around a specified direction. It
-can be measured by:</p>
+significance of a normal distribution around a specified direction. The
+measure is based on the circular distance<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Mardia, K. V., and Jupp, P. E. (Eds.). (1999).
+“Directional Statistics” Hoboken, NJ, USA: John Wiley &amp;amp; Sons,
+Inc. doi: 10.1002/9780470316979.&lt;/p&gt;"><sup>3</sup></a> defined as
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>1</mn><mo>−</mo><mo>cos</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">d = 1 - \cos{\left[ k(\theta - \mu)\right]}</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
+are the observed angles (here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is the theoretical angles, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math>
+for directional data and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">k=2</annotation></semantics></math>
+for directional data. The (weighted) dispersion<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Stephan, T., &amp;amp; Enkelmann, E. (2025). All Aligned on
+the Western Front of North America? Analyzing the Stress Field in the
+Northern Cordillera. Tectonics, 44(9). &lt;a href="https://doi.org/10.1029/2025TC009014" class="external-link uri"&gt;https://doi.org/10.1029/2025TC009014&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a> is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mfrac><mn>1</mn><mi>Z</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mi>i</mi></msub><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">D = \frac{1}{Z} \sum_{i=1}^{n} w_i d_i</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+s the number if observations,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>i</mi></msub><annotation encoding="application/x-tex">w_i</annotation></semantics></math>
+are weights of each observation, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
+is the sum of all weights
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>w</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">Z=\sum_{i=1}^{n} w_i</annotation></semantics></math>.</p>
+<p>It can be measured using <code><a href="../reference/dispersion.html">circular_dispersion()</a></code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dispersion.html">circular_dispersion</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.1377952</span></span></code></pre></div>
-<p>The value of the dispersion ranges between 0 and 2.</p>
+<p>The dispersion parameter yields a number in the range between 0 and 1
+which indicates the quality of the fit. Low dispersion values
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>≤</mo><mn>0.15</mn></mrow><annotation encoding="application/x-tex">D \le 0.15</annotation></semantics></math>)
+indicate good agreement between predicted and observed directions (angle
+difference
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><msup><mn>22.5</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\le 22.5^\circ</annotation></semantics></math>
+for axial data). High values
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>&gt;</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">D &gt; 0.5</annotation></semantics></math>)
+indicate a systematic misfit between predicted and observed directions
+of about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><msup><mn>45</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">&gt; 45^\circ</annotation></semantics></math>
+(axial data). A misfit of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>90</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">90^\circ</annotation></semantics></math>
+and/or a random distribution of results in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">D = 1</annotation></semantics></math>.</p>
 <p>The standard error and the confidence interval of the calculated
 circular dispersion can be estimated by bootstrapping via:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -351,10 +399,16 @@ circular dispersion can be estimated by bootstrapping via:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $CI</span></span>
 <span><span class="co">#&gt; [1] 0.2422241 0.2861837</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="rayleigh-test">Rayleigh Test<a class="anchor" aria-label="anchor" href="#rayleigh-test"></a>
+</h4>
 <p>The statistical test for the goodness-of-fit is the (weighted)
-<strong>Rayleigh Test</strong> with a specified mean direction (here the
+<strong>Rayleigh Test</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Stephan, T., &amp;amp; Enkelmann, E. (2025). All Aligned on
+the Western Front of North America? Analyzing the Stress Field in the
+Northern Cordillera. Tectonics, 44(9). &lt;a href="https://doi.org/10.1029/2025TC009014" class="external-link uri"&gt;https://doi.org/10.1029/2025TC009014&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> with a specified mean direction (here the
 predicted direction of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>135</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">135^{\circ}</annotation></semantics></math>:</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>135</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">135^{\circ}</annotation></semantics></math>):</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
@@ -370,6 +424,7 @@ predicted direction of
 i.e. an non-uniform distribution with the predicted direction as the
 mean cannot be excluded.</p>
 </div>
+</div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
@@ -377,10 +432,14 @@ mean cannot be excluded.</p>
 Statistics” Hoboken, NJ, USA: John Wiley &amp; Sons, Inc. doi:
 10.1002/9780470316979.
 <!--doi: [10.1002/9780470316979](https://doi.org/10.1002/9780470316979).--></p>
+<p>Stephan, T., &amp; Enkelmann, E. (2025). All Aligned on the Western
+Front of North America? Analyzing the Stress Field in the Northern
+Cordillera. Tectonics, 44(9). <a href="https://doi.org/10.1029/2025TC009014" class="external-link uri">https://doi.org/10.1029/2025TC009014</a></p>
 <p>Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab
 Script Stress2Grid” GFZ German Research Centre for Geosciences; World
 Stress Map Technical Report 17-02. doi: <a href="https://doi.org/10.5880/wsm.2017.002" class="external-link">10.5880/wsm.2017.002</a>.</p>
 </div>
+
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
@@ -392,7 +451,7 @@ Stress Map Technical Report 17-02. doi: <a href="https://doi.org/10.5880/wsm.201
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

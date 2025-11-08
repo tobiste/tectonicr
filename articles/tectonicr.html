@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-11-07</h4>
+            <h4 data-toc-skip class="date">2025-11-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/tectonicr.Rmd" class="external-link"><code>vignettes/tectonicr.Rmd</code></a></small>
       <div class="d-none name"><code>tectonicr.Rmd</code></div>
@@ -114,12 +114,11 @@ interior adjacent to three types of deformable plate boundaries:
 inward-, outward-, and tangential-displaced boundaries. The model
 predicts the direction of intraplate displacement, displacement rate,
 strain, and stress fields in terms of small circles, great circles, and
-45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
-loxodromes around the pole of rotation of two adjacent plates. According
-to the theory, the principal axis of the maximum horizontal stress
-follows small circles for inward-displaced boundaries, great circles for
-outward-displaced boundaries, and loxodromes for tangential-displaced
-boundaries.</p>
+45° loxodromes around the pole of rotation of two adjacent plates.
+According to the theory, the principal axis of the maximum horizontal
+stress follows small circles for inward-displaced boundaries, great
+circles for outward-displaced boundaries, and loxodromes for
+tangential-displaced boundaries.</p>
 <p>The theory assumes that the first-order intraplate deformation is
 predominantly induced by horizontal forces acting on plate boundaries
 and by buoyancy forces that arise from lateral density variations
@@ -160,132 +159,149 @@ tangential to the orientation of the boundary (Forsyth and Uyeda, 1975).
 Faulting and displacement adjacent to these plate boundaries are
 characterized by strike-slip parallel to the plate motion, and thus, the
 principal axes of maximum and minimum stress are orientated at an angle
-of c.
-45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
-to the plate motion trajectory. Geometrically,
+of c. 45° to the plate motion trajectory. Geometrically,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
-direction follows along
-45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math><em>loxodromes</em> (lines of constant bearing) which diverge —depending
-on the sense of the transform boundary— clockwise or counterclockwise
-from the relative PoR and intersect both small and great circles at an
-angle of
-45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>.</p>
+direction follows along 45° <em>loxodromes</em> (lines of constant
+bearing) which diverge —depending on the sense of the transform
+boundary— clockwise or counterclockwise from the relative PoR and
+intersect both small and great circles at an angle of 45°.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress">Theoretical direction of Horizontal Stress and Deviation From the
 Measured Stress<a class="anchor" aria-label="anchor" href="#theoretical-direction-of-horizontal-stress-and-deviation-from-the-measured-stress"></a>
 </h3>
-<!-- **tectonicr** basically calculates the bearing from a point of  -->
-<!-- interest to a given Euler pole of the relative plate motion by the formula: -->
-<!-- ```{=tex} -->
-<!-- \begin{equation}  -->
-<!--   \theta = \arctan2 (\sin \Delta\lambda * \cos\psi_2, \cos\psi_1 \sin\psi_1-\sin\psi_1 \cos\psi_2 \cos\Delta\lambda) -->
-<!-- \end{equation} -->
-<!-- ``` -->
-<!-- where $\psi_1$, $\lambda_1$ are the longitude and latitude of the point,  -->
-<!-- $\psi_2$, $\lambda_2$ the longitude and latitude of the Euler pole  -->
-<!-- ($\Delta\lambda$ is the difference in longitude).  -->
-<!-- > The bearing $\theta$ is the orientation of a great circle that passes through  -->
-<!-- the point and the Euler pole. Thus, it reflects the theoretical direction of  -->
-<!-- $\sigma_{Hmax}$ that follows great circles trajectories.  -->
-<!-- Small circle directions then are $90^{\circ}$ and loxodrome directions  -->
-<!-- are $\pm45^{\circ}$ to $\theta$. 
-
-<!-- --- -->
 <p>Trajectories of theoretical directions can modeled by the following
 steps:</p>
 <p>First, we need to specify coordinates of the Pole of Rotation (PoR)
 to get the directions of the great circles, small circles, and
-loxodromes around the PoR at the given point (e.g. at
-45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>N/20<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>E).</p>
-<p>For example, the PoR has the coordinates:
-90<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>N/0<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>E.
-Then
+loxodromes around the PoR at the given point (e.g. at 45°N/20°E).</p>
+<p>For example, a PoR has the coordinates: 48.7°N/-78.2°E (relativ
+emotion of North America and Pacific plate). Then
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
 following great and small circles and loxodromes geometries can be
 modeled with <code><a href="../reference/model_shmax.html">model_shmax()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Example:</span></span>
+<code class="sourceCode R"><span><span class="co"># import example data set for Euler rotations</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># North America relative to Pacific plate</span></span>
+<span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Example stress:</span></span>
 <span><span class="va">point</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">45</span>, lon <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">90</span>, lon <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">por</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   sc ld.ccw gc ld.cw</span></span>
-<span><span class="co">#&gt; 1 90    135  0    45</span></span></code></pre></div>
+<span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">por</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">prd</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         sc   ld.ccw       gc    ld.cw</span></span>
+<span><span class="co">#&gt; 1 42.45436 87.45436 132.4544 177.4544</span></span></code></pre></div>
 <p>If there is an observed stress direction at the point, e.g. azimuth
 of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
-is
-90<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>,
-the deviation from the modeled stress directions can be calculated
-through <code><a href="../reference/deviation_shmax.html">deviation_shmax()</a></code>:</p>
+is 90°, the angle deviation from the modeled stress directions can be
+calculated through <code><a href="../reference/deviation_shmax.html">deviation_shmax()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deviation_shmax.html">deviation_shmax</a></span><span class="op">(</span><span class="va">model</span>, <span class="fl">90</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">deviation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deviation_shmax.html">deviation_shmax</a></span><span class="op">(</span><span class="va">prd</span>, <span class="fl">90</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">deviation</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   dev.gc dev.sc dev.ld.cw dev.ld.ccw</span></span>
-<span><span class="co">#&gt; 1    -90      0       -45         45</span></span></code></pre></div>
+<span><span class="co">#&gt;     dev.gc    dev.sc dev.ld.cw dev.ld.ccw</span></span>
+<span><span class="co">#&gt; 1 42.45436 -47.54564  87.45436  -2.545636</span></span></code></pre></div>
+<blockquote>
+<p>More details on calculating the theoretical stress orientations are
+given in this <a href="https://tobiste.github.io/tectonicr/articles/datasets.html">tutorial</a>.</p>
+</blockquote>
 </div>
 <div class="section level3">
 <h3 id="quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress">Quantitative Comparison Between Predicted and Observed Maximum
 Horizontal Stress<a class="anchor" aria-label="anchor" href="#quantitative-comparison-between-predicted-and-observed-maximum-horizontal-stress"></a>
 </h3>
-<p>The <strong>normalized</strong>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
-test quantitatively compares the predicted (<code><a href="../reference/model_shmax.html">model_shmax()</a></code>)
-and observed
+<!-- The **normalized** $\chi^2$ test quantitatively compares the predicted -->
+<!-- (`model_shmax()`) and observed $\sigma_{Hmax}$ azimuth relative to the -->
+<!-- reported $\sigma$ standard deviation (Wdowinski 1998). -->
+<!-- The normalized $\chi^2$ test yields a number in the range between 0-1 -->
+<!-- which indicates the quality of the fit. Low values of the normalized -->
+<!-- $\chi^2$ test ($\leq$ 0.15 indicate good agreement between predicted and -->
+<!-- observed directions. High values ($>$ 0.7) indicate a systematic misfit -->
+<!-- between predicted and observed directions of about 90&deg;. Random -->
+<!-- distribution of $\sigma_{Hmax}$ directions results in Norm -->
+<!-- $\chi^2 = 0.33$ -->
+<!-- The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a -->
+<!-- numeric vector with the observed $\sigma_{Hmax}$; `prd` is a vector with -->
+<!-- the predicted $\sigma_{Hmax}$ (vector must be of length of `obs`); and -->
+<!-- `unc` is the uncertainty of observed $\sigma_{Hmax}$ (either numeric -->
+<!-- vector of length of `obs` or a number). -->
+<!-- The test can be run using `norm_chisq(obs, prd, unc)`. `obs` is a -->
+<!-- numeric vector with the observed $\sigma_{Hmax}$; `prd` is a vector with -->
+<!-- the predicted $\sigma_{Hmax}$ (vector must be of length of `obs`); and -->
+<!-- `unc` is the uncertainty of observed $\sigma_{Hmax}$ (either numeric -->
+<!-- vector of length of `obs` or a number). -->
+<p>The <strong>circular dispersion</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
+quantitatively compares the predicted (<code><a href="../reference/model_shmax.html">model_shmax()</a></code>) and
+observed
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
 azimuth relative to the reported
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
-standard deviation (Wdowinski 1998).</p>
-<!-- ```{=tex} -->
-<!-- \begin{equation}  -->
-<!--   \textrm{Norm} \chi^2_i =  -->
-<!--  \frac{\sum_{i=1}^{n} \left(\frac{\alpha_i - \alpha_{predict}}{\sigma_i}\right)^2} -->
-<!--  {\sum_{i=1}^{n} \left(\frac{90}{\sigma_i}\right)^2} \end{equation} -->
-<!-- ``` -->
-<!-- with $\alpha_i$ and $\alpha_{predicted}$ are the observed and predicted -->
-<!-- directions of $\sigma_{Hmax}$ with respect to the pole of rotation,  -->
-<!-- respectively. -->
-<!-- The $\sigma_i$ parameter is the reported uncertainty of the observed -->
-<!-- azimuth and $M$ is the number of observations that are used in each -->
-<!-- test. -->
-<p>The normalized
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
-test yields a number in the range between 0-1 which indicates the
-quality of the fit. Low values of the normalized
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
-test
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
-0.15 indicate good agreement between predicted and observed directions.
+standard deviation (Stephan and Enkelmann, 2025). The measure is
+(weighted) average of the circular distance
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+defined as
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>1</mn><mo>−</mo><mo>cos</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">d = 1 - \cos{\left[ k(\theta - \mu)\right]}</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
+are the observed angles (here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is the theoretical angles, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math>
+for directional data and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">k=2</annotation></semantics></math>
+for directional data. The weighted dispersion is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mfrac><mn>1</mn><mi>Z</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mi>i</mi></msub><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">D = \frac{1}{Z} \sum_{i=1}^{n} w_i d_i</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+s the number if observations,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>i</mi></msub><annotation encoding="application/x-tex">w_i</annotation></semantics></math>
+are weights of each observation, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
+is the sum of all weights
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>w</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">Z=\sum_{i=1}^{n} w_i</annotation></semantics></math>.</p>
+<p>The dispersion parameter yields a number in the range between 0-1
+which indicates the quality of the fit. Low dispersion values
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>≤</mo><mn>0.15</mn></mrow><annotation encoding="application/x-tex">D \le 0.15</annotation></semantics></math>)
+indicate good agreement between predicted and observed directions (angle
+difference
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><msup><mn>22.5</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\le 22.5^\circ</annotation></semantics></math>).
 High values
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math>
-0.7) indicate a systematic misfit between predicted and observed
-directions of about
-90<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>.
-Random distribution of
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>&gt;</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">D &gt; 0.5</annotation></semantics></math>)
+indicate a systematic misfit between predicted and observed directions
+of about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><msup><mn>45</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">&gt; 45^\circ</annotation></semantics></math>.
+A misfit of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>90</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">90^\circ</annotation></semantics></math>
+and/or a random distribution of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
-directions results in Norm
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>χ</mi><mn>2</mn></msup><mo>=</mo><mn>0.33</mn></mrow><annotation encoding="application/x-tex">\chi^2 = 0.33</annotation></semantics></math></p>
-<p>The test can be run using <code>norm_chisq(obs, prd, unc)</code>.
-<code>obs</code> is a numeric vector with the observed
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>;
-<code>prd</code> is a vector with the predicted
+directions results in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">D = 1</annotation></semantics></math></p>
+<p>Assuming
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
-(vector must be of length of <code>obs</code>); and <code>unc</code> is
-the uncertainty of observed
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{Hmax}</annotation></semantics></math>
-(either numeric vector of length of <code>obs</code> or a number).</p>
+has an azimuth of 90° at the given coordinate with a angle precision of
+10°, we can compare all test all theoretical observations using
+<code><a href="../reference/dispersion.html">circular_dispersion()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span> <span class="co"># import example data set for Euler rotations</span></span>
-<span><span class="va">por</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
-<span>  <span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span></span>
-<span><span class="op">)</span> <span class="co"># North America relative to Pacific plate</span></span>
-<span><span class="va">point</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">45</span>, lon <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">prd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/model_shmax.html">model_shmax</a></span><span class="op">(</span><span class="va">point</span>, <span class="va">por</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/norm_chisq.html">norm_chisq</a></span><span class="op">(</span>obs <span class="op">=</span> <span class="fl">90</span>, <span class="va">prd</span><span class="op">$</span><span class="va">sc</span>, unc <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.2790849</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">prd</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/dispersion.html">circular_dispersion</a></span><span class="op">(</span><span class="fl">90</span>, y <span class="op">=</span> <span class="va">p</span>, w <span class="op">=</span> <span class="fu"><a href="../reference/weighting.html">weighting</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span>nm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">prd</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          sc      ld.ccw          gc       ld.cw </span></span>
+<span><span class="co">#&gt; 0.544371290 0.001972703 0.455628710 0.998027297</span></span></code></pre></div>
+<p><code>ld.ccw</code> (counter-clockwise loxodrome) yields the smallest
+dispersion from the observation, indicating that counter-clockwise
+loxodrome geometry has a good fit with the observed stress
+orientation.</p>
+<blockquote>
+<p>More details on the statistical treatment, including variance
+estimation, statistical testing, and confidence intervals, are given in
+this <a href="https://tobiste.github.io/tectonicr/articles/statistics.html">tutorial</a>.</p>
+</blockquote>
 </div>
 <div class="section level2">
 <h2 id="models-of-current-plate-motion">Models of current plate motion<a class="anchor" aria-label="anchor" href="#models-of-current-plate-motion"></a>
@@ -320,10 +336,12 @@ International</em> 43 (1): 163–200. doi: <a href="https://doi.org/10.1111/j.13
 <p>Stephan, T., Enkelmann, E., and Kroner, U. (2023). “Analyzing the
 horizontal orientation of the crustal stress adjacent to plate
 boundaries” <em>Scientific Reports</em> (13), 15590. <a href="https://doi.org/10.1038/s41598-023-42433-2" class="external-link">doi:[10.1038/s41598-023-42433-2](doi:%5B10.1038/s41598-023-42433-2){.uri}</a></p>
+<p>Stephan, T., &amp; Enkelmann, E. (2025). All Aligned on the Western
+Front of North America? Analyzing the Stress Field in the Northern
+Cordillera. Tectonics, 44(9). <a href="https://doi.org/10.1029/2025TC009014" class="external-link uri">https://doi.org/10.1029/2025TC009014</a></p>
 <p>Wdowinski, Shimon. 1998. “A Theory of Intraplate Tectonics”
 <em>Journal of Geophysical Research: Solid Earth</em> 103 (B3): 5037–59.
-doi: 10.1029/97jb03390.
-<!---[10.1029/97jb03390](https://doi.org/10.1029/97JB03390).--></p>
+doi: 10.1029/97jb03390. <a href="https://doi.org/10.1029/97JB03390" class="external-link uri">https://doi.org/10.1029/97JB03390</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -336,7 +354,7 @@ doi: 10.1029/97jb03390.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
