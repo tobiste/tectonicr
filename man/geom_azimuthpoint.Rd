@@ -80,14 +80,13 @@ set.seed(20250411)
 df <- data.frame(
   x = runif(5), y = runif(5),
   angle_deg = rvm(5, mean = 90, kappa = 10),
-  radius = runif(5, 0.5, 2),
+  radius = runif(5, 0.1, 1),
   group = rep(1:2, length.out = 5)
 )
 
 if (require("ggplot2")) {
-ggplot(df, aes(x, y)) +
-  geom_azimuthpoint(aes(angle = angle_deg, radius = radius,
-                    colour = factor(group), shape = factor(group)),
+ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
+  geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
                 linewidth = 1.1, linetype = "dashed",
                 size = 3, alpha = 0.8)
 }

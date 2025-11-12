@@ -178,14 +178,14 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' df <- data.frame(
 #'   x = runif(5), y = runif(5),
 #'   angle_deg = rvm(5, mean = 90, kappa = 10),
-#'   radius = runif(5, 0.5, 2)
+#'   radius = runif(5, 0.1, 2)
 #' )
 #'
 #' if (require("ggplot2")) {
 #' ggplot(df, aes(x, y)) +
-#'   geom_azimuth(aes(angle = angle_deg), linewidth = 1.2, colour = "blue")
+#'   geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
 #' if(require("grid")) {
-#' ggplot(df, aes(x, y), radius = radius) +
+#' ggplot(df, aes(x, y, radius = radius)) +
 #'   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
 #' }}
 #'
@@ -203,6 +203,14 @@ geom_azimuth <- function(mapping = NULL, data = NULL,
     mapping$angle <- rlang::expr((90 - !!mapping$angle) * pi/180)
   }
 
+  radius_fact <- if (isTRUE(center)) .5 else 1
+
+  radius <- if (!is.null(mapping$radius)) {
+    mapping$radius * radius_fact
+  } else {
+    radius_fact
+  }
+
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -212,7 +220,7 @@ geom_azimuth <- function(mapping = NULL, data = NULL,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
-      radius = if (isTRUE(center)) .5 else 1, # default radius (overridden if mapped in aes)
+      #radius = radius, # default radius (overridden if mapped in aes)
       na.rm = na.rm,
       ...
     )
@@ -271,14 +279,13 @@ geom_azimuth <- function(mapping = NULL, data = NULL,
 #' df <- data.frame(
 #'   x = runif(5), y = runif(5),
 #'   angle_deg = rvm(5, mean = 90, kappa = 10),
-#'   radius = runif(5, 0.5, 2),
+#'   radius = runif(5, 0.1, 1),
 #'   group = rep(1:2, length.out = 5)
 #' )
 #'
 #' if (require("ggplot2")) {
-#' ggplot(df, aes(x, y)) +
-#'   geom_azimuthpoint(aes(angle = angle_deg, radius = radius,
-#'                     colour = factor(group), shape = factor(group)),
+#' ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
+#'   geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
 #'                 linewidth = 1.1, linetype = "dashed",
 #'                 size = 3, alpha = 0.8)
 #' }

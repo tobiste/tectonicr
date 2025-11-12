@@ -71,14 +71,14 @@ the middle of the line. The azimuths are given as angles in degrees increasing c
 df <- data.frame(
   x = runif(5), y = runif(5),
   angle_deg = rvm(5, mean = 90, kappa = 10),
-  radius = runif(5, 0.5, 2)
+  radius = runif(5, 0.1, 2)
 )
 
 if (require("ggplot2")) {
 ggplot(df, aes(x, y)) +
-  geom_azimuth(aes(angle = angle_deg), linewidth = 1.2, colour = "blue")
+  geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
 if(require("grid")) {
-ggplot(df, aes(x, y), radius = radius) +
+ggplot(df, aes(x, y, radius = radius)) +
   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
 }}
 
