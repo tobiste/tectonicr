@@ -184,26 +184,20 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' )
 #'
 #' if (require("ggplot2")) {
-#' ggplot(df, aes(x, y)) +
-#'   geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
-#' if(require("grid")) {
-#' ggplot(df, aes(x, y, radius = radius)) +
-#'   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
-#' }}
+#'   ggplot(df, aes(x, y)) +
+#'     geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
+#'   if (require("grid")) {
+#'     ggplot(df, aes(x, y, radius = radius)) +
+#'       geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
+#'   }
+#' }
 #' @export
 geom_azimuth <- function(mapping = NULL, data = NULL,
-                     stat = "azimuth", center = TRUE,
-                     radius = NULL,
-                     na.rm = FALSE, show.legend = NA,
-                     inherit.aes = TRUE, ...) {
-
+                         stat = "azimuth", center = TRUE,
+                         radius = NULL,
+                         na.rm = FALSE, show.legend = NA,
+                         inherit.aes = TRUE, ...) {
   position <- if (isTRUE(center)) "center_spoke" else "identity"
-
-  # convert user-specified angle_deg -> radians
-  # if (!is.null(mapping$angle)) {
-  #   mapping$angle <- rlang::expr((90 - !!mapping$angle) * pi/180)
-  # }
-
   radius_fact <- if (isTRUE(center)) .5 else 1
 
   ggplot2::layer(
@@ -227,7 +221,6 @@ geom_azimuth <- function(mapping = NULL, data = NULL,
 StatAzimuth <- ggplot2::ggproto("StatAzimuth", ggplot2::Stat,
   required_aes = c("x", "y", "angle"),
   compute_panel = function(data, scales, radius_fact = 1, default_radius = NULL) {
-
     data$angle <- (90 - as.numeric(data$angle)) * pi / 180
 
     # If radius is mapped, use it
@@ -269,7 +262,7 @@ StatAzimuth <- ggplot2::ggproto("StatAzimuth", ggplot2::Stat,
 #' @param inherit.aes If `FALSE`, overrides the default aesthetics, rather than
 #'   combining with them.
 #' @param size Size of the point marker (default = 2).
-#' @param ... Other arguments passed on to [ggplot2::geom_spoke()] and
+#' @param ... Other arguments passed on to [geom_azimuth()] and
 #'   [ggplot2::geom_point()]. These may include `arrow`, `fill`, etc.
 #'
 #' @section Aesthetics:
@@ -300,19 +293,19 @@ StatAzimuth <- ggplot2::ggproto("StatAzimuth", ggplot2::Stat,
 #' )
 #'
 #' if (require("ggplot2")) {
-#' ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
-#'   geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
-#'                 linewidth = 1.1, linetype = "dashed",
-#'                 size = 3, alpha = 0.8)
+#'   ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
+#'     geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
+#'       linewidth = 1.1, linetype = "dashed",
+#'       size = 3, alpha = 0.8
+#'     )
 #' }
 #'
 #' @export
 geom_azimuthpoint <- function(mapping = NULL, data = NULL,
-                          stat = "identity", center = TRUE,
-                          na.rm = FALSE, show.legend = NA,
-                          inherit.aes = TRUE, size = 2,
-                          ...) {
-
+                              stat = "identity", center = TRUE,
+                              na.rm = FALSE, show.legend = NA,
+                              inherit.aes = TRUE, size = 2,
+                              ...) {
   # ----- Spoke layer mapping -----
   line_mapping <- mapping
   if (!is.null(line_mapping)) {
@@ -320,10 +313,12 @@ geom_azimuthpoint <- function(mapping = NULL, data = NULL,
     line_mapping <- line_mapping[!names(line_mapping) %in% c("shape")]
   }
 
-  line_layer <- geom_azimuth(mapping = line_mapping, data = data,
-                         stat = stat, center = center,
-                         na.rm = na.rm, show.legend = show.legend,
-                         inherit.aes = inherit.aes, ...)
+  line_layer <- geom_azimuth(
+    mapping = line_mapping, data = data,
+    stat = stat, center = center,
+    na.rm = na.rm, show.legend = show.legend,
+    inherit.aes = inherit.aes, ...
+  )
 
   # ----- Point layer mapping -----
   point_mapping <- mapping
@@ -333,9 +328,11 @@ geom_azimuthpoint <- function(mapping = NULL, data = NULL,
   }
 
   suppressWarnings(
-  point_layer <- ggplot2::geom_point(mapping = point_mapping, data = data,
-                                     size = size,
-                                     inherit.aes = inherit.aes, ...)
+    point_layer <- ggplot2::geom_point(
+      mapping = point_mapping, data = data,
+      size = size,
+      inherit.aes = inherit.aes, ...
+    )
   )
 
   list(line_layer, point_layer)
@@ -823,7 +820,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   }
 
   f <- if (axial) 2 else 1
-  x <- x %% (360/f)
+  x <- x %% (360 / f)
 
   freqs <- rose_freq(
     x,
@@ -1201,15 +1198,19 @@ circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shr
 #'
 #' @examples
 #' # Plot density inside plot only:
-#' rose(san_andreas$azi,  grid = TRUE)
-#' plot_density(san_andreas$azi, kappa = 100, col = "#51127CFF",
-#'   add = TRUE, lwd = 3)
+#' rose(san_andreas$azi, grid = TRUE)
+#' plot_density(san_andreas$azi,
+#'   kappa = 100, col = "#51127CFF",
+#'   add = TRUE, lwd = 3
+#' )
 #'
 #' # Add density curve outside of main plot:
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-#' plot_density(san_andreas$azi, kappa = 100,
+#' plot_density(san_andreas$azi,
+#'   kappa = 100,
 #'   scale = 1.1, shrink = 3, xpd = NA,
-#'   col = "#51127CFF")
+#'   col = "#51127CFF"
+#' )
 plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512L, norm.density = TRUE,
                          ...,
                          scale = 0, shrink = 1,

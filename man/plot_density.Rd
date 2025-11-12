@@ -62,15 +62,19 @@ Plot the multiples of a von Mises density distribution
 }
 \examples{
 # Plot density inside plot only:
-rose(san_andreas$azi,  grid = TRUE)
-plot_density(san_andreas$azi, kappa = 100, col = "#51127CFF",
-  add = TRUE, lwd = 3)
+rose(san_andreas$azi, grid = TRUE)
+plot_density(san_andreas$azi,
+  kappa = 100, col = "#51127CFF",
+  add = TRUE, lwd = 3
+)
 
 # Add density curve outside of main plot:
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-plot_density(san_andreas$azi, kappa = 100,
+plot_density(san_andreas$azi,
+  kappa = 100,
   scale = 1.1, shrink = 3, xpd = NA,
-  col = "#51127CFF")
+  col = "#51127CFF"
+)
 }
 \seealso{
 \code{\link[=dvm]{dvm()}}

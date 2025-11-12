@@ -79,12 +79,13 @@ df <- data.frame(
 )
 
 if (require("ggplot2")) {
-ggplot(df, aes(x, y)) +
-  geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
-if(require("grid")) {
-ggplot(df, aes(x, y, radius = radius)) +
-  geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
-}}
+  ggplot(df, aes(x, y)) +
+    geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
+  if (require("grid")) {
+    ggplot(df, aes(x, y, radius = radius)) +
+      geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
+  }
+}
 }
 \seealso{
 \code{\link[ggplot2:geom_spoke]{ggplot2::geom_spoke()}}, \code{\link[=geom_azimuthpoint]{geom_azimuthpoint()}}

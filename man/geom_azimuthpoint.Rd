@@ -39,7 +39,7 @@ combining with them.}
 
 \item{size}{Size of the point marker (default = 2).}
 
-\item{...}{Other arguments passed on to \code{\link[ggplot2:geom_spoke]{ggplot2::geom_spoke()}} and
+\item{...}{Other arguments passed on to \code{\link[=geom_azimuth]{geom_azimuth()}} and
 \code{\link[ggplot2:geom_point]{ggplot2::geom_point()}}. These may include \code{arrow}, \code{fill}, etc.}
 }
 \value{
@@ -85,10 +85,11 @@ df <- data.frame(
 )
 
 if (require("ggplot2")) {
-ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
-  geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
-                linewidth = 1.1, linetype = "dashed",
-                size = 3, alpha = 0.8)
+  ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
+    geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
+      linewidth = 1.1, linetype = "dashed",
+      size = 3, alpha = 0.8
+    )
 }
 
 }
