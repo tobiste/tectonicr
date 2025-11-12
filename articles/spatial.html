@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-11-08</h4>
+            <h4 data-toc-skip class="date">2025-11-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/spatial.Rmd" class="external-link"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="d-none name"><code>spatial.Rmd</code></div>
@@ -183,9 +183,7 @@ each search window:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"95% CI"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Skewness"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Duplicated aesthetics after name standardisation: <span style="color: #00BB00;">radius</span></span></span>
-<span><span class="co">#&gt; Duplicated aesthetics after name standardisation: <span style="color: #00BB00;">radius</span></span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
 <p>Interpolated mode of the stress field color-coded by the absolute
 kurtosis within each search window:</p>
@@ -199,9 +197,7 @@ kurtosis within each search window:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"95% CI"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"|Kurtosis|"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Duplicated aesthetics after name standardisation: <span style="color: #00BB00;">radius</span></span></span>
-<span><span class="co">#&gt; Duplicated aesthetics after name standardisation: <span style="color: #00BB00;">radius</span></span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level2">
@@ -314,9 +310,7 @@ transformed data to avoid angle distortions due to projections.</p>
 <span>    radius <span class="op">=</span> <span class="fl">.25</span>, lwd <span class="op">=</span> <span class="fl">.2</span>, colour <span class="op">=</span> <span class="st">"white"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span><span class="st">"Standard deviation"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Duplicated aesthetics after name standardisation:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">radius</span></span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="spatial_files/figure-html/kernel_disp-1.png" class="r-plt" width="700"></p>
 </div>
 </div>

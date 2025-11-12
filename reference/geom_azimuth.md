@@ -16,8 +16,9 @@ are given as angles in degrees increasing clockwise from North.
 geom_azimuth(
   mapping = NULL,
   data = NULL,
-  stat = "identity",
+  stat = "azimuth",
   center = TRUE,
+  radius = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
@@ -51,6 +52,10 @@ geom_azimuth(
   [`ggplot2::geom_spoke()`](https://ggplot2.tidyverse.org/reference/geom_spoke.html)
   (line starts at (x, y)) - useful for directional data (especially when
   in combination with [`arrow()`](https://rdrr.io/r/grid/arrow.html)).
+
+- radius:
+
+  Length of spoke
 
 - na.rm:
 
@@ -106,24 +111,20 @@ aesthetics in **bold**):
 ## Examples
 
 ``` r
+set.seed(20250411)
 df <- data.frame(
   x = runif(5), y = runif(5),
   angle_deg = rvm(5, mean = 90, kappa = 10),
-  radius = runif(5, 0.5, 2)
+  radius = runif(5, 0.1, 2)
 )
 
 if (require("ggplot2")) {
 ggplot(df, aes(x, y)) +
-  geom_azimuth(aes(angle = angle_deg), linewidth = 1.2, colour = "blue")
+  geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
 if(require("grid")) {
-ggplot(df, aes(x, y), radius = radius) +
+ggplot(df, aes(x, y, radius = radius)) +
   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
 }}
 #> Loading required package: ggplot2
 #> Loading required package: grid
-#> Warning: Arguments in `...` must be used.
-#> ✖ Problematic argument:
-#> • radius = radius
-#> ℹ Did you misspell an argument name?
-
 ```

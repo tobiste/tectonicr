@@ -131,8 +131,6 @@ ggplot(spatial_stats_comp) +
   scale_color_viridis_c(
     "Skewness"
   )
-#> Warning: Duplicated aesthetics after name standardisation: radius
-#> Duplicated aesthetics after name standardisation: radius
 ```
 
 ![](spatial_files/figure-html/unnamed-chunk-4-1.png)
@@ -151,8 +149,6 @@ ggplot(spatial_stats_comp) +
   scale_color_viridis_c(
     "|Kurtosis|"
   )
-#> Warning: Duplicated aesthetics after name standardisation: radius
-#> Duplicated aesthetics after name standardisation: radius
 ```
 
 ![](spatial_files/figure-html/unnamed-chunk-5-1.png)
@@ -272,8 +268,6 @@ ggplot(san_andreas_kdisp) +
   ) +
   scale_alpha("Standard deviation", range = c(1, .25)) +
   coord_sf(xlim = range(san_andreas$lon), ylim = range(san_andreas$lat))
-#> Warning: Duplicated aesthetics after name standardisation:
-#> radius
 ```
 
 ![](spatial_files/figure-html/kernel_disp-1.png)
