@@ -77,7 +77,7 @@ geom_azimuthpoint(
 - ...:
 
   Other arguments passed on to
-  [`ggplot2::geom_spoke()`](https://ggplot2.tidyverse.org/reference/geom_spoke.html)
+  [`geom_azimuth()`](https://tobiste.github.io/tectonicr/reference/geom_azimuth.md)
   and
   [`ggplot2::geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html).
   These may include `arrow`, `fill`, etc.
@@ -131,10 +131,11 @@ df <- data.frame(
 )
 
 if (require("ggplot2")) {
-ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
-  geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
-                linewidth = 1.1, linetype = "dashed",
-                size = 3, alpha = 0.8)
+  ggplot(data = df, aes(x, y, angle = angle_deg, radius = radius)) +
+    geom_azimuthpoint(aes(colour = factor(group), shape = factor(group)),
+      linewidth = 1.1, linetype = "dashed",
+      size = 3, alpha = 0.8
+    )
 }
 
 ```

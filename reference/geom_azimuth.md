@@ -119,12 +119,13 @@ df <- data.frame(
 )
 
 if (require("ggplot2")) {
-ggplot(df, aes(x, y)) +
-  geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
-if(require("grid")) {
-ggplot(df, aes(x, y, radius = radius)) +
-  geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
-}}
+  ggplot(df, aes(x, y)) +
+    geom_azimuth(aes(angle = angle_deg), radius = .1, linewidth = 1.2, colour = "blue")
+  if (require("grid")) {
+    ggplot(df, aes(x, y, radius = radius)) +
+      geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
+  }
+}
 #> Loading required package: ggplot2
 #> Loading required package: grid
 ```
