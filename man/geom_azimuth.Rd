@@ -7,8 +7,9 @@
 geom_azimuth(
   mapping = NULL,
   data = NULL,
-  stat = "identity",
+  stat = "azimuth",
   center = TRUE,
+  radius = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
@@ -28,6 +29,8 @@ the plot data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot2::g
 \code{\link{PositionCenterSpoke}}  - useful for axial data. If \code{FALSE}, behaves like
 \code{\link[ggplot2:geom_spoke]{ggplot2::geom_spoke()}} (line starts at (x, y)) - useful for directional data
 (especially when in combination with \code{arrow()}).}
+
+\item{radius}{Length of spoke}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with a
 warning. If \code{TRUE}, missing values are silently removed.}
@@ -68,6 +71,7 @@ the middle of the line. The azimuths are given as angles in degrees increasing c
 }
 
 \examples{
+set.seed(20250411)
 df <- data.frame(
   x = runif(5), y = runif(5),
   angle_deg = rvm(5, mean = 90, kappa = 10),
@@ -81,7 +85,6 @@ if(require("grid")) {
 ggplot(df, aes(x, y, radius = radius)) +
   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
 }}
-
 }
 \seealso{
 \code{\link[ggplot2:geom_spoke]{ggplot2::geom_spoke()}}, \code{\link[=geom_azimuthpoint]{geom_azimuthpoint()}}

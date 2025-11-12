@@ -158,6 +158,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #'   combining with them.
 #' @param ... Other arguments passed on to [ggplot2::layer()]. These are often
 #'   aesthetics (e.g. `colour`, `linetype`, `linewidth`, `alpha`).
+#' @param radius Length of spoke
 #'
 #' @section Aesthetics:
 #' `geom_azimuth()` understands the following aesthetics (required aesthetics in **bold**):
@@ -175,6 +176,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' @return A ggplot2 layer that adds axis-like spokes.
 #' @seealso [ggplot2::geom_spoke()], [geom_azimuthpoint()]
 #' @examples
+#' set.seed(20250411)
 #' df <- data.frame(
 #'   x = runif(5), y = runif(5),
 #'   angle_deg = rvm(5, mean = 90, kappa = 10),
@@ -188,44 +190,58 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' ggplot(df, aes(x, y, radius = radius)) +
 #'   geom_azimuth(aes(angle = angle_deg), center = FALSE, colour = "red", arrow = grid::arrow())
 #' }}
-#'
 #' @export
 geom_azimuth <- function(mapping = NULL, data = NULL,
-                     stat = "identity", center = TRUE,
+                     stat = "azimuth", center = TRUE,
+                     radius = NULL,
                      na.rm = FALSE, show.legend = NA,
                      inherit.aes = TRUE, ...) {
 
-  # decide position based on center flag
   position <- if (isTRUE(center)) "center_spoke" else "identity"
 
   # convert user-specified angle_deg -> radians
-  if (!is.null(mapping$angle)) {
-    mapping$angle <- rlang::expr((90 - !!mapping$angle) * pi/180)
-  }
+  # if (!is.null(mapping$angle)) {
+  #   mapping$angle <- rlang::expr((90 - !!mapping$angle) * pi/180)
+  # }
 
   radius_fact <- if (isTRUE(center)) .5 else 1
 
-  radius <- if (!is.null(mapping$radius)) {
-    mapping$radius * radius_fact
-  } else {
-    radius_fact
-  }
-
   ggplot2::layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
     geom = ggplot2::GeomSpoke,
+    mapping = mapping,
+    data = data,
+    stat = StatAzimuth,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
-      #radius = radius, # default radius (overridden if mapped in aes)
+      radius_fact = radius_fact,
+      default_radius = radius,
       na.rm = na.rm,
       ...
     )
   )
 }
+
+# A simple internal stat that ensures 'radius' is always numeric
+StatAzimuth <- ggplot2::ggproto("StatAzimuth", ggplot2::Stat,
+  required_aes = c("x", "y", "angle"),
+  compute_panel = function(data, scales, radius_fact = 1, default_radius = NULL) {
+
+    data$angle <- (90 - as.numeric(data$angle)) * pi / 180
+
+    # If radius is mapped, use it
+    if ("radius" %in% names(data)) {
+      data$radius <- as.numeric(data$radius) * radius_fact
+    } else {
+      # Otherwise use fixed radius
+      fixed <- if (is.null(default_radius)) 1 else default_radius
+      data$radius <- rep(fixed * radius_fact, nrow(data))
+    }
+    data
+  }
+)
+
 
 #' Azimuth + point visualization
 #'
