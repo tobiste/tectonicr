@@ -690,7 +690,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
   int$lon <- int_coords$lon
   int$azi <- PoR2Geo_azimuth(int, PoR)
 
-  if(remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
+  if (remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
 
   return(int)
 }
@@ -765,7 +765,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
   int$median <- PoR2Geo_azimuth(int |> rename(azi.PoR = median.PoR), PoR)
   if ("mode.PoR" %in% colnames(int)) int$mode <- PoR2Geo_azimuth(int |> rename(azi.PoR = mode.PoR), PoR)
 
-  if(remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
+  if (remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
 
   return(int)
 }

@@ -48,7 +48,7 @@ on your computer:
 install.packages("tectonicr")
 
 # or install the current development version from github:
-remotes::install_github('tobiste/tectonicr')
+remotes::install_github("tobiste/tectonicr")
 ```
 
 4.  Next you must "load" the library to use the functions of

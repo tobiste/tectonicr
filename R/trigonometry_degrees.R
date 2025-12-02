@@ -264,7 +264,7 @@ vincenty <- function(lat1, lon1, lat2, lon2) {
   cos_dlon <- cos(dlon)
 
   y <- sqrt((cos_lat2 * sin_dlon)^2 +
-              (cos_lat1 * sin_lat2 - sin_lat1 * cos_lat2 * cos_dlon)^2)
+    (cos_lat1 * sin_lat2 - sin_lat1 * cos_lat2 * cos_dlon)^2)
   x <- sin_lat1 * sin_lat2 + cos_lat1 * cos_lat2 * cos_dlon
 
   atan2(y, x)
@@ -336,7 +336,7 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
                              r = earth_radius(),
                              method = c("haversine", "orthodrome", "vincenty", "euclidean")) {
   method <- match.arg(method)
-  #n <- length(lat1)
+  # n <- length(lat1)
   if (!is.numeric(r) || length(r) != 1) stop("'r' must be a single numeric value.")
   # if (length(lon1) != n || length(lat2) != n || length(lon2) != n) {
   #   stop("lat1, lon1, lat2, and lon2 must all have the same length.")
@@ -348,10 +348,10 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
   lon2_rad <- deg2rad(lon2)
 
   d <- switch(method,
-              "haversine"  = haversine(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
-              "orthodrome" = orthodrome(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
-              "vincenty"   = vincenty(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
-              "euclidean"  = ddistance(lat1_rad, lon1_rad, lat2_rad, lon2_rad, r)
+    "haversine"  = haversine(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
+    "orthodrome" = orthodrome(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
+    "vincenty"   = vincenty(lat1_rad, lon1_rad, lat2_rad, lon2_rad) * r,
+    "euclidean"  = ddistance(lat1_rad, lon1_rad, lat2_rad, lon2_rad, r)
   )
   return(d)
 }

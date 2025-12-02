@@ -172,7 +172,7 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
 
     R <- mean_resultant_length(xf, na.rm = FALSE)
     S <- 2 * n * R^2
-    Z <- S/2
+    Z <- S / 2
     # S_mod <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
     # if(n <= 10){
     #  p.value <- p_value3(R, n)
@@ -183,9 +183,9 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
 
     result <- list(
       R = R,
-      statistic = Z ,
+      statistic = Z,
       # statistic_mod = S_mod,
-      p.value = p.value#,
+      p.value = p.value # ,
       # p.value_mod = p.value2
     )
     if (!quiet) {
@@ -196,8 +196,7 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
       }
     }
   } else {
-
-    #remove NA's
+    # remove NA's
     keep <- !is.na(x) & !is.na(mu)
     x <- x[keep]
     # mu <- mu[keep]
@@ -316,7 +315,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
   if (is.null(w)) {
     rayleigh_test(x, mu = mu, axial = axial)
   } else {
-    #remove NA's
+    # remove NA's
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -571,7 +570,6 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
       if (!quiet) {
         message(if (statistic > p.value) "Reject Null Hypothesis" else "Do Not Reject Null Hypothesis")
       }
-
     } else {
       breaks <- u2_crits[row, 2:4]
       labels <- c(
@@ -669,7 +667,6 @@ dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
     d <- circular::daxialvonmises(x, mu, kappa)
     if (log) d <- log(d)
     return(d)
-
   } else {
     # x <- circular::circular(theta, units = "degrees", modulo = "2pi")
     # mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
@@ -690,7 +687,7 @@ dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
         vm <- rep(-log(two_pi), n)
       } else if (kappa < 1e+05) {
         log_bessel <- log(besselI(kappa, nu = 0, expon.scaled = TRUE))
-        vm <- - (log(two_pi) + log_bessel + kappa) + kappa * cos(delta)
+        vm <- -(log(two_pi) + log_bessel + kappa) + kappa * cos(delta)
       } else {
         vm <- ifelse(delta_mod == 0, Inf, -Inf)
       }
@@ -773,8 +770,8 @@ est.kappa <- function(x, w = NULL, bias = FALSE, axial = TRUE) {
     w <- as.numeric(w)
   }
 
-  f <- if(axial) 2 else 1
-  x <- (x*f) %% 360
+  f <- if (axial) 2 else 1
+  x <- (x * f) %% 360
 
   # Remove NA pairs
   keep <- !is.na(x) & !is.na(w)

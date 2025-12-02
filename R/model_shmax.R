@@ -185,9 +185,9 @@ deviation_shmax <- function(prd, obs) {
   obs <- obs %% 180
 
   dev.gc <- prd$gc - obs
-  dev.sc <- prd$sc  - obs
-  dev.ld.cw <- prd$ld.cw  - obs
-  dev.ld.ccw <- prd$ld.ccw  - obs
+  dev.sc <- prd$sc - obs
+  dev.ld.cw <- prd$ld.cw - obs
+  dev.ld.ccw <- prd$ld.ccw - obs
 
   data.frame(dev.gc, dev.sc, dev.ld.cw, dev.ld.ccw) |>
     dplyr::mutate(
@@ -368,7 +368,7 @@ PoR2Geo_azimuth <- function(x, PoR, axial = TRUE) {
   #   PoR$lat <- -PoR$lat
   #   PoR$lon <- longitude_modulo(180 + PoR$lon)
   # }
-  f <- if(axial) 1 else 2
+  f <- if (axial) 1 else 2
 
   if (unique(c("lat.PoR", "lon.PoR") %in% colnames(x))) {
     northpole <- geographical_to_PoR(

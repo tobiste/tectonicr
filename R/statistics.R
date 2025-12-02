@@ -209,7 +209,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   mod <- 360 / f
   x <- deg2rad(x * f) %% (2 * pi)
 
-  #remove NA
+  # remove NA
   if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
@@ -1081,7 +1081,7 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
     w <- rep(1, times = length(x))
   }
 
-  #remove NA
+  # remove NA
   if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
@@ -1236,7 +1236,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
     w <- rep(1, times = length(x))
   }
 
-  #remove NA
+  # remove NA
   if (na.rm) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
@@ -1301,7 +1301,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 #' @examples
 #' test <- rvm(100, mean = 0, k = 10)
 #' ortensor2d(test)
-ortensor2d <- function(x, w = NULL, norm = FALSE){
+ortensor2d <- function(x, w = NULL, norm = FALSE) {
   if (is.null(w)) w <- rep(1, times = length(x))
 
   keep <- !is.na(x) & !is.na(w)
@@ -1309,12 +1309,12 @@ ortensor2d <- function(x, w = NULL, norm = FALSE){
   w <- w[keep]
 
   x <- deg2rad(x)
-  Z <- if(isTRUE(norm)) 1 else sum(w)
+  Z <- if (isTRUE(norm)) 1 else sum(w)
 
   x <- x[!is.na(x)]
   v <- cbind(w * cos(x), w * sin(x))
 
-  1/Z * (t(v) %*% v)
+  1 / Z * (t(v) %*% v)
 }
 
 #' Decomposition of orientation tensor
@@ -1343,12 +1343,15 @@ ortensor2d <- function(x, w = NULL, norm = FALSE){
 #' print(sa_eig)
 #'
 #' rose(sa.por$azi.PoR, muci = FALSE)
-#' rose_line(sa_eig$vectors, col = c('red', 'green'),
-#'   radius = sa_eig$values, lwd = 2)
+#' rose_line(sa_eig$vectors,
+#'   col = c("red", "green"),
+#'   radius = sa_eig$values, lwd = 2
+#' )
 #' graphics::legend("topright",
 #'   legend = round(sa_eig$values, 2),
-#'   col = c('red', 'green'), lty = 1)
-ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE){
+#'   col = c("red", "green"), lty = 1
+#' )
+ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE) {
   f <- if (isTRUE(axial)) 2 else 1
 
   ot <- ortensor2d(f * x, w)
@@ -1356,9 +1359,9 @@ ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE){
 
   ev <- t(eig$vectors)
   ev1 <- atand(ev[1, 2] / ev[1, 1]) / f
-  eig$vectors <- c(ev1, ev1+90) %% (360 / f)
+  eig$vectors <- c(ev1, ev1 + 90) %% (360 / f)
 
-  if(isTRUE(scale)) eig$values <- eig$values / sum(eig$values)
+  if (isTRUE(scale)) eig$values <- eig$values / sum(eig$values)
 
   eig
 }

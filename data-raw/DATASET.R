@@ -1,7 +1,7 @@
 ## code to prepare `san_andreas` dataset goes here  -------------
 library(tidyverse)
 
-wsm2025 <- download_WSM(version = '2016') |>
+wsm2025 <- download_WSM(version = "2016") |>
   dplyr::select(id, lat, lon, azi, unc, type, depth, quality, regime)
 
 all(validUTF8(wsm2025$id))

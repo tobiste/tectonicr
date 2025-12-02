@@ -18,7 +18,7 @@ NULL
 #' @export
 longitude_modulo <- function(x) {
   # longitude.mod <- (longitude %% 360 + 540) %% 360 - 180
-  #(x + 540) %% 360 - 180
+  # (x + 540) %% 360 - 180
   ((x + 180) %% 360) - 180
 }
 
@@ -59,8 +59,8 @@ cartesian_to_geographical <- function(n) {
   # r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
   r <- sqrt(sum(n^2))
   c(
-    asind(n[3] / r),        # latitude
-    atan2d(n[2], n[1])      # longitude
+    asind(n[3] / r), # latitude
+    atan2d(n[2], n[1]) # longitude
   )
 }
 
@@ -69,9 +69,9 @@ cartesian_to_geographical <- function(n) {
 geographical_to_cartesian <- function(p) {
   stopifnot(length(p) == 2)
   c(
-    cosd(p[1]) * cosd(p[2]),  # x
-    cosd(p[1]) * sind(p[2]),  # y
-    sind(p[1])                # z
+    cosd(p[1]) * cosd(p[2]), # x
+    cosd(p[1]) * sind(p[2]), # y
+    sind(p[1]) # z
   )
 }
 
@@ -109,11 +109,11 @@ NULL
 cartesian_to_spherical <- function(n) {
   stopifnot(is.numeric(n), length(n) == 3)
   r <- sqrt(sum(n^2))
-  stopifnot(r > 0)  # avoid division by zero
+  stopifnot(r > 0) # avoid division by zero
 
   c(
-  acosd(n[3] / r),  # inclination (0° at north pole)
-  atan2d(n[2], n[1])  # azimuth (-180° to 180°)
+    acosd(n[3] / r), # inclination (0° at north pole)
+    atan2d(n[2], n[1]) # azimuth (-180° to 180°)
   )
 }
 
@@ -122,9 +122,9 @@ cartesian_to_spherical <- function(n) {
 spherical_to_cartesian <- function(p) {
   stopifnot(length(p) == 2)
   c(
-    sind(p[1]) * cosd(p[2]), #x
+    sind(p[1]) * cosd(p[2]), # x
     sind(p[1]) * sind(p[2]), # y
-    cosd(p[1]) #y
+    cosd(p[1]) # y
   )
 }
 
@@ -468,14 +468,14 @@ geographical_to_PoR_sf <- function(x, PoR) {
 #' san_andreas.por_df <- PoR_coordinates(sf::st_drop_geometry(san_andreas), por)
 #' head(san_andreas.por_df)
 PoR_coordinates <- function(x, PoR) {
-  if (inherits(x, 'sf')) {
+  if (inherits(x, "sf")) {
     x |>
       geographical_to_PoR_sf(PoR = PoR) |>
       sf::st_coordinates() |>
       sf::st_drop_geometry() |>
       as.data.frame() |>
       dplyr::rename("lon.PoR" = "X", "lat.PoR" = "Y")
-  } else if(inherits(x, 'data.frame')) {
+  } else if (inherits(x, "data.frame")) {
     geographical_to_PoR_df(x, PoR)
   }
 }

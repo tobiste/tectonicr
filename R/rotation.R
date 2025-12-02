@@ -196,7 +196,7 @@ get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep) {
 #' # relative plate motion between Eurasia and India:
 #' equivalent_rotation(nuvel1, "eu", "in") # lat = 24.58, lon = 18.07, angle = 0.528
 equivalent_rotation <- function(x, fixed, rot) {
-  stopifnot(inherits(x, 'data.frame') | c("plate.rot","lat","lon","angle") %in% colnames(x))
+  stopifnot(inherits(x, "data.frame") | c("plate.rot", "lat", "lon", "angle") %in% colnames(x))
   stopifnot(fixed %in% x$plate.rot)
   plate.rot <- NULL
 
@@ -207,8 +207,8 @@ equivalent_rotation <- function(x, fixed, rot) {
     angle = fixed.plate$angle
   )
 
-  #if ("plate.fix" %in% names(fixed.plate) && !is.null(fixed.plate$plate.fix)) {
-  if(exists(paste0("fixed.plate$plate.fix"))){
+  # if ("plate.fix" %in% names(fixed.plate) && !is.null(fixed.plate$plate.fix)) {
+  if (exists(paste0("fixed.plate$plate.fix"))) {
     fixed0.plate <- subset(x, x$plate.rot == fixed.plate$plate.fix)
     fixed0.ep <- euler_pole(
       fixed0.plate$lat,
@@ -322,7 +322,7 @@ QScVec_to_Q4 <- function(x) {
 
 #' @keywords internal
 Q4_to_QScVec <- function(x, normalize = FALSE) {
-  stopifnot(x[1] != 0, length(x)==4, is.numeric(x),  is.logical(normalize))
+  stopifnot(x[1] != 0, length(x) == 4, is.numeric(x), is.logical(normalize))
   angle <- 2 * acos(x[1])
   q1 <- x[2] / sin(angle / 2)
   q2 <- x[3] / sin(angle / 2)
@@ -399,7 +399,7 @@ conjugate_Q4 <- function(q, normalize = FALSE) {
 #' @returns logical
 #' @keywords internal
 is.Q4 <- function(x) {
-  inherits(x, "quaternion") | c('Vec', 'Sc') %in% names(q)
+  inherits(x, "quaternion") | c("Vec", "Sc") %in% names(q)
 }
 # is.QScVec <- function(x) {
 #   is.numeric(x) & length(x)==4
@@ -423,6 +423,6 @@ rotation_Q4 <- function(q, p) {
   axis <- c(q.euler$x, q.euler$y, q.euler$z)
   angle <- q.euler$angle
   vap <- vcross(axis, p)
-  #p + vap * sin(angle) + vcross(axis, vap) * 2 * (sin(angle / 2))^2
+  # p + vap * sin(angle) + vcross(axis, vap) * 2 * (sin(angle / 2))^2
   p + vap * sin(angle) + vcross(axis, vap) * (1 - cos(angle))
 }

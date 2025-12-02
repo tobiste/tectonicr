@@ -38,11 +38,14 @@ sa_eig <- ot_eigen2d(sa.por$azi.PoR, w = weighting(san_andreas$unc), scale = TRU
 print(sa_eig)
 
 rose(sa.por$azi.PoR, muci = FALSE)
-rose_line(sa_eig$vectors, col = c('red', 'green'),
-  radius = sa_eig$values, lwd = 2)
+rose_line(sa_eig$vectors,
+  col = c("red", "green"),
+  radius = sa_eig$values, lwd = 2
+)
 graphics::legend("topright",
   legend = round(sa_eig$values, 2),
-  col = c('red', 'green'), lty = 1)
+  col = c("red", "green"), lty = 1
+)
 }
 \seealso{
 \code{\link[=ortensor2d]{ortensor2d()}}

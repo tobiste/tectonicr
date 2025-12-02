@@ -33,10 +33,14 @@ Cosine: \eqn{w = \cos{x}}
 \examples{
 x <- seq(0, 90, 1)
 
-plot(x, weighting(x, "inverse"), col = 1, type = "l",
-xlab = "Uncertainty angle in degrees", ylab = "weight")
+plot(x, weighting(x, "inverse"),
+  col = 1, type = "l",
+  xlab = "Uncertainty angle in degrees", ylab = "weight"
+)
 lines(x, weighting(x, "cosine"), col = 2)
 lines(x, weighting(x, "linear-inverse"), col = 3)
-legend("topright", col = 1:3, lty = 1,
-legend = c("inverse", "cosine", "linear-inverse"))
+legend("topright",
+  col = 1:3, lty = 1,
+  legend = c("inverse", "cosine", "linear-inverse")
+)
 }
