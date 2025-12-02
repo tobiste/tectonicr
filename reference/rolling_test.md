@@ -1316,12 +1316,12 @@ roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10) |> head()
 #> Warning: extreme order statistics used as endpoints
 #> Warning: extreme order statistics used as endpoints
 #> Warning: extreme order statistics used as endpoints
-#>           [,1]      [,2]
-#> [1,] 0.1366702 0.2825693
-#> [2,] 0.1153331 0.3763184
-#> [3,] 0.1209847 0.2934685
-#> [4,] 0.1424420 0.2644931
-#> [5,] 0.1098175 0.2989671
-#> [6,] 0.1023869 0.3504688
+#>            [,1]      [,2]
+#> [1,] 0.11390883 0.2810294
+#> [2,] 0.13257644 0.2850480
+#> [3,] 0.11224432 0.3257178
+#> [4,] 0.08403511 0.2950574
+#> [5,] 0.12495219 0.3047986
+#> [6,] 0.14003861 0.3267127
 # }
 ```
