@@ -22,7 +22,8 @@ length as \code{x}.}
 Eigenvalue (Watson 1966, Scheidegger 1965).
 }
 \note{
-\deqn{E = x \cdot x^{T}}
+\deqn{E = x \cdot x^{T}} where \eqn{x} is the Cartesian vector of the
+orientations.
 
 Orientation tensor is also called  "inertia tensor".
 }
