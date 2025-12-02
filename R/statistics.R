@@ -1287,6 +1287,20 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 }
 
 
+#' Orientation tensor
+#'
+#' @inheritParams circular_mean
+#' @param norm logical. Whether the tensor should be normalized.
+#'
+#' @note \deqn{E = x \cdot x^{T}}
+#'
+#' @return 2x2 matrix
+#' @export
+#' @seealso [ot_eigen2d()]
+#'
+#' @examples
+#' test <- rvm(100, mean = 0, k = 10)
+#' ortensor2d(test)
 ortensor2d <- function(x, w = NULL, norm = FALSE){
   if (is.null(w)) w <- rep(1, times = length(x))
 
@@ -1305,10 +1319,18 @@ ortensor2d <- function(x, w = NULL, norm = FALSE){
 
 #' Decomposition of orientation tensor
 #'
-#' @inheritParams circular_mean
+#' Eigenvector decomposition of the orientations.
 #'
-#' @return list.
-#' @noRd
+#' @inheritParams circular_mean
+#' @param scale logical. Whether the Eigenvalues should be scaled so they sum up to 1.
+#'
+#' @return list of Eigenvalues and the angles corresponding to the Eigenvectors.
+#' @export
+#' @seealso [ortensor2d()]
+#'
+#' @details
+#' Eigenvalues can be interpreted as the fraction of the data explained by the
+#' orientation of the associated Eigenvector.
 #'
 #' @examples
 #' test <- rvm(100, mean = 0, k = 10)
@@ -1317,15 +1339,16 @@ ortensor2d <- function(x, w = NULL, norm = FALSE){
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' sa_eig <- ot_eigen2d(sa.por$azi.PoR)
+#' sa_eig <- ot_eigen2d(sa.por$azi.PoR, w = weighting(san_andreas$unc), scale = TRUE)
 #' print(sa_eig)
 #'
-#' rose(sa.por$azi.PoR)
-#' rose_line(sa_eig$vectors, col = c('blue', 'green'))
+#' rose(sa.por$azi.PoR, muci = FALSE)
+#' rose_line(sa_eig$vectors, col = c('red', 'green'),
+#'   radius = sa_eig$values, lwd = 2)
 #' graphics::legend("topright",
 #'   legend = round(sa_eig$values, 2),
-#'   col = c('blue', 'green'), lty = 1)
-ot_eigen2d <- function(x, w = NULL, axial = TRUE){
+#'   col = c('red', 'green'), lty = 1)
+ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE){
   f <- if (isTRUE(axial)) 2 else 1
 
   ot <- ortensor2d(f * x, w)
@@ -1333,8 +1356,9 @@ ot_eigen2d <- function(x, w = NULL, axial = TRUE){
 
   ev <- t(eig$vectors)
   ev1 <- atand(ev[1, 2] / ev[1, 1]) / f
-
-
   eig$vectors <- c(ev1, ev1+90) %% (360 / f)
+
+  if(isTRUE(scale)) eig$values <- eig$values / sum(eig$values)
+
   eig
 }
