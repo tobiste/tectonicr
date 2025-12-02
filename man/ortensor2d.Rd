@@ -2,7 +2,7 @@
 % Please edit documentation in R/statistics.R
 \name{ortensor2d}
 \alias{ortensor2d}
-\title{Orientation tensor}
+\title{Orientation Tensor}
 \usage{
 ortensor2d(x, w = NULL, norm = FALSE)
 }
@@ -18,14 +18,26 @@ length as \code{x}.}
 2x2 matrix
 }
 \description{
-Orientation tensor
+2D orientation tensor, which characterizes data distribution using the
+Eigenvalue (Watson 1966, Scheidegger 1965).
 }
 \note{
 \deqn{E = x \cdot x^{T}}
+
+Orientation tensor is also called  "inertia tensor".
 }
 \examples{
 test <- rvm(100, mean = 0, k = 10)
 ortensor2d(test)
+}
+\references{
+Watson, G. S. (1966). The Statistics of Orientation Data. The Journal of
+Geology, 74(5), 786–797.
+
+Scheidegger, A. E. (1964). The tectonic stress and tectonic motion direction
+in Europe and Western Asia as calculated from earthquake fault plane
+solutions. Bulletin of the Seismological Society of America, 54(5A),
+1519–1528. doi:10.1785/BSSA05405A1519
 }
 \seealso{
 \code{\link[=ot_eigen2d]{ot_eigen2d()}}

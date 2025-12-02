@@ -1287,16 +1287,31 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 }
 
 
-#' Orientation tensor
+#' Orientation Tensor
+#'
+#' 2D orientation tensor, which characterizes data distribution using the
+#' Eigenvalue (Watson 1966, Scheidegger 1965).
 #'
 #' @inheritParams circular_mean
 #' @param norm logical. Whether the tensor should be normalized.
 #'
-#' @note \deqn{E = x \cdot x^{T}}
+#' @note \deqn{E = x \cdot x^{T}} where \eqn{x} is the Cartesian vector of the
+#' orientations.
 #'
 #' @return 2x2 matrix
 #' @export
 #' @seealso [ot_eigen2d()]
+#'
+#' @note Orientation tensor is also called  "inertia tensor".
+#'
+#' @references
+#' Watson, G. S. (1966). The Statistics of Orientation Data. The Journal of
+#' Geology, 74(5), 786–797.
+#'
+#' Scheidegger, A. E. (1964). The tectonic stress and tectonic motion direction
+#' in Europe and Western Asia as calculated from earthquake fault plane
+#' solutions. Bulletin of the Seismological Society of America, 54(5A),
+#' 1519–1528. doi:10.1785/BSSA05405A1519
 #'
 #' @examples
 #' test <- rvm(100, mean = 0, k = 10)
@@ -1317,20 +1332,33 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
   1 / Z * (t(v) %*% v)
 }
 
-#' Decomposition of orientation tensor
+#' Decomposition of Orientation Tensor
 #'
-#' Eigenvector decomposition of the orientations.
+#' Eigenvector decomposition of the orientation tensor
 #'
 #' @inheritParams circular_mean
-#' @param scale logical. Whether the Eigenvalues should be scaled so they sum up to 1.
+#' @param scale logical. Whether the Eigenvalues should be scaled so they sum
+#' up to 1. Only applicable when weighting are specified,
+#' otherwise the eigenvalues are always scaled.
 #'
-#' @return list of Eigenvalues and the angles corresponding to the Eigenvectors.
-#' @export
+#' @return `ot_eigen2d` returns a list of the Eigenvalues and the angles corresponding to the Eigenvectors.
+#' `principal_direction()` and `orientation_strength()` are convenience functions
+#' to return the orientation of the largest eigenvalue, and the orientation strength, respectively.
+#' @name ort-eigen
 #' @seealso [ortensor2d()]
 #'
 #' @details
-#' Eigenvalues can be interpreted as the fraction of the data explained by the
-#' orientation of the associated Eigenvector.
+#' The two perpendicular **Eigenvectors** are the "principal directions" towards the
+#' highest and the lowest concentration of orientation data.
+#'
+#' The **Eigenvalues** can be
+#' interpreted as the fractions of the data explained by the
+#' orientation of the associated principal direction.
+#' Thus, the strength of the orientation is the largest eigenvalue normalized
+#' by the sum of the eigenvalues (`scale=TRUE`).
+#'
+#' @note Eigenvalues and eigenvectors of the orientation tensor (inertia tensor) are also called
+#' "principle moments of inertia"  and "principle axes of inertia", respectively.
 #'
 #' @examples
 #' test <- rvm(100, mean = 0, k = 10)
@@ -1351,6 +1379,14 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
 #'   legend = round(sa_eig$values, 2),
 #'   col = c("red", "green"), lty = 1
 #' )
+#'
+#' principal_direction(sa.por$azi.PoR)
+#'
+#' orientation_strength(sa.por$azi.PoR)
+NULL
+
+#' @rdname ort-eigen
+#' @export
 ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE) {
   f <- if (isTRUE(axial)) 2 else 1
 
@@ -1364,4 +1400,18 @@ ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE) {
   if (isTRUE(scale)) eig$values <- eig$values / sum(eig$values)
 
   eig
+}
+
+#' @rdname ort-eigen
+#' @export
+principal_direction <- function(x, w = NULL, axial = TRUE) {
+  oeig <- ot_eigen2d(x, w, axial)
+  oeig$vectors[1]
+}
+
+#' @rdname ort-eigen
+#' @export
+orientation_strength <- function(x, w = NULL, axial = TRUE) {
+  oeig <- ot_eigen2d(x, w, axial, scale = TRUE)
+  oeig$values[1]
 }
