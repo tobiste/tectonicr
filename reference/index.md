@@ -128,6 +128,8 @@
   NUVEL-1 Global model of current plate motions
 - [`nuvel1_plates`](https://tobiste.github.io/tectonicr/reference/nuvel1_plates.md)
   : Plate Boundaries on the Earth
+- [`ot_eigen2d()`](https://tobiste.github.io/tectonicr/reference/ot_eigen2d.md)
+  : Decompositon of orientation tensor
 - [`parse_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm.md)
   [`quantise_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm.md)
   : Numerical values to World Stress Map Quality Ranking
