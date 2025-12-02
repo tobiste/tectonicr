@@ -18,7 +18,7 @@ mean_SC <- function(x, w = NULL, na.rm = TRUE) {
 
   if (is.null(w)) w <- rep(1, times = length(x))
 
-  if (na.rm) {
+  if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -154,7 +154,7 @@ NULL
 #' @rdname circle_stats
 #' @export
 circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
   x <- x * f
   m <- mean_SC(x, w, na.rm)
@@ -165,7 +165,7 @@ circular_mean <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) x <- ax2dir(x)
+  if (isTRUE(axial)) x <- ax2dir(x)
 
   R <- mean_resultant_length(x = x, w = w, na.rm = na.rm)
   1 - R
@@ -188,7 +188,7 @@ sd_to_var <- function(s) {
 #' @rdname circle_stats
 #' @export
 circular_sd <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
   # mod <- 360 / f
   x <- (x * f) %% 360
 
@@ -205,12 +205,12 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
     w <- rep(1, times = length(x)) |> unname()
   }
 
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
   mod <- 360 / f
   x <- deg2rad(x * f) %% (2 * pi)
 
   #remove NA
-  if (na.rm) {
+  if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -239,7 +239,7 @@ circular_median <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @rdname circle_stats
 #' @export
 circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
   mod <- 360 / f
   x <- deg2rad(f * x) %% (2 * pi)
 
@@ -248,7 +248,7 @@ circular_quantiles <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   }
 
   # remove NA
-  if (na.rm) {
+  if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -399,7 +399,7 @@ NULL
 #' @rdname dispersion
 #' @export
 circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
   nx <- length(x)
   ny <- length(y)
 
@@ -413,7 +413,7 @@ circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
   }
 
   if (nx > 1) {
-    if (na.rm) {
+    if (isTRUE(na.rm)) {
       keep <- !is.na(x) & !is.na(y)
       x <- x[keep]
       y <- y[keep]
@@ -467,7 +467,7 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE,
 #' @rdname dispersion
 #' @export
 circular_sd2 <- function(x, y, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
   D <- circular_dispersion(x, y, w, axial, na.rm)
   R <- 1 - D
@@ -519,7 +519,7 @@ NULL
 #' @export
 sample_circular_variance <- function(x, w = NULL, axial = TRUE) {
   # after Fisher 1996
-  if (axial) x <- ax2dir(x)
+  if (isTRUE(axial)) x <- ax2dir(x)
   Rbar2 <- mean_resultant_length(2 * x, w = w)
   Rbar <- mean_resultant_length(x, w = w)
   (1 - Rbar2) / (2 * Rbar^2)
@@ -528,7 +528,7 @@ sample_circular_variance <- function(x, w = NULL, axial = TRUE) {
 #' @rdname sample_dispersion
 #' @export
 sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
   stopifnot(length(y) == 1 | length(y) == length(x))
   if (length(y) == 1) {
@@ -537,7 +537,7 @@ sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
 
   if (length(x) > 1) {
     # remove NA
-    if (na.rm) {
+    if (isTRUE(na.rm)) {
       keep <- !is.na(x) & !is.na(y)
       x <- x[keep]
       y <- y[keep]
@@ -570,7 +570,7 @@ sample_circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial 
       y <- rep(y, times = n)
     }
 
-    if (na.rm) {
+    if (isTRUE(na.rm)) {
       keep <- !is.na(x) & !is.na(w) & !is.na(y) & !is.na(w.y)
       x <- x[keep]
       w <- w[keep]
@@ -622,7 +622,7 @@ NULL
 #' @rdname circle_mean_diff
 #' @export
 circular_mean_difference <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  if (axial) x <- ax2dir(x)
+  if (isTRUE(axial)) x <- ax2dir(x)
   Rbar2 <- mean_resultant_length(2 * x, w = w)
   1 - Rbar2
 }
@@ -631,7 +631,7 @@ circular_mean_difference <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' @export
 circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
   f <- 1
-  if (axial) {
+  if (isTRUE(axial)) {
     x <- ax2dir(x)
     f <- 2
   }
@@ -641,7 +641,7 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
     unname(w)
   }
 
-  if (na.rm) {
+  if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -700,10 +700,10 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
 #' data("san_andreas")
 #' circular_range(san_andreas$azi)
 circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
   mod <- 360 / f
 
-  if (na.rm) x <- x[!is.na(x)]
+  if (isTRUE(na.rm)) x <- x[!is.na(x)]
   x <- (x * f) %% 360
   x <- sort(x)
   n <- length(x)
@@ -724,7 +724,7 @@ circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
 
 
 cdist2angle <- function(x, axial = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
   acosd(1 - f * x) / f
 }
 
@@ -813,13 +813,13 @@ z_score <- function(conf.level) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' circular_sd_error(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
 
-  if (na.rm) {
+  if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -888,7 +888,7 @@ NULL
 #' @rdname confidence
 #' @export
 confidence_angle <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.rm = TRUE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
   Z_alpha <- z_score(conf.level)
   sde <- circular_sd_error(x, w, axial, na.rm)
@@ -971,7 +971,7 @@ confidence_interval_fisher <- function(x, conf.level = 0.95, w = NULL, axial = T
     mu <- circular_mean(x = x, w = w, axial = axial, na.rm = na.rm)
     conf.interval <- c(mu - conf.angle, mu + conf.angle)
   }
-  if (!quiet) message(print_message)
+  if (isFALSE(quiet)) message(print_message)
   list(mu = mu, conf.angle = conf.angle, conf.interval = conf.interval)
 }
 
@@ -1076,13 +1076,13 @@ circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000
 #' second_central_moment(sa.por$azi.PoR)
 #' second_central_moment(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
-  if (axial) x <- ax2dir(x)
+  if (isTRUE(axial)) x <- ax2dir(x)
   if (is.null(w)) {
     w <- rep(1, times = length(x))
   }
 
   #remove NA
-  if (na.rm) {
+  if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -1147,28 +1147,28 @@ NULL
 #' @rdname sample_median
 #' @export
 circular_sample_median <- function(x, axial = TRUE, na.rm = TRUE) {
-  if (axial) x <- ax2dir(x)
-  if (na.rm) x <- x[!is.na(x)]
+  if (isTRUE(axial)) x <- ax2dir(x)
+  if (isTRUE(na.rm)) x <- x[!is.na(x)]
 
   x_circular <- circular::circular(deg2rad(x))
   median <- circular::median.circular(x_circular) |>
     as.numeric() |>
     rad2deg()
-  if (axial) median <- dir2ax(median)
+  if (isTRUE(axial)) median <- dir2ax(median)
   median
 }
 
 #' @rdname sample_median
 #' @export
 circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
-  if (axial) x <- ax2dir(x)
-  if (na.rm) x <- x[!is.na(x)]
+  if (isTRUE(axial)) x <- ax2dir(x)
+  if (isTRUE(na.rm)) x <- x[!is.na(x)]
 
   x_circular <- circular::circular(deg2rad(x))
   md <- circular::meandeviation(x_circular) |>
     as.numeric() |>
     rad2deg()
-  if (axial) md <- dir2ax(md)
+  if (isTRUE(axial)) md <- dir2ax(md)
   md
 }
 
@@ -1287,17 +1287,15 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 }
 
 
-ortensor2d <- function(x, w = NULL, axial = FALSE){
-  f <- if (isTRUE(axial)) 2 else 1
-
+ortensor2d <- function(x, w = NULL, norm = FALSE){
   if (is.null(w)) w <- rep(1, times = length(x))
 
   keep <- !is.na(x) & !is.na(w)
   x <- x[keep]
   w <- w[keep]
 
-  x <- deg2rad(f * x)
-  Z <- sum(w)
+  x <- deg2rad(x)
+  Z <- if(isTRUE(norm)) 1 else sum(w)
 
   x <- x[!is.na(x)]
   v <- cbind(w * cos(x), w * sin(x))
@@ -1309,28 +1307,34 @@ ortensor2d <- function(x, w = NULL, axial = FALSE){
 #'
 #' @inheritParams circular_mean
 #'
-#' @return
+#' @return list.
+#' @noRd
 #'
 #' @examples
-#' test <- rvm(100, mean = 0, k = 19)
+#' test <- rvm(100, mean = 0, k = 10)
 #' ot_eigen2d(test, axial = FALSE)
 #'
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' sa_eig <- ot_eigen2d(sa.por$azi.PoR, w = weighting(san_andreas$unc))
+#' sa_eig <- ot_eigen2d(sa.por$azi.PoR)
 #' print(sa_eig)
 #'
 #' rose(sa.por$azi.PoR)
 #' rose_line(sa_eig$vectors, col = c('blue', 'green'))
+#' graphics::legend("topright",
+#'   legend = round(sa_eig$values, 2),
+#'   col = c('blue', 'green'), lty = 1)
 ot_eigen2d <- function(x, w = NULL, axial = TRUE){
   f <- if (isTRUE(axial)) 2 else 1
 
-  ot <- ortensor2d(f * x, w, axial = FALSE)
+  ot <- ortensor2d(f * x, w)
   eig <- eigen(ot)
 
   ev <- t(eig$vectors)
+  ev1 <- atand(ev[1, 2] / ev[1, 1]) / f
 
-  eig$vectors <- (90- (atan2d(ev[2, ], ev[1, ]) / f)) %% (360 / f)
+
+  eig$vectors <- c(ev1, ev1+90) %% (360 / f)
   eig
 }
