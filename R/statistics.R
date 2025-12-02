@@ -1285,3 +1285,52 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
     res
   }
 }
+
+
+ortensor2d <- function(x, w = NULL, axial = FALSE){
+  f <- if (isTRUE(axial)) 2 else 1
+
+  if (is.null(w)) w <- rep(1, times = length(x))
+
+  keep <- !is.na(x) & !is.na(w)
+  x <- x[keep]
+  w <- w[keep]
+
+  x <- deg2rad(f * x)
+  Z <- sum(w)
+
+  x <- x[!is.na(x)]
+  v <- cbind(w * cos(x), w * sin(x))
+
+  1/Z * (t(v) %*% v)
+}
+
+#' Decomposition of orientation tensor
+#'
+#' @inheritParams circular_mean
+#'
+#' @return
+#'
+#' @examples
+#' test <- rvm(100, mean = 0, k = 19)
+#' ot_eigen2d(test, axial = FALSE)
+#'
+#' data("nuvel1")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' sa_eig <- ot_eigen2d(sa.por$azi.PoR, w = weighting(san_andreas$unc))
+#' print(sa_eig)
+#'
+#' rose(sa.por$azi.PoR)
+#' rose_line(sa_eig$vectors, col = c('blue', 'green'))
+ot_eigen2d <- function(x, w = NULL, axial = TRUE){
+  f <- if (isTRUE(axial)) 2 else 1
+
+  ot <- ortensor2d(f * x, w, axial = FALSE)
+  eig <- eigen(ot)
+
+  ev <- t(eig$vectors)
+
+  eig$vectors <- (90- (atan2d(ev[2, ], ev[1, ]) / f)) %% (360 / f)
+  eig
+}
