@@ -263,10 +263,12 @@ GPL-3.0 License
   NUVEL-1 Global model of current plate motions
 - [`nuvel1_plates`](https://tobiste.github.io/tectonicr/reference/nuvel1_plates.md)
   : Plate Boundaries on the Earth
+- [`ot_eigen2d()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
+  [`principal_direction()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
+  [`orientation_strength()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
+  : Decomposition of Orientation Tensor
 - [`ortensor2d()`](https://tobiste.github.io/tectonicr/reference/ortensor2d.md)
-  : Orientation tensor
-- [`ot_eigen2d()`](https://tobiste.github.io/tectonicr/reference/ot_eigen2d.md)
-  : Decomposition of orientation tensor
+  : Orientation Tensor
 - [`parse_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm.md)
   [`quantise_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm.md)
   : Numerical values to World Stress Map Quality Ranking
