@@ -7,7 +7,7 @@
 ortensor2d(x, w = NULL, norm = FALSE)
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees.}
+\item{x}{numeric. Axial angular data (in degrees).}
 
 \item{w}{(optional) Weights. A vector of positive numbers and of the same
 length as \code{x}.}
@@ -18,15 +18,16 @@ length as \code{x}.}
 2x2 matrix
 }
 \description{
-2D orientation tensor, which characterizes data distribution using the
-Eigenvalue (Watson 1966, Scheidegger 1965).
+2D orientation tensor characterizes distribution of axial angles using the
+Eigenvalue method (Watson 1966, Scheidegger 1965).
 }
 \details{
-\deqn{E = x \cdot x^{T}} where \eqn{x} is the Cartesian vector of the
-orientations.
-}
-\note{
-Orientation tensor is also called  "inertia tensor".
+The moment of inertia can be minimised by calculating the Cartesian
+coordinates of the orientation data, and calculating their covariance matrix.
+This yields \deqn{I = x \cdot x^\intercal} where \eqn{x} is the Cartesian vector of the
+orientations. Orientation tensor \eqn{T} and the inertia tensor \eqn{I} are
+related by \deqn{I = E - T} where \eqn{E} denotes the unit matrix, so that
+\deqn{T = \frac{1}{n} \sum_{i=i}^{n} x_i \cdot x_i^\intercal}
 }
 \examples{
 test <- rvm(100, mean = 0, k = 10)
@@ -40,6 +41,11 @@ Scheidegger, A. E. (1964). The tectonic stress and tectonic motion direction
 in Europe and Western Asia as calculated from earthquake fault plane
 solutions. Bulletin of the Seismological Society of America, 54(5A),
 1519–1528. doi:10.1785/BSSA05405A1519
+
+Bachmann, F., Hielscher, R., Jupp, P. E., Pantleon, W., Schaeben, H., &
+Wegert, E. (2010). Inferential statistics of electron backscatter diffraction
+data from within individual crystalline grains. Journal of Applied
+Crystallography, 43(6), 1338–1355. https://doi.org/10.1107/S002188981003027X
 }
 \seealso{
 \code{\link[=ot_eigen2d]{ot_eigen2d()}}

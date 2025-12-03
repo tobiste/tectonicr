@@ -1289,20 +1289,22 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 
 #' Orientation Tensor
 #'
-#' 2D orientation tensor, which characterizes data distribution using the
-#' Eigenvalue (Watson 1966, Scheidegger 1965).
+#' 2D orientation tensor characterizes distribution of axial angles using the
+#' Eigenvalue method (Watson 1966, Scheidegger 1965).
 #'
-#' @inheritParams circular_mean
+#' @inheritParams ot_eigen2d
 #' @param norm logical. Whether the tensor should be normalized.
 #'
-#' @details \deqn{E = x \cdot x^{T}} where \eqn{x} is the Cartesian vector of the
-#' orientations.
+#' @details The moment of inertia can be minimised by calculating the Cartesian
+#' coordinates of the orientation data, and calculating their covariance matrix.
+#' This yields \deqn{I = x \cdot x^\intercal} where \eqn{x} is the Cartesian vector of the
+#' orientations. Orientation tensor \eqn{T} and the inertia tensor \eqn{I} are
+#' related by \deqn{I = E - T} where \eqn{E} denotes the unit matrix, so that
+#' \deqn{T = \frac{1}{n} \sum_{i=i}^{n} x_i \cdot x_i^\intercal}
 #'
 #' @return 2x2 matrix
 #' @export
 #' @seealso [ot_eigen2d()]
-#'
-#' @note Orientation tensor is also called  "inertia tensor".
 #'
 #' @references
 #' Watson, G. S. (1966). The Statistics of Orientation Data. The Journal of
@@ -1312,6 +1314,11 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 #' in Europe and Western Asia as calculated from earthquake fault plane
 #' solutions. Bulletin of the Seismological Society of America, 54(5A),
 #' 1519–1528. doi:10.1785/BSSA05405A1519
+#'
+#' Bachmann, F., Hielscher, R., Jupp, P. E., Pantleon, W., Schaeben, H., &
+#' Wegert, E. (2010). Inferential statistics of electron backscatter diffraction
+#' data from within individual crystalline grains. Journal of Applied
+#' Crystallography, 43(6), 1338–1355. https://doi.org/10.1107/S002188981003027X
 #'
 #' @examples
 #' test <- rvm(100, mean = 0, k = 10)
@@ -1332,32 +1339,36 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
   1 / Z * (t(v) %*% v)
 }
 
-#' Decomposition of Orientation Tensor
+#' Decomposition of Orientation Tensor in 2D
 #'
-#' Eigenvector decomposition of the orientation tensor
+#' Spectral decomposition of the 2D orientation tensor into two Eigenvectors and
+#' corresponding Eigenvalues provides provides a measure of location and a
+#' corresponding measure of dispersion, respectively.
 #'
 #' @inheritParams circular_mean
+#' @param x numeric. Axial angular data (in degrees).
 #' @param scale logical. Whether the Eigenvalues should be scaled so they sum
 #' up to 1. Only applicable when weighting are specified,
 #' otherwise the eigenvalues are always scaled.
 #'
-#' @return `ot_eigen2d` returns a list of the Eigenvalues and the angles corresponding to the Eigenvectors.
-#' `principal_direction()` and `orientation_strength()` are convenience functions
-#' to return the orientation of the largest eigenvalue, and the orientation strength, respectively.
+#' @return `ot_eigen2d` returns a list of the Eigenvalues and the axial angles corresponding to the Eigenvectors.
+#' `principal_direction()`, `orientation_strength()` and `axial_dispersion()` are convenience functions
+#' to return the orientation of the largest eigenvalue, the orientation strength, the axial dispersion respectively.
 #' @name ort-eigen
 #' @seealso [ortensor2d()]
 #'
 #' @details
-#' The two perpendicular **Eigenvectors** are the "principal directions" towards the
+#' The **Eigenvalues** (\eqn{\lambda_1 > \lambda_2}) can be
+#' interpreted as the fractions of the variance explained by the
+#' orientation of the associated Eigenvectors.
+#' The two perpendicular **Eigenvectors** (\eqn{a_1, a_2}) are the "principal directions" with respect to the
 #' highest and the lowest concentration of orientation data.
 #'
-#' The **Eigenvalues** can be
-#' interpreted as the fractions of the data explained by the
-#' orientation of the associated principal direction.
-#' Thus, the strength of the orientation is the largest eigenvalue normalized
-#' by the sum of the eigenvalues (`scale=TRUE`).
+#' The strength of the orientation is the largest eigenvalue \eqn{\lambda_1} normalized
+#' by the sum of the eigenvalues (`scale=TRUE`). Then \eqn{1-\lambda_1} is a
+#' **measure of dispersion** of 2D orientation data with respect to \eqn{a_1}.
 #'
-#' @note Eigenvalues and eigenvectors of the orientation tensor (inertia tensor) are also called
+#' @note Eigenvalues and Eigenvectors of the orientation tensor (inertia tensor) are also called
 #' "principle moments of inertia"  and "principle axes of inertia", respectively.
 #'
 #' @examples
@@ -1383,19 +1394,20 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
 #' principal_direction(sa.por$azi.PoR)
 #'
 #' orientation_strength(sa.por$azi.PoR)
+#'
+#' axial_dispersion(sa.por$azi.PoR)
 NULL
 
 #' @rdname ort-eigen
 #' @export
-ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE) {
-  f <- if (isTRUE(axial)) 2 else 1
-
-  ot <- ortensor2d(f * x, w)
+ot_eigen2d <- function(x, w = NULL, scale = FALSE) {
+  ot <- ortensor2d(x, w)
   eig <- eigen(ot)
 
   ev <- t(eig$vectors)
-  ev1 <- atand(ev[1, 2] / ev[1, 1]) / f
-  eig$vectors <- c(ev1, ev1 + 90) %% (360 / f)
+  #ev1 <- atand(ev[1, 2] / ev[1, 1]) / f
+  #eig$vectors <- c(ev1, ev1 + 90) %% (360 / f)
+  eig$vectors <- atand(ev[, 2] / ev[, 1]) %% 180
 
   if (isTRUE(scale)) eig$values <- eig$values / sum(eig$values)
 
@@ -1404,14 +1416,20 @@ ot_eigen2d <- function(x, w = NULL, axial = TRUE, scale = FALSE) {
 
 #' @rdname ort-eigen
 #' @export
-principal_direction <- function(x, w = NULL, axial = TRUE) {
-  oeig <- ot_eigen2d(x, w, axial)
+principal_direction <- function(x, w = NULL) {
+  oeig <- ot_eigen2d(x, w)
   oeig$vectors[1]
 }
 
 #' @rdname ort-eigen
 #' @export
-orientation_strength <- function(x, w = NULL, axial = TRUE) {
-  oeig <- ot_eigen2d(x, w, axial, scale = TRUE)
+orientation_strength <- function(x, w = NULL) {
+  oeig <- ot_eigen2d(x, w, scale = TRUE)
   oeig$values[1]
+}
+
+#' @rdname ort-eigen
+#' @export
+axial_dispersion <- function(x, w = NULL) {
+  1 - orientation_strength(x, w)
 }

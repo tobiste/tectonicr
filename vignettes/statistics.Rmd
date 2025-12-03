@@ -146,6 +146,8 @@ The summary statistics additionally include the circular
 quasi-quantiles, the variance, the skewness, the kurtosis, the mode, the
 95% confidence angle, and the mean resultant length (R).
 
+
+
 ## Rose diagram
 
 **tectonicr** provides a rose diagram, i.e. histogram for angular data.
@@ -282,6 +284,72 @@ circular dispersion can be estimated by bootstrapping via:
 circular_dispersion_boot(san_andreas.por$azi.PoR, y = 135, w = w, R = 1000)
 ```
 
+### Orientation tensor
+
+For axial orientation data, summary statistics can also be expressed by the orientation tensor.
+The orientation tensor is related to the moment of intertia given, that is minimised by calculating the Cartesian
+coordinates of the orientation data, and calculating their covariance matrix:
+
+$$
+\begin{split}
+  I = &
+  \left[
+    \begin{array}{@{}cc@{}}
+      s_x^2 & s_{x,y} \\
+      s_{y,x} & s_y^2
+    \end{array}
+    \right] =
+  \left[
+    \begin{array}{@{}cc@{}}
+      \frac{1}{n}\sum\limits_{i=1}^{n} (x_i-0)^2 & 
+      \frac{1}{n}\sum\limits_{i=1}^{n} (x_i-0)(y_i-0) \\
+      \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)(x_i-0) &
+      \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)^2
+    \end{array}
+    \right] \\
+  ~ & =
+  \frac{1}{n}
+  \left[
+    \begin{array}{@{}cc@{}}
+      \sum\limits_{i=1}^{n} x_i^2 & 
+      \sum\limits_{i=1}^{n} x_iy_i \\
+      \sum\limits_{i=1}^{n} x_iy_i &
+      \sum\limits_{i=1}^{n} y_i^2
+    \end{array}
+    \right] =
+  \sum\limits_{i=1}^{n}
+  \left[
+    \begin{array}{@{}c@{}}
+      x_i \\ y_i
+    \end{array}
+    \right]
+  \left[
+    \begin{array}{@{}cc@{}}
+      x_i & y_i
+    \end{array}
+    \right]
+  \end{split}
+  $$
+
+Orientation tensor $T$ and the inertia tensor $I$ are related by $I = E - T$ where $E$ denotes the unit matrix, so that $$T = \frac{1}{n} \sum_{i=i}^{n} x_i \cdot x_i^\intercal$$.
+
+The spectral decomposition of the 2D orientation tensor into two Eigenvectors and
+corresponding Eigenvalues provides provides a measure of location and a corresponding measure of dispersion, respectively.
+
+The function `ot_eigen2d()`calculates the orientation tensor and extracts the Eigenvalues and Eigenvectors. The function accepts the weightings of the data:
+
+```{r otensor}
+ot_eigen2d(san_andreas.por$azi.PoR, w)
+```
+
+The **Eigenvalues** ($\lambda_1 > \lambda_2$) can be interpreted as the fractions of the variance explained by the orientation of the associated Eigenvectors.
+The two perpendicular **Eigenvectors** ($a_1, a_2$) are the "principal directions" with respect to the
+highest and the lowest concentration of orientation data.
+
+The strength of the orientation is the largest eigenvalue $\lambda_1$ normalized
+by the sum of the eigenvalues. Then $1-\lambda_1$ is a
+**measure of dispersion** of 2D orientation data with respect to $a_1$.
+
 ### Rayleigh Test
 
 The statistical test for the goodness-of-fit is the (weighted)
@@ -310,7 +378,7 @@ Stephan, T., & Enkelmann, E. (2025). All Aligned on the Western Front of
 North America? Analyzing the Stress Field in the Northern Cordillera.
 Tectonics, 44(9). <https://doi.org/10.1029/2025TC009014>
 
-Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab
-Script Stress2Grid” GFZ German Research Centre for Geosciences; World
+Ziegler, Moritz O., and Oliver Heidbach. 2017. "Manual of the Matlab
+Script Stress2Grid" GFZ German Research Centre for Geosciences; World
 Stress Map Technical Report 17-02. doi:
 [10.5880/wsm.2017.002](https://doi.org/10.5880/wsm.2017.002).

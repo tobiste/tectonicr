@@ -5,47 +5,50 @@
 \alias{ot_eigen2d}
 \alias{principal_direction}
 \alias{orientation_strength}
-\title{Decomposition of Orientation Tensor}
+\alias{axial_dispersion}
+\title{Decomposition of Orientation Tensor in 2D}
 \usage{
-ot_eigen2d(x, w = NULL, axial = TRUE, scale = FALSE)
+ot_eigen2d(x, w = NULL, scale = FALSE)
 
-principal_direction(x, w = NULL, axial = TRUE)
+principal_direction(x, w = NULL)
 
-orientation_strength(x, w = NULL, axial = TRUE)
+orientation_strength(x, w = NULL)
+
+axial_dispersion(x, w = NULL)
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees.}
+\item{x}{numeric. Axial angular data (in degrees).}
 
 \item{w}{(optional) Weights. A vector of positive numbers and of the same
 length as \code{x}.}
-
-\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{scale}{logical. Whether the Eigenvalues should be scaled so they sum
 up to 1. Only applicable when weighting are specified,
 otherwise the eigenvalues are always scaled.}
 }
 \value{
-\code{ot_eigen2d} returns a list of the Eigenvalues and the angles corresponding to the Eigenvectors.
-\code{principal_direction()} and \code{orientation_strength()} are convenience functions
-to return the orientation of the largest eigenvalue, and the orientation strength, respectively.
+\code{ot_eigen2d} returns a list of the Eigenvalues and the axial angles corresponding to the Eigenvectors.
+\code{principal_direction()}, \code{orientation_strength()} and \code{axial_dispersion()} are convenience functions
+to return the orientation of the largest eigenvalue, the orientation strength, the axial dispersion respectively.
 }
 \description{
-Eigenvector decomposition of the orientation tensor
+Spectral decomposition of the 2D orientation tensor into two Eigenvectors and
+corresponding Eigenvalues provides provides a measure of location and a
+corresponding measure of dispersion, respectively.
 }
 \details{
-The two perpendicular \strong{Eigenvectors} are the "principal directions" towards the
+The \strong{Eigenvalues} (\eqn{\lambda_1 > \lambda_2}) can be
+interpreted as the fractions of the variance explained by the
+orientation of the associated Eigenvectors.
+The two perpendicular \strong{Eigenvectors} (\eqn{a_1, a_2}) are the "principal directions" with respect to the
 highest and the lowest concentration of orientation data.
 
-The \strong{Eigenvalues} can be
-interpreted as the fractions of the data explained by the
-orientation of the associated principal direction.
-Thus, the strength of the orientation is the largest eigenvalue normalized
-by the sum of the eigenvalues (\code{scale=TRUE}).
+The strength of the orientation is the largest eigenvalue \eqn{\lambda_1} normalized
+by the sum of the eigenvalues (\code{scale=TRUE}). Then \eqn{1-\lambda_1} is a
+\strong{measure of dispersion} of 2D orientation data with respect to \eqn{a_1}.
 }
 \note{
-Eigenvalues and eigenvectors of the orientation tensor (inertia tensor) are also called
+Eigenvalues and Eigenvectors of the orientation tensor (inertia tensor) are also called
 "principle moments of inertia"  and "principle axes of inertia", respectively.
 }
 \examples{
@@ -71,6 +74,8 @@ graphics::legend("topright",
 principal_direction(sa.por$azi.PoR)
 
 orientation_strength(sa.por$azi.PoR)
+
+axial_dispersion(sa.por$azi.PoR)
 }
 \seealso{
 \code{\link[=ortensor2d]{ortensor2d()}}
