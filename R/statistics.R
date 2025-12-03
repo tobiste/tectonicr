@@ -1295,7 +1295,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 #' @inheritParams circular_mean
 #' @param norm logical. Whether the tensor should be normalized.
 #'
-#' @note \deqn{E = x \cdot x^{T}} where \eqn{x} is the Cartesian vector of the
+#' @details \deqn{E = x \cdot x^{T}} where \eqn{x} is the Cartesian vector of the
 #' orientations.
 #'
 #' @return 2x2 matrix

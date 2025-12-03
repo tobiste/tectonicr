@@ -21,10 +21,11 @@ length as \code{x}.}
 2D orientation tensor, which characterizes data distribution using the
 Eigenvalue (Watson 1966, Scheidegger 1965).
 }
-\note{
+\details{
 \deqn{E = x \cdot x^{T}} where \eqn{x} is the Cartesian vector of the
 orientations.
-
+}
+\note{
 Orientation tensor is also called  "inertia tensor".
 }
 \examples{
