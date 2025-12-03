@@ -85,7 +85,7 @@ ggplot(spatial_stats) +
 ```
 
 To filter the range of search windows to only keep the shortest wavelength (R) 
-with the least variance for each grid cell, use compact_grid2().
+with the least variance for each grid cell, use `compact_grid2()`.
 
 ```{r}
 spatial_stats_comp <- spatial_stats |>
