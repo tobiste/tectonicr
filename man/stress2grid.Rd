@@ -7,7 +7,7 @@
 \usage{
 stress2grid(
   x,
-  stat = c("mean", "median"),
+  stat = c("mean", "median", "tensor"),
   grid = NULL,
   lon_range = NULL,
   lat_range = NULL,
@@ -63,8 +63,9 @@ of SHmax}
 }}
 
 \item{stat}{whether the direction of interpolated SHmax is based on the
-circular mean and standard deviation (\code{"mean"}, the default) or the
-quasi-circular median and quasi-interquartile range (\code{"median"}).}
+circular mean and standard deviation (\code{"mean"}, the default), the
+quasi-circular median and quasi-interquartile range (\code{"median"}), or the
+orientation tensor based principal direction and dispersion ("tensor").}
 
 \item{grid}{(optional) Point object of class \code{sf}.}
 
@@ -159,6 +160,8 @@ data("san_andreas")
 
 # Inverse Distance Weighting interpolation:
 stress2grid(san_andreas, stat = "median") |> head()
+
+stress2grid(san_andreas, stat = "tensor") |> head()
 
 # Nearest Neighbor interpolation:
 stress2grid(san_andreas, stat = "median", max_data = 5) |> head()

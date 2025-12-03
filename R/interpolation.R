@@ -41,6 +41,12 @@ wcmedian <- function(x, w) {
   unname(c(median_s, iqr_s))
 }
 
+wprincipal <- function(x, w) {
+  ot <- ot_eigen2d(x, w, scale = TRUE)
+  c(ot$vectors[1], ot$values[2])
+}
+
+
 #' @keywords internal
 dist_weighting_linear <- function(R_search, dist_threshold, distij, idp = 0) {
   dist_threshold_scal <- R_search * dist_threshold
@@ -83,8 +89,9 @@ which.nsmallest <- function(x, n) {
 #' @param gridsize numeric. Target spacing of the regular grid in decimal
 #' degree. Default is `2.5`. (is ignored if `grid` is specified)
 #' @param stat whether the direction of interpolated SHmax is based on the
-#' circular mean and standard deviation (`"mean"`, the default) or the
-#' quasi-circular median and quasi-interquartile range (`"median"`).
+#' circular mean and standard deviation (`"mean"`, the default), the
+#' quasi-circular median and quasi-interquartile range (`"median"`), or the
+#' orientation tensor based principal direction and dispersion ("tensor").
 #' @param min_data integer. If the number of observations within distance
 #' `R_range` is less than `min_data`, a missing value `NA` will be generated.
 #' Default is `3` for [stress2grid()] and `4` for [stress2grid_stats()].
@@ -160,6 +167,8 @@ which.nsmallest <- function(x, n) {
 #' # Inverse Distance Weighting interpolation:
 #' stress2grid(san_andreas, stat = "median") |> head()
 #'
+#' stress2grid(san_andreas, stat = "tensor") |> head()
+#'
 #' # Nearest Neighbor interpolation:
 #' stress2grid(san_andreas, stat = "median", max_data = 5) |> head()
 #'
@@ -171,7 +180,7 @@ NULL
 #' @rdname stress2grid
 #' @export
 stress2grid <- function(x,
-                        stat = c("mean", "median"),
+                        stat = c("mean", "median", "tensor"),
                         grid = NULL,
                         lon_range = NULL,
                         lat_range = NULL,
@@ -233,7 +242,7 @@ stress2grid <- function(x,
   w_distance_fun <- if (dist_weighting == "linear") dist_weighting_linear else dist_weighting_inverse
 
   stat <- match.arg(stat)
-  stats_fun <- if (stat == "median") wcmedian else wcmean
+  stats_fun <- if (stat == "median") wcmedian else if(stat == "tensor") wprincipal else wcmean
 
   colnames_x <- colnames(x)
 
