@@ -1295,7 +1295,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
 #' @inheritParams ot_eigen2d
 #' @param norm logical. Whether the tensor should be normalized.
 #'
-#' @details The moment of inertia can be minimised by calculating the Cartesian
+#' @details The moment of inertia can be minimized by calculating the Cartesian
 #' coordinates of the orientation data, and calculating their covariance matrix.
 #' This yields \deqn{I = x \cdot x^\intercal} where \eqn{x} is the Cartesian vector of the
 #' orientations. Orientation tensor \eqn{T} and the inertia tensor \eqn{I} are
@@ -1352,7 +1352,7 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
 #' otherwise the eigenvalues are always scaled.
 #'
 #' @return `ot_eigen2d` returns a list of the Eigenvalues and the axial angles corresponding to the Eigenvectors.
-#' `principal_direction()`, `orientation_strength()` and `axial_dispersion()` are convenience functions
+#' `principal_direction()`, `axial_strength()` and `axial_dispersion()` are convenience functions
 #' to return the orientation of the largest eigenvalue, the orientation strength, the axial dispersion respectively.
 #' @name ort-eigen
 #' @seealso [ortensor2d()]
@@ -1365,15 +1365,15 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
 #' highest and the lowest concentration of orientation data.
 #'
 #' The strength of the orientation is the largest eigenvalue \eqn{\lambda_1} normalized
-#' by the sum of the eigenvalues (`scale=TRUE`). Then \eqn{1-\lambda_1} is a
+#' by the sum of the eigenvalues (`scale=TRUE`). Then \eqn{\lambda_2 = 1-\lambda_1} is a
 #' **measure of dispersion** of 2D orientation data with respect to \eqn{a_1}.
 #'
 #' @note Eigenvalues and Eigenvectors of the orientation tensor (inertia tensor) are also called
 #' "principle moments of inertia"  and "principle axes of inertia", respectively.
 #'
 #' @examples
-#' test <- rvm(100, mean = 0, k = 10)
-#' ot_eigen2d(test, axial = FALSE)
+#' test <- rvm(100, mean = 0, k = 10) /2
+#' ot_eigen2d(test)
 #'
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -1393,7 +1393,7 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
 #'
 #' principal_direction(sa.por$azi.PoR)
 #'
-#' orientation_strength(sa.por$azi.PoR)
+#' axial_strength(sa.por$azi.PoR)
 #'
 #' axial_dispersion(sa.por$azi.PoR)
 NULL
@@ -1405,9 +1405,7 @@ ot_eigen2d <- function(x, w = NULL, scale = FALSE) {
   eig <- eigen(ot)
 
   ev <- t(eig$vectors)
-  #ev1 <- atand(ev[1, 2] / ev[1, 1]) / f
-  #eig$vectors <- c(ev1, ev1 + 90) %% (360 / f)
-  eig$vectors <- atand(ev[, 2] / ev[, 1]) %% 180
+  eig$vectors <- atand(ev[, 2] / ev[, 1])
 
   if (isTRUE(scale)) eig$values <- eig$values / sum(eig$values)
 
@@ -1423,7 +1421,7 @@ principal_direction <- function(x, w = NULL) {
 
 #' @rdname ort-eigen
 #' @export
-orientation_strength <- function(x, w = NULL) {
+axial_strength <- function(x, w = NULL) {
   oeig <- ot_eigen2d(x, w, scale = TRUE)
   oeig$values[1]
 }
@@ -1431,5 +1429,6 @@ orientation_strength <- function(x, w = NULL) {
 #' @rdname ort-eigen
 #' @export
 axial_dispersion <- function(x, w = NULL) {
-  1 - orientation_strength(x, w)
+  oeig <- ot_eigen2d(x, w, scale = TRUE)
+  oeig$values[2]
 }

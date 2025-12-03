@@ -22,7 +22,7 @@ length as \code{x}.}
 Eigenvalue method (Watson 1966, Scheidegger 1965).
 }
 \details{
-The moment of inertia can be minimised by calculating the Cartesian
+The moment of inertia can be minimized by calculating the Cartesian
 coordinates of the orientation data, and calculating their covariance matrix.
 This yields \deqn{I = x \cdot x^\intercal} where \eqn{x} is the Cartesian vector of the
 orientations. Orientation tensor \eqn{T} and the inertia tensor \eqn{I} are

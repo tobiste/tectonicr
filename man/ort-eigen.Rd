@@ -4,7 +4,7 @@
 \alias{ort-eigen}
 \alias{ot_eigen2d}
 \alias{principal_direction}
-\alias{orientation_strength}
+\alias{axial_strength}
 \alias{axial_dispersion}
 \title{Decomposition of Orientation Tensor in 2D}
 \usage{
@@ -12,7 +12,7 @@ ot_eigen2d(x, w = NULL, scale = FALSE)
 
 principal_direction(x, w = NULL)
 
-orientation_strength(x, w = NULL)
+axial_strength(x, w = NULL)
 
 axial_dispersion(x, w = NULL)
 }
@@ -28,7 +28,7 @@ otherwise the eigenvalues are always scaled.}
 }
 \value{
 \code{ot_eigen2d} returns a list of the Eigenvalues and the axial angles corresponding to the Eigenvectors.
-\code{principal_direction()}, \code{orientation_strength()} and \code{axial_dispersion()} are convenience functions
+\code{principal_direction()}, \code{axial_strength()} and \code{axial_dispersion()} are convenience functions
 to return the orientation of the largest eigenvalue, the orientation strength, the axial dispersion respectively.
 }
 \description{
@@ -44,7 +44,7 @@ The two perpendicular \strong{Eigenvectors} (\eqn{a_1, a_2}) are the "principal 
 highest and the lowest concentration of orientation data.
 
 The strength of the orientation is the largest eigenvalue \eqn{\lambda_1} normalized
-by the sum of the eigenvalues (\code{scale=TRUE}). Then \eqn{1-\lambda_1} is a
+by the sum of the eigenvalues (\code{scale=TRUE}). Then \eqn{\lambda_2 = 1-\lambda_1} is a
 \strong{measure of dispersion} of 2D orientation data with respect to \eqn{a_1}.
 }
 \note{
@@ -52,8 +52,8 @@ Eigenvalues and Eigenvectors of the orientation tensor (inertia tensor) are also
 "principle moments of inertia"  and "principle axes of inertia", respectively.
 }
 \examples{
-test <- rvm(100, mean = 0, k = 10)
-ot_eigen2d(test, axial = FALSE)
+test <- rvm(100, mean = 0, k = 10) /2
+ot_eigen2d(test)
 
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -73,7 +73,7 @@ graphics::legend("topright",
 
 principal_direction(sa.por$azi.PoR)
 
-orientation_strength(sa.por$azi.PoR)
+axial_strength(sa.por$azi.PoR)
 
 axial_dispersion(sa.por$azi.PoR)
 }
