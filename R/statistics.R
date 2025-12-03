@@ -1404,8 +1404,8 @@ ot_eigen2d <- function(x, w = NULL, scale = FALSE) {
   ot <- ortensor2d(x, w)
   eig <- eigen(ot)
 
-  ev <- t(eig$vectors)
-  eig$vectors <- atand(ev[, 2] / ev[, 1])
+  ev <- eig$vectors
+  eig$vectors <- atand(ev[2, ] / ev[1, ])
 
   if (isTRUE(scale)) eig$values <- eig$values / sum(eig$values)
 
