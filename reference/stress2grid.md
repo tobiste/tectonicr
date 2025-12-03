@@ -10,7 +10,7 @@ nearest-neighbor interpolations (NN).
 ``` r
 stress2grid(
   x,
-  stat = c("mean", "median"),
+  stat = c("mean", "median", "tensor"),
   grid = NULL,
   lon_range = NULL,
   lat_range = NULL,
@@ -79,8 +79,10 @@ stress2grid_stats(
 - stat:
 
   whether the direction of interpolated SHmax is based on the circular
-  mean and standard deviation (`"mean"`, the default) or the
-  quasi-circular median and quasi-interquartile range (`"median"`).
+  mean and standard deviation (`"mean"`, the default), the
+  quasi-circular median and quasi-interquartile range (`"median"`), or
+  the orientation tensor based principal direction and dispersion
+  ("tensor").
 
 - grid:
 
@@ -257,6 +259,20 @@ stress2grid(san_andreas, stat = "median") |> head()
 #> 4 -112.82 24.08 163.0000  1 300  17 0.7787910 POINT (-112.82 24.08)
 #> 5 -112.82 24.08 163.0000  0 350  73 0.8790139 POINT (-112.82 24.08)
 #> 6 -112.82 24.08 165.0000  0 400 127 0.8402209 POINT (-112.82 24.08)
+
+stress2grid(san_andreas, stat = "tensor") |> head()
+#> Simple feature collection with 6 features and 7 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -112.82 ymin: 24.08 xmax: -112.82 ymax: 24.08
+#> Geodetic CRS:  WGS 84
+#>       lon   lat        azi         sd   R   N       mdr              geometry
+#> 1 -112.82 24.08 -15.084872 0.15607975 150   4 0.8224433 POINT (-112.82 24.08)
+#> 2 -112.82 24.08 -15.084872 0.15607975 200   4 0.6168325 POINT (-112.82 24.08)
+#> 3 -112.82 24.08 -22.098607 0.10914104 250   7 0.6785179 POINT (-112.82 24.08)
+#> 4 -112.82 24.08 -15.989161 0.06416128 300  17 0.7787910 POINT (-112.82 24.08)
+#> 5 -112.82 24.08  -9.946535 0.07734405 350  73 0.8790139 POINT (-112.82 24.08)
+#> 6 -112.82 24.08  -6.041035 0.07223013 400 127 0.8402209 POINT (-112.82 24.08)
 
 # Nearest Neighbor interpolation:
 stress2grid(san_andreas, stat = "median", max_data = 5) |> head()

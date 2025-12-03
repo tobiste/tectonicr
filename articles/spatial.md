@@ -110,7 +110,7 @@ ggplot(spatial_stats) +
 
 To filter the range of search windows to only keep the shortest
 wavelength (R) with the least variance for each grid cell, use
-compact_grid2().
+[`compact_grid2()`](https://tobiste.github.io/tectonicr/reference/compact-grid.md).
 
 ``` r
 spatial_stats_comp <- spatial_stats |>

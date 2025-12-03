@@ -93,8 +93,8 @@ and display the lateral patterns of stress anomalies.</p>
 <div class="section level4">
 <h4 id="geographic-coordinate-system">Geographic coordinate system<a class="anchor" aria-label="anchor" href="#geographic-coordinate-system"></a>
 </h4>
-<p>Spatial interpolation of stress data is based on the aforementioned
-metrics:</p>
+<p>Spatial interpolation of stress data is based on the weighted
+statistical metrics:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The default settings apply quality and inverse distance weighting of

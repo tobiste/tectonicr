@@ -20,8 +20,8 @@ por <- cpm_models[["NNR-MORVEL56"]] |>
 
 #### Geographic coordinate system
 
-Spatial interpolation of stress data is based on the aforementioned
-metrics:
+Spatial interpolation of stress data is based on the weighted
+statistical metrics:
 
 ``` r
 mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
