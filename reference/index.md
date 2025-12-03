@@ -130,8 +130,9 @@
   : Plate Boundaries on the Earth
 - [`ot_eigen2d()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
   [`principal_direction()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
-  [`orientation_strength()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
-  : Decomposition of Orientation Tensor
+  [`axial_strength()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
+  [`axial_dispersion()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)
+  : Decomposition of Orientation Tensor in 2D
 - [`ortensor2d()`](https://tobiste.github.io/tectonicr/reference/ortensor2d.md)
   : Orientation Tensor
 - [`parse_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm.md)

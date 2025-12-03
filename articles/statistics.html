@@ -401,6 +401,94 @@ circular dispersion can be estimated by bootstrapping via:</p>
 <span><span class="co">#&gt; [1] 0.2422241 0.2861837</span></span></code></pre></div>
 </div>
 <div class="section level4">
+<h4 id="orientation-tensor">Orientation tensor<a class="anchor" aria-label="anchor" href="#orientation-tensor"></a>
+</h4>
+<p>For axial orientation data, summary statistics can also be expressed
+by the 2D orientation tensor. The orientation tensor is related to the
+moment of inertia given, that is minimized by calculating the Cartesian
+coordinates of the orientation data, and calculating their covariance
+matrix:</p>
+<p><span class="math display">$$
+\begin{split}
+  I = &amp;
+  \left[
+    \begin{array}{@{}cc@{}}
+      s_x^2 &amp; s_{x,y} \\
+      s_{y,x} &amp; s_y^2
+    \end{array}
+    \right] =
+  \left[
+    \begin{array}{@{}cc@{}}
+      \frac{1}{n}\sum\limits_{i=1}^{n} (x_i-0)^2 &amp;
+      \frac{1}{n}\sum\limits_{i=1}^{n} (x_i-0)(y_i-0) \\
+      \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)(x_i-0) &amp;
+      \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)^2
+    \end{array}
+    \right] \\
+  ~ &amp; =
+  \frac{1}{n}
+  \left[
+    \begin{array}{@{}cc@{}}
+      \sum\limits_{i=1}^{n} x_i^2 &amp;
+      \sum\limits_{i=1}^{n} x_iy_i \\
+      \sum\limits_{i=1}^{n} x_iy_i &amp;
+      \sum\limits_{i=1}^{n} y_i^2
+    \end{array}
+    \right] =
+  \sum\limits_{i=1}^{n}
+  \left[
+    \begin{array}{@{}c@{}}
+      x_i \\ y_i
+    \end{array}
+    \right]
+  \left[
+    \begin{array}{@{}cc@{}}
+      x_i &amp; y_i
+    \end{array}
+    \right]
+  \end{split}
+  $$</span></p>
+<p>Orientation tensor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+and the inertia tensor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+are related by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>=</mo><mi>E</mi><mo>−</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">I = E - T</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+denotes the unit matrix, so that
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mi>i</mi></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub><mo>⋅</mo><msubsup><mi>x</mi><mi>i</mi><mo>⊺</mo></msubsup></mrow><annotation encoding="application/x-tex">T = \frac{1}{n} \sum_{i=i}^{n} x_i \cdot x_i^\intercal</annotation></semantics></math>.</p>
+<p>The spectral decomposition of the 2D orientation tensor into two
+Eigenvectors and corresponding Eigenvalues provides provides a measure
+of location and a corresponding measure of dispersion, respectively.</p>
+<p>The function <code><a href="../reference/ort-eigen.html">ot_eigen2d()</a></code>calculates the orientation
+tensor and extracts the Eigenvalues and Eigenvectors. The function
+accepts the weightings of the data:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ort-eigen.html">ot_eigen2d</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="va">w</span><span class="op">)</span></span>
+<span><span class="co">#&gt; eigen() decomposition</span></span>
+<span><span class="co">#&gt; $values</span></span>
+<span><span class="co">#&gt; [1] 0.7259300 0.1054388</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $vectors</span></span>
+<span><span class="co">#&gt; [1] -40.25985  49.74015</span></span></code></pre></div>
+<p>The <strong>Eigenvalues</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mn>1</mn></msub><mo>&gt;</mo><msub><mi>λ</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\lambda_1 &gt; \lambda_2</annotation></semantics></math>)
+can be interpreted as the fractions of the variance explained by the
+orientation of the associated Eigenvectors. The two perpendicular
+<strong>Eigenvectors</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>,</mo><msub><mi>a</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">a_1, a_2</annotation></semantics></math>)
+are the “principal directions” with respect to the highest and the
+lowest concentration of orientation data.</p>
+<p>The strength of the orientation is the largest Eigenvalue
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\lambda_1</annotation></semantics></math>
+normalized by the sum of the eigenvalues. The smallest Eigenvalue
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\lambda_2</annotation></semantics></math>
+is a <strong>measure of dispersion</strong> of 2D orientation data with
+respect to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mn>1</mn></msub><annotation encoding="application/x-tex">a_1</annotation></semantics></math>.</p>
+</div>
+<div class="section level4">
 <h4 id="rayleigh-test">Rayleigh Test<a class="anchor" aria-label="anchor" href="#rayleigh-test"></a>
 </h4>
 <p>The statistical test for the goodness-of-fit is the (weighted)
@@ -409,7 +497,7 @@ the Western Front of North America? Analyzing the Stress Field in the
 Northern Cordillera. Tectonics, 44(9). &lt;a href="https://doi.org/10.1029/2025TC009014" class="external-link uri"&gt;https://doi.org/10.1029/2025TC009014&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> with a specified mean direction (here the
 predicted direction of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>135</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">135^{\circ}</annotation></semantics></math>):</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="co">#&gt; $C</span></span>

@@ -305,6 +305,61 @@ circular_dispersion_boot(san_andreas.por$azi.PoR, y = 135, w = w, R = 1000)
 #> [1] 0.2422241 0.2861837
 ```
 
+#### Orientation tensor
+
+For axial orientation data, summary statistics can also be expressed by
+the 2D orientation tensor. The orientation tensor is related to the
+moment of inertia given, that is minimized by calculating the Cartesian
+coordinates of the orientation data, and calculating their covariance
+matrix:
+
+\$\$ \begin{split} I = & \left\[ \begin{array}{@{}cc@{}} s_x^2 &
+s\_{x,y} \\ s\_{y,x} & s_y^2 \end{array} \right\] = \left\[
+\begin{array}{@{}cc@{}} \frac{1}{n}\sum\limits\_{i=1}^{n} (x_i-0)^2 &
+\frac{1}{n}\sum\limits\_{i=1}^{n} (x_i-0)(y_i-0) \\
+\frac{1}{n}\sum\limits\_{i=1}^{n} (y_i-0)(x_i-0) &
+\frac{1}{n}\sum\limits\_{i=1}^{n} (y_i-0)^2 \end{array} \right\] \\ ~ &
+= \frac{1}{n} \left\[ \begin{array}{@{}cc@{}} \sum\limits\_{i=1}^{n}
+x_i^2 & \sum\limits\_{i=1}^{n} x_iy_i \\ \sum\limits\_{i=1}^{n} x_iy_i &
+\sum\limits\_{i=1}^{n} y_i^2 \end{array} \right\] =
+\sum\limits\_{i=1}^{n} \left\[ \begin{array}{@{}c@{}} x_i \\ y_i
+\end{array} \right\] \left\[ \begin{array}{@{}cc@{}} x_i & y_i
+\end{array} \right\] \end{split} \$\$
+
+Orientation tensor $T$ and the inertia tensor $I$ are related by
+$I = E - T$ where $E$ denotes the unit matrix, so that
+$$T = \frac{1}{n}\sum\limits_{i = i}^{n}x_{i} \cdot x_{i}^{\intercal}$$.
+
+The spectral decomposition of the 2D orientation tensor into two
+Eigenvectors and corresponding Eigenvalues provides provides a measure
+of location and a corresponding measure of dispersion, respectively.
+
+The function
+[`ot_eigen2d()`](https://tobiste.github.io/tectonicr/reference/ort-eigen.md)calculates
+the orientation tensor and extracts the Eigenvalues and Eigenvectors.
+The function accepts the weightings of the data:
+
+``` r
+ot_eigen2d(san_andreas.por$azi.PoR, w)
+#> eigen() decomposition
+#> $values
+#> [1] 0.7259300 0.1054388
+#> 
+#> $vectors
+#> [1] -40.25985  49.74015
+```
+
+The **Eigenvalues** ($\lambda_{1} > \lambda_{2}$) can be interpreted as
+the fractions of the variance explained by the orientation of the
+associated Eigenvectors. The two perpendicular **Eigenvectors**
+($a_{1},a_{2}$) are the “principal directions” with respect to the
+highest and the lowest concentration of orientation data.
+
+The strength of the orientation is the largest Eigenvalue $\lambda_{1}$
+normalized by the sum of the eigenvalues. The smallest Eigenvalue
+$\lambda_{2}$ is a **measure of dispersion** of 2D orientation data with
+respect to $a_{1}$.
+
 #### Rayleigh Test
 
 The statistical test for the goodness-of-fit is the (weighted)

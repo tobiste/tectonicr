@@ -1,32 +1,31 @@
-# Decomposition of Orientation Tensor
+# Decomposition of Orientation Tensor in 2D
 
-Eigenvector decomposition of the orientation tensor
+Spectral decomposition of the 2D orientation tensor into two
+Eigenvectors and corresponding Eigenvalues provides provides a measure
+of location and a corresponding measure of dispersion, respectively.
 
 ## Usage
 
 ``` r
-ot_eigen2d(x, w = NULL, axial = TRUE, scale = FALSE)
+ot_eigen2d(x, w = NULL, scale = FALSE)
 
-principal_direction(x, w = NULL, axial = TRUE)
+principal_direction(x, w = NULL)
 
-orientation_strength(x, w = NULL, axial = TRUE)
+axial_strength(x, w = NULL)
+
+axial_dispersion(x, w = NULL)
 ```
 
 ## Arguments
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric. Axial angular data (in degrees).
 
 - w:
 
   (optional) Weights. A vector of positive numbers and of the same
   length as `x`.
-
-- axial:
-
-  logical. Whether the data are axial, i.e. pi-periodical (`TRUE`, the
-  default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
 
 - scale:
 
@@ -36,25 +35,28 @@ orientation_strength(x, w = NULL, axial = TRUE)
 
 ## Value
 
-`ot_eigen2d` returns a list of the Eigenvalues and the angles
-corresponding to the Eigenvectors. `principal_direction()` and
-`orientation_strength()` are convenience functions to return the
-orientation of the largest eigenvalue, and the orientation strength,
-respectively.
+`ot_eigen2d` returns a list of the Eigenvalues and the axial angles
+corresponding to the Eigenvectors. `principal_direction()`,
+`axial_strength()` and `axial_dispersion()` are convenience functions to
+return the orientation of the largest eigenvalue, the orientation
+strength, the axial dispersion respectively.
 
 ## Details
 
-The two perpendicular **Eigenvectors** are the "principal directions"
-towards the highest and the lowest concentration of orientation data.
+The **Eigenvalues** (\\\lambda_1 \> \lambda_2\\) can be interpreted as
+the fractions of the variance explained by the orientation of the
+associated Eigenvectors. The two perpendicular **Eigenvectors** (\\a_1,
+a_2\\) are the "principal directions" with respect to the highest and
+the lowest concentration of orientation data.
 
-The **Eigenvalues** can be interpreted as the fractions of the data
-explained by the orientation of the associated principal direction.
-Thus, the strength of the orientation is the largest eigenvalue
-normalized by the sum of the eigenvalues (`scale=TRUE`).
+The strength of the orientation is the largest eigenvalue \\\lambda_1\\
+normalized by the sum of the eigenvalues (`scale=TRUE`). Then
+\\\lambda_2 = 1-\lambda_1\\ is a **measure of dispersion** of 2D
+orientation data with respect to \\a_1\\.
 
 ## Note
 
-Eigenvalues and eigenvectors of the orientation tensor (inertia tensor)
+Eigenvalues and Eigenvectors of the orientation tensor (inertia tensor)
 are also called "principle moments of inertia" and "principle axes of
 inertia", respectively.
 
@@ -65,14 +67,14 @@ inertia", respectively.
 ## Examples
 
 ``` r
-test <- rvm(100, mean = 0, k = 10)
-ot_eigen2d(test, axial = FALSE)
+test <- rvm(100, mean = 0, k = 10) /2
+ot_eigen2d(test)
 #> eigen() decomposition
 #> $values
-#> [1] 0.90790834 0.09209166
+#> [1] 0.97486598 0.02513402
 #> 
 #> $vectors
-#> [1]  3.588165 93.588165
+#> [1]   1.822026 -88.177974
 #> 
 
 data("nuvel1")
@@ -82,10 +84,10 @@ sa_eig <- ot_eigen2d(sa.por$azi.PoR, w = weighting(san_andreas$unc), scale = TRU
 print(sa_eig)
 #> eigen() decomposition
 #> $values
-#> [1] 0.7051428 0.2948572
+#> [1] 0.8750106 0.1249894
 #> 
 #> $vectors
-#> [1] 139.17907  49.17907
+#> [1] -39.20782  50.79218
 #> 
 
 rose(sa.por$azi.PoR, muci = FALSE)
@@ -100,8 +102,11 @@ graphics::legend("topright",
 
 
 principal_direction(sa.por$azi.PoR)
-#> [1] 139.8762
+#> [1] -39.12223
 
-orientation_strength(sa.por$azi.PoR)
-#> [1] 0.6904934
+axial_strength(sa.por$azi.PoR)
+#> [1] 0.8579857
+
+axial_dispersion(sa.por$azi.PoR)
+#> [1] 0.1420143
 ```

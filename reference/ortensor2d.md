@@ -1,7 +1,7 @@
 # Orientation Tensor
 
-2D orientation tensor, which characterizes data distribution using the
-Eigenvalue (Watson 1966, Scheidegger 1965).
+2D orientation tensor characterizes distribution of axial angles using
+the Eigenvalue method (Watson 1966, Scheidegger 1965).
 
 ## Usage
 
@@ -13,7 +13,7 @@ ortensor2d(x, w = NULL, norm = FALSE)
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric. Axial angular data (in degrees).
 
 - w:
 
@@ -30,12 +30,13 @@ ortensor2d(x, w = NULL, norm = FALSE)
 
 ## Details
 
-\$\$E = x \cdot x^{T}\$\$ where \\x\\ is the Cartesian vector of the
-orientations.
-
-## Note
-
-Orientation tensor is also called "inertia tensor".
+The moment of inertia can be minimized by calculating the Cartesian
+coordinates of the orientation data, and calculating their covariance
+matrix. This yields \$\$I = x \cdot x^\intercal\$\$ where \\x\\ is the
+Cartesian vector of the orientations. Orientation tensor \\T\\ and the
+inertia tensor \\I\\ are related by \$\$I = E - T\$\$ where \\E\\
+denotes the unit matrix, so that \$\$T = \frac{1}{n} \sum\_{i=i}^{n} x_i
+\cdot x_i^\intercal\$\$
 
 ## References
 
@@ -46,6 +47,12 @@ Scheidegger, A. E. (1964). The tectonic stress and tectonic motion
 direction in Europe and Western Asia as calculated from earthquake fault
 plane solutions. Bulletin of the Seismological Society of America,
 54(5A), 1519–1528. doi:10.1785/BSSA05405A1519
+
+Bachmann, F., Hielscher, R., Jupp, P. E., Pantleon, W., Schaeben, H., &
+Wegert, E. (2010). Inferential statistics of electron backscatter
+diffraction data from within individual crystalline grains. Journal of
+Applied Crystallography, 43(6), 1338–1355.
+https://doi.org/10.1107/S002188981003027X
 
 ## See also
 
