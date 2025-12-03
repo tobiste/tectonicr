@@ -28,10 +28,12 @@ ortensor2d(x, w = NULL, norm = FALSE)
 
 2x2 matrix
 
-## Note
+## Details
 
 \$\$E = x \cdot x^{T}\$\$ where \\x\\ is the Cartesian vector of the
 orientations.
+
+## Note
 
 Orientation tensor is also called "inertia tensor".
 
