@@ -745,8 +745,8 @@ A1inv <- function(x) {
 
 #' Concentration parameter of von Mises distribution
 #'
-#' Computes the maximum likelihood estimate of \eqn{\kappa}, the concentration
-#' parameter of a von Mises distribution, given a set of angular measurements.
+#' Estimates the concentration parameter of a von Mises distribution, given a
+#' set of angular measurements.
 #'
 #' @param x numeric. angles in degrees
 #' @param w numeric. weightings
@@ -756,13 +756,31 @@ A1inv <- function(x) {
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
-#' @returns numeric.
-#' @export
+#' @details
+#' `est.kappa.MLE()` is the maximum likelihood estimate for MLE for \eqn{\kappa}.
+#'
+#' `est.kappa()` uses an approximation based on the empirical equation:
+#' \deqn{\kappa =
+#'     \frac{\bar{R}(p-\bar{R}^2)}{1-\bar{R}^2}
+#' }
+#' where \eqn{\bar{R}} is the mean resultant length and \eqn{p} is the dimensionality of the data (2 for circular data).
+#'
+#' @returns numeric. Concentration of a von Mises distribution
+#' @name estimate-kappa
 #'
 #' @examples
 #' set.seed(123)
-#' est.kappa(rvm(100, 90, 10), w = weighting(runif(100, 0, 10)))
-est.kappa <- function(x, w = NULL, bias = FALSE, axial = TRUE) {
+#' x <- rvm(100, 90, 10)
+#' w = weighting(runif(100, 0, 10))
+#'
+#' est.kappa(x, w)
+#'
+#' est.kappa.MLE(x, w)
+NULL
+
+#' @rdname estimate-kappa
+#' @export
+est.kappa.MLE <- function(x, w = NULL, bias = FALSE, axial = FALSE) {
   # Default weights
   if (is.null(w)) {
     w <- rep(1, length(x))
@@ -792,4 +810,12 @@ est.kappa <- function(x, w = NULL, bias = FALSE, axial = TRUE) {
     }
   }
   kappa
+}
+
+#' @rdname estimate-kappa
+#' @param p integer. Number of parameters in the data space: 2 for circle (the default), 3 for a sphere.
+#' @export
+est.kappa <- function(x, w = NULL, p = 2) {
+  Rbar <- mean_resultant_length(x, w, na.rm = TRUE)
+  (Rbar * (p - Rbar^2)) / (1 - Rbar^2)
 }
