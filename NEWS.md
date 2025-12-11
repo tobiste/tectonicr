@@ -1,4 +1,15 @@
-# tectonicr (development version)
+# tectonicr 0.4.8
+
+# tectonicr 0.4.8 _2025-12-11_
+
+* NEW: `ortensor2d()` to calculate summary statistics for axial data
+* NEW: `data2PoR()`: Convenience function to add PoR coordinates and PoR azimuths to data
+* NEW: `geom_azimuth()` and `geom_azimuthpoint()`: convenience functions to plot directions as bars in ggplot2
+* NEW: `weighting()` convenience function to assign weightings for angles based on optional algorithms
+* "N" in rose diagram now in bold
+* stacked dot and density function in rose plots are visualized in expended plotting windows 
+* Deviation is now positive for counterclockwise deviation of observed azimuth wrt. predicted azimuth
+* minor bug fix in `relative_rotation()`
 
 # tectonicr 0.4.7 _2025-05-22_
 
