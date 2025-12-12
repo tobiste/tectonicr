@@ -139,7 +139,7 @@ circular_summary(san_andreas.por$azi.PoR, w, mode = TRUE)
 #>            n         mean           sd          var          25% quasi-median 
 #> 1126.0000000  139.7927014   22.4968398    0.2653334  123.5288513  135.6247317 
 #>          75%       median         mode           CI     skewness     kurtosis 
-#>  149.4235849  137.4843360  138.0821918    5.4144480   -0.2890426    1.6306589 
+#>  149.4235849  137.4843360  138.0821918    5.1165083   -0.2890426    1.6306589 
 #>            R 
 #>    0.7346666
 ```
@@ -248,10 +248,10 @@ confidence_interval(san_andreas.por$azi.PoR, conf.level = 0.95, w = w)
 #> [1] 139.7927
 #> 
 #> $conf.angle
-#> [1] 5.414448
+#> [1] 5.116508
 #> 
 #> $conf.interval
-#> [1] 134.3783 145.2071
+#> [1] 134.6762 144.9092
 ```
 
 The prediction for the $\sigma_{SHmax}$ orientation is $135^{\circ}$.
@@ -305,7 +305,30 @@ circular_dispersion_boot(san_andreas.por$azi.PoR, y = 135, w = w, R = 1000)
 #> [1] 0.2422241 0.2861837
 ```
 
-#### Orientation tensor
+#### Rayleigh Test
+
+The statistical test for the goodness-of-fit is the (weighted)
+**Rayleigh Test**[⁵](#fn5) with a specified mean direction (here the
+predicted direction of $135^{\circ}$):
+
+``` r
+weighted_rayleigh(san_andreas.por$azi.PoR, mu = 135, w = w)
+#> Reject Null Hypothesis
+#> $C
+#> [1] 0.7244095
+#> 
+#> $statistic
+#> [1] 34.37703
+#> 
+#> $p.value
+#> [1] 8.045524e-256
+```
+
+Here, the Null Hypothesis is rejected, and thus, the alternative, i.e.
+an non-uniform distribution with the predicted direction as the mean
+cannot be excluded.
+
+### Orientation tensor
 
 For axial orientation data, summary statistics can also be expressed by
 the 2D orientation tensor. The orientation tensor is related to the
@@ -313,18 +336,18 @@ moment of inertia given, that is minimized by calculating the Cartesian
 coordinates of the orientation data, and calculating their covariance
 matrix:
 
-\$\$ \begin{split} I = & \left\[ \begin{array}{@{}cc@{}} s_x^2 &
-s\_{x,y} \\ s\_{y,x} & s_y^2 \end{array} \right\] = \left\[
-\begin{array}{@{}cc@{}} \frac{1}{n}\sum\limits\_{i=1}^{n} (x_i-0)^2 &
+\$\$ I = \left\[ \begin{array}{@{}cc@{}} s_x^2 & s\_{x,y} \\ s\_{y,x} &
+s_y^2 \end{array} \right\] = \left\[ \begin{array}{@{}cc@{}}
+\frac{1}{n}\sum\limits\_{i=1}^{n} (x_i-0)^2 &
 \frac{1}{n}\sum\limits\_{i=1}^{n} (x_i-0)(y_i-0) \\
 \frac{1}{n}\sum\limits\_{i=1}^{n} (y_i-0)(x_i-0) &
-\frac{1}{n}\sum\limits\_{i=1}^{n} (y_i-0)^2 \end{array} \right\] \\ ~ &
-= \frac{1}{n} \left\[ \begin{array}{@{}cc@{}} \sum\limits\_{i=1}^{n}
-x_i^2 & \sum\limits\_{i=1}^{n} x_iy_i \\ \sum\limits\_{i=1}^{n} x_iy_i &
-\sum\limits\_{i=1}^{n} y_i^2 \end{array} \right\] =
+\frac{1}{n}\sum\limits\_{i=1}^{n} (y_i-0)^2 \end{array} \right\] =
+\frac{1}{n} \left\[ \begin{array}{@{}cc@{}} \sum\limits\_{i=1}^{n} x_i^2
+& \sum\limits\_{i=1}^{n} x_iy_i \\ \sum\limits\_{i=1}^{n} x_iy_i &
+\sum\limits\_{i=1}^{n} y_i^2 \end{array} \right\] = \frac{1}{n}
 \sum\limits\_{i=1}^{n} \left\[ \begin{array}{@{}c@{}} x_i \\ y_i
 \end{array} \right\] \left\[ \begin{array}{@{}cc@{}} x_i & y_i
-\end{array} \right\] \end{split} \$\$
+\end{array} \right\] \$\$
 
 Orientation tensor $T$ and the inertia tensor $I$ are related by
 $I = E - T$ where $E$ denotes the unit matrix, so that
@@ -360,33 +383,17 @@ normalized by the sum of the eigenvalues. The smallest Eigenvalue
 $\lambda_{2}$ is a **measure of dispersion** of 2D orientation data with
 respect to $a_{1}$.
 
-#### Rayleigh Test
-
-The statistical test for the goodness-of-fit is the (weighted)
-**Rayleigh Test**[⁵](#fn5) with a specified mean direction (here the
-predicted direction of $135^{\circ}$):
-
-``` r
-weighted_rayleigh(san_andreas.por$azi.PoR, mu = 135, w = w)
-#> Reject Null Hypothesis
-#> $C
-#> [1] 0.7244095
-#> 
-#> $statistic
-#> [1] 34.37703
-#> 
-#> $p.value
-#> [1] 8.045524e-256
-```
-
-Here, the Null Hypothesis is rejected, and thus, the alternative, i.e.
-an non-uniform distribution with the predicted direction as the mean
-cannot be excluded.
-
 ## References
 
+Bachmann, F., Hielscher, R., Jupp, P. E., Pantleon, W., Schaeben, H., &
+Wegert, E. (2010). Inferential statistics of electron backscatter
+diffraction data from within individual crystalline grains. Journal of
+Applied Crystallography, 43(6), 1338–1355.
+<https://doi.org/10.1107/S002188981003027X>
+
 Mardia, K. V., and Jupp, P. E. (Eds.). (1999). “Directional Statistics”
-Hoboken, NJ, USA: John Wiley & Sons, Inc. doi: 10.1002/9780470316979.
+Hoboken, NJ, USA: John Wiley & Sons, Inc.
+<https://doi.org/10.1002/9780470316979>
 
 Stephan, T., & Enkelmann, E. (2025). All Aligned on the Western Front of
 North America? Analyzing the Stress Field in the Northern Cordillera.

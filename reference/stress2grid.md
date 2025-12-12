@@ -177,7 +177,7 @@ stress2grid_stats(
 
   numeric. von Mises distribution concentration parameter used for the
   circular mode. Will be estimated using
-  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/est.kappa.md)
+  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
   if not provided.
 
 ## Value

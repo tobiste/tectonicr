@@ -42,7 +42,7 @@ circular_summary(
 
   numeric. von Mises distribution concentration parameter used for the
   circular mode. Will be estimated using
-  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/est.kappa.md)
+  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
   if not provided.
 
 - fisher.CI:
@@ -84,10 +84,10 @@ circular_summary(sa.por$azi.PoR)
 #>            n         mean           sd          var          25% quasi-median 
 #> 1126.0000000  140.8777709   23.4183183    0.2840287  124.8495460  136.8274701 
 #>          75%       median           CI     skewness     kurtosis            R 
-#>  150.2163335  138.9450918    5.4487325   -0.1758456    1.4538046    0.7159713 
+#>  150.2163335  138.9450918    5.3532589   -0.1758456    1.4538046    0.7159713 
 circular_summary(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 #>            n         mean           sd          var          25% quasi-median 
 #> 1126.0000000  140.8843069   22.3029729    0.2614357  124.8483102  136.8328725 
 #>          75%       median           CI     skewness     kurtosis            R 
-#>  150.2174282  138.9450918    5.3646843   -0.2712938    1.6993452    0.7385643 
+#>  150.2174282  138.9450918    5.0676008   -0.2712938    1.6993452    0.7385643 
 ```

@@ -34,7 +34,7 @@ plot_density(
 
   numeric. Concentration parameter for the von Mises distribution. Small
   kappa gives smooth density lines. Will be estimated using
-  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/est.kappa.md)
+  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
   if not provided.
 
 - axial:

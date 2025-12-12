@@ -2,6 +2,38 @@
 
 ## tectonicr (development version)
 
+## tectonicr 0.4.8 *2025-12-11*
+
+CRAN release: 2025-12-12
+
+- NEW:
+  [`ortensor2d()`](https://tobiste.github.io/tectonicr/reference/ortensor2d.md)
+  to calculate summary statistics for axial data
+- NEW:
+  [`data2PoR()`](https://tobiste.github.io/tectonicr/reference/data2PoR.md):
+  Convenience function to add PoR coordinates and PoR azimuths to data
+- NEW:
+  [`geom_azimuth()`](https://tobiste.github.io/tectonicr/reference/geom_azimuth.md)
+  and
+  [`geom_azimuthpoint()`](https://tobiste.github.io/tectonicr/reference/geom_azimuthpoint.md):
+  convenience functions to plot directions as bars in ggplot2
+- NEW:
+  [`weighting()`](https://tobiste.github.io/tectonicr/reference/weighting.md)
+  convenience function to assign weightings for angles based on optional
+  algorithms
+- “N” in rose diagram now in bold
+- stacked dot and density function in rose plots are visualized in
+  expended plotting windows
+- Deviation is now positive for counterclockwise deviation of observed
+  azimuth wrt. predicted azimuth
+- [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
+  now uses approximation (as precise as original but faster). Original
+  algorithm now in
+  [`est.kappa.MLE()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
+- minor bug fix in
+  [`relative_rotation()`](https://tobiste.github.io/tectonicr/reference/relative_rotation.md)
+- safe condition checks with `isTRUE` or `isFALSE`
+
 ## tectonicr 0.4.7 *2025-05-22*
 
 CRAN release: 2025-05-22
@@ -15,7 +47,7 @@ CRAN release: 2025-05-22
 - NEW: calculate shortest distance to plate boundary (which is not
   always the best choice! see function description for details.)
 - major bug fix in
-  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/est.kappa.md):
+  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md):
   converts to directional data by doubling the angles
 - calculating circular mode in
   [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)

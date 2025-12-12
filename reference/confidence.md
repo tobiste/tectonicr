@@ -78,16 +78,16 @@ finland_stria <- c(
   165, 171, 172, 179, 181, 186, 190, 212
 )
 confidence_angle(finland_stria, axial = FALSE)
-#> [1] 10.43928
+#> [1] 10.15525
 confidence_interval(finland_stria, axial = FALSE)
 #> $mu
 #> [1] 129.1903
 #> 
 #> $conf.angle
-#> [1] 10.43928
+#> [1] 10.15525
 #> 
 #> $conf.interval
-#> [1] 118.7510 139.6296
+#> [1] 119.0350 139.3455
 #> 
 
 data(san_andreas)
@@ -95,15 +95,15 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 confidence_angle(sa.por$azi.PoR, w = weighting(san_andreas$unc))
-#> [1] 5.364684
+#> [1] 5.067601
 confidence_interval(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 #> $mu
 #> [1] 140.8843
 #> 
 #> $conf.angle
-#> [1] 5.364684
+#> [1] 5.067601
 #> 
 #> $conf.interval
-#> [1] 135.5196 146.2490
+#> [1] 135.8167 145.9519
 #> 
 ```

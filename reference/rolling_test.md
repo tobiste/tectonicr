@@ -187,7 +187,7 @@ roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc) |> head()
 #> [1] 0.1640380 0.1550584 0.1468287 0.1423089 0.1358223 0.1627360
 roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc) |> head()
 #>                                                       
-#> 41.94621 40.57292 38.43269 37.15982 36.03316 37.63794 
+#> 42.59620 40.76199 38.40906 37.06694 35.70576 38.15826 
 # \donttest{
 roll_dispersion_CI(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc, R = 10) |> head()
 #> Warning: extreme order statistics used as endpoints

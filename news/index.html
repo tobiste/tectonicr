@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,24 @@
 <h2 class="pkg-version" data-toc-text="development version" id="tectonicr-development-version">tectonicr (development version)<a class="anchor" aria-label="anchor" href="#tectonicr-development-version"></a></h2>
 </div>
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.8" id="tectonicr-048-2025-12-11">tectonicr 0.4.8 <em>2025-12-11</em>
+<a class="anchor" aria-label="anchor" href="#tectonicr-048-2025-12-11"></a></h2><p class="text-muted">CRAN release: 2025-12-12</p>
+<ul><li>NEW: <code><a href="../reference/ortensor2d.html">ortensor2d()</a></code> to calculate summary statistics for axial data</li>
+<li>NEW: <code><a href="../reference/data2PoR.html">data2PoR()</a></code>: Convenience function to add PoR coordinates and PoR azimuths to data</li>
+<li>NEW: <code><a href="../reference/geom_azimuth.html">geom_azimuth()</a></code> and <code><a href="../reference/geom_azimuthpoint.html">geom_azimuthpoint()</a></code>: convenience functions to plot directions as bars in ggplot2</li>
+<li>NEW: <code><a href="../reference/weighting.html">weighting()</a></code> convenience function to assign weightings for angles based on optional algorithms</li>
+<li>“N” in rose diagram now in bold</li>
+<li>stacked dot and density function in rose plots are visualized in expended plotting windows</li>
+<li>Deviation is now positive for counterclockwise deviation of observed azimuth wrt. predicted azimuth</li>
+<li>
+<code><a href="../reference/estimate-kappa.html">est.kappa()</a></code> now uses approximation (as precise as original but faster). Original algorithm now in <code><a href="../reference/estimate-kappa.html">est.kappa.MLE()</a></code>
+</li>
+<li>minor bug fix in <code><a href="../reference/relative_rotation.html">relative_rotation()</a></code>
+</li>
+<li>safe condition checks with <code>isTRUE</code> or <code>isFALSE</code>
+</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.7" id="tectonicr-047-2025-05-22">tectonicr 0.4.7 <em>2025-05-22</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-047-2025-05-22"></a></h2><p class="text-muted">CRAN release: 2025-05-22</p>
 <ul><li>NEW: compatibility for World Stress Map Database 2025.</li>
@@ -56,7 +74,7 @@
 <li>
 <code>parse_quality()</code> assigns an uncertainty of 90 degrees to X-ranked stress data in the 2025 WSM version.</li>
 <li>NEW: calculate shortest distance to plate boundary (which is not always the best choice! see function description for details.)</li>
-<li>major bug fix in <code><a href="../reference/est.kappa.html">est.kappa()</a></code>: converts to directional data by doubling the angles</li>
+<li>major bug fix in <code><a href="../reference/estimate-kappa.html">est.kappa()</a></code>: converts to directional data by doubling the angles</li>
 <li>calculating circular mode in <code><a href="../reference/circular_summary.html">circular_summary()</a></code> now optional due to performance issues</li>
 <li>some weighting parameters in <code><a href="../reference/stress2grid.html">stress2grid()</a></code> have been renamed to me more alike with {gstat}</li>
 <li>choice of algorithm to calculate confidence interval now optional in <code><a href="../reference/circular_summary.html">circular_summary()</a></code>

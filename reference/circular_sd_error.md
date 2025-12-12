@@ -69,12 +69,12 @@ finland_stria <- c(
   165, 171, 172, 179, 181, 186, 190, 212
 )
 circular_sd_error(finland_stria, axial = FALSE)
-#> [1] 0.09244732
+#> [1] 0.08995883
 
 data(san_andreas)
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 circular_sd_error(sa.por$azi.PoR, w = weighting(san_andreas$unc))
-#> [1] 0.02387728
+#> [1] 0.0225559
 ```

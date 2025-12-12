@@ -9,7 +9,7 @@ assuming that the estimation errors are normally distributed."><meta property="o
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,16 +125,16 @@ Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.</p></li
 <span class="r-in"><span>  <span class="fl">165</span>, <span class="fl">171</span>, <span class="fl">172</span>, <span class="fl">179</span>, <span class="fl">181</span>, <span class="fl">186</span>, <span class="fl">190</span>, <span class="fl">212</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">confidence_angle</span><span class="op">(</span><span class="va">finland_stria</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.43928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.15525</span>
 <span class="r-in"><span><span class="fu">confidence_interval</span><span class="op">(</span><span class="va">finland_stria</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mu</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 129.1903</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.angle</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.43928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.15525</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 118.7510 139.6296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 119.0350 139.3455</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
@@ -142,16 +142,16 @@ Statistics, Sections 3.3.3 and 3.4.1, World Scientific Press, Singapore.</p></li
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">confidence_angle</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fu"><a href="weighting.html">weighting</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.364684</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.067601</span>
 <span class="r-in"><span><span class="fu">confidence_interval</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fu"><a href="weighting.html">weighting</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mu</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 140.8843</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.angle</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.364684</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.067601</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 135.5196 146.2490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 135.8167 145.9519</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

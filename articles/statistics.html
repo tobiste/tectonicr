@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-12-03</h4>
+            <h4 data-toc-skip class="date">2025-12-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/statistics.Rmd" class="external-link"><code>vignettes/statistics.Rmd</code></a></small>
       <div class="d-none name"><code>statistics.Rmd</code></div>
@@ -223,7 +223,7 @@ using the transformed orientations of the PoR reference frame.</p>
 <span><span class="co">#&gt;            n         mean           sd          var          25% quasi-median </span></span>
 <span><span class="co">#&gt; 1126.0000000  139.7927014   22.4968398    0.2653334  123.5288513  135.6247317 </span></span>
 <span><span class="co">#&gt;          75%       median         mode           CI     skewness     kurtosis </span></span>
-<span><span class="co">#&gt;  149.4235849  137.4843360  138.0821918    5.4144480   -0.2890426    1.6306589 </span></span>
+<span><span class="co">#&gt;  149.4235849  137.4843360  138.0821918    5.1165083   -0.2890426    1.6306589 </span></span>
 <span><span class="co">#&gt;            R </span></span>
 <span><span class="co">#&gt;    0.7346666</span></span></code></pre></div>
 <p>The summary statistics additionally include the circular
@@ -324,10 +324,10 @@ Inc. doi: 10.1002/9780470316979.&lt;/p&gt;"><sup>2</sup></a> can be calculated:
 <span><span class="co">#&gt; [1] 139.7927</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $conf.angle</span></span>
-<span><span class="co">#&gt; [1] 5.414448</span></span>
+<span><span class="co">#&gt; [1] 5.116508</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $conf.interval</span></span>
-<span><span class="co">#&gt; [1] 134.3783 145.2071</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 134.6762 144.9092</span></span></code></pre></div>
 <p>The prediction for the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>S</mi><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{SHmax}</annotation></semantics></math>
 orientation is
@@ -401,16 +401,40 @@ circular dispersion can be estimated by bootstrapping via:</p>
 <span><span class="co">#&gt; [1] 0.2422241 0.2861837</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="orientation-tensor">Orientation tensor<a class="anchor" aria-label="anchor" href="#orientation-tensor"></a>
+<h4 id="rayleigh-test">Rayleigh Test<a class="anchor" aria-label="anchor" href="#rayleigh-test"></a>
 </h4>
+<p>The statistical test for the goodness-of-fit is the (weighted)
+<strong>Rayleigh Test</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Stephan, T., &amp;amp; Enkelmann, E. (2025). All Aligned on
+the Western Front of North America? Analyzing the Stress Field in the
+Northern Cordillera. Tectonics, 44(9). &lt;a href="https://doi.org/10.1029/2025TC009014" class="external-link uri"&gt;https://doi.org/10.1029/2025TC009014&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> with a specified mean direction (here the
+predicted direction of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>135</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">135^{\circ}</annotation></semantics></math>):</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Reject Null Hypothesis</span></span>
+<span><span class="co">#&gt; $C</span></span>
+<span><span class="co">#&gt; [1] 0.7244095</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $statistic</span></span>
+<span><span class="co">#&gt; [1] 34.37703</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $p.value</span></span>
+<span><span class="co">#&gt; [1] 8.045524e-256</span></span></code></pre></div>
+<p>Here, the Null Hypothesis is rejected, and thus, the alternative,
+i.e. an non-uniform distribution with the predicted direction as the
+mean cannot be excluded.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="orientation-tensor">Orientation tensor<a class="anchor" aria-label="anchor" href="#orientation-tensor"></a>
+</h3>
 <p>For axial orientation data, summary statistics can also be expressed
 by the 2D orientation tensor. The orientation tensor is related to the
 moment of inertia given, that is minimized by calculating the Cartesian
 coordinates of the orientation data, and calculating their covariance
 matrix:</p>
 <p><span class="math display">$$
-\begin{split}
-  I = &amp;
+  I =
   \left[
     \begin{array}{@{}cc@{}}
       s_x^2 &amp; s_{x,y} \\
@@ -424,8 +448,8 @@ matrix:</p>
       \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)(x_i-0) &amp;
       \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)^2
     \end{array}
-    \right] \\
-  ~ &amp; =
+    \right]
+  =
   \frac{1}{n}
   \left[
     \begin{array}{@{}cc@{}}
@@ -435,6 +459,7 @@ matrix:</p>
       \sum\limits_{i=1}^{n} y_i^2
     \end{array}
     \right] =
+    \frac{1}{n}
   \sum\limits_{i=1}^{n}
   \left[
     \begin{array}{@{}c@{}}
@@ -446,7 +471,6 @@ matrix:</p>
       x_i &amp; y_i
     \end{array}
     \right]
-  \end{split}
   $$</span></p>
 <p>Orientation tensor
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
@@ -464,7 +488,7 @@ of location and a corresponding measure of dispersion, respectively.</p>
 <p>The function <code><a href="../reference/ort-eigen.html">ot_eigen2d()</a></code>calculates the orientation
 tensor and extracts the Eigenvalues and Eigenvectors. The function
 accepts the weightings of the data:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ort-eigen.html">ot_eigen2d</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="va">w</span><span class="op">)</span></span>
 <span><span class="co">#&gt; eigen() decomposition</span></span>
 <span><span class="co">#&gt; $values</span></span>
@@ -488,38 +512,15 @@ is a <strong>measure of dispersion</strong> of 2D orientation data with
 respect to
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mn>1</mn></msub><annotation encoding="application/x-tex">a_1</annotation></semantics></math>.</p>
 </div>
-<div class="section level4">
-<h4 id="rayleigh-test">Rayleigh Test<a class="anchor" aria-label="anchor" href="#rayleigh-test"></a>
-</h4>
-<p>The statistical test for the goodness-of-fit is the (weighted)
-<strong>Rayleigh Test</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Stephan, T., &amp;amp; Enkelmann, E. (2025). All Aligned on
-the Western Front of North America? Analyzing the Stress Field in the
-Northern Cordillera. Tectonics, 44(9). &lt;a href="https://doi.org/10.1029/2025TC009014" class="external-link uri"&gt;https://doi.org/10.1029/2025TC009014&lt;/a&gt;&lt;/p&gt;'><sup>5</sup></a> with a specified mean direction (here the
-predicted direction of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>135</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">135^{\circ}</annotation></semantics></math>):</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reject Null Hypothesis</span></span>
-<span><span class="co">#&gt; $C</span></span>
-<span><span class="co">#&gt; [1] 0.7244095</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 34.37703</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 8.045524e-256</span></span></code></pre></div>
-<p>Here, the Null Hypothesis is rejected, and thus, the alternative,
-i.e. an non-uniform distribution with the predicted direction as the
-mean cannot be excluded.</p>
-</div>
-</div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
+<p>Bachmann, F., Hielscher, R., Jupp, P. E., Pantleon, W., Schaeben, H.,
+&amp; Wegert, E. (2010). Inferential statistics of electron backscatter
+diffraction data from within individual crystalline grains. Journal of
+Applied Crystallography, 43(6), 1338–1355. <a href="https://doi.org/10.1107/S002188981003027X" class="external-link uri">https://doi.org/10.1107/S002188981003027X</a></p>
 <p>Mardia, K. V., and Jupp, P. E. (Eds.). (1999). “Directional
-Statistics” Hoboken, NJ, USA: John Wiley &amp; Sons, Inc. doi:
-10.1002/9780470316979.
-<!--doi: [10.1002/9780470316979](https://doi.org/10.1002/9780470316979).--></p>
+Statistics” Hoboken, NJ, USA: John Wiley &amp; Sons, Inc. <a href="https://doi.org/10.1002/9780470316979" class="external-link uri">https://doi.org/10.1002/9780470316979</a></p>
 <p>Stephan, T., &amp; Enkelmann, E. (2025). All Aligned on the Western
 Front of North America? Analyzing the Stress Field in the Northern
 Cordillera. Tectonics, 44(9). <a href="https://doi.org/10.1029/2025TC009014" class="external-link uri">https://doi.org/10.1029/2025TC009014</a></p>

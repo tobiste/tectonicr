@@ -150,11 +150,11 @@ distroll_circstats(dat$azi.PoR,
 distroll_confidence(dat$azi.PoR, distance = dat$distance, w = 1 / dat$unc) |> head()
 #>       distance          x   n
 #> [1,] -9.226505 180.000000   9
-#> [2,] -7.604482  82.942137  19
+#> [2,] -7.604482 106.835558  19
 #> [3,] -5.982458 180.000000  14
-#> [4,] -4.360435  55.581771  39
-#> [5,] -2.738412  13.587015 125
-#> [6,] -1.116388   5.914822 759
+#> [4,] -4.360435  56.727047  39
+#> [5,] -2.738412  10.014242 125
+#> [6,] -1.116388   5.007456 759
 distroll_dispersion(dat$azi.PoR,
   y = 135,
   distance = dat$distance, w = 1 / dat$unc

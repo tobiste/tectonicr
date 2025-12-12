@@ -19,7 +19,7 @@ circular_mode(x, kappa = NULL, axial = TRUE, n = 512)
 
   von Mises distribution concentration parameter. Will be estimated
   using
-  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/est.kappa.md)
+  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
   if not provided.
 
 - axial:
@@ -48,5 +48,5 @@ University Press.
 set.seed(1)
 x <- rvm(10, 0, 100)
 circular_mode(x, kappa = est.kappa(x))
-#> [1] 358.591
+#> [1] 356.4775
 ```

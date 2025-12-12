@@ -95,7 +95,8 @@
   : Earth's radius in km
 - [`equivalent_rotation()`](https://tobiste.github.io/tectonicr/reference/equivalent_rotation.md)
   : Equivalent rotation
-- [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/est.kappa.md)
+- [`est.kappa.MLE()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
+  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
   : Concentration parameter of von Mises distribution
 - [`euler_pole()`](https://tobiste.github.io/tectonicr/reference/euler_pole.md)
   : Euler pole object

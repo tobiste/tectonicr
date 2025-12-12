@@ -67,7 +67,7 @@ inertia", respectively.
 ## Examples
 
 ``` r
-test <- rvm(100, mean = 0, k = 10) /2
+test <- rvm(100, mean = 0, k = 10) / 2
 ot_eigen2d(test)
 #> eigen() decomposition
 #> $values

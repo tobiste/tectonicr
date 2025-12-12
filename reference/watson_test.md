@@ -90,7 +90,7 @@ watson_test(sa.por$azi.PoR, alpha = .05)
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 #> Reject Null Hypothesis
 #> $statistic
-#> [1] 13.99368
+#> [1] 13.33511
 #> 
 #> $p.value
 #> [1] 0.101

@@ -387,7 +387,7 @@ results$stats
 #> quasi_median 136.85808363
 #> skewness      -0.33779208
 #> kurtosis       2.78636137
-#> conf95         5.13534451
+#> conf95         4.17687006
 #> dispersion     0.09858997
 #> norm_chisq     0.05290640
 ```
