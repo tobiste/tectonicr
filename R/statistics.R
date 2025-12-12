@@ -444,7 +444,7 @@ circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial = TRUE,
     }
 
     # remove NA
-    if (na.rm) {
+    if (isTRUE(na.rm)) {
       keep <- !is.na(x) & !is.na(w) & !is.na(y) & !is.na(w.y)
       x <- x[keep]
       w <- w[keep]
@@ -830,7 +830,7 @@ circular_sd_error <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 
 
   x <- (x * f) %% 360
-  kappa <- est.kappa(x, w = w, axial = FALSE)
+  kappa <- est.kappa(x, w = w)
   R <- mean_resultant_length(x, w = w, na.rm = FALSE)
 
   1 / sqrt(n * R * kappa)
@@ -1195,11 +1195,11 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' x <- rvm(10, 0, 100)
 #' circular_mode(x, kappa = est.kappa(x))
 circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
-  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial)
+  f <- if (isTRUE(axial)) 2 else 1
+
+  if (is.null(kappa)) kappa <- est.kappa(f * x)
   dns <- circular_density(x, kappa = kappa, n = n, axial = axial)
 
-  # f <- if (axial) 2 else 1
-  # angles <- (c(1:n) / n) * 360 / f
   angles <- seq(0, 360, length.out = n)
   angles[which.max(dns)]
 }
@@ -1237,7 +1237,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
   }
 
   # remove NA
-  if (na.rm) {
+  if (isTRUE(na.rm)) {
     keep <- !is.na(x) & !is.na(w)
     x <- x[keep]
     w <- w[keep]
@@ -1278,7 +1278,9 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
   )
 
   if (mode) {
-    if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
+    f <- if (isTRUE(axial)) 2 else 1
+
+    if (is.null(kappa)) kappa <- est.kappa(f * x, w = w)
     mode <- circular_mode(x, kappa = kappa, axial = axial)
     append(res, c("mode" = mode), after = 8)
   } else {
@@ -1372,7 +1374,7 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
 #' "principle moments of inertia"  and "principle axes of inertia", respectively.
 #'
 #' @examples
-#' test <- rvm(100, mean = 0, k = 10) /2
+#' test <- rvm(100, mean = 0, k = 10) / 2
 #' ot_eigen2d(test)
 #'
 #' data("nuvel1")

@@ -163,7 +163,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' rayleigh_test(sa.por$azi.PoR, mu = 135) # reject null hypothesis
 rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
   if (is.null(mu)) {
     x <- x[!is.na(x)]
@@ -188,7 +188,7 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
       p.value = p.value # ,
       # p.value_mod = p.value2
     )
-    if (!quiet) {
+    if (isFALSE(quiet)) {
       if (result$statistic >= p.value) {
         message("Reject Null Hypothesis\n")
       } else {
@@ -215,7 +215,7 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
       statistic = s,
       p.value = p.value
     )
-    if (!quiet) {
+    if (isFALSE(quiet)) {
       if (s >= p.value) {
         message("Reject Null Hypothesis\n")
       } else {
@@ -229,7 +229,7 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
 
 #' @keywords internal
 rayleigh_p_value1 <- function(K, n, wilkie = FALSE) {
-  if (!wilkie) {
+  if (isFALSE(wilkie)) {
     # Pearson. 1906; Greenwood and Durand, 1955
     P <- exp(-K)
     if (n < 50) {
@@ -326,7 +326,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
     if (is.null(mu)) mu <- circular_mean(x, w, axial, na.rm = FALSE)
 
     d <- x - mu
-    f <- if (axial) 2 else 1
+    f <- if (isTRUE(axial)) 2 else 1
 
     m <- mean_SC(f * d, w = w, na.rm = FALSE)
     C <- as.numeric(m["C"])
@@ -338,7 +338,7 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALS
       statistic = s,
       p.value = p.value
     )
-    if (!quiet) {
+    if (isFALSE(quiet)) {
       if (s >= p.value) {
         message("Reject Null Hypothesis\n")
       } else {
@@ -394,7 +394,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
     rev(allowed_alphas[-1]),
     thresholds
   )
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
   x <- x[!is.na(x)] # remove NA's
   x <- (x * f) %% 360
@@ -423,7 +423,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
     p.val.threshold <- kuiper.crits[idx, 2]
     p.value <- p.val.threshold
 
-    if (!quiet) {
+    if (isFALSE(quiet)) {
       msg <- if (V > p.val.threshold) "Reject Null Hypothesis\n" else "Do Not Reject Null Hypothesis\n"
       message(msg)
     }
@@ -488,11 +488,6 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
   n <- length(x)
 
   if (dist == "uniform") {
-    # if (axial) {
-    #   f <- 2
-    # } else {
-    #   f <- 1
-    # }
     f <- 1
     x <- (x * f) %% 360
 
@@ -547,7 +542,9 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 
     if (is.null(mu)) mu <- circular_mean(x, axial = axial, na.rm = FALSE)
 
-    kappa_mle <- est.kappa(x, axial = axial)
+    f <- if (isTRUE(axial)) 2 else 1
+
+    kappa_mle <- est.kappa(f * x)
     x <- x - mu
     x <- matrix(x, ncol = 1)
     z <- apply(x, 1, pvm, 0, kappa_mle)
@@ -567,7 +564,7 @@ watson_test <- function(x, alpha = 0, dist = c("uniform", "vonmises"), axial = T
 
       p.value <- u2_crits[row, col]
 
-      if (!quiet) {
+      if (isFALSE(quiet)) {
         message(if (statistic > p.value) "Reject Null Hypothesis" else "Do Not Reject Null Hypothesis")
       }
     } else {
@@ -753,8 +750,6 @@ A1inv <- function(x) {
 #' @param bias logical parameter determining whether a bias correction is used
 #' in the computation of the MLE. Default for bias is `FALSE` for no bias
 #' correction.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
 #' @details
 #' `est.kappa.MLE()` is the maximum likelihood estimate for MLE for \eqn{\kappa}.
@@ -763,7 +758,8 @@ A1inv <- function(x) {
 #' \deqn{\kappa =
 #'     \frac{\bar{R}(p-\bar{R}^2)}{1-\bar{R}^2}
 #' }
-#' where \eqn{\bar{R}} is the mean resultant length and \eqn{p} is the dimensionality of the data (2 for circular data).
+#' where \eqn{\bar{R}} is the mean resultant length and \eqn{p} is the
+#' dimensionality of the data (2 for circular data).
 #'
 #' @returns numeric. Concentration of a von Mises distribution
 #' @name estimate-kappa
@@ -771,7 +767,7 @@ A1inv <- function(x) {
 #' @examples
 #' set.seed(123)
 #' x <- rvm(100, 90, 10)
-#' w = weighting(runif(100, 0, 10))
+#' w <- weighting(runif(100, 0, 10))
 #'
 #' est.kappa(x, w)
 #'
@@ -780,7 +776,7 @@ NULL
 
 #' @rdname estimate-kappa
 #' @export
-est.kappa.MLE <- function(x, w = NULL, bias = FALSE, axial = FALSE) {
+est.kappa.MLE <- function(x, w = NULL, bias = FALSE) {
   # Default weights
   if (is.null(w)) {
     w <- rep(1, length(x))
@@ -788,8 +784,8 @@ est.kappa.MLE <- function(x, w = NULL, bias = FALSE, axial = FALSE) {
     w <- as.numeric(w)
   }
 
-  f <- if (axial) 2 else 1
-  x <- (x * f) %% 360
+  #f <- if (axial) 2 else 1
+  # x <- (x * f) %% 360
 
   # Remove NA pairs
   keep <- !is.na(x) & !is.na(w)

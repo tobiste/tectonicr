@@ -6,7 +6,7 @@
 \alias{est.kappa}
 \title{Concentration parameter of von Mises distribution}
 \usage{
-est.kappa.MLE(x, w = NULL, bias = FALSE, axial = FALSE)
+est.kappa.MLE(x, w = NULL, bias = FALSE)
 
 est.kappa(x, w = NULL, p = 2)
 }
@@ -18,9 +18,6 @@ est.kappa(x, w = NULL, p = 2)
 \item{bias}{logical parameter determining whether a bias correction is used
 in the computation of the MLE. Default for bias is \code{FALSE} for no bias
 correction.}
-
-\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{p}{integer. Number of parameters in the data space: 2 for circle (the default), 3 for a sphere.}
 }
@@ -38,12 +35,13 @@ set of angular measurements.
 \deqn{\kappa =
     \frac{\bar{R}(p-\bar{R}^2)}{1-\bar{R}^2}
 }
-where \eqn{\bar{R}} is the mean resultant length and \eqn{p} is the dimensionality of the data (2 for circular data).
+where \eqn{\bar{R}} is the mean resultant length and \eqn{p} is the
+dimensionality of the data (2 for circular data).
 }
 \examples{
 set.seed(123)
 x <- rvm(100, 90, 10)
-w = weighting(runif(100, 0, 10))
+w <- weighting(runif(100, 0, 10))
 
 est.kappa(x, w)
 

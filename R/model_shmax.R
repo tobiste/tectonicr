@@ -91,26 +91,7 @@ model_shmax <- function(df, euler) {
 deviation_norm <- function(x, y = NULL) {
   nx <- length(x)
 
-  if (is.null(y)) {
-    # # deviation is between 0 and 90
-    # if (nx > 1) {
-    #   for (i in seq_along(x)) {
-    #     if (!is.na(x[i])) {
-    #       while (abs(x[i]) > 90) {
-    #         x[i] <- 180 - abs(x[i])
-    #       }
-    #     }
-    #   }
-    # } else {
-    #   if (!is.na(x)) {
-    #     while (abs(x) > 90) {
-    #       x <- 180 - abs(x)
-    #     }
-    #   }
-    # }
-    # abs(x)
-    y <- rep(0, nx)
-  }
+  if (is.null(y)) y <- rep(0, nx)
 
   ny <- length(y)
   stopifnot(
@@ -288,7 +269,7 @@ PoR_azimuth <- function(x, PoR, axial = TRUE) {
   azi <- x$azi
 
   theta <- mapply(FUN = get_azimuth, lat_a = lat, lon_a = lon, lat_b = PoR$lat, lon_b = PoR$lon)
-  if (axial) {
+  if (isTRUE(axial)) {
     (azi - theta + 180) %% 180
   } else {
     (azi - theta + 360) %% 360

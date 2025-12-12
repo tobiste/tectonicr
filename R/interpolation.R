@@ -242,7 +242,7 @@ stress2grid <- function(x,
   w_distance_fun <- if (dist_weighting == "linear") dist_weighting_linear else dist_weighting_inverse
 
   stat <- match.arg(stat)
-  stats_fun <- if (stat == "median") wcmedian else if(stat == "tensor") wprincipal else wcmean
+  stats_fun <- if (stat == "median") wcmedian else if (stat == "tensor") wprincipal else wcmean
 
   colnames_x <- colnames(x)
 
@@ -258,8 +258,8 @@ stress2grid <- function(x,
   N <- md <- R <- numeric()
 
 
-  if (!quality_weighting) qp <- 0
-  if (!method_weighting) mp <- 0
+  if (isFALSE(quality_weighting)) qp <- 0
+  if (isFALSE(method_weighting)) mp <- 0
   if (dist_weighting == "none") idp <- 0
 
   # WSM method weighting (from 0 to 5)
@@ -460,8 +460,8 @@ stress2grid_stats <- function(x,
   n <- N <- md <- R <- numeric()
 
 
-  if (!quality_weighting) qp <- 0
-  if (!method_weighting) mp <- 0
+  if (isFALSE(quality_weighting)) qp <- 0
+  if (isFALSE(method_weighting)) mp <- 0
   if (dist_weighting == "none") idp <- 0
 
   # WSM method weighting (from 0 to 5)
@@ -648,7 +648,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
   } else {
-    if (!PoR_grid) {
+    if (isFALSE(PoR_grid)) {
       if (is.null(lon_range) || is.null(lat_range)) {
         coords <- sf::st_coordinates(x)
         lon_range <- range(coords[, 1], na.rm = TRUE)
@@ -671,7 +671,7 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
     }
   }
 
-  grid_PoR <- if (!PoR_grid) {
+  grid_PoR <- if (isFALSE(PoR_grid)) {
     sf::st_as_sf(grid, crs = sf::st_crs(x)) |>
       geographical_to_PoR_sf(PoR)
   } else {
@@ -711,7 +711,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
   } else {
-    if (!PoR_grid) {
+    if (isFALSE(PoR_grid)) {
       if (is.null(lon_range) || is.null(lat_range)) {
         coords <- sf::st_coordinates(x)
         lon_range <- range(coords[, 1], na.rm = TRUE)
@@ -734,7 +734,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_rang
     }
   }
 
-  grid_PoR <- if (!PoR_grid) {
+  grid_PoR <- if (isFALSE(PoR_grid)) {
     sf::st_as_sf(grid) |>
       geographical_to_PoR_sf(PoR)
   } else {

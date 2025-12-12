@@ -1,4 +1,4 @@
-# tectonicr 0.4.8
+# tectonicr (development version)
 
 # tectonicr 0.4.8 _2025-12-11_
 
@@ -9,7 +9,9 @@
 * "N" in rose diagram now in bold
 * stacked dot and density function in rose plots are visualized in expended plotting windows 
 * Deviation is now positive for counterclockwise deviation of observed azimuth wrt. predicted azimuth
+* `est.kappa()` now uses approximation (as precise as original but faster). Original algorithm now in `est.kappa.MLE()`
 * minor bug fix in `relative_rotation()`
+* safe condition checks with `isTRUE` or `isFALSE`
 
 # tectonicr 0.4.7 _2025-05-22_
 

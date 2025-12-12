@@ -98,7 +98,7 @@ stress_colors <- function() {
 #' data("san_andreas")
 #' axes(san_andreas$lon, san_andreas$lat, san_andreas$azi, add = FALSE)
 axes <- function(x, y, angle, radius = .5, arrow.code = 1, arrow.length = 0, add = FALSE, ...) {
-  if (!add) plot(x, y, cex = 0, ...)
+  if (isFALSE(add)) plot(x, y, cex = 0, ...)
   graphics::arrows(x, y, x1 = x + radius / 2 * cosd(270 - angle), y1 = y + radius / 2 * sind(270 - angle), length = arrow.length, code = arrow.code, ...)
   graphics::arrows(x, y, x1 = x + radius / 2 * cosd(90 - angle), y1 = y + radius / 2 * sind(90 - angle), length = arrow.length, code = arrow.code, ...)
 }
@@ -379,7 +379,7 @@ circular_qqplot <- function(x, axial = TRUE,
                             ylab = NULL, main = "Circular Quantile-Quantile Plot",
                             add_line = TRUE,
                             col = "#B63679FF", ...) {
-  if (axial) {
+  if (isTRUE(axial)) {
     f <- 2
   } else {
     f <- 1
@@ -398,7 +398,7 @@ circular_qqplot <- function(x, axial = TRUE,
     xlab = xlab, ylab = ylab
   )
   graphics::abline(a = 0, b = 1, col = "slategrey")
-  if (add_line) {
+  if (isTRUE(add_line)) {
     graphics::lines(xin, x)
   }
   graphics::points(xin, x, col = col, ...)
@@ -444,7 +444,7 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
                       ylab = "Empirical quantile function",
                       main = "von Mises Q-Q Plot",
                       col = "#B63679FF", add_line = TRUE, ...) {
-  if (axial) {
+  if (isTRUE(axial)) {
     f <- 2
   } else {
     f <- 1
@@ -452,14 +452,8 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
 
   n <- length(x)
 
-  # if (stretch) {
-  #   k <- 4
-  # } else {
-  #   k <- 2
-  # }
-
   if (is.null(mean)) mean <- circular_mean(x, w = w, axial = axial)
-  if (is.null(kappa)) kappa <- est.kappa(x, w = w, axial = axial)
+  if (is.null(kappa)) kappa <- est.kappa(f * x, w = w)
 
   caption <- bquote(
     bar(alpha) == .(round(mean, 1)) * degree ~ "|" ~ widehat(kappa) == .(round(kappa, 1))
@@ -470,30 +464,11 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
 
   edf <- stats::ecdf(xf)
 
-
-  # z <- sind((xf - mean*f) / k)
-  #
-  # z_sort <- sort(z) #|> scales::rescale(c(-1, 1))
-  #
-  #
-  # probs <- seq(0, 1, length.out = n)
-  # quantiles <- qvm(edf(xf), mean = 0, kappa = kappa, from = 0)
-  # quantiles <- qvm(probs, mean = 0, kappa = kappa, from = 0)
-
-  #
-  # sin_q <- sind(quantiles / k)
-
-  # graphics::plot(0, 0, type = "n", xlim = c(-1, 1), ylim = c(-1, 1), asp = 1, xlab = xlab, ylab = ylab, main = main, ...)
-  # graphics::abline(a = 0, b = 1, col = "slategrey")
-  # graphics::points(sin_q, z_sort, pch=20)
-
   tqf <- qvm(edf(xf), mean * f, kappa, from = 0)
 
   graphics::plot(1, type = "n", xlab = xlab, ylab = ylab, xlim = c(0, 360 / f), ylim = c(0, 360 / f))
   graphics::abline(a = 0, b = 1, col = "slategrey")
-  if (add_line) {
-    graphics::lines(tqf / f, xf / f)
-  }
+  if (isTRUE(add_line)) graphics::lines(tqf / f, xf / f)
   graphics::points(tqf / f, xf / f, col = col, ...)
   graphics::mtext(caption, cex = .75)
   graphics::title(main = main, sub = bquote("N" == .(n)))
@@ -575,7 +550,7 @@ rose_histogram <- function(x, ..., main, labels = TRUE, at = NULL,
   bw <- x$binwidth
   y <- x$density
 
-  if (!add) circular_plot(smain = main, labels, at = at, cborder = cborder)
+  if (isFALSE(add)) circular_plot(smain = main, labels, at = at, cborder = cborder)
 
   for (i in seq_along(y)) {
     rose_fan(bks[i], d = bw, radius = y[i], axial = axial, add = TRUE, ...)
@@ -602,7 +577,7 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
     )
   }
 
-  if (axial) {
+  if (isTRUE(axial)) {
     if (!is.null(bins) && is.null(binwidth)) {
       stopifnot(bins > 0)
       binwidth <- 180 / bins # bin width
@@ -686,7 +661,7 @@ rose_bins <- function(n, round = FALSE) {
 
 #' @rdname rose_bw
 rose_binwidth <- function(n, axial = TRUE, ...) {
-  if (axial) {
+  if (isTRUE(axial)) {
     r <- 180
   } else {
     r <- 360
@@ -819,7 +794,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     rose_grid(angles = grid.lines, radii = grid.circles)
   }
 
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
   x <- x %% (360 / f)
 
   freqs <- rose_freq(
@@ -881,9 +856,9 @@ rose_line <- function(x, radius = 1, axial = TRUE, add = TRUE, ...) {
   tx <- radius * cos(xrad)
   ty <- radius * sin(xrad)
 
-  if (!add) circular_plot()
+  if (isFALSE(add)) circular_plot()
   graphics::segments(0, 0, tx, ty, ...)
-  if (axial) {
+  if (isTRUE(axial)) {
     graphics::segments(0, 0, -tx, -ty, ...)
   }
   invisible()
@@ -903,10 +878,10 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
   xx <- c(0, tx, 0)
   yy <- c(0, ty, 0)
 
-  if (!add) circular_plot()
+  if (isFALSE(add)) circular_plot()
 
   graphics::polygon(x = xx, y = yy, ...)
-  if (axial) {
+  if (isTRUE(axial)) {
     graphics::polygon(x = -xx, y = -yy, ...)
   }
 }
@@ -1042,17 +1017,17 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, sep = 0.025, jitter_factor = 0, ..., scale = 1.1, add = TRUE,
                         main = NULL, labels = TRUE,
                         at = seq(0, 360 - 45, 45), cborder = TRUE) {
-  if (!add) {
+  if (isFALSE(add)) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
     }
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
-  f <- if (axial) 2 else 1
+  f <- if (isTRUE(axial)) 2 else 1
 
-  if (!stack) {
-    if (axial) {
+  if (isFALSE(stack)) {
+    if (isTRUE(axial)) {
       x_shift <- (x + 180) %% 360
       x <- c(x, x_shift)
     }
@@ -1065,7 +1040,7 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, s
     graphics::points(z, y, cex = cex, ...)
   } else {
     freqs <- rose_freq(x, axial = axial, binwidth = binwidth)
-    if (axial) {
+    if (isTRUE(axial)) {
       freqs$mids <- freqs$mids %% 180
       freqs$count <- rep(freqs$count, 2)
       freqs$mids <- c(freqs$mids, freqs$mids + 180)
@@ -1111,7 +1086,9 @@ calc_circular_density <- function(x, z, kappa, axial) {
 
 
 circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 360, n = 512, axial = TRUE) {
-  if (is.null(kappa)) kappa <- est.kappa(x, axial = axial)
+  f <- if (isTRUE(axial)) 2 else 1
+
+  if (is.null(kappa)) kappa <- est.kappa(f * x)
 
   if (is.null(z)) {
     z <- seq(from = from, to = to, length = n)
@@ -1122,7 +1099,7 @@ circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 36
     namez <- deparse(substitute(z))
     z.na <- is.na(z)
     if (any(z.na)) {
-      if (na.rm) {
+      if (isTRUE(na.rm)) {
         z <- z[!z.na]
       } else {
         stop("z contains missing values")
@@ -1140,13 +1117,13 @@ circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 36
 circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shrink = 1, axial = TRUE, ...) {
   x <- deg2rad(90 - x)
 
-  if (axial) {
+  if (isTRUE(axial)) {
     x <- c(x, x + pi)
     y <- rep(y, 2)
   }
 
   n <- length(x)
-  if (!nosort) {
+  if (isFALSE(nosort)) {
     xorder <- order(x)
     x <- x[xorder]
     y <- y[xorder]
@@ -1216,7 +1193,7 @@ plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512L, norm.density =
                          scale = 0, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
                          at = seq(0, 360 - 45, 45), cborder = TRUE, grid = FALSE) {
-  if (!add) {
+  if (isFALSE(add)) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
     }

@@ -214,12 +214,10 @@ displacement_vector <- function(x, euler, tangential = FALSE, positive = TRUE) {
 
   u_lat <- u_lon <- c()
   for (i in seq_along(x.por[, 1])) {
-    if (!tangential) {
+    if (isFALSE(tangential)) {
       u_lat[i] <- 0
       u_lon[i] <- u * sind(90 - x.por[i, 2])^2 * (lon1 - x.por[i, 1]) / (lon2 - lon1)
-    }
-
-    if (tangential) {
+    } else {
       u_lat[i] <- 0
       u_lon[i] <- u * sind(90 - x.por[i, 2])^2 * (x.por[i, 2] - lat1) / (lat1 - lat2)
     }
