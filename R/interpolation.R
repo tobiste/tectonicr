@@ -370,7 +370,7 @@ stress2grid <- function(x,
       mdr = md / R
     ) |>
     dplyr::select(-md) |>
-    dplyr::filter(!is.na(azi), sd <= max_sd, !is.na(sd)) |>
+    # dplyr::filter(!is.na(azi), sd <= max_sd, !is.na(sd)) |>
     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 }
 

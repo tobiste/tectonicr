@@ -30,13 +30,6 @@ mean_SC <- function(x, w = NULL, na.rm = TRUE) {
 
   sinx <- w * sin(x)
   cosx <- w * cos(x)
-  # sumsin <- sum(sinx)
-  # sumcos <- sum(cosx)
-  # meansin <- sumsin / Z
-  # meancos<- sumcos / Z
-  # cbind(C = meancos, S = meansin)
-  #
-  # sums <- colSums(cbind(cosx, sinx))
   sums <- c(sum(cosx), sum(sinx))
   setNames(sums / Z, nm = c("C", "S"))
 }

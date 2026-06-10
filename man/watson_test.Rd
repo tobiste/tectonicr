@@ -6,10 +6,9 @@
 \usage{
 watson_test(
   x,
-  alpha = 0,
+  alpha = NULL,
   dist = c("uniform", "vonmises"),
   axial = TRUE,
-  mu = NULL,
   quiet = FALSE
 )
 }
@@ -27,17 +26,15 @@ uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
-\item{mu}{(optional) The specified mean direction (in degrees) in alternative
-hypothesis}
-
 \item{quiet}{logical. Prints the test's decision.}
 }
 \value{
 list containing the test statistic \code{statistic} and the significance
-level \code{p.value}.
+level \code{p.value} (the critical value).
 }
 \description{
-Watson's test statistic is a rotation-invariant Cramer - von Mises test
+Watson's test statistic is a rotation-invariant Cramer - von Mises test.
+non-parametric, rank-based alternative to  one-sample
 }
 \details{
 If \code{statistic > p.value}, the null hypothesis is rejected.
@@ -46,7 +43,7 @@ If not, randomness (uniform distribution) cannot be excluded.
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
 pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-watson_test(pidgeon_homing, alpha = .05)
+watson_test(pidgeon_homing, axial = FALSE, alpha = .05)
 
 # San Andreas Fault Data:
 data(san_andreas)
@@ -55,8 +52,20 @@ PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_test(sa.por$azi.PoR, alpha = .05)
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
+watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 }
 \references{
 Mardia and Jupp (1999). Directional Statistics. John Wiley and
 Sons.
 }
+\seealso{
+Other Tests: 
+\code{\link{ar_test}()},
+\code{\link{kuiper_test}()},
+\code{\link{norm_chisq}()},
+\code{\link{rayleigh-test}},
+\code{\link{watson_two_sample}},
+\code{\link{watson_wheeler_test_perm}()},
+\code{\link{weighted-rayleigh-test}}
+}
+\concept{Tests}
