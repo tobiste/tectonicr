@@ -71,7 +71,7 @@ Plot 4 give the rose diagram of the transformed azimuths.
 [`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md),
 [`confidence_interval_fisher()`](https://tobiste.github.io/tectonicr/reference/confidence_interval_fisher.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
-[`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh.md),
+[`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md),
 [`vm_qqplot()`](https://tobiste.github.io/tectonicr/reference/vm_qqplot.md)
 
 ## Examples

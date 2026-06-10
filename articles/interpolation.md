@@ -4,11 +4,13 @@ This vignette teaches you how to spatially interpolate stress fields and
 display the lateral patterns of stress anomalies.
 
 ``` r
+
 library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
 
 ``` r
+
 data("san_andreas")
 
 data("cpm_models")
@@ -24,6 +26,7 @@ Spatial interpolation of stress data is based on the weighted
 statistical metrics:
 
 ``` r
+
 mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
@@ -41,6 +44,7 @@ mean, as well as a 25% cut-off for the standard deviation.
 The data can now be visualized:
 
 ``` r
+
 trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
 
 ggplot(mean_SH) +
@@ -70,10 +74,12 @@ force, the model-based interpolation allows more reliable results for
 areas close to plate boundaries.
 
 ``` r
+
 mean_SH_PoR <- PoR_stress2grid(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
 ``` r
+
 ggplot(mean_SH_PoR) +
   geom_sf(data = trajectories, lty = 2) +
   geom_azimuth(data = san_andreas, aes(lon, lat, angle = azi), radius = .25, color = "grey30") +
@@ -101,6 +107,7 @@ given in the transformed azimuths. This allows to easily calculate
 misfits from predicted directions:
 
 ``` r
+
 mean_SH_PoR_reduced <- mean_SH_PoR |>
   compact_grid() |>
   dplyr::mutate(cdist = circular_distance(azi.PoR, 135))
@@ -116,6 +123,7 @@ CRS. To rasterize such grids, we can, e.g., use Voronoi cells from the
 `ggforce` package.
 
 ``` r
+
 ggplot(mean_SH_PoR_reduced) +
   ggforce::geom_voronoi_tile(
     aes(lon, lat, fill = cdist),

@@ -1,16 +1,16 @@
 # Watson's \\U^2\\ Test of Circular Uniformity
 
-Watson's test statistic is a rotation-invariant Cramer - von Mises test
+Watson's test statistic is a rotation-invariant Cramer - von Mises test.
+non-parametric, rank-based alternative to one-sample
 
 ## Usage
 
 ``` r
 watson_test(
   x,
-  alpha = 0,
+  alpha = NULL,
   dist = c("uniform", "vonmises"),
   axial = TRUE,
-  mu = NULL,
   quiet = FALSE
 )
 ```
@@ -37,11 +37,6 @@ watson_test(
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
   the default) or circular, i.e. \\2 \pi\\-periodical (`FALSE`).
 
-- mu:
-
-  (optional) The specified mean direction (in degrees) in alternative
-  hypothesis
-
 - quiet:
 
   logical. Prints the test's decision.
@@ -49,7 +44,7 @@ watson_test(
 ## Value
 
 list containing the test statistic `statistic` and the significance
-level `p.value`.
+level `p.value` (the critical value).
 
 ## Details
 
@@ -60,12 +55,23 @@ randomness (uniform distribution) cannot be excluded.
 
 Mardia and Jupp (1999). Directional Statistics. John Wiley and Sons.
 
+## See also
+
+Other Tests:
+[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
+[`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
+[`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
+[`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
+[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
+[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
+[`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+
 ## Examples
 
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
 pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-watson_test(pidgeon_homing, alpha = .05)
+watson_test(pidgeon_homing, axial = FALSE, alpha = .05)
 #> Do Not Reject Null Hypothesis
 #> $statistic
 #> [1] 0.1153633
@@ -82,7 +88,7 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_test(sa.por$azi.PoR, alpha = .05)
 #> Reject Null Hypothesis
 #> $statistic
-#> [1] 52.14744
+#> [1] 31.68687
 #> 
 #> $p.value
 #> [1] 0.187
@@ -90,7 +96,15 @@ watson_test(sa.por$azi.PoR, alpha = .05)
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 #> Reject Null Hypothesis
 #> $statistic
-#> [1] 13.33511
+#> [1] 77.28103
+#> 
+#> $p.value
+#> [1] 0.101
+#> 
+watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
+#> Reject Null Hypothesis
+#> $statistic
+#> [1] 77.28103
 #> 
 #> $p.value
 #> [1] 0.101

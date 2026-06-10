@@ -4,6 +4,7 @@ This vignette teaches you how to plot the trajectories of the predicted
 stress directions.
 
 ``` r
+
 library(tectonicr)
 library(ggplot2) # load ggplot library
 library(sf)
@@ -27,6 +28,7 @@ In **tectonicr** this can be done with
 [`equivalent_rotation()`](https://tobiste.github.io/tectonicr/reference/equivalent_rotation.md):
 
 ``` r
+
 data("nuvel1")
 nuvel1.eu <- equivalent_rotation(nuvel1, fixed = "eu")
 head(nuvel1.eu)
@@ -43,6 +45,7 @@ Alternatively, the PB2002 model by Bird (2003) is also provided as an
 ready-to use example dataset for global plate motions.
 
 ``` r
+
 data("pb2002")
 pb2002.eu <- equivalent_rotation(pb2002, fixed = "eu")
 head(pb2002.eu)
@@ -58,7 +61,7 @@ head(pb2002.eu)
 ### Plotting Pole of Rotation Grids
 
 To visualize the theoretical trajectories of the direction of
-$\sigma_{Hmax}$ (great circles, small circles, and loxodomes), we need
+$`\sigma_{Hmax}`$ (great circles, small circles, and loxodomes), we need
 to transform the locations from the geographical coordinate system into
 the *PoR* coordinate system. The transformations are done through the
 function functions
@@ -84,6 +87,7 @@ the Indian plate relative to the Eurasian plate (transformed from the
 from the NUVEL1 model).
 
 ``` r
+
 por <-
   subset(nuvel1.eu, nuvel1$plate.rot == "in") # India relative to Eurasia
 ```
@@ -98,6 +102,7 @@ extract a `sf` feature and plot the it with
 [`geom_sf()`](https://ggplot2.tidyverse.org/reference/ggsf.html):
 
 ``` r
+
 por.sm <- eulerpole_smallcircles(por)
 data("plates") # load plate boundary data set
 # world <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf")
@@ -141,13 +146,14 @@ ggplot() +
 
 #### Great Circles
 
-Great circles are lines that cut the small circles at 90$^{\circ}$ and
+Great circles are lines that cut the small circles at 90$`^{\circ}`$ and
 the PoR. Function `eulerpole_greatcircles(x, n)` returns great circles
 as `sf` object by giving a `data.frame` of the Pole of Rotation (PoR)
 coordinates in lat and lon (`x`) and the number of great circles `n`, or
 the great circle angles (`360/d`).
 
 ``` r
+
 por.gm <- eulerpole_greatcircles(por)
 
 ggplot() +
@@ -195,14 +201,15 @@ ggplot() +
 #### Loxodromes
 
 Loxodrome (also called Rhumb Line) is a curve cutting the small circles
-at a constant angle. Thus, small and great circles are 0$^{\circ}$ and
-90$^{\circ}$ loxodromes, respectively.
+at a constant angle. Thus, small and great circles are 0$`^{\circ}`$ and
+90$`^{\circ}`$ loxodromes, respectively.
 
 Function `eulerpole_loxodromes(x, n)` returns loxodromes as `sf` object
 by giving a `data.frame` of the PoR coordinates in lat and lon (`x`) and
 the angle between the loxodromes, the direction, and the sense.
 
 ``` r
+
 por.ld <- eulerpole_loxodromes(x = por, angle = 45, n = 10, cw = TRUE)
 
 ggplot() +

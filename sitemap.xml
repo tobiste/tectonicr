@@ -26,6 +26,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/abs_vel.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/angle-conversion.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/ar_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/axes.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circle_mean_diff.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circle_stats.html</loc></url>
@@ -93,7 +94,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/projected_pb_strike.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/quick_plot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/raster_transformation.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/rayleigh_test.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rayleigh-test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/relative_rotation.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/roll_circstats.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rolling_test.html</loc></url>
@@ -124,7 +125,9 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/vm_qqplot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/vonmises.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/watson_test.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/weighted_rayleigh.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/watson_two_sample.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/weighting.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/which.nsmallest.html</loc></url>
 </urlset>

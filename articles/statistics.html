@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Circular statistics • tectonicr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Circular statistics">
 </head>
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-12-12</h4>
+            <h4 data-toc-skip class="date">2026-06-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/statistics.Rmd" class="external-link"><code>vignettes/statistics.Rmd</code></a></small>
       <div class="d-none name"><code>statistics.Rmd</code></div>
@@ -138,7 +138,7 @@ analyzing stress orientations, the default is
 <span></span>
 <span><span class="fu"><a href="../reference/circular_plot.html">circular_plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Axial"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="va">angles</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"#B63679FF"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/directional_vs_axial-1.png" class="r-plt" width="700"></p>
+<p><img src="statistics_files/figure-html/directional_vs_axial-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mean-direction">Mean direction<a class="anchor" aria-label="anchor" href="#mean-direction"></a>
@@ -243,7 +243,7 @@ for angular data.</p>
 <span></span>
 <span><span class="co"># add the density curve</span></span>
 <span><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"#51127CFF"</span>, scale <span class="op">=</span> <span class="fl">1.1</span>, shrink <span class="op">=</span> <span class="fl">2</span>, xpd <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/rose1-1.png" class="r-plt" width="700"></p>
+<p><img src="statistics_files/figure-html/rose1-1.png" class="r-plt" alt="" width="700"></p>
 <p>The diagram shows the uncertainty-weighted frequencies (equal area
 rose fans), the von Mises density distribution (blue curve), and the
 circular mean (red line) incl. its 95% confidence interval (transparent
@@ -260,7 +260,7 @@ due to the arbitrarily chosen geographic coordinate system.</p>
 <span></span>
 <span><span class="co"># show the predicted direction</span></span>
 <span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="fl">135</span>, radius <span class="op">=</span> <span class="fl">1.1</span>, col <span class="op">=</span> <span class="st">"#FB8861FF"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/rose2-1.png" class="r-plt" width="700"></p>
+<p><img src="statistics_files/figure-html/rose2-1.png" class="r-plt" alt="" width="700"></p>
 <p>The green line shows the predicted direction.</p>
 </div>
 <div class="section level3">
@@ -271,7 +271,7 @@ can be used to visually assess whether our stress sample is drawn from
 an uniform distribution or has a preferred orientation.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_qqplot.html">circular_qqplot</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span></code></pre></div>
-<p><img src="statistics_files/figure-html/qqplot-1.png" class="r-plt" width="700"></p>
+<p><img src="statistics_files/figure-html/qqplot-1.png" class="r-plt" alt="" width="700"></p>
 <p>Our data clearly deviates from the diagonal line, indicating the data
 is not randomly distributed and has a strong preferred orientation
 around the 50% quantile.</p>
@@ -288,7 +288,7 @@ Mises distribution</em><a class="footnote-ref" tabindex="0" data-bs-toggle="popo
 Inc. doi: 10.1002/9780470316979.&lt;/p&gt;"><sup>1</sup></a>. If the directions are distributed randomly
 can be tested with the <strong>Rayleigh Test</strong>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh_test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh-test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="co">#&gt; $R</span></span>
 <span><span class="co">#&gt; [1] 0.7118209</span></span>
@@ -315,7 +315,7 @@ directions have a preferred orientation.</p>
 </h4>
 <p>Assuming a von Mises Distribution (circular normal distribution) of
 the orientation data, a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>%</mi></mrow><annotation encoding="application/x-tex">100(1-\alpha)\%</annotation></semantics></math><strong>confidence interval</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Mardia, K. V., and Jupp, P. E. (Eds.). (1999).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo><mi>%</mi></mrow><annotation encoding="application/x-tex">100(1-\alpha)\%</annotation></semantics></math><strong>confidence interval</strong><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Mardia, K. V., and Jupp, P. E. (Eds.). (1999).
 “Directional Statistics” Hoboken, NJ, USA: John Wiley &amp;amp; Sons,
 Inc. doi: 10.1002/9780470316979.&lt;/p&gt;"><sup>2</sup></a> can be calculated:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -346,7 +346,7 @@ significance of a normal distribution around a specified direction. The
 measure is based on the circular distance<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Mardia, K. V., and Jupp, P. E. (Eds.). (1999).
 “Directional Statistics” Hoboken, NJ, USA: John Wiley &amp;amp; Sons,
 Inc. doi: 10.1002/9780470316979.&lt;/p&gt;"><sup>3</sup></a> defined as
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>1</mn><mo>−</mo><mo>cos</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">d = 1 - \cos{\left[ k(\theta - \mu)\right]}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>1</mn><mo>−</mo><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">[</mo><mi>k</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo>−</mo><mi>μ</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">d = 1 - \cos{\left[ k(\theta - \mu)\right]}</annotation></semantics></math>
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
 are the observed angles (here
@@ -410,7 +410,7 @@ Northern Cordillera. Tectonics, 44(9). &lt;a href="https://doi.org/10.1029/2025T
 predicted direction of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>135</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">135^{\circ}</annotation></semantics></math>):</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted_rayleigh.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted-rayleigh-test.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
 <span><span class="co">#&gt; $C</span></span>
 <span><span class="co">#&gt; [1] 0.7244095</span></span>
@@ -433,8 +433,8 @@ by the 2D orientation tensor. The orientation tensor is related to the
 moment of inertia given, that is minimized by calculating the Cartesian
 coordinates of the orientation data, and calculating their covariance
 matrix:</p>
-<p><span class="math display">$$
-  I =
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msubsup><mi>s</mi><mi>x</mi><mn>2</mn></msubsup></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mrow><mi>x</mi><mo>,</mo><mi>y</mi></mrow></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mrow><mi>y</mi><mo>,</mo><mi>x</mi></mrow></msub></mtd><mtd columnalign="center" style="text-align: center"><msubsup><mi>s</mi><mi>y</mi><mn>2</mn></msubsup></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mn>0</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mtd><mtd columnalign="center" style="text-align: center"><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="center" style="text-align: center"><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mn>0</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mtd><mtd columnalign="center" style="text-align: center"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>x</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>y</mi><mi>i</mi></msub></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>x</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>y</mi><mi>i</mi></msub></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">
+  I = 
   \left[
     \begin{array}{@{}cc@{}}
       s_x^2 &amp; s_{x,y} \\
@@ -443,17 +443,17 @@ matrix:</p>
     \right] =
   \left[
     \begin{array}{@{}cc@{}}
-      \frac{1}{n}\sum\limits_{i=1}^{n} (x_i-0)^2 &amp;
+      \frac{1}{n}\sum\limits_{i=1}^{n} (x_i-0)^2 &amp; 
       \frac{1}{n}\sum\limits_{i=1}^{n} (x_i-0)(y_i-0) \\
       \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)(x_i-0) &amp;
       \frac{1}{n}\sum\limits_{i=1}^{n} (y_i-0)^2
     \end{array}
-    \right]
+    \right] 
   =
   \frac{1}{n}
   \left[
     \begin{array}{@{}cc@{}}
-      \sum\limits_{i=1}^{n} x_i^2 &amp;
+      \sum\limits_{i=1}^{n} x_i^2 &amp; 
       \sum\limits_{i=1}^{n} x_iy_i \\
       \sum\limits_{i=1}^{n} x_iy_i &amp;
       \sum\limits_{i=1}^{n} y_i^2
@@ -471,7 +471,7 @@ matrix:</p>
       x_i &amp; y_i
     \end{array}
     \right]
-  $$</span></p>
+  </annotation></semantics></math></p>
 <p>Orientation tensor
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
 and the inertia tensor

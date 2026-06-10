@@ -4,11 +4,13 @@ This vignette demonstrates some additional spatially interpolated
 statistics of a stress field.
 
 ``` r
+
 library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
 
 ``` r
+
 data("san_andreas")
 
 data("cpm_models")
@@ -25,6 +27,7 @@ confidence angle, as wells as the moments (, i.e. 2nd moment = variance,
 3rd = skewness, 4th = kurtosis):
 
 ``` r
+
 circular_summary(san_andreas$azi, w = weighting(san_andreas$unc))
 #>            n         mean           sd          var          25% quasi-median 
 #> 1126.0000000   10.8538228   23.8438493    0.2927477   15.0000000   35.5357179 
@@ -43,6 +46,7 @@ defined cell-size (im km) and calculates the summary statistics within
 each cell:
 
 ``` r
+
 spatial_stats_R <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = 100)
 subset(spatial_stats_R, !is.na(mean)) |> head()
 #> Simple feature collection with 6 features and 23 fields
@@ -83,12 +87,14 @@ subset(spatial_stats_R, !is.na(mean)) |> head()
 One can also specify a range of cell-sizes for a wavelength analysis:
 
 ``` r
+
 spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100), mode = TRUE)
 ```
 
 The mean azimuth for each grid cell:
 
 ``` r
+
 trajectories <- eulerpole_loxodromes(x = por, n = 40, cw = FALSE)
 
 ggplot(spatial_stats) +
@@ -113,6 +119,7 @@ wavelength (R) with the least variance for each grid cell, use
 [`compact_grid2()`](https://tobiste.github.io/tectonicr/reference/compact-grid.md).
 
 ``` r
+
 spatial_stats_comp <- spatial_stats |>
   compact_grid2(var)
 ```
@@ -121,6 +128,7 @@ Interpolated median stress field color-coded by the skewness within each
 search window:
 
 ``` r
+
 ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
@@ -139,6 +147,7 @@ Interpolated mode of the stress field color-coded by the absolute
 kurtosis within each search window:
 
 ``` r
+
 ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
   geom_sf(data = trajectories, lty = 2) +
@@ -168,6 +177,7 @@ Some examples:
 #### Spatial variance
 
 ``` r
+
 ggplot(spatial_stats_comp) +
   ggforce::geom_voronoi_tile(
     aes(lon, lat, fill = var),
@@ -193,6 +203,7 @@ range between negative and positive numbers, respectively. This can be
 best visualized in a diverging color-sequence:
 
 ``` r
+
 ggplot(spatial_stats_comp) +
   ggforce::geom_voronoi_tile(
     aes(lon, lat, fill = skewness),
@@ -217,6 +228,7 @@ Kurtosis is a measure of the “tailedness” of the probability
 distribution. Here, colors are in a square-root scale:
 
 ``` r
+
 ggplot(spatial_stats_comp) +
   ggforce::geom_voronoi_tile(
     aes(lon, lat, fill = abs(kurtosis)),
@@ -248,6 +260,7 @@ smallest kernel size containing the the least dispersion
 > transformed data to avoid angle distortions due to projections.
 
 ``` r
+
 san_andreas_por <- san_andreas
 san_andreas_por$azi <- PoR_shmax(san_andreas, por, "right")$azi.PoR # transform to PoR azimuth
 san_andreas_por$prd <- 135 # test direction

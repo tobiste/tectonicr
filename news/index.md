@@ -164,7 +164,7 @@ CRAN release: 2024-08-21
 ## tectonicr 0.3.6
 
 - bug fixes in
-  [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh.md)
+  [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## tectonicr 0.3.2 *2024-05-27*
 
@@ -231,7 +231,7 @@ CRAN release: 2023-09-22
 ## tectonicr 0.2.92 *2023-05-16*
 
 - statistical tests for circular uniformity and goodness-of-fit, e.g. 
-  [`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh_test.md)
+  [`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md)
 - bug fixes
 
 ## tectonicr 0.2.8 *2023-03-01*

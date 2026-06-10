@@ -89,10 +89,10 @@ confidence_interval_fisher(finland_stria, axial = FALSE)
 confidence_interval_fisher(finland_stria, axial = FALSE, boot = TRUE)
 #> Bootstrap estimate based on 1000 replicates
 #> $mu
-#> [1] 129.2045
+#> [1] 129.2021
 #> 
 #> $conf.angle
-#> [1] 5.787037
+#> [1] 5.788432
 #> 
 #> $conf.interval
 #> [1] 123.7251 135.1838
@@ -116,10 +116,10 @@ confidence_interval_fisher(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 confidence_interval_fisher(sa.por$azi.PoR, w = weighting(san_andreas$unc), boot = TRUE)
 #> Bootstrap estimate based on 1000 replicates
 #> $mu
-#> [1] 140.8711
+#> [1] 140.8705
 #> 
 #> $conf.angle
-#> [1] 0.721629
+#> [1] 0.7202758
 #> 
 #> $conf.interval
 #> [1] 140.1712 141.5932

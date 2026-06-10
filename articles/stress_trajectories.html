@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Plotting trajectories of theoretical stress directions • tectonicr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Plotting trajectories of theoretical stress directions">
 </head>
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-12-12</h4>
+            <h4 data-toc-skip class="date">2026-06-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/stress_trajectories.Rmd" class="external-link"><code>vignettes/stress_trajectories.Rmd</code></a></small>
       <div class="d-none name"><code>stress_trajectories.Rmd</code></div>
@@ -194,7 +194,7 @@ recommend to extract a <code>sf</code> feature and plot the it with
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="stress_trajectories_files/figure-html/small_circles_around_ep-1.png" class="r-plt" width="700"></p>
+<p><img src="stress_trajectories_files/figure-html/small_circles_around_ep-1.png" class="r-plt" alt="" width="700"></p>
 <!-- ![Predicted SHmax trajectories that are small circles around the In-Eu pole of rotation.](smallcircles.png) -->
 </div>
 <div class="section level4">
@@ -248,7 +248,7 @@ or the great circle angles (<code>360/d</code>).</p>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="stress_trajectories_files/figure-html/great_circles_around_ep-1.png" class="r-plt" width="700"></p>
+<p><img src="stress_trajectories_files/figure-html/great_circles_around_ep-1.png" class="r-plt" alt="" width="700"></p>
 <!-- ![Predicted SHmax trajectories that are great circles passing through the In-Eu pole of rotation.](greatcircles.png) -->
 </div>
 <div class="section level4">
@@ -305,7 +305,7 @@ loxodromes, the direction, and the sense.</p>
 <span>    stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>default_crs <span class="op">=</span> <span class="st">"WGS84"</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"ESRI:54030"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="stress_trajectories_files/figure-html/loxodromes-1.png" class="r-plt" width="700"></p>
+<p><img src="stress_trajectories_files/figure-html/loxodromes-1.png" class="r-plt" alt="" width="700"></p>
 <!-- ![Predicted SHmax trajectories that are 45-degree loxodromes circles directed towards the In-Eu pole of rotation.](loxodromes.png) -->
 </div>
 </div>

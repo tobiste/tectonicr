@@ -131,7 +131,7 @@ more consistent API.
 
 [`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
-[`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh_test.md)
+[`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md)
 
 ## Examples
 

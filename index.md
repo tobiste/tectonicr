@@ -13,7 +13,7 @@ Stephan et al., 2023). The following methods are available:
   using the function
   [`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md).
   The goodness-of-fit can be statistically tested by
-  e.g.[`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md),[`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh_test.md),
+  e.g.[`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md),[`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
   and
   [`confidence_interval()`](https://tobiste.github.io/tectonicr/reference/confidence.md).
 - **Distance to plate boundary**:

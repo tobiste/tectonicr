@@ -27,6 +27,8 @@
   : Degrees to Radians
 - [`angle_vectors()`](https://tobiste.github.io/tectonicr/reference/angle_vectors.md)
   : Angle Between Two Vectors
+- [`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md)
+  : Angular Randomisation Test of Homogeneity
 - [`axes()`](https://tobiste.github.io/tectonicr/reference/axes.md) :
   Plot axes
 - [`circular_mean_difference()`](https://tobiste.github.io/tectonicr/reference/circle_mean_diff.md)
@@ -156,7 +158,8 @@
   : Strike of the plate boundary projected on data point
 - [`quick_plot()`](https://tobiste.github.io/tectonicr/reference/quick_plot.md)
   : Plotting Stress Analysis Results
-- [`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh_test.md)
+- [`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md)
+  [`rayleigh_test_perm()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md)
   : Rayleigh Test of Circular Uniformity
 - [`relative_rotation()`](https://tobiste.github.io/tectonicr/reference/relative_rotation.md)
   : Relative rotation between two rotations
@@ -229,7 +232,13 @@
   The von Mises Distribution
 - [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)
   : Watson's \\U^2\\ Test of Circular Uniformity
-- [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh.md)
+- [`watson_two_test()`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md)
+  [`watson_two_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md)
+  : Watson's Two-Sample Test of Homogeneity
+- [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md)
+  : Watson-Wheeler Test of Homogeneity of Means
+- [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+  [`weighted_rayleigh_perm()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   : Weighted Goodness-of-fit Test for Circular Data
 - [`weighting()`](https://tobiste.github.io/tectonicr/reference/weighting.md)
   : Weighting Factors

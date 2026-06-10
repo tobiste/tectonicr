@@ -29,6 +29,7 @@ on your computer:
     {tectonicr}:
 
 ``` r
+
 library(tectonicr)
 ```
 
@@ -62,7 +63,7 @@ direction of relative plate motion. These compressional tractions are
 produced by forces related to subduction, collision, or ridge-push.
 Thus, stresses across convergent plate boundaries are characterized by
 the dominance of thrusting or strike-slip faulting
-($\sigma_{1} \approx \sigma_{Hmax}$) with $\sigma_{Hmax}$ (maximum
+($`\sigma_1 \approx \sigma_{Hmax}`$) with $`\sigma_{Hmax}`$ (maximum
 horizontal stress) trending parallel to the plate convergence, i.e.
 parallel to *small circles* around the pole of the relative plate motion
 (pole of rotation, PoR).
@@ -70,8 +71,8 @@ parallel to *small circles* around the pole of the relative plate motion
 **Outward moving plate boundaries** produce tensional tractions and
 displacements directed away from the plate interior. Along spreading
 ridges and intracontinental rifting stresses are dominated by normal
-faulting ($\sigma_{1} \approx \sigma_{vertical}$,
-$\sigma_{2} \approx \sigma_{Hmax}$) with $\sigma_{Hmax}$ trending
+faulting ($`\sigma_1 \approx \sigma_{vertical}`$,
+$`\sigma_2 \approx \sigma_{Hmax}`$) with $`\sigma_{Hmax}`$ trending
 perpendicular to the plate motion trajectories (i.e. along *great
 circles*). In the case of intracontinental setting, stresses and
 displacements may be associated to slab-retreat, back-arc extension, or
@@ -84,7 +85,7 @@ orientation of the boundary (Forsyth and Uyeda, 1975). Faulting and
 displacement adjacent to these plate boundaries are characterized by
 strike-slip parallel to the plate motion, and thus, the principal axes
 of maximum and minimum stress are orientated at an angle of c. 45° to
-the plate motion trajectory. Geometrically, $\sigma_{Hmax}$ direction
+the plate motion trajectory. Geometrically, $`\sigma_{Hmax}`$ direction
 follows along 45° *loxodromes* (lines of constant bearing) which diverge
 —depending on the sense of the transform boundary— clockwise or
 counterclockwise from the relative PoR and intersect both small and
@@ -100,11 +101,12 @@ get the directions of the great circles, small circles, and loxodromes
 around the PoR at the given point (e.g. at 45°N/20°E).
 
 For example, a PoR has the coordinates: 48.7°N/-78.2°E (relativ emotion
-of North America and Pacific plate). Then $\sigma_{Hmax}$ following
+of North America and Pacific plate). Then $`\sigma_{Hmax}`$ following
 great and small circles and loxodromes geometries can be modeled with
 [`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md):
 
 ``` r
+
 # import example data set for Euler rotations
 data("nuvel1")
 
@@ -120,11 +122,12 @@ print(prd)
 ```
 
 If there is an observed stress direction at the point, e.g. azimuth of
-$\sigma_{Hmax}$ is 90°, the angle deviation from the modeled stress
+$`\sigma_{Hmax}`$ is 90°, the angle deviation from the modeled stress
 directions can be calculated through
 [`deviation_shmax()`](https://tobiste.github.io/tectonicr/reference/deviation_shmax.md):
 
 ``` r
+
 deviation <- deviation_shmax(prd, 90)
 print(deviation)
 #>     dev.gc    dev.sc dev.ld.cw dev.ld.ccw
@@ -137,34 +140,40 @@ print(deviation)
 
 ### Quantitative Comparison Between Predicted and Observed Maximum Horizontal Stress
 
-The **circular dispersion** $D$ quantitatively compares the predicted
+The **circular dispersion** $`D`$ quantitatively compares the predicted
 ([`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md))
-and observed $\sigma_{Hmax}$ azimuth relative to the reported $\sigma$
-standard deviation (Stephan and Enkelmann, 2025). The measure is
-(weighted) average of the circular distance $d$ defined as
-$$d = 1 - \cos\left\lbrack k(\theta - \mu) \right\rbrack$$ where
-$\theta$ are the observed angles (here $\sigma_{Hmax}$), $\mu$ is the
-theoretical angles, and $k = 1$ for directional data and $k = 2$ for
-directional data. The weighted dispersion is
+and observed $`\sigma_{Hmax}`$ azimuth relative to the reported
+$`\sigma`$ standard deviation (Stephan and Enkelmann, 2025). The measure
+is (weighted) average of the circular distance $`d`$ defined as
+``` math
+d = 1 - \cos{\left[ k(\theta - \mu)\right]}
+```
+where $`\theta`$ are the observed angles (here $`\sigma_{Hmax}`$),
+$`\mu`$ is the theoretical angles, and $`k=1`$ for directional data and
+$`k=2`$ for directional data. The weighted dispersion is
 
-$$D = \frac{1}{Z}\sum\limits_{i = 1}^{n}w_{i}d_{i}$$ where $n$ s the
-number if observations, $w_{i}$ are weights of each observation, and $Z$
-is the sum of all weights $Z = \sum_{i = 1}^{n}w_{i}$.
+``` math
+D = \frac{1}{Z} \sum_{i=1}^{n} w_i d_i
+```
+where $`n`$ s the number if observations, $`w_i`$ are weights of each
+observation, and $`Z`$ is the sum of all weights
+$`Z=\sum_{i=1}^{n} w_i`$.
 
 The dispersion parameter yields a number in the range between 0-1 which
-indicates the quality of the fit. Low dispersion values ($D \leq 0.15$)
+indicates the quality of the fit. Low dispersion values ($`D \le 0.15`$)
 indicate good agreement between predicted and observed directions (angle
-difference $\leq 22.5^{\circ}$). High values ($D > 0.5$) indicate a
+difference $`\le 22.5^\circ`$). High values ($`D > 0.5`$) indicate a
 systematic misfit between predicted and observed directions of about
-$> 45^{\circ}$. A misfit of $90^{\circ}$ and/or a random distribution of
-$\sigma_{Hmax}$ directions results in $D = 1$
+$`> 45^\circ`$. A misfit of $`90^\circ`$ and/or a random distribution of
+$`\sigma_{Hmax}`$ directions results in $`D = 1`$
 
-Assuming $\sigma_{Hmax}$ has an azimuth of 90° at the given coordinate
+Assuming $`\sigma_{Hmax}`$ has an azimuth of 90° at the given coordinate
 with a angle precision of 10°, we can compare all test all theoretical
 observations using
 [`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md):
 
 ``` r
+
 sapply(as.numeric(prd), function(p) {
   circular_dispersion(90, y = p, w = weighting(10))
 }) |>
@@ -189,6 +198,7 @@ NUVEL-1A model (DeMets et al. 1990) are implemented in the package and
 can be imported through:
 
 ``` r
+
 data("nuvel1")
 head(nuvel1)
 ```
@@ -198,6 +208,7 @@ GSRM2.1, REVEL, PB2002, and HS3-NUVEL1A, are implemented and available
 through
 
 ``` r
+
 data("cpm_models")
 head(cpm_models)
 ```
@@ -205,6 +216,7 @@ head(cpm_models)
 Any desired relative plate motion can be extracted via the following:
 
 ``` r
+
 gsrm <- cpm_models[["GSRM2.1"]]
 equivalent_rotation(gsrm, rot = "na", fixed = "eu")
 ```

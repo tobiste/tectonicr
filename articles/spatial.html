@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Spatial Analysis • tectonicr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Spatial Analysis">
 </head>
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2025-12-12</h4>
+            <h4 data-toc-skip class="date">2026-06-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/spatial.Rmd" class="external-link"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="d-none name"><code>spatial.Rmd</code></div>
@@ -164,7 +164,7 @@ analysis:</p>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">R</span><span class="op">)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/plot-1.png" class="r-plt" width="700"></p>
+<p><img src="spatial_files/figure-html/plot-1.png" class="r-plt" alt="" width="700"></p>
 <p>To filter the range of search windows to only keep the shortest
 wavelength (R) with the least variance for each grid cell, use
 <code><a href="../reference/compact-grid.html">compact_grid2()</a></code>.</p>
@@ -184,7 +184,7 @@ each search window:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Skewness"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
 <p>Interpolated mode of the stress field color-coded by the absolute
 kurtosis within each search window:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -198,7 +198,7 @@ kurtosis within each search window:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"|Kurtosis|"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="heat-maps-for-the-spatial-statistics">Heat maps for the spatial statistics<a class="anchor" aria-label="anchor" href="#heat-maps-for-the-spatial-statistics"></a>
@@ -227,7 +227,7 @@ spatial patterns of any desired statistical estimate (from
 <span>    radius <span class="op">=</span> <span class="fl">.25</span>, lwd <span class="op">=</span> <span class="fl">.2</span>, colour <span class="op">=</span> <span class="st">"white"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/variance-1.png" class="r-plt" width="700"></p>
+<p><img src="spatial_files/figure-html/variance-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="skewness">Skewness:<a class="anchor" aria-label="anchor" href="#skewness"></a>
@@ -252,7 +252,7 @@ color-sequence:</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span><span class="st">"variance"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/skew-1.png" class="r-plt" width="700"></p>
+<p><img src="spatial_files/figure-html/skew-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="kurtosis">Kurtosis<a class="anchor" aria-label="anchor" href="#kurtosis"></a>
@@ -274,7 +274,7 @@ distribution. Here, colors are in a square-root scale:</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span><span class="st">"variance"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/kurtosis-1.png" class="r-plt" width="700"></p>
+<p><img src="spatial_files/figure-html/kurtosis-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 <div class="section level3">
@@ -311,7 +311,7 @@ transformed data to avoid angle distortions due to projections.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span><span class="st">"Standard deviation"</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/kernel_disp-1.png" class="r-plt" width="700"></p>
+<p><img src="spatial_files/figure-html/kernel_disp-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

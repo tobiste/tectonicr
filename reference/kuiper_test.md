@@ -42,6 +42,17 @@ level `p.value`.
 If `statistic > p.value`, the null hypothesis is rejected. If not,
 randomness (uniform distribution) cannot be excluded.
 
+## See also
+
+Other Tests:
+[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
+[`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
+[`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
+[`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
+[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
+[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
+[`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+
 ## Examples
 
 ``` r

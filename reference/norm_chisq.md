@@ -49,6 +49,17 @@ Wdowinski, S., 1998, A theory of intraplate tectonics. *Journal of
 Geophysical Research: Solid Earth*, **103**, 5037-5059, doi:
 10.1029/97JB03390.
 
+## See also
+
+Other Tests:
+[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
+[`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
+[`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
+[`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
+[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
+[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
+[`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+
 ## Examples
 
 ``` r

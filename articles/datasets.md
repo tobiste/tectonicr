@@ -4,6 +4,7 @@ This vignette teaches you how to handle large stress datasets and how to
 retrieve relative plate motions parameters from a set of plate motions.
 
 ``` r
+
 library(tectonicr)
 library(ggplot2) # load ggplot library
 ```
@@ -15,6 +16,7 @@ Stress Map data compilation (Heidbach et al. 2016) is included as an
 example data set and can be imported through:
 
 ``` r
+
 data("san_andreas")
 head(san_andreas)
 #> Simple feature collection with 6 features and 9 fields
@@ -48,6 +50,7 @@ Pacific Plate. We test the dataset against a right-laterally tangential
 displacement type.
 
 ``` r
+
 data("nuvel1")
 por <- subset(nuvel1, nuvel1$plate.rot == "na")
 san_andreas.prd <- PoR_shmax(san_andreas, por, type = "right")
@@ -56,6 +59,7 @@ san_andreas.prd <- PoR_shmax(san_andreas, por, type = "right")
 Combine the model results with the coordinates of the observed data
 
 ``` r
+
 san_andreas.res <- data.frame(
   sf::st_drop_geometry(san_andreas),
   san_andreas.prd
@@ -72,27 +76,30 @@ The argument `center = TRUE` (the default) aligns the marker symbol at
 the center of the point. The deviation can be color coded.
 [`deviation_norm()`](https://tobiste.github.io/tectonicr/reference/deviation_norm.md)
 yields the normalized value of the deviation, i.e. absolute values
-between 0 and 90$^{\circ}$.
+between 0 and 90$`^{\circ}`$.
 
 Also included are the plate boundary geometries after Bird (2003):
 
 ``` r
+
 data("plates") # load plate boundary data set
 ```
 
 Alternatively, there is also the NUVEL1 plate boundary model by DeMets
 et al.  (1990) stored under `data("nuvel1_plates")`.
 
-First we create the predicted trajectories of $\sigma_{Hmax}$ (more
+First we create the predicted trajectories of $`\sigma_{Hmax}`$ (more
 details in Article 3.):
 
 ``` r
+
 trajectories <- eulerpole_loxodromes(por, 40, cw = FALSE)
 ```
 
 Then we initialize the plot `map`…
 
 ``` r
+
 map <- ggplot() +
   geom_sf(
     data = plates,
@@ -109,9 +116,10 @@ map <- ggplot() +
   scale_alpha_discrete(name = "Quality rank", range = c(1, 0.4))
 ```
 
-…and add the $\sigma_{Hmax}$ trajectories and data points:
+…and add the $`\sigma_{Hmax}`$ trajectories and data points:
 
 ``` r
+
 map +
   geom_sf(
     data = trajectories,
@@ -135,21 +143,22 @@ map +
 
 ![](datasets_files/figure-html/plot2-1.png)
 
-The map shows generally low deviation of the observed $\sigma_{Hmax}$
+The map shows generally low deviation of the observed $`\sigma_{Hmax}`$
 directions from the modeled stress direction using counter-clockwise
-45$^{\circ}$ loxodromes.
+45$`^{\circ}`$ loxodromes.
 
 The weighted **circular dispersion** (average circular distance)
-quantifies the fit between the modeled $\sigma_{Hmax}$ direction the
+quantifies the fit between the modeled $`\sigma_{Hmax}`$ direction the
 observed stress direction considering the reported uncertainties of the
 measurement.
 
 ``` r
+
 circular_dispersion(san_andreas.res$azi.PoR, 135, w = weighting(san_andreas.res$unc))
 #> [1] 0.1384805
 ```
 
-The value is $\leq$ 0.15, indicating a significantly good fit of the
+The value is $`\leq`$ 0.15, indicating a significantly good fit of the
 model. Thus, the traction of the transform plate boundary explain the
 stress direction of the area.
 
@@ -160,9 +169,9 @@ motion direction at the plate boundary zone. Towards the plate interior,
 plate boundary forces become weaker and other stress sources will
 probably dominate.
 
-To visualize the variation of the $\sigma_{Hmax}$ wrt. to the distance
+To visualize the variation of the $`\sigma_{Hmax}`$ wrt. to the distance
 to the plate boundary, we need to transfer the direction of
-$\sigma_{Hmax}$ from the geographic reference system (i.e. azimuth is
+$`\sigma_{Hmax}`$ from the geographic reference system (i.e. azimuth is
 the deviation of a direction from geographic North pole) to the **Pole
 of Rotation (PoR)** reference system (i.e. azimuth is the deviation from
 the PoR).
@@ -171,10 +180,10 @@ the PoR).
 > the geographical coordinate system with the PoR coordinates being the
 > the translation factors.
 
-The azimuth in the *PoR reference system* $\alpha_{PoR}$ is the angular
-difference between the azimuth in geographic reference system
-$\alpha_{geo}$ and the (initial) bearing of the great circle that passes
-through the data point and the PoR $\theta$.
+The azimuth in the *PoR reference system* $`\alpha_{PoR}`$ is the
+angular difference between the azimuth in geographic reference system
+$`\alpha_{geo}`$ and the (initial) bearing of the great circle that
+passes through the data point and the PoR $`\theta`$.
 
 To calculate the distance to the plate boundary, both the plate boundary
 geometries and the data points (in geographical coordinates) will be
@@ -188,6 +197,7 @@ This is done with the function
 which returns the angular distances.
 
 ``` r
+
 plate_boundary <- subset(plates, plates$pair == "na-pa")
 san_andreas.res$distance <-
   distance_from_pb(
@@ -198,10 +208,11 @@ san_andreas.res$distance <-
   )
 ```
 
-Finally, we visualize the $\sigma_{Hmax}$ direction wrt. to the distance
-to the plate boundary:
+Finally, we visualize the $`\sigma_{Hmax}`$ direction wrt. to the
+distance to the plate boundary:
 
 ``` r
+
 azi_plot <- ggplot(san_andreas.res, aes(x = distance, y = azi.PoR)) +
   coord_cartesian(ylim = c(0, 180)) +
   labs(x = "Distance from plate boundary (\u00B0)", y = "Azimuth in PoR (\u00B0)") +
@@ -233,9 +244,10 @@ print(azi_plot)
 Binned statistics (e.g. weighted mean and 95% confidence interval) of
 the transformed azimuth can be achieved through
 [`distance_binned_stats()`](https://tobiste.github.io/tectonicr/reference/distance_binned_stats.md).
-Here, this gives a summary statistic for every 2$^{\circ}$.
+Here, this gives a summary statistic for every 2$`^{\circ}`$.
 
 ``` r
+
 san_andreas_binned <- distance_binned_stats(
   azi = san_andreas.res$azi.PoR,
   distance = san_andreas.res$distance,
@@ -264,7 +276,7 @@ azi_plot +
 ![](datasets_files/figure-html/distance_bin-1.png)
 
 Close to the dextral plate boundary, the majority of the stress data
-have a strike-slip fault regime and are oriented around 135$^{\circ}$
+have a strike-slip fault regime and are oriented around 135$`^{\circ}`$
 wrt. to the PoR. Thus, the date are parallel to the predicted stress
 sourced by a right-lateral displaced plate boundary. Away from the plate
 boundary, the data becomes more noisy.
@@ -278,6 +290,7 @@ visualized by using the deviation (normalized by the data precision)
 from the the predicted stress direction, i.e. the circular distance:
 
 ``` r
+
 # plotting:
 ggplot(san_andreas.res, aes(x = distance, y = cdist)) +
   coord_cartesian(ylim = c(0, 1)) +
@@ -301,10 +314,10 @@ ggplot(san_andreas.res, aes(x = distance, y = cdist)) +
 ![](datasets_files/figure-html/san.andreas.distanceplot2-1.png)
 
 We can see that the data in fact starts to scatter notably beyond a
-distance of 2$^{\circ}$ and becomes random at 6.5$^{\circ}$ away from
-the plate boundary. Thus, the North American-Pacific plate boundary zone
-at the San Andreas Fault is approx. 2–6.5$^{\circ}$ (ca. 200–800 km)
-wide.
+distance of 2$`^{\circ}`$ and becomes random at 6.5$`^{\circ}`$ away
+from the plate boundary. Thus, the North American-Pacific plate boundary
+zone at the San Andreas Fault is approx. 2–6.5$`^{\circ}`$ (ca. 200–800
+km) wide.
 
 > The **weighted** circular distance vs. distance plot allows to specify
 > the width of the plate boundary zone.
@@ -314,6 +327,7 @@ wide.
 The data deviation map can also be build using base R’s plotting engine:
 
 ``` r
+
 # Setup the colors for the deviation
 cols <- tectonicr.colors(
   deviation_norm(san_andreas.res$dev),
@@ -363,6 +377,7 @@ that returns a list. The transformed coordinates and azimuths as well as
 the deviations can be viewed by:
 
 ``` r
+
 results <- stress_analysis(san_andreas, por, "right", plate_boundary, plot = FALSE)
 head(results$result)
 #>      azi.PoR prd       dev     nchisq      cdist   lon.PoR  lat.PoR  distance
@@ -378,6 +393,7 @@ Statistical parameters describing the distribution of the transformed
 azimuths can be displayed by
 
 ``` r
+
 results$stats
 #>                      mean
 #> mean         138.90248502
@@ -395,6 +411,7 @@ results$stats
 Statistical test results are shown by
 
 ``` r
+
 results$test
 #> $C
 #> [1] 0.8028201
@@ -409,6 +426,7 @@ results$test
 … and the associated plots can be displayed by setting `plot = TRUE`:
 
 ``` r
+
 stress_analysis(san_andreas, por, "right", plate_boundary, plot = TRUE)
 ```
 
