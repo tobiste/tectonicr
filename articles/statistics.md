@@ -185,7 +185,7 @@ due to the arbitrarily chosen geographic coordinate system.
 ``` r
 
 rose(san_andreas.por$azi,
-  weights = w, main = "PoR",
+  weights = w, main = "Pole of Rotation", origin.text = "PoR",
   dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21
 )
 plot_density(san_andreas.por$azi, kappa = 20, col = "#51127CFF", scale = 1.1, shrink = 2, xpd = NA)

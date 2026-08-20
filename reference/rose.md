@@ -15,7 +15,7 @@ rose(
   equal_area = TRUE,
   muci = TRUE,
   round_binwidth = 0,
-  mtext = "N",
+  origin.text = "N",
   main = NULL,
   sub = NULL,
   at = seq(0, 360 - 45, 45),
@@ -74,7 +74,7 @@ rose(
 
   integer. Number of decimal places of bin width (0 by default).
 
-- mtext:
+- origin.text:
 
   character. String to be drawn at the top margin of the plot (`"N"` by
   default)
