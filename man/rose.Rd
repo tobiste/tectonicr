@@ -13,7 +13,7 @@ rose(
   equal_area = TRUE,
   muci = TRUE,
   round_binwidth = 0,
-  mtext = "N",
+  origin.text = "N",
   main = NULL,
   sub = NULL,
   at = seq(0, 360 - 45, 45),
@@ -56,7 +56,7 @@ or not.}
 \item{round_binwidth}{integer. Number of decimal places of bin width (0 by
 default).}
 
-\item{mtext}{character. String to be drawn at the top margin of the plot
+\item{origin.text}{character. String to be drawn at the top margin of the plot
 (\code{"N"} by default)}
 
 \item{main, sub}{Character string specifying the title and subtitle of the

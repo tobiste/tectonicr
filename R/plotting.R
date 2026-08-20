@@ -492,6 +492,7 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
 #' @import spatstat.utils
 #' @import spatstat.explore
 #' @importFrom spatstat.univar whist
+#' @importFrom graphics par
 #'
 #' @note Polar diagram where angles increase clockwise.
 #'
@@ -502,6 +503,7 @@ vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
 #' @keywords internal
 circular_plot <- function(main = NULL, labels = TRUE,
                           at = seq(0, 360 - 45, 45), cborder = TRUE, ...) {
+  graphics::par(xpd = TRUE)
   unit <- "degree"
   ymax <- 1
   insideclearance <- 0.1
@@ -714,7 +716,7 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' or not.
 #' @param round_binwidth integer. Number of decimal places of bin width (0 by
 #' default).
-#' @param mtext character. String to be drawn at the top margin of the plot
+#' @param origin.text character. String to be drawn at the top margin of the plot
 #' (`"N"` by default)
 #' @param main,sub Character string specifying the title and subtitle of the
 #' plot. If `sub = NULL`, it will show the bin width.
@@ -749,7 +751,7 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #'
 #' @importFrom spatstat.explore rose
 #' @importFrom spatstat.utils short.deparse
-#' @importFrom graphics hist title points mtext
+#' @importFrom graphics hist title points text
 #' @importFrom stats na.omit
 #'
 #' @family rose-plot
@@ -777,7 +779,7 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' )
 rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  equal_area = TRUE, muci = TRUE,
-                 round_binwidth = 0, mtext = "N", main = NULL, sub = NULL,
+                 round_binwidth = 0, origin.text = "N", main = NULL, sub = NULL,
                  at = seq(0, 360 - 45, 45), cborder = TRUE, labels = TRUE,
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
                  dot_col = "slategrey", stack = FALSE, jitter_factor = 0,
@@ -818,7 +820,8 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 
   if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
   graphics::title(main = NULL, sub = sub, ylab = NULL)
-  graphics::mtext(mtext, font = 2)
+  #graphics::mtext(mtext, font = 2)
+  graphics::text(0, 1 + 0.5, mtext, font = 2)
 
   if (muci) rose_stats(x, weights = weights, axial = axial)
   invisible(freqs)
@@ -1441,7 +1444,7 @@ quick_plot <- function(
     weights = 1 / unc,
     sub = subtitle_rose,
     main = "Rose diagram",
-    mtext = "PoR"
+    origin.text = "PoR"
   )
   # rose_stats(azi, weights = 1 / unc)
   rose_line(prd, radius = 1.1, col = "#FB8861FF") # show the predicted direction

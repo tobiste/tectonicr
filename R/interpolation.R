@@ -342,7 +342,6 @@ stress2grid <- function(x,
 
           # distance weighting
           w_distance <- w_distance_fun(R_search, dist_threshold, distij[ids_R], idp)
-
           w <- w_distance * datas[ids_R, 5] * datas[ids_R, 4]
 
           # mean value
