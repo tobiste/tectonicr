@@ -146,7 +146,7 @@
 - [`plates`](https://tobiste.github.io/tectonicr/reference/plates.md) :
   Plate Boundaries on the Earth
 - [`plot_density()`](https://tobiste.github.io/tectonicr/reference/plot_density.md)
-  : Circular Density Plot
+  : Circular Kernel Density Plot
 - [`plot_points()`](https://tobiste.github.io/tectonicr/reference/plot_points.md)
   : Add Points to a Circular Plot
 - [`geographical_to_PoR()`](https://tobiste.github.io/tectonicr/reference/por_transformation.md)

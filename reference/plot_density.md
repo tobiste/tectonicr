@@ -1,6 +1,6 @@
-# Circular Density Plot
+# Circular Kernel Density Plot
 
-Plot the multiples of a von Mises density distribution
+Plots multiples of a von Mises density distribution in a circular plot
 
 ## Usage
 
@@ -12,6 +12,7 @@ plot_density(
   n = 512L,
   norm.density = TRUE,
   ...,
+  fill = FALSE,
   scale = 0,
   shrink = 1,
   add = TRUE,
@@ -35,7 +36,7 @@ plot_density(
   numeric. Concentration parameter for the von Mises distribution. Small
   kappa gives smooth density lines. Will be estimated using
   [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
-  if not provided.
+  if not specified.
 
 - axial:
 
@@ -54,6 +55,11 @@ plot_density(
 - ...:
 
   Further graphical parameters may also be supplied as arguments.
+
+- fill:
+
+  logical. Whether to fill the density curve or draw just a line (the
+  default)
 
 - scale:
 
@@ -107,7 +113,16 @@ Other rose-plot:
 ## Examples
 
 ``` r
-# Plot density inside plot only:
+# Filled density curve inside the plot
+plot_density(san_andreas$azi,
+  kappa = 100,
+  fill = TRUE, col = "#51127C80", border = "#51127CFF",
+  grid = TRUE,
+  add = FALSE
+)
+
+
+# Superimpose a density curve on a rose diagram:
 rose(san_andreas$azi, grid = TRUE)
 plot_density(san_andreas$azi,
   kappa = 100, col = "#51127CFF",
@@ -115,7 +130,7 @@ plot_density(san_andreas$azi,
 )
 
 
-# Add density curve outside of main plot:
+# Corona plot: Density curve outside of a rose diagram plot:
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 plot_density(san_andreas$azi,
   kappa = 100,

@@ -168,15 +168,22 @@ rose(san_andreas$azi,
   dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21
 )
 
-# add the density curve
+# add the density curve as a corona plot:
 plot_density(san_andreas$azi, kappa = 20, col = "#51127CFF", scale = 1.1, shrink = 2, xpd = NA)
 ```
 
 ![](statistics_files/figure-html/rose1-1.png)
 
-The diagram shows the uncertainty-weighted frequencies (equal area rose
-fans), the von Mises density distribution (blue curve), and the circular
-mean (red line) incl. its 95% confidence interval (transparent red).
+The diagram shows
+
+- the uncertainty-weighted frequencies (equal area rose fans),
+
+- the stacked dots (lightblue) of each angle outside of the diagram,
+
+- the von Mises Kernel density (blue curve outside of diagram), and
+
+- the circular mean (red straight line) incl. its 95% confidence
+  interval (transparent red).
 
 Showing the distribution of the transformed data gives the better
 representation of the angle distribution as there is no angle distortion
@@ -184,13 +191,15 @@ due to the arbitrarily chosen geographic coordinate system.
 
 ``` r
 
+# rose diagram
 rose(san_andreas.por$azi,
   weights = w, main = "Pole of Rotation", origin.text = "PoR",
   dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21
 )
+# add density corona
 plot_density(san_andreas.por$azi, kappa = 20, col = "#51127CFF", scale = 1.1, shrink = 2, xpd = NA)
 
-# show the predicted direction
+# add predicted direction as streight line
 rose_line(135, radius = 1.1, col = "#FB8861FF")
 ```
 
