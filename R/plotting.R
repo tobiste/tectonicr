@@ -821,7 +821,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
   graphics::title(main = NULL, sub = sub, ylab = NULL)
   #graphics::mtext(mtext, font = 2)
-  graphics::text(0, 1 + 0.5, mtext, font = 2)
+  graphics::text(0, 1 + 0.5, origin.text, font = 2)
 
   if (muci) rose_stats(x, weights = weights, axial = axial)
   invisible(freqs)
