@@ -1,16 +1,20 @@
 # Circular Kernel Density Plot
 
-Plots multiples of a von Mises density distribution in a circular plot
+Plots multiples of a von Mises density or wrapped Cauchy distribution in
+a circular plot
 
 ## Usage
 
 ``` r
 plot_density(
   x,
-  kappa = NULL,
+  bw = NULL,
+  kernel = c("vonmises", "wrappedcauchy"),
   axial = TRUE,
   n = 512L,
   norm.density = TRUE,
+  kappa = NULL,
+  rho = NULL,
   ...,
   fill = FALSE,
   scale = 0,
@@ -31,12 +35,23 @@ plot_density(
   numeric. Data to be plotted, i.e. vector containing angles (in
   degrees).
 
-- kappa:
+- bw, kappa, rho:
 
-  numeric. Concentration parameter for the von Mises distribution. Small
-  kappa gives smooth density lines. Will be estimated using
+  numeric. Smoothing bandwidth expressed as the concentration parameter
+  \\\kappa\\ for the von Mises distribution or \\\rho\\ for the wrapped
+  Cauchy distribution. Small and large values for the von Mises and
+  wrapped Cauchy distribution, respectively, gives smooth density lines.
+  If not specified, parameter will be estimated using
   [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
-  if not specified.
+  for the von Mises distribution, or set to \\p \exp(-1)\\ for the
+  wrapped Cauchy distribution (where \\p = 2\\ when `axial=TRUE` and 1
+  otherwise).
+
+- kernel:
+
+  character. The smoothing kernel to be used; one of `"vonmises"` (the
+  default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
+  distribution.
 
 - axial:
 
@@ -68,7 +83,7 @@ plot_density(
 - shrink:
 
   numeric. parameter that controls the size of the plotted function.
-  Default is 1.
+  Default is `1`.
 
 - add:
 
@@ -102,7 +117,8 @@ plot or calculated densities as numeric vector
 
 ## See also
 
-[`dvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md)
+[`dvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md) and
+[`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
 
 Other rose-plot:
 [`plot_points()`](https://tobiste.github.io/tectonicr/reference/plot_points.md),
@@ -113,7 +129,7 @@ Other rose-plot:
 ## Examples
 
 ``` r
-# Filled density curve inside the plot
+# Filled von Mises kernel density curve inside the plot
 plot_density(san_andreas$azi,
   kappa = 100,
   fill = TRUE, col = "#51127C80", border = "#51127CFF",
@@ -121,19 +137,26 @@ plot_density(san_andreas$azi,
   add = FALSE
 )
 
+# Superimpose a wrapped Cauchy kernel distribution curve
+plot_density(san_andreas$azi,
+  rho = 0.9, kernel = "wrappedcauchy",
+  fill = FALSE, col = "#FB8861FF",
+  add = TRUE
+)
 
-# Superimpose a density curve on a rose diagram:
+
+# Superimpose a von Mises kernel density curve on a rose diagram:
 rose(san_andreas$azi, grid = TRUE)
 plot_density(san_andreas$azi,
-  kappa = 100, col = "#51127CFF",
+  bw = 100, col = "#51127CFF",
   add = TRUE, lwd = 3
 )
 
 
-# Corona plot: Density curve outside of a rose diagram plot:
+# Corona plot (censity curve outside of a rose diagram plot):
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 plot_density(san_andreas$azi,
-  kappa = 100,
+  bw = 100,
   scale = 1.1, shrink = 3, xpd = NA,
   col = "#51127CFF"
 )

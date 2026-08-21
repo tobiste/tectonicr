@@ -9,11 +9,11 @@ kappa \\\kappa\\.
 ``` r
 rvm(n, mean, kappa)
 
-dvm(theta, mean, kappa, log = FALSE, axial = FALSE)
+dvm(theta, mean, kappa, axial = FALSE, log = FALSE)
 
 pvm(theta, mean, kappa, from = NULL, tol = 1e-20)
 
-qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
+qvm(p, mean, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 ```
 
 ## Arguments
@@ -28,25 +28,25 @@ qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 
 - kappa:
 
-  numeric. Concentration parameter in the range (0, Inf\]
+  numeric. Concentration parameter in the range \\\[0, Inf\]\\
 
 - theta:
 
   numeric. Angular value in degrees
-
-- log:
-
-  logical. If `TRUE`, probabilities p are given as log(p).
 
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
   the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
 
+- log:
+
+  logical. If `TRUE`, probabilities p are given as \\\log(p)\\.
+
 - from:
 
-  if `NULL` is set to \\\mu-\pi\\. This is the value from which the pvm
-  and qvm are evaluated. in degrees.
+  if `NULL` is set to \\\mu-\pi\\. This is the value from which the
+  `pvm` and `qvm` are evaluated. in degrees.
 
 - tol:
 

@@ -48,5 +48,5 @@ University Press.
 set.seed(1)
 x <- rvm(10, 0, 100)
 circular_mode(x, kappa = est.kappa(x))
-#> [1] 356.4775
+#> [1] 358.591
 ```

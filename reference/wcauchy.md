@@ -57,12 +57,12 @@ qwcauchy(
 
 - log:
 
-  logical. If `TRUE`, probabilities p are given as log(p).
+  logical. If `TRUE`, probabilities p are given as \\\log(p)\\.
 
 - from:
 
-  if `NULL` is set to \\\mu-\pi\\. This is the value from which the pvm
-  and qvm are evaluated. in degrees.
+  if `NULL` is set to \\\mu-\pi\\. This is the value from which the
+  `pvm` and `qvm` are evaluated. in degrees.
 
 - lower.tail:
 
