@@ -15,11 +15,11 @@ est.kappa(x, w = NULL, p = 2)
 
 - x:
 
-  numeric. angles in degrees
+  numeric. Angles in degrees
 
 - w:
 
-  numeric. weightings
+  numeric. Weightings
 
 - bias:
 
@@ -45,6 +45,10 @@ numeric. Concentration of a von Mises distribution
 \$\$\kappa = \frac{\bar{R}(p-\bar{R}^2)}{1-\bar{R}^2} \$\$ where
 \\\bar{R}\\ is the mean resultant length and \\p\\ is the dimensionality
 of the data (2 for circular data).
+
+## See also
+
+[`vonmises()`](https://tobiste.github.io/tectonicr/reference/vonmises.md)
 
 ## Examples
 

@@ -1,7 +1,8 @@
 # The von Mises Distribution
 
 Density, probability distribution function, quantiles, and random
-generation for the circular normal distribution with mean and kappa.
+generation for the circular normal distribution with mean \\\mu\\ and
+kappa \\\kappa\\.
 
 ## Usage
 
@@ -23,7 +24,7 @@ qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 
 - mean:
 
-  numeric. Mean angle in degrees
+  numeric. The mean vector in degrees.
 
 - kappa:
 
@@ -66,6 +67,11 @@ qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 `dvm` gives the density, `pvm` gives the probability of the von Mises
 distribution function, `rvm` generates random deviates (in degrees), and
 `qvm` provides quantiles (in degrees).
+
+## See also
+
+[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md) and
+[cunif](https://tobiste.github.io/tectonicr/reference/cunif.md)
 
 ## Examples
 

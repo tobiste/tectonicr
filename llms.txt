@@ -211,6 +211,11 @@ GPL-3.0 License
   : Coordinate Transformations
 - [`cpm_models`](https://tobiste.github.io/tectonicr/reference/cpm_models.md)
   : Global model of current plate motions
+- [`rcunif()`](https://tobiste.github.io/tectonicr/reference/cunif.md)
+  [`dcunif()`](https://tobiste.github.io/tectonicr/reference/cunif.md)
+  [`pcunif()`](https://tobiste.github.io/tectonicr/reference/cunif.md)
+  [`qcunif()`](https://tobiste.github.io/tectonicr/reference/cunif.md) :
+  The Circular Uniform Distribution
 - [`data2PoR()`](https://tobiste.github.io/tectonicr/reference/data2PoR.md)
   : Transforms coordinates and azimuths into PoR coordinates system
 - [`deviation_norm()`](https://tobiste.github.io/tectonicr/reference/deviation_norm.md)
@@ -372,6 +377,11 @@ GPL-3.0 License
   : Watson's Two-Sample Test of Homogeneity
 - [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md)
   : Watson-Wheeler Test of Homogeneity of Means
+- [`rwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
+  [`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
+  [`pwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
+  [`qwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
+  : The Wrapped Cauchy Distribution
 - [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   [`weighted_rayleigh_perm()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   : Weighted Goodness-of-fit Test for Circular Data
