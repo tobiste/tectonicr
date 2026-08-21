@@ -6,10 +6,13 @@
 \usage{
 plot_density(
   x,
-  kappa = NULL,
+  bw = NULL,
+  kernel = c("vonmises", "wrappedcauchy"),
   axial = TRUE,
   n = 512L,
   norm.density = TRUE,
+  kappa = NULL,
+  rho = NULL,
   ...,
   fill = FALSE,
   scale = 0,
@@ -25,23 +28,35 @@ plot_density(
 \arguments{
 \item{x}{numeric. Data to be plotted, i.e. vector containing angles (in degrees).}
 
-\item{kappa}{numeric. Concentration parameter for the von Mises distribution.
-Small kappa gives smooth density lines. Will be estimated using \code{\link[=est.kappa]{est.kappa()}} if not specified.}
+\item{bw, kappa, rho}{numeric. Smoothing bandwidth expressed as the concentration
+parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
+wrapped Cauchy distribution.
+Small and large values for the von Mises and wrapped Cauchy distribution,
+respectively, gives smooth density lines. If not specified, parameter will be estimated using
+\code{\link[=est.kappa]{est.kappa()}}  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
+for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when \code{axial=TRUE} and 1 otherwise).}
+
+\item{kernel}{character. The smoothing kernel to be used; one of \code{"vonmises"}
+(the default) or \code{"wrappedcauchy"} for the von Mises or the Wrapped Cauchy
+distribution.}
 
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
-\item{n}{integer. the number of equally spaced points at which the density is to be estimated.}
+\item{n}{integer. the number of equally spaced points at which the density is
+to be estimated.}
 
 \item{norm.density}{logical. Normalize the density?}
 
 \item{...}{Further graphical parameters may also be supplied as arguments.}
 
-\item{fill}{logical. Whether to fill the density curve or draw just a line (the default)}
+\item{fill}{logical. Whether to fill the density curve or draw just a line
+(the default)}
 
 \item{scale}{numeric. radius of plotted circle. Default is \code{1.1}.}
 
-\item{shrink}{numeric. parameter that controls the size of the plotted function. Default is 1.}
+\item{shrink}{numeric. parameter that controls the size of the plotted
+function. Default is \code{1}.}
 
 \item{add}{logical. Add to existing plot? (\code{TRUE} by default).}
 
@@ -61,10 +76,10 @@ Set \code{at=numeric(0)} to suppress tick marks.}
 plot or calculated densities as numeric vector
 }
 \description{
-Plots multiples of a von Mises density distribution in a circular plot
+Plots multiples of a von Mises density or wrapped Cauchy distribution in a circular plot
 }
 \examples{
-# Filled density curve inside the plot
+# Filled von Mises kernel density curve inside the plot
 plot_density(san_andreas$azi,
   kappa = 100,
   fill = TRUE, col = "#51127C80", border = "#51127CFF",
@@ -72,23 +87,30 @@ plot_density(san_andreas$azi,
   add = FALSE
 )
 
-# Superimpose a density curve on a rose diagram:
+# Superimpose a wrapped Cauchy kernel distribution curve
+plot_density(san_andreas$azi,
+  rho = 0.9, kernel = "wrappedcauchy",
+  fill = FALSE, col = "#FB8861FF",
+  add = TRUE
+)
+
+# Superimpose a von Mises kernel density curve on a rose diagram:
 rose(san_andreas$azi, grid = TRUE)
 plot_density(san_andreas$azi,
-  kappa = 100, col = "#51127CFF",
+  bw = 100, col = "#51127CFF",
   add = TRUE, lwd = 3
 )
 
-# Corona plot: Density curve outside of a rose diagram plot:
+# Corona plot (censity curve outside of a rose diagram plot):
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 plot_density(san_andreas$azi,
-  kappa = 100,
+  bw = 100,
   scale = 1.1, shrink = 3, xpd = NA,
   col = "#51127CFF"
 )
 }
 \seealso{
-\code{\link[=dvm]{dvm()}}
+\code{\link[=dvm]{dvm()}} and \code{\link[=dwcauchy]{dwcauchy()}}
 
 Other rose-plot: 
 \code{\link{plot_points}()},

@@ -595,28 +595,48 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, s
 
 # Plot density lines on rose ---------------------------------------------------
 
-calc_circular_density <- function(x, z, kappa, axial) {
+calc_circular_density <- function(x, z, bw, axial, kernel = c("vonmises", "wrappedcauchy")) {
+  kernel <- match.arg(kernel)
   nx <- length(x)
   # if (kernel == "vonmises") {
-  y <- sapply(z, FUN = dvm, mean = x, kappa = kappa, axial = axial, log = FALSE)
+  # y <- sapply(z, FUN = dvm, mean = x, kappa = kappa, axial = axial, log = FALSE)
+  # } else {
+  #    #rho <- exp(-bw^2/2)
+  #    rho <- kappa
+  #    y <- sapply(z, dwcauchy, mean = x, rho = rho, axial = axial, log = FALSE)
+  #  }
+  # apply(y, 2, sum) / nx
 
-  # }
-  # else if (kernel == "wrappednormal") {
-  #   rho <- exp(-bw^2/2)
-  #   y <- sapply(z, DwrappednormalRad, mu = x, rho = rho,
-  #               K = K, min.k = min.k)
-  # }
-  # else {
-  #   stop("other kernels not implemented yet")
-  # }
-  apply(y, 2, sum) / nx
+  f <- if (isTRUE(axial)) 2 else 1
+
+  X <- deg2rad(f * x) %% (2 * pi)
+  Z <- deg2rad(f * z) %% (2 * pi)
+  delta <- outer(X, Z, "-")                # nx x n matrix, built once
+
+  if (kernel == "vonmises") {
+    kappa <- bw
+    if(is.null(kappa)) kappa <- est.kappa(f * x)
+    bessel_val <- besselI(kappa, nu = 0, expon.scaled = TRUE)   # once, not per z
+    y <- f * exp(kappa * (cos(delta) - 1)) / (2 * pi * bessel_val)
+  } else {
+    #rho <- exp(-bw^2/2)
+    rho <- bw
+    if(is.null(rho)) rho <- exp(-1) * f
+    y <- f * (1 - rho^2) / (2 * pi * (1 + rho^2 - 2 * rho * cos(delta)))
+  }
+  colSums(y) / nx
 }
 
 
-circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 360, n = 512, axial = TRUE) {
-  f <- if (isTRUE(axial)) 2 else 1
+circular_density <- function(x, z = NULL, bw = NULL, na.rm = TRUE, from = 0,
+                             to = 360, n = 512, axial = TRUE,
+                             kappa = NULL, rho = NULL, kernel = c("vonmises", "wrappedcauchy")) {
+  kernel <- match.arg(kernel)
+  bw <- if(is.null(bw)){
+    if(kernel == "vomises") kappa else rho
+  }
 
-  if (is.null(kappa)) kappa <- est.kappa(f * x)
+  f <- if (isTRUE(axial)) 2 else 1
 
   if (is.null(z)) {
     z <- seq(from = from, to = to, length = n)
@@ -639,7 +659,7 @@ circular_density <- function(x, z = NULL, kappa, na.rm = TRUE, from = 0, to = 36
     }
   }
 
-  calc_circular_density(x, z, kappa = kappa, axial = axial)
+  calc_circular_density(x, z, bw = bw, axial = axial, kernel = kernel)
 }
 
 circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shrink = 1, axial = TRUE, ...) {
@@ -712,30 +732,41 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 
 #' Circular Kernel Density Plot
 #'
-#' Plots multiples of a von Mises density distribution in a circular plot
+#' Plots multiples of a von Mises density or wrapped Cauchy distribution in a circular plot
 #'
 #' @param x numeric. Data to be plotted, i.e. vector containing angles (in degrees).
-#' @param kappa numeric. Concentration parameter for the von Mises distribution.
-#' Small kappa gives smooth density lines. Will be estimated using [est.kappa()] if not specified.
+#' @param bw,kappa,rho numeric. Smoothing bandwidth expressed as the concentration
+#' parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
+#' wrapped Cauchy distribution.
+#' Small and large values for the von Mises and wrapped Cauchy distribution,
+#' respectively, gives smooth density lines. If not specified, parameter will be estimated using
+#' [est.kappa()]  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
+#' for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when `axial=TRUE` and 1 otherwise).
+#' @param kernel character. The smoothing kernel to be used; one of `"vonmises"`
+#' (the default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
+#' distribution.
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
-#' @param n integer. the number of equally spaced points at which the density is to be estimated.
+#' @param n integer. the number of equally spaced points at which the density is
+#'  to be estimated.
 #' @param norm.density logical. Normalize the density?
 #' @param scale numeric. radius of plotted circle. Default is `1.1`.
-#' @param shrink numeric. parameter that controls the size of the plotted function. Default is 1.
+#' @param shrink numeric. parameter that controls the size of the plotted
+#' function. Default is `1`.
 #' @param grid logical. Whether a grid should be added.
-#' @param fill logical. Whether to fill the density curve or draw just a line (the default)
+#' @param fill logical. Whether to fill the density curve or draw just a line
+#' (the default)
 #' @param ... Further graphical parameters may also be supplied as arguments.
 #' @param add logical. Add to existing plot? (`TRUE` by default).
 #' @inheritParams circular_plot
 #'
-#' @seealso [dvm()]
+#' @seealso [dvm()] and [dwcauchy()]
 #' @family rose-plot
 #' @return plot or calculated densities as numeric vector
 #' @export
 #'
 #' @examples
-#' # Filled density curve inside the plot
+#' # Filled von Mises kernel density curve inside the plot
 #' plot_density(san_andreas$azi,
 #'   kappa = 100,
 #'   fill = TRUE, col = "#51127C80", border = "#51127CFF",
@@ -743,21 +774,32 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'   add = FALSE
 #' )
 #'
-#' # Superimpose a density curve on a rose diagram:
+#' # Superimpose a wrapped Cauchy kernel distribution curve
+#' plot_density(san_andreas$azi,
+#'   rho = 0.9, kernel = "wrappedcauchy",
+#'   fill = FALSE, col = "#FB8861FF",
+#'   add = TRUE
+#' )
+#'
+#' # Superimpose a von Mises kernel density curve on a rose diagram:
 #' rose(san_andreas$azi, grid = TRUE)
 #' plot_density(san_andreas$azi,
-#'   kappa = 100, col = "#51127CFF",
+#'   bw = 100, col = "#51127CFF",
 #'   add = TRUE, lwd = 3
 #' )
 #'
-#' # Corona plot: Density curve outside of a rose diagram plot:
+#' # Corona plot (censity curve outside of a rose diagram plot):
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 #' plot_density(san_andreas$azi,
-#'   kappa = 100,
+#'   bw = 100,
 #'   scale = 1.1, shrink = 3, xpd = NA,
 #'   col = "#51127CFF"
 #' )
-plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512L, norm.density = TRUE,
+plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
+                         axial = TRUE,
+                         n = 512L,
+                         norm.density = TRUE,
+                         kappa = NULL, rho = NULL,
                          ...,
                          fill = FALSE,
                          scale = 0, shrink = 1,
@@ -775,7 +817,8 @@ plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512L, norm.density =
   }
 
   f <- 1
-  d <- circular_density(x, kappa = kappa, n = n, axial = axial)
+
+  d <- circular_density(x, bw = bw, n = n, axial = axial, kernel = kernel, kappa = kappa, rho = rho)
   if (norm.density) {
     d <- d / max(d)
     # shrink = 1/scale

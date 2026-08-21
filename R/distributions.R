@@ -102,15 +102,15 @@ qcunif <- function(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE) {
 #' The von Mises Distribution
 #'
 #' Density, probability distribution function, quantiles, and random generation
-#' for the circular normal distribution with mean \eqn{\mu} and kappa \eqn{\kappa}.
+#' for the circular normal distribution with mean \eqn{\mu}{mu} and kappa \eqn{\kappa}{k}.
 #'
 #' @inheritParams cunif
 #' @param mean numeric. The mean vector in degrees.
 #' @param p numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.
-#' @param kappa numeric. Concentration parameter in the range (0, Inf]
+#' @param kappa numeric. Concentration parameter in the range \eqn{[0, Inf]}
 #' @param from if `NULL` is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
-#' which the pvm and qvm are evaluated. in degrees.
-#' @param log logical. If `TRUE`, probabilities p are given as log(p).
+#' which the `pvm` and `qvm` are evaluated. in degrees.
+#' @param log logical. If `TRUE`, probabilities p are given as \eqn{\log(p)}{log(p)}.
 #' @param tol numeric. The precision in evaluating the distribution function or the quantile.
 #' @param ... parameters passed to [stats::integrate()].
 #'
@@ -145,7 +145,7 @@ rvm <- function(n, mean, kappa) {
 
 #' @rdname vonmises
 #' @export
-dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
+dvm <- function(theta, mean, kappa, axial = FALSE, log = FALSE) {
   if (axial) {
     x <- circular::circular(theta, units = "degrees", modulo = "pi")
     mu <- circular::circular(mean, units = "degrees", modulo = "pi")
@@ -153,10 +153,6 @@ dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
     if (log) d <- log(d)
     return(d)
   } else {
-    # x <- circular::circular(theta, units = "degrees", modulo = "2pi")
-    # mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
-    # circular::dvonmises(x, mu = mu, kappa = kappa, log = log)
-
     two_pi <- 2 * pi
     x <- deg2rad(theta) %% two_pi
     mu <- deg2rad(mean) %% two_pi
@@ -166,7 +162,6 @@ dvm <- function(theta, mean, kappa, log = FALSE, axial = FALSE) {
 
     n <- length(x)
 
-    # stopifnot(length(mu==1))
     if (log) {
       if (kappa == 0) {
         vm <- rep(-log(two_pi), n)
@@ -200,12 +195,12 @@ pvm <- function(theta, mean, kappa, from = NULL, tol = 1e-20) {
     from <- circular::circular(from, units = "degrees", modulo = "2pi")
   }
 
-  circular::pvonmises(theta, mu, kappa, from = NULL, tol = tol)
+  circular::pvonmises(theta, mu, kappa, from = from, tol = tol)
 }
 
 #' @rdname vonmises
 #' @export
-qvm <- function(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...) {
+qvm <- function(p, mean, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...) {
   mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
 
   if (!is.null(from)) {

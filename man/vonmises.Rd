@@ -10,28 +10,28 @@
 \usage{
 rvm(n, mean, kappa)
 
-dvm(theta, mean, kappa, log = FALSE, axial = FALSE)
+dvm(theta, mean, kappa, axial = FALSE, log = FALSE)
 
 pvm(theta, mean, kappa, from = NULL, tol = 1e-20)
 
-qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
+qvm(p, mean, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 }
 \arguments{
 \item{n}{integer. Number of observations in degrees}
 
 \item{mean}{numeric. The mean vector in degrees.}
 
-\item{kappa}{numeric. Concentration parameter in the range (0, Inf]}
+\item{kappa}{numeric. Concentration parameter in the range \eqn{[0, Inf]}}
 
 \item{theta}{numeric. Angular value in degrees}
-
-\item{log}{logical. If \code{TRUE}, probabilities p are given as log(p).}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
+\item{log}{logical. If \code{TRUE}, probabilities p are given as \eqn{\log(p)}{log(p)}.}
+
 \item{from}{if \code{NULL} is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
-which the pvm and qvm are evaluated. in degrees.}
+which the \code{pvm} and \code{qvm} are evaluated. in degrees.}
 
 \item{tol}{numeric. The precision in evaluating the distribution function or the quantile.}
 
@@ -47,7 +47,7 @@ which the pvm and qvm are evaluated. in degrees.}
 }
 \description{
 Density, probability distribution function, quantiles, and random generation
-for the circular normal distribution with mean \eqn{\mu} and kappa \eqn{\kappa}.
+for the circular normal distribution with mean \eqn{\mu}{mu} and kappa \eqn{\kappa}{k}.
 }
 \examples{
 set.seed(1)

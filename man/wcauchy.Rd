@@ -44,10 +44,10 @@ qwcauchy(
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
-\item{log}{logical. If \code{TRUE}, probabilities p are given as log(p).}
+\item{log}{logical. If \code{TRUE}, probabilities p are given as \eqn{\log(p)}{log(p)}.}
 
 \item{from}{if \code{NULL} is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
-which the pvm and qvm are evaluated. in degrees.}
+which the \code{pvm} and \code{qvm} are evaluated. in degrees.}
 
 \item{lower.tail}{logical. If \code{TRUE} (default), probabilities are \eqn{P(\Theta \le \theta)},
 otherwise \eqn{P(\Theta > \theta)}.}
