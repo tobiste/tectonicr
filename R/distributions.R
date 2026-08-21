@@ -1,4 +1,81 @@
 # Distribution ####
+
+## Circular Uniform ------------------------------------------------------------
+
+#' The Circular Uniform Distribution
+#'
+#' Density, probability distribution function, quantiles, and random generation
+#' for the circular uniform distribution.
+#'
+#' @param n integer. Number of observations in degrees
+#' @param p numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.
+#' @param theta numeric. Angular value in degrees
+#' @param log,log.p logical. If `TRUE`, probabilities p are given as log(p).
+#' @param lower.tail logical. If `TRUE` (default), probabilities are \eqn{P(\Theta \le \theta)},
+#' otherwise \eqn{P(\Theta > \theta)}.
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#'
+#' @returns `dcunif` gives the density,
+#' `pcunif` gives the probability of circular uniform distribution function,
+#' `rcunif` generates random deviates (in degrees), and
+#' `qcunif` provides quantiles (in degrees).
+#'
+#' @seealso [wcauchy] and [vonmises]
+#'
+#' @name cunif
+#'
+#' @importFrom stats runif
+#'
+#' @examples
+#' set.seed(1)
+#' x <- rcunif(5)
+#'
+#' dcunif(x)
+#' dcunif(x, axial = TRUE)
+#'
+#' pcunif(x)
+#' qcunif(c(.25, .5, .75))
+NULL
+
+#' @rdname cunif
+#' @export
+rcunif <- function(n, axial = FALSE){
+  f <- if(isTRUE(axial)) 1 else 2
+  stats::runif(n = n, min = 0, max = f * 180)
+}
+
+#' @rdname cunif
+#' @export
+dcunif <- function(theta, axial = FALSE, log = FALSE){
+  f <- if(isTRUE(axial)) 1 else 2
+  d <- rep(1/(f * 180), length(theta))
+  if(isTRUE(log)) log(d) else d
+}
+
+#' @rdname cunif
+#' @export
+pcunif <- function(theta, axial = FALSE, lower.tail = TRUE, log.p = FALSE) {
+  f <- if (isTRUE(axial)) 1 else 2
+  period <- f * 180
+  p <- (theta %% period) / period
+  if (!isTRUE(lower.tail)) p <- 1 - p
+  if (isTRUE(log.p)) p <- log(p)
+  p
+}
+
+#' @rdname cunif
+#' @export
+qcunif <- function(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE) {
+  if (isTRUE(log.p)) p <- exp(p)
+  if (!isTRUE(lower.tail)) p <- 1 - p
+  bad <- p < 0 | p > 1
+  if (any(bad, na.rm = TRUE)) warning("NaNs produced")
+  p[bad] <- NaN
+  f <- if (isTRUE(axial)) 1 else 2
+  p * f * 180
+}
+
 ## von Mises -------------------------------------------------------------------
 
 # pvm.mu0 <- function(theta, kappa, acc) {
@@ -25,25 +102,24 @@
 #' The von Mises Distribution
 #'
 #' Density, probability distribution function, quantiles, and random generation
-#' for the circular normal distribution with mean and kappa.
+#' for the circular normal distribution with mean \eqn{\mu} and kappa \eqn{\kappa}.
 #'
-#' @param n integer. Number of observations in degrees
+#' @inheritParams cunif
+#' @param mean numeric. The mean vector in degrees.
 #' @param p numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.
-#' @param mean numeric. Mean angle in degrees
 #' @param kappa numeric. Concentration parameter in the range (0, Inf]
-#' @param theta numeric. Angular value in degrees
 #' @param from if `NULL` is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
 #' which the pvm and qvm are evaluated. in degrees.
-#' @param tol numeric. The precision in evaluating the distribution function or the quantile.
 #' @param log logical. If `TRUE`, probabilities p are given as log(p).
-#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @param tol numeric. The precision in evaluating the distribution function or the quantile.
 #' @param ... parameters passed to [stats::integrate()].
 #'
 #' @returns `dvm` gives the density,
 #' `pvm` gives the probability of the von Mises distribution function,
 #' `rvm` generates random deviates (in degrees), and
 #' `qvm` provides quantiles (in degrees).
+#'
+#' @seealso [wcauchy] and [cunif]
 #'
 #' @name vonmises
 #'
@@ -157,8 +233,8 @@ A1inv <- function(x) {
 #' Estimates the concentration parameter of a von Mises distribution, given a
 #' set of angular measurements.
 #'
-#' @param x numeric. angles in degrees
-#' @param w numeric. weightings
+#' @param x numeric. Angles in degrees
+#' @param w numeric. Weightings
 #' @param bias logical parameter determining whether a bias correction is used
 #' in the computation of the MLE. Default for bias is `FALSE` for no bias
 #' correction.
@@ -175,6 +251,8 @@ A1inv <- function(x) {
 #'
 #' @returns numeric. Concentration of a von Mises distribution
 #' @name estimate-kappa
+#'
+#' @seealso [vonmises()]
 #'
 #' @examples
 #' set.seed(123)
@@ -226,4 +304,104 @@ est.kappa.MLE <- function(x, w = NULL, bias = FALSE) {
 est.kappa <- function(x, w = NULL, p = 2) {
   Rbar <- mean_resultant_length(x, w, na.rm = TRUE)
   (Rbar * (p - Rbar^2)) / (1 - Rbar^2)
+}
+
+## Wrapped Cauchy --------------------------------------------------------------
+
+#' The Wrapped Cauchy Distribution
+#'
+#' Density, probability distribution function, quantiles, and random generation
+#' for the circular wrapped Cauchy distribution with mean \eqn{\mu} and rho \eqn{\rho}
+#'
+#' @inheritParams vonmises
+#' @inheritParams cunif
+#' @param rho numeric. Concentration parameter in the range (0, 1)
+#' @param log.p logical. If `TRUE`, probabilities p are given as log(p).
+#'
+#' @returns `dwcauchy` gives the density,
+#' `pwcauchy` gives the probability of the wrapped Cauchy distribution function,
+#' `rwcauchy` generates random deviates (in degrees), and
+#' `qrwcauchy` provides quantiles (in degrees).
+#'
+#' @name wcauchy
+#' @seealso [vonmises] and [cunif]
+#'
+#' @importFrom circular circular rwrappedcauchy
+#'
+#' @examples
+#' set.seed(1)
+#' x <- rwcauchy(5, mean = 90, rho = exp(-1))
+#'
+#' dwcauchy(x, mean = 90, rho = exp(-1))
+#' dwcauchy(x, mean = 90, rho = exp(-1), axial = TRUE)
+#'
+#' pwcauchy(x, mean = 90, rho = exp(-1))
+#' qwcauchy(c(.25, .5, .75), mean = 90, rho = exp(-1))
+NULL
+
+#' @rdname wcauchy
+#' @export
+rwcauchy <- function(n, mean, rho){
+  mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
+  circular::rwrappedcauchy(n, mu, rho) |> as.numeric()
+}
+
+#' @rdname wcauchy
+#' @export
+dwcauchy <- function(theta, mean, rho, axial = FALSE, log = FALSE){
+  stopifnot(rho >= 0 & rho <= 1)
+  f <- if (axial) 2 else 1
+  x <- deg2rad((f * theta) %% 360)
+  mu <- deg2rad((f * mean) %% 360)
+  d <- (1 - rho^2)/((2 * pi) * (1 + rho^2 - 2 * rho * cos(x - mu))) * f * pi / 180
+  if(isTRUE(log)) log(d) else d
+}
+
+#' @rdname wcauchy
+#' @export
+pwcauchy <- function(theta, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE, log.p = FALSE) {
+  stopifnot(rho >= 0 & rho <= 1)
+  fac <- if (isTRUE(axial)) 2 else 1
+  period <- 360 / fac
+  mu <- deg2rad((fac * mean) %% 360)
+  if (is.null(from)) from <- mean - period / 2
+  k <- (1 + rho) / (1 - rho)
+
+  F0 <- function(th_deg) {
+    x <- deg2rad((fac * th_deg) %% 360)
+    d <- ((x - mu + pi) %% (2 * pi)) - pi   # wrap into [-pi, pi)
+    if (isTRUE(all.equal(rho, 1))) return(ifelse(d >= 0, 1, 0))
+    0.5 + atan(k * tan(d / 2)) / pi
+  }
+
+  p <- (F0(theta) - F0(from)) %% 1
+  if (!isTRUE(lower.tail)) p <- 1 - p
+  if (isTRUE(log.p)) p <- log(p)
+  p
+}
+
+#' @rdname wcauchy
+#' @export
+qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE, log.p = FALSE) {
+  stopifnot(rho >= 0 & rho <= 1)
+  if (isTRUE(log.p)) p <- exp(p)
+  if (!isTRUE(lower.tail)) p <- 1 - p
+  bad <- p < 0 | p > 1
+  if (any(bad, na.rm = TRUE)) warning("NaNs produced")
+  p[bad] <- NaN
+
+  fac <- if (isTRUE(axial)) 2 else 1
+  period <- 360 / fac
+  mu <- deg2rad((fac * mean) %% 360)
+  if (is.null(from)) from <- mean - period / 2
+  k <- (1 + rho) / (1 - rho)
+
+  x0 <- deg2rad((fac * from) %% 360)
+  d0 <- ((x0 - mu + pi) %% (2 * pi)) - pi
+  F0_from <- if (isTRUE(all.equal(rho, 1))) as.numeric(d0 >= 0) else 0.5 + atan(k * tan(d0 / 2)) / pi
+
+  q <- (F0_from + p) %% 1
+  d <- if (isTRUE(all.equal(rho, 1))) ifelse(q == 0, 0, NA) else 2 * atan(tan(pi * (q - 0.5)) / k)
+  x <- mu + d
+  (rad2deg(x) %% 360) / fac
 }

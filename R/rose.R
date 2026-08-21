@@ -774,8 +774,6 @@ plot_density <- function(x, kappa = NULL, axial = TRUE, n = 512L, norm.density =
     rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
   }
 
-
-  # f <- as.numeric(axial) + 1
   f <- 1
   d <- circular_density(x, kappa = kappa, n = n, axial = axial)
   if (norm.density) {

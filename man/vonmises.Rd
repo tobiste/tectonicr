@@ -19,7 +19,7 @@ qvm(p, mean = 0, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 \arguments{
 \item{n}{integer. Number of observations in degrees}
 
-\item{mean}{numeric. Mean angle in degrees}
+\item{mean}{numeric. The mean vector in degrees.}
 
 \item{kappa}{numeric. Concentration parameter in the range (0, Inf]}
 
@@ -47,7 +47,7 @@ which the pvm and qvm are evaluated. in degrees.}
 }
 \description{
 Density, probability distribution function, quantiles, and random generation
-for the circular normal distribution with mean and kappa.
+for the circular normal distribution with mean \eqn{\mu} and kappa \eqn{\kappa}.
 }
 \examples{
 set.seed(1)
@@ -58,4 +58,7 @@ dvm(x, mean = 90, kappa = 2, axial = TRUE)
 
 pvm(x, mean = 90, kappa = 2)
 qvm(c(.25, .5, .75), mean = 90, kappa = 2)
+}
+\seealso{
+\link{wcauchy} and \link{cunif}
 }

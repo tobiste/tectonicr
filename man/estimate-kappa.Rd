@@ -11,9 +11,9 @@ est.kappa.MLE(x, w = NULL, bias = FALSE)
 est.kappa(x, w = NULL, p = 2)
 }
 \arguments{
-\item{x}{numeric. angles in degrees}
+\item{x}{numeric. Angles in degrees}
 
-\item{w}{numeric. weightings}
+\item{w}{numeric. Weightings}
 
 \item{bias}{logical parameter determining whether a bias correction is used
 in the computation of the MLE. Default for bias is \code{FALSE} for no bias
@@ -46,4 +46,7 @@ w <- weighting(runif(100, 0, 10))
 est.kappa(x, w)
 
 est.kappa.MLE(x, w)
+}
+\seealso{
+\code{\link[=vonmises]{vonmises()}}
 }
