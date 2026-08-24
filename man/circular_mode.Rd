@@ -4,30 +4,29 @@
 \alias{circular_mode}
 \title{Circular Mode}
 \usage{
-circular_mode(x, kappa = NULL, axial = TRUE, n = 512)
+circular_mode(x, ...)
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees.}
+\item{x}{numeric. A vector of angles (in degrees) from which the estimate is to be computed.}
 
-\item{kappa}{von Mises distribution concentration parameter. Will be
-estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
-
-\item{axial}{logical. Whether the data are axial, i.e. pi-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).#' @param kappa}
-
-\item{n}{the number of equally spaced points at which the density is to be estimated.}
+\item{...}{parameters passed to \code{\link[=circular_density]{circular_density()}}}
 }
 \value{
 numeric
 }
 \description{
-MLE angle (maximum density) using a von Mises distribution kernel with
-specified concentration.
+MLE angle (maximum density) using a circular distribution kernel with
+specified concentration
 }
 \examples{
-set.seed(1)
+set.seed(20250411)
 x <- rvm(10, 0, 100)
-circular_mode(x, kappa = est.kappa(x))
+
+# Mode of von Mises kernel density (the default)
+circular_mode(x)
+
+# Mode of wrapped Cauchy kernel density
+circular_mode(x, kernel = "wrappedcauchy")
 }
 \references{
 N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.

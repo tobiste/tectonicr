@@ -1167,15 +1167,11 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 
 #' Circular Mode
 #'
-#' MLE angle (maximum density) using a von Mises distribution kernel with
-#' specified concentration.
+#' MLE angle (maximum density) using a circular distribution kernel with
+#' specified concentration
 #'
-#' @param x numeric vector. Values in degrees.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).#' @param kappa
-#' @param kappa von Mises distribution concentration parameter. Will be
-#' estimated using [est.kappa()] if not provided.
-#' @param n the number of equally spaced points at which the density is to be estimated.
+#' @inheritParams circular_density
+#' @param ... parameters passed to [circular_density()]
 #'
 #' @return numeric
 #' @export
@@ -1184,17 +1180,18 @@ circular_sample_median_deviation <- function(x, axial = TRUE, na.rm = TRUE) {
 #' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
 #'
 #' @examples
-#' set.seed(1)
+#' set.seed(20250411)
 #' x <- rvm(10, 0, 100)
-#' circular_mode(x, kappa = est.kappa(x))
-circular_mode <- function(x, kappa = NULL, axial = TRUE, n = 512) {
-  f <- if (isTRUE(axial)) 2 else 1
-
-  if (is.null(kappa)) kappa <- est.kappa(f * x)
-  dns <- circular_density(x, kappa = kappa, n = n, axial = axial)
-
-  angles <- seq(0, 360, length.out = n)
-  angles[which.max(dns)]
+#'
+#' # Mode of von Mises kernel density (the default)
+#' circular_mode(x)
+#'
+#' # Mode of wrapped Cauchy kernel density
+#' circular_mode(x, kernel = "wrappedcauchy")
+circular_mode <- function(x, ...) {
+  d <- circular_density(x, ...)
+  angles <- seq(0, 360, length.out = length(d$x))
+  angles[which.max(d$y)]
 }
 
 
@@ -1274,7 +1271,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
     f <- if (isTRUE(axial)) 2 else 1
 
     if (is.null(kappa)) kappa <- est.kappa(f * x, w = w)
-    mode <- circular_mode(x, kappa = kappa, axial = axial)
+    mode <- circular_mode(x, kappa = kappa, axial = axial, kernel = "vonmises")
     append(res, c("mode" = mode), after = 8)
   } else {
     res

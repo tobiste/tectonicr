@@ -400,3 +400,127 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
   x <- mu + d
   (rad2deg(x) %% 360) / fac
 }
+
+# Kernel density ---------------------------------------------------------------
+
+.calc_circular_density <- function(x, z, bw, axial, kernel = c("vonmises", "wrappedcauchy")) {
+  kernel <- match.arg(kernel)
+  nx <- length(x)
+  # if (kernel == "vonmises") {
+  # y <- sapply(z, FUN = dvm, mean = x, kappa = kappa, axial = axial, log = FALSE)
+  # } else {
+  #    #rho <- exp(-bw^2/2)
+  #    rho <- kappa
+  #    y <- sapply(z, dwcauchy, mean = x, rho = rho, axial = axial, log = FALSE)
+  #  }
+  # apply(y, 2, sum) / nx
+
+  f <- if (isTRUE(axial)) 2 else 1
+
+  X <- deg2rad(f * x) %% (2 * pi)
+  Z <- deg2rad(f * z) %% (2 * pi)
+  delta <- outer(X, Z, "-") # nx x n matrix, built once
+
+  if (kernel == "vonmises") {
+    kappa <- bw
+    # kappa <- ifelse(is.null(bw), 10, bw)
+    bessel_val <- besselI(kappa, nu = 0, expon.scaled = TRUE) # once, not per z
+    y <- f * exp(kappa * (cos(delta) - 1)) / (2 * pi * bessel_val)
+  } else {
+    rho <- bw
+    # rho <- exp(-bw^2/2)
+    # rho <- ifelse(is.null(bw), exp(-1) * f, bw)
+    y <- f * (1 - rho^2) / (2 * pi * (1 + rho^2 - 2 * rho * cos(delta)))
+  }
+  colSums(y) / nx
+}
+
+
+#' Circular Kernel Density
+#'
+#' Multiples of a von Mises density or wrapped Cauchy distribution for circular data
+#'
+#' @param x numeric. A vector of angles (in degrees) from which the estimate is to be computed.
+#' @param z numeric. Angles where the density is estimated. If `NULL` equally
+#' spaced angles are used according to the parameters `from`, `to` and `n`.
+#' @param bw,kappa,rho numeric. Smoothing bandwidth expressed as the concentration
+#' parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
+#' wrapped Cauchy distribution.
+#' Small and large values for the von Mises and wrapped Cauchy distribution,
+#' respectively, gives smooth density lines. If not specified, parameter will be estimated using
+#' [est.kappa()]  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
+#' for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when `axial=TRUE` and 1 otherwise).
+#' @param kernel character. The smoothing kernel to be used; one of `"vonmises"`
+#' (the default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
+#' distribution.
+#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' or biaxial (`TRUE`, the default).
+#' @param n integer. Number of equally spaced angles at which the density is
+#'  to be estimated.
+#' @inheritParams circular_plot
+#' @inheritParams stats::density
+#'
+#' @seealso [stats::density()], [dvm()] and [dwcauchy()]
+#' @return Object of class `"density"`
+#' @export
+#'
+#' @examples
+#' # von Mises kernel density
+#' circular_density(san_andreas$azi, kappa = 100)
+#'
+#' # wrapped Cauchy kernel density
+#' circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
+circular_density <- function(x, z = NULL, bw = NULL, na.rm = TRUE, from = 0,
+                             to = 360, n = 512, axial = TRUE,
+                             kappa = NULL, rho = NULL, kernel = c("vonmises", "wrappedcauchy"),
+                             adjust = 1) {
+  kernel <- match.arg(kernel)
+  f <- if (isTRUE(axial)) 2 else 1
+
+  bw <- if (is.null(bw)) {
+    if (kernel == "vonmises") {
+      ifelse(is.null(kappa), 10, kappa)
+    } else {
+      ifelse(is.null(rho), exp(-1) * f, rho)
+    }
+  } else {
+    bw
+  }
+
+
+  if (is.null(z)) {
+    z <- seq(from = from, to = to, length = n)
+  } else {
+    if (!is.numeric(z)) {
+      stop("argument 'z' must be numeric")
+    }
+    namez <- deparse(substitute(z))
+    z.na <- is.na(z)
+    if (any(z.na)) {
+      if (isTRUE(na.rm)) {
+        z <- z[!z.na]
+      } else {
+        stop("z contains missing values")
+      }
+    }
+    z.finite <- is.finite(z)
+    if (any(!z.finite)) {
+      z <- z[z.finite]
+    }
+  }
+
+  d <- .calc_circular_density(x, z, bw = bw, axial = axial, kernel = kernel)
+
+  structure(
+    list(
+      x = z,
+      y = d * adjust,
+      bw = bw,
+      n = length(na.omit(z)),
+      call = match.call(),
+      data.name = deparse1(substitute(x)),
+      has.na = any(is.na(x))
+    ),
+    class = "density"
+  )
+}

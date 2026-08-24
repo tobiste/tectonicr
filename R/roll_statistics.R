@@ -622,7 +622,7 @@ distance_binned_stats <- function(azi, distance, n.breaks = 10, width.breaks = N
       quasimedian = ifelse(n > 2, circular_median(azi, w = w), NA),
       uq = ifelse(n > 3, circular_quantiles(azi, w = w)[3], NA),
       median = circular_sample_median(azi),
-      mode = ifelse(n > 2, circular_mode(azi, kappa = kappa), NA),
+      mode = ifelse(n > 2, circular_mode(azi, kappa = kappa, kernel = "vonmises"), NA),
       CI = ifelse(n > 2, confidence_angle(azi, w = w, conf.level = conf.level), NA),
       skewness = ifelse(n > 2, second_central_moment(azi, w = w)$skewness, NA),
       kurtosis = ifelse(n > 2, second_central_moment(azi, w = w)$kurtosis, NA),

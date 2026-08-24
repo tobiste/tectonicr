@@ -95,8 +95,8 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
   stopifnot(is.numeric(x))
   if (!is.null(weights)) {
     spatstat.utils::check.nvector(weights, length(x),
-                                  things = "observations",
-                                  vname = "weights"
+      things = "observations",
+      vname = "weights"
     )
   }
 
@@ -155,7 +155,6 @@ rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
 
   result
 }
-
 
 
 #' @title Selecting optimal number of bins and width for rose diagrams
@@ -328,20 +327,20 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
   )
 
   rose_histogram(freqs, ...,
-                 col = col, axial = axial,
-                 main = main, labels = TRUE, at = at, cborder = TRUE, add = TRUE
+    col = col, axial = axial,
+    main = main, labels = TRUE, at = at, cborder = TRUE, add = TRUE
   )
 
   if (dots) {
     plot_points(x,
-                axial = axial, stack = stack, cex = dot_cex, pch = dot_pch,
-                col = dot_col, jitter_factor = jitter_factor, add = TRUE
+      axial = axial, stack = stack, cex = dot_cex, pch = dot_pch,
+      col = dot_col, jitter_factor = jitter_factor, add = TRUE
     )
   }
 
   if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
   graphics::title(main = NULL, sub = sub, ylab = NULL)
-  #graphics::mtext(mtext, font = 2)
+  # graphics::mtext(mtext, font = 2)
 
   graphics::text(0, 1 + ifelse(labels, 0.5, 0.3), origin.text, font = 2)
 
@@ -372,7 +371,6 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' lwd <- c(2, 1, .75)
 #' col <- c(1, 2, 3)
 #' rose_line(angles, radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
-#'
 #'
 NULL
 
@@ -461,9 +459,9 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
                        spread.col = ggplot2::alpha("#B63679FF", .2), spread.border = FALSE, spread.lty = NULL, spread.lwd = NULL, add = TRUE, ...) {
   avg <- match.arg(avg)
   mu <- switch(avg,
-               mean = circular_mean(x, weights, axial),
-               median = circular_median(x, weights, axial),
-               sample_median = circular_sample_median(x, axial)
+    mean = circular_mean(x, weights, axial),
+    median = circular_median(x, weights, axial),
+    sample_median = circular_sample_median(x, axial)
   )
   # mu_text <- switch(avg,
   #   mean = "Mean: ",
@@ -473,22 +471,22 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
   if (!is.null(spread)) {
     spread <- match.arg(spread)
     ci <- switch(spread,
-                 CI = confidence_interval(x, w = weights, axial = axial)$conf.angle,
-                 fisher = confidence_interval_fisher(x, w = weights, axial = axial, quiet = TRUE)$conf.angle,
-                 sd = circular_sd(x, weights, axial),
-                 IQR = circular_IQR(x, weights, axial),
-                 mdev = circular_sample_median_deviation(x, axial)
+      CI = confidence_interval(x, w = weights, axial = axial)$conf.angle,
+      fisher = confidence_interval_fisher(x, w = weights, axial = axial, quiet = TRUE)$conf.angle,
+      sd = circular_sd(x, weights, axial),
+      IQR = circular_IQR(x, weights, axial),
+      mdev = circular_sample_median_deviation(x, axial)
     )
     rose_fan(mu, 2 * ci,
-             radius = 1.1, axial = axial, col = spread.col,
-             border = spread.border, lty = spread.lty, lwd = spread.lwd,
-             add = add, ...
+      radius = 1.1, axial = axial, col = spread.col,
+      border = spread.border, lty = spread.lty, lwd = spread.lwd,
+      add = add, ...
     )
   }
 
   rose_line(mu,
-            radius = 1.1, axial = axial, col = avg.col, lty = avg.lty,
-            lwd = avg.lwd, add = TRUE, ...
+    radius = 1.1, axial = axial, col = avg.col, lty = avg.lty,
+    lwd = avg.lwd, add = TRUE, ...
   )
   invisible(c(mu, ci))
 }
@@ -595,73 +593,6 @@ plot_points <- function(x, axial = TRUE, stack = FALSE, binwidth = 1, cex = 1, s
 
 # Plot density lines on rose ---------------------------------------------------
 
-calc_circular_density <- function(x, z, bw, axial, kernel = c("vonmises", "wrappedcauchy")) {
-  kernel <- match.arg(kernel)
-  nx <- length(x)
-  # if (kernel == "vonmises") {
-  # y <- sapply(z, FUN = dvm, mean = x, kappa = kappa, axial = axial, log = FALSE)
-  # } else {
-  #    #rho <- exp(-bw^2/2)
-  #    rho <- kappa
-  #    y <- sapply(z, dwcauchy, mean = x, rho = rho, axial = axial, log = FALSE)
-  #  }
-  # apply(y, 2, sum) / nx
-
-  f <- if (isTRUE(axial)) 2 else 1
-
-  X <- deg2rad(f * x) %% (2 * pi)
-  Z <- deg2rad(f * z) %% (2 * pi)
-  delta <- outer(X, Z, "-")                # nx x n matrix, built once
-
-  if (kernel == "vonmises") {
-    kappa <- bw
-    if(is.null(kappa)) kappa <- est.kappa(f * x)
-    bessel_val <- besselI(kappa, nu = 0, expon.scaled = TRUE)   # once, not per z
-    y <- f * exp(kappa * (cos(delta) - 1)) / (2 * pi * bessel_val)
-  } else {
-    #rho <- exp(-bw^2/2)
-    rho <- bw
-    if(is.null(rho)) rho <- exp(-1) * f
-    y <- f * (1 - rho^2) / (2 * pi * (1 + rho^2 - 2 * rho * cos(delta)))
-  }
-  colSums(y) / nx
-}
-
-
-circular_density <- function(x, z = NULL, bw = NULL, na.rm = TRUE, from = 0,
-                             to = 360, n = 512, axial = TRUE,
-                             kappa = NULL, rho = NULL, kernel = c("vonmises", "wrappedcauchy")) {
-  kernel <- match.arg(kernel)
-  bw <- if(is.null(bw)){
-    if(kernel == "vomises") kappa else rho
-  }
-
-  f <- if (isTRUE(axial)) 2 else 1
-
-  if (is.null(z)) {
-    z <- seq(from = from, to = to, length = n)
-  } else {
-    if (!is.numeric(z)) {
-      stop("argument 'z' must be numeric")
-    }
-    namez <- deparse(substitute(z))
-    z.na <- is.na(z)
-    if (any(z.na)) {
-      if (isTRUE(na.rm)) {
-        z <- z[!z.na]
-      } else {
-        stop("z contains missing values")
-      }
-    }
-    z.finite <- is.finite(z)
-    if (any(!z.finite)) {
-      z <- z[z.finite]
-    }
-  }
-
-  calc_circular_density(x, z, bw = bw, axial = axial, kernel = kernel)
-}
-
 circular_lines <- function(x, y, join = FALSE, nosort = FALSE, offset = 1.1, shrink = 1, axial = TRUE, ...) {
   x <- deg2rad(90 - x)
   if (isTRUE(axial)) {
@@ -734,21 +665,9 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'
 #' Plots multiples of a von Mises density or wrapped Cauchy distribution in a circular plot
 #'
-#' @param x numeric. Data to be plotted, i.e. vector containing angles (in degrees).
-#' @param bw,kappa,rho numeric. Smoothing bandwidth expressed as the concentration
-#' parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
-#' wrapped Cauchy distribution.
-#' Small and large values for the von Mises and wrapped Cauchy distribution,
-#' respectively, gives smooth density lines. If not specified, parameter will be estimated using
-#' [est.kappa()]  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
-#' for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when `axial=TRUE` and 1 otherwise).
-#' @param kernel character. The smoothing kernel to be used; one of `"vonmises"`
-#' (the default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
-#' distribution.
-#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
-#' or biaxial (`TRUE`, the default).
-#' @param n integer. the number of equally spaced points at which the density is
-#'  to be estimated.
+#' @param x Either an object of class `"density"` or a numeric vector of angles
+#' (in degrees) from which the estimate is to be computed
+#' @inheritParams circular_density
 #' @param norm.density logical. Normalize the density?
 #' @param scale numeric. radius of plotted circle. Default is `1.1`.
 #' @param shrink numeric. parameter that controls the size of the plotted
@@ -760,19 +679,19 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #' @param add logical. Add to existing plot? (`TRUE` by default).
 #' @inheritParams circular_plot
 #'
-#' @seealso [dvm()] and [dwcauchy()]
+#' @seealso [circular_density()]
 #' @family rose-plot
-#' @return plot or calculated densities as numeric vector
+#' @return plot or calculated densities
 #' @export
 #'
 #' @examples
 #' # Filled von Mises kernel density curve inside the plot
-#' plot_density(san_andreas$azi,
-#'   kappa = 100,
-#'   fill = TRUE, col = "#51127C80", border = "#51127CFF",
-#'   grid = TRUE,
-#'   add = FALSE
-#' )
+# plot_density(san_andreas$azi,
+#   kappa = 100,
+#   fill = TRUE, col = "#51127C80", border = "#51127CFF",
+#   grid = TRUE,
+#   add = FALSE
+# )
 #'
 #' # Superimpose a wrapped Cauchy kernel distribution curve
 #' plot_density(san_andreas$azi,
@@ -788,7 +707,7 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'   add = TRUE, lwd = 3
 #' )
 #'
-#' # Corona plot (censity curve outside of a rose diagram plot):
+#' # Corona plot (density curve outside of a rose diagram plot):
 #' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 #' plot_density(san_andreas$azi,
 #'   bw = 100,
@@ -800,14 +719,22 @@ plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
                          n = 512L,
                          norm.density = TRUE,
                          kappa = NULL, rho = NULL,
-                         ...,
                          fill = FALSE,
                          scale = 0, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
-                         at = seq(0, 360 - 45, 45), cborder = TRUE, grid = FALSE) {
+                         at = seq(0, 360 - 45, 45), cborder = TRUE, grid = FALSE, ...) {
+  # Calculate density
+  d <- if (inherits(x, "density")) {
+    x
+  } else {
+    circular_density(x, bw = bw, n = n, axial = axial, kernel = kernel, kappa = kappa, rho = rho)
+  }
+  d.y <- d$y
+
+
   if (isFALSE(add)) {
     if (missing(main) || is.null(main)) {
-      main <- spatstat.utils::short.deparse(substitute(x))
+      main <- d$data.name #spatstat.utils::short.deparse(substitute(x))
     }
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
@@ -816,18 +743,14 @@ plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
     rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
   }
 
+
+  if (norm.density) d.y <- d.y / max(d.y)
+
   f <- 1
-
-  d <- circular_density(x, bw = bw, n = n, axial = axial, kernel = kernel, kappa = kappa, rho = rho)
-  if (norm.density) {
-    d <- d / max(d)
-    # shrink = 1/scale
-  }
-
-  if(isFALSE(fill)){
-    circular_lines(seq(0, 360, length = f * n), rep(d, f), axial = FALSE, n, offset = scale, shrink = shrink, ...)
+  if (isFALSE(fill)) {
+    circular_lines(seq(0, 360, length = f * n), rep(d.y, f), axial = FALSE, n, offset = scale, shrink = shrink, ...)
   } else {
-    circular_polygon(seq(0, 360, length = f * n), rep(d, f), axial = FALSE, offset = scale, shrink = shrink, ...)
+    circular_polygon(seq(0, 360, length = f * n), rep(d.y, f), axial = FALSE, offset = scale, shrink = shrink, ...)
   }
   invisible(d)
 }

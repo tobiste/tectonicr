@@ -13,7 +13,6 @@ plot_density(
   norm.density = TRUE,
   kappa = NULL,
   rho = NULL,
-  ...,
   fill = FALSE,
   scale = 0,
   shrink = 1,
@@ -22,11 +21,13 @@ plot_density(
   labels = TRUE,
   at = seq(0, 360 - 45, 45),
   cborder = TRUE,
-  grid = FALSE
+  grid = FALSE,
+  ...
 )
 }
 \arguments{
-\item{x}{numeric. Data to be plotted, i.e. vector containing angles (in degrees).}
+\item{x}{Either an object of class \code{"density"} or a numeric vector of angles
+(in degrees) from which the estimate is to be computed}
 
 \item{bw, kappa, rho}{numeric. Smoothing bandwidth expressed as the concentration
 parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
@@ -43,12 +44,10 @@ distribution.}
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
 
-\item{n}{integer. the number of equally spaced points at which the density is
+\item{n}{integer. Number of equally spaced angles at which the density is
 to be estimated.}
 
 \item{norm.density}{logical. Normalize the density?}
-
-\item{...}{Further graphical parameters may also be supplied as arguments.}
 
 \item{fill}{logical. Whether to fill the density curve or draw just a line
 (the default)}
@@ -71,21 +70,17 @@ Set \code{at=numeric(0)} to suppress tick marks.}
 \item{cborder}{logical. Border of rose plot.}
 
 \item{grid}{logical. Whether a grid should be added.}
+
+\item{...}{Further graphical parameters may also be supplied as arguments.}
 }
 \value{
-plot or calculated densities as numeric vector
+plot or calculated densities
 }
 \description{
 Plots multiples of a von Mises density or wrapped Cauchy distribution in a circular plot
 }
 \examples{
 # Filled von Mises kernel density curve inside the plot
-plot_density(san_andreas$azi,
-  kappa = 100,
-  fill = TRUE, col = "#51127C80", border = "#51127CFF",
-  grid = TRUE,
-  add = FALSE
-)
 
 # Superimpose a wrapped Cauchy kernel distribution curve
 plot_density(san_andreas$azi,
@@ -101,7 +96,7 @@ plot_density(san_andreas$azi,
   add = TRUE, lwd = 3
 )
 
-# Corona plot (censity curve outside of a rose diagram plot):
+# Corona plot (density curve outside of a rose diagram plot):
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 plot_density(san_andreas$azi,
   bw = 100,
@@ -110,7 +105,7 @@ plot_density(san_andreas$azi,
 )
 }
 \seealso{
-\code{\link[=dvm]{dvm()}} and \code{\link[=dwcauchy]{dwcauchy()}}
+\code{\link[=circular_density]{circular_density()}}
 
 Other rose-plot: 
 \code{\link{plot_points}()},
