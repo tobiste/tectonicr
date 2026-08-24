@@ -8,6 +8,7 @@ plot_density(
   x,
   bw = NULL,
   kernel = c("vonmises", "wrappedcauchy"),
+  weights = NULL,
   axial = TRUE,
   n = 512L,
   norm.density = TRUE,
@@ -40,6 +41,11 @@ for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when \code{axial=TRU
 \item{kernel}{character. The smoothing kernel to be used; one of \code{"vonmises"}
 (the default) or \code{"wrappedcauchy"} for the von Mises or the Wrapped Cauchy
 distribution.}
+
+\item{weights}{numeric. A vector of observation weights, of the same length as \code{x},
+to give individual observations weight in the density estimate. Should sum to 1;
+a warning is issued if it doesn't (unless \code{subdensity = TRUE}). Defaults to
+equal weight \code{1/length(x)} per observation, matching \code{\link[stats:density]{stats::density()}}.}
 
 \item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
 or biaxial (\code{TRUE}, the default).}
@@ -81,6 +87,12 @@ Plots multiples of a von Mises density or wrapped Cauchy distribution in a circu
 }
 \examples{
 # Filled von Mises kernel density curve inside the plot
+plot_density(san_andreas$azi,
+  kappa = 100,
+  fill = TRUE, col = "#51127C80", border = "#51127CFF",
+  grid = TRUE,
+  add = FALSE
+)
 
 # Superimpose a wrapped Cauchy kernel distribution curve
 plot_density(san_andreas$azi,
@@ -97,8 +109,9 @@ plot_density(san_andreas$azi,
 )
 
 # Corona plot (density curve outside of a rose diagram plot):
-rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-plot_density(san_andreas$azi,
+w <- weighting(san_andreas$unc)
+rose(san_andreas$azi, weights = w, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+plot_density(san_andreas$azi, weights = w,
   bw = 100,
   scale = 1.1, shrink = 3, xpd = NA,
   col = "#51127CFF"
@@ -107,10 +120,10 @@ plot_density(san_andreas$azi,
 \seealso{
 \code{\link[=circular_density]{circular_density()}}
 
-Other rose-plot: 
+Other circular-plot: 
 \code{\link{plot_points}()},
 \code{\link{rose}()},
 \code{\link{rose_geom}},
 \code{\link{rose_stats}()}
 }
-\concept{rose-plot}
+\concept{circular-plot}

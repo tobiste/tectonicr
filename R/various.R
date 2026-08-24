@@ -471,6 +471,7 @@ lines_azimuths <- function(x) {
 #' @param x numeric. Uncertainty angle in degrees.
 #' @param method character. One of `"linear-inverse"` (the default), `"inverse"`, `"cosine"`, or `"none"` (no transformation).
 #' @param max.err numeric. The maximum expected error for x (90 by default).
+#' @param norm logical. Whether weights should be normalized so that the sum of the weights is 1. `TRUE` by default
 #'
 #' @details
 #' Linear inverse: \eqn{w = 1 - x/\sigma}, where \eqn{\sigma} is the maximum error expected for \eqn{x} (e.g. \eqn{90^\circ}).
@@ -496,10 +497,10 @@ lines_azimuths <- function(x) {
 #'   col = 1:3, lty = 1,
 #'   legend = c("inverse", "cosine", "linear-inverse")
 #' )
-weighting <- function(x, method = c("linear-inverse", "inverse", "cosine", "none"), max.err = 90) {
+weighting <- function(x, method = c("linear-inverse", "inverse", "cosine", "none"), max.err = 90, norm = TRUE) {
   method <- match.arg(method)
 
-  if (method == "linear-inverse") {
+  w <- if (method == "linear-inverse") {
     1 - abs(x) / max.err
   } else if (method == "inverse") {
     1 / abs(x)
@@ -508,4 +509,5 @@ weighting <- function(x, method = c("linear-inverse", "inverse", "cosine", "none
   } else {
     x
   }
+  if(isTRUE(norm)) w / sum(w) else w
 }

@@ -40,10 +40,10 @@ rose_line(angles, radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = 
 
 }
 \seealso{
-Other rose-plot: 
+Other circular-plot: 
 \code{\link{plot_density}()},
 \code{\link{plot_points}()},
 \code{\link{rose}()},
 \code{\link{rose_stats}()}
 }
-\concept{rose-plot}
+\concept{circular-plot}

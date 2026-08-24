@@ -274,7 +274,7 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' @importFrom graphics hist title points text
 #' @importFrom stats na.omit
 #'
-#' @family rose-plot
+#' @family circular-plot
 #'
 #' @export
 #'
@@ -364,7 +364,7 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #'
 #' @importFrom graphics segments polygon
 #' @name rose_geom
-#' @family rose-plot
+#' @family circular-plot
 #' @examples
 #' angles <- c(0, 10, 45)
 #' radius <- c(.7, 1, .2)
@@ -439,7 +439,7 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @param ... optional arguments to `circular_plot()` if add is `FALSE`.
 #' @importFrom ggplot2 alpha
 #'
-#' @family rose-plot
+#' @family circular-plot
 #'
 #' @seealso [circular_mean()], [circular_median()], [circular_sample_median()],
 #' [confidence_interval()], [confidence_interval_fisher()],
@@ -524,7 +524,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #'
 #' @importFrom graphics points
 #'
-#' @family rose-plot
+#' @family circular-plot
 #'
 #' @return A list with information on the plot
 #' @export
@@ -680,18 +680,18 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #' @inheritParams circular_plot
 #'
 #' @seealso [circular_density()]
-#' @family rose-plot
+#' @family circular-plot
 #' @return plot or calculated densities
 #' @export
 #'
 #' @examples
 #' # Filled von Mises kernel density curve inside the plot
-# plot_density(san_andreas$azi,
-#   kappa = 100,
-#   fill = TRUE, col = "#51127C80", border = "#51127CFF",
-#   grid = TRUE,
-#   add = FALSE
-# )
+#' plot_density(san_andreas$azi,
+#'   kappa = 100,
+#'   fill = TRUE, col = "#51127C80", border = "#51127CFF",
+#'   grid = TRUE,
+#'   add = FALSE
+#' )
 #'
 #' # Superimpose a wrapped Cauchy kernel distribution curve
 #' plot_density(san_andreas$azi,
@@ -708,13 +708,15 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #' )
 #'
 #' # Corona plot (density curve outside of a rose diagram plot):
-#' rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-#' plot_density(san_andreas$azi,
+#' w <- weighting(san_andreas$unc)
+#' rose(san_andreas$azi, weights = w, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+#' plot_density(san_andreas$azi, weights = w,
 #'   bw = 100,
 #'   scale = 1.1, shrink = 3, xpd = NA,
 #'   col = "#51127CFF"
 #' )
 plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
+                         weights = NULL,
                          axial = TRUE,
                          n = 512L,
                          norm.density = TRUE,
@@ -727,7 +729,7 @@ plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
   d <- if (inherits(x, "density")) {
     x
   } else {
-    circular_density(x, bw = bw, n = n, axial = axial, kernel = kernel, kappa = kappa, rho = rho)
+    circular_density(x, bw = bw, n = n, axial = axial, kernel = kernel, kappa = kappa, rho = rho, weights = weights)
   }
   d.y <- d$y
 
@@ -754,3 +756,4 @@ plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
   }
   invisible(d)
 }
+

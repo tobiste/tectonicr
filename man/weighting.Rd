@@ -7,7 +7,8 @@
 weighting(
   x,
   method = c("linear-inverse", "inverse", "cosine", "none"),
-  max.err = 90
+  max.err = 90,
+  norm = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ weighting(
 \item{method}{character. One of \code{"linear-inverse"} (the default), \code{"inverse"}, \code{"cosine"}, or \code{"none"} (no transformation).}
 
 \item{max.err}{numeric. The maximum expected error for x (90 by default).}
+
+\item{norm}{logical. Whether weights should be normalized so that the sum of the weights is 1. \code{TRUE} by default}
 }
 \value{
 numeric

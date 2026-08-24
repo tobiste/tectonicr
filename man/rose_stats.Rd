@@ -75,10 +75,10 @@ rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "sample_median"
 \code{\link[=circular_sd]{circular_sd()}}, \code{\link[=circular_IQR]{circular_IQR()}}, \code{\link[=circular_sample_median_deviation]{circular_sample_median_deviation()}}
 for statistical parameters.
 
-Other rose-plot: 
+Other circular-plot: 
 \code{\link{plot_density}()},
 \code{\link{plot_points}()},
 \code{\link{rose}()},
 \code{\link{rose_geom}}
 }
-\concept{rose-plot}
+\concept{circular-plot}

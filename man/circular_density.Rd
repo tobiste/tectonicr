@@ -2,21 +2,23 @@
 % Please edit documentation in R/distributions.R
 \name{circular_density}
 \alias{circular_density}
-\title{Circular Kernel Density}
+\title{Circular Kernel Density Estimation}
 \usage{
 circular_density(
   x,
   z = NULL,
   bw = NULL,
+  weights = NULL,
   na.rm = TRUE,
   from = 0,
   to = 360,
-  n = 512,
+  n = 512L,
   axial = TRUE,
   kappa = NULL,
   rho = NULL,
   kernel = c("vonmises", "wrappedcauchy"),
-  adjust = 1
+  adjust = 1,
+  subdensity = FALSE
 )
 }
 \arguments{
@@ -32,6 +34,11 @@ Small and large values for the von Mises and wrapped Cauchy distribution,
 respectively, gives smooth density lines. If not specified, parameter will be estimated using
 \code{\link[=est.kappa]{est.kappa()}}  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
 for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when \code{axial=TRUE} and 1 otherwise).}
+
+\item{weights}{numeric. A vector of observation weights, of the same length as \code{x},
+to give individual observations weight in the density estimate. Should sum to 1;
+a warning is issued if it doesn't (unless \code{subdensity = TRUE}). Defaults to
+equal weight \code{1/length(x)} per observation, matching \code{\link[stats:density]{stats::density()}}.}
 
 \item{na.rm}{logical; if \code{TRUE}, missing values are removed
     from \code{x}. If \code{FALSE} any missing values cause an error.}
@@ -53,19 +60,28 @@ distribution.}
 \item{adjust}{the bandwidth used is actually \code{adjust*bw}.
     This makes it easy to specify values like \sQuote{half the default}
     bandwidth.}
+
+\item{subdensity}{logical. If \code{TRUE}, suppress the "sum(weights) != 1" warning,
+for when a deliberately partial (sub-)density is wanted, e.g. one group's
+contribution to a shared total. See \code{\link[stats:density]{stats::density()}}.}
 }
 \value{
 Object of class \code{"density"}
 }
 \description{
-Multiples of a von Mises density or wrapped Cauchy distribution for circular data
+Kernel density estimates for circular data from a given kernel (von Mises or
+wrapped Cauchy distribution) and bandwidth
 }
 \examples{
+w <-  weighting(san_andreas$unc)
+
 # von Mises kernel density
 circular_density(san_andreas$azi, kappa = 100)
+circular_density(san_andreas$azi, weights = w, kappa = 100)
 
 # wrapped Cauchy kernel density
 circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
+circular_density(san_andreas$azi, weights = w, rho = 0.9, kernel = "wrappedcauchy")
 }
 \seealso{
 \code{\link[stats:density]{stats::density()}}, \code{\link[=dvm]{dvm()}} and \code{\link[=dwcauchy]{dwcauchy()}}

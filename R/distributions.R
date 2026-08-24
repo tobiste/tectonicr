@@ -403,7 +403,7 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 
 # Kernel density ---------------------------------------------------------------
 
-.calc_circular_density <- function(x, z, bw, axial, kernel = c("vonmises", "wrappedcauchy")) {
+.calc_circular_density <- function(x, z, bw, axial, kernel = c("vonmises", "wrappedcauchy"), weights = NULL) {
   kernel <- match.arg(kernel)
   nx <- length(x)
   # if (kernel == "vonmises") {
@@ -414,6 +414,7 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
   #    y <- sapply(z, dwcauchy, mean = x, rho = rho, axial = axial, log = FALSE)
   #  }
   # apply(y, 2, sum) / nx
+  if (is.null(weights)) weights <- rep.int(1 / nx, nx)
 
   f <- if (isTRUE(axial)) 2 else 1
 
@@ -432,7 +433,8 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
     # rho <- ifelse(is.null(bw), exp(-1) * f, bw)
     y <- f * (1 - rho^2) / (2 * pi * (1 + rho^2 - 2 * rho * cos(delta)))
   }
-  colSums(y) / nx
+  #colSums(y) / nx
+  colSums(y * weights)  # weights already sum to 1 (or intentionally don't, if subdensity)
 }
 
 
@@ -454,6 +456,13 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 #' @param kernel character. The smoothing kernel to be used; one of `"vonmises"`
 #' (the default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
 #' distribution.
+#' @param weights numeric. A vector of observation weights, of the same length as `x`,
+#' to give individual observations weight in the density estimate. Should sum to 1;
+#' a warning is issued if it doesn't (unless `subdensity = TRUE`). Defaults to
+#' equal weight `1/length(x)` per observation, matching [stats::density()].
+#' @param subdensity logical. If `TRUE`, suppress the "sum(weights) != 1" warning,
+#' for when a deliberately partial (sub-)density is wanted, e.g. one group's
+#' contribution to a shared total. See [stats::density()].
 #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
 #' or biaxial (`TRUE`, the default).
 #' @param n integer. Number of equally spaced angles at which the density is
@@ -466,18 +475,22 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 #' @export
 #'
 #' @examples
+#' w <-  weighting(san_andreas$unc)
+#'
 #' # von Mises kernel density
 #' circular_density(san_andreas$azi, kappa = 100)
+#' circular_density(san_andreas$azi, weights = w, kappa = 100)
 #'
 #' # wrapped Cauchy kernel density
 #' circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
-circular_density <- function(x, z = NULL, bw = NULL, na.rm = TRUE, from = 0,
-                             to = 360, n = 512, axial = TRUE,
+#' circular_density(san_andreas$azi, weights = w, rho = 0.9, kernel = "wrappedcauchy")
+circular_density <- function(x, z = NULL, bw = NULL, weights = NULL, na.rm = TRUE,
+                             from = 0, to = 360, n = 512L,
+                             axial = TRUE,
                              kappa = NULL, rho = NULL, kernel = c("vonmises", "wrappedcauchy"),
-                             adjust = 1) {
+                             adjust = 1, subdensity = FALSE) {
   kernel <- match.arg(kernel)
   f <- if (isTRUE(axial)) 2 else 1
-
   bw <- if (is.null(bw)) {
     if (kernel == "vonmises") {
       ifelse(is.null(kappa), 10, kappa)
@@ -488,6 +501,43 @@ circular_density <- function(x, z = NULL, bw = NULL, na.rm = TRUE, from = 0,
     bw
   }
 
+  if (!is.numeric(x)) stop("argument 'x' must be numeric")
+  N <- length(x)
+  has.wts <- !is.null(weights)
+  if (has.wts && length(weights) != N) {
+    stop("'x' and 'weights' have unequal length")
+  }
+
+  x.na <- is.na(x)
+
+  if (any(x.na)) {
+    if (isTRUE(na.rm)) {
+      N <- length(x <- x[!x.na])
+      if (has.wts) {
+        trueD <- isTRUE(all.equal(1, sum(weights)))
+        weights <- weights[!x.na]
+        if (trueD) weights <- weights / sum(weights)
+      }
+    } else {
+      stop("'x' contains missing values")
+    }
+  }
+  x.finite <- is.finite(x)
+  if (any(!x.finite)) {
+    x <- x[x.finite]
+    if (has.wts) weights <- weights[x.finite]
+  }
+  nx <- length(x)
+
+  if (!has.wts) {
+    weights <- rep.int(1 / nx, nx)
+  } else {
+    if (!all(is.finite(weights))) stop("'weights' must all be finite")
+    if (any(weights < 0)) stop("'weights' must not be negative")
+    if (!subdensity && !isTRUE(all.equal(1, sum(weights)))) {
+      warning("sum(weights) != 1  -- will not get true density")
+    }
+  }
 
   if (is.null(z)) {
     z <- seq(from = from, to = to, length = n)
@@ -495,7 +545,7 @@ circular_density <- function(x, z = NULL, bw = NULL, na.rm = TRUE, from = 0,
     if (!is.numeric(z)) {
       stop("argument 'z' must be numeric")
     }
-    namez <- deparse(substitute(z))
+    #namez <- deparse(substitute(z))
     z.na <- is.na(z)
     if (any(z.na)) {
       if (isTRUE(na.rm)) {
@@ -510,17 +560,17 @@ circular_density <- function(x, z = NULL, bw = NULL, na.rm = TRUE, from = 0,
     }
   }
 
-  d <- .calc_circular_density(x, z, bw = bw, axial = axial, kernel = kernel)
+  d <- .calc_circular_density(x, z, bw = bw, axial = axial, kernel = kernel, weights = weights)
 
   structure(
     list(
       x = z,
       y = d * adjust,
       bw = bw,
-      n = length(na.omit(z)),
+      n = N,
       call = match.call(),
       data.name = deparse1(substitute(x)),
-      has.na = any(is.na(x))
+      has.na = any(x)
     ),
     class = "density"
   )
