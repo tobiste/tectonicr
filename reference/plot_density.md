@@ -10,6 +10,7 @@ plot_density(
   x,
   bw = NULL,
   kernel = c("vonmises", "wrappedcauchy"),
+  weights = NULL,
   axial = TRUE,
   n = 512L,
   norm.density = TRUE,
@@ -52,6 +53,15 @@ plot_density(
   character. The smoothing kernel to be used; one of `"vonmises"` (the
   default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
   distribution.
+
+- weights:
+
+  numeric. A vector of observation weights, of the same length as `x`,
+  to give individual observations weight in the density estimate. Should
+  sum to 1; a warning is issued if it doesn't (unless
+  `subdensity = TRUE`). Defaults to equal weight `1/length(x)` per
+  observation, matching
+  [`stats::density()`](https://rdrr.io/r/stats/density.html).
 
 - axial:
 
@@ -119,7 +129,7 @@ plot or calculated densities
 
 [`circular_density()`](https://tobiste.github.io/tectonicr/reference/circular_density.md)
 
-Other rose-plot:
+Other circular-plot:
 [`plot_points()`](https://tobiste.github.io/tectonicr/reference/plot_points.md),
 [`rose()`](https://tobiste.github.io/tectonicr/reference/rose.md),
 [`rose_geom`](https://tobiste.github.io/tectonicr/reference/rose_geom.md),
@@ -129,6 +139,12 @@ Other rose-plot:
 
 ``` r
 # Filled von Mises kernel density curve inside the plot
+plot_density(san_andreas$azi,
+  kappa = 100,
+  fill = TRUE, col = "#51127C80", border = "#51127CFF",
+  grid = TRUE,
+  add = FALSE
+)
 
 # Superimpose a wrapped Cauchy kernel distribution curve
 plot_density(san_andreas$azi,
@@ -136,7 +152,7 @@ plot_density(san_andreas$azi,
   fill = FALSE, col = "#FB8861FF",
   add = TRUE
 )
-#> Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
+
 
 # Superimpose a von Mises kernel density curve on a rose diagram:
 rose(san_andreas$azi, grid = TRUE)
@@ -145,9 +161,11 @@ plot_density(san_andreas$azi,
   add = TRUE, lwd = 3
 )
 
+
 # Corona plot (density curve outside of a rose diagram plot):
-rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
-plot_density(san_andreas$azi,
+w <- weighting(san_andreas$unc)
+rose(san_andreas$azi, weights = w, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
+plot_density(san_andreas$azi, weights = w,
   bw = 100,
   scale = 1.1, shrink = 3, xpd = NA,
   col = "#51127CFF"

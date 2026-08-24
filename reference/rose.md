@@ -156,7 +156,7 @@ fans.
 
 ## See also
 
-Other rose-plot:
+Other circular-plot:
 [`plot_density()`](https://tobiste.github.io/tectonicr/reference/plot_density.md),
 [`plot_points()`](https://tobiste.github.io/tectonicr/reference/plot_points.md),
 [`rose_geom`](https://tobiste.github.io/tectonicr/reference/rose_geom.md),

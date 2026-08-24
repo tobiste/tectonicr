@@ -54,7 +54,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">weighting</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"linear-inverse"</span>, <span class="st">"inverse"</span>, <span class="st">"cosine"</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  max.err <span class="op">=</span> <span class="fl">90</span></span>
+<span>  max.err <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>  norm <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -72,6 +73,10 @@
 
 <dt id="arg-max-err">max.err<a class="anchor" aria-label="anchor" href="#arg-max-err"></a></dt>
 <dd><p>numeric. The maximum expected error for x (90 by default).</p></dd>
+
+
+<dt id="arg-norm">norm<a class="anchor" aria-label="anchor" href="#arg-norm"></a></dt>
+<dd><p>logical. Whether weights should be normalized so that the sum of the weights is 1. <code>TRUE</code> by default</p></dd>
 
 </dl></div>
     <div class="section level2">

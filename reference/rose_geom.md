@@ -45,7 +45,7 @@ No return value, called for side effects
 
 ## See also
 
-Other rose-plot:
+Other circular-plot:
 [`plot_density()`](https://tobiste.github.io/tectonicr/reference/plot_density.md),
 [`plot_points()`](https://tobiste.github.io/tectonicr/reference/plot_points.md),
 [`rose()`](https://tobiste.github.io/tectonicr/reference/rose.md),

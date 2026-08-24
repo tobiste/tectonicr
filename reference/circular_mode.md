@@ -38,9 +38,11 @@ x <- rvm(10, 0, 100)
 
 # Mode of von Mises kernel density (the default)
 circular_mode(x)
+#> Warning: coercing argument of type 'double' to logical
 #> [1] 176.8297
 
 # Mode of wrapped Cauchy kernel density
 circular_mode(x, kernel = "wrappedcauchy")
+#> Warning: coercing argument of type 'double' to logical
 #> [1] 176.1252
 ```

@@ -101,7 +101,7 @@ A list with information on the plot
 
 ## See also
 
-Other rose-plot:
+Other circular-plot:
 [`plot_density()`](https://tobiste.github.io/tectonicr/reference/plot_density.md),
 [`rose()`](https://tobiste.github.io/tectonicr/reference/rose.md),
 [`rose_geom`](https://tobiste.github.io/tectonicr/reference/rose_geom.md),

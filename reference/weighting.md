@@ -8,7 +8,8 @@ Helper function to transform uncertainty angles into weighting factors
 weighting(
   x,
   method = c("linear-inverse", "inverse", "cosine", "none"),
-  max.err = 90
+  max.err = 90,
+  norm = TRUE
 )
 ```
 
@@ -26,6 +27,11 @@ weighting(
 - max.err:
 
   numeric. The maximum expected error for x (90 by default).
+
+- norm:
+
+  logical. Whether weights should be normalized so that the sum of the
+  weights is 1. `TRUE` by default
 
 ## Value
 

@@ -108,7 +108,7 @@ spread when assigned.
 [`circular_sample_median_deviation()`](https://tobiste.github.io/tectonicr/reference/sample_median.md)
 for statistical parameters.
 
-Other rose-plot:
+Other circular-plot:
 [`plot_density()`](https://tobiste.github.io/tectonicr/reference/plot_density.md),
 [`plot_points()`](https://tobiste.github.io/tectonicr/reference/plot_points.md),
 [`rose()`](https://tobiste.github.io/tectonicr/reference/rose.md),

@@ -145,6 +145,7 @@ The collected summary statistics can be quickly obtained by
 ``` r
 
 circular_summary(san_andreas.por$azi.PoR, w, mode = TRUE)
+#> Warning in any(x): coercing argument of type 'double' to logical
 #>            n         mean           sd          var          25% quasi-median 
 #> 1126.0000000  139.7927014   22.4968398    0.2653334  123.5288513  135.6247317 
 #>          75%       median         mode           CI     skewness     kurtosis 
@@ -198,6 +199,7 @@ rose(san_andreas.por$azi,
 )
 # add density corona
 plot_density(san_andreas.por$azi, kappa = 20, col = "#51127CFF", scale = 1.1, shrink = 2, xpd = NA)
+#> Warning in any(x): coercing argument of type 'double' to logical
 
 # add predicted direction as streight line
 rose_line(135, radius = 1.1, col = "#FB8861FF")
@@ -429,7 +431,7 @@ The function accepts the weightings of the data:
 ot_eigen2d(san_andreas.por$azi.PoR, w)
 #> eigen() decomposition
 #> $values
-#> [1] 0.7259300 0.1054388
+#> [1] 0.0008117601 0.0001179054
 #> 
 #> $vectors
 #> [1] -40.25985  49.74015

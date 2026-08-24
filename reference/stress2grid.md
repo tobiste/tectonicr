@@ -281,13 +281,13 @@ stress2grid(san_andreas, stat = "median", max_data = 5) |> head()
 #> Dimension:     XY
 #> Bounding box:  xmin: -112.82 ymin: 24.08 xmax: -112.82 ymax: 24.08
 #> Geodetic CRS:  WGS 84
-#>       lon   lat azi sd   R N       mdr              geometry
-#> 1 -112.82 24.08  NA  0  50 0        NA POINT (-112.82 24.08)
-#> 2 -112.82 24.08  NA  0 100 0        NA POINT (-112.82 24.08)
-#> 3 -112.82 24.08 162 NA 150 4 0.8224433 POINT (-112.82 24.08)
-#> 4 -112.82 24.08 162 NA 200 4 0.6168325 POINT (-112.82 24.08)
-#> 5 -112.82 24.08 160 NA 250 5 0.5653079 POINT (-112.82 24.08)
-#> 6 -112.82 24.08 160 NA 300 5 0.4710899 POINT (-112.82 24.08)
+#>       lon   lat      azi sd   R N       mdr              geometry
+#> 1 -112.82 24.08       NA  0  50 0        NA POINT (-112.82 24.08)
+#> 2 -112.82 24.08       NA  0 100 0        NA POINT (-112.82 24.08)
+#> 3 -112.82 24.08 37.00000  0 150 4 0.8224433 POINT (-112.82 24.08)
+#> 4 -112.82 24.08 37.00000  0 200 4 0.6168325 POINT (-112.82 24.08)
+#> 5 -112.82 24.08 35.53572  0 250 5 0.5653079 POINT (-112.82 24.08)
+#> 6 -112.82 24.08 35.53572  0 300 5 0.4710899 POINT (-112.82 24.08)
 
 if (FALSE) { # \dontrun{
 stress2grid_stats(san_andreas) |> head()
