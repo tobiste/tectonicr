@@ -41,6 +41,8 @@
   [`circular_quantiles()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md)
   [`circular_IQR()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md)
   : Summary Statistics of Circular Data
+- [`circular_density()`](https://tobiste.github.io/tectonicr/reference/circular_density.md)
+  : Circular Kernel Density
 - [`circular_dispersion_boot()`](https://tobiste.github.io/tectonicr/reference/circular_dispersion_boot.md)
   : Bootstrapped Estimates for Circular Dispersion
 - [`circular_mode()`](https://tobiste.github.io/tectonicr/reference/circular_mode.md)

@@ -60,5 +60,4 @@ lwd <- c(2, 1, .75)
 col <- c(1, 2, 3)
 rose_line(angles, radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
 
-
 ```

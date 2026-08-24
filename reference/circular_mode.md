@@ -1,37 +1,25 @@
 # Circular Mode
 
-MLE angle (maximum density) using a von Mises distribution kernel with
-specified concentration.
+MLE angle (maximum density) using a circular distribution kernel with
+specified concentration
 
 ## Usage
 
 ``` r
-circular_mode(x, kappa = NULL, axial = TRUE, n = 512)
+circular_mode(x, ...)
 ```
 
 ## Arguments
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric. A vector of angles (in degrees) from which the estimate is to
+  be computed.
 
-- kappa:
+- ...:
 
-  von Mises distribution concentration parameter. Will be estimated
-  using
-  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
-  if not provided.
-
-- axial:
-
-  logical. Whether the data are axial, i.e. pi-periodical (`TRUE`, the
-  default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).#' @param
-  kappa
-
-- n:
-
-  the number of equally spaced points at which the density is to be
-  estimated.
+  parameters passed to
+  [`circular_density()`](https://tobiste.github.io/tectonicr/reference/circular_density.md)
 
 ## Value
 
@@ -45,8 +33,14 @@ University Press.
 ## Examples
 
 ``` r
-set.seed(1)
+set.seed(20250411)
 x <- rvm(10, 0, 100)
-circular_mode(x, kappa = est.kappa(x))
-#> [1] 358.591
+
+# Mode of von Mises kernel density (the default)
+circular_mode(x)
+#> [1] 176.8297
+
+# Mode of wrapped Cauchy kernel density
+circular_mode(x, kernel = "wrappedcauchy")
+#> [1] 176.1252
 ```

@@ -15,7 +15,6 @@ plot_density(
   norm.density = TRUE,
   kappa = NULL,
   rho = NULL,
-  ...,
   fill = FALSE,
   scale = 0,
   shrink = 1,
@@ -24,7 +23,8 @@ plot_density(
   labels = TRUE,
   at = seq(0, 360 - 45, 45),
   cborder = TRUE,
-  grid = FALSE
+  grid = FALSE,
+  ...
 )
 ```
 
@@ -32,8 +32,8 @@ plot_density(
 
 - x:
 
-  numeric. Data to be plotted, i.e. vector containing angles (in
-  degrees).
+  Either an object of class `"density"` or a numeric vector of angles
+  (in degrees) from which the estimate is to be computed
 
 - bw, kappa, rho:
 
@@ -60,16 +60,12 @@ plot_density(
 
 - n:
 
-  integer. the number of equally spaced points at which the density is
-  to be estimated.
+  integer. Number of equally spaced angles at which the density is to be
+  estimated.
 
 - norm.density:
 
   logical. Normalize the density?
-
-- ...:
-
-  Further graphical parameters may also be supplied as arguments.
 
 - fill:
 
@@ -111,14 +107,17 @@ plot_density(
 
   logical. Whether a grid should be added.
 
+- ...:
+
+  Further graphical parameters may also be supplied as arguments.
+
 ## Value
 
-plot or calculated densities as numeric vector
+plot or calculated densities
 
 ## See also
 
-[`dvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md) and
-[`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
+[`circular_density()`](https://tobiste.github.io/tectonicr/reference/circular_density.md)
 
 Other rose-plot:
 [`plot_points()`](https://tobiste.github.io/tectonicr/reference/plot_points.md),
@@ -130,12 +129,6 @@ Other rose-plot:
 
 ``` r
 # Filled von Mises kernel density curve inside the plot
-plot_density(san_andreas$azi,
-  kappa = 100,
-  fill = TRUE, col = "#51127C80", border = "#51127CFF",
-  grid = TRUE,
-  add = FALSE
-)
 
 # Superimpose a wrapped Cauchy kernel distribution curve
 plot_density(san_andreas$azi,
@@ -143,7 +136,7 @@ plot_density(san_andreas$azi,
   fill = FALSE, col = "#FB8861FF",
   add = TRUE
 )
-
+#> Error in plot.xy(xy.coords(x, y), type = type, ...): plot.new has not been called yet
 
 # Superimpose a von Mises kernel density curve on a rose diagram:
 rose(san_andreas$azi, grid = TRUE)
@@ -152,8 +145,7 @@ plot_density(san_andreas$azi,
   add = TRUE, lwd = 3
 )
 
-
-# Corona plot (censity curve outside of a rose diagram plot):
+# Corona plot (density curve outside of a rose diagram plot):
 rose(san_andreas$azi, dots = TRUE, stack = TRUE, dot_cex = 0.5, dot_pch = 21)
 plot_density(san_andreas$azi,
   bw = 100,
