@@ -436,9 +436,10 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 }
 
 
-#' Circular Kernel Density
+#' Circular Kernel Density Estimation
 #'
-#' Multiples of a von Mises density or wrapped Cauchy distribution for circular data
+#' Kernel density estimates for circular data from a given kernel (von Mises or
+#' wrapped Cauchy distribution) and bandwidth
 #'
 #' @param x numeric. A vector of angles (in degrees) from which the estimate is to be computed.
 #' @param z numeric. Angles where the density is estimated. If `NULL` equally
