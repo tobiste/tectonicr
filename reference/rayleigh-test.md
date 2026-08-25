@@ -7,7 +7,7 @@ assessing the significance of the mean resultant length.
 ## Usage
 
 ``` r
-rayleigh_test(x, mu = NULL, axial = TRUE, quiet = FALSE)
+rayleigh_test(x, mu = NULL, axial = TRUE, alpha = 0.05, quiet = FALSE)
 
 rayleigh_test_perm(x, mu = NULL, axial = TRUE, n_perm = 1000L)
 ```

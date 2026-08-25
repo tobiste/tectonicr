@@ -29,8 +29,8 @@ watson_test(
 
 - dist:
 
-  Distribution to test for. The default, `"uniform"`, is the uniform
-  distribution. `"vonmises"` tests the von Mises distribution.
+  Distribution to test for. The default, `"uniform"`, is the circular
+  uniform distribution. `"vonmises"` tests the von Mises distribution.
 
 - axial:
 
@@ -43,8 +43,10 @@ watson_test(
 
 ## Value
 
-list containing the test statistic `statistic` and the significance
-level `p.value` (the critical value).
+list containing the test statistic `statistic`, the significance level
+`p.value`, the critical value `critical.value`, whether to `reject` the
+null hypothesis, the significance level `alpha`, the tested distribution
+`dist`, and the number of data `n`
 
 ## Details
 
@@ -80,7 +82,22 @@ watson_test(pidgeon_homing, axial = FALSE, alpha = .05)
 #> [1] 0.1153633
 #> 
 #> $p.value
+#> [1] NA
+#> 
+#> $critical.value
 #> [1] 0.187
+#> 
+#> $reject
+#> [1] FALSE
+#> 
+#> $alpha
+#> [1] 0.05
+#> 
+#> $dist
+#> [1] "uniform"
+#> 
+#> $n
+#> [1] 10
 #> 
 
 # San Andreas Fault Data:
@@ -94,22 +111,67 @@ watson_test(sa.por$azi.PoR, alpha = .05)
 #> [1] 31.68687
 #> 
 #> $p.value
+#> [1] NA
+#> 
+#> $critical.value
 #> [1] 0.187
 #> 
+#> $reject
+#> [1] TRUE
+#> 
+#> $alpha
+#> [1] 0.05
+#> 
+#> $dist
+#> [1] "uniform"
+#> 
+#> $n
+#> [1] 1126
+#> 
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 #> Reject Null Hypothesis
 #> $statistic
-#> [1] 77.28103
+#> [1] 0.5084434
 #> 
 #> $p.value
+#> [1] NA
+#> 
+#> $critical.value
 #> [1] 0.101
+#> 
+#> $reject
+#> [1] TRUE
+#> 
+#> $alpha
+#> [1] 0.05
+#> 
+#> $dist
+#> [1] "vonmises"
+#> 
+#> $n
+#> [1] 1126
 #> 
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 #> Reject Null Hypothesis
 #> $statistic
-#> [1] 77.28103
+#> [1] 0.5084434
 #> 
 #> $p.value
+#> [1] NA
+#> 
+#> $critical.value
 #> [1] 0.101
+#> 
+#> $reject
+#> [1] TRUE
+#> 
+#> $alpha
+#> [1] 0.05
+#> 
+#> $dist
+#> [1] "vonmises"
+#> 
+#> $n
+#> [1] 1126
 #> 
 ```
