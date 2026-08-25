@@ -555,19 +555,17 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 #' In practice you'll almost never touch either one, as for typical `c` (\eqn{c \le 0.1})
 #' convergence happens within the first one or two doublings, well under `P0`.
 #'
-#' @name wlevy
+#' @noRd
 #'
 #' @seealso [cunif], [wnorm], [wcauchy], and [vonmises]
 #'
 #' @examples
+#' \dontrun{
 #' set.seed(1)
 #' x <- rwcauchy(5, mean = 90, rho = exp(-1))
 #'
 #' dwlevy(x, mean = 80, c = 10)
-NULL
-
-#' @rdname wlevy
-# #' @export
+#' }
 dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 5000) {
   stopifnot(all(c > 0))
   f  <- if (isTRUE(axial)) 2 else 1

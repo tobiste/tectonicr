@@ -176,75 +176,41 @@ NULL
 
 #' @rdname rayleigh-test
 #' @export
-rayleigh_test <- function(x, mu = NULL, axial = TRUE, quiet = FALSE) {
+rayleigh_test <- function(x, mu = NULL, axial = TRUE, alpha = 0.05, quiet = FALSE) {
   f <- if (isTRUE(axial)) 2 else 1
-
   if (is.null(mu)) {
     x <- x[!is.na(x)]
     xf <- (x * f) %% 360
     n <- length(x)
-
     R <- mean_resultant_length(xf, na.rm = FALSE)
     S <- 2 * n * R^2
     Z <- S / 2
-    # S_mod <- (1 - 1 / (2 * n)) * S + (n * R^4) / 2
-    # if(n <= 10){
-    #  p.value <- p_value3(R, n)
-    # } else  {
     p.value <- rayleigh_p_value1(Z, n)
-    # }
-    # p.value2 <- rayleigh_p_value1(S_mod /2 , n)
-
-    result <- list(
-      R = R,
-      statistic = Z,
-      # statistic_mod = S_mod,
-      p.value = p.value # ,
-      # p.value_mod = p.value2
-    )
+    result <- list(R = R, statistic = Z, p.value = p.value)
     if (isFALSE(quiet)) {
-      if (result$statistic >= p.value) {
-        message("Reject Null Hypothesis\n")
-      } else {
-        message("Do Not Reject Null Hypothesis\n")
-      }
+      message(if (p.value < alpha) "Reject Null Hypothesis\n" else "Do Not Reject Null Hypothesis\n")
     }
   } else {
-    # remove NA's
-    keep <- !is.na(x) #& !is.na(mu)
+    keep <- !is.na(x)
     x <- x[keep]
-    # mu <- mu[keep]
-
     x <- x * f
     mu <- mu * f
     xmu <- x - mu
     n <- length(x)
-
     C <- (sum(cosd(xmu))) / n
     s <- sqrt(2 * n) * C
     p.value <- rayleigh_p_value2(s, n)
-
-    result <- list(
-      C = C,
-      statistic = s,
-      p.value = p.value
-    )
+    result <- list(C = C, statistic = s, p.value = p.value)
     if (isFALSE(quiet)) {
-      if (s >= p.value) {
-        message("Reject Null Hypothesis\n")
-      } else {
-        message("Do Not Reject Null Hypothesis\n")
-      }
+      message(if (p.value < alpha) "Reject Null Hypothesis\n" else "Do Not Reject Null Hypothesis\n")
     }
   }
-
-  return(result)
+  result
 }
 
 #' @keywords internal
 rayleigh_p_value1 <- function(K, n, wilkie = FALSE) {
   if (isFALSE(wilkie)) {
-    # Pearson. 1906; Greenwood and Durand, 1955
     P <- exp(-K)
     if (n < 50) {
       temp <- 1 +
@@ -253,10 +219,8 @@ rayleigh_p_value1 <- function(K, n, wilkie = FALSE) {
     } else {
       temp <- 1
     }
-    P * temp
-    min(max(P * temp, 0), 1)
+    min(max(P * temp, 0), 1)     # removed the dead "P * temp" line above this, which had no effect
   } else {
-    # Wilkie 1983
     Rn <- K * n
     temp <- sqrt(1 + 4 * n + 4 * (n^2 - Rn^2)) - (1 + 2 * n)
     round(exp(temp), 3)
