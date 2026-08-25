@@ -59,6 +59,8 @@ Mardia and Jupp (1999). Directional Statistics. John Wiley and
 Sons.
 }
 \seealso{
+\link{vonmises} and \link{cunif}
+
 Other Tests: 
 \code{\link{ar_test}()},
 \code{\link{kuiper_test}()},

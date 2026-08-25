@@ -61,6 +61,8 @@ x_cunif <- rcunif(100)
 vm_qqplot(x_cunif, pch = 20)
 }
 \seealso{
+\code{\link[=vonmises]{vonmises()}}
+
 Other circ-qqplot: 
 \code{\link{circular_qqplot}()}
 }

@@ -360,6 +360,7 @@ geom_azimuthpoint <- function(mapping = NULL, data = NULL,
 #' @export
 #'
 #' @family circ-qqplot
+#' @seealso [cunif()]
 #'
 #' @references Borradaile, G. J. (2003). Statistics of earth
 #' science data: their distribution in time, space, and orientation (Vol. 351,
@@ -429,6 +430,7 @@ circular_qqplot <- function(x, axial = TRUE,
 #' @importFrom graphics plot lines
 #'
 #' @family circ-qqplot
+#' @seealso [vonmises()]
 #'
 #' @export
 #'

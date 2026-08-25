@@ -661,7 +661,7 @@ dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 
 #' Circular Kernel Density Estimation
 #'
 #' Kernel density estimates for circular data from a given kernel (von Mises,
-#' wrapped Cauchy, and wrapped Normal) and bandwidth
+#' wrapped Cauchy, and wrapped Normal distribution and bandwidth
 #'
 #' @param x numeric. A vector of angles (in degrees) from which the estimate is to be computed.
 #' @param z numeric. Angles where the density is estimated. If `NULL` equally
@@ -691,7 +691,7 @@ dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 
 #' @inheritParams circular_plot
 #' @inheritParams stats::density
 #'
-#' @seealso [stats::density()], [dvm()], [dwcauchy()], and [dwnorm()]
+#' @seealso [stats::density()], [dvm()], [dwcauchy()], [dwnorm()], and [plot_density()]
 #' @return Object of class `"density"`
 #' @export
 #'

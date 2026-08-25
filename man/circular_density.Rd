@@ -73,7 +73,7 @@ Object of class \code{"density"}
 }
 \description{
 Kernel density estimates for circular data from a given kernel (von Mises,
-wrapped Cauchy, and wrapped Normal) and bandwidth
+wrapped Cauchy, and wrapped Normal distribution and bandwidth
 }
 \examples{
 w <-  weighting(san_andreas$unc)
@@ -89,5 +89,5 @@ circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
 circular_density(san_andreas$azi, sd = 5, kernel = "wrappednormal")
 }
 \seealso{
-\code{\link[stats:density]{stats::density()}}, \code{\link[=dvm]{dvm()}}, \code{\link[=dwcauchy]{dwcauchy()}}, and \code{\link[=dwnorm]{dwnorm()}}
+\code{\link[stats:density]{stats::density()}}, \code{\link[=dvm]{dvm()}}, \code{\link[=dwcauchy]{dwcauchy()}}, \code{\link[=dwnorm]{dwnorm()}}, and \code{\link[=plot_density]{plot_density()}}
 }

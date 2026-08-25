@@ -723,13 +723,6 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'   scale = 1.1, shrink = 3, xpd = NA,
 #'   col = "#51127CFF"
 #' )
-#'
-#' plot_density(san_andreas$azi,
-#'   bw  = 0.1, kernel = "wrappedlevy",
-#'   fill = TRUE, col = "#51127C80", border = "#51127CFF",
-#'   grid = TRUE,
-#'   add = FALSE
-#' )
 plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy", "wrappednormal"),
                          weights = NULL,
                          axial = TRUE,

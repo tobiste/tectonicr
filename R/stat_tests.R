@@ -544,7 +544,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
-#' uniform distribution. `"vonmises"` tests the von Mises distribution.
+#' circular uniform distribution. `"vonmises"` tests the von Mises distribution.
 #' @param quiet logical. Prints the test's decision.
 #'
 #' @returns list containing the test statistic `statistic` and the significance
@@ -560,6 +560,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' @export
 #'
 #' @family Tests
+#' @seealso [vonmises] and [cunif]
 #'
 #' @examples
 #' # Example data from Mardia and Jupp (1999), pp. 93

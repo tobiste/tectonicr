@@ -127,13 +127,6 @@ plot_density(san_andreas$azi, weights = w,
   scale = 1.1, shrink = 3, xpd = NA,
   col = "#51127CFF"
 )
-
-plot_density(san_andreas$azi,
-  bw  = 0.1, kernel = "wrappedlevy",
-  fill = TRUE, col = "#51127C80", border = "#51127CFF",
-  grid = TRUE,
-  add = FALSE
-)
 }
 \seealso{
 \code{\link[=circular_density]{circular_density()}}

@@ -56,6 +56,8 @@ science data: their distribution in time, space, and orientation (Vol. 351,
 p. 329). Berlin: Springer.
 }
 \seealso{
+\code{\link[=cunif]{cunif()}}
+
 Other circ-qqplot: 
 \code{\link{vm_qqplot}()}
 }
