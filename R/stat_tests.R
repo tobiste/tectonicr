@@ -534,7 +534,7 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' Watson's \eqn{U^2} Test of Circular Uniformity
 #'
 #' Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-#' non-parametric, rank-based alternative to  one-sample
+#' non-parametric, rank-based alternative to one-sample
 #'
 #' @param x numeric vector. Values in degrees
 #' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`,
@@ -547,8 +547,9 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' circular uniform distribution. `"vonmises"` tests the von Mises distribution.
 #' @param quiet logical. Prints the test's decision.
 #'
-#' @returns list containing the test statistic `statistic` and the significance
-#' level `p.value` (the critical value).
+#' @returns list containing the test statistic `statistic`, the significance
+#' level `p.value`, the critical value `critical.value`, whether to `reject` the null hypothesis,
+#' the significance level `alpha`, the tested distribution `dist`, and the number of data `n`
 #'
 #' @details
 #' If `statistic > p.value`, the null hypothesis is rejected.
@@ -581,87 +582,83 @@ watson_test <- function(x, alpha = NULL, dist = c("uniform", "vonmises"), axial 
   if (!(alpha %in% allowed_alphas)) {
     stop("'alpha' must be one of: 0, 0.01, 0.025, 0.05, 0.1")
   }
+  dist <- match.arg(dist)
+  # the vonmises critical-value table only has columns for alpha = 0.1/0.05/0.01 --
+  # reject early instead of failing later after doing all the work
+  if (dist == "vonmises" && alpha != 0 && !(alpha %in% c(0.1, 0.05, 0.01))) {
+    stop("'alpha' must be one of: 0, 0.1, 0.05, 0.01 when dist = 'vonmises'")
+  }
 
   x <- x[!is.na(x)]
   n <- length(x)
-
   f <- if (isTRUE(axial)) 2 else 1
-  x2 <- (x * f) %% 360
+  x2 <- (x * f) %% 360   # doubled-domain data used throughout, for both dist branches
 
-  dist <- match.arg(dist)
+  if (n < 8) {
+    warning("Total Sample Size < 8:  Results are not valid")
+  }
 
   if (dist == "uniform") {
-    # U2 Statistic:
+    ## ---- U2 statistic ----
     u <- sort(deg2rad(x2)) / (2 * pi)
     u.bar <- mean(u)
     i <- seq_len(n)
     u2 <- sum((u - u.bar - (i - .5) / n + .5)^2) + 1 / (12 * n)
     statistic <- (u2 - 0.1 / n + 0.1 / (n^2)) * (1 + 0.8 / n)
 
-    # P-value:
-    crits <- c(99, 0.267, 0.221, 0.187, 0.152)
+    ## crits correspond to alpha = 0.01, 0.025, 0.05, 0.1 respectively
+    crits       <- c(0.267, 0.221, 0.187, 0.152)
+    crit_alphas <- c(0.01, 0.025, 0.05, 0.1)
+
     if (n < 8) {
-      p.value <- NA
-      warning("Total Sample Size < 8:  Results are not valid")
-    }
-
-    if (alpha == 0) {
-      thresholds <- c(rev(crits[-1]), Inf)
-
+      p.value <- NA_character_
+      critical.value <- NA_real_
+      reject <- NA
+    } else if (alpha == 0) {
+      thresholds <- c(rev(crits), Inf)                 # c(0.152, 0.187, 0.221, 0.267, Inf)
       messages <- c(
         "P-value > 0.10",
         "0.05 < P-value < 0.10",
         "0.025 < P-value < 0.05",
-        "0.001 < P-value < 0.025",
-        "P-value < 0.001"
+        "0.01 < P-value < 0.025",   # fixed: was "0.001" -- table only resolves to alpha=0.01
+        "P-value < 0.01"            # fixed: was "0.001"
       )
-      p.value <- messages[findInterval(statistic, thresholds)]
-      #
+      p.value <- messages[findInterval(statistic, thresholds) + 1]   # fixed: was missing "+ 1"
+      critical.value <- NA_real_
+      reject <- NA
     } else {
-      index <- (1:5)[alpha == allowed_alphas[1:5]]
-      p.value <- crits[index]
+      critical.value <- crits[crit_alphas == alpha]
+      reject <- statistic > critical.value
+      p.value <- NA_character_
       if (!quiet) {
-        if (statistic > p.value) {
-          message("Reject Null Hypothesis\n")
-        } else {
-          message("Do Not Reject Null Hypothesis\n")
-        }
+        message(if (reject) "Reject Null Hypothesis" else "Do Not Reject Null Hypothesis")
       }
     }
   } else {
+    ## ---- goodness-of-fit against von Mises ----
     u2_crits <- cbind(
       c(0, 0.5, 1, 1.5, 2, 4, 100),
       c(0.052, 0.056, 0.066, 0.077, 0.084, 0.093, 0.096),
       c(0.061, 0.066, 0.079, 0.092, 0.101, 0.113, 0.117),
       c(0.081, 0.09, 0.11, 0.128, 0.142, 0.158, 0.164)
     )
-
     kappa_mle <- est.kappa(x2)
-    mu <- circular_mean(x, axial = axial, na.rm = FALSE)
-
-    x <- x2 - mu
-    x <- matrix(x, ncol = 1)
-    z <- apply(x, 1, pvm, 0, kappa_mle)
+    ## fixed: mean must be taken in the SAME (doubled) domain as x2/kappa_mle.
+    ## the original computed circular_mean(x, axial=axial, ...) -- the mean of
+    ## the UNdoubled data, in undoubled units -- then subtracted it from x2.
+    mu <- circular_mean(x2, axial = FALSE, na.rm = FALSE)
+    z <- pvm(x2 - mu, mean = 0, kappa = kappa_mle)   # vectorized directly; no apply()/matrix needed
     z <- sort(z)
     z.bar <- mean(z)
     i <- seq_len(n)
-    sum.terms <- (z - (2 * i - 1) / (2 * n))^2
-    statistic <- sum(sum.terms) - n * (z.bar - 0.5)^2 + 1 / (12 * n)
-
+    statistic <- sum((z - (2 * i - 1) / (2 * n))^2) - n * (z.bar - 0.5)^2 + 1 / (12 * n)
     row <- findInterval(kappa_mle, c(0.25, 0.75, 1.25, 1.75, 3, 5)) + 1
 
-    if (alpha != 0) {
-      col <- match(alpha, c(0.1, 0.05, 0.01)) + 1
-      if (is.na(col)) {
-        stop("'alpha' must be one of: 0.1, 0.05, 0.01")
-      }
-
-      p.value <- u2_crits[row, col]
-
-      if (isFALSE(quiet)) {
-        message(if (statistic > p.value) "Reject Null Hypothesis" else "Do Not Reject Null Hypothesis")
-      }
-    } else {
+    if (n < 8) {
+      p.value <- NA_character_
+      critical.value <- NA_real_
+      reject <- NA
+    } else if (alpha == 0) {
       breaks <- u2_crits[row, 2:4]
       labels <- c(
         "P-value > 0.10",
@@ -669,13 +666,28 @@ watson_test <- function(x, alpha = NULL, dist = c("uniform", "vonmises"), axial 
         "0.01 < P-value < 0.05",
         "P-value < 0.01"
       )
-
       p.value <- labels[findInterval(statistic, breaks, rightmost.closed = TRUE) + 1]
+      critical.value <- NA_real_
+      reject <- NA
+    } else {
+      col <- match(alpha, c(0.1, 0.05, 0.01)) + 1
+      critical.value <- u2_crits[row, col]
+      reject <- statistic > critical.value
+      p.value <- NA_character_
+      if (!quiet) {
+        message(if (reject) "Reject Null Hypothesis" else "Do Not Reject Null Hypothesis")
+      }
     }
   }
+
   list(
-    statistic = statistic,
-    p.value = p.value
+    statistic      = statistic,
+    p.value        = p.value,        # descriptive bracket, only set when alpha == 0
+    critical.value = critical.value, # tabulated threshold, only set when alpha != 0
+    reject         = reject,         # logical decision, only set when alpha != 0
+    alpha          = alpha,
+    dist           = dist,
+    n              = n
   )
 }
 

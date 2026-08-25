@@ -21,7 +21,7 @@ This argument may be omitted (\code{NULL}, the default), in which case, a range
 for the p-value will be returned.}
 
 \item{dist}{Distribution to test for. The default, \code{"uniform"}, is the
-uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
+circular uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
@@ -29,12 +29,13 @@ uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 \item{quiet}{logical. Prints the test's decision.}
 }
 \value{
-list containing the test statistic \code{statistic} and the significance
-level \code{p.value} (the critical value).
+list containing the test statistic \code{statistic}, the significance
+level \code{p.value}, the critical value \code{critical.value}, whether to \code{reject} the null hypothesis,
+the significance level \code{alpha}, the tested distribution \code{dist}, and the number of data \code{n}
 }
 \description{
 Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-non-parametric, rank-based alternative to  one-sample
+non-parametric, rank-based alternative to one-sample
 }
 \details{
 If \code{statistic > p.value}, the null hypothesis is rejected.
