@@ -1,7 +1,7 @@
 # Circular Kernel Density Estimation
 
 Kernel density estimates for circular data from a given kernel (von
-Mises, wrapped Cauchy, and wrapped Normal) and bandwidth
+Mises, wrapped Cauchy, and wrapped Normal distribution and bandwidth
 
 ## Usage
 
@@ -108,7 +108,9 @@ Object of class `"density"`
 [`stats::density()`](https://rdrr.io/r/stats/density.html),
 [`dvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md),
 [`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md),
-and [`dwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md)
+[`dwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md),
+and
+[`plot_density()`](https://tobiste.github.io/tectonicr/reference/plot_density.md)
 
 ## Examples
 

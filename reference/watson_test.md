@@ -57,6 +57,9 @@ Mardia and Jupp (1999). Directional Statistics. John Wiley and Sons.
 
 ## See also
 
+[vonmises](https://tobiste.github.io/tectonicr/reference/vonmises.md)
+and [cunif](https://tobiste.github.io/tectonicr/reference/cunif.md)
+
 Other Tests:
 [`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),

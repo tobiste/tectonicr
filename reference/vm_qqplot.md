@@ -67,6 +67,8 @@ plot
 
 ## See also
 
+[`vonmises()`](https://tobiste.github.io/tectonicr/reference/vonmises.md)
+
 Other circ-qqplot:
 [`circular_qqplot()`](https://tobiste.github.io/tectonicr/reference/circular_qqplot.md)
 

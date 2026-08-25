@@ -57,6 +57,8 @@ Springer.
 
 ## See also
 
+[`cunif()`](https://tobiste.github.io/tectonicr/reference/cunif.md)
+
 Other circ-qqplot:
 [`vm_qqplot()`](https://tobiste.github.io/tectonicr/reference/vm_qqplot.md)
 
