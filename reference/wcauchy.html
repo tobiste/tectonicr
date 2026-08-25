@@ -84,7 +84,8 @@ for the circular wrapped Cauchy distribution with mean \(\mu\) and rho \(\rho\)<
 
 
 <dl><dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
-<dd><p>integer. Number of observations in degrees</p></dd>
+<dd><p>number of observations. If <code>length(n) &gt; 1</code>, the length
+    is taken to be the number required.</p></dd>
 
 
 <dt id="arg-mean">mean<a class="anchor" aria-label="anchor" href="#arg-mean"></a></dt>
@@ -114,8 +115,8 @@ which the <code>pvm</code> and <code>qvm</code> are evaluated. in degrees.</p></
 
 
 <dt id="arg-lower-tail">lower.tail<a class="anchor" aria-label="anchor" href="#arg-lower-tail"></a></dt>
-<dd><p>logical. If <code>TRUE</code> (default), probabilities are \(P(\Theta \le \theta)\),
-otherwise \(P(\Theta &gt; \theta)\).</p></dd>
+<dd><p>logical; if TRUE (default), probabilities are
+    \(P[X \le x]\), otherwise, \(P[X &gt; x]\).</p></dd>
 
 
 <dt id="arg-log-p">log.p<a class="anchor" aria-label="anchor" href="#arg-log-p"></a></dt>
@@ -135,7 +136,7 @@ otherwise \(P(\Theta &gt; \theta)\).</p></dd>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><a href="vonmises.html">vonmises</a> and <a href="cunif.html">cunif</a></p></div>
+    <div class="dont-index"><p><a href="cunif.html">cunif</a>, <a href="wnorm.html">wnorm</a>, and <a href="vonmises.html">vonmises</a></p></div>
     </div>
 
     <div class="section level2">

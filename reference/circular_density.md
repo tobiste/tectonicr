@@ -1,7 +1,7 @@
 # Circular Kernel Density Estimation
 
 Kernel density estimates for circular data from a given kernel (von
-Mises or wrapped Cauchy distribution) and bandwidth
+Mises, wrapped Cauchy, and wrapped Normal) and bandwidth
 
 ## Usage
 
@@ -18,7 +18,9 @@ circular_density(
   axial = TRUE,
   kappa = NULL,
   rho = NULL,
-  kernel = c("vonmises", "wrappedcauchy"),
+  sd = NULL,
+  c = NULL,
+  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"),
   adjust = 1,
   subdensity = FALSE
 )
@@ -37,17 +39,18 @@ circular_density(
   spaced angles are used according to the parameters `from`, `to` and
   `n`.
 
-- bw, kappa, rho:
+- bw, kappa, rho, sd, c:
 
   numeric. Smoothing bandwidth expressed as the concentration parameter
-  \\\kappa\\ for the von Mises distribution or \\\rho\\ for the wrapped
-  Cauchy distribution. Small and large values for the von Mises and
-  wrapped Cauchy distribution, respectively, gives smooth density lines.
+  \\\kappa\\ for the von Mises distribution, \\\rho\\ for the wrapped
+  Cauchy distribution, or \\\sigma\\ for the wrapped normal
+  distribution. Small and large values for the von Mises and wrapped
+  normal/Cauchy distribution, respectively, gives smooth density lines.
   If not specified, parameter will be estimated using
   [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
-  for the von Mises distribution, or set to \\p \exp(-1)\\ for the
-  wrapped Cauchy distribution (where \\p = 2\\ when `axial=TRUE` and 1
-  otherwise).
+  for the von Mises distribution, or set to \\p \exp(-1)\\ and `1` for
+  the wrapped Cauchy and wrapped Normal distribution (where \\p = 2\\
+  when `axial=TRUE` and 1 otherwise), respectively.
 
 - weights:
 
@@ -81,8 +84,8 @@ circular_density(
 - kernel:
 
   character. The smoothing kernel to be used; one of `"vonmises"` (the
-  default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
-  distribution.
+  default), `"wrappedcauchy"`, `"wrappednormal`, for the von Mises, the
+  wrapped Cauchy, and the wrapped Normal distribution.
 
 - adjust:
 
@@ -103,8 +106,9 @@ Object of class `"density"`
 ## See also
 
 [`stats::density()`](https://rdrr.io/r/stats/density.html),
-[`dvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md) and
-[`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
+[`dvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md),
+[`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md),
+and [`dwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md)
 
 ## Examples
 
@@ -156,18 +160,20 @@ circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
 #>  Mean   :180   Mean   :0.31945  
 #>  3rd Qu.:270   3rd Qu.:0.49674  
 #>  Max.   :360   Max.   :0.95665  
-circular_density(san_andreas$azi, weights = w, rho = 0.9, kernel = "wrappedcauchy")
+
+# wrapped Normal kernel density
+circular_density(san_andreas$azi, sd = 5, kernel = "wrappednormal")
 #> 
 #> Call:
-#>  circular_density(x = san_andreas$azi, weights = w, rho = 0.9,     kernel = "wrappedcauchy")
+#>  circular_density(x = san_andreas$azi, sd = 5, kernel = "wrappednormal")
 #> 
-#> Data: san_andreas$azi (1126 obs.);   Bandwidth 'bw' = 0.9
+#> Data: san_andreas$azi (1126 obs.);   Bandwidth 'bw' = 5
 #> 
-#>        x             y          
-#>  Min.   :  0   Min.   :0.03926  
-#>  1st Qu.: 90   1st Qu.:0.05818  
-#>  Median :180   Median :0.15915  
-#>  Mean   :180   Mean   :0.31952  
-#>  3rd Qu.:270   3rd Qu.:0.50049  
-#>  Max.   :360   Max.   :0.97728  
+#>        x             y            
+#>  Min.   :  0   Min.   :0.0003792  
+#>  1st Qu.: 90   1st Qu.:0.0007200  
+#>  Median :180   Median :0.0024817  
+#>  Mean   :180   Mean   :0.0055786  
+#>  3rd Qu.:270   3rd Qu.:0.0092790  
+#>  Max.   :360   Max.   :0.0176174  
 ```

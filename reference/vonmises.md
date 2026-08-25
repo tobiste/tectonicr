@@ -20,7 +20,8 @@ qvm(p, mean, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 
 - n:
 
-  integer. Number of observations in degrees
+  number of observations. If `length(n) > 1`, the length is taken to be
+  the number required.
 
 - mean:
 
@@ -70,8 +71,9 @@ distribution function, `rvm` generates random deviates (in degrees), and
 
 ## See also
 
-[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md) and
-[cunif](https://tobiste.github.io/tectonicr/reference/cunif.md)
+[cunif](https://tobiste.github.io/tectonicr/reference/cunif.md),
+[wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md), and
+[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
 
 ## Examples
 

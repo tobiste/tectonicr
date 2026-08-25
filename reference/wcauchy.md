@@ -36,7 +36,8 @@ qwcauchy(
 
 - n:
 
-  integer. Number of observations in degrees
+  number of observations. If `length(n) > 1`, the length is taken to be
+  the number required.
 
 - mean:
 
@@ -66,8 +67,8 @@ qwcauchy(
 
 - lower.tail:
 
-  logical. If `TRUE` (default), probabilities are \\P(\Theta \le
-  \theta)\\, otherwise \\P(\Theta \> \theta)\\.
+  logical; if TRUE (default), probabilities are \\P\[X \le x\]\\,
+  otherwise, \\P\[X \> x\]\\.
 
 - log.p:
 
@@ -85,8 +86,9 @@ deviates (in degrees), and `qrwcauchy` provides quantiles (in degrees).
 
 ## See also
 
+[cunif](https://tobiste.github.io/tectonicr/reference/cunif.md),
+[wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md), and
 [vonmises](https://tobiste.github.io/tectonicr/reference/vonmises.md)
-and [cunif](https://tobiste.github.io/tectonicr/reference/cunif.md)
 
 ## Examples
 

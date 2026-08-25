@@ -207,7 +207,7 @@ rose_line(135, radius = 1.1, col = "#FB8861FF")
 
 ![](statistics_files/figure-html/rose2-1.png)
 
-The green line shows the predicted direction.
+The orange line shows the predicted direction.
 
 ### QQ Plot
 

@@ -254,3 +254,10 @@
   : Weighted Goodness-of-fit Test for Circular Data
 - [`weighting()`](https://tobiste.github.io/tectonicr/reference/weighting.md)
   : Weighting Factors
+- [`dwlevy()`](https://tobiste.github.io/tectonicr/reference/wlevy.md) :
+  Wrapped Lévy Distribution
+- [`rwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md)
+  [`dwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md)
+  [`pwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md)
+  [`qwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md) :
+  The Wrapped Normal Distribution

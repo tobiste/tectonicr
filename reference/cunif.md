@@ -19,7 +19,8 @@ qcunif(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE)
 
 - n:
 
-  integer. Number of observations in degrees
+  number of observations. If `length(n) > 1`, the length is taken to be
+  the number required.
 
 - axial:
 
@@ -32,12 +33,12 @@ qcunif(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE)
 
 - log, log.p:
 
-  logical. If `TRUE`, probabilities p are given as log(p).
+  logical; if TRUE, probabilities p are given as log(p).
 
 - lower.tail:
 
-  logical. If `TRUE` (default), probabilities are \\P(\Theta \le
-  \theta)\\, otherwise \\P(\Theta \> \theta)\\.
+  logical; if TRUE (default), probabilities are \\P\[X \le x\]\\,
+  otherwise, \\P\[X \> x\]\\.
 
 - p:
 
@@ -51,7 +52,8 @@ degrees), and `qcunif` provides quantiles (in degrees).
 
 ## See also
 
-[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md) and
+[wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md),
+[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md), and
 [vonmises](https://tobiste.github.io/tectonicr/reference/vonmises.md)
 
 ## Examples

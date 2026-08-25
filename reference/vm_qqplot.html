@@ -115,18 +115,29 @@ If <code>NULL</code>, it will be estimated from <code>x</code>.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>plot</p>
     </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other circ-qqplot:
+<code><a href="circular_qqplot.html">circular_qqplot()</a></code></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># von Mises distribution</span></span></span>
-<span class="r-in"><span><span class="va">x_vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">0</span>, kappa <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">vm_qqplot</span><span class="op">(</span><span class="va">x_vm</span>, axial <span class="op">=</span> <span class="cn">FALSE</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20250411</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># von Mises distribution</span></span></span>
+<span class="r-in"><span><span class="va">x_vm</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">0</span>, kappa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vm_qqplot</span><span class="op">(</span><span class="va">x_vm</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="vm_qqplot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># uniform distribution</span></span></span>
-<span class="r-in"><span><span class="va">x_unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="fl">360</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">vm_qqplot</span><span class="op">(</span><span class="va">x_unif</span>, axial <span class="op">=</span> <span class="cn">FALSE</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x_wcauchy</span> <span class="op">&lt;-</span> <span class="fu"><a href="wcauchy.html">rwcauchy</a></span><span class="op">(</span><span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">0</span>, rho <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vm_qqplot</span><span class="op">(</span><span class="va">x_wcauchy</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="vm_qqplot-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># circular uniform data</span></span></span>
+<span class="r-in"><span><span class="va">x_cunif</span> <span class="op">&lt;-</span> <span class="fu"><a href="cunif.html">rcunif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vm_qqplot</span><span class="op">(</span><span class="va">x_cunif</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="vm_qqplot-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

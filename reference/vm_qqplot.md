@@ -65,15 +65,26 @@ vm_qqplot(
 
 plot
 
+## See also
+
+Other circ-qqplot:
+[`circular_qqplot()`](https://tobiste.github.io/tectonicr/reference/circular_qqplot.md)
+
 ## Examples
 
 ``` r
+set.seed(20250411)
+
 # von Mises distribution
-x_vm <- rvm(100, mean = 0, kappa = 4)
-vm_qqplot(x_vm, axial = FALSE, pch = 20)
+x_vm <- rvm(100, mean = 0, kappa = 2)
+vm_qqplot(x_vm, pch = 20)
 
 
-# uniform distribution
-x_unif <- runif(100, 0, 360)
-vm_qqplot(x_unif, axial = FALSE, pch = 20)
+x_wcauchy <- rwcauchy(100, mean = 0, rho = 0.5)
+vm_qqplot(x_wcauchy, pch = 20)
+
+
+# circular uniform data
+x_cunif <- rcunif(100)
+vm_qqplot(x_cunif, pch = 20)
 ```

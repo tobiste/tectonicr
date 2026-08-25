@@ -1,7 +1,7 @@
 # Circular Kernel Density Plot
 
-Plots multiples of a von Mises density or wrapped Cauchy distribution in
-a circular plot
+Plots multiples of a von Mises, wrapped Cauchy, and wrapped Normal
+density distribution in a circular plot
 
 ## Usage
 
@@ -9,13 +9,15 @@ a circular plot
 plot_density(
   x,
   bw = NULL,
-  kernel = c("vonmises", "wrappedcauchy"),
+  kernel = c("vonmises", "wrappedcauchy", "wrappednormal"),
   weights = NULL,
   axial = TRUE,
   n = 512L,
   norm.density = TRUE,
   kappa = NULL,
   rho = NULL,
+  sd = NULL,
+  c = NULL,
   fill = FALSE,
   scale = 0,
   shrink = 1,
@@ -36,23 +38,24 @@ plot_density(
   Either an object of class `"density"` or a numeric vector of angles
   (in degrees) from which the estimate is to be computed
 
-- bw, kappa, rho:
+- bw, kappa, rho, sd, c:
 
   numeric. Smoothing bandwidth expressed as the concentration parameter
-  \\\kappa\\ for the von Mises distribution or \\\rho\\ for the wrapped
-  Cauchy distribution. Small and large values for the von Mises and
-  wrapped Cauchy distribution, respectively, gives smooth density lines.
+  \\\kappa\\ for the von Mises distribution, \\\rho\\ for the wrapped
+  Cauchy distribution, or \\\sigma\\ for the wrapped normal
+  distribution. Small and large values for the von Mises and wrapped
+  normal/Cauchy distribution, respectively, gives smooth density lines.
   If not specified, parameter will be estimated using
   [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
-  for the von Mises distribution, or set to \\p \exp(-1)\\ for the
-  wrapped Cauchy distribution (where \\p = 2\\ when `axial=TRUE` and 1
-  otherwise).
+  for the von Mises distribution, or set to \\p \exp(-1)\\ and `1` for
+  the wrapped Cauchy and wrapped Normal distribution (where \\p = 2\\
+  when `axial=TRUE` and 1 otherwise), respectively.
 
 - kernel:
 
   character. The smoothing kernel to be used; one of `"vonmises"` (the
-  default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
-  distribution.
+  default), `"wrappedcauchy"`, `"wrappednormal`, for the von Mises, the
+  wrapped Cauchy, and the wrapped Normal distribution.
 
 - weights:
 
@@ -153,6 +156,13 @@ plot_density(san_andreas$azi,
   add = TRUE
 )
 
+# Superimpose a wrapped Normal kernel distribution curve
+plot_density(san_andreas$azi,
+  sd = 2, kernel = "wrappednormal",
+  fill = FALSE, col = "#E65164FF",
+  add = TRUE
+)
+
 
 # Superimpose a von Mises kernel density curve on a rose diagram:
 rose(san_andreas$azi, grid = TRUE)
@@ -170,4 +180,13 @@ plot_density(san_andreas$azi, weights = w,
   scale = 1.1, shrink = 3, xpd = NA,
   col = "#51127CFF"
 )
+
+
+plot_density(san_andreas$azi,
+  bw  = 0.1, kernel = "wrappedlevy",
+  fill = TRUE, col = "#51127C80", border = "#51127CFF",
+  grid = TRUE,
+  add = FALSE
+)
+#> Error in match.arg(kernel): 'arg' should be one of “vonmises”, “wrappedcauchy”, “wrappednormal”
 ```
