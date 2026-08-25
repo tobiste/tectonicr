@@ -16,7 +16,9 @@ circular_density(
   axial = TRUE,
   kappa = NULL,
   rho = NULL,
-  kernel = c("vonmises", "wrappedcauchy"),
+  sd = NULL,
+  c = NULL,
+  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"),
   adjust = 1,
   subdensity = FALSE
 )
@@ -27,13 +29,14 @@ circular_density(
 \item{z}{numeric. Angles where the density is estimated. If \code{NULL} equally
 spaced angles are used according to the parameters \code{from}, \code{to} and \code{n}.}
 
-\item{bw, kappa, rho}{numeric. Smoothing bandwidth expressed as the concentration
-parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
-wrapped Cauchy distribution.
-Small and large values for the von Mises and wrapped Cauchy distribution,
+\item{bw, kappa, rho, sd, c}{numeric. Smoothing bandwidth expressed as the concentration
+parameter \eqn{\kappa}{k} for the von Mises distribution, \eqn{\rho}{rho} for the
+wrapped Cauchy distribution, or \eqn{\sigma}{sd} for the wrapped normal distribution.
+Small and large values for the von Mises and wrapped normal/Cauchy distribution,
 respectively, gives smooth density lines. If not specified, parameter will be estimated using
-\code{\link[=est.kappa]{est.kappa()}}  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
-for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when \code{axial=TRUE} and 1 otherwise).}
+\code{\link[=est.kappa]{est.kappa()}}  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)} and \code{1}
+for the wrapped Cauchy and wrapped Normal distribution (where \eqn{p = 2}{p=2}
+when \code{axial=TRUE} and 1 otherwise), respectively.}
 
 \item{weights}{numeric. A vector of observation weights, of the same length as \code{x},
 to give individual observations weight in the density estimate. Should sum to 1;
@@ -54,8 +57,8 @@ to be estimated.}
 or biaxial (\code{TRUE}, the default).}
 
 \item{kernel}{character. The smoothing kernel to be used; one of \code{"vonmises"}
-(the default) or \code{"wrappedcauchy"} for the von Mises or the Wrapped Cauchy
-distribution.}
+(the default), \code{"wrappedcauchy"}, \verb{"wrappednormal}, for the von Mises,
+the wrapped Cauchy, and the wrapped Normal distribution.}
 
 \item{adjust}{the bandwidth used is actually \code{adjust*bw}.
     This makes it easy to specify values like \sQuote{half the default}
@@ -69,8 +72,8 @@ contribution to a shared total. See \code{\link[stats:density]{stats::density()}
 Object of class \code{"density"}
 }
 \description{
-Kernel density estimates for circular data from a given kernel (von Mises or
-wrapped Cauchy distribution) and bandwidth
+Kernel density estimates for circular data from a given kernel (von Mises,
+wrapped Cauchy, and wrapped Normal) and bandwidth
 }
 \examples{
 w <-  weighting(san_andreas$unc)
@@ -81,8 +84,10 @@ circular_density(san_andreas$azi, weights = w, kappa = 100)
 
 # wrapped Cauchy kernel density
 circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
-circular_density(san_andreas$azi, weights = w, rho = 0.9, kernel = "wrappedcauchy")
+
+# wrapped Normal kernel density
+circular_density(san_andreas$azi, sd = 5, kernel = "wrappednormal")
 }
 \seealso{
-\code{\link[stats:density]{stats::density()}}, \code{\link[=dvm]{dvm()}} and \code{\link[=dwcauchy]{dwcauchy()}}
+\code{\link[stats:density]{stats::density()}}, \code{\link[=dvm]{dvm()}}, \code{\link[=dwcauchy]{dwcauchy()}}, and \code{\link[=dwnorm]{dwnorm()}}
 }

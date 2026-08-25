@@ -663,7 +663,8 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 
 #' Circular Kernel Density Plot
 #'
-#' Plots multiples of a von Mises density or wrapped Cauchy distribution in a circular plot
+#' Plots multiples of a von Mises, wrapped Cauchy, and wrapped Normal
+#' density distribution in a circular plot
 #'
 #' @param x Either an object of class `"density"` or a numeric vector of angles
 #' (in degrees) from which the estimate is to be computed
@@ -700,6 +701,13 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'   add = TRUE
 #' )
 #'
+#' # Superimpose a wrapped Normal kernel distribution curve
+#' plot_density(san_andreas$azi,
+#'   sd = 2, kernel = "wrappednormal",
+#'   fill = FALSE, col = "#E65164FF",
+#'   add = TRUE
+#' )
+#'
 #' # Superimpose a von Mises kernel density curve on a rose diagram:
 #' rose(san_andreas$azi, grid = TRUE)
 #' plot_density(san_andreas$azi,
@@ -715,12 +723,19 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'   scale = 1.1, shrink = 3, xpd = NA,
 #'   col = "#51127CFF"
 #' )
-plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
+#'
+#' plot_density(san_andreas$azi,
+#'   bw  = 0.1, kernel = "wrappedlevy",
+#'   fill = TRUE, col = "#51127C80", border = "#51127CFF",
+#'   grid = TRUE,
+#'   add = FALSE
+#' )
+plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy", "wrappednormal"),
                          weights = NULL,
                          axial = TRUE,
                          n = 512L,
                          norm.density = TRUE,
-                         kappa = NULL, rho = NULL,
+                         kappa = NULL, rho = NULL, sd = NULL, c = NULL,
                          fill = FALSE,
                          scale = 0, shrink = 1,
                          add = TRUE, main = NULL, labels = TRUE,
@@ -729,7 +744,8 @@ plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
   d <- if (inherits(x, "density")) {
     x
   } else {
-    circular_density(x, bw = bw, n = n, axial = axial, kernel = kernel, kappa = kappa, rho = rho, weights = weights)
+    kernel <- match.arg(kernel)
+    circular_density(x, bw = bw, n = n, axial = axial, kernel = kernel, kappa = kappa, rho = rho, sd = sd, c = c, weights = weights)
   }
   d.y <- d$y
 
@@ -741,9 +757,7 @@ plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy"),
     circular_plot(main = main, labels = labels, at = at, cborder = cborder)
   }
 
-  if (grid) {
-    rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
-  }
+  if (grid) rose_grid(seq(0, 135, 45), seq(.2, 1, .2))
 
 
   if (norm.density) d.y <- d.y / max(d.y)

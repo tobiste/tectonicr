@@ -359,21 +359,25 @@ geom_azimuthpoint <- function(mapping = NULL, data = NULL,
 #' @importFrom graphics plot abline lines points
 #' @export
 #'
+#' @family circ-qqplot
+#'
 #' @references Borradaile, G. J. (2003). Statistics of earth
 #' science data: their distribution in time, space, and orientation (Vol. 351,
 #' p. 329). Berlin: Springer.
 #'
 #' @examples
+#' set.seed(20250411)
+#'
 #' # von Mises distribution
 #' x_vm <- rvm(100, mean = 0, kappa = 2)
 #' circular_qqplot(x_vm, pch = 20)
 #'
-#' x_norm <- rnorm(100, mean = 0, sd = 25)
-#' circular_qqplot(x_norm, pch = 20)
+#' x_wcauchy <- rwcauchy(100, mean = 0, rho = 0.5)
+#' circular_qqplot(x_wcauchy, pch = 20)
 #'
-#' # uniform (random) data
-#' x_unif <- runif(100, 0, 360)
-#' circular_qqplot(x_unif, pch = 20)
+#' # circular uniform data
+#' x_cunif <- rcunif(100)
+#' circular_qqplot(x_cunif, pch = 20)
 circular_qqplot <- function(x, axial = TRUE,
                             xlab = paste("i/(n+1)"),
                             ylab = NULL, main = "Circular Quantile-Quantile Plot",
@@ -413,32 +417,34 @@ circular_qqplot <- function(x, axial = TRUE,
 #' Produces a Q-Q plot of the data against a specified von Mises distribution
 #' to graphically assess the goodness of fit of the model.
 #'
-#' @param x numeric. Angles in degrees
+#' @inheritParams circular_qqplot
 #' @param w numeric. optional weightings for `x` to estimate `mean` and `kappa`.
-#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
-#' @param xlab,ylab,main plot labels.
 #' @param mean numeric. Circular mean of the von Mises distribution. If `NULL`,
 #' it will be estimated from `x`.
 #' @param kappa numeric. Concentration parameter of the von Mises distribution.
 #' If `NULL`, it will be estimated from `x`.
-#' @param col color for the dots.
-#' @param add_line logical. Whether to connect the points by straight lines?
-#' @param ... graphical parameters
 #'
 #' @return plot
 #' @importFrom stats ecdf
 #' @importFrom graphics plot lines
 #'
+#' @family circ-qqplot
+#'
 #' @export
 #'
 #' @examples
-#' # von Mises distribution
-#' x_vm <- rvm(100, mean = 0, kappa = 4)
-#' vm_qqplot(x_vm, axial = FALSE, pch = 20)
+#' set.seed(20250411)
 #'
-#' # uniform distribution
-#' x_unif <- runif(100, 0, 360)
-#' vm_qqplot(x_unif, axial = FALSE, pch = 20)
+#' # von Mises distribution
+#' x_vm <- rvm(100, mean = 0, kappa = 2)
+#' vm_qqplot(x_vm, pch = 20)
+#'
+#' x_wcauchy <- rwcauchy(100, mean = 0, rho = 0.5)
+#' vm_qqplot(x_wcauchy, pch = 20)
+#'
+#' # circular uniform data
+#' x_cunif <- rcunif(100)
+#' vm_qqplot(x_cunif, pch = 20)
 vm_qqplot <- function(x, w = NULL, axial = TRUE, mean = NULL, kappa = NULL,
                       xlab = "von Mises quantile function",
                       ylab = "Empirical quantile function",

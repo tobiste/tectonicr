@@ -7,12 +7,9 @@
 #' Density, probability distribution function, quantiles, and random generation
 #' for the circular uniform distribution.
 #'
-#' @param n integer. Number of observations in degrees
+#' @inheritParams stats::runif
 #' @param p numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.
 #' @param theta numeric. Angular value in degrees
-#' @param log,log.p logical. If `TRUE`, probabilities p are given as log(p).
-#' @param lower.tail logical. If `TRUE` (default), probabilities are \eqn{P(\Theta \le \theta)},
-#' otherwise \eqn{P(\Theta > \theta)}.
 #' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
@@ -21,7 +18,7 @@
 #' `rcunif` generates random deviates (in degrees), and
 #' `qcunif` provides quantiles (in degrees).
 #'
-#' @seealso [wcauchy] and [vonmises]
+#' @seealso [wnorm], [wcauchy], and [vonmises]
 #'
 #' @name cunif
 #'
@@ -78,27 +75,6 @@ qcunif <- function(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE) {
 
 ## von Mises -------------------------------------------------------------------
 
-# pvm.mu0 <- function(theta, kappa, acc) {
-#   flag <- TRUE
-#   p <- 1
-#   sum <- 0
-#   while (flag) {
-#     term <- (besselI(x = kappa, nu = p, expon.scaled = FALSE) *
-#       sin(p * theta)) / p
-#     sum <- sum + term
-#     p <- p + 1
-#     if (abs(term) < acc) {
-#       flag <- FALSE
-#     }
-#   }
-#   theta / (2 * pi) + sum / (pi * besselI(
-#     x = kappa, nu = 0,
-#     expon.scaled = FALSE
-#   ))
-# }
-
-
-
 #' The von Mises Distribution
 #'
 #' Density, probability distribution function, quantiles, and random generation
@@ -119,8 +95,7 @@ qcunif <- function(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE) {
 #' `rvm` generates random deviates (in degrees), and
 #' `qvm` provides quantiles (in degrees).
 #'
-#' @seealso [wcauchy] and [cunif]
-#'
+#' @seealso [cunif], [wnorm], and [wcauchy]
 #' @name vonmises
 #'
 #' @importFrom circular circular rvonmises pvonmises qvonmises daxialvonmises
@@ -146,43 +121,29 @@ rvm <- function(n, mean, kappa) {
 #' @rdname vonmises
 #' @export
 dvm <- function(theta, mean, kappa, axial = FALSE, log = FALSE) {
-  if (axial) {
-    x <- circular::circular(theta, units = "degrees", modulo = "pi")
-    mu <- circular::circular(mean, units = "degrees", modulo = "pi")
-    d <- circular::daxialvonmises(x, mu, kappa)
-    if (log) d <- log(d)
-    return(d)
+  f <- if(axial) 2 else 1
+  two_pi <- 2 * pi
+  x <- deg2rad(f * theta) %% two_pi
+  mu <- deg2rad(f * mean) %% two_pi
+
+  delta <- x - mu
+  delta_mod <- delta %% two_pi
+
+  n <- length(x)
+
+  if (kappa == 0) {
+    vm <- rep(1 / two_pi, n)
+  } else if (kappa < 1e+05) {
+    bessel_val <- besselI(kappa, nu = 0, expon.scaled = TRUE)
+    vm <- (1 / (two_pi * bessel_val)) * (exp(cos(delta) - 1))^kappa
   } else {
-    two_pi <- 2 * pi
-    x <- deg2rad(theta) %% two_pi
-    mu <- deg2rad(mean) %% two_pi
-
-    delta <- x - mu
-    delta_mod <- delta %% two_pi
-
-    n <- length(x)
-
-    if (log) {
-      if (kappa == 0) {
-        vm <- rep(-log(two_pi), n)
-      } else if (kappa < 1e+05) {
-        log_bessel <- log(besselI(kappa, nu = 0, expon.scaled = TRUE))
-        vm <- -(log(two_pi) + log_bessel + kappa) + kappa * cos(delta)
-      } else {
-        vm <- ifelse(delta_mod == 0, Inf, -Inf)
-      }
-    } else {
-      if (kappa == 0) {
-        vm <- rep(1 / two_pi, n)
-      } else if (kappa < 1e+05) {
-        bessel_val <- besselI(kappa, nu = 0, expon.scaled = TRUE)
-        vm <- (1 / (two_pi * bessel_val)) * (exp(cos(delta) - 1))^kappa
-      } else {
-        vm <- ifelse(delta_mod == 0, Inf, 0)
-      }
-    }
-    return(vm)
+    vm <- ifelse(delta_mod == 0, Inf, 0)
   }
+
+  if (isTRUE(axial)) vm <- f * vm
+  if (isTRUE(log)) vm <- log(vm)
+
+  return(vm)
 }
 
 #' @rdname vonmises
@@ -207,7 +168,8 @@ qvm <- function(p, mean, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ..
     from <- circular::circular(from, units = "degrees", modulo = "2pi")
   }
 
-  circular::qvonmises(p, mu, kappa, from, tol = tol, ...) |> as.numeric()
+  circular::qvonmises(p, mu, kappa, from, tol = tol, ...) |>
+    as.numeric()
 }
 
 
@@ -301,6 +263,130 @@ est.kappa <- function(x, w = NULL, p = 2) {
   (Rbar * (p - Rbar^2)) / (1 - Rbar^2)
 }
 
+## Wrapped Normal --------------------------------------------------------------
+
+#' The Wrapped Normal Distribution
+#'
+#' Density, probability distribution function, quantiles, and random generation
+#' for the circular normal distribution with mean \eqn{\mu}{mu} and standard deviation \eqn{\sigma}{sd}.
+#'
+#' @inheritParams vonmises
+#' @param sd 	numeric. standard deviation of the (unwrapped) normal distribution in degrees.
+#' @param ... optional parameters passed to underlying circular functions:
+#' [circular::dwrappednormal()], [circular::pwrappednormal()], and [circular::qwrappednormal()]
+#'
+#' @returns `dwnorm` gives the density,
+#' `pwnorm` gives the probability of the wrapped normal distribution function,
+#' `rwnorm` generates random deviates (in degrees), and
+#' `qwnorm` provides quantiles (in degrees).
+#'
+#' @importFrom stats rnorm runif
+#' @importFrom circular circular dwrappednormal pwrappednormal qwrappednormal
+#' @name wnorm
+#'
+#' @seealso [cunif], [wnorm], [wcauchy], and [vonmises]
+#'
+#' @examples
+#' set.seed(1)
+#' x <- rwnorm(5, mean = 90, sd = 5)
+#'
+#' dwnorm(x, mean = 90, sd = 5, axial = FALSE)
+#' dwnorm(x, mean = 90, sd = 5, axial = TRUE)
+#'
+#' pwnorm(x, mean = 90, sd = 5)
+#' qwnorm(c(.25, .5, .75), mean = 90, sd = 5)
+NULL
+
+#' @rdname wnorm
+#' @export
+rwnorm <- function(n, mean = 0, sd = 1){
+  two_pi <- 2 * pi
+  mean_rad <- deg2rad(mean) %% two_pi
+  sd_rad <- deg2rad(sd) %% two_pi
+
+  rho <- exp(-sd_rad^2/2)
+  stopifnot(rho > 0 | rho < 1)
+
+  if (rho == 0)
+    result <- stats::runif(n, 0, two_pi)
+  else if (rho == 1)
+    result <- rep(mean_rad, n)
+  else {
+    result <- stats::rnorm(n, mean_rad, sd_rad) %% two_pi
+  }
+
+  return(rad2deg(result))
+}
+
+#' @rdname wnorm
+#' @export
+dwnorm <- function(theta, mean = 0, sd = 1, axial = FALSE, ..., log = FALSE){
+  f <- if(isTRUE(axial)) 2 else 1
+  two_pi <- 2 * pi
+  mu <- deg2rad(f * mean) %% two_pi
+  sd_rad <- deg2rad(f * sd) %% two_pi
+  x <- deg2rad(f * theta)  %% two_pi
+
+  # var <- sd_rad^2
+  #
+  # if (is.null(K)) {
+  #   range <- abs(mu - x)
+  #   K <- (range + 6 * sqrt(var))%/%(2 * pi) + 1
+  #   K <- max(min.k, K)
+  # }
+  # n <- length(x)
+  # z <- .Fortran("dwrpnorm", as.double(x), as.double(mu), as.double(sd_rad),
+  #               as.integer(n), as.integer(length(mu)), as.integer(K),
+  #               d = mat.or.vec(length(mu), n), PACKAGE = "circular")
+  # d <- t(z$d/sqrt(var * 2 * pi))
+  # if (ncol(d) == 1)
+  #   d <- c(d)
+
+  d <- circular::dwrappednormal(circular::circular(x), mu = circular::circular(mu), sd = sd_rad, ...)
+
+  if(isTRUE(log)) d <- log(d)
+  return(f * d)
+}
+
+dwnorm2 <- function(theta, mean = 0, sd = 1, axial = FALSE, log = FALSE){
+  f <- if(isTRUE(axial)) 2 else 1
+  two_pi <- 2 * pi
+  mu <- deg2rad(f * mean) %% two_pi
+  sd_rad <- deg2rad(f * sd) %% two_pi
+  x <- deg2rad(f * theta)  %% two_pi
+
+  k <- -8:8
+  dens <- Reduce(`+`, lapply(k, function(kk) exp(-(delta + 2 * pi * kk)^2 / (2 * sd_rad^2))))
+  d <- pi / 180 * dens / (sd_rad * sqrt(2 * pi))
+
+  if(isTRUE(log)) d <- log(d)
+  return(f * d)
+}
+
+#' @rdname wnorm
+#' @export
+pwnorm <- function(theta, mean = 0, sd = 1, axial = FALSE, from = NULL, ...){
+  f <- if(isTRUE(axial)) 2 else 1
+  two_pi <- 2 * pi
+  mu <- deg2rad(f * mean) %% two_pi
+  sd_rad <- deg2rad(f * sd) %% two_pi
+  q <- deg2rad(f * theta)  %% two_pi
+
+  circular::pwrappednormal(circular::circular(q), circular::circular(mu), sd = sd_rad, from = from, ...)
+}
+
+#' @rdname wnorm
+#' @export
+qwnorm <- function(p, mean = 0, sd = 1, axial = FALSE, from = NULL, tol = .Machine$double.eps^(0.6), ...){
+  f <- if(isTRUE(axial)) 2 else 1
+  two_pi <- 2 * pi
+  mu <- deg2rad(f * mean) %% two_pi
+  sd_rad <- deg2rad(f * sd) %% two_pi
+
+  circular::qwrappednormal(p, circular::circular(mu), sd = sd_rad, from = from, tol = tol, ...) |>
+     as.numeric()
+}
+
 ## Wrapped Cauchy --------------------------------------------------------------
 
 #' The Wrapped Cauchy Distribution
@@ -319,9 +405,9 @@ est.kappa <- function(x, w = NULL, p = 2) {
 #' `qrwcauchy` provides quantiles (in degrees).
 #'
 #' @name wcauchy
-#' @seealso [vonmises] and [cunif]
+#' @seealso [cunif], [wnorm], and [vonmises]
 #'
-#' @importFrom circular circular rwrappedcauchy
+#' @importFrom stats rcauchy
 #'
 #' @examples
 #' set.seed(1)
@@ -337,8 +423,18 @@ NULL
 #' @rdname wcauchy
 #' @export
 rwcauchy <- function(n, mean, rho){
-  mu <- circular::circular(mean, units = "degrees", modulo = "2pi")
-  circular::rwrappedcauchy(n, mu, rho) |> as.numeric()
+  two_pi <- 2 * pi
+  mu <- deg2rad(mean) %% two_pi
+
+  if (rho == 0)
+    result <- runif(n, 0, two_pi)
+  else if (rho == 1)
+    result <- rep(mu, n)
+  else {
+    scale <- -log(rho)
+    result <- stats::rcauchy(n, mu, scale)%%(two_pi)
+  }
+  return(rad2deg(result))
 }
 
 #' @rdname wcauchy
@@ -401,9 +497,125 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
   (rad2deg(x) %% 360) / fac
 }
 
+# Wrapped Levy------------------------------------------------------------------
+.levy_wrap_series_u <- function(u, cc, P) {
+  p <- 1:P
+  sp <- sqrt(cc * p)
+  ang <- outer(u, p, function(uu, pp) sqrt(cc * pp) - pp * uu)
+  s <- rowSums(matrix(exp(-sp), nrow = length(u), ncol = P, byrow = TRUE) * cos(ang))
+  1 + 2 * s
+}
+
+.levy_choose_P <- function(cc, tol = 1e-9, P0 = 100, P.max = 20000) {
+  P <- P0
+  prev <- .levy_wrap_series_u(0, cc, P)
+  repeat {
+    P <- P * 2
+    if (P > P.max) return(P.max)
+    cur <- .levy_wrap_series_u(0, cc, P)
+    if (abs(cur - prev) < tol) return(P)
+    prev <- cur
+  }
+}
+
+## the u* in [0, 2*pi) that maximises the wrapped kernel -- computed once per
+## bandwidth (cc = f*bw), reused for every theta/data point in that call.
+.levy_wrap_offset <- function(cc, tol = 1e-9) {
+  P <- .levy_choose_P(cc, tol = tol)
+  fn <- function(u) .levy_wrap_series_u(u, cc, P)
+  grid <- seq(0, 2 * pi, length.out = 721)[-721]
+  vals <- fn(grid)
+  i0 <- which.max(vals)
+  lo <- grid[max(1, i0 - 2)]
+  hi <- grid[min(length(grid), i0 + 2)] + (2 * pi / 720) * 2
+  optimize(function(u) -fn(u), interval = c(lo, hi), tol = 1e-10)$minimum
+}
+
+
+.dwlevy_series <- function(theta, mean, c, axial, P, offset) {
+  f  <- if (isTRUE(axial)) 2 else 1
+  cc <- f * c
+  dth <- deg2rad(f * theta) - deg2rad(f * mean) + offset
+  p <- 1:P
+  sp <- sqrt(cc * p)
+  ang <- outer(dth, p, function(d, pp) sqrt(cc * pp) - pp * d)
+  s <- rowSums(matrix(exp(-sp), nrow = length(dth), ncol = P, byrow = TRUE) * cos(ang))
+  pmax(f * pi / 180 / (2 * pi) * (1 + 2 * s), 0)
+}
+
+
+#' Wrapped Lévy Distribution
+#'
+#' Probability density function of the wrapped Lévy distribution
+#'
+#' @inheritParams vonmises
+#' @param c numeric. Scale factor of the Lévy distribution. Small values indicate concentrated data near the mean.
+#' @param P0,P.max numeric. Arguments Control how the truncated series
+#' (the Fourier/characteristic-function sum) is grown and when it gives up.
+#' In practice you'll almost never touch either one, as for typical `c` (\eqn{c \le 0.1})
+#' convergence happens within the first one or two doublings, well under `P0`.
+#'
+#' @name wlevy
+#'
+#' @seealso [cunif], [wnorm], [wcauchy], and [vonmises]
+#'
+#' @examples
+#' set.seed(1)
+#' x <- rwcauchy(5, mean = 90, rho = exp(-1))
+#'
+#' dwlevy(x, mean = 80, c = 10)
+NULL
+
+#' @rdname wlevy
+# #' @export
+dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 5000) {
+  stopifnot(all(c > 0))
+  f  <- if (isTRUE(axial)) 2 else 1
+  cc <- f * c
+  offset <- .levy_wrap_offset(cc, tol = tol)
+  P <- P0
+  prev <- .dwlevy_series(theta, mean, c, axial, P, offset)
+  repeat {
+    P <- P * 2
+    if (P > P.max) {
+      warning(sprintf("dwlevy: not converged to tol=%.1e by P.max=%d for c=%.4g", tol, P.max, c))
+      return(prev)
+    }
+    cur <- .dwlevy_series(theta, mean, c, axial, P, offset)
+    if (max(abs(cur - prev)) < tol) return(cur)
+    prev <- cur
+  }
+}
+
+
+# Matrix-vectorized version for .calc_circular_density():
+.wrappedlevy_kernel_matrix <- function(delta, bw, f, tol = 1e-8, block = 25, P.max = 5e4) {
+  cc <- f * bw
+  offset <- .levy_wrap_offset(cc, tol = tol)   # one scalar optimisation per call
+  dth <- -delta + offset
+  acc <- matrix(0, nrow(dth), ncol(dth))
+  p_lo <- 1
+  repeat {
+    p <- p_lo:(p_lo + block - 1)
+    sp <- sqrt(cc * p)
+    block_sum <- matrix(0, nrow(dth), ncol(dth))
+    for (idx in seq_along(p)) {
+      block_sum <- block_sum + exp(-sp[idx]) * cos(sp[idx] - p[idx] * dth)
+    }
+    acc <- acc + block_sum
+    p_lo <- p_lo + block
+    if (max(abs(block_sum)) < tol) break
+    if (p_lo > P.max) {
+      warning(sprintf("wrappedlevy kernel: not converged to tol=%.1e by P.max=%d (bw=%.4g)", tol, P.max, bw))
+      break
+    }
+  }
+  pmax(f * pi / 180 / (2 * pi) * (1 + 2 * acc), 0)
+}
+
 # Kernel density ---------------------------------------------------------------
 
-.calc_circular_density <- function(x, z, bw, axial, kernel = c("vonmises", "wrappedcauchy"), weights = NULL) {
+.calc_circular_density <- function(x, z, bw, axial,  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"), weights = NULL) {
   kernel <- match.arg(kernel)
   nx <- length(x)
   # if (kernel == "vonmises") {
@@ -422,17 +634,25 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
   Z <- deg2rad(f * z) %% (2 * pi)
   delta <- outer(X, Z, "-") # nx x n matrix, built once
 
-  if (kernel == "vonmises") {
-    kappa <- bw
-    # kappa <- ifelse(is.null(bw), 10, bw)
-    bessel_val <- besselI(kappa, nu = 0, expon.scaled = TRUE) # once, not per z
-    y <- f * exp(kappa * (cos(delta) - 1)) / (2 * pi * bessel_val)
-  } else {
-    rho <- bw
-    # rho <- exp(-bw^2/2)
-    # rho <- ifelse(is.null(bw), exp(-1) * f, bw)
-    y <- f * (1 - rho^2) / (2 * pi * (1 + rho^2 - 2 * rho * cos(delta)))
-  }
+  y <- switch(kernel,
+    "vonmises" = {
+      kappa <- bw
+      bessel_val <- besselI(kappa, nu = 0, expon.scaled = TRUE) # once, not per z
+      f * exp(kappa * (cos(delta) - 1)) / (2 * pi * bessel_val)
+    },
+   "wrappedcauchy" = {
+     rho <- bw
+     f * (1 - rho^2) / (2 * pi * (1 + rho^2 - 2 * rho * cos(delta)))
+   },
+   "wrappednormal" = {
+     sd_rad <- deg2rad(f * bw)
+     k <- -8:8
+     dens <- Reduce(`+`, lapply(k, function(kk) exp(-(delta + 2 * pi * kk)^2 / (2 * sd_rad^2))))
+     f * pi / 180 * dens / (sd_rad * sqrt(2 * pi))
+   },
+   "wrappedlevy" = .wrappedlevy_kernel_matrix(delta, bw, f)
+  )
+
   #colSums(y) / nx
   colSums(y * weights)  # weights already sum to 1 (or intentionally don't, if subdensity)
 }
@@ -440,22 +660,23 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 
 #' Circular Kernel Density Estimation
 #'
-#' Kernel density estimates for circular data from a given kernel (von Mises or
-#' wrapped Cauchy distribution) and bandwidth
+#' Kernel density estimates for circular data from a given kernel (von Mises,
+#' wrapped Cauchy, and wrapped Normal) and bandwidth
 #'
 #' @param x numeric. A vector of angles (in degrees) from which the estimate is to be computed.
 #' @param z numeric. Angles where the density is estimated. If `NULL` equally
 #' spaced angles are used according to the parameters `from`, `to` and `n`.
-#' @param bw,kappa,rho numeric. Smoothing bandwidth expressed as the concentration
-#' parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
-#' wrapped Cauchy distribution.
-#' Small and large values for the von Mises and wrapped Cauchy distribution,
+#' @param bw,kappa,rho,sd,c numeric. Smoothing bandwidth expressed as the concentration
+#' parameter \eqn{\kappa}{k} for the von Mises distribution, \eqn{\rho}{rho} for the
+#' wrapped Cauchy distribution, or \eqn{\sigma}{sd} for the wrapped normal distribution.
+#' Small and large values for the von Mises and wrapped normal/Cauchy distribution,
 #' respectively, gives smooth density lines. If not specified, parameter will be estimated using
-#' [est.kappa()]  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
-#' for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when `axial=TRUE` and 1 otherwise).
+#' [est.kappa()]  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)} and `1`
+#' for the wrapped Cauchy and wrapped Normal distribution (where \eqn{p = 2}{p=2}
+#' when `axial=TRUE` and 1 otherwise), respectively.
 #' @param kernel character. The smoothing kernel to be used; one of `"vonmises"`
-#' (the default) or `"wrappedcauchy"` for the von Mises or the Wrapped Cauchy
-#' distribution.
+#' (the default), `"wrappedcauchy"`, `"wrappednormal`, for the von Mises,
+#' the wrapped Cauchy, and the wrapped Normal distribution.
 #' @param weights numeric. A vector of observation weights, of the same length as `x`,
 #' to give individual observations weight in the density estimate. Should sum to 1;
 #' a warning is issued if it doesn't (unless `subdensity = TRUE`). Defaults to
@@ -470,7 +691,7 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 #' @inheritParams circular_plot
 #' @inheritParams stats::density
 #'
-#' @seealso [stats::density()], [dvm()] and [dwcauchy()]
+#' @seealso [stats::density()], [dvm()], [dwcauchy()], and [dwnorm()]
 #' @return Object of class `"density"`
 #' @export
 #'
@@ -483,19 +704,27 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 #'
 #' # wrapped Cauchy kernel density
 #' circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
-#' circular_density(san_andreas$azi, weights = w, rho = 0.9, kernel = "wrappedcauchy")
+#'
+#' # wrapped Normal kernel density
+#' circular_density(san_andreas$azi, sd = 5, kernel = "wrappednormal")
 circular_density <- function(x, z = NULL, bw = NULL, weights = NULL, na.rm = TRUE,
                              from = 0, to = 360, n = 512L,
                              axial = TRUE,
-                             kappa = NULL, rho = NULL, kernel = c("vonmises", "wrappedcauchy"),
+                             kappa = NULL, rho = NULL, sd = NULL, c = NULL,
+                             kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"),
                              adjust = 1, subdensity = FALSE) {
   kernel <- match.arg(kernel)
   f <- if (isTRUE(axial)) 2 else 1
   bw <- if (is.null(bw)) {
     if (kernel == "vonmises") {
       ifelse(is.null(kappa), 10, kappa)
-    } else {
+    } else if (kernel == "wrappedcauchy"){
       ifelse(is.null(rho), exp(-1) * f, rho)
+    } else if(kernel == "wrappednormal"){
+      ifelse(is.null(sd), 1, sd)
+    } else {
+      ifelse(is.null(c), 5, c)
+      #NULL
     }
   } else {
     bw

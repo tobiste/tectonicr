@@ -17,7 +17,8 @@ pvm(theta, mean, kappa, from = NULL, tol = 1e-20)
 qvm(p, mean, kappa, from = NULL, tol = .Machine$double.eps^(0.6), ...)
 }
 \arguments{
-\item{n}{integer. Number of observations in degrees}
+\item{n}{number of observations. If \code{length(n) > 1}, the length
+    is taken to be the number required.}
 
 \item{mean}{numeric. The mean vector in degrees.}
 
@@ -60,5 +61,5 @@ pvm(x, mean = 90, kappa = 2)
 qvm(c(.25, .5, .75), mean = 90, kappa = 2)
 }
 \seealso{
-\link{wcauchy} and \link{cunif}
+\link{cunif}, \link{wnorm}, and \link{wcauchy}
 }

@@ -33,7 +33,8 @@ qwcauchy(
 )
 }
 \arguments{
-\item{n}{integer. Number of observations in degrees}
+\item{n}{number of observations. If \code{length(n) > 1}, the length
+    is taken to be the number required.}
 
 \item{mean}{numeric. The mean vector in degrees.}
 
@@ -49,8 +50,8 @@ qwcauchy(
 \item{from}{if \code{NULL} is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
 which the \code{pvm} and \code{qvm} are evaluated. in degrees.}
 
-\item{lower.tail}{logical. If \code{TRUE} (default), probabilities are \eqn{P(\Theta \le \theta)},
-otherwise \eqn{P(\Theta > \theta)}.}
+\item{lower.tail}{logical; if TRUE (default), probabilities are
+    \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
 
 \item{log.p}{logical. If \code{TRUE}, probabilities p are given as log(p).}
 
@@ -77,5 +78,5 @@ pwcauchy(x, mean = 90, rho = exp(-1))
 qwcauchy(c(.25, .5, .75), mean = 90, rho = exp(-1))
 }
 \seealso{
-\link{vonmises} and \link{cunif}
+\link{cunif}, \link{wnorm}, and \link{vonmises}
 }

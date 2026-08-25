@@ -37,19 +37,26 @@ origin. Systematic departures from linearity will indicate preferred
 orientation.
 }
 \examples{
+set.seed(20250411)
+
 # von Mises distribution
 x_vm <- rvm(100, mean = 0, kappa = 2)
 circular_qqplot(x_vm, pch = 20)
 
-x_norm <- rnorm(100, mean = 0, sd = 25)
-circular_qqplot(x_norm, pch = 20)
+x_wcauchy <- rwcauchy(100, mean = 0, rho = 0.5)
+circular_qqplot(x_wcauchy, pch = 20)
 
-# uniform (random) data
-x_unif <- runif(100, 0, 360)
-circular_qqplot(x_unif, pch = 20)
+# circular uniform data
+x_cunif <- rcunif(100)
+circular_qqplot(x_cunif, pch = 20)
 }
 \references{
 Borradaile, G. J. (2003). Statistics of earth
 science data: their distribution in time, space, and orientation (Vol. 351,
 p. 329). Berlin: Springer.
 }
+\seealso{
+Other circ-qqplot: 
+\code{\link{vm_qqplot}()}
+}
+\concept{circ-qqplot}

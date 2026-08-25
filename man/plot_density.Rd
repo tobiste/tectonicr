@@ -7,13 +7,15 @@
 plot_density(
   x,
   bw = NULL,
-  kernel = c("vonmises", "wrappedcauchy"),
+  kernel = c("vonmises", "wrappedcauchy", "wrappednormal"),
   weights = NULL,
   axial = TRUE,
   n = 512L,
   norm.density = TRUE,
   kappa = NULL,
   rho = NULL,
+  sd = NULL,
+  c = NULL,
   fill = FALSE,
   scale = 0,
   shrink = 1,
@@ -30,17 +32,18 @@ plot_density(
 \item{x}{Either an object of class \code{"density"} or a numeric vector of angles
 (in degrees) from which the estimate is to be computed}
 
-\item{bw, kappa, rho}{numeric. Smoothing bandwidth expressed as the concentration
-parameter \eqn{\kappa}{k} for the von Mises distribution or \eqn{\rho}{rho} for the
-wrapped Cauchy distribution.
-Small and large values for the von Mises and wrapped Cauchy distribution,
+\item{bw, kappa, rho, sd, c}{numeric. Smoothing bandwidth expressed as the concentration
+parameter \eqn{\kappa}{k} for the von Mises distribution, \eqn{\rho}{rho} for the
+wrapped Cauchy distribution, or \eqn{\sigma}{sd} for the wrapped normal distribution.
+Small and large values for the von Mises and wrapped normal/Cauchy distribution,
 respectively, gives smooth density lines. If not specified, parameter will be estimated using
-\code{\link[=est.kappa]{est.kappa()}}  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)}
-for the wrapped Cauchy distribution (where \eqn{p = 2}{p=2} when \code{axial=TRUE} and 1 otherwise).}
+\code{\link[=est.kappa]{est.kappa()}}  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)} and \code{1}
+for the wrapped Cauchy and wrapped Normal distribution (where \eqn{p = 2}{p=2}
+when \code{axial=TRUE} and 1 otherwise), respectively.}
 
 \item{kernel}{character. The smoothing kernel to be used; one of \code{"vonmises"}
-(the default) or \code{"wrappedcauchy"} for the von Mises or the Wrapped Cauchy
-distribution.}
+(the default), \code{"wrappedcauchy"}, \verb{"wrappednormal}, for the von Mises,
+the wrapped Cauchy, and the wrapped Normal distribution.}
 
 \item{weights}{numeric. A vector of observation weights, of the same length as \code{x},
 to give individual observations weight in the density estimate. Should sum to 1;
@@ -83,7 +86,8 @@ Set \code{at=numeric(0)} to suppress tick marks.}
 plot or calculated densities
 }
 \description{
-Plots multiples of a von Mises density or wrapped Cauchy distribution in a circular plot
+Plots multiples of a von Mises, wrapped Cauchy, and wrapped Normal
+density distribution in a circular plot
 }
 \examples{
 # Filled von Mises kernel density curve inside the plot
@@ -101,6 +105,13 @@ plot_density(san_andreas$azi,
   add = TRUE
 )
 
+# Superimpose a wrapped Normal kernel distribution curve
+plot_density(san_andreas$azi,
+  sd = 2, kernel = "wrappednormal",
+  fill = FALSE, col = "#E65164FF",
+  add = TRUE
+)
+
 # Superimpose a von Mises kernel density curve on a rose diagram:
 rose(san_andreas$azi, grid = TRUE)
 plot_density(san_andreas$azi,
@@ -115,6 +126,13 @@ plot_density(san_andreas$azi, weights = w,
   bw = 100,
   scale = 1.1, shrink = 3, xpd = NA,
   col = "#51127CFF"
+)
+
+plot_density(san_andreas$azi,
+  bw  = 0.1, kernel = "wrappedlevy",
+  fill = TRUE, col = "#51127C80", border = "#51127CFF",
+  grid = TRUE,
+  add = FALSE
 )
 }
 \seealso{

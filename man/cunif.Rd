@@ -17,17 +17,18 @@ pcunif(theta, axial = FALSE, lower.tail = TRUE, log.p = FALSE)
 qcunif(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE)
 }
 \arguments{
-\item{n}{integer. Number of observations in degrees}
+\item{n}{number of observations. If \code{length(n) > 1}, the length
+    is taken to be the number required.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{theta}{numeric. Angular value in degrees}
 
-\item{log, log.p}{logical. If \code{TRUE}, probabilities p are given as log(p).}
+\item{log, log.p}{logical; if TRUE, probabilities p are given as log(p).}
 
-\item{lower.tail}{logical. If \code{TRUE} (default), probabilities are \eqn{P(\Theta \le \theta)},
-otherwise \eqn{P(\Theta > \theta)}.}
+\item{lower.tail}{logical; if TRUE (default), probabilities are
+    \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
 
 \item{p}{numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.}
 }
@@ -52,5 +53,5 @@ pcunif(x)
 qcunif(c(.25, .5, .75))
 }
 \seealso{
-\link{wcauchy} and \link{vonmises}
+\link{wnorm}, \link{wcauchy}, and \link{vonmises}
 }
