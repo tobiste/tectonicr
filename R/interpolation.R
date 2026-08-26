@@ -1292,6 +1292,14 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' Stress field and wavelength analysis using circular dispersion
 #' (or other statistical estimators for dispersion)
 #'
+#' @param x `sf` object containing
+#' \describe{
+#' \item{azi}{the observed \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
+#' \item{unc}{(optional) Uncertainties of ibserved SHmax in degree}
+#' \item{type}{(optional) Methods used for the determination of the direction
+#' of \eqn{\sigma_\text{Hmax}}{SHmax}}
+#' \item{prd}{the predicted \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
+#' }
 #' @inheritParams stress2grid
 #' @param stat The measurement of dispersion to be calculated. Either
 #' `"dispersion"` (default), `"nchisq"`, or `"rayleigh"` for circular

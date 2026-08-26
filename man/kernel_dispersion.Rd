@@ -26,10 +26,11 @@ dispersion_grid(...)
 \arguments{
 \item{x}{\code{sf} object containing
 \describe{
-\item{azi}{\eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-\item{unc}{(optional) Uncertainties of SHmax in degree}
+\item{azi}{the observed \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
+\item{unc}{(optional) Uncertainties of ibserved SHmax in degree}
 \item{type}{(optional) Methods used for the determination of the direction
 of \eqn{\sigma_\text{Hmax}}{SHmax}}
+\item{prd}{the predicted \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
 }}
 
 \item{stat}{The measurement of dispersion to be calculated. Either
