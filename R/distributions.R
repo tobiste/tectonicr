@@ -785,7 +785,7 @@ circular_density <- function(x, z = NULL, bw = NULL, weights = NULL, na.rm = TRU
       n = N,
       call = match.call(),
       data.name = deparse1(substitute(x)),
-      has.na = any(x)
+      has.na = any(x.na)
     ),
     class = "density"
   )
