@@ -168,7 +168,7 @@ stress2grid(san_andreas, stat = "tensor") |> head()
 stress2grid(san_andreas, stat = "median", max_data = 5) |> head()
 
 \dontrun{
-stress2grid_stats(san_andreas) |> head()
+stress2grid_stats(san_andreas, mode = TRUE) |> head()
 }
 }
 \references{
