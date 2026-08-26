@@ -17,6 +17,7 @@ nchisq_eq <- function(obs, prd, unc) {
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
 #'   5037-5059, doi: 10.1029/97JB03390.
+#'
 #' @param prd Numeric vector containing the modeled azimuths of
 #' \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 #' the return object from \code{model_shmax()}

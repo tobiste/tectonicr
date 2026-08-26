@@ -120,13 +120,15 @@ i.e. the maximum distance from the prediction location to be used for
 prediction (in km). Default is \code{seq(50, 1000, 50)}. If combined with
 \code{max_data}, both criteria apply.}
 
-\item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
+\item{axial}{Logical. Whether angles in \code{x$azi} are uniaxial (\code{FALSE})
 or biaxial (\code{TRUE}, the default).}
 
 \item{mode}{logical. Should the circular mode be included in the statistical summary (slow)?}
 
 \item{kappa}{numeric. von Mises distribution concentration parameter used
 for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa()}} if not provided.}
+
+\item{...}{(optional) arguments to \code{\link[=circular_summary]{circular_summary()}}}
 }
 \value{
 \code{sf} object containing

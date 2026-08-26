@@ -129,12 +129,11 @@ which.nsmallest <- function(x, n) {
 #' @param mode logical. Should the circular mode be included in the statistical summary (slow)?
 #' @param kappa  numeric. von Mises distribution concentration parameter used
 #' for the circular mode. Will be estimated using [est.kappa()] if not provided.
-#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' @param axial Logical. Whether angles in `x$azi` are uniaxial (`FALSE`)
 #' or biaxial (`TRUE`, the default).
-# #' @param ... (optional) arguments to [dist_greatcircle()]
+#' @param ... (optional) arguments to [circular_summary()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
-#' @importFrom dplyr group_by mutate filter rename mutate bind_rows select
 #'
 #' @returns `sf` object containing
 #' \describe{
@@ -419,6 +418,8 @@ stress2grid <- function(x,
     is.numeric(qp) && length(qp) == 1,
     is.numeric(mp) && length(mp) == 1
   )
+
+
   if (lifecycle::is_present(arte_thres)) {
     lifecycle::deprecate_warn(
       when = "0.4.6.9002", what = "stress2grid(arte_thres)",
@@ -446,7 +447,7 @@ stress2grid <- function(x,
 
   colnames_x <- colnames(x)
   if (quality_weighting & "unc" %in% colnames_x) {
-    x <- subset(x, !is.na(unc))
+    x <- x[!is.na(x$unc), ]
   }
   azi <- x$azi
   length_azi <- length(azi)
@@ -878,7 +879,7 @@ stress2grid_stats <- function(x,
 
   colnames_x <- colnames(x)
   if (quality_weighting & "unc" %in% colnames_x) {
-    x <- subset(x, !is.na(unc))
+    x <- x[!is.na(x$unc), ]
   }
   azi <- x$azi
   length_azi <- length(azi)
@@ -1009,7 +1010,8 @@ stress2grid_stats <- function(x,
   out <- as.data.frame(do.call(rbind, results))
   out$N <- as.integer(out$N)
   out$mdr <- out$md / out$R
-  out <- dplyr::select(out, -c(md, n))
+  out$md <- NULL
+  out$n <- NULL
   sf::st_as_sf(out, coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 }
 
@@ -1075,7 +1077,9 @@ NULL
 
 #' @rdname PoR_stress2grid
 #' @export
-PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, remove_PoR = FALSE, ...) {
+PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE,
+                            lon_range = NULL, lat_range = NULL, gridsize = 2.5,
+                            remove_PoR = FALSE, ...) {
   if (!is.null(grid)) {
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
@@ -1138,7 +1142,9 @@ PoR_stress2grid <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NU
 
 #' @rdname PoR_stress2grid
 #' @export
-PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE, lon_range = NULL, lat_range = NULL, gridsize = 2.5, remove_PoR = FALSE, ...) {
+PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE,
+                                  lon_range = NULL, lat_range = NULL, gridsize = 2.5,
+                                  remove_PoR = FALSE, ...) {
   if (!is.null(grid)) {
     lon_range <- lat_range <- gridsize <- NULL
     PoR_grid <- FALSE
@@ -1297,8 +1303,6 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' [circular_dispersion()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
-#' @importFrom dplyr group_by mutate
-#' @importFrom tidyr drop_na
 #'
 #' @returns
 #' \code{sf} object containing
