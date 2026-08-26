@@ -4,30 +4,65 @@
 \alias{watson_wheeler_test_perm}
 \title{Watson-Wheeler Test of Homogeneity of Means}
 \usage{
-watson_wheeler_test_perm(x, y, axial = TRUE, n_perm = 1000L)
+watson_wheeler_test_perm(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL)
 }
 \arguments{
 \item{x, y}{numeric vectors. Angles in degrees}
 
-\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
+In case of axial data, the angles will be doubled for the test.}
 
 \item{n_perm}{integer. Number of permutations}
+
+\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05},
+and \code{0.1}.
+This argument may be omitted (\code{NULL}, the default), in which case, a range
+for the p-value will be returned.}
 }
 \value{
 list
 }
 \description{
-Performs the Watson-Wheeler test for homogeneity on two or more samples of circular data.
+A a non-parametric statistical test used to determine whether two or more
+independent samples of circular data (angles, directions, or periodic times)
+come from the same underlying population distribution. The difference
+between the samples can be in either the mean or the variance.
 }
 \details{
-The Watson-Wheeler (or Mardia-Watson-Wheeler, or uniform score) test
-is a non-parametric test to compare two or several samples. The difference
-between the samples can be in either the mean or the variance.
+\subsection{Hypotheses}{
 
-The p-value is estimated by assuming that the test statistic follows a
-chi-squared distribution. For this approximation to be valid, all groups
-must have at least 10 elements.
+\strong{Null Hypothesis (H₀)} The samples come from identical populations (meaning
+both the mean direction and the dispersion/variance are homogeneous across groups).
+
+\strong{Alternative Hypothesis (H₁)}: At least one sample comes from a different
+population distribution, which can be due to a difference in the mean direction,
+a difference in variance/concentration, or both.
+}
+
+\subsection{Interpretation}{
+
+\strong{Test Statistic (W)}: This value follows an approximate chi-squared (\eqn{\Chi^2}{χ²}) distribution.
+Higher values of W indicate larger discrepancies between the angular distributions of your groups.
+\itemize{
+\item If the p-value is less than your significance level (commonly α = 0.05), you \strong{reject} the null hypothesis.
+This means you have strong evidence that the groups differ significantly in
+their central direction or spread around the circle.
+\item If the p-value is greater than 0.05, you \strong{fail to reject} the null hypothesis,
+meaning there is no statistically significant evidence of difference among the groups.
+}
+}
+}
+\note{
+Important Considerations & Limitations:
+\itemize{
+\item \strong{Sensitivity to both mean and variance}: Because it detects differences in
+either mean or variance, a significant result does not automatically mean
+the mean angles are different; it could be driven entirely by differences
+in concentration (variance).
+\item \strong{Sample size requirement}: The chi-squared approximation requires each group
+to have a minimum sample size (typically at least 10 elements per group) to remain valid.
+}
 }
 \examples{
 set.seed(20250411)

@@ -14,10 +14,11 @@ rayleigh_test_perm(x, mu = NULL, axial = TRUE, n_perm = 1000L)
 \item{x}{numeric vector. Values in degrees}
 
 \item{mu}{(optional) The specified or known mean direction (in degrees) in
-alternative hypothesis}
+alternative hypothesis.}
 
-\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
+In case of axial data, the angles will be doubled for the test.}
 
 \item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05}, and \code{0.1}.
 This argument may be omitted (\code{NULL}, the default), in which case, a range for the p-value will be returned.}
@@ -38,29 +39,56 @@ directions (also lead to rejection).}
 }
 }
 \description{
-Performs a Rayleigh test for uniformity of circular/directional data by
-assessing the significance of the mean resultant length.
+A test to determine whether a sample of circular or directional data is
+evenly spread out or clustered around a single specific direction.
+The test assesses the significance of the mean resultant length.
 \code{rayleight_test_perm()} uses permutation to estimate p-values.
 }
 \details{
-\describe{
-\item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
-\item{\eqn{H_1}{H1}:}{angles are from non-uniformly distribution with unknown mean
-direction and mean resultant length (when \code{mu} is \code{NULL}. Alternatively (when
-\code{mu} is specified),
-angles are non-uniformly distributed around a specified direction.}
+\subsection{Hypotheses}{
+
+\strong{Null Hypothesis} \eqn{H_0}{H0}: The population is distributed uniformly (randomly)
+around the circle with no preferred direction.
+
+\strong{Alternative Hypothesis} \eqn{H_1}{H1}: The population is not uniform and has a
+unimodal (single-peaked) concentration in a preferred direction. When \code{mu}
+is specified), angles are non-uniformly distributed around the specified direction.
+
+\emph{Mean Resultant Length} (\eqn{\bar{R}}{R̄} or R): A value between 0 and 1 that
+measures how concentrated the data points are.
+\itemize{
+\item \eqn{\bar{R}}{R̄̄} = 0: The data is completely spread out around the circle
+\item \eqn{\bar{R}}{R̄} = 1: All data points point in the exact same direction.
 }
-If \code{statistic > p.value}, the null hypothesis is rejected,
-i.e. the length of the mean resultant differs significantly from zero, and
-the angles are not randomly distributed.
+
+\emph{p-value} The probability of seeing data this clustered purely by chance under the assumption of uniformity.
+}
+
+\subsection{Interpretation}{
+\itemize{
+\item Small p-value (p < 0.05): Reject the null hypothesis. The length of the
+mean resultant differs significantly from zero, and
+the angles are not randomly distributed. You have strong evidence that the
+data points share a significant preferred or mean direction (unimodal clustering).
+\item Large p-value (p ≥ 0.05): Fail to reject the null hypothesis. There is not
+enough evidence to claim a preferred direction, meaning the data looks random or uniform around the circle.
+}
+}
 }
 \note{
 Although the Rayleigh test is consistent against (non-uniform)
 von Mises alternatives, it is not consistent against alternatives with
 \code{p = 0} (in particular, distributions with antipodal symmetry, i.e. axial
 data). Tests of non-uniformity which are consistent against all alternatives
-include Kuiper's test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson's \eqn{U^2} test
+include Kuiper's test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson's \eqn{U^2}{U2} test
 (\code{\link[=watson_test]{watson_test()}}).
+\subsection{Limitations}{
+\itemize{
+\item The test assumes a unimodal alternative (one main peak).
+\item If your data has two opposite clusters (bimodal or axial data, like a bi-directional line trend),
+the Rayleigh test can yield a high/non-significant p-value because the opposing vectors cancel each other out.
+}
+}
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93

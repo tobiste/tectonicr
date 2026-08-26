@@ -4,36 +4,62 @@
 \alias{ar_test}
 \title{Angular Randomisation Test of Homogeneity}
 \usage{
-ar_test(x, y, n_perm = 1000L, axial = TRUE)
+ar_test(x, y, n_perm = 1000L, axial = FALSE, alpha = NULL)
 }
 \arguments{
 \item{x, y}{numeric vectors. Angles in degrees}
 
 \item{n_perm}{integer. Number of permutations}
 
-\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+(\code{TRUE}) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}, the default).}
+
+\item{alpha}{(optional) numeric. Significance level of the test (values between 0 and 1).}
 }
 \value{
-list containing the test statistic and the p-value
+list containing the test statistic, the p-value, the significance value \code{alpha} and a logical decision whether to reject the null hypothesis or not.
 }
 \description{
 Performs Angular Randomisation Test for homogeneity on two samples of
 circular data after Ruxton et al. (2023).
 P-values are estimated using permutation.
 }
+\details{
+\strong{Null Hypothesis} (\eqn{H_0}{H₀}): The two circular samples share an identical underlying
+probability distribution.
+
+\strong{Alternative Hypothesis} (\eqn{H_{1}}{H1}): The two samples come from different distributions.
+\subsection{Interpretation}{
+\itemize{
+\item Small p-value (\eqn{p < \alpha}, e.g., <0.05): Reject the null hypothesis.
+This indicates strong evidence that the two samples come from different
+circular distributions (differing in central tendency/mean direction or shape).
+\item Large p-value (\eqn{p \ge \alpha}): Fail to reject the null hypothesis;
+there is insufficient evidence to claim the two circular samples differ.
+}
+}
+}
+\note{
+\strong{Concentration Differences}: The test can suffer from markedly lower statistical
+power if the underlying unimodal distributions differ by concentration
+(dispersion/spread) rather than location—especially with small, uneven sample
+sizes where the smaller sample comes from the more concentrated distribution.
+
+\strong{Axial/Multimodal Data}: ART performs poorly and loses power when applied to
+axially symmetric or symmetrically multimodal distributions.
+}
 \examples{
 set.seed(20250411)
 x1 <- c(35, 45, 50, 55, 60, 70, 85, 95, 105, 120)
 x2 <- c(75, 80, 90, 100, 110, 130, 135, 140, 150, 160, 165)
-ar_test(x1, x2, axial = FALSE)
+ar_test(x1, x2)
 
 # San Andreas Fault Data:
 data(san_andreas)
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
-ar_test(sa.por$azi.PoR, rvm(100, 135, 10))
+ar_test(sa.por$azi.PoR, rvm(100, 135, 10), axial = TRUE, alpha = 0.05)
 }
 \references{
 Ruxton, G.D., Malkemper, E.P. & Landler, L. Evaluating the power

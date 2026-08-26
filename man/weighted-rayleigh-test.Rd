@@ -13,14 +13,15 @@ weighted_rayleigh_perm(x, mu = NULL, w = NULL, axial = TRUE, n_perm = 1000L)
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{mu}{The \emph{a priori} expected direction (in degrees) for the alternative
-hypothesis.}
+\item{mu}{(optional) The specified or known mean direction (in degrees) in
+alternative hypothesis.}
 
 \item{w}{numeric vector weights of length \code{length(x)}. If \code{NULL}, the
 non-weighted Rayleigh test is performed.}
 
-\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
+In case of axial data, the angles will be doubled for the test.}
 
 \item{quiet}{logical. Prints the test's decision.}
 

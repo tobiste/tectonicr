@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_tests.R
 \name{watson_test}
 \alias{watson_test}
-\title{Watson's \eqn{U^2} Test of Circular Uniformity}
+\title{Watson's \eqn{U^2}{U²} Test for Goodness-of-Fit against known Distribution}
 \usage{
 watson_test(
   x,
@@ -23,8 +23,9 @@ for the p-value will be returned.}
 \item{dist}{Distribution to test for. The default, \code{"uniform"}, is the
 circular uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 
-\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
+In case of axial data, the angles will be doubled for the test.}
 
 \item{quiet}{logical. Prints the test's decision.}
 }
@@ -34,12 +35,37 @@ level \code{p.value}, the critical value \code{critical.value}, whether to \code
 the significance level \code{alpha}, the tested distribution \code{dist}, and the number of data \code{n}
 }
 \description{
-Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-non-parametric, rank-based alternative to one-sample
+A non-parametric statistical test used for circular data to determine whether
+a sample fits a specified theoretical distribution
 }
 \details{
-If \code{statistic > p.value}, the null hypothesis is rejected.
-If not, randomness (uniform distribution) cannot be excluded.
+\subsection{Hypotheses}{
+
+\strong{Null Hypothesis} (\eqn{H_0}{H0}):  The circular sample comes from a specified
+theoretical distribution (such as a uniform distribution or a specific von Mises distribution).
+
+\strong{Alternative Hypothesis} (\eqn{H_1}{H1}): The circular sample does not follow the specified theoretical distribution.
+}
+
+\subsection{Interpretation}{
+
+To interpret the output of Watson's \eqn{U^2}{U²}  test, compare your
+calculated \eqn{U^2}{U²}  test statistic to the critical value from
+Watson's goodness-of-fit/homogeneity tables at your chosen significance level (\eqn{\alpha}{α}, commonly set to 0.05),
+or check the resulting p-value:
+\itemize{
+\item If \eqn{U^2_{\text{calculated}} > U^2_{\text{critical}}} (or p < \eqn{\alpha}{α}):
+Reject the null hypothesis (\eqn{H_0}{H0}).
+Conclude that the data significantly deviates from the theoretical distribution.
+\item If \eqn{U^2_{\text{calculated}} \le U^2_{\text{critical}}} (or \eqn{p \ge \alpha}{p ≥ α}):
+ Fail to reject the null hypothesis (\eqn{H_0}{H0}).
+There is not enough evidence to claim the data deviates from the expected model.
+}
+}
+}
+\note{
+Watson's test statistic is a rotation-invariant Cramer - von Mises test.
+non-parametric, rank-based alternative to one-sample
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93

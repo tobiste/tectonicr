@@ -86,14 +86,14 @@ roll_dispersion_sde(
 }
 \arguments{
 \item{obs}{Numeric vector containing the observed azimuth of
-\eqn{\sigma_{Hmax}}{SHmax},
+\eqn{\sigma_\text{Hmax}}{SHmax},
 same length as \code{prd}}
 
 \item{prd}{Numeric vector containing the modeled azimuths of
-\eqn{\sigma_{Hmax}}{SHmax}, i.e.
+\eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
-\item{unc}{Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
+\item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
 numeric vector or a number}
 
 \item{width}{integer specifying the window width (in numbers of observations)

@@ -12,8 +12,9 @@ kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
 \item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05}, and \code{0.1}.
 This argument may be omitted (\code{NULL}, the default), in which case, a range for the p-value will be returned.}
 
-\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
+In case of axial data, the angles will be doubled for the test.}
 
 \item{quiet}{logical. Prints the test's decision.}
 }
@@ -22,13 +23,35 @@ list containing the test statistic \code{statistic} and the significance
 level \code{p.value}.
 }
 \description{
+A statistical test used to determine whether a set of angular or circular
+data points (such as times of day, compass directions, or degrees) are
+spread out evenly around a circle or if they cluster in some way.
+}
+\details{
+The \strong{Null Hypothesis} (\eqn{H_0}{H₀}): The data are distributed completely uniformly
+(randomly and evenly) around the circle.
+
+The \strong{Alternative Hypothesis} (\eqn{H_1}{H₁}): The data are not uniform and
+show a preference, clustering, or pattern somewhere on the circle.
+
+The Test Statistic (V or \eqn{D^{+} + D^{-}}{D⁺ + D⁻}): It measures the
+greatest positive and negative differences between your data's empirical
+cumulative distribution and a theoretical uniform distribution.
+\subsection{Interpreting the Results}{
+\itemize{
+\item High Test Statistic / Low p-value (\eqn{p < \alpha}{p < α}, typically 0.05):
+You reject the null hypothesis. This means your data are not uniform; they
+have a significant preferred direction, grouping, or non-random pattern on the circle.
+\item Low Test Statistic / High p-value (\eqn{p \ge 0.05}{p ≥ 0.05}): You fail to
+reject the null hypothesis. There is no strong evidence to say the data are
+different from a flat, uniform distribution. The points appear random across the circle.
+}
+}
+}
+\note{
 Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
 The critical values of a modified Kuiper's test statistic are used according
 to the tabulation given in Stephens (1970).
-}
-\details{
-If \code{statistic > p.value}, the null hypothesis is rejected.
-If not, randomness (uniform distribution) cannot be excluded.
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93

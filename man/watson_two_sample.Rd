@@ -8,7 +8,7 @@
 \usage{
 watson_two_test(x, y, alpha = NULL, axial = TRUE, quiet = FALSE)
 
-watson_two_test_perm(x, y, axial = TRUE, n_perm = 1000L)
+watson_two_test_perm(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL)
 }
 \arguments{
 \item{x, y}{numeric vectors. Angles in degrees}
@@ -18,26 +18,59 @@ and \code{0.1}.
 This argument may be omitted (\code{NULL}, the default), in which case, a range
 for the p-value will be returned.}
 
-\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+\item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
+In case of axial data, the angles will be doubled for the test.}
 
 \item{quiet}{logical. Prints the test's decision.}
 
 \item{n_perm}{integer. Number of permutations}
 }
 \value{
-list
+list. Watson's two-sample test of homogeneity is performed, and the
+results are printed. If alpha is specified and non-zero, the test statistic
+is printed along with the critical value and decision. If alpha is omitted,
+the test statistic is printed and a range for the p-value of the test is given.
 }
 \description{
 Performs Watson's test for homogeneity on two samples of circular data.
 \code{watson_two_test_perm()} uses permutation to estimate p-values.
 }
 \details{
-Watson's two-sample test of homogeneity is performed, and the
-results are printed. If alpha is specified and non-zero, the test statistic
-is printed along with the critical value and decision. If alpha is omitted,
-the test statistic is printed and a range for the p-value of the test is given.
+A two-sample Watson's \eqn{U^2}{U²} permutation test determines whether two
+independent groups of circular data (angles or directions) come from the same
+underlying distribution.
+\subsection{Hypotheses}{
 
+\strong{Null Hypothesis} (\eqn{H_0}{H0}): The two samples come from the same circular
+distribution (the two groups of angles share a common distribution around the circle).
+
+\strong{Alternative Hypothesis} (\eqn{H_1}{H1}): The two samples come from different
+circular distributions (the groups are oriented or dispersed differently around the circle).
+}
+
+\subsection{Interpretation}{
+
+The Test Statistic (\eqn{U^2}{U²}) measures the distance between the cumulative distribution
+functions of the two circular samples. A larger \eqn{U^2}{U²} value means the
+two sets of angles look more different from each other.
+
+The P-Value represents the probability of getting a U² value as large as (or
+larger than) your observed value purely by chance, assuming the null hypothesis
+is true. It is calculated by shuffling the group labels across your data many
+times to build a reference permutation distribution.
+\subsection{Making a Decision}{
+\itemize{
+\item Low p-value (\eqn{p \le \alpha}{p ≤ α}, usually 0.05): Reject the null hypothesis. Conclude that
+the two groups have significantly different circular distributions.
+\item High p-value (\eqn{p > \alpha}{p > α}): Fail to reject the null hypothesis. There is not
+enough evidence to say the two groups are distributed differently around the circle.
+}
+}
+
+}
+}
+\note{
 Critical values for the test statistic are obtained using the asymptotic
 distribution of the test statistic. It is recommended to use the obtained
 critical values and ranges for p-values only for combined sample sizes in
@@ -63,7 +96,7 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_two_test(sa.por$azi, 135, alpha = 0.05)
-watson_two_test_perm(sa.por$azi, rvm(100, 135, 10))
+watson_two_test_perm(sa.por$azi, rvm(100, 135, 10), alpha = 0.05)
 }
 \seealso{
 Other Tests: 

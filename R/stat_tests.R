@@ -11,19 +11,19 @@ nchisq_eq <- function(obs, prd, unc) {
 #' Normalized Chi-Squared Test for Circular Data
 #'
 #' A quantitative comparison between the predicted and observed directions of
-#' \eqn{\sigma_{Hmax}}{SHmax} is obtained by the calculation of the average
+#' \eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average
 #' azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
 #'
 #' @references Wdowinski, S., 1998, A theory of intraplate
 #'   tectonics. *Journal of Geophysical Research: Solid Earth*, **103**,
 #'   5037-5059, doi: 10.1029/97JB03390.
 #' @param prd Numeric vector containing the modeled azimuths of
-#' \eqn{\sigma_{Hmax}}{SHmax}, i.e.
+#' \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 #' the return object from \code{model_shmax()}
 #' @param obs Numeric vector containing the observed azimuth of
-#' \eqn{\sigma_{Hmax}}{SHmax},
+#' \eqn{\sigma_\text{Hmax}}{SHmax},
 #' same length as \code{prd}
-#' @param unc Uncertainty of observed \eqn{\sigma_{Hmax}}{SHmax}, either a
+#' @param unc Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
 #' numeric vector or a number
 #'
 #' @returns Numeric vector
@@ -38,11 +38,11 @@ nchisq_eq <- function(obs, prd, unc) {
 #'    (sum( ((obs-prd)/unc)^2 ) / sum( (90/unc)^2 )
 #'    }
 #' The value of the chi-squared test statistic is a number between 0 and 1
-#' indicating the quality of the predicted \eqn{\sigma_{Hmax}}{SHmax}
+#' indicating the quality of the predicted \eqn{\sigma_\text{Hmax}}{SHmax}
 #' directions. Low values
 #' (\eqn{\le 0.15}) indicate good agreement,
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
-#' observed \eqn{\sigma_{Hmax}}{SHmax} directions.
+#' observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
 #'
 #' @family Tests
 #'
@@ -87,38 +87,62 @@ norm_chisq <- function(obs, prd, unc) {
 
 #' Rayleigh Test of Circular Uniformity
 #'
-#' Performs a Rayleigh test for uniformity of circular/directional data by
-#' assessing the significance of the mean resultant length.
+#' A test to determine whether a sample of circular or directional data is
+#' evenly spread out or clustered around a single specific direction.
+#' The test assesses the significance of the mean resultant length.
 #' `rayleight_test_perm()` uses permutation to estimate p-values.
 #'
 #' @param x numeric vector. Values in degrees
-#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (`FALSE`).
+#' In case of axial data, the angles will be doubled for the test.
 #' @param mu (optional) The specified or known mean direction (in degrees) in
-#' alternative hypothesis
+#' alternative hypothesis.
 #' @param quiet logical. Prints the test's decision.
 #' @param n_perm integer. Number of permutations.
 #' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
 #' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
 #'
-#' @details \describe{
-#' \item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
-#' \item{\eqn{H_1}{H1}:}{angles are from non-uniformly distribution with unknown mean
-#' direction and mean resultant length (when `mu` is `NULL`. Alternatively (when
-#' `mu` is specified),
-#' angles are non-uniformly distributed around a specified direction.}
-#' }
-#' If `statistic > p.value`, the null hypothesis is rejected,
-#' i.e. the length of the mean resultant differs significantly from zero, and
-#' the angles are not randomly distributed.
+#' @details
+#' ## Hypotheses
+#' **Null Hypothesis** \eqn{H_0}{H0}: The population is distributed uniformly (randomly)
+#' around the circle with no preferred direction.
+#'
+#' **Alternative Hypothesis** \eqn{H_1}{H1}: The population is not uniform and has a
+#' unimodal (single-peaked) concentration in a preferred direction. When `mu`
+#' is specified), angles are non-uniformly distributed around the specified direction.
+#'
+#'
+#' *Mean Resultant Length* (\eqn{\bar{R}}{R̄} or R): A value between 0 and 1 that
+#'  measures how concentrated the data points are.
+#'
+#'  * \eqn{\bar{R}}{R̄̄} = 0: The data is completely spread out around the circle
+#'  * \eqn{\bar{R}}{R̄} = 1: All data points point in the exact same direction.
+#'
+#'  *p-value* The probability of seeing data this clustered purely by chance under the assumption of uniformity.
+#'
+#'  ## Interpretation
+#'
+#'  * Small p-value (p < 0.05): Reject the null hypothesis. The length of the
+#'  mean resultant differs significantly from zero, and
+#' the angles are not randomly distributed. You have strong evidence that the
+#' data points share a significant preferred or mean direction (unimodal clustering).
+#'  * Large p-value (p ≥ 0.05): Fail to reject the null hypothesis. There is not
+#'  enough evidence to claim a preferred direction, meaning the data looks random or uniform around the circle.
 #'
 #'
 #' @note Although the Rayleigh test is consistent against (non-uniform)
 #' von Mises alternatives, it is not consistent against alternatives with
 #' `p = 0` (in particular, distributions with antipodal symmetry, i.e. axial
 #' data). Tests of non-uniformity which are consistent against all alternatives
-#' include Kuiper's test ([kuiper_test()]) and Watson's \eqn{U^2} test
+#' include Kuiper's test ([kuiper_test()]) and Watson's \eqn{U^2}{U2} test
 #' ([watson_test()]).
+#'
+#' ## Limitations
+#'
+#'  * The test assumes a unimodal alternative (one main peak).
+#'  * If your data has two opposite clusters (bimodal or axial data, like a bi-directional line trend),
+#'  the Rayleigh test can yield a high/non-significant p-value because the opposing vectors cancel each other out.
 #'
 #' @returns a list with the components:
 #' \describe{
@@ -283,13 +307,9 @@ rayleigh_test_perm <- function(x, mu = NULL, axial = TRUE, n_perm = 1000L){
 #' distribution with a priori expected von Mises concentration.
 #' `weighted_rayleight_test_perm()` uses permutation to estimate p-values.
 #'
-#' @param x numeric vector. Values in degrees
+#' @inheritParams rayleigh_test
 #' @param w numeric vector weights of length `length(x)`. If `NULL`, the
 #' non-weighted Rayleigh test is performed.
-#' @param mu The *a priori* expected direction (in degrees) for the alternative
-#' hypothesis.
-#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param quiet logical. Prints the test's decision.
 #' @param n_perm integer. Number of permutations
 #'
@@ -410,20 +430,43 @@ weighted_rayleigh_perm <- function(x, mu = NULL, w = NULL, axial = TRUE, n_perm 
 
 #' Kuiper Test of Circular Uniformity
 #'
-#' Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
-#' The critical values of a modified Kuiper's test statistic are used according
-#' to the tabulation given in Stephens (1970).
+#' A statistical test used to determine whether a set of angular or circular
+#' data points (such as times of day, compass directions, or degrees) are
+#' spread out evenly around a circle or if they cluster in some way.
 #'
 #' @inheritParams rayleigh_test
-#'
-#' @returns list containing the test statistic `statistic` and the significance
-#' level `p.value`.
 #' @param quiet logical. Prints the test's decision.
 #'
 #' @details
+#'  The **Null Hypothesis** (\eqn{H_0}{H₀}): The data are distributed completely uniformly
+#'  (randomly and evenly) around the circle.
 #'
-#' If `statistic > p.value`, the null hypothesis is rejected.
-#' If not, randomness (uniform distribution) cannot be excluded.
+#'  The **Alternative Hypothesis** (\eqn{H_1}{H₁}): The data are not uniform and
+#'  show a preference, clustering, or pattern somewhere on the circle.
+#'
+#'  The Test Statistic (V or \eqn{D^{+} + D^{-}}{D⁺ + D⁻}): It measures the
+#'  greatest positive and negative differences between your data's empirical
+#'  cumulative distribution and a theoretical uniform distribution.
+#'
+#' ## Interpreting the Results
+#'
+#' * High Test Statistic / Low p-value (\eqn{p < \alpha}{p < α}, typically 0.05):
+#' You reject the null hypothesis. This means your data are not uniform; they
+#' have a significant preferred direction, grouping, or non-random pattern on the circle.
+#'
+#' * Low Test Statistic / High p-value (\eqn{p \ge 0.05}{p ≥ 0.05}): You fail to
+#' reject the null hypothesis. There is no strong evidence to say the data are
+#' different from a flat, uniform distribution. The points appear random across the circle.
+#'
+# #' If `statistic > p.value`, the null hypothesis is rejected.
+# #' If not, randomness (uniform distribution) cannot be excluded.
+#'
+#' @note Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
+#' The critical values of a modified Kuiper's test statistic are used according
+#' to the tabulation given in Stephens (1970).
+#'
+#' @returns list containing the test statistic `statistic` and the significance
+#' level `p.value`.
 #'
 #' @family Tests
 #'
@@ -494,10 +537,10 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
   )
 }
 
-#' Watson's \eqn{U^2} Test of Circular Uniformity
+#' Watson's \eqn{U^2}{U²} Test for Goodness-of-Fit against known Distribution
 #'
-#' Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-#' non-parametric, rank-based alternative to one-sample
+#' A non-parametric statistical test used for circular data to determine whether
+#' a sample fits a specified theoretical distribution
 #'
 #' @inheritParams rayleigh_test
 #' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`,
@@ -512,8 +555,28 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' the significance level `alpha`, the tested distribution `dist`, and the number of data `n`
 #'
 #' @details
-#' If `statistic > p.value`, the null hypothesis is rejected.
-#' If not, randomness (uniform distribution) cannot be excluded.
+#' ## Hypotheses
+#' **Null Hypothesis** (\eqn{H_0}{H0}):  The circular sample comes from a specified
+#' theoretical distribution (such as a uniform distribution or a specific von Mises distribution).
+#'
+#' **Alternative Hypothesis** (\eqn{H_1}{H1}): The circular sample does not follow the specified theoretical distribution.
+#'
+#' ## Interpretation
+#' To interpret the output of Watson's \eqn{U^2}{U²}  test, compare your
+#' calculated \eqn{U^2}{U²}  test statistic to the critical value from
+#' Watson's goodness-of-fit/homogeneity tables at your chosen significance level (\eqn{\alpha}{α}, commonly set to 0.05),
+#' or check the resulting p-value:
+#'
+#'  * If \eqn{U^2_{\text{calculated}} > U^2_{\text{critical}}} (or p < \eqn{\alpha}{α}):
+#'  Reject the null hypothesis (\eqn{H_0}{H0}).
+#'  Conclude that the data significantly deviates from the theoretical distribution.
+#'
+#'  * If \eqn{U^2_{\text{calculated}} \le U^2_{\text{critical}}} (or \eqn{p \ge \alpha}{p ≥ α}):
+#'  Fail to reject the null hypothesis (\eqn{H_0}{H0}).
+#'  There is not enough evidence to claim the data deviates from the expected model.
+#'
+#' @note Watson's test statistic is a rotation-invariant Cramer - von Mises test.
+#' non-parametric, rank-based alternative to one-sample
 #'
 #' @references Mardia and Jupp (1999). Directional Statistics. John Wiley and
 #' Sons.
@@ -660,12 +723,37 @@ watson_test <- function(x, alpha = NULL, dist = c("uniform", "vonmises"), axial 
 #' @param n_perm integer. Number of permutations
 #' @inheritParams watson_test
 #'
-#' @details Watson's two-sample test of homogeneity is performed, and the
-#' results are printed. If alpha is specified and non-zero, the test statistic
-#' is printed along with the critical value and decision. If alpha is omitted,
-#' the test statistic is printed and a range for the p-value of the test is given.
+#' @details A two-sample Watson's \eqn{U^2}{U²} permutation test determines whether two
+#' independent groups of circular data (angles or directions) come from the same
+#' underlying distribution.
 #'
-#' Critical values for the test statistic are obtained using the asymptotic
+#' ## Hypotheses
+#'
+#' **Null Hypothesis** (\eqn{H_0}{H0}): The two samples come from the same circular
+#' distribution (the two groups of angles share a common distribution around the circle).
+#'
+#' **Alternative Hypothesis** (\eqn{H_1}{H1}): The two samples come from different
+#' circular distributions (the groups are oriented or dispersed differently around the circle).
+#'
+#' ## Interpretation
+#'
+#' The Test Statistic (\eqn{U^2}{U²}) measures the distance between the cumulative distribution
+#' functions of the two circular samples. A larger \eqn{U^2}{U²} value means the
+#' two sets of angles look more different from each other.
+#'
+#' The P-Value represents the probability of getting a U² value as large as (or
+#' larger than) your observed value purely by chance, assuming the null hypothesis
+#' is true. It is calculated by shuffling the group labels across your data many
+#' times to build a reference permutation distribution.
+#'
+#' ### Making a Decision
+#'
+#' *  Low p-value (\eqn{p \le \alpha}{p ≤ α}, usually 0.05): Reject the null hypothesis. Conclude that
+#' the two groups have significantly different circular distributions.
+#' * High p-value (\eqn{p > \alpha}{p > α}): Fail to reject the null hypothesis. There is not
+#' enough evidence to say the two groups are distributed differently around the circle.
+#'
+#' @note Critical values for the test statistic are obtained using the asymptotic
 #' distribution of the test statistic. It is recommended to use the obtained
 #' critical values and ranges for p-values only for combined sample sizes in
 #' excess of 17. Tables are available for smaller sample sizes and can be found
@@ -674,7 +762,10 @@ watson_test <- function(x, alpha = NULL, dist = c("uniform", "vonmises"), axial 
 #' @name watson_two_sample
 #' @family Tests
 #'
-#' @returns list
+#' @returns list. Watson's two-sample test of homogeneity is performed, and the
+#' results are printed. If alpha is specified and non-zero, the test statistic
+#' is printed along with the critical value and decision. If alpha is omitted,
+#' the test statistic is printed and a range for the p-value of the test is given.
 #'
 #' @examples
 #' set.seed(20250411)
@@ -695,7 +786,7 @@ watson_test <- function(x, alpha = NULL, dist = c("uniform", "vonmises"), axial 
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' watson_two_test(sa.por$azi, 135, alpha = 0.05)
-#' watson_two_test_perm(sa.por$azi, rvm(100, 135, 10))
+#' watson_two_test_perm(sa.por$azi, rvm(100, 135, 10), alpha = 0.05)
 NULL
 
 #' @export
@@ -812,7 +903,7 @@ watson_two_test <- function(x, y, alpha = NULL, axial = TRUE, quiet = FALSE) {
 
 #' @export
 #' @rdname watson_two_sample
-watson_two_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L) {
+watson_two_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL) {
   f <- if (isTRUE(axial)) 2L else 1L
 
   samp1 <- deg2rad((f * stats::na.omit(x) %% 360))
@@ -846,25 +937,54 @@ watson_two_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L) {
     Grand >= Gstat
   }, FUN.VALUE = logical(1))) + 1L
 
-  list(statistic = Gstat, p.value = nxtrm / (n_perm + 1))
+  pvalue <- nxtrm / (n_perm + 1)
+  reject <- NULL
+  if(!is.null(alpha)) {
+    stopifnot(alpha >= 0  & alpha <= 1)
+    reject <- pvalue < alpha
+  }
+
+  list(statistic = Gstat, p.value = pvalue, alpha = alpha, reject = reject)
 }
 
 #' Watson-Wheeler Test of Homogeneity of Means
 #'
-#' Performs the Watson-Wheeler test for homogeneity on two or more samples of circular data.
+#' A a non-parametric statistical test used to determine whether two or more
+#' independent samples of circular data (angles, directions, or periodic times)
+#' come from the same underlying population distribution. The difference
+#' between the samples can be in either the mean or the variance.
 #'
 #' @inheritParams watson_two_test
 #' @importFrom stats na.omit
 #'
 #' @details
-#' The Watson-Wheeler (or Mardia-Watson-Wheeler, or uniform score) test
-#' is a non-parametric test to compare two or several samples. The difference
-#' between the samples can be in either the mean or the variance.
+#' ## Hypotheses
 #'
-#' The p-value is estimated by assuming that the test statistic follows a
-#' chi-squared distribution. For this approximation to be valid, all groups
-#' must have at least 10 elements.
+#' **Null Hypothesis (H₀)** The samples come from identical populations (meaning
+#' both the mean direction and the dispersion/variance are homogeneous across groups).
 #'
+#' **Alternative Hypothesis (H₁)**: At least one sample comes from a different
+#' population distribution, which can be due to a difference in the mean direction,
+#' a difference in variance/concentration, or both.
+#'
+#' ## Interpretation
+#'
+#' **Test Statistic (W)**: This value follows an approximate chi-squared (\eqn{\Chi^2}{χ²}) distribution.
+#' Higher values of W indicate larger discrepancies between the angular distributions of your groups.
+#'
+#' * If the p-value is less than your significance level (commonly α = 0.05), you **reject** the null hypothesis.
+#' This means you have strong evidence that the groups differ significantly in
+#' their central direction or spread around the circle.
+#' * If the p-value is greater than 0.05, you **fail to reject** the null hypothesis,
+#' meaning there is no statistically significant evidence of difference among the groups.
+#'
+#' @note Important Considerations & Limitations:
+#' * **Sensitivity to both mean and variance**: Because it detects differences in
+#' either mean or variance, a significant result does not automatically mean
+#' the mean angles are different; it could be driven entirely by differences
+#' in concentration (variance).
+#' * **Sample size requirement**: The chi-squared approximation requires each group
+#' to have a minimum sample size (typically at least 10 elements per group) to remain valid.
 #'
 #' @family Tests
 #'
@@ -887,7 +1007,7 @@ watson_two_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L) {
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' watson_wheeler_test_perm(sa.por$azi.PoR, rvm(100, 135, 10))
-watson_wheeler_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L) {
+watson_wheeler_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL) {
   f <- if (isTRUE(axial)) 2L else 1L
 
   samp1 <- deg2rad((f * stats::na.omit(x) %% 360))
@@ -921,7 +1041,14 @@ watson_wheeler_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L) {
     Grand >= Gstat
   }, FUN.VALUE = logical(1))) + 1L
 
-  list(statistic = Gstat, p.value = nxtrm / (n_perm + 1))
+  pvalue <- nxtrm / (n_perm + 1)
+  reject <- NULL
+  if(!is.null(alpha)) {
+    stopifnot(alpha >= 0  & alpha <= 1)
+    reject <- pvalue < alpha
+  }
+
+  list(statistic = Gstat, p.value = pvalue, alpha = alpha, reject = reject)
 }
 
 
@@ -937,12 +1064,40 @@ ar_test_statistic <- function(s1, s2) {
 #' P-values are estimated using permutation.
 #'
 #' @inheritParams watson_two_test
+#' @param alpha (optional) numeric. Significance level of the test (values between 0 and 1).
+#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
+#' (`TRUE`) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (`FALSE`, the default).
+#'
+#' @details
+#' **Null Hypothesis** (\eqn{H_0}{H₀}): The two circular samples share an identical underlying
+#' probability distribution.
+#'
+#' **Alternative Hypothesis** (\eqn{H_{1}}{H1}): The two samples come from different distributions.
+#'
+#' ## Interpretation
+#'
+#' * Small p-value (\eqn{p < \alpha}, e.g., <0.05): Reject the null hypothesis.
+#' This indicates strong evidence that the two samples come from different
+#' circular distributions (differing in central tendency/mean direction or shape).
+#'
+#' * Large p-value (\eqn{p \ge \alpha}): Fail to reject the null hypothesis;
+#' there is insufficient evidence to claim the two circular samples differ.
+#'
+#' @note
+#' **Concentration Differences**: The test can suffer from markedly lower statistical
+#' power if the underlying unimodal distributions differ by concentration
+#' (dispersion/spread) rather than location—especially with small, uneven sample
+#' sizes where the smaller sample comes from the more concentrated distribution.
+#'
+#' **Axial/Multimodal Data**: ART performs poorly and loses power when applied to
+#' axially symmetric or symmetrically multimodal distributions.
+#'
 #'
 #' @references Ruxton, G.D., Malkemper, E.P. & Landler, L. Evaluating the power
 #' of a recent method for comparing two circular distributions: an alternative
 #' to the Watson U2 test. Sci Rep 13, 10007 (2023). https://doi.org/10.1038/s41598-023-36960-1
 #'
-#' @returns list containing the test statistic and the p-value
+#' @returns list containing the test statistic, the p-value, the significance value `alpha` and a logical decision whether to reject the null hypothesis or not.
 #'
 #' @export
 #'
@@ -952,15 +1107,15 @@ ar_test_statistic <- function(s1, s2) {
 #' set.seed(20250411)
 #' x1 <- c(35, 45, 50, 55, 60, 70, 85, 95, 105, 120)
 #' x2 <- c(75, 80, 90, 100, 110, 130, 135, 140, 150, 160, 165)
-#' ar_test(x1, x2, axial = FALSE)
+#' ar_test(x1, x2)
 #'
 #' # San Andreas Fault Data:
 #' data(san_andreas)
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
-#' ar_test(sa.por$azi.PoR, rvm(100, 135, 10))
-ar_test <- function(x, y, n_perm = 1000L, axial = TRUE) {
+#' ar_test(sa.por$azi.PoR, rvm(100, 135, 10), axial = TRUE, alpha = 0.05)
+ar_test <- function(x, y, n_perm = 1000L, axial = FALSE, alpha = NULL) {
   f <- if (isTRUE(axial)) 2 else 1
 
   samp1 <- deg2rad(((f * stats::na.omit(x)) %% 360))
@@ -983,5 +1138,12 @@ ar_test <- function(x, y, n_perm = 1000L, axial = TRUE) {
     Grand >= Gstat
   }, FUN.VALUE = logical(1))) + 1L
 
-  return(list(statistic = Gstat, p.value = nxtrm / (n_perm + 1)))
+  pvalue <- nxtrm / (n_perm + 1)
+  reject <- NULL
+  if(!is.null(alpha)) {
+    stopifnot(alpha >= 0  & alpha <= 1)
+    reject <- pvalue < alpha
+  }
+
+  return(list(statistic = Gstat, p.value = pvalue, alpha = alpha, reject = reject))
 }
