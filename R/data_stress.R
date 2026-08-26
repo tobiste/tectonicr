@@ -106,7 +106,7 @@ NULL
 #'
 #' @keywords datasets
 #'
-#' @name homing
+#' @name striae
 #'
 #' @examples
 #' data("striae")
