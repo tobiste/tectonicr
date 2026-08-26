@@ -50,7 +50,7 @@ coordinate range in the PoR (\code{TRUE}, the default) CRS or the geographical C
 and maximum longitudes and latitudes (are ignored if \code{grid} is specified).}
 
 \item{gridsize}{Numeric. Target spacing of the regular grid in decimal
-degree. Default is 2.5 (is ignored if \code{grid} is specified)}
+degree. Default is \code{2.5} (is ignored if \code{grid} is specified)}
 
 \item{remove_PoR}{logical. Whether PoR azimuths and coordinates will be
 removed from final output or not (the default.)}

@@ -16,10 +16,10 @@ wcmean <- function(x, w) {
     sd_s <- if (meanR > 1) {
       0
     } else {
-      sqrt(-2 * log(meanR))
+      sqrt(-2 * log(meanR)) / 2
     }
-    mean_s <- atan2(m["S"], m["C"]) / 2
-    unname(rad2deg(c(mean_s, sd_s)) %% 180)
+    mean_s <- (atan2(m["S"], m["C"]) / 2) %% pi
+    unname(rad2deg(c(mean_s, sd_s)))
   } else {
     c(NA_real_, NA_real_)
   }
@@ -50,23 +50,21 @@ wprincipal <- function(x, w) {
 #' @keywords internal
 dist_weighting_linear <- function(R_search, dist_threshold, distij, idp = 0) {
   dist_threshold_scal <- R_search * dist_threshold
-  R_search + 1 - max(dist_threshold_scal, distij)
+  R_search + 1 - pmax(dist_threshold_scal, distij)
 }
 
 #' @keywords internal
 dist_weighting_inverse <- function(R_search, dist_threshold, distij, idp = 0) {
   dist_threshold_scal <- R_search * dist_threshold
-  1 / (max(dist_threshold_scal, distij))^idp
+  1 / (pmax(dist_threshold_scal, distij))^idp
 }
 
 #' Indices of n smallest values in array
 #' @keywords internal
 which.nsmallest <- function(x, n) {
-  # n <- min(c(length(x), Inf))
-  # nsmallest <- sort(x)[1:n]
-  nsmallest <- utils::head(sort(x), n)
-
-  which(x %in% nsmallest)
+  # nsmallest <- utils::head(sort(x), n)
+  # which(x %in% nsmallest)
+  order(x)[seq_len(min(n, length(x)))]
 }
 
 #' Spatial Interpolation of SHmax
@@ -88,7 +86,7 @@ which.nsmallest <- function(x, n) {
 #' and maximum longitudes and latitudes (ignored if `grid` is specified).
 #' @param gridsize numeric. Target spacing of the regular grid in decimal
 #' degree. Default is `2.5`. (is ignored if `grid` is specified)
-#' @param stat whether the direction of interpolated SHmax is based on the
+#' @param stat whether the direction of interpolated \eqn{\sigma_\text{Hmax}}{SHmax} is based on the
 #' circular mean and standard deviation (`"mean"`, the default), the
 #' quasi-circular median and quasi-interquartile range (`"median"`), or the
 #' orientation tensor based principal direction and dispersion ("tensor").
@@ -136,7 +134,8 @@ which.nsmallest <- function(x, n) {
 #' \describe{
 #' \item{lon,lat}{longitude and latitude in degrees}
 #' \item{azi}{Circular mean od median SHmax in degree}
-#' \item{sd}{Circular standard deviation or Quasi-IQR on the Circle of SHmax in degrees}
+#' \item{sd}{Circular standard deviation or Quasi-IQR on the Circle of
+#'  \eqn{\sigma_\text{Hmax}}{SHmax} in degrees}
 #' \item{R}{Search radius in km}
 #' \item{mdr}{Mean distance between grid point and datapoints per search radius}
 #' \item{N}{Number of data points in search radius}
@@ -600,7 +599,7 @@ stress2grid_stats <- function(x,
 #' @param lon_range,lat_range (optional) numeric vector specifying the minimum
 #' and maximum longitudes and latitudes (are ignored if `grid` is specified).
 #' @param gridsize Numeric. Target spacing of the regular grid in decimal
-#' degree. Default is 2.5 (is ignored if `grid` is specified)
+#' degree. Default is `2.5` (is ignored if `grid` is specified)
 #' @param remove_PoR logical. Whether PoR azimuths and coordinates will be
 #' removed from final output or not (the default.)
 #' @param ... Arguments passed to [stress2grid()]

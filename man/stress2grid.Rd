@@ -62,7 +62,7 @@ stress2grid_stats(
 of SHmax}
 }}
 
-\item{stat}{whether the direction of interpolated SHmax is based on the
+\item{stat}{whether the direction of interpolated \eqn{\sigma_\text{Hmax}}{SHmax} is based on the
 circular mean and standard deviation (\code{"mean"}, the default), the
 quasi-circular median and quasi-interquartile range (\code{"median"}), or the
 orientation tensor based principal direction and dispersion ("tensor").}
@@ -131,7 +131,8 @@ for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa
 \describe{
 \item{lon,lat}{longitude and latitude in degrees}
 \item{azi}{Circular mean od median SHmax in degree}
-\item{sd}{Circular standard deviation or Quasi-IQR on the Circle of SHmax in degrees}
+\item{sd}{Circular standard deviation or Quasi-IQR on the Circle of
+\eqn{\sigma_\text{Hmax}}{SHmax} in degrees}
 \item{R}{Search radius in km}
 \item{mdr}{Mean distance between grid point and datapoints per search radius}
 \item{N}{Number of data points in search radius}
