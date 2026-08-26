@@ -14,8 +14,7 @@ kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
 
 - x:
 
-  numeric vector containing the circular data which are expressed in
-  degrees
+  numeric vector. Values in degrees
 
 - alpha:
 
@@ -26,7 +25,7 @@ kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
-  the default) or circular, i.e. \\2 \pi\\-periodical (`FALSE`).
+  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
 
 - quiet:
 

@@ -28,6 +28,12 @@ rayleigh_test_perm(x, mu = NULL, axial = TRUE, n_perm = 1000L)
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
   the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
 
+- alpha:
+
+  Significance level of the test. Valid levels are `0.01`, `0.05`, and
+  `0.1`. This argument may be omitted (`NULL`, the default), in which
+  case, a range for the p-value will be returned.
+
 - quiet:
 
   logical. Prints the test's decision.

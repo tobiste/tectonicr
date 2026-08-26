@@ -26,7 +26,7 @@ watson_two_test_perm(x, y, axial = TRUE, n_perm = 1000L)
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
-  the default) or circular, i.e. \\2 \pi\\-periodical (`FALSE`).
+  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
 
 - quiet:
 

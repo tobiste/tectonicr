@@ -23,7 +23,7 @@ ar_test(x, y, n_perm = 1000L, axial = TRUE)
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
-  the default) or circular, i.e. \\2 \pi\\-periodical (`FALSE`).
+  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
 
 ## Value
 

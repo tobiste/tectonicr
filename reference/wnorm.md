@@ -9,7 +9,7 @@ standard deviation \\\sigma\\.
 ``` r
 rwnorm(n, mean = 0, sd = 1)
 
-dwnorm(theta, mean = 0, sd = 1, axial = FALSE, ..., log = FALSE)
+dwnorm(theta, mean = 0, sd = 1, axial = FALSE, log = FALSE)
 
 pwnorm(theta, mean = 0, sd = 1, axial = FALSE, from = NULL, ...)
 
@@ -49,14 +49,6 @@ qwnorm(
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
   the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
 
-- ...:
-
-  optional parameters passed to underlying circular functions:
-  [`circular::dwrappednormal()`](https://rdrr.io/pkg/circular/man/wrappednormal.html),
-  [`circular::pwrappednormal()`](https://rdrr.io/pkg/circular/man/wrappednormal.html),
-  and
-  [`circular::qwrappednormal()`](https://rdrr.io/pkg/circular/man/wrappednormal.html)
-
 - log:
 
   logical. If `TRUE`, probabilities p are given as \\\log(p)\\.
@@ -65,6 +57,13 @@ qwnorm(
 
   if `NULL` is set to \\\mu-\pi\\. This is the value from which the
   `pvm` and `qvm` are evaluated. in degrees.
+
+- ...:
+
+  optional parameters passed to underlying circular functions
+  [`circular::pwrappednormal()`](https://rdrr.io/pkg/circular/man/wrappednormal.html)
+  and
+  [`circular::qwrappednormal()`](https://rdrr.io/pkg/circular/man/wrappednormal.html)
 
 - p:
 
@@ -94,9 +93,9 @@ set.seed(1)
 x <- rwnorm(5, mean = 90, sd = 5)
 
 dwnorm(x, mean = 90, sd = 5, axial = FALSE)
-#> [1] 3.757028 4.495101 3.224291 1.280679 4.329980
+#> [1] 0.06557252 0.07845431 0.05627449 0.02235206 0.07557240
 dwnorm(x, mean = 90, sd = 5, axial = TRUE)
-#> [1] 3.757028 4.495101 3.224291 1.280679 4.329980
+#> [1] 0.06557252 0.07845431 0.05627449 0.02235206 0.07557240
 
 pwnorm(x, mean = 90, sd = 5)
 #> [1] 0.2655087 0.5728534 0.2016819 0.9446753 0.6291140
