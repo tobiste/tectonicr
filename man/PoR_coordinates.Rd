@@ -7,11 +7,13 @@
 PoR_coordinates(x, PoR)
 }
 \arguments{
-\item{x}{\code{sf} or \code{data.frame} containing lat and lon coordinates
-(\code{lat}, \code{lon})}
+\item{x}{Can be either a \code{"data.frame"} containing \code{lat} and \code{lon}
+coordinates of a point in the geographical CRS or the \code{lat.PoR},
+\code{lon.PoR}) of the point in the PoR CRS,
+a two-column matrix containing the lat and lon coordinates,
+a \code{sf} object, or a \code{raster} object.}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler pole}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole}
 }
 \value{
 \code{\link[=PoR_coordinates]{PoR_coordinates()}} returns \code{data.frame} with the PoR coordinates

@@ -47,7 +47,14 @@ euler_pole <- function(x, y, z = NA, geo = TRUE, angle = NA) {
 
 #' Check if object is euler.pole
 #'
-#' @param x object of class \code{"euler.pole"}
+#' @param x Object of class \code{"data.frame"} containing the Euler poles of
+#' plate rotations:
+#' \describe{
+#'   \item{\code{plate.rot}}{Moving plate}
+#'   \item{\code{lat}, \code{lon}}{coordinates of Euler pole}
+#'   \item{\code{angle}}{Angle of rotation}
+#'   \item{\code{plate.fix}}{Fixed plate}
+#'   }
 #'
 #' @returns logical
 is.euler <- function(x) {
@@ -168,14 +175,7 @@ get_relrot <- function(plate.rot, lat, lon, angle, fixed, fixed.ep) {
 #'
 #' @description Transforms a sequence of rotations into a new reference system
 #'
-#' @param x Object of class \code{"data.frame"} containing the Euler poles of
-#' plate rotations:
-#' \describe{
-#'   \item{\code{plate.rot}}{Moving plate}
-#'   \item{\code{lat}, \code{lon}}{coordinates of Euler pole}
-#'   \item{\code{angle}}{Angle of rotation}
-#'   \item{\code{plate.fix}}{Fixed plate}
-#'   }
+#' @inheritParams is.euler
 #' @param fixed plate that will be regarded as fixed. Has to be one out of
 #' \code{x$plate.fix}
 #' @param rot (optional) plate that will be regarded as rotating. Has to be one out of
@@ -261,19 +261,24 @@ abs_vel <- function(w, alpha, r = earth_radius()) {
 }
 
 
+# Quaterion --------------------------------------------------------------------
+
 #' Quaternion from Euler angle-axis representation for rotations
 #'
-#' @param x \code{"euler.pole"} object
+#' @inheritParams is.euler
 #' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
 #'
 #' @returns object of class \code{"quaternion"}
 #'
+#' @keywords internal
 #' @noRd
+#' @family quaternion
 #'
 #' @examples
-#' # example code
+#' \dontrun{
 #' ep <- euler_pole(90, 0, angle = 45)
 #' euler_to_Q4(ep)
+#' }
 euler_to_Q4 <- function(x, normalize = FALSE) {
   stopifnot(is.euler(x) | c("x", "y", "z", "angle") %in% colnames(x))
   axis <- c(x$x, x$y, x$z)
@@ -290,8 +295,19 @@ euler_to_Q4 <- function(x, normalize = FALSE) {
 #' Euler angle/axis from quaternion
 #'
 #' @param q object of class \code{"quaternion"}
+#'
 #' @keywords internal
+#' @noRd
+#'
 #' @returns \code{"euler.pole"} object
+#' @family quaternion
+#'
+#' @examples
+#' \dontrun{
+#' ep <- euler_pole(90, 0, angle = 45)
+#' q <- euler_to_Q4(ep)
+#' Q4_to_euler(q)
+#' }
 Q4_to_euler <- function(q) {
   stopifnot(is.Q4(q))
   Vec <- q$Vec
@@ -301,36 +317,50 @@ Q4_to_euler <- function(q) {
   # numerically more stable:
   Vec_l <- sqrt(sum(Vec^2))
   angle <- 2 * atan2(Vec_l, Sc)
-
   axis <- Vec / sin(angle / 2)
-
 
   euler_pole(x = axis[1], y = axis[2], z = axis[3], angle = rad2deg(angle), geo = FALSE)
 }
 
 #' @keywords internal
-QScVec_to_Q4 <- function(x) {
+#' @noRd
+#' @family quaternion
+#' @examples
+#' \dontrun{
+#' ep <- euler_pole(90, 0, angle = 45)
+#' q <- euler_to_Q4(ep)
+#' Q4_to_QScVec(q)
+#' }
+Q4_to_QScVec <- function(x) {
   stopifnot(is.Q4(x), x$Sc != 0)
   x.euler <- Q4_to_euler(x)
   q <- numeric(4)
   q[1] <- x$Sc
-  q[2] <- x.euler$axis[1] * sin(x.euler$angle / 2)
-  q[3] <- x.euler$axis[2] * sin(x.euler$angle / 2)
-  q[4] <- x.euler$axis[3] * sin(x.euler$angle / 2)
+  q[2] <- x.euler$x * sin(x.euler$angle / 2)
+  q[3] <- x.euler$y * sin(x.euler$angle / 2)
+  q[4] <- x.euler$z * sin(x.euler$angle / 2)
   q
 }
 
 #' @keywords internal
-Q4_to_QScVec <- function(x, normalize = FALSE) {
-  stopifnot(x[1] != 0, length(x) == 4, is.numeric(x), is.logical(normalize))
+#' @noRd
+#' @family quaternion
+#' @examples
+#' \dontrun{
+#' ep <- euler_pole(90, 0, angle = 45)
+#' q <- euler_to_Q4(ep)
+#' Q4_to_QScVec(q)
+#' }
+QScVec_to_Q4 <- function(x, normalize = FALSE) {
+  stopifnot(is.QScVec(x))
   angle <- 2 * acos(x[1])
   q1 <- x[2] / sin(angle / 2)
   q2 <- x[3] / sin(angle / 2)
   q3 <- x[4] / sin(angle / 2)
 
   q <- structure(list(Sc = x[1], Vec = c(q1, q2, q3)), class = "quaternion")
-  # class(q) <- "quaternion"
-  if (normalize) {
+
+  if (isTRUE(normalize)) {
     q <- normalize_Q4(q)
   }
   return(q)
@@ -342,13 +372,21 @@ Q4_to_QScVec <- function(x, normalize = FALSE) {
 #' @param q quaternion
 #'
 #' @returns object of class \code{"quaternion"}
+#' @family quaternion
+#'
 #' @keywords internal
+#' @noRd
+#' @examples
+#' \dontrun{
+#' ep <- euler_pole(90, 0, angle = 45)
+#' q <- euler_to_Q4(ep)
+#' normalize_Q4(q)
+#' }
 normalize_Q4 <- function(q) {
   stopifnot(is.Q4(q))
   q4 <- QScVec_to_Q4(q)
   q.norm <- q4 / sqrt(q4[1]^2 + q4[2]^2 + q4[3]^2 + q4[4]^2)
   q.norm <- structure(list(Sc = q.norm[1], Vec = c(q.norm[2], q.norm[3], q.norm[4])), class = "quaternion")
-  # class(q.norm) <- "quaternion"
   return(q.norm)
 }
 
@@ -358,18 +396,21 @@ normalize_Q4 <- function(q) {
 #' Concatenation of two rotations R1 followed by R2
 #'
 #' @param q1,q2 two objects of class \code{"quaternion"}. first rotation R1 expressed by q1 followed by second rotation R2 expressed by q2
-#' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
+#' @inheritParams Q4_to_euler
+#'
+#' @family quaternion
 #'
 #' @note Multiplication is not commutative.
 #'
 #' @returns object of class \code{"quaternion"}
 #' @keywords internal
+#' @noRd
 product_Q4 <- function(q1, q2, normalize = FALSE) {
-  stopifnot(is.Q4(q1), is.Q4(q2), is.logical(normalize))
+  stopifnot(is.Q4(q1), is.Q4(q2))
   Sc <- q2$Sc * q1$Sc - (q2$Vec %*% q1$Vec)
   Vec <- q1$Sc * q2$Vec + q2$Sc * q1$Vec + vcross(q2$Vec, q1$Vec)
   q <- structure(list(Sc = c(Sc), Vec = Vec), class = "quaternion")
-  if (normalize) {
+  if (isTRUE(normalize)) {
     q <- normalize_Q4(q)
   }
   return(q)
@@ -380,38 +421,50 @@ product_Q4 <- function(q1, q2, normalize = FALSE) {
 #'
 #' Inverse rotation given by conjugated quaternion
 #'
-#' @param q object of class \code{"quaternion"}
-#' @param normalize logical. Whether a quaternion normalization should be applied (TRUE) or not (FALSE, the default).
+#' @inheritParams normalize_Q4
+#' @inheritParams Q4_to_euler
+#'
+#' @family quaternion
 #'
 #' @return object of class \code{"quaternion"}
 #' @keywords internal
+#' @noRd
 conjugate_Q4 <- function(q, normalize = FALSE) {
-  stopifnot(is.Q4(q), is.logical(normalize))
+  stopifnot(is.Q4(q))
   q <- structure(list(Sc = q$Sc, Vec = -q$Vec), class = "quaternion")
-  if (normalize) {
+  if (isTRUE(normalize)) {
     q <- normalize_Q4(q)
   }
   return(q)
 }
 
 #' Check if object is quaternion
+#'
 #' @param x object of class \code{"quaternion"}
+#'
 #' @returns logical
+#' @family quaternion
+#'
 #' @keywords internal
+#' @noRd
 is.Q4 <- function(x) {
   inherits(x, "quaternion") | c("Vec", "Sc") %in% names(q)
 }
-# is.QScVec <- function(x) {
-#   is.numeric(x) & length(x)==4
-# }
+
+#' @keywords internal
+is.QScVec <- function(x) {
+  is.numeric(x) & length(x)==4
+}
 
 #' Rotation of a vector by a quaternion
 #'
-#' @param q object of class \code{"quaternion"}
+#' @inheritParams normalize_Q4
 #' @param p three-column vector (Cartesian coordinates) of unit length
+#' @family quaternion
 #'
 #' @returns three-column vector (Cartesian coordinates) of unit length
 #' @keywords internal
+#' @noRd
 rotation_Q4 <- function(q, p) {
   stopifnot(is.Q4(q))
 

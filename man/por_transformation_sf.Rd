@@ -14,8 +14,7 @@ geographical_to_PoR_sf(x, PoR)
 \item{x}{\code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 points in geographical or PoR coordinate system}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler pole}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole}
 }
 \value{
 \code{sf} or \code{SpatRast} object of the data points in the

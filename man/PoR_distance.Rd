@@ -7,20 +7,22 @@
 PoR_distance(x, PoR, FUN = orthodrome)
 }
 \arguments{
-\item{x}{\code{sf} or \code{data.frame} containing lat and lon coordinates
-(\code{lat}, \code{lon})}
+\item{x}{Can be either a \code{"data.frame"} containing \code{lat} and \code{lon}
+coordinates of a point in the geographical CRS or the \code{lat.PoR},
+\code{lon.PoR}) of the point in the PoR CRS,
+a two-column matrix containing the lat and lon coordinates,
+a \code{sf} object, or a \code{raster} object.}
 
-\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler pole}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole}
 
 \item{FUN}{function to calculate the great-circle distance.
 \code{\link[=orthodrome]{orthodrome()}}, \code{\link[=haversine]{haversine()}} (the default), or \code{\link[=vincenty]{vincenty()}}.}
 }
 \value{
-numeric vector
+numeric vector. Great-circle distance in degree
 }
 \description{
-Retrieve the (angular) distance to the PoR (Euler pole).
+Retrieve the (angular) great-circle distance between a point and the PoR (Euler pole).
 }
 \examples{
 data("nuvel1")

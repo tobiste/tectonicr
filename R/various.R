@@ -435,7 +435,7 @@ line_azimuth <- function(x, warn = TRUE) {
   if (warn & (nrow(x) > 1 | any(sf::st_geometry_type(x) == "MULTILINESTRING"))) {
     warning("MULTILINESTRING object is not recommended")
   }
-  mat <- sf::st_cast(x, "POINT", warn = FALSE) |>
+  mat <- sf::st_cast(x, "POINT", warn = warn) |>
     sf::st_coordinates()
 
   n <- nrow(mat)

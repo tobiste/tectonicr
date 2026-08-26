@@ -16,9 +16,8 @@
 #' @details \eqn{\sigma_\text{Hmax}}{SHmax} following *great circles* is the
 #' (initial) bearing between the given point and the pole of relative plate
 #' motion. \eqn{\sigma_\text{Hmax}}{SHmax} along *small circles*, clockwise, and
-#' counter-clockwise *loxodromes* is 90\eqn{^{\circ}}{ degree},
-#' +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree}
-#' (-45\eqn{^{\circ}}{ degree}) to this great circle bearing, respectively.
+#' counter-clockwise *loxodromes* is 90&deg;,  +45&deg;, and +135&deg; (or -45&deg;)
+#' to this great circle bearing, respectively.
 #'
 #' @returns \code{data.frame}
 #' \describe{
@@ -98,11 +97,12 @@ deviation_norm <- function(x, y = NULL) {
     (nx == ny) | (ny == 1)
   )
   if (ny == 1 & nx > 1) {
-    ny <- rep(y, nx)
+    y <- rep(y, nx)
   }
-  d <- (x %% 180) - (y %% 180)
-  d <- ifelse(d < 90, d, 180 - d)
-  abs(d)
+  d <- ((x %% 180) - (y %% 180)) %% 180
+  d <- ifelse(d <= 90, d, 180 - d)
+
+  return(d)
 }
 
 
@@ -283,7 +283,7 @@ PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left"), ax
 
   azi.por <- PoR_azimuth(x, PoR, axial = axial)
 
-  if (type != "none" && !is.null(x$unc)) {
+  if (type != "none") {
     prd <- switch(type,
       "none" = NA,
       "out" = 0,

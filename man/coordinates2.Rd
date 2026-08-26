@@ -14,7 +14,7 @@ spherical_to_cartesian(p)
 spherical_to_geographical(p)
 }
 \arguments{
-\item{n}{Cartesian coordinates (x, y, z) as three-column vector}
+\item{n}{Cartesian coordinates (x, y, z) as vector}
 
 \item{p}{Spherical coordinates (colatitude, azimuth) as two-column vector}
 }

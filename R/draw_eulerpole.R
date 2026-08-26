@@ -139,13 +139,13 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' @param x Either an object of class \code{"euler.pole"} or \code{"data.frame"}
 #' containing coordinates of Euler pole in lat, lon, and rotation angle
 #' (optional).
-#' @param n Number of equally spaced curves; `n = 10` by default (angular
+#' @param n integer. Number of equally spaced curves; `n = 10` by default (angular
 #' distance between curves: `180 / n`)
-#' @param angle Direction of loxodromes; `angle = 45` by default.
+#' @param angle numeric. Direction of loxodromes; `angle = 45` by default.
 #' @param cw logical. Sense of loxodromes: `TRUE` for clockwise
 #' loxodromes (left-lateral displaced plate boundaries). `FALSE` for
 #' counterclockwise loxodromes (right-lateral displaced plate boundaries).
-#' @param type Character string specifying the type of curves to export. Either
+#' @param type character. String specifying the type of curves to export. Either
 #' \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 #' \code{"ld"} for loxodromes.
 #'
@@ -156,7 +156,7 @@ loxodrome_dummy <- function(n, angle, cw) {
 #' \describe{
 #' \item{Small circles}{Lines that have a constant distance to the Euler pole.
 #' If `x` contains `angle`, output additionally gives absolute
-#' velocity on small circle (degree/Myr -> km/Myr).}
+#' velocity on small circle (&deg;/Myr -> km/Myr).}
 #' \item{Great circles}{Paths of the shortest distance between the Euler
 #' pole and its antipodal position.}
 #'  \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small
@@ -183,7 +183,7 @@ NULL
 
 #' @rdname stress_paths
 #' @export
-eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle = 45, cw) {
+eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10L, angle = 45, cw) {
   stopifnot(is.data.frame(x), dim(x)[1] > 0)
   type <- match.arg(type)
   # if (type == "gc") {
@@ -202,8 +202,7 @@ eulerpole_paths <- function(x, type = c("sc", "gc", "ld"), n = 10, angle = 45, c
 
 #' @rdname stress_paths
 #' @export
-eulerpole_smallcircles <-
-  function(x, n = 10) {
+eulerpole_smallcircles <- function(x, n = 10L) {
     stopifnot(is.data.frame(x), dim(x)[1] > 0)
     small_circle <- numeric()
     # d <- NULL
@@ -239,7 +238,7 @@ eulerpole_smallcircles <-
 
 #' @rdname stress_paths
 #' @export
-eulerpole_greatcircles <- function(x, n = 10) {
+eulerpole_greatcircles <- function(x, n = 10L) {
   eulerpole_loxodromes(
     x,
     angle = 0,
@@ -250,7 +249,7 @@ eulerpole_greatcircles <- function(x, n = 10) {
 
 #' @rdname stress_paths
 #' @export
-eulerpole_loxodromes <- function(x, n = 10, angle = 45, cw) {
+eulerpole_loxodromes <- function(x, n = 10L, angle = 45, cw) {
   stopifnot(is.data.frame(x), dim(x)[1] > 0, abs(angle) != 90, is.logical(cw))
   loxodrome <- numeric()
 

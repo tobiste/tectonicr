@@ -1,7 +1,7 @@
 #' @title Coordinate Correction
 #'
-#' @description Corrects the longitudes or latitudes to value between -180.0 and
-#' 180.0 or -90 and 90 degree
+#' @description Corrects the longitudes or latitudes to value between -180&deg and
+#' 180&deg or -90&deg and 90&deg;
 #'
 #' @param x Longitude(s) or latitude(s) in degrees
 #'
@@ -56,7 +56,6 @@ NULL
 #' @export
 cartesian_to_geographical <- function(n) {
   stopifnot(length(n) == 3)
-  # r <- sqrt(n[1]^2 + n[2]^2 + n[3]^2)
   r <- sqrt(sum(n^2))
   c(
     asind(n[3] / r), # latitude
@@ -87,7 +86,7 @@ geographical_to_spherical <- function(p) {
 #' @description Converts vector between Cartesian and spherical coordinate
 #' systems
 #'
-#' @param n Cartesian coordinates (x, y, z) as three-column vector
+#' @inheritParams cartesian_to_geographical
 #' @param p Spherical coordinates (colatitude, azimuth) as two-column vector
 #'
 #' @returns Functions return a (2- or 3-dimensional) vector representing a
@@ -161,12 +160,6 @@ spherical_to_geographical <- function(p) {
 #' PoR_crs(por)
 PoR_crs <- function(x) {
   stopifnot(is.data.frame(x), c("lat", "lon") %in% names(x))
-
-  # if (x$lat < 0) {
-  #   x$lat <- -x$lat
-  #   x$lon <- longitude_modulo(x$lon + 180)
-  # }
-  #
   proj_str <- paste0(
     "+proj=ob_tran +o_proj=longlat +datum=WGS84",
     " +o_lat_p=", x$lat,
@@ -298,14 +291,12 @@ PoR_to_geographical <- function(x, PoR) {
 #' Transformation from spherical PoR to geographical coordinate system and
 #' vice versa
 #'
-#' @param x \code{"data.frame"} containing \code{lat} and \code{lon}
-#' coordinates of a point in the geographical CRS or the \code{lat.PoR},
-#' \code{lon.PoR}) of the point in the PoR CRS.
-#' @param PoR Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole
+#' @inheritParams geographical_to_PoR
 #'
 #' @returns \code{"data.frame"} with the transformed coordinates
 #' (\code{lat.PoR} and \code{lon.PoR} for PoR CRS,
 #' or \code{lat} and \code{lon} for geographical CRS).
+#'
 #' @keywords internal
 #' @name por_transformation_df
 NULL
@@ -342,8 +333,7 @@ PoR_to_geographical_df <- function(x, PoR) {
 #' coordinates
 #'
 #' @param x \code{"SpatRaster"} or \code{"RasterLayer"}
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
+#' @inheritParams geographical_to_PoR
 #'
 #' @returns terra "SpatRaster" object
 #'
@@ -389,8 +379,7 @@ PoR_to_geographical_raster <- function(x, PoR) {
 #'
 #' @param x \code{sf}, \code{SpatRast}, or \code{Raster*} object of the data
 #' points in geographical or PoR coordinate system
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
+#' @inheritParams geographical_to_PoR
 #'
 #' @return \code{sf} or \code{SpatRast} object of the data points in the
 #' transformed geographical or PoR coordinate system
@@ -445,10 +434,7 @@ geographical_to_PoR_sf <- function(x, PoR) {
 #'
 #' Retrieve the PoR equivalent coordinates of an object
 #'
-#' @param x \code{sf} or \code{data.frame} containing lat and lon coordinates
-#' (\code{lat}, \code{lon})
-#' @param PoR Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
+#' @inheritParams geographical_to_PoR
 #'
 #' @return [PoR_coordinates()] returns \code{data.frame} with the PoR coordinates
 #' (\code{lat.PoR}, \code{lon.PoR}).
@@ -482,12 +468,13 @@ PoR_coordinates <- function(x, PoR) {
 
 #' Distance to Pole of Rotation
 #'
-#' Retrieve the (angular) distance to the PoR (Euler pole).
+#' Retrieve the (angular) great-circle distance between a point and the PoR (Euler pole).
 #'
 #' @inheritParams PoR_coordinates
 #' @param FUN function to calculate the great-circle distance.
 #' [orthodrome()], [haversine()] (the default), or [vincenty()].
-#' @return numeric vector
+#'
+#' @return numeric vector. Great-circle distance in degree
 #'
 #' @export
 #' @examples
@@ -514,7 +501,3 @@ PoR_distance <- function(x, PoR, FUN = orthodrome) {
   do.call(FUN, list(lat1 = deg2rad(lat), lon1 = deg2rad(lon), lat2 = deg2rad(PoR$lat), lon2 = deg2rad(PoR$lon))) |>
     rad2deg()
 }
-# PoR_distance <- function(x, PoR) {
-#   res <- PoR_coordinates(x, PoR)
-#   90 - abs(res$lat.PoR)
-# }

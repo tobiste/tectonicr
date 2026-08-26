@@ -8,27 +8,27 @@
 \alias{eulerpole_loxodromes}
 \title{Theoretical Plate Tectonic Stress Paths}
 \usage{
-eulerpole_paths(x, type = c("sc", "gc", "ld"), n = 10, angle = 45, cw)
+eulerpole_paths(x, type = c("sc", "gc", "ld"), n = 10L, angle = 45, cw)
 
-eulerpole_smallcircles(x, n = 10)
+eulerpole_smallcircles(x, n = 10L)
 
-eulerpole_greatcircles(x, n = 10)
+eulerpole_greatcircles(x, n = 10L)
 
-eulerpole_loxodromes(x, n = 10, angle = 45, cw)
+eulerpole_loxodromes(x, n = 10L, angle = 45, cw)
 }
 \arguments{
 \item{x}{Either an object of class \code{"euler.pole"} or \code{"data.frame"}
 containing coordinates of Euler pole in lat, lon, and rotation angle
 (optional).}
 
-\item{type}{Character string specifying the type of curves to export. Either
+\item{type}{character. String specifying the type of curves to export. Either
 \code{"sm"} for small circles (default), \code{"gc"} for great circles, or
 \code{"ld"} for loxodromes.}
 
-\item{n}{Number of equally spaced curves; \code{n = 10} by default (angular
+\item{n}{integer. Number of equally spaced curves; \code{n = 10} by default (angular
 distance between curves: \code{180 / n})}
 
-\item{angle}{Direction of loxodromes; \code{angle = 45} by default.}
+\item{angle}{numeric. Direction of loxodromes; \code{angle = 45} by default.}
 
 \item{cw}{logical. Sense of loxodromes: \code{TRUE} for clockwise
 loxodromes (left-lateral displaced plate boundaries). \code{FALSE} for
@@ -48,7 +48,7 @@ related to relative plate motion:
 \describe{
 \item{Small circles}{Lines that have a constant distance to the Euler pole.
 If \code{x} contains \code{angle}, output additionally gives absolute
-velocity on small circle (degree/Myr -> km/Myr).}
+velocity on small circle (°/Myr -> km/Myr).}
 \item{Great circles}{Paths of the shortest distance between the Euler
 pole and its antipodal position.}
 \item{Loxodromes}{Lines of constant bearing, i.e. curves cutting small

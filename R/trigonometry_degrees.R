@@ -127,7 +127,7 @@ atan2_spec <- function(x, y) {
   #   y > 0 & x < 0 ~ atan(x / y) + 2 * pi,
   #   y == 0 & x == 0 ~ Inf
   # )
-  angle <- atan2(x, y)
+  angle <- ifelse(x==0 & y==0, NA, atan2(x, y))
   ifelse(angle < 0, angle + 2 * pi, angle)
 }
 
@@ -163,12 +163,7 @@ angle_vectors <- function(x, y) {
 
   cos_angle <- dot / (norm_x * norm_y)
   cos_angle <- pmin(pmax(cos_angle, -1), 1)
-
-  # cos_angle <- dot / (sqrt(sum(x^2) * sum(y^2)))
-
-  angle_deg <- acos(cos_angle) * 180 / pi
-
-  return(angle_deg)
+  acos(cos_angle) * 180 / pi
 }
 
 
@@ -200,17 +195,20 @@ ahav <- function(x) {
 #' @returns numeric. Angle in radians
 #'
 #' @references
-#' * Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
+#' Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
 #' der Berechnung von Richtung und Distanz zwischen Beringungs- und
-#' Wiederfundort.
-#' *Die Vogelwarte* **26**, 336-346.
-#' * Sinnott, Roger W. (1984). Virtues of the Haversine. *Sky and telescope*
+#' Wiederfundort. *Die Vogelwarte* **26**, 336-346.
+#'
+#' Sinnott, Roger W. (1984). Virtues of the Haversine. *Sky and telescope*
 #' **68**(2), 158.
+#'
 #' Vincenty, T. (1975). Direct and inverse solutions of geodesics on the
 #' ellipsoid with application of nested equations. *Survey Review*, **23**(176),
 #' 88<U+2013>93. \doi{10.1179/sre.1975.23.176.88}.
-#' * \url{http://www.movable-type.co.uk/scripts/latlong.html}
-#' * \url{http://www.edwilliams.org/avform147.htm}
+#'
+#' \url{http://www.movable-type.co.uk/scripts/latlong.html}
+#'
+#' \url{http://www.edwilliams.org/avform147.htm}
 #'
 #' @name spherical_angle
 #'
@@ -336,11 +334,7 @@ dist_greatcircle <- function(lat1, lon1, lat2, lon2,
                              r = earth_radius(),
                              method = c("haversine", "orthodrome", "vincenty", "euclidean")) {
   method <- match.arg(method)
-  # n <- length(lat1)
   if (!is.numeric(r) || length(r) != 1) stop("'r' must be a single numeric value.")
-  # if (length(lon1) != n || length(lat2) != n || length(lon2) != n) {
-  #   stop("lat1, lon1, lat2, and lon2 must all have the same length.")
-  # }
 
   lat1_rad <- deg2rad(lat1)
   lon1_rad <- deg2rad(lon1)

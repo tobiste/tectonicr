@@ -42,17 +42,18 @@ haversine(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
 vincenty(berlin[1], berlin[2], calgary[1], calgary[2]) # 1.176406
 }
 \references{
-\itemize{
-\item Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
+Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome bei
 der Berechnung von Richtung und Distanz zwischen Beringungs- und
-Wiederfundort.
-\emph{Die Vogelwarte} \strong{26}, 336-346.
-\item Sinnott, Roger W. (1984). Virtues of the Haversine. \emph{Sky and telescope}
+Wiederfundort. \emph{Die Vogelwarte} \strong{26}, 336-346.
+
+Sinnott, Roger W. (1984). Virtues of the Haversine. \emph{Sky and telescope}
 \strong{68}(2), 158.
+
 Vincenty, T. (1975). Direct and inverse solutions of geodesics on the
 ellipsoid with application of nested equations. \emph{Survey Review}, \strong{23}(176),
 88<U+2013>93. \doi{10.1179/sre.1975.23.176.88}.
-\item \url{http://www.movable-type.co.uk/scripts/latlong.html}
-\item \url{http://www.edwilliams.org/avform147.htm}
-}
+
+\url{http://www.movable-type.co.uk/scripts/latlong.html}
+
+\url{http://www.edwilliams.org/avform147.htm}
 }

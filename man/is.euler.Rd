@@ -7,7 +7,14 @@
 is.euler(x)
 }
 \arguments{
-\item{x}{object of class \code{"euler.pole"}}
+\item{x}{Object of class \code{"data.frame"} containing the Euler poles of
+plate rotations:
+\describe{
+\item{\code{plate.rot}}{Moving plate}
+\item{\code{lat}, \code{lon}}{coordinates of Euler pole}
+\item{\code{angle}}{Angle of rotation}
+\item{\code{plate.fix}}{Fixed plate}
+}}
 }
 \value{
 logical

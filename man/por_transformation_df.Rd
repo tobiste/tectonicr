@@ -11,9 +11,11 @@ geographical_to_PoR_df(x, PoR)
 PoR_to_geographical_df(x, PoR)
 }
 \arguments{
-\item{x}{\code{"data.frame"} containing \code{lat} and \code{lon}
+\item{x}{Can be either a \code{"data.frame"} containing \code{lat} and \code{lon}
 coordinates of a point in the geographical CRS or the \code{lat.PoR},
-\code{lon.PoR}) of the point in the PoR CRS.}
+\code{lon.PoR}) of the point in the PoR CRS,
+a two-column matrix containing the lat and lon coordinates,
+a \code{sf} object, or a \code{raster} object.}
 
 \item{PoR}{Pole of Rotation. \code{"data.frame"} containing the geographical coordinates of the Euler pole}
 }
