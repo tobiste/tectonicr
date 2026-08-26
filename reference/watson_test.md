@@ -102,8 +102,7 @@ Other Tests:
 
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
-pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-watson_test(pidgeon_homing, axial = FALSE, alpha = .05)
+watson_test(homing, axial = FALSE, alpha = .05)
 #> Do Not Reject Null Hypothesis
 #> $statistic
 #> [1] 0.1153633

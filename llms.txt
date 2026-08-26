@@ -250,6 +250,8 @@ GPL-3.0 License
   : Azimuth + point visualization
 - [`get_azimuth()`](https://tobiste.github.io/tectonicr/reference/get_azimuth.md)
   : Azimuth Between two Points
+- [`homing`](https://tobiste.github.io/tectonicr/reference/homing.md) :
+  Homing directions of Pidgeons
 - [`download_WSM()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)
   [`load_WSM()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)
   [`download_WSM2016()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)

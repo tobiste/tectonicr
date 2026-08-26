@@ -83,8 +83,7 @@ Other Tests:
 
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
-pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-kuiper_test(pidgeon_homing, alpha = .05)
+kuiper_test(homing, alpha = .05)
 #> Reject Null Hypothesis
 #> $statistic
 #> [1] 2.262115

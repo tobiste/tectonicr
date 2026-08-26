@@ -140,8 +140,7 @@ Other Tests:
 
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
-pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-rayleigh_test(pidgeon_homing, axial = FALSE) # Do not reject null hypothesis.
+rayleigh_test(homing, axial = FALSE) # Do not reject null hypothesis.
 #> Do Not Reject Null Hypothesis
 #> $R
 #> [1] 0.2228717
@@ -153,7 +152,7 @@ rayleigh_test(pidgeon_homing, axial = FALSE) # Do not reject null hypothesis.
 #> [1] 0.6201354
 #> 
 # R = 0.22; stat = 0.497, p = 0.62
-rayleigh_test_perm(pidgeon_homing, axial = FALSE)
+rayleigh_test_perm(homing, axial = FALSE)
 #> $statistic
 #> [1] 0.2228717
 #> 
@@ -162,13 +161,7 @@ rayleigh_test_perm(pidgeon_homing, axial = FALSE)
 #> 
 
 # Example data from Davis (1986), pp. 316
-finland_striae <- c(
-  23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
-  113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
-  132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
-  165, 171, 172, 179, 181, 186, 190, 212
-)
-rayleigh_test(finland_striae, axial = FALSE) # reject null hypothesis
+rayleigh_test(striae, axial = FALSE) # reject null hypothesis
 #> Reject Null Hypothesis
 #> $R
 #> [1] 0.8003694
@@ -179,7 +172,7 @@ rayleigh_test(finland_striae, axial = FALSE) # reject null hypothesis
 #> $p.value
 #> [1] 6.479397e-15
 #> 
-rayleigh_test_perm(finland_striae, axial = FALSE) # reject null hypothesis
+rayleigh_test_perm(striae, axial = FALSE) # reject null hypothesis
 #> $statistic
 #> [1] 0.8003694
 #> 
@@ -187,7 +180,7 @@ rayleigh_test_perm(finland_striae, axial = FALSE) # reject null hypothesis
 #> [1] 0.000999001
 #> 
 
-rayleigh_test(finland_striae, mu = 105, axial = FALSE) # reject null hypothesis
+rayleigh_test(striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> Reject Null Hypothesis
 #> $C
 #> [1] 0.7300887
@@ -198,7 +191,7 @@ rayleigh_test(finland_striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> $p.value
 #> [1] 2.130845e-13
 #> 
-rayleigh_test_perm(finland_striae, mu = 105, axial = FALSE) # reject null hypothesis
+rayleigh_test_perm(striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> $statistic
 #> [1] 0.7300887
 #> 

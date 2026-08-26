@@ -180,8 +180,7 @@ University Press.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example data from Mardia and Jupp (1999), pp. 93</span></span></span>
-<span class="r-in"><span><span class="va">pidgeon_homing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">55</span>, <span class="fl">60</span>, <span class="fl">65</span>, <span class="fl">95</span>, <span class="fl">100</span>, <span class="fl">110</span>, <span class="fl">260</span>, <span class="fl">275</span>, <span class="fl">285</span>, <span class="fl">295</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">pidgeon_homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Do not reject null hypothesis.</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Do not reject null hypothesis.</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Do Not Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2228717</span>
@@ -193,7 +192,7 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6201354</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># R = 0.22; stat = 0.497, p = 0.62</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">pidgeon_homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2228717</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -202,13 +201,7 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example data from Davis (1986), pp. 316</span></span></span>
-<span class="r-in"><span><span class="va">finland_striae</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fl">23</span>, <span class="fl">27</span>, <span class="fl">53</span>, <span class="fl">58</span>, <span class="fl">64</span>, <span class="fl">83</span>, <span class="fl">85</span>, <span class="fl">88</span>, <span class="fl">93</span>, <span class="fl">99</span>, <span class="fl">100</span>, <span class="fl">105</span>, <span class="fl">113</span>,</span></span>
-<span class="r-in"><span>  <span class="fl">113</span>, <span class="fl">114</span>, <span class="fl">117</span>, <span class="fl">121</span>, <span class="fl">123</span>, <span class="fl">125</span>, <span class="fl">126</span>, <span class="fl">126</span>, <span class="fl">126</span>, <span class="fl">127</span>, <span class="fl">127</span>, <span class="fl">128</span>, <span class="fl">128</span>, <span class="fl">129</span>, <span class="fl">132</span>,</span></span>
-<span class="r-in"><span>  <span class="fl">132</span>, <span class="fl">132</span>, <span class="fl">134</span>, <span class="fl">135</span>, <span class="fl">137</span>, <span class="fl">144</span>, <span class="fl">145</span>, <span class="fl">145</span>, <span class="fl">146</span>, <span class="fl">153</span>, <span class="fl">155</span>, <span class="fl">155</span>, <span class="fl">155</span>, <span class="fl">157</span>, <span class="fl">163</span>,</span></span>
-<span class="r-in"><span>  <span class="fl">165</span>, <span class="fl">171</span>, <span class="fl">172</span>, <span class="fl">179</span>, <span class="fl">181</span>, <span class="fl">186</span>, <span class="fl">190</span>, <span class="fl">212</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_striae</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">striae</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8003694</span>
@@ -219,7 +212,7 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.479397e-15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">finland_striae</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">striae</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8003694</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -227,7 +220,7 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000999001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">finland_striae</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">striae</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7300887</span>
@@ -238,7 +231,7 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.130845e-13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">finland_striae</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
+<span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">striae</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7300887</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
