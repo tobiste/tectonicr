@@ -8,32 +8,36 @@
 earth_radius <- function() 6371.0087714
 
 #' @keywords internal
-wcmean <- function(x, w) {
+wcmean <- function(x, w, f = 2) {
   Z <- sum(w, na.rm = TRUE)
   if (Z != 0) {
     m <- mean_SC(2 * x, w = w, na.rm = TRUE)
     meanR <- sqrt(m["C"]^2 + m["S"]^2)
-    sd_s <- if (meanR > 1) {
-      0
-    } else {
-      sqrt(-2 * log(meanR)) / 2
-    }
-    mean_s <- (atan2(m["S"], m["C"]) / 2) %% pi
-    unname(rad2deg(c(mean_s, sd_s)))
+    # sd_s <- if (meanR > 1) {
+    #   0
+    # } else {
+    #   sqrt(-2 * log(meanR)) / 2
+    # }
+    # mean_s <- (atan2(m["S"], m["C"]) / 2) %% pi
+    # unname(rad2deg(c(mean_s, sd_s)))
+    sd_s <- if (is.na(meanR)) NA_real_ else if (meanR > 1) 0 else rad2deg(sqrt(-2 * log(meanR))) / f
+    mean_s <- rad2deg(atan2(m["S"], m["C"]) / f) %% (360 / f)
+    unname(c(mean_s, sd_s))
   } else {
     c(NA_real_, NA_real_)
   }
 }
 
 #' @keywords internal
-wcmedian <- function(x, w) {
+wcmedian <- function(x, w, f = 2) {
+  is.axial <- f == 2
   Z <- sum(w, na.rm = TRUE)
   if (Z > 3) {
-    quantiles <- circular_quantiles(x, w)
+    quantiles <- circular_quantiles(x, w, axial = is.axial)
     median_s <- (quantiles[3])
     iqr_s <- deviation_norm(quantiles[4], quantiles[2])
   } else if (Z > 0 && Z <= 3) {
-    median_s <- circular_median(x, w)
+    median_s <- circular_median(x, w, axial = is.axial)
     iqr_s <- ceiling(deviation_norm(max(x), min(x)))
   } else {
     median_s <- iqr_s <- NA_real_
@@ -41,7 +45,7 @@ wcmedian <- function(x, w) {
   unname(c(median_s, iqr_s))
 }
 
-wprincipal <- function(x, w) {
+wprincipal <- function(x, w, f) {
   ot <- ot_eigen2d(x, w, scale = TRUE)
   c(ot$vectors[1], ot$values[2])
 }
@@ -125,7 +129,9 @@ which.nsmallest <- function(x, n) {
 #' @param mode logical. Should the circular mode be included in the statistical summary (slow)?
 #' @param kappa  numeric. von Mises distribution concentration parameter used
 #' for the circular mode. Will be estimated using [est.kappa()] if not provided.
-#' @param ... (optional) arguments to [dist_greatcircle()]
+#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+#' or biaxial (`TRUE`, the default).
+# #' @param ... (optional) arguments to [dist_greatcircle()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate filter rename mutate bind_rows select
@@ -151,6 +157,10 @@ which.nsmallest <- function(x, n) {
 #'
 #' [stress2grid_stats()] is based on [stress2grid()] but calculates circular
 #' summary statistics (see [circular_summary()]).
+#'
+#' @note Although specialized for stress fields, this spatial interpolation
+#' algorithm can be applied to type of data. Please adjust the `axial` argument
+#' when applied to different, directional data sets.
 #'
 #' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()],
 #' [circular_mean()], [circular_median()], [circular_sd()], [circular_summary()]
@@ -372,26 +382,26 @@ NULL
 #     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 # }
 stress2grid <- function(x,
-                         stat = c("mean", "median", "tensor"),
-                         grid = NULL,
-                         lon_range = NULL,
-                         lat_range = NULL,
-                         gridsize = 2,
-                         min_data = 3L,
-                         max_data = Inf,
-                         max_sd = Inf,
-                         threshold = deprecated(),
-                         min_dist_threshold = 200,
-                         arte_thres = deprecated(),
-                         method_weighting = FALSE,
-                         quality_weighting = TRUE,
-                         dist_weighting = c("inverse", "linear", "none"),
-                         idp = 1,
-                         qp = 1,
-                         mp = 1,
-                         dist_threshold = 0.1,
-                         R_range = seq(50, 1000, 50),
-                         ...) {
+                        stat = c("mean", "median", "tensor"),
+                        grid = NULL,
+                        lon_range = NULL,
+                        lat_range = NULL,
+                        gridsize = 2,
+                        min_data = 3L,
+                        max_data = Inf,
+                        max_sd = Inf,
+                        threshold = deprecated(),
+                        min_dist_threshold = 200,
+                        arte_thres = deprecated(),
+                        method_weighting = FALSE,
+                        quality_weighting = TRUE,
+                        dist_weighting = c("inverse", "linear", "none"),
+                        idp = 1,
+                        qp = 1,
+                        mp = 1,
+                        dist_threshold = 0.1,
+                        R_range = seq(50, 1000, 50),
+                        axial = TRUE) {
   stopifnot(
     inherits(x, "sf"),
     is.numeric(gridsize) && length(gridsize) == 1,
@@ -423,6 +433,9 @@ stress2grid <- function(x,
     )
   }
   threshold <- max_sd
+
+  # Periodicity of angles
+  f <- if (axial) 2 else 1
 
   min_data <- as.integer(ceiling(min_data))
   dist_weighting <- match.arg(dist_weighting)
@@ -494,8 +507,8 @@ stress2grid <- function(x,
   lon2r <- deg2rad(datas[, "lon"])
   r_earth <- earth_radius()
   if (fast_mean) {
-    cos2azi <- cos(deg2rad(2 * datas[, "azi"]))
-    sin2azi <- sin(deg2rad(2 * datas[, "azi"]))
+    cos2azi <- cos(deg2rad(f * datas[, "azi"]))
+    sin2azi <- sin(deg2rad(f * datas[, "azi"]))
   }
   R_range_sorted <- sort(R_range)
   R_order <- order(R_range)
@@ -524,20 +537,27 @@ stress2grid <- function(x,
     cutoffs <- integer(n_R)
     cutoffs[R_order] <- cutoffs_sorted
 
-    mat <- matrix(NA_real_, nrow = n_R, ncol = 7,
-                  dimnames = list(NULL, c("lon", "lat", "azi", "sd", "R", "md", "N")))
-    mat[, 1] <- G[i, 1]; mat[, 2] <- G[i, 2]; mat[, 5] <- R_range; mat[, 7] <- cutoffs
+    mat <- matrix(NA_real_,
+      nrow = n_R, ncol = 7,
+      dimnames = list(NULL, c("lon", "lat", "azi", "sd", "R", "md", "N"))
+    )
+    mat[, 1] <- G[i, 1]
+    mat[, 2] <- G[i, 2]
+    mat[, 5] <- R_range
+    mat[, 7] <- cutoffs
 
     if (fast_mean) {
-      c2_s <- cos2azi[ord]; s2_s <- sin2azi[ord]
+      c2_s <- cos2azi[ord]
+      s2_s <- sin2azi[ord]
       wq_wm_s <- datas[ord, "w_quality"] * datas[ord, "w_method"]
       for (k in seq_len(n_R)) {
         N_in_R <- cutoffs[k]
         if (N_in_R < min_data) {
           mat[k, 4] <- 0
         } else if (N_in_R == 1) {
-          mat[k, 3] <- rad2deg(atan2(s2_s[1], c2_s[1]) / 2) %% 180
-          mat[k, 4] <- 0; mat[k, 6] <- distij_s[1]
+          mat[k, 3] <- rad2deg(atan2(s2_s[1], c2_s[1]) / f) %% (360 / f)
+          mat[k, 4] <- 0
+          mat[k, 6] <- distij_s[1]
         } else {
           sl <- seq_len(N_in_R)
           d_sub <- distij_s[sl]
@@ -548,8 +568,14 @@ stress2grid <- function(x,
           Cc <- sum(w * c2_s[sl]) / Z
           Ss <- sum(w * s2_s[sl]) / Z
           meanR <- sqrt(Cc * Cc + Ss * Ss)
-          mat[k, 4] <- if (meanR > 1) 0 else rad2deg(sqrt(-2 * log(meanR))) / 2
-          mat[k, 3] <- rad2deg(atan2(Ss, Cc) / 2) %% 180
+          mat[k, 4] <- if (is.na(meanR)) {
+            NA_real_
+          } else if (meanR > 1) {
+            0
+          } else {
+            rad2deg(sqrt(-2 * log(meanR))) / f
+          }
+          mat[k, 3] <- rad2deg(atan2(Ss, Cc) / f) %% (360 / f)
         }
       }
     } else {
@@ -563,15 +589,18 @@ stress2grid <- function(x,
         if (N_in_R < min_data) {
           mat[k, 4] <- 0
         } else if (N_in_R == 1) {
-          mat[k, 3] <- datas_s[1, "azi"]; mat[k, 4] <- 0; mat[k, 6] <- distij_s[1]
+          mat[k, 3] <- datas_s[1, "azi"]
+          mat[k, 4] <- 0
+          mat[k, 6] <- distij_s[1]
         } else {
           sl <- seq_len(N_in_R)
           d_sub <- distij_s[sl]
           mat[k, 6] <- sum(d_sub) / N_in_R
           w_distance <- w_distance_fun(R_range[k], dist_threshold, d_sub, idp)
           w <- w_distance * datas_s[sl, "w_quality"] * datas_s[sl, "w_method"]
-          st <- stats_fun(x = datas_s[sl, "azi"], w = w)
-          mat[k, 3] <- st[1]; mat[k, 4] <- st[2]
+          st <- stats_fun(x = datas_s[sl, "azi"], w = w, f = f)
+          mat[k, 3] <- st[1]
+          mat[k, 4] <- st[2]
         }
       }
     }
@@ -809,6 +838,7 @@ stress2grid_stats <- function(x,
                               R_range = seq(50, 1000, 50),
                               mode = FALSE,
                               kappa = 10,
+                              axial = TRUE,
                               ...) {
   stopifnot(
     inherits(x, "sf"),
@@ -944,10 +974,14 @@ stress2grid_stats <- function(x,
     cutoffs[R_order] <- cutoffs_sorted
     datas_s <- datas[ord, , drop = FALSE]
 
-    mat <- matrix(NA_real_, nrow = n_R, ncol = n_stat_cols + 5,
-                  dimnames = list(NULL, cols))
-    mat[, "lon"] <- G[i, 1]; mat[, "lat"] <- G[i, 2]
-    mat[, "R"] <- R_range; mat[, "N"] <- cutoffs
+    mat <- matrix(NA_real_,
+      nrow = n_R, ncol = n_stat_cols + 5,
+      dimnames = list(NULL, cols)
+    )
+    mat[, "lon"] <- G[i, 1]
+    mat[, "lat"] <- G[i, 2]
+    mat[, "R"] <- R_range
+    mat[, "N"] <- cutoffs
 
     for (k in seq_len(n_R)) {
       N_in_R <- cutoffs[k]
@@ -962,8 +996,10 @@ stress2grid_stats <- function(x,
         mat[k, "md"] <- sum(d_sub) / N_in_R
         w_distance <- w_distance_fun(R_range[k], dist_threshold, d_sub, idp)
         w <- w_distance * datas_s[sl, "w_quality"] * datas_s[sl, "w_method"]
-        st <- circular_summary(x = datas_s[sl, "azi"], w = w, axial = TRUE,
-                               mode = mode, kappa = kappa, na.rm = TRUE) |> unname()
+        st <- circular_summary(
+          x = datas_s[sl, "azi"], w = w, axial = axial,
+          mode = mode, kappa = kappa, na.rm = TRUE
+        ) |> unname()
         mat[k, 3:(3 + n_stat_cols - 1)] <- st
       }
     }
@@ -978,7 +1014,6 @@ stress2grid_stats <- function(x,
 }
 
 
-
 #' Spatial Interpolation of SHmax in PoR Coordinate Reference System
 #'
 #' Stress field and wavelength analysis in PoR system and back-transformed
@@ -986,7 +1021,7 @@ stress2grid_stats <- function(x,
 #' @param x \code{sf} object containing
 #' \describe{
 #' \item{azi}{\eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-#' \item{unc}{Uncertainties of SHmax in degree}
+#' \item{unc}{Uncertainties of \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
 #' \item{type}{Methods used for the determination of the orientation of \eqn{\sigma_\text{Hmax}}{SHmax}}
 #' }
 #' @param PoR Pole of Rotation. `data.frame` or object of class
@@ -1016,7 +1051,7 @@ stress2grid_stats <- function(x,
 #' \item{lon.PoR,lat.PoR}{longitude and latitude in PoR CRS (in degrees).
 #' Only if `remove_PoR=TRUE`}
 #' \item{azi}{geographical mean \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-#' \item{azi.PoR}{PoR mean SHmax in degree. Only if `remove_PoR=TRUE`}
+#' \item{azi.PoR}{PoR mean \eqn{\sigma_\text{Hmax}}{SHmax} in degree. Only if `remove_PoR=TRUE`}
 #' \item{sd}{Standard deviation of \eqn{\sigma_\text{Hmax}}{SHmax} in degrees}
 #' \item{R}{Search radius in km}
 #' \item{mdr}{Mean distance of datapoints per search radius}
@@ -1258,6 +1293,8 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' statistic.
 #' @param stat_threshold numeric. Generates missing values when the kernel
 #' `stat` value exceeds this threshold. Default is `Inf`.
+#' @param ... arguments passed to `stat` functions [weighted_rayleigh()] or
+#' [circular_dispersion()]
 #'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate
@@ -1273,7 +1310,7 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' \item{N}{Number of data points in search radius}
 #' }
 #'
-#' @seealso [circular_dispersion()], [norm_chisq()], [rayleigh_test()]
+#' @seealso [circular_dispersion()], [norm_chisq()], [weighted_rayleigh()]
 #'
 #' @note `dispersion_grid()` was renamed to `kernel_dispersion()` to create
 #'  a more consistent API.
@@ -1419,18 +1456,18 @@ NULL
 #     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 # }
 kernel_dispersion <- function(x,
-                               stat = c("dispersion", "nchisq", "rayleigh"),
-                               grid = NULL,
-                               lon_range = NULL,
-                               lat_range = NULL,
-                               gridsize = 2.5,
-                               min_data = 3L,
-                               max_data = Inf,
-                               min_dist_threshold = 200,
-                               dist_threshold = 0.1,
-                               stat_threshold = Inf,
-                               R_range = seq(100, 2000, 100),
-                               ...) {
+                              stat = c("dispersion", "nchisq", "rayleigh"),
+                              grid = NULL,
+                              lon_range = NULL,
+                              lat_range = NULL,
+                              gridsize = 2.5,
+                              min_data = 3L,
+                              max_data = Inf,
+                              min_dist_threshold = 200,
+                              dist_threshold = 0.1,
+                              stat_threshold = Inf,
+                              R_range = seq(100, 2000, 100),
+                              ...) {
   stopifnot(
     inherits(x, "sf"), is.numeric(gridsize), is.numeric(min_data), is.numeric(min_dist_threshold),
     min_dist_threshold > 0, is.numeric(dist_threshold), is.numeric(R_range),
@@ -1520,10 +1557,14 @@ kernel_dispersion <- function(x,
     cutoffs[R_order] <- cutoffs_sorted
     datas_s <- datas[ord, , drop = FALSE]
 
-    mat <- matrix(NA_real_, nrow = n_R, ncol = 6,
-                  dimnames = list(NULL, c("lon", "lat", "stat", "R", "md", "N")))
-    mat[, "lon"] <- G[i, 1]; mat[, "lat"] <- G[i, 2]
-    mat[, "R"] <- R_range; mat[, "N"] <- cutoffs
+    mat <- matrix(NA_real_,
+      nrow = n_R, ncol = 6,
+      dimnames = list(NULL, c("lon", "lat", "stat", "R", "md", "N"))
+    )
+    mat[, "lon"] <- G[i, 1]
+    mat[, "lat"] <- G[i, 2]
+    mat[, "R"] <- R_range
+    mat[, "N"] <- cutoffs
 
     for (k in seq_len(n_R)) {
       N_in_R <- cutoffs[k]
@@ -1565,4 +1606,3 @@ dispersion_grid <- function(...) {
   lifecycle::deprecate_warn(" 0.2.97", "dispersion_grid()", "kernel_dispersion")
   kernel_dispersion(...)
 }
-

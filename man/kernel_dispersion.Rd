@@ -69,7 +69,8 @@ i.e. the maximum distance from the prediction location to be used for
 prediction (in km). Default is \code{seq(50, 1000, 50)}. If combined with
 \code{max_data}, both criteria apply.}
 
-\item{...}{(optional) arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
+\item{...}{arguments passed to \code{stat} functions \code{\link[=weighted_rayleigh]{weighted_rayleigh()}} or
+\code{\link[=circular_dispersion]{circular_dispersion()}}}
 }
 \value{
 \code{sf} object containing
@@ -97,6 +98,6 @@ san_andreas_por$prd <- 135
 kernel_dispersion(san_andreas_por) |> head()
 }
 \seealso{
-\code{\link[=circular_dispersion]{circular_dispersion()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=rayleigh_test]{rayleigh_test()}}
+\code{\link[=circular_dispersion]{circular_dispersion()}}, \code{\link[=norm_chisq]{norm_chisq()}}, \code{\link[=weighted_rayleigh]{weighted_rayleigh()}}
 }
 \keyword{internal}

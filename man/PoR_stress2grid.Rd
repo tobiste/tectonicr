@@ -33,7 +33,7 @@ PoR_stress2grid_stats(
 \item{x}{\code{sf} object containing
 \describe{
 \item{azi}{\eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-\item{unc}{Uncertainties of SHmax in degree}
+\item{unc}{Uncertainties of \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
 \item{type}{Methods used for the determination of the orientation of \eqn{\sigma_\text{Hmax}}{SHmax}}
 }}
 
@@ -64,7 +64,7 @@ removed from final output or not (the default.)}
 \item{lon.PoR,lat.PoR}{longitude and latitude in PoR CRS (in degrees).
 Only if \code{remove_PoR=TRUE}}
 \item{azi}{geographical mean \eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-\item{azi.PoR}{PoR mean SHmax in degree. Only if \code{remove_PoR=TRUE}}
+\item{azi.PoR}{PoR mean \eqn{\sigma_\text{Hmax}}{SHmax} in degree. Only if \code{remove_PoR=TRUE}}
 \item{sd}{Standard deviation of \eqn{\sigma_\text{Hmax}}{SHmax} in degrees}
 \item{R}{Search radius in km}
 \item{mdr}{Mean distance of datapoints per search radius}

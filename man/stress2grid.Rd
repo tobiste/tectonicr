@@ -26,7 +26,7 @@ stress2grid(
   mp = 1,
   dist_threshold = 0.1,
   R_range = seq(50, 1000, 50),
-  ...
+  axial = TRUE
 )
 
 stress2grid_stats(
@@ -50,6 +50,7 @@ stress2grid_stats(
   R_range = seq(50, 1000, 50),
   mode = FALSE,
   kappa = 10,
+  axial = TRUE,
   ...
 )
 }
@@ -119,7 +120,8 @@ i.e. the maximum distance from the prediction location to be used for
 prediction (in km). Default is \code{seq(50, 1000, 50)}. If combined with
 \code{max_data}, both criteria apply.}
 
-\item{...}{(optional) arguments to \code{\link[=dist_greatcircle]{dist_greatcircle()}}}
+\item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
+or biaxial (\code{TRUE}, the default).}
 
 \item{mode}{logical. Should the circular mode be included in the statistical summary (slow)?}
 
@@ -155,6 +157,11 @@ performance and more flexibility.
 
 \code{\link[=stress2grid_stats]{stress2grid_stats()}} is based on \code{\link[=stress2grid]{stress2grid()}} but calculates circular
 summary statistics (see \code{\link[=circular_summary]{circular_summary()}}).
+}
+\note{
+Although specialized for stress fields, this spatial interpolation
+algorithm can be applied to type of data. Please adjust the \code{axial} argument
+when applied to different, directional data sets.
 }
 \examples{
 data("san_andreas")

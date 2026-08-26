@@ -143,6 +143,7 @@ tested plate boundary force.
 
 # References
 Mardia, K. V., and Jupp, P. E. (Eds.). (1999). "Directional Statistics" 
+
 Hoboken, NJ, USA: John Wiley & Sons, Inc. 
 doi: 10.1002/9780470316979.
 <!--doi: [10.1002/9780470316979](https://doi.org/10.1002/9780470316979).-->
