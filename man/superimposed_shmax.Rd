@@ -8,8 +8,7 @@ superimposed_shmax(df, PoRs, types, absolute = TRUE, PoR_weighting = NULL)
 }
 \arguments{
 \item{df}{\code{data.frame} containing the coordinates of the point(s)
-(\code{lat}, \code{lon}), and the direction of
-\eqn{\sigma_{Hmax}}{SHmax} \code{azi} (in degrees)}
+(\code{lat}, \code{lon}).}
 
 \item{PoRs}{multirow \code{data.frame} or \code{"euler.pole"} object that must contain \code{lat},
 \code{lon} and \code{angle}}
@@ -30,7 +29,7 @@ two column vector. \code{azi} is the resultant azimuth in degrees /
 geographical CRS), \code{R} is the resultant length.
 }
 \description{
-Calculates a \eqn{\sigma_{Hmax}}{SHmax} direction at given coordinates,
+Calculates a \eqn{\sigma_\text{Hmax}}{SHmax} direction at given coordinates,
 sourced by multiple plate boundaries. This first-order approximation is the
 circular mean of the superimposed theoretical directions, weighted by the
 rotation rates of the underlying PoRs.

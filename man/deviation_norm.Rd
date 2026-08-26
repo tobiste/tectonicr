@@ -13,11 +13,11 @@ If \code{y} is missing, it treats \code{x} as difference. If not, length of subt
 }
 \value{
 numeric vector, acute angles between two directions, i.e. values
-between 0 and 90\eqn{^\circ}{degree}
+between 0 and 90°
 }
 \description{
 Normalizes the angle between two directions to the acute angle
-in between, i.e. angles between 0 and 90\eqn{^\circ}{degree}
+in between, i.e. angles between 0 and 90°
 }
 \examples{
 deviation_norm(175, 5)

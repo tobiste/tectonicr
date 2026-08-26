@@ -1,7 +1,7 @@
 #' @title Normalize angular distance on a sphere distance
 #'
 #' @description  Helper function to express angular distance on the sphere in
-#' the range of 0 to 180 degrees
+#' the range of 0 to 180 &deg;
 #'
 #' @param x numeric, angular distance (in degrees)
 #' @keywords internal
@@ -160,15 +160,10 @@ get_projected_pb_strike <- function(lon, lat, pb.coords, pb.bearing, tangential)
 #'
 #' @param x,pb `sf` objects of the data points and the plate boundary
 #' geometries in the geographical coordinate system
-#' @param PoR Pole of rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-#' containing the geographical coordinates of the Euler pole
-#' @param tangential Logical. Whether the plate boundary is a tangential
-#' boundary (`TRUE`) or an inward and outward boundary (`FALSE`, the
-#' default).
-#' @param ... optional arguments passed to [smoothr::densify()]
+#' @inheritParams distance_from_pb
 #'
 #' @details Useful to calculate the beta angle, i.e. the angle
-#' between SHmax direction (in PoR CRS!) and the fault's strike (in PoR CRS).
+#' between \eqn{\sigma_\text{Hmax}}{SHmax} direction (in PoR CRS!) and the fault's strike (in PoR CRS).
 #' The beta angle is the same in geographical and PoR coordinates.
 #'
 #' @note The algorithm calculates the great circle bearing between line

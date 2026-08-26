@@ -2,7 +2,7 @@
 #' geographical reference system.
 #'
 #' @description Models the direction of maximum horizontal stress
-#' \eqn{\sigma_{Hmax}}{SHmax} along great circles, small circles, and
+#' \eqn{\sigma_\text{Hmax}}{SHmax} along great circles, small circles, and
 #' loxodromes at a given point or points according to the relative plate motion
 #' in the geographical coordinate reference system.
 #'
@@ -13,9 +13,9 @@
 #' @param euler \code{"data.frame"} or object of class \code{"euler.pole"}
 #' containing the geographical coordinates of the Euler pole
 #'
-#' @details \eqn{\sigma_{Hmax}}{SHmax} following *great circles* is the
+#' @details \eqn{\sigma_\text{Hmax}}{SHmax} following *great circles* is the
 #' (initial) bearing between the given point and the pole of relative plate
-#' motion. \eqn{\sigma_{Hmax}}{SHmax} along *small circles*, clockwise, and
+#' motion. \eqn{\sigma_\text{Hmax}}{SHmax} along *small circles*, clockwise, and
 #' counter-clockwise *loxodromes* is 90\eqn{^{\circ}}{ degree},
 #' +45\eqn{^{\circ}}{ degree}, and 135\eqn{^{\circ}}{ degree}
 #' (-45\eqn{^{\circ}}{ degree}) to this great circle bearing, respectively.
@@ -30,8 +30,8 @@
 #'  }
 #'
 #' @seealso [deviation_shmax()] to compute the deviation of the modeled direction
-#'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
-#'  [PoR_shmax()] to calculate the azimuth of \eqn{\sigma_{Hmax}}{SHmax}
+#'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
+#'  [PoR_shmax()] to calculate the azimuth of \eqn{\sigma_\text{Hmax}}{SHmax}
 #'  in the pole of rotation reference system.
 #'
 #' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
@@ -71,7 +71,7 @@ model_shmax <- function(df, euler) {
 #' @title Normalize Angle Between Two Directions
 #'
 #' @description Normalizes the angle between two directions to the acute angle
-#' in between, i.e. angles between 0 and 90\eqn{^\circ}{degree}
+#' in between, i.e. angles between 0 and 90&deg;
 #'
 #' @author Tobias Stephan
 #'
@@ -80,7 +80,7 @@ model_shmax <- function(df, euler) {
 #' `y` is either `1` or equal to `length(x)`.
 #'
 #' @returns numeric vector, acute angles between two directions, i.e. values
-#' between 0 and 90\eqn{^\circ}{degree}
+#' between 0 and 90&deg;
 #'
 #' @export
 #'
@@ -110,23 +110,23 @@ deviation_norm <- function(x, y = NULL) {
 #' Deviation of Observed and Predicted Directions of Maximum Horizontal Stress
 #'
 #' Calculate the angular difference between the observed and modeled direction
-#' of maximum horizontal stresses (\eqn{\sigma_{Hmax}}{SHmax}) along
+#' of maximum horizontal stresses (\eqn{\sigma_\text{Hmax}}{SHmax}) along
 #' great circles, small circles, and
 #' loxodromes of the relative plate motion's Euler pole
 #'
 #' @author Tobias Stephan
 #'
 #' @param prd \code{data.frame} containing the modeled azimuths of
-#' \eqn{\sigma_{Hmax}}{SHmax}, i.e.
+#' \eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 #' the return object from \code{model_shmax()}
 #' @param obs Numeric vector containing the observed azimuth of
-#' \eqn{\sigma_{Hmax}}{SHmax},
+#' \eqn{\sigma_\text{Hmax}}{SHmax},
 #' same length as \code{prd}
 #' @returns An object of class \code{data.frame}
 #'
 #' \describe{
 #'   \item{dev.gc}{Deviation of observed stress from modeled
-#'   \eqn{\sigma_{Hmax}}{SHmax} following
+#'   \eqn{\sigma_\text{Hmax}}{SHmax} following
 #'   great circles}
 #'   \item{dev.sc}{Small circles}
 #'   \item{dev.ld.cw}{Clockwise loxodromes}
@@ -139,7 +139,7 @@ deviation_norm <- function(x, y = NULL) {
 #'
 #'
 #' @seealso [model_shmax()] to calculate the theoretical direction of
-#' \eqn{\sigma_{Hmax}}{SHmax}.
+#' \eqn{\sigma_\text{Hmax}}{SHmax}.
 #'
 #' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
 #' horizontal orientation of the crustal stress adjacent to plate boundaries".
@@ -189,15 +189,15 @@ deviation_shmax <- function(prd, obs) {
 #'
 #' @description Transforms azimuths and models the direction of maximum
 #' horizontal stress
-#' \eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
+#' \eqn{\sigma_\text{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
 #' coordinate reference system. When type of plate boundary is given, it also
 #' gives the deviation from the theoretically predicted azimuth of
-#' \eqn{\sigma_{Hmax}}{SHmax}, the circular distance, and the normalized
+#' \eqn{\sigma_\text{Hmax}}{SHmax}, the circular distance, and the normalized
 #' \eqn{\chi^2}{chi-squared} statistics.
 #'
 #' @param x `sf` object or a `data.frame` containing the coordinates of the
 #' point(s) (`lat`, `lon` columns). `x` must contain the direction of
-#' \eqn{\sigma_{Hmax}}{SHmax} as column `azi`, its standard deviation
+#' \eqn{\sigma_\text{Hmax}}{SHmax} as column `azi`, its standard deviation
 #' (column `unc`) is optional).
 #' @param PoR `data.frame` or object of class `euler.pole` containing the
 #' geographical coordinates of the Eule pole.
@@ -206,8 +206,8 @@ deviation_shmax <- function(prd, obs) {
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral
 #' moving plate boundaries, respectively. If \code{"none"} (the default), only
 #' the PoR-equivalent azimuth is returned.
-#' @param axial logical. Whether the azimuth is axial (0-180) or directional
-#' (0-360).
+#' @param axial logical. Whether the azimuth is axial (0-180&deg;) or directional
+#' (0-360&deg;).
 #'
 #' @returns `PoR_azimuth` returns numeric vector of the transformed azimuth in
 #' degrees.
@@ -225,17 +225,17 @@ deviation_shmax <- function(prd, obs) {
 #' }
 #'
 #' @seealso [model_shmax()] to compute the theoretical direction of
-#' \eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
+#' \eqn{\sigma_\text{Hmax}}{SHmax} in the geographical reference system.
 #' [deviation_shmax()] to compute the deviation of the modeled direction
-#'  from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
+#'  from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
 #'  [norm_chisq()] to calculate the normalized \eqn{\chi^2}{chi-squared}
 #'  statistics. [circular_distance()] to calculate the angular distance.
 #'
-#' @details The theoretical azimuth of \eqn{\sigma_{Hmax}}{SHmax} in the pole of
+#' @details The theoretical azimuth of \eqn{\sigma_\text{Hmax}}{SHmax} in the pole of
 #' rotation reference system is
-#' 0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
+#' 0 (or 180), 45, 90, 135&deg; if the stress is sourced by an
 #' outward, sinistral, inward, or dextral moving plate boundary, respectively.
-#' directions of \eqn{\sigma_{Hmax}}{SHmax} with respect to the four
+#' directions of \eqn{\sigma_\text{Hmax}}{SHmax} with respect to the four
 #' plate boundary types.
 #'
 #' @references Stephan, T., Enkelmann, E., and Kroner, U. "Analyzing the
@@ -317,12 +317,7 @@ PoR_shmax <- function(x, PoR, type = c("none", "in", "out", "right", "left"), ax
 #'
 #' Conversion of PoR azimuths into geographical azimuths
 #'
-#' @param x \code{data.frame} containing the PoR equivalent azimuths
-#' (\code{azi.PoR}), and either the geographical coordinates of the
-#' point(s) or the PoR-equivalent coordinates.
-#' @param PoR \code{data.frame} containing the geographical location of
-#' the Euler pole (\code{lat}, \code{lon})
-#' @param axial logical. Whether the azimuth is axial (0-180) or directional (0-360).
+#' @inheritParams PoR_azi
 #'
 #' @seealso [PoR_shmax()]
 #'
@@ -396,14 +391,12 @@ data2PoR <- function(x, PoR) {
 
 #' SHmax direction resulting from multiple plate boundaries
 #'
-#' Calculates a \eqn{\sigma_{Hmax}}{SHmax} direction at given coordinates,
+#' Calculates a \eqn{\sigma_\text{Hmax}}{SHmax} direction at given coordinates,
 #' sourced by multiple plate boundaries. This first-order approximation is the
 #' circular mean of the superimposed theoretical directions, weighted by the
 #' rotation rates of the underlying PoRs.
 #'
-#' @param df `data.frame` containing the coordinates of the point(s)
-#' (`lat`, `lon`), and the direction of
-#' \eqn{\sigma_{Hmax}}{SHmax} `azi` (in degrees)
+#' @inheritParams model_shmax
 #' @param PoRs multirow `data.frame` or `"euler.pole"` object that must contain `lat`,
 #' `lon` and `angle`
 #' @param types character vector with length equal to number of rows in `PoRs`.

@@ -14,6 +14,6 @@ numeric vector
 }
 \description{
 Helper function to express angular distance on the sphere in
-the range of 0 to 180 degrees
+the range of 0 to 180 °
 }
 \keyword{internal}

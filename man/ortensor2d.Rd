@@ -9,8 +9,8 @@ ortensor2d(x, w = NULL, norm = FALSE)
 \arguments{
 \item{x}{numeric. Axial angular data (in degrees).}
 
-\item{w}{(optional) Weights. A vector of positive numbers and of the same
-length as \code{x}.}
+\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
+\code{x}.}
 
 \item{norm}{logical. Whether the tensor should be normalized.}
 }

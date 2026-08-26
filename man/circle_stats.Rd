@@ -23,10 +23,11 @@ circular_quantiles(x, w = NULL, axial = TRUE, na.rm = TRUE)
 circular_IQR(x, w = NULL, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees.}
+\item{x}{numeric vector. Values in degrees, for which the
+mean, median or standard deviation are required.}
 
-\item{w}{(optional) Weights. A vector of positive numbers and of the same
-length as \code{x}.}
+\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
+\code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
@@ -44,13 +45,13 @@ of orientation data.
 \note{
 Weighting may be the reciprocal of the data uncertainties.
 
-Weightings have no effect on quasi-median and quasi-quantiles if
-\code{length(x) \%\% 2 != 1} and \code{length(x) \%\% 4 == 0}, respectively.
+Weightings have no effect on quasi-quantiles if
+\code{length(x) \%\% 4 == 0}.
 }
 \examples{
 set.seed(1)
 x <- rvm(10, 0, 100) \%\% 180
-unc <- stats::runif(100, 0, 10)
+unc <- stats::runif(length(x), 0, 10)
 w <- weighting(unc)
 circular_mean(x, w)
 circular_var(x, w)

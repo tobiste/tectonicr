@@ -1,8 +1,8 @@
 #' Mean Cosine and Sine
 #'
-#' @param x angles in degrees
-#' @param w weightings
-#' @param na.rm logical
+#' @param x numeric. Angles in degrees
+#' @param w numeric. Weightings
+#' @param na.rm logical. Remove `NA` values before calculation?
 #'
 #' @return named two element vector
 #'
@@ -14,7 +14,11 @@
 #' mean_SC(x)
 #' }
 mean_SC <- function(x, w = NULL, na.rm = TRUE) {
-  stopifnot(any(is.numeric(x)), is.logical(na.rm))
+  stopifnot(
+    is.numeric(x),
+    is.logical(na.rm),
+    is.null(w) || length(w) == length(x)
+    )
 
   if (is.null(w)) w <- rep(1, times = length(x))
 
@@ -38,8 +42,8 @@ mean_SC <- function(x, w = NULL, na.rm = TRUE) {
 #' Mean Resultant Length
 #'
 #' Measure of spread around the circle. It should be noted that:
-#' If R=0, then the data is completely spread around the circle.
-#' If R=1, the data is completely concentrated on one point.
+#' If \eqn{R=0}{R=0}, then the data is completely spread around the circle.
+#' If \eqn{R=1}{R=1}, the data is completely concentrated on one point.
 #'
 #' @param x numeric vector. Values in degrees, for which the
 #' mean, median or standard deviation are required.
@@ -67,7 +71,7 @@ mean_SC <- function(x, w = NULL, na.rm = TRUE) {
 mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
   m <- mean_SC(x, w, na.rm)
   R <- sqrt(m["C"]^2 + m["S"]^2)
-  abs(unname(R))
+  unname(R)
 }
 
 #' @title Summary Statistics of Circular Data
@@ -75,11 +79,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @description Calculate the (weighted median) and standard deviation
 #' of orientation data.
 #'
-#' @param x numeric vector. Values in degrees.
-#' @param w (optional) Weights. A vector of positive numbers and of the same
-#' length as \code{x}.
-#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
+#' @inheritParams mean_resultant_length
 #' @param axial logical. Whether the data are axial, i.e. pi-periodical
 #' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #'
@@ -89,8 +89,8 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #'
 #' @note Weighting may be the reciprocal of the data uncertainties.
 #'
-#' Weightings have no effect on quasi-median and quasi-quantiles if
-#' `length(x) %% 2 != 1` and `length(x) %% 4 == 0`, respectively.
+#' Weightings have no effect on quasi-quantiles if
+#' `length(x) %% 4 == 0`.
 #'
 #' @references
 #' Mardia, K.V. (1972). Statistics of Directional Data: Probability and
@@ -114,7 +114,7 @@ mean_resultant_length <- function(x, w = NULL, na.rm = TRUE) {
 #' @examples
 #' set.seed(1)
 #' x <- rvm(10, 0, 100) %% 180
-#' unc <- stats::runif(100, 0, 10)
+#' unc <- stats::runif(length(x), 0, 10)
 #' w <- weighting(unc)
 #' circular_mean(x, w)
 #' circular_var(x, w)
@@ -165,15 +165,15 @@ circular_var <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 }
 
 #' @keywords internal
-var_to_sd <- function(v) {
-  s <- sqrt(-2 * log(1 - v))
-  rad2deg(s)
+var_to_sd <- function(v, axial = FALSE) {
+  f <- if (isTRUE(axial)) 2 else 1
+  rad2deg(sqrt(-2 * log(1 - v))) / f
 }
 
 #' @keywords internal
-sd_to_var <- function(s) {
-  s_rad <- deg2rad(s)
-  1 - exp(-s_rad^2 / 2)
+sd_to_var <- function(s, axial = FALSE) {
+  f <- if (isTRUE(axial)) 2 else 1
+  1 - exp(-deg2rad(s * f)^2 / 2)
 }
 
 
@@ -343,10 +343,7 @@ circular_IQR <- function(x, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' `1` or `length(x)`
 #' @param w,w.y (optional) Weights. A vector of positive numbers and of the same
 #' length as \code{x}. `w.y` is the (optional) weight of `y`.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
-#' @param na.rm logical. Whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
+#' @inheritParams circular_mean
 #'
 #' @details
 #' Circular dispersion is a measure for the spread of data like the variance.
@@ -474,14 +471,7 @@ circular_sd2 <- function(x, y, w = NULL, axial = TRUE, na.rm = TRUE) {
 #' (Mardia and Jupp, 1999; pp. 19-20).
 #' These alternative dispersion has a minimum at the sample median.
 #'
-#' @param x,y vectors of numeric values in degrees. `length(y)` is either
-#' `1` or `length(x)`
-#' @param w,w.y (optional) Weights. A vector of positive numbers and of the same
-#' length as \code{x}. `w.y` is the (optional) weight of `y`.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
-#' @param na.rm logical. Whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
+#' @inheritParams dispersion
 #'
 #' @references
 #' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge
@@ -537,8 +527,7 @@ sample_circular_distance <- function(x, y, axial = TRUE, na.rm = TRUE) {
     }
   }
 
-  diff <- x - y
-  # min(c(diff, 360 - (diff)))
+  diff <- f * (x - y)
   (180 - abs(180 - abs(diff))) / f
 }
 
@@ -585,13 +574,7 @@ sample_circular_dispersion <- function(x, y = NULL, w = NULL, w.y = NULL, axial 
 #'
 #' The circular mean difference is based on the sample circular distance
 #'
-#' @param x numeric vector. Values in degrees.
-#' @param w (optional) Weights. A vector of positive numbers and of the same
-#' length as \code{x}.
-#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @inheritParams circular_mean
 #'
 #' @references
 #' Mardia, K.V., and Jupp, P.E (1999). Directional Statistics,
@@ -670,11 +653,7 @@ circular_mean_difference_alt <- function(x, w = NULL, axial = TRUE, na.rm = TRUE
 #' Length of the smallest arc which contains all the observations.
 #' The circular range is based on the sample circular distance.
 #'
-#' @param x numeric vector. Values in degrees.
-#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @inheritParams circular_mean
 #'
 #' @return numeric. angle in degrees
 #' @export
@@ -708,7 +687,7 @@ circular_range <- function(x, axial = TRUE, na.rm = TRUE) {
   t <- vapply(1:(n - 1), function(i) {
     x[i + 1] - x[i]
   }, numeric(1))
-  t[n] <- 360 - x[n] - x[1]
+  t[n] <- 360 - x[n] + x[1]
 
   w <- 360 - max(t)
   w / f
@@ -910,11 +889,9 @@ confidence_interval <- function(x, conf.level = .95, w = NULL, axial = TRUE, na.
 #' [sample_circular_dispersion()]. For smaller size samples, it returns a
 #' bootstrap estimate.
 #'
-#' @inheritParams circular_mean
-#' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
-#' (`0.95` by default).
+#' @inheritParams confidence
 #' @param boot logical. Force bootstrap estimation
-#' @param R integer. number of bootstrap replicates
+#' @param R positive integer. The number of bootstrap replicates (1000 by default).
 #' @param quiet logical. Prints the used estimation (parametric or bootstrap).
 #'
 #' @references N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
@@ -954,8 +931,11 @@ confidence_interval_fisher <- function(x, conf.level = 0.95, w = NULL, axial = T
     mu <- mean(bs_result$t)
   } else {
     print_message <- "Parametric estimate"
-    disp <- sample_circular_dispersion(x = x, w = w, axial = axial, na.rm = na.rm)
-    sde <- sqrt(disp / n)
+    # disp <- sample_circular_dispersion(x = x, w = w, axial = axial, na.rm = na.rm)
+    # sde <- sqrt(disp / n)
+    Rbar1 <- mean_resultant_length(if (isTRUE(axial)) ax2dir(x) else x, w = w, na.rm = na.rm)
+    H <- second_central_moment(x, w = w, axial = axial, na.rm = na.rm)$kurtosis
+    sde <- sqrt((1 - H) / n) / (2 * Rbar1)
 
     temp <- z_score(conf.level) * sde
     if (temp > 1) temp <- 1 # I don't understand yet why sometimes sde > 1/Z_alpha (which makes asin undefined). Hence I set this term to 1 to make it work. Not ideal though...
@@ -979,14 +959,9 @@ circular_dispersion_i <- function(x, id, ...) {
 #' Calculates bootstrapped estimates of the circular dispersion,
 #' its standard error and its confidence interval.
 #'
-#' @param x numeric values in degrees.
-#' @param y numeric. The angle(s) about which the angles `x` disperse (in degrees).
-#' @param w,w.y (optional) Weights for `x` and `y`, respectively. A vector of
-#' positive numbers and of the same length as \code{x}.
-#' @param R The number of bootstrap replicates. positive integer
-#' (1000 by default).
-#' @param conf.level Level of confidence: \eqn{(1 - \alpha \%)/100}.
-#' (`0.95` by default).
+#' @inheritParams dispersion
+#' @inheritParams confidence_interval_fisher
+#' @inheritParams confidence
 #' @param ... optional arguments passed to [boot::boot()]
 #'
 #' @importFrom boot boot boot.ci
@@ -1060,8 +1035,6 @@ circular_dispersion_boot <- function(x, y = NULL, w = NULL, w.y = NULL, R = 1000
 #' Large kurtosis values indicate tailed, values close to `0` indicate packed
 #' data.
 #'
-#'
-#'
 #' @examples
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -1112,11 +1085,7 @@ second_central_moment <- function(x, w = NULL, axial = TRUE, na.rm = FALSE) {
 #'
 #' Sample median direction for a vector of circular data
 #'
-#' @param x numeric vector. Values in degrees.
-#' @param na.rm logical value indicating whether \code{NA} values in \code{x}
-#' should be stripped before the computation proceeds.
-#' @param axial logical. Whether the data are axial, i.e. pi-periodical
-#' (`TRUE`, the default) or directional, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @inheritParams circular_mean
 #'
 #' @references
 #' N.I. Fisher (1993) Statistical Analysis of Circular Data, Cambridge University Press.
@@ -1206,8 +1175,7 @@ circular_mode <- function(x, ...) {
 #' for the circular mode. Will be estimated using [est.kappa()] if not provided.
 #' @param fisher.CI logical. Whether Fisher's or the default Mardia/Batchelet's
 #' confidence interval should be calculated.
-#' @param conf.level numeric. Level of confidence: \eqn{(1 - \alpha \%)/100}.
-#' (`0.95` by default).
+#' @inheritParams confidence
 #'
 #' @return named vector
 #' @export
@@ -1263,7 +1231,7 @@ circular_summary <- function(x, w = NULL, axial = TRUE, mode = FALSE, kappa = NU
     # mode = circular_mode(x, kappa = kappa, axial = axial),
     "CI" = x_CI$conf.angle,
     skewness = x_sk$std_skewness,
-    kurtosis = x_sk$std_kurtosi,
+    kurtosis = x_sk$std_kurtosis,
     R = mean_resultant_length(ax2dir(x), w = w, FALSE)
   )
 
@@ -1323,12 +1291,10 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
   w <- w[keep]
 
   x <- deg2rad(x)
-  Z <- if (isTRUE(norm)) 1 else sum(w)
-
   x <- x[!is.na(x)]
-  v <- cbind(w * cos(x), w * sin(x))
-
-  1 / Z * (t(v) %*% v)
+  v <- cbind(cos(x), sin(x))
+  Z <- if (isTRUE(norm)) 1 else sum(w)
+  1 / Z * (t(v) %*% (w * v))
 }
 
 #' Decomposition of Orientation Tensor in 2D

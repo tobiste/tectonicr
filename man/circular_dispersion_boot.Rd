@@ -15,15 +15,13 @@ circular_dispersion_boot(
 )
 }
 \arguments{
-\item{x}{numeric values in degrees.}
+\item{x, y}{vectors of numeric values in degrees. \code{length(y)} is either
+\code{1} or \code{length(x)}}
 
-\item{y}{numeric. The angle(s) about which the angles \code{x} disperse (in degrees).}
+\item{w, w.y}{(optional) Weights. A vector of positive numbers and of the same
+length as \code{x}. \code{w.y} is the (optional) weight of \code{y}.}
 
-\item{w, w.y}{(optional) Weights for \code{x} and \code{y}, respectively. A vector of
-positive numbers and of the same length as \code{x}.}
-
-\item{R}{The number of bootstrap replicates. positive integer
-(1000 by default).}
+\item{R}{positive integer. The number of bootstrap replicates (1000 by default).}
 
 \item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.
 (\code{0.95} by default).}

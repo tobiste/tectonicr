@@ -9,7 +9,7 @@ data2PoR(x, PoR)
 \arguments{
 \item{x}{\code{sf} object or a \code{data.frame} containing the coordinates of the
 point(s) (\code{lat}, \code{lon} columns). \code{x} must contain the direction of
-\eqn{\sigma_{Hmax}}{SHmax} as column \code{azi}, its standard deviation
+\eqn{\sigma_\text{Hmax}}{SHmax} as column \code{azi}, its standard deviation
 (column \code{unc}) is optional).}
 
 \item{PoR}{\code{data.frame} or object of class \code{euler.pole} containing the

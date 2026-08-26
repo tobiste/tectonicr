@@ -7,7 +7,8 @@
 circular_range(x, axial = TRUE, na.rm = TRUE)
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees.}
+\item{x}{numeric vector. Values in degrees, for which the
+mean, median or standard deviation are required.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}

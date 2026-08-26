@@ -16,10 +16,11 @@ circular_summary(
 )
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees.}
+\item{x}{numeric vector. Values in degrees, for which the
+mean, median or standard deviation are required.}
 
-\item{w}{(optional) Weights. A vector of positive numbers and of the same
-length as \code{x}.}
+\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
+\code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
@@ -32,7 +33,7 @@ for the circular mode. Will be estimated using \code{\link[=est.kappa]{est.kappa
 \item{fisher.CI}{logical. Whether Fisher's or the default Mardia/Batchelet's
 confidence interval should be calculated.}
 
-\item{conf.level}{numeric. Level of confidence: \eqn{(1 - \alpha \%)/100}.
+\item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.
 (\code{0.95} by default).}
 
 \item{na.rm}{logical value indicating whether \code{NA} values in \code{x}

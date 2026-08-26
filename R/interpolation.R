@@ -853,35 +853,14 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' Stress field and wavelength analysis using circular dispersion
 #' (or other statistical estimators for dispersion)
 #'
-#' @param x \code{sf} object containing
-#' \describe{
-#' \item{azi}{Azimuth in degree}
-#' \item{unc}{Uncertainties of azimuth in degree}
-#' \item{prd}{Predicted value for azimuth}
-#' }
-#'
-#' @param grid (optional) Point object of class \code{sf}.
-#' @param lon_range,lat_range (optional) numeric vector specifying the minimum
-#' and maximum longitudes and latitudes (are ignored if `"grid"` is specified).
-#' @param gridsize Numeric. Target spacing of the regular grid in decimal
-#' degree. Default is 2.5. (is ignored if `"grid"` is specified)
+#' @inheritParams stress2grid
 #' @param stat The measurement of dispersion to be calculated. Either
 #' `"dispersion"` (default), `"nchisq"`, or `"rayleigh"` for circular
 #' dispersion, normalized Chi-squared test statistic, or Rayleigh test
 #' statistic.
 #' @param stat_threshold numeric. Generates missing values when the kernel
 #' `stat` value exceeds this threshold. Default is `Inf`.
-#' @param min_data Integer. Minimum number of data per bin. Default is `3`
-#' @param max_data integer. The number of nearest observations that should be
-#' used for prediction, where "nearest" is defined in terms of the space of the
-#' spatial locations. Default is `Inf`.
-#' @param min_dist_threshold Numeric. Maximum distance (in km) of the grid point to the
-#' next data point. Default is 200
-#' @param dist_threshold Numeric. Distance weight to prevent overweight of data
-#' nearby (`0` to `1`). Default is `0.1`
-#' @param R_range Numeric value or vector specifying the (adaptive) kernel
-#' half-width(s) as search radius (in km). Default is \code{seq(50, 1000, 50)}
-#' @param ... optional arguments to [dist_greatcircle()]
+#'
 #' @importFrom sf st_coordinates st_bbox st_make_grid st_crs st_as_sf
 #' @importFrom dplyr group_by mutate
 #' @importFrom tidyr drop_na

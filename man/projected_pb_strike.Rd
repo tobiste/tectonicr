@@ -10,8 +10,8 @@ projected_pb_strike(x, PoR, pb, tangential = FALSE, ...)
 \item{x, pb}{\code{sf} objects of the data points and the plate boundary
 geometries in the geographical coordinate system}
 
-\item{PoR}{Pole of rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
-containing the geographical coordinates of the Euler pole}
+\item{PoR}{Pole of Rotation. \code{"data.frame"} or object of class \code{"euler.pole"}
+containing the geographical coordinates of the Pole of Rotation}
 
 \item{tangential}{Logical. Whether the plate boundary is a tangential
 boundary (\code{TRUE}) or an inward and outward boundary (\code{FALSE}, the
@@ -29,7 +29,7 @@ predicted stress trajectories.
 }
 \details{
 Useful to calculate the beta angle, i.e. the angle
-between SHmax direction (in PoR CRS!) and the fault's strike (in PoR CRS).
+between \eqn{\sigma_\text{Hmax}}{SHmax} direction (in PoR CRS!) and the fault's strike (in PoR CRS).
 The beta angle is the same in geographical and PoR coordinates.
 }
 \note{

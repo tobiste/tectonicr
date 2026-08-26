@@ -19,8 +19,8 @@ axial_dispersion(x, w = NULL)
 \arguments{
 \item{x}{numeric. Axial angular data (in degrees).}
 
-\item{w}{(optional) Weights. A vector of positive numbers and of the same
-length as \code{x}.}
+\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
+\code{x}.}
 
 \item{scale}{logical. Whether the Eigenvalues should be scaled so they sum
 up to 1. Only applicable when weighting are specified,

@@ -16,13 +16,14 @@ confidence_interval_fisher(
 )
 }
 \arguments{
-\item{x}{numeric vector. Values in degrees.}
+\item{x}{numeric vector. Values in degrees, for which the
+mean, median or standard deviation are required.}
 
 \item{conf.level}{Level of confidence: \eqn{(1 - \alpha \%)/100}.
 (\code{0.95} by default).}
 
-\item{w}{(optional) Weights. A vector of positive numbers and of the same
-length as \code{x}.}
+\item{w}{(optional) Weights. A vector of positive numbers, of the same length as
+\code{x}.}
 
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
@@ -32,7 +33,7 @@ should be stripped before the computation proceeds.}
 
 \item{boot}{logical. Force bootstrap estimation}
 
-\item{R}{integer. number of bootstrap replicates}
+\item{R}{positive integer. The number of bootstrap replicates (1000 by default).}
 
 \item{quiet}{logical. Prints the used estimation (parametric or bootstrap).}
 }

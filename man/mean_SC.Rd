@@ -7,11 +7,11 @@
 mean_SC(x, w = NULL, na.rm = TRUE)
 }
 \arguments{
-\item{x}{angles in degrees}
+\item{x}{numeric. Angles in degrees}
 
-\item{w}{weightings}
+\item{w}{numeric. Weightings}
 
-\item{na.rm}{logical}
+\item{na.rm}{logical. Remove \code{NA} values before calculation?}
 }
 \value{
 named two element vector

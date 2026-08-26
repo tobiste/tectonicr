@@ -14,14 +14,14 @@ PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"), axial = TRUE)
 \arguments{
 \item{x}{\code{sf} object or a \code{data.frame} containing the coordinates of the
 point(s) (\code{lat}, \code{lon} columns). \code{x} must contain the direction of
-\eqn{\sigma_{Hmax}}{SHmax} as column \code{azi}, its standard deviation
+\eqn{\sigma_\text{Hmax}}{SHmax} as column \code{azi}, its standard deviation
 (column \code{unc}) is optional).}
 
 \item{PoR}{\code{data.frame} or object of class \code{euler.pole} containing the
 geographical coordinates of the Eule pole.}
 
-\item{axial}{logical. Whether the azimuth is axial (0-180) or directional
-(0-360).}
+\item{axial}{logical. Whether the azimuth is axial (0-180°) or directional
+(0-360°).}
 
 \item{type}{Character. Type of plate boundary (optional). Can be
 \code{"out"}, \code{"in"}, \code{"right"}, or
@@ -48,18 +48,18 @@ azimuth.}
 \description{
 Transforms azimuths and models the direction of maximum
 horizontal stress
-\eqn{\sigma_{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
+\eqn{\sigma_\text{Hmax}}{SHmax} in the Euler pole (Pole of Rotation)
 coordinate reference system. When type of plate boundary is given, it also
 gives the deviation from the theoretically predicted azimuth of
-\eqn{\sigma_{Hmax}}{SHmax}, the circular distance, and the normalized
+\eqn{\sigma_\text{Hmax}}{SHmax}, the circular distance, and the normalized
 \eqn{\chi^2}{chi-squared} statistics.
 }
 \details{
-The theoretical azimuth of \eqn{\sigma_{Hmax}}{SHmax} in the pole of
+The theoretical azimuth of \eqn{\sigma_\text{Hmax}}{SHmax} in the pole of
 rotation reference system is
-0 (or 180), 45, 90, 135 degrees if the stress is sourced by an
+0 (or 180), 45, 90, 135° if the stress is sourced by an
 outward, sinistral, inward, or dextral moving plate boundary, respectively.
-directions of \eqn{\sigma_{Hmax}}{SHmax} with respect to the four
+directions of \eqn{\sigma_\text{Hmax}}{SHmax} with respect to the four
 plate boundary types.
 }
 \examples{
@@ -78,9 +78,9 @@ horizontal orientation of the crustal stress adjacent to plate boundaries".
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to compute the theoretical direction of
-\eqn{\sigma_{Hmax}}{SHmax} in the geographical reference system.
+\eqn{\sigma_\text{Hmax}}{SHmax} in the geographical reference system.
 \code{\link[=deviation_shmax]{deviation_shmax()}} to compute the deviation of the modeled direction
-from the observed direction of \eqn{\sigma_{Hmax}}{SHmax}.
+from the observed direction of \eqn{\sigma_\text{Hmax}}{SHmax}.
 \code{\link[=norm_chisq]{norm_chisq()}} to calculate the normalized \eqn{\chi^2}{chi-squared}
 statistics. \code{\link[=circular_distance]{circular_distance()}} to calculate the angular distance.
 }

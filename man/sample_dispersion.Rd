@@ -30,7 +30,7 @@ length as \code{x}. \code{w.y} is the (optional) weight of \code{y}.}
 \item{axial}{logical. Whether the data are axial, i.e. pi-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
-\item{na.rm}{logical. Whether \code{NA} values in \code{x}
+\item{na.rm}{logical value indicating whether \code{NA} values in \code{x}
 should be stripped before the computation proceeds.}
 }
 \description{

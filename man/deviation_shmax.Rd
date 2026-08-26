@@ -8,11 +8,11 @@ deviation_shmax(prd, obs)
 }
 \arguments{
 \item{prd}{\code{data.frame} containing the modeled azimuths of
-\eqn{\sigma_{Hmax}}{SHmax}, i.e.
+\eqn{\sigma_\text{Hmax}}{SHmax}, i.e.
 the return object from \code{model_shmax()}}
 
 \item{obs}{Numeric vector containing the observed azimuth of
-\eqn{\sigma_{Hmax}}{SHmax},
+\eqn{\sigma_\text{Hmax}}{SHmax},
 same length as \code{prd}}
 }
 \value{
@@ -20,7 +20,7 @@ An object of class \code{data.frame}
 
 \describe{
 \item{dev.gc}{Deviation of observed stress from modeled
-\eqn{\sigma_{Hmax}}{SHmax} following
+\eqn{\sigma_\text{Hmax}}{SHmax} following
 great circles}
 \item{dev.sc}{Small circles}
 \item{dev.ld.cw}{Clockwise loxodromes}
@@ -29,7 +29,7 @@ great circles}
 }
 \description{
 Calculate the angular difference between the observed and modeled direction
-of maximum horizontal stresses (\eqn{\sigma_{Hmax}}{SHmax}) along
+of maximum horizontal stresses (\eqn{\sigma_\text{Hmax}}{SHmax}) along
 great circles, small circles, and
 loxodromes of the relative plate motion's Euler pole
 }
@@ -55,7 +55,7 @@ horizontal orientation of the crustal stress adjacent to plate boundaries".
 }
 \seealso{
 \code{\link[=model_shmax]{model_shmax()}} to calculate the theoretical direction of
-\eqn{\sigma_{Hmax}}{SHmax}.
+\eqn{\sigma_\text{Hmax}}{SHmax}.
 }
 \author{
 Tobias Stephan
