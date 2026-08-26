@@ -33,16 +33,20 @@ dispersion_grid(...)
 
   azi
 
-  :   \\\sigma\_\text{Hmax}\\ in degree
+  :   the observed \\\sigma\_\text{Hmax}\\ in degree
 
   unc
 
-  :   (optional) Uncertainties of SHmax in degree
+  :   (optional) Uncertainties of ibserved SHmax in degree
 
   type
 
   :   (optional) Methods used for the determination of the direction of
       \\\sigma\_\text{Hmax}\\
+
+  prd
+
+  :   the predicted \\\sigma\_\text{Hmax}\\ in degree
 
 - stat:
 
