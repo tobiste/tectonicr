@@ -238,7 +238,7 @@
   [`qvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md) :
   The von Mises Distribution
 - [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)
-  : Watson's \\U^2\\ Test of Circular Uniformity
+  : Watson's \\U^2\\ Test for Goodness-of-Fit against known Distribution
 - [`watson_two_test()`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md)
   [`watson_two_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md)
   : Watson's Two-Sample Test of Homogeneity

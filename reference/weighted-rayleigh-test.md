@@ -20,8 +20,8 @@ weighted_rayleigh_perm(x, mu = NULL, w = NULL, axial = TRUE, n_perm = 1000L)
 
 - mu:
 
-  The *a priori* expected direction (in degrees) for the alternative
-  hypothesis.
+  (optional) The specified or known mean direction (in degrees) in
+  alternative hypothesis.
 
 - w:
 
@@ -31,7 +31,8 @@ weighted_rayleigh_perm(x, mu = NULL, w = NULL, axial = TRUE, n_perm = 1000L)
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
-  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
+  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`). In
+  case of axial data, the angles will be doubled for the test.
 
 - quiet:
 

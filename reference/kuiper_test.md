@@ -1,8 +1,9 @@
 # Kuiper Test of Circular Uniformity
 
-Kuiper's test statistic is a rotation-invariant Kolmogorov-type test
-statistic. The critical values of a modified Kuiper's test statistic are
-used according to the tabulation given in Stephens (1970).
+A statistical test used to determine whether a set of angular or
+circular data points (such as times of day, compass directions, or
+degrees) are spread out evenly around a circle or if they cluster in
+some way.
 
 ## Usage
 
@@ -25,7 +26,8 @@ kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
-  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
+  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`). In
+  case of axial data, the angles will be doubled for the test.
 
 - quiet:
 
@@ -38,8 +40,33 @@ level `p.value`.
 
 ## Details
 
-If `statistic > p.value`, the null hypothesis is rejected. If not,
-randomness (uniform distribution) cannot be excluded.
+The **Null Hypothesis** (\\H_0\\): The data are distributed completely
+uniformly (randomly and evenly) around the circle.
+
+The **Alternative Hypothesis** (\\H_1\\): The data are not uniform and
+show a preference, clustering, or pattern somewhere on the circle.
+
+The Test Statistic (V or \\D^{+} + D^{-}\\): It measures the greatest
+positive and negative differences between your data's empirical
+cumulative distribution and a theoretical uniform distribution.
+
+### Interpreting the Results
+
+- High Test Statistic / Low p-value (\\p \< \alpha\\, typically 0.05):
+  You reject the null hypothesis. This means your data are not uniform;
+  they have a significant preferred direction, grouping, or non-random
+  pattern on the circle.
+
+- Low Test Statistic / High p-value (\\p \ge 0.05\\): You fail to reject
+  the null hypothesis. There is no strong evidence to say the data are
+  different from a flat, uniform distribution. The points appear random
+  across the circle.
+
+## Note
+
+Kuiper's test statistic is a rotation-invariant Kolmogorov-type test
+statistic. The critical values of a modified Kuiper's test statistic are
+used according to the tabulation given in Stephens (1970).
 
 ## See also
 

@@ -85,19 +85,19 @@ roll_dispersion_sde(
 
 - obs:
 
-  Numeric vector containing the observed azimuth of \\\sigma\_{Hmax}\\,
-  same length as `prd`
+  Numeric vector containing the observed azimuth of
+  \\\sigma\_\text{Hmax}\\, same length as `prd`
 
 - prd:
 
-  Numeric vector containing the modeled azimuths of \\\sigma\_{Hmax}\\,
-  i.e. the return object from
+  Numeric vector containing the modeled azimuths of
+  \\\sigma\_\text{Hmax}\\, i.e. the return object from
   [`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md)
 
 - unc:
 
-  Uncertainty of observed \\\sigma\_{Hmax}\\, either a numeric vector or
-  a number
+  Uncertainty of observed \\\sigma\_\text{Hmax}\\, either a numeric
+  vector or a number
 
 - width:
 

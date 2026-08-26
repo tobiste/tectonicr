@@ -1,7 +1,7 @@
-# Watson's \\U^2\\ Test of Circular Uniformity
+# Watson's \\U^2\\ Test for Goodness-of-Fit against known Distribution
 
-Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-non-parametric, rank-based alternative to one-sample
+A non-parametric statistical test used for circular data to determine
+whether a sample fits a specified theoretical distribution
 
 ## Usage
 
@@ -35,7 +35,8 @@ watson_test(
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
-  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
+  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`). In
+  case of axial data, the angles will be doubled for the test.
 
 - quiet:
 
@@ -50,8 +51,34 @@ null hypothesis, the significance level `alpha`, the tested distribution
 
 ## Details
 
-If `statistic > p.value`, the null hypothesis is rejected. If not,
-randomness (uniform distribution) cannot be excluded.
+### Hypotheses
+
+**Null Hypothesis** (\\H_0\\): The circular sample comes from a
+specified theoretical distribution (such as a uniform distribution or a
+specific von Mises distribution).
+
+**Alternative Hypothesis** (\\H_1\\): The circular sample does not
+follow the specified theoretical distribution.
+
+### Interpretation
+
+To interpret the output of Watson's \\U^2\\ test, compare your
+calculated \\U^2\\ test statistic to the critical value from Watson's
+goodness-of-fit/homogeneity tables at your chosen significance level
+(\\\alpha\\, commonly set to 0.05), or check the resulting p-value:
+
+- If \\U^2\_{\text{calculated}} \> U^2\_{\text{critical}}\\ (or p \<
+  \\\alpha\\): Reject the null hypothesis (\\H_0\\). Conclude that the
+  data significantly deviates from the theoretical distribution.
+
+- If \\U^2\_{\text{calculated}} \le U^2\_{\text{critical}}\\ (or \\p \ge
+  \alpha\\): Fail to reject the null hypothesis (\\H_0\\). There is not
+  enough evidence to claim the data deviates from the expected model.
+
+## Note
+
+Watson's test statistic is a rotation-invariant Cramer - von Mises test.
+non-parametric, rank-based alternative to one-sample
 
 ## References
 

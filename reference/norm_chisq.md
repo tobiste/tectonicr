@@ -1,7 +1,7 @@
 # Normalized Chi-Squared Test for Circular Data
 
 A quantitative comparison between the predicted and observed directions
-of \\\sigma\_{Hmax}\\ is obtained by the calculation of the average
+of \\\sigma\_\text{Hmax}\\ is obtained by the calculation of the average
 azimuth and by a normalized \\\chi^2\\ test.
 
 ## Usage
@@ -14,19 +14,19 @@ norm_chisq(obs, prd, unc)
 
 - obs:
 
-  Numeric vector containing the observed azimuth of \\\sigma\_{Hmax}\\,
-  same length as `prd`
+  Numeric vector containing the observed azimuth of
+  \\\sigma\_\text{Hmax}\\, same length as `prd`
 
 - prd:
 
-  Numeric vector containing the modeled azimuths of \\\sigma\_{Hmax}\\,
-  i.e. the return object from
+  Numeric vector containing the modeled azimuths of
+  \\\sigma\_\text{Hmax}\\, i.e. the return object from
   [`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md)
 
 - unc:
 
-  Uncertainty of observed \\\sigma\_{Hmax}\\, either a numeric vector or
-  a number
+  Uncertainty of observed \\\sigma\_\text{Hmax}\\, either a numeric
+  vector or a number
 
 ## Value
 
@@ -38,10 +38,10 @@ The normalized \\\chi^2\\ test is \$\$ {Norm} \chi^2_i = = \frac{
 \sum^M\_{i = 1} \left( \frac{\alpha_i - \alpha\_{{predict}}}{\sigma_i}
 \right) ^2} {\sum^M\_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }\$\$
 The value of the chi-squared test statistic is a number between 0 and 1
-indicating the quality of the predicted \\\sigma\_{Hmax}\\ directions.
-Low values (\\\le 0.15\\) indicate good agreement, high values (\\\>
-0.7\\) indicate a systematic misfit between predicted and observed
-\\\sigma\_{Hmax}\\ directions.
+indicating the quality of the predicted \\\sigma\_\text{Hmax}\\
+directions. Low values (\\\le 0.15\\) indicate good agreement, high
+values (\\\> 0.7\\) indicate a systematic misfit between predicted and
+observed \\\sigma\_\text{Hmax}\\ directions.
 
 ## References
 

@@ -56,7 +56,7 @@ watson_two_test_perm() uses permutation to estimate p-values."><meta property="o
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">watson_two_test</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, alpha <span class="op">=</span> <span class="cn">NULL</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">watson_two_test_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, n_perm <span class="op">=</span> <span class="fl">1000L</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">watson_two_test_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, n_perm <span class="op">=</span> <span class="fl">1000L</span>, alpha <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -76,7 +76,8 @@ for the p-value will be returned.</p></dd>
 
 <dt id="arg-axial">axial<a class="anchor" aria-label="anchor" href="#arg-axial"></a></dt>
 <dd><p>logical. Whether the data are axial, i.e. \(\pi\)-periodical
-(<code>TRUE</code>, the default) or directional, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).</p></dd>
+(<code>TRUE</code>, the default) or directional, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).
+In case of axial data, the angles will be doubled for the test.</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
@@ -89,15 +90,51 @@ for the p-value will be returned.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>list</p>
-    </div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Watson's two-sample test of homogeneity is performed, and the
+    <p>list. Watson's two-sample test of homogeneity is performed, and the
 results are printed. If alpha is specified and non-zero, the test statistic
 is printed along with the critical value and decision. If alpha is omitted,
 the test statistic is printed and a range for the p-value of the test is given.</p>
-<p>Critical values for the test statistic are obtained using the asymptotic
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>A two-sample Watson's \(U^2\) permutation test determines whether two
+independent groups of circular data (angles or directions) come from the same
+underlying distribution.</p><div class="section">
+<h3 id="hypotheses">Hypotheses<a class="anchor" aria-label="anchor" href="#hypotheses"></a></h3>
+
+
+<p><strong>Null Hypothesis</strong> (\(H_0\)): The two samples come from the same circular
+distribution (the two groups of angles share a common distribution around the circle).</p>
+<p><strong>Alternative Hypothesis</strong> (\(H_1\)): The two samples come from different
+circular distributions (the groups are oriented or dispersed differently around the circle).</p>
+</div>
+
+<div class="section">
+<h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a></h3>
+
+
+<p>The Test Statistic (\(U^2\)) measures the distance between the cumulative distribution
+functions of the two circular samples. A larger \(U^2\) value means the
+two sets of angles look more different from each other.</p>
+<p>The P-Value represents the probability of getting a U² value as large as (or
+larger than) your observed value purely by chance, assuming the null hypothesis
+is true. It is calculated by shuffling the group labels across your data many
+times to build a reference permutation distribution.</p><div class="section">
+<h4 id="making-a-decision">Making a Decision<a class="anchor" aria-label="anchor" href="#making-a-decision"></a></h4>
+
+<ul><li><p>Low p-value (\(p \le \alpha\), usually 0.05): Reject the null hypothesis. Conclude that
+the two groups have significantly different circular distributions.</p></li>
+<li><p>High p-value (\(p &gt; \alpha\)): Fail to reject the null hypothesis. There is not
+enough evidence to say the two groups are distributed differently around the circle.</p></li>
+</ul></div>
+
+
+</div>
+
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>Critical values for the test statistic are obtained using the asymptotic
 distribution of the test statistic. It is recommended to use the obtained
 critical values and ranges for p-values only for combined sample sizes in
 excess of 17. Tables are available for smaller sample sizes and can be found
@@ -134,6 +171,12 @@ in Mardia (1972) for instance.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1208791</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $reject</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">data1</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">20</span>, mean <span class="op">=</span> <span class="fl">0</span>, kappa<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">20</span>, mean <span class="op">=</span> <span class="fl">90</span>, kappa<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
@@ -151,6 +194,12 @@ in Mardia (1972) for instance.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000999001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $reject</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># San Andreas Fault Data:</span></span></span>
@@ -166,12 +215,18 @@ in Mardia (1972) for instance.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.187</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">watson_two_test_perm</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi</span>, <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">135</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">watson_two_test_perm</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi</span>, <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">135</span>, <span class="fl">10</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.201153</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02897103</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $reject</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

@@ -57,7 +57,7 @@ P-values are estimated using permutation.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ar_test</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, n_perm <span class="op">=</span> <span class="fl">1000L</span>, axial <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ar_test</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, n_perm <span class="op">=</span> <span class="fl">1000L</span>, axial <span class="op">=</span> <span class="cn">FALSE</span>, alpha <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -74,12 +74,40 @@ P-values are estimated using permutation.</p>
 
 <dt id="arg-axial">axial<a class="anchor" aria-label="anchor" href="#arg-axial"></a></dt>
 <dd><p>logical. Whether the data are axial, i.e. \(\pi\)-periodical
-(<code>TRUE</code>, the default) or directional, i.e. \(2 \pi\)-periodical (<code>FALSE</code>).</p></dd>
+(<code>TRUE</code>) or directional, i.e. \(2 \pi\)-periodical (<code>FALSE</code>, the default).</p></dd>
+
+
+<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
+<dd><p>(optional) numeric. Significance level of the test (values between 0 and 1).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>list containing the test statistic and the p-value</p>
+    <p>list containing the test statistic, the p-value, the significance value <code>alpha</code> and a logical decision whether to reject the null hypothesis or not.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><strong>Null Hypothesis</strong> (\(H_0\)): The two circular samples share an identical underlying
+probability distribution.</p>
+<p><strong>Alternative Hypothesis</strong> (\(H_{1}\)): The two samples come from different distributions.</p><div class="section">
+<h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a></h3>
+
+<ul><li><p>Small p-value (\(p &lt; \alpha\), e.g., &lt;0.05): Reject the null hypothesis.
+This indicates strong evidence that the two samples come from different
+circular distributions (differing in central tendency/mean direction or shape).</p></li>
+<li><p>Large p-value (\(p \ge \alpha\)): Fail to reject the null hypothesis;
+there is insufficient evidence to claim the two circular samples differ.</p></li>
+</ul></div>
+
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p><strong>Concentration Differences</strong>: The test can suffer from markedly lower statistical
+power if the underlying unimodal distributions differ by concentration
+(dispersion/spread) rather than location—especially with small, uneven sample
+sizes where the smaller sample comes from the more concentrated distribution.</p>
+<p><strong>Axial/Multimodal Data</strong>: ART performs poorly and loses power when applied to
+axially symmetric or symmetrically multimodal distributions.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -104,12 +132,18 @@ to the Watson U2 test. Sci Rep 13, 10007 (2023). https://doi.org/10.1038/s41598-
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20250411</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">45</span>, <span class="fl">50</span>, <span class="fl">55</span>, <span class="fl">60</span>, <span class="fl">70</span>, <span class="fl">85</span>, <span class="fl">95</span>, <span class="fl">105</span>, <span class="fl">120</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">75</span>, <span class="fl">80</span>, <span class="fl">90</span>, <span class="fl">100</span>, <span class="fl">110</span>, <span class="fl">130</span>, <span class="fl">135</span>, <span class="fl">140</span>, <span class="fl">150</span>, <span class="fl">160</span>, <span class="fl">165</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">ar_test</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ar_test</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 104.3707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003996004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $reject</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># San Andreas Fault Data:</span></span></span>
@@ -117,12 +151,18 @@ to the Watson U2 test. Sci Rep 13, 10007 (2023). https://doi.org/10.1038/s41598-
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nuvel1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">ar_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">135</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ar_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fu"><a href="vonmises.html">rvm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">135</span>, <span class="fl">10</span><span class="op">)</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 92652.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.993007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $reject</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

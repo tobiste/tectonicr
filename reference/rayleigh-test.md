@@ -1,7 +1,8 @@
 # Rayleigh Test of Circular Uniformity
 
-Performs a Rayleigh test for uniformity of circular/directional data by
-assessing the significance of the mean resultant length.
+A test to determine whether a sample of circular or directional data is
+evenly spread out or clustered around a single specific direction. The
+test assesses the significance of the mean resultant length.
 `rayleight_test_perm()` uses permutation to estimate p-values.
 
 ## Usage
@@ -21,12 +22,13 @@ rayleigh_test_perm(x, mu = NULL, axial = TRUE, n_perm = 1000L)
 - mu:
 
   (optional) The specified or known mean direction (in degrees) in
-  alternative hypothesis
+  alternative hypothesis.
 
 - axial:
 
   logical. Whether the data are axial, i.e. \\\pi\\-periodical (`TRUE`,
-  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`).
+  the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`). In
+  case of axial data, the angles will be doubled for the test.
 
 - alpha:
 
@@ -63,20 +65,37 @@ a list with the components:
 
 ## Details
 
-- \\H_0\\::
+### Hypotheses
 
-  angles are randomly distributed around the circle.
+**Null Hypothesis** \\H_0\\: The population is distributed uniformly
+(randomly) around the circle with no preferred direction.
 
-- \\H_1\\::
+**Alternative Hypothesis** \\H_1\\: The population is not uniform and
+has a unimodal (single-peaked) concentration in a preferred direction.
+When `mu` is specified), angles are non-uniformly distributed around the
+specified direction.
 
-  angles are from non-uniformly distribution with unknown mean direction
-  and mean resultant length (when `mu` is `NULL`. Alternatively (when
-  `mu` is specified), angles are non-uniformly distributed around a
-  specified direction.
+*Mean Resultant Length* (\\\bar{R}\\ or R): A value between 0 and 1 that
+measures how concentrated the data points are.
 
-If `statistic > p.value`, the null hypothesis is rejected, i.e. the
-length of the mean resultant differs significantly from zero, and the
-angles are not randomly distributed.
+- \\\bar{R}\\ = 0: The data is completely spread out around the circle
+
+- \\\bar{R}\\ = 1: All data points point in the exact same direction.
+
+*p-value* The probability of seeing data this clustered purely by chance
+under the assumption of uniformity.
+
+### Interpretation
+
+- Small p-value (p \< 0.05): Reject the null hypothesis. The length of
+  the mean resultant differs significantly from zero, and the angles are
+  not randomly distributed. You have strong evidence that the data
+  points share a significant preferred or mean direction (unimodal
+  clustering).
+
+- Large p-value (p ≥ 0.05): Fail to reject the null hypothesis. There is
+  not enough evidence to claim a preferred direction, meaning the data
+  looks random or uniform around the circle.
 
 ## Note
 
@@ -88,6 +107,15 @@ include Kuiper's test
 ([`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md))
 and Watson's \\U^2\\ test
 ([`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)).
+
+### Limitations
+
+- The test assumes a unimodal alternative (one main peak).
+
+- If your data has two opposite clusters (bimodal or axial data, like a
+  bi-directional line trend), the Rayleigh test can yield a
+  high/non-significant p-value because the opposing vectors cancel each
+  other out.
 
 ## References
 
