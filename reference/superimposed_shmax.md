@@ -1,9 +1,9 @@
 # SHmax direction resulting from multiple plate boundaries
 
-Calculates a \\\sigma\_{Hmax}\\ direction at given coordinates, sourced
-by multiple plate boundaries. This first-order approximation is the
-circular mean of the superimposed theoretical directions, weighted by
-the rotation rates of the underlying PoRs.
+Calculates a \\\sigma\_\text{Hmax}\\ direction at given coordinates,
+sourced by multiple plate boundaries. This first-order approximation is
+the circular mean of the superimposed theoretical directions, weighted
+by the rotation rates of the underlying PoRs.
 
 ## Usage
 
@@ -16,7 +16,7 @@ superimposed_shmax(df, PoRs, types, absolute = TRUE, PoR_weighting = NULL)
 - df:
 
   `data.frame` containing the coordinates of the point(s) (`lat`,
-  `lon`), and the direction of \\\sigma\_{Hmax}\\ `azi` (in degrees)
+  `lon`).
 
 - PoRs:
 

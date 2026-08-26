@@ -1,11 +1,11 @@
 # Azimuth Conversion from Geographical to PoR Coordinate Reference System
 
 Transforms azimuths and models the direction of maximum horizontal
-stress \\\sigma\_{Hmax}\\ in the Euler pole (Pole of Rotation)
+stress \\\sigma\_\text{Hmax}\\ in the Euler pole (Pole of Rotation)
 coordinate reference system. When type of plate boundary is given, it
 also gives the deviation from the theoretically predicted azimuth of
-\\\sigma\_{Hmax}\\, the circular distance, and the normalized \\\chi^2\\
-statistics.
+\\\sigma\_\text{Hmax}\\, the circular distance, and the normalized
+\\\chi^2\\ statistics.
 
 ## Usage
 
@@ -21,8 +21,8 @@ PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"), axial = TRUE)
 
   `sf` object or a `data.frame` containing the coordinates of the
   point(s) (`lat`, `lon` columns). `x` must contain the direction of
-  \\\sigma\_{Hmax}\\ as column `azi`, its standard deviation (column
-  `unc`) is optional).
+  \\\sigma\_\text{Hmax}\\ as column `azi`, its standard deviation
+  (column `unc`) is optional).
 
 - PoR:
 
@@ -31,7 +31,8 @@ PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"), axial = TRUE)
 
 - axial:
 
-  logical. Whether the azimuth is axial (0-180) or directional (0-360).
+  logical. Whether the azimuth is axial (0-180°) or directional
+  (0-360°).
 
 - type:
 
@@ -71,11 +72,11 @@ the transformed coordinate system (in degrees), or a `"data.frame"` with
 
 ## Details
 
-The theoretical azimuth of \\\sigma\_{Hmax}\\ in the pole of rotation
-reference system is 0 (or 180), 45, 90, 135 degrees if the stress is
+The theoretical azimuth of \\\sigma\_\text{Hmax}\\ in the pole of
+rotation reference system is 0 (or 180), 45, 90, 135° if the stress is
 sourced by an outward, sinistral, inward, or dextral moving plate
-boundary, respectively. directions of \\\sigma\_{Hmax}\\ with respect to
-the four plate boundary types.
+boundary, respectively. directions of \\\sigma\_\text{Hmax}\\ with
+respect to the four plate boundary types.
 
 ## References
 
@@ -88,11 +89,11 @@ Rep* 13. 15590 (2023).
 ## See also
 
 [`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md)
-to compute the theoretical direction of \\\sigma\_{Hmax}\\ in the
+to compute the theoretical direction of \\\sigma\_\text{Hmax}\\ in the
 geographical reference system.
 [`deviation_shmax()`](https://tobiste.github.io/tectonicr/reference/deviation_shmax.md)
 to compute the deviation of the modeled direction from the observed
-direction of \\\sigma\_{Hmax}\\.
+direction of \\\sigma\_\text{Hmax}\\.
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md)
 to calculate the normalized \\\chi^2\\ statistics.
 [`circular_distance()`](https://tobiste.github.io/tectonicr/reference/dispersion.md)
@@ -110,7 +111,7 @@ res <- PoR_shmax(san_andreas, PoR, type = "right")
 head(res)
 #>      azi.PoR prd       dev     nchisq      cdist
 #> 1 173.240166 135 -38.24017 0.18053214 0.38311043
-#> 2   1.058195 135 -46.05820 2.21486507 0.51846479
+#> 2   1.058195 135 -46.05820 0.26189597 0.51846479
 #> 3 147.609558 135 -12.60956 0.01962975 0.04765752
 #> 4 163.607388 135 -28.60739 0.10103489 0.22925429
 #> 5 152.233017 135 -17.23302 0.03666381 0.08776909

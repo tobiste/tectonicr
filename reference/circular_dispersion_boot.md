@@ -19,23 +19,19 @@ circular_dispersion_boot(
 
 ## Arguments
 
-- x:
+- x, y:
 
-  numeric values in degrees.
-
-- y:
-
-  numeric. The angle(s) about which the angles `x` disperse (in
-  degrees).
+  vectors of numeric values in degrees. `length(y)` is either `1` or
+  `length(x)`
 
 - w, w.y:
 
-  (optional) Weights for `x` and `y`, respectively. A vector of positive
-  numbers and of the same length as `x`.
+  (optional) Weights. A vector of positive numbers and of the same
+  length as `x`. `w.y` is the (optional) weight of `y`.
 
 - R:
 
-  The number of bootstrap replicates. positive integer (1000 by
+  positive integer. The number of bootstrap replicates (1000 by
   default).
 
 - conf.level:
@@ -77,10 +73,10 @@ circular_dispersion(sa.por$azi.PoR, y = 135, w = weighting(san_andreas$unc))
 #> [1] 0.1384805
 circular_dispersion_boot(sa.por$azi.PoR, y = 135, w = weighting(san_andreas$unc), R = 1000)
 #> $MLE
-#> [1] 0.2610608
+#> [1] 0.2610566
 #> 
 #> $sde
-#> [1] 0.0113319
+#> [1] 0.01132889
 #> 
 #> $CI
 #> [1] 0.2375632 0.2833176

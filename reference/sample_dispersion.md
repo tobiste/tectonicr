@@ -40,8 +40,8 @@ sample_circular_dispersion(
 
 - na.rm:
 
-  logical. Whether `NA` values in `x` should be stripped before the
-  computation proceeds.
+  logical value indicating whether `NA` values in `x` should be stripped
+  before the computation proceeds.
 
 ## References
 
@@ -57,11 +57,11 @@ USA. [doi:10.1002/9780470316979](https://doi.org/10.1002/9780470316979)
 ``` r
 a <- c(0, 2, 359, 6, 354)
 sample_circular_distance(a, 10) # distance to single value
-#> [1] 5.0 4.0 5.5 2.0 8.0
+#> [1]   10    8 -169    4 -164
 
 b <- a + 90
 sample_circular_distance(a, b) # distance to multiple values
-#> [1] 45 45 45 45 45
+#> [1] 90 90 90 90 90
 
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -69,7 +69,7 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 sample_circular_variance(sa.por$azi.PoR)
 #> [1] 0.6037799
 sample_circular_dispersion(sa.por$azi.PoR, y = 135)
-#> [1] 10.88795
+#> [1] 18.45551
 sample_circular_dispersion(sa.por$azi.PoR, y = 135, w = weighting(san_andreas$unc))
-#> [1] 10.41816
+#> [1] 17.63181
 ```

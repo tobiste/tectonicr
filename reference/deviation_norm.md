@@ -1,7 +1,7 @@
 # Normalize Angle Between Two Directions
 
 Normalizes the angle between two directions to the acute angle in
-between, i.e. angles between 0 and 90\\^\circ\\
+between, i.e. angles between 0 and 90°
 
 ## Usage
 
@@ -20,7 +20,7 @@ deviation_norm(x, y = NULL)
 ## Value
 
 numeric vector, acute angles between two directions, i.e. values between
-0 and 90\\^\circ\\
+0 and 90°
 
 ## Author
 

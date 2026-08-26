@@ -24,12 +24,13 @@ roll_circstats(
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric vector. Values in degrees, for which the mean, median or
+  standard deviation are required.
 
 - w:
 
-  (optional) Weights. A vector of positive numbers and of the same
-  length as `x`.
+  (optional) Weights. A vector of positive numbers, of the same length
+  as `x`.
 
 - FUN:
 

@@ -17,8 +17,8 @@ ortensor2d(x, w = NULL, norm = FALSE)
 
 - w:
 
-  (optional) Weights. A vector of positive numbers and of the same
-  length as `x`.
+  (optional) Weights. A vector of positive numbers, of the same length
+  as `x`.
 
 - norm:
 

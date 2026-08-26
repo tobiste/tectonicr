@@ -22,12 +22,13 @@ circular_summary(
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric vector. Values in degrees, for which the mean, median or
+  standard deviation are required.
 
 - w:
 
-  (optional) Weights. A vector of positive numbers and of the same
-  length as `x`.
+  (optional) Weights. A vector of positive numbers, of the same length
+  as `x`.
 
 - axial:
 
@@ -52,8 +53,7 @@ circular_summary(
 
 - conf.level:
 
-  numeric. Level of confidence: \\(1 - \alpha \\)/100\\. (`0.95` by
-  default).
+  Level of confidence: \\(1 - \alpha \\)/100\\. (`0.95` by default).
 
 - na.rm:
 

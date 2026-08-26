@@ -1,7 +1,7 @@
 # Coordinate Correction
 
-Corrects the longitudes or latitudes to value between -180.0 and 180.0
-or -90 and 90 degree
+Corrects the longitudes or latitudes to value between -180&deg and
+180&deg or -90&deg and 90°
 
 ## Usage
 

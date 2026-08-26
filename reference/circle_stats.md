@@ -23,12 +23,13 @@ circular_IQR(x, w = NULL, axial = TRUE, na.rm = TRUE)
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric vector. Values in degrees, for which the mean, median or
+  standard deviation are required.
 
 - w:
 
-  (optional) Weights. A vector of positive numbers and of the same
-  length as `x`.
+  (optional) Weights. A vector of positive numbers, of the same length
+  as `x`.
 
 - axial:
 
@@ -48,8 +49,7 @@ numeric vector
 
 Weighting may be the reciprocal of the data uncertainties.
 
-Weightings have no effect on quasi-median and quasi-quantiles if
-`length(x) %% 2 != 1` and `length(x) %% 4 == 0`, respectively.
+Weightings have no effect on quasi-quantiles if `length(x) %% 4 == 0`.
 
 ## References
 
@@ -79,21 +79,21 @@ Stress Map database release 2008. *Tectonophysics* **482**,
 ``` r
 set.seed(1)
 x <- rvm(10, 0, 100) %% 180
-unc <- stats::runif(100, 0, 10)
+unc <- stats::runif(length(x), 0, 10)
 w <- weighting(unc)
 circular_mean(x, w)
-#> [1] NA
+#> [1] 178.1687
 circular_var(x, w)
-#> [1] NA
+#> [1] 0.01001338
 circular_sd(x, w)
-#> [1] NA
+#> [1] 4.064337
 circular_median(x, w)
-#> [1] NA
+#> [1] 172.3957
 circular_quantiles(x, w)
-#> 25% 50% 75% 
-#>  NA  NA  NA 
+#>        25%        50%        75% 
+#>   2.228265 172.395670 175.325988 
 circular_IQR(x, w)
-#> [1] NA
+#> [1] 6.902277
 
 data("san_andreas")
 w2 <- weighting(san_andreas$unc)

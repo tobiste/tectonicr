@@ -12,18 +12,20 @@ PoR2Geo_azimuth(x, PoR, axial = TRUE)
 
 - x:
 
-  `data.frame` containing the PoR equivalent azimuths (`azi.PoR`), and
-  either the geographical coordinates of the point(s) or the
-  PoR-equivalent coordinates.
+  `sf` object or a `data.frame` containing the coordinates of the
+  point(s) (`lat`, `lon` columns). `x` must contain the direction of
+  \\\sigma\_\text{Hmax}\\ as column `azi`, its standard deviation
+  (column `unc`) is optional).
 
 - PoR:
 
-  `data.frame` containing the geographical location of the Euler pole
-  (`lat`, `lon`)
+  `data.frame` or object of class `euler.pole` containing the
+  geographical coordinates of the Eule pole.
 
 - axial:
 
-  logical. Whether the azimuth is axial (0-180) or directional (0-360).
+  logical. Whether the azimuth is axial (0-180°) or directional
+  (0-360°).
 
 ## Value
 

@@ -12,12 +12,15 @@ PoR_coordinates(x, PoR)
 
 - x:
 
-  `sf` or `data.frame` containing lat and lon coordinates (`lat`, `lon`)
+  Can be either a `"data.frame"` containing `lat` and `lon` coordinates
+  of a point in the geographical CRS or the `lat.PoR`, `lon.PoR`) of the
+  point in the PoR CRS, a two-column matrix containing the lat and lon
+  coordinates, a `sf` object, or a `raster` object.
 
 - PoR:
 
-  Pole of Rotation. `"data.frame"` or object of class `"euler.pole"`
-  containing the geographical coordinates of the Euler pole
+  Pole of Rotation. `"data.frame"` containing the geographical
+  coordinates of the Euler pole
 
 ## Value
 

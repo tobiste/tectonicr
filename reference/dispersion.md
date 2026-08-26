@@ -34,8 +34,8 @@ circular_sd2(x, y, w = NULL, axial = TRUE, na.rm = TRUE)
 
 - na.rm:
 
-  logical. Whether `NA` values in `x` should be stripped before the
-  computation proceeds.
+  logical value indicating whether `NA` values in `x` should be stripped
+  before the computation proceeds.
 
 - w, w.y:
 

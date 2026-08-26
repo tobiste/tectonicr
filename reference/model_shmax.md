@@ -1,9 +1,9 @@
 # Theoretical Direction of Maximum Horizontal Stress in the geographical reference system.
 
-Models the direction of maximum horizontal stress \\\sigma\_{Hmax}\\
-along great circles, small circles, and loxodromes at a given point or
-points according to the relative plate motion in the geographical
-coordinate reference system.
+Models the direction of maximum horizontal stress
+\\\sigma\_\text{Hmax}\\ along great circles, small circles, and
+loxodromes at a given point or points according to the relative plate
+motion in the geographical coordinate reference system.
 
 ## Usage
 
@@ -45,12 +45,11 @@ model_shmax(df, euler)
 
 ## Details
 
-\\\sigma\_{Hmax}\\ following *great circles* is the (initial) bearing
-between the given point and the pole of relative plate motion.
-\\\sigma\_{Hmax}\\ along *small circles*, clockwise, and
-counter-clockwise *loxodromes* is 90\\^{\circ}\\, +45\\^{\circ}\\, and
-135\\^{\circ}\\ (-45\\^{\circ}\\) to this great circle bearing,
-respectively.
+\\\sigma\_\text{Hmax}\\ following *great circles* is the (initial)
+bearing between the given point and the pole of relative plate motion.
+\\\sigma\_\text{Hmax}\\ along *small circles*, clockwise, and
+counter-clockwise *loxodromes* is 90°, +45°, and +135° (or -45°) to this
+great circle bearing, respectively.
 
 ## References
 
@@ -64,10 +63,10 @@ Rep* 13. 15590 (2023).
 
 [`deviation_shmax()`](https://tobiste.github.io/tectonicr/reference/deviation_shmax.md)
 to compute the deviation of the modeled direction from the observed
-direction of \\\sigma\_{Hmax}\\.
+direction of \\\sigma\_\text{Hmax}\\.
 [`PoR_shmax()`](https://tobiste.github.io/tectonicr/reference/PoR_azi.md)
-to calculate the azimuth of \\\sigma\_{Hmax}\\ in the pole of rotation
-reference system.
+to calculate the azimuth of \\\sigma\_\text{Hmax}\\ in the pole of
+rotation reference system.
 
 ## Author
 

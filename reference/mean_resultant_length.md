@@ -1,8 +1,8 @@
 # Mean Resultant Length
 
-Measure of spread around the circle. It should be noted that: If R=0,
-then the data is completely spread around the circle. If R=1, the data
-is completely concentrated on one point.
+Measure of spread around the circle. It should be noted that: If
+\\R=0\\, then the data is completely spread around the circle. If
+\\R=1\\, the data is completely concentrated on one point.
 
 ## Usage
 

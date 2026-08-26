@@ -24,8 +24,8 @@ axial_dispersion(x, w = NULL)
 
 - w:
 
-  (optional) Weights. A vector of positive numbers and of the same
-  length as `x`.
+  (optional) Weights. A vector of positive numbers, of the same length
+  as `x`.
 
 - scale:
 
@@ -84,10 +84,10 @@ sa_eig <- ot_eigen2d(sa.por$azi.PoR, w = weighting(san_andreas$unc), scale = TRU
 print(sa_eig)
 #> eigen() decomposition
 #> $values
-#> [1] 0.8750106 0.1249894
+#> [1] 0.8692821 0.1307179
 #> 
 #> $vectors
-#> [1] -39.20782  50.79218
+#> [1] -39.11569  50.88431
 #> 
 
 rose(sa.por$azi.PoR, muci = FALSE)

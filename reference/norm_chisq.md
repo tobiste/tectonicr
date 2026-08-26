@@ -75,5 +75,5 @@ norm_chisq(obs = c(50, 40, 42), prd = prd$sc, unc = c(10, NA, 5))
 data(san_andreas)
 prd2 <- PoR_shmax(san_andreas, PoR, type = "right")
 norm_chisq(obs = prd2$azi.PoR, 135, unc = san_andreas$unc)
-#> [1] 0.0529064
+#> [1] 0.03297594
 ```

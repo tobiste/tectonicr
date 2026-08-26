@@ -74,7 +74,8 @@ bootstrap estimate.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>numeric vector. Values in degrees.</p></dd>
+<dd><p>numeric vector. Values in degrees, for which the
+mean, median or standard deviation are required.</p></dd>
 
 
 <dt id="arg-conf-level">conf.level<a class="anchor" aria-label="anchor" href="#arg-conf-level"></a></dt>
@@ -83,8 +84,8 @@ bootstrap estimate.</p>
 
 
 <dt id="arg-w">w<a class="anchor" aria-label="anchor" href="#arg-w"></a></dt>
-<dd><p>(optional) Weights. A vector of positive numbers and of the same
-length as <code>x</code>.</p></dd>
+<dd><p>(optional) Weights. A vector of positive numbers, of the same length as
+<code>x</code>.</p></dd>
 
 
 <dt id="arg-axial">axial<a class="anchor" aria-label="anchor" href="#arg-axial"></a></dt>
@@ -102,7 +103,7 @@ should be stripped before the computation proceeds.</p></dd>
 
 
 <dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
-<dd><p>integer. number of bootstrap replicates</p></dd>
+<dd><p>positive integer. The number of bootstrap replicates (1000 by default).</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
@@ -133,10 +134,10 @@ should be stripped before the computation proceeds.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 129.1903</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.angle</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.043583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.246797</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 122.1467 136.2339</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 121.9435 136.4371</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">confidence_interval_fisher</span><span class="op">(</span><span class="va">finland_stria</span>, axial <span class="op">=</span> <span class="cn">FALSE</span>, boot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Bootstrap estimate based on 1000 replicates</span>
@@ -160,10 +161,10 @@ should be stripped before the computation proceeds.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 140.8843</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.angle</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.711388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.7554</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.interval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 139.1729 142.5957</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 139.1289 142.6397</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">confidence_interval_fisher</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fu"><a href="weighting.html">weighting</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span>, boot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Bootstrap estimate based on 1000 replicates</span>

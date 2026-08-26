@@ -15,7 +15,8 @@ confidence_interval(x, conf.level = 0.95, w = NULL, axial = TRUE, na.rm = TRUE)
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric vector. Values in degrees, for which the mean, median or
+  standard deviation are required.
 
 - conf.level:
 
@@ -23,8 +24,8 @@ confidence_interval(x, conf.level = 0.95, w = NULL, axial = TRUE, na.rm = TRUE)
 
 - w:
 
-  (optional) Weights. A vector of positive numbers and of the same
-  length as `x`.
+  (optional) Weights. A vector of positive numbers, of the same length
+  as `x`.
 
 - axial:
 

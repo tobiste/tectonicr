@@ -1,7 +1,7 @@
 # Deviation of Observed and Predicted Directions of Maximum Horizontal Stress
 
 Calculate the angular difference between the observed and modeled
-direction of maximum horizontal stresses (\\\sigma\_{Hmax}\\) along
+direction of maximum horizontal stresses (\\\sigma\_\text{Hmax}\\) along
 great circles, small circles, and loxodromes of the relative plate
 motion's Euler pole
 
@@ -15,14 +15,14 @@ deviation_shmax(prd, obs)
 
 - prd:
 
-  `data.frame` containing the modeled azimuths of \\\sigma\_{Hmax}\\,
-  i.e. the return object from
+  `data.frame` containing the modeled azimuths of
+  \\\sigma\_\text{Hmax}\\, i.e. the return object from
   [`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md)
 
 - obs:
 
-  Numeric vector containing the observed azimuth of \\\sigma\_{Hmax}\\,
-  same length as `prd`
+  Numeric vector containing the observed azimuth of
+  \\\sigma\_\text{Hmax}\\, same length as `prd`
 
 ## Value
 
@@ -30,8 +30,8 @@ An object of class `data.frame`
 
 - dev.gc:
 
-  Deviation of observed stress from modeled \\\sigma\_{Hmax}\\ following
-  great circles
+  Deviation of observed stress from modeled \\\sigma\_\text{Hmax}\\
+  following great circles
 
 - dev.sc:
 
@@ -61,7 +61,7 @@ Rep* 13. 15590 (2023).
 ## See also
 
 [`model_shmax()`](https://tobiste.github.io/tectonicr/reference/model_shmax.md)
-to calculate the theoretical direction of \\\sigma\_{Hmax}\\.
+to calculate the theoretical direction of \\\sigma\_\text{Hmax}\\.
 
 ## Author
 

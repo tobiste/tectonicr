@@ -69,22 +69,18 @@ its standard error and its confidence interval.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>numeric values in degrees.</p></dd>
-
-
-<dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
-<dd><p>numeric. The angle(s) about which the angles <code>x</code> disperse (in degrees).</p></dd>
+<dl><dt id="arg-x-y">x, y<a class="anchor" aria-label="anchor" href="#arg-x-y"></a></dt>
+<dd><p>vectors of numeric values in degrees. <code>length(y)</code> is either
+<code>1</code> or <code>length(x)</code></p></dd>
 
 
 <dt id="arg-w-w-y">w, w.y<a class="anchor" aria-label="anchor" href="#arg-w-w-y"></a></dt>
-<dd><p>(optional) Weights for <code>x</code> and <code>y</code>, respectively. A vector of
-positive numbers and of the same length as <code>x</code>.</p></dd>
+<dd><p>(optional) Weights. A vector of positive numbers and of the same
+length as <code>x</code>. <code>w.y</code> is the (optional) weight of <code>y</code>.</p></dd>
 
 
 <dt id="arg-r">R<a class="anchor" aria-label="anchor" href="#arg-r"></a></dt>
-<dd><p>The number of bootstrap replicates. positive integer
-(1000 by default).</p></dd>
+<dd><p>positive integer. The number of bootstrap replicates (1000 by default).</p></dd>
 
 
 <dt id="arg-conf-level">conf.level<a class="anchor" aria-label="anchor" href="#arg-conf-level"></a></dt>
@@ -123,10 +119,10 @@ positive numbers and of the same length as <code>x</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1384805</span>
 <span class="r-in"><span><span class="fu">circular_dispersion_boot</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fu"><a href="weighting.html">weighting</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span>, R <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $MLE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2610608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2610566</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sde</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0113319</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01132889</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2375632 0.2833176</span>

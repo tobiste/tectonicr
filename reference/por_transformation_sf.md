@@ -20,8 +20,8 @@ geographical_to_PoR_sf(x, PoR)
 
 - PoR:
 
-  Pole of Rotation. `"data.frame"` or object of class `"euler.pole"`
-  containing the geographical coordinates of the Euler pole
+  Pole of Rotation. `"data.frame"` containing the geographical
+  coordinates of the Euler pole
 
 ## Value
 

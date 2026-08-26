@@ -12,7 +12,24 @@ is.euler(x)
 
 - x:
 
-  object of class `"euler.pole"`
+  Object of class `"data.frame"` containing the Euler poles of plate
+  rotations:
+
+  `plate.rot`
+
+  :   Moving plate
+
+  `lat`, `lon`
+
+  :   coordinates of Euler pole
+
+  `angle`
+
+  :   Angle of rotation
+
+  `plate.fix`
+
+  :   Fixed plate
 
 ## Value
 

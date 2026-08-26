@@ -23,7 +23,8 @@ confidence_interval_fisher(
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric vector. Values in degrees, for which the mean, median or
+  standard deviation are required.
 
 - conf.level:
 
@@ -31,8 +32,8 @@ confidence_interval_fisher(
 
 - w:
 
-  (optional) Weights. A vector of positive numbers and of the same
-  length as `x`.
+  (optional) Weights. A vector of positive numbers, of the same length
+  as `x`.
 
 - axial:
 
@@ -50,7 +51,8 @@ confidence_interval_fisher(
 
 - R:
 
-  integer. number of bootstrap replicates
+  positive integer. The number of bootstrap replicates (1000 by
+  default).
 
 - quiet:
 
@@ -81,10 +83,10 @@ confidence_interval_fisher(finland_stria, axial = FALSE)
 #> [1] 129.1903
 #> 
 #> $conf.angle
-#> [1] 7.043583
+#> [1] 7.246797
 #> 
 #> $conf.interval
-#> [1] 122.1467 136.2339
+#> [1] 121.9435 136.4371
 #> 
 confidence_interval_fisher(finland_stria, axial = FALSE, boot = TRUE)
 #> Bootstrap estimate based on 1000 replicates
@@ -108,10 +110,10 @@ confidence_interval_fisher(sa.por$azi.PoR, w = weighting(san_andreas$unc))
 #> [1] 140.8843
 #> 
 #> $conf.angle
-#> [1] 1.711388
+#> [1] 1.7554
 #> 
 #> $conf.interval
-#> [1] 139.1729 142.5957
+#> [1] 139.1289 142.6397
 #> 
 confidence_interval_fisher(sa.por$azi.PoR, w = weighting(san_andreas$unc), boot = TRUE)
 #> Bootstrap estimate based on 1000 replicates

@@ -18,8 +18,8 @@ projected_pb_strike(x, PoR, pb, tangential = FALSE, ...)
 
 - PoR:
 
-  Pole of rotation. `"data.frame"` or object of class `"euler.pole"`
-  containing the geographical coordinates of the Euler pole
+  Pole of Rotation. `"data.frame"` or object of class `"euler.pole"`
+  containing the geographical coordinates of the Pole of Rotation
 
 - tangential:
 
@@ -37,9 +37,10 @@ Numeric vector of the strike direction of the plate boundary (in degree)
 
 ## Details
 
-Useful to calculate the beta angle, i.e. the angle between SHmax
-direction (in PoR CRS!) and the fault's strike (in PoR CRS). The beta
-angle is the same in geographical and PoR coordinates.
+Useful to calculate the beta angle, i.e. the angle between
+\\\sigma\_\text{Hmax}\\ direction (in PoR CRS!) and the fault's strike
+(in PoR CRS). The beta angle is the same in geographical and PoR
+coordinates.
 
 ## Note
 

@@ -44,20 +44,22 @@ numeric. Angle in radians
 
 ## References
 
-- Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome
-  bei der Berechnung von Richtung und Distanz zwischen Beringungs- und
-  Wiederfundort. *Die Vogelwarte* **26**, 336-346.
+Imboden, C. & Imboden, D. (1972). Formel fuer Orthodrome und Loxodrome
+bei der Berechnung von Richtung und Distanz zwischen Beringungs- und
+Wiederfundort. *Die Vogelwarte* **26**, 336-346.
 
-- Sinnott, Roger W. (1984). Virtues of the Haversine. *Sky and
-  telescope* **68**(2), 158. Vincenty, T. (1975). Direct and inverse
-  solutions of geodesics on the ellipsoid with application of nested
-  equations. *Survey Review*, **23**(176), 88\<U+2013\>93.
-  [doi:10.1179/sre.1975.23.176.88](https://doi.org/10.1179/sre.1975.23.176.88)
-  .
+Sinnott, Roger W. (1984). Virtues of the Haversine. *Sky and telescope*
+**68**(2), 158.
 
-- [http://www.movable-type.co.uk/scripts/latlong.html](http://www.movable-type.co.uk/scripts/latlong.md)
+Vincenty, T. (1975). Direct and inverse solutions of geodesics on the
+ellipsoid with application of nested equations. *Survey Review*,
+**23**(176), 88\<U+2013\>93.
+[doi:10.1179/sre.1975.23.176.88](https://doi.org/10.1179/sre.1975.23.176.88)
+.
 
-- <http://www.edwilliams.org/avform147.htm>
+[http://www.movable-type.co.uk/scripts/latlong.html](http://www.movable-type.co.uk/scripts/latlong.md)
+
+<http://www.edwilliams.org/avform147.htm>
 
 ## Examples
 

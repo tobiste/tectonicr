@@ -431,10 +431,10 @@ The function accepts the weightings of the data:
 ot_eigen2d(san_andreas.por$azi.PoR, w)
 #> eigen() decomposition
 #> $values
-#> [1] 0.0008117601 0.0001179054
+#> [1] 0.8673333 0.1326667
 #> 
 #> $vectors
-#> [1] -40.25985  49.74015
+#> [1] -40.2073  49.7927
 ```
 
 The **Eigenvalues** ($`\lambda_1 > \lambda_2`$) can be interpreted as

@@ -13,7 +13,8 @@ circular_range(x, axial = TRUE, na.rm = TRUE)
 
 - x:
 
-  numeric vector. Values in degrees.
+  numeric vector. Values in degrees, for which the mean, median or
+  standard deviation are required.
 
 - axial:
 

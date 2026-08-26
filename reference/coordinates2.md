@@ -16,7 +16,7 @@ spherical_to_geographical(p)
 
 - n:
 
-  Cartesian coordinates (x, y, z) as three-column vector
+  Cartesian coordinates (x, y, z) as vector
 
 - p:
 

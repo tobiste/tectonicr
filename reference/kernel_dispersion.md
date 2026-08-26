@@ -33,15 +33,16 @@ dispersion_grid(...)
 
   azi
 
-  :   Azimuth in degree
+  :   SHmax in degree
 
   unc
 
-  :   Uncertainties of azimuth in degree
+  :   (optional) Uncertainties of SHmax in degree
 
-  prd
+  type
 
-  :   Predicted value for azimuth
+  :   (optional) Methods used for the determination of the direction of
+      SHmax
 
 - stat:
 
@@ -56,16 +57,21 @@ dispersion_grid(...)
 - lon_range, lat_range:
 
   (optional) numeric vector specifying the minimum and maximum
-  longitudes and latitudes (are ignored if `"grid"` is specified).
+  longitudes and latitudes (ignored if `grid` is specified).
 
 - gridsize:
 
-  Numeric. Target spacing of the regular grid in decimal degree. Default
-  is 2.5. (is ignored if `"grid"` is specified)
+  numeric. Target spacing of the regular grid in decimal degree. Default
+  is `2.5`. (is ignored if `grid` is specified)
 
 - min_data:
 
-  Integer. Minimum number of data per bin. Default is `3`
+  integer. If the number of observations within distance `R_range` is
+  less than `min_data`, a missing value `NA` will be generated. Default
+  is `3` for
+  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+  and `4` for
+  [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md).
 
 - max_data:
 
@@ -75,13 +81,13 @@ dispersion_grid(...)
 
 - min_dist_threshold:
 
-  Numeric. Maximum distance (in km) of the grid point to the next data
-  point. Default is 200
+  numeric. Distance threshold for smallest distance of the prediction
+  location to the next observation location. Default is `200` km.
 
 - dist_threshold:
 
-  Numeric. Distance weight to prevent overweight of data nearby (`0` to
-  `1`). Default is `0.1`
+  numeric. Distance weight to prevent overweight of data nearby (0 to
+  1). Default is `0.1`
 
 - stat_threshold:
 
@@ -90,12 +96,14 @@ dispersion_grid(...)
 
 - R_range:
 
-  Numeric value or vector specifying the (adaptive) kernel half-width(s)
-  as search radius (in km). Default is `seq(50, 1000, 50)`
+  numeric value or vector specifying the kernel half-width(s) search
+  radii, i.e. the maximum distance from the prediction location to be
+  used for prediction (in km). Default is `seq(50, 1000, 50)`. If
+  combined with `max_data`, both criteria apply.
 
 - ...:
 
-  optional arguments to
+  (optional) arguments to
   [`dist_greatcircle()`](https://tobiste.github.io/tectonicr/reference/dist_greatcircle.md)
 
 ## Value

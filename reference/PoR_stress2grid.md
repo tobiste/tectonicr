@@ -73,7 +73,7 @@ PoR_stress2grid_stats(
 - gridsize:
 
   Numeric. Target spacing of the regular grid in decimal degree. Default
-  is 2.5 (is ignored if `grid` is specified)
+  is `2.5` (is ignored if `grid` is specified)
 
 - remove_PoR:
 

@@ -15,9 +15,10 @@ PoR_to_geographical_df(x, PoR)
 
 - x:
 
-  `"data.frame"` containing `lat` and `lon` coordinates of a point in
-  the geographical CRS or the `lat.PoR`, `lon.PoR`) of the point in the
-  PoR CRS.
+  Can be either a `"data.frame"` containing `lat` and `lon` coordinates
+  of a point in the geographical CRS or the `lat.PoR`, `lon.PoR`) of the
+  point in the PoR CRS, a two-column matrix containing the lat and lon
+  coordinates, a `sf` object, or a `raster` object.
 
 - PoR:
 

@@ -22,7 +22,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/PoR_map.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/PositionCenterSpoke.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/Q4_to_euler.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/abs_vel.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/angle-conversion.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/angle_vectors.html</loc></url>
@@ -41,7 +40,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/compact-grid.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/confidence.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/confidence_interval_fisher.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/conjugate_Q4.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/coordinate_mod.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/coordinates.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/coordinates2.html</loc></url>
@@ -68,7 +66,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/get_relrot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/import_WSM.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/index.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/is.Q4.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/kernel_dispersion.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/kuiper_test.html</loc></url>
@@ -77,7 +74,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/mean_resultant_length.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/model_shmax.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/norm_chisq.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/normalize_Q4.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/nuvel1.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/nuvel1_plates.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/ort-eigen.html</loc></url>
@@ -92,7 +88,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/por_transformation_quat.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/por_transformation_sf.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/prd_err.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/product_Q4.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/projected_pb_strike.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/quick_plot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/raster_transformation.html</loc></url>
@@ -106,7 +101,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/rose_geom.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rose_stats.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rotate_lines.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/rotation_Q4.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/sample_dispersion.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/sample_median.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/second_central_moment.html</loc></url>

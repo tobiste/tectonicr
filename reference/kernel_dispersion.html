@@ -79,13 +79,14 @@
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p><code>sf</code> object containing</p><dl><dt>azi</dt>
-<dd><p>Azimuth in degree</p></dd>
+<dd><p>SHmax in degree</p></dd>
 
 <dt>unc</dt>
-<dd><p>Uncertainties of azimuth in degree</p></dd>
+<dd><p>(optional) Uncertainties of SHmax in degree</p></dd>
 
-<dt>prd</dt>
-<dd><p>Predicted value for azimuth</p></dd>
+<dt>type</dt>
+<dd><p>(optional) Methods used for the determination of the direction
+of SHmax</p></dd>
 
 
 </dl></dd>
@@ -104,16 +105,18 @@ statistic.</p></dd>
 
 <dt id="arg-lon-range-lat-range">lon_range, lat_range<a class="anchor" aria-label="anchor" href="#arg-lon-range-lat-range"></a></dt>
 <dd><p>(optional) numeric vector specifying the minimum
-and maximum longitudes and latitudes (are ignored if <code>"grid"</code> is specified).</p></dd>
+and maximum longitudes and latitudes (ignored if <code>grid</code> is specified).</p></dd>
 
 
 <dt id="arg-gridsize">gridsize<a class="anchor" aria-label="anchor" href="#arg-gridsize"></a></dt>
-<dd><p>Numeric. Target spacing of the regular grid in decimal
-degree. Default is 2.5. (is ignored if <code>"grid"</code> is specified)</p></dd>
+<dd><p>numeric. Target spacing of the regular grid in decimal
+degree. Default is <code>2.5</code>. (is ignored if <code>grid</code> is specified)</p></dd>
 
 
 <dt id="arg-min-data">min_data<a class="anchor" aria-label="anchor" href="#arg-min-data"></a></dt>
-<dd><p>Integer. Minimum number of data per bin. Default is <code>3</code></p></dd>
+<dd><p>integer. If the number of observations within distance
+<code>R_range</code> is less than <code>min_data</code>, a missing value <code>NA</code> will be generated.
+Default is <code>3</code> for <code><a href="stress2grid.html">stress2grid()</a></code> and <code>4</code> for <code><a href="stress2grid.html">stress2grid_stats()</a></code>.</p></dd>
 
 
 <dt id="arg-max-data">max_data<a class="anchor" aria-label="anchor" href="#arg-max-data"></a></dt>
@@ -123,13 +126,14 @@ spatial locations. Default is <code>Inf</code>.</p></dd>
 
 
 <dt id="arg-min-dist-threshold">min_dist_threshold<a class="anchor" aria-label="anchor" href="#arg-min-dist-threshold"></a></dt>
-<dd><p>Numeric. Maximum distance (in km) of the grid point to the
-next data point. Default is 200</p></dd>
+<dd><p>numeric. Distance threshold for smallest distance
+of the prediction location to the next observation location.
+Default is <code>200</code> km.</p></dd>
 
 
 <dt id="arg-dist-threshold">dist_threshold<a class="anchor" aria-label="anchor" href="#arg-dist-threshold"></a></dt>
-<dd><p>Numeric. Distance weight to prevent overweight of data
-nearby (<code>0</code> to <code>1</code>). Default is <code>0.1</code></p></dd>
+<dd><p>numeric. Distance weight to prevent overweight of data
+nearby (0 to 1). Default is <code>0.1</code></p></dd>
 
 
 <dt id="arg-stat-threshold">stat_threshold<a class="anchor" aria-label="anchor" href="#arg-stat-threshold"></a></dt>
@@ -138,12 +142,15 @@ nearby (<code>0</code> to <code>1</code>). Default is <code>0.1</code></p></dd>
 
 
 <dt id="arg-r-range">R_range<a class="anchor" aria-label="anchor" href="#arg-r-range"></a></dt>
-<dd><p>Numeric value or vector specifying the (adaptive) kernel
-half-width(s) as search radius (in km). Default is <code>seq(50, 1000, 50)</code></p></dd>
+<dd><p>numeric value or vector specifying the kernel half-width(s)
+search radii,
+i.e. the maximum distance from the prediction location to be used for
+prediction (in km). Default is <code>seq(50, 1000, 50)</code>. If combined with
+<code>max_data</code>, both criteria apply.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>optional arguments to <code><a href="dist_greatcircle.html">dist_greatcircle()</a></code></p></dd>
+<dd><p>(optional) arguments to <code><a href="dist_greatcircle.html">dist_greatcircle()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">

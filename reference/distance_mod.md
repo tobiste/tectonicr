@@ -1,7 +1,7 @@
 # Normalize angular distance on a sphere distance
 
 Helper function to express angular distance on the sphere in the range
-of 0 to 180 degrees
+of 0 to 180 °
 
 ## Usage
 

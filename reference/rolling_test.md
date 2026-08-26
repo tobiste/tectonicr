@@ -180,7 +180,7 @@ distance <- distance_from_pb(
 dat <- san_andreas[order(distance), ]
 dat.PoR <- PoR_shmax(san_andreas, PoR, "right")
 roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc) |> head()
-#> [1] 0.2121131 0.2028877 0.1943711 0.1912742 0.1838385 0.2943564
+#> [1] 0.07096381 0.06795804 0.06513606 0.06413516 0.06176782 0.07664751
 roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc) |> head()
 #> [1] 3.800976 4.022676 4.238056 4.409912 4.606523 4.371441
 roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc) |> head()

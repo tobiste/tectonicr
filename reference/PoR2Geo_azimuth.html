@@ -59,18 +59,20 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p><code>data.frame</code> containing the PoR equivalent azimuths
-(<code>azi.PoR</code>), and either the geographical coordinates of the
-point(s) or the PoR-equivalent coordinates.</p></dd>
+<dd><p><code>sf</code> object or a <code>data.frame</code> containing the coordinates of the
+point(s) (<code>lat</code>, <code>lon</code> columns). <code>x</code> must contain the direction of
+\(\sigma_\text{Hmax}\) as column <code>azi</code>, its standard deviation
+(column <code>unc</code>) is optional).</p></dd>
 
 
 <dt id="arg-por">PoR<a class="anchor" aria-label="anchor" href="#arg-por"></a></dt>
-<dd><p><code>data.frame</code> containing the geographical location of
-the Euler pole (<code>lat</code>, <code>lon</code>)</p></dd>
+<dd><p><code>data.frame</code> or object of class <code>euler.pole</code> containing the
+geographical coordinates of the Eule pole.</p></dd>
 
 
 <dt id="arg-axial">axial<a class="anchor" aria-label="anchor" href="#arg-axial"></a></dt>
-<dd><p>logical. Whether the azimuth is axial (0-180) or directional (0-360).</p></dd>
+<dd><p>logical. Whether the azimuth is axial (0-180°) or directional
+(0-360°).</p></dd>
 
 </dl></div>
     <div class="section level2">

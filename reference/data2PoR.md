@@ -14,8 +14,8 @@ data2PoR(x, PoR)
 
   `sf` object or a `data.frame` containing the coordinates of the
   point(s) (`lat`, `lon` columns). `x` must contain the direction of
-  \\\sigma\_{Hmax}\\ as column `azi`, its standard deviation (column
-  `unc`) is optional).
+  \\\sigma\_\text{Hmax}\\ as column `azi`, its standard deviation
+  (column `unc`) is optional).
 
 - PoR:
 

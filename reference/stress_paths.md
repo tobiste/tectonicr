@@ -7,13 +7,13 @@ motion.
 ## Usage
 
 ``` r
-eulerpole_paths(x, type = c("sc", "gc", "ld"), n = 10, angle = 45, cw)
+eulerpole_paths(x, type = c("sc", "gc", "ld"), n = 10L, angle = 45, cw)
 
-eulerpole_smallcircles(x, n = 10)
+eulerpole_smallcircles(x, n = 10L)
 
-eulerpole_greatcircles(x, n = 10)
+eulerpole_greatcircles(x, n = 10L)
 
-eulerpole_loxodromes(x, n = 10, angle = 45, cw)
+eulerpole_loxodromes(x, n = 10L, angle = 45, cw)
 ```
 
 ## Arguments
@@ -25,18 +25,18 @@ eulerpole_loxodromes(x, n = 10, angle = 45, cw)
 
 - type:
 
-  Character string specifying the type of curves to export. Either
+  character. String specifying the type of curves to export. Either
   `"sm"` for small circles (default), `"gc"` for great circles, or
   `"ld"` for loxodromes.
 
 - n:
 
-  Number of equally spaced curves; `n = 10` by default (angular distance
-  between curves: `180 / n`)
+  integer. Number of equally spaced curves; `n = 10` by default (angular
+  distance between curves: `180 / n`)
 
 - angle:
 
-  Direction of loxodromes; `angle = 45` by default.
+  numeric. Direction of loxodromes; `angle = 45` by default.
 
 - cw:
 
@@ -58,7 +58,7 @@ related to relative plate motion:
 
   Lines that have a constant distance to the Euler pole. If `x` contains
   `angle`, output additionally gives absolute velocity on small circle
-  (degree/Myr -\> km/Myr).
+  (°/Myr -\> km/Myr).
 
 - Great circles:
 

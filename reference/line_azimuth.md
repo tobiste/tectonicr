@@ -45,6 +45,7 @@ subset(plates, pair == "af-eu") |>
   line_azimuth() |>
   head()
 #> Warning: MULTILINESTRING object is not recommended
+#> Warning: repeating attributes for all sub-geometries for which they may not be constant
 #> Simple feature collection with 6 features and 9 fields
 #> Geometry type: POINT
 #> Dimension:     XY

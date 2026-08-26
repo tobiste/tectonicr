@@ -12,15 +12,15 @@ mean_SC(x, w = NULL, na.rm = TRUE)
 
 - x:
 
-  angles in degrees
+  numeric. Angles in degrees
 
 - w:
 
-  weightings
+  numeric. Weightings
 
 - na.rm:
 
-  logical
+  logical. Remove `NA` values before calculation?
 
 ## Value
 
