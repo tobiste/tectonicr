@@ -219,7 +219,7 @@ prediction (in km). Default is <code>seq(50, 1000, 50)</code>. If combined with
 
 
 <dt id="arg-axial">axial<a class="anchor" aria-label="anchor" href="#arg-axial"></a></dt>
-<dd><p>Logical. Whether data are uniaxial (<code>axial=FALSE</code>)
+<dd><p>Logical. Whether angles in <code>x$azi</code> are uniaxial (<code>FALSE</code>)
 or biaxial (<code>TRUE</code>, the default).</p></dd>
 
 
@@ -230,6 +230,10 @@ or biaxial (<code>TRUE</code>, the default).</p></dd>
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
 <dd><p>numeric. von Mises distribution concentration parameter used
 for the circular mode. Will be estimated using <code><a href="estimate-kappa.html">est.kappa()</a></code> if not provided.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>(optional) arguments to <code><a href="circular_summary.html">circular_summary()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">

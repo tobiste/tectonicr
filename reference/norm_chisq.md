@@ -2,7 +2,7 @@
 
 A quantitative comparison between the predicted and observed directions
 of \\\sigma\_\text{Hmax}\\ is obtained by the calculation of the average
-azimuth and by a normalized \\\chi^2\\ test.
+azimuth and by a normalized \\\chi^2\\ test (Wdowsinki, 1998)
 
 ## Usage
 
@@ -34,7 +34,7 @@ Numeric vector
 
 ## Details
 
-The normalized \\\chi^2\\ test is \$\$ {Norm} \chi^2_i = = \frac{
+The normalized \\\chi^2\\ test is \$\$ \text{Norm} \chi^2_i = \frac{
 \sum^M\_{i = 1} \left( \frac{\alpha_i - \alpha\_{{predict}}}{\sigma_i}
 \right) ^2} {\sum^M\_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }\$\$
 The value of the chi-squared test statistic is a number between 0 and 1

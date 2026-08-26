@@ -166,8 +166,8 @@ stress2grid_stats(
 
 - axial:
 
-  Logical. Whether data are uniaxial (`axial=FALSE`) or biaxial (`TRUE`,
-  the default).
+  Logical. Whether angles in `x$azi` are uniaxial (`FALSE`) or biaxial
+  (`TRUE`, the default).
 
 - mode:
 
@@ -180,6 +180,11 @@ stress2grid_stats(
   circular mode. Will be estimated using
   [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
   if not provided.
+
+- ...:
+
+  (optional) arguments to
+  [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)
 
 ## Value
 
