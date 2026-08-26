@@ -55,8 +55,7 @@ to the tabulation given in Stephens (1970).
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
-pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-kuiper_test(pidgeon_homing, alpha = .05)
+kuiper_test(homing, alpha = .05)
 
 # San Andreas Fault Data:
 data(san_andreas)

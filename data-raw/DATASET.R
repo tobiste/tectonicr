@@ -273,5 +273,19 @@ usethis::use_data(cpm_models, overwrite = TRUE, ascii = TRUE)
 # borders <- rnaturalearth::ne_download(returnclass = "sf") |> dplyr::select() |> sf::st_geometry()
 # usethis::use_data(borders, overwrite = TRUE, ascii = F, compress = "xz",version = 3)
 
+striae <- c(
+  23, 27, 53, 58, 64, 83, 85, 88, 93, 99, 100, 105, 113,
+  113, 114, 117, 121, 123, 125, 126, 126, 126, 127, 127, 128, 128, 129, 132,
+  132, 132, 134, 135, 137, 144, 145, 145, 146, 153, 155, 155, 155, 157, 163,
+  165, 171, 172, 179, 181, 186, 190, 212
+)
+usethis::use_data(striae, overwrite = TRUE, ascii = TRUE)
+
+
+# pidgeon homing
+homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
+usethis::use_data(homing, overwrite = TRUE, ascii = TRUE)
+
+
 # check all the files:
 tools::checkRdaFiles("data")

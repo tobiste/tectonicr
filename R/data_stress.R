@@ -67,3 +67,48 @@ NULL
 #' @usage data('iceland')
 #' @rdname stress_data
 "iceland"
+
+
+
+
+#' Homing directions of Pidgeons
+#'
+#' Directions of 10 pidgeons, example data from Mardia and Jupp (1999), pp. 93
+#'
+#' @docType data
+#'
+#' @format numeric vector of length 10
+#'
+#' @references
+#'  Mardia and Jupp (1999). Directional Statistics. John Wiley and
+#' Sons.
+#'
+#'
+#' @keywords datasets
+#'
+#' @name homing
+#'
+#' @examples
+#' data("homing")
+#' homing
+NULL
+
+#' Glacial striae from Finland
+#'
+#' Directions of 51 glacial striations, example data from Davis (1986), pp. 316
+#'
+#' @docType data
+#'
+#' @format numeric vector of length 51
+#'
+#' @references
+#' Davis, J.C. (1986) Statistics and Data Analysis in Geology. 2nd Edition, John Wiley & Sons, New York.
+#'
+#' @keywords datasets
+#'
+#' @name homing
+#'
+#' @examples
+#' data("striae")
+#' striae
+NULL

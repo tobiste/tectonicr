@@ -69,8 +69,7 @@ non-parametric, rank-based alternative to one-sample
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
-pidgeon_homing <- c(55, 60, 65, 95, 100, 110, 260, 275, 285, 295)
-watson_test(pidgeon_homing, axial = FALSE, alpha = .05)
+watson_test(homing, axial = FALSE, alpha = .05)
 
 # San Andreas Fault Data:
 data(san_andreas)
