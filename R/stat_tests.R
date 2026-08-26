@@ -98,6 +98,8 @@ norm_chisq <- function(obs, prd, unc) {
 #' alternative hypothesis
 #' @param quiet logical. Prints the test's decision.
 #' @param n_perm integer. Number of permutations.
+#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
+#' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
 #'
 #' @details \describe{
 #' \item{\eqn{H_0}{H0}:}{angles are randomly distributed around the circle.}
@@ -412,11 +414,8 @@ weighted_rayleigh_perm <- function(x, mu = NULL, w = NULL, axial = TRUE, n_perm 
 #' The critical values of a modified Kuiper's test statistic are used according
 #' to the tabulation given in Stephens (1970).
 #'
-#' @param x numeric vector containing the circular data which are expressed in degrees
-#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
-#' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
-#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
+#' @inheritParams rayleigh_test
+#'
 #' @returns list containing the test statistic `statistic` and the significance
 #' level `p.value`.
 #' @param quiet logical. Prints the test's decision.
@@ -472,8 +471,8 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
       "0.10 < P-value < 0.15",
       "0.05 < P-value < 0.10",
       "0.025 < P-value < 0.05",
-      "0.001 < P-value < 0.025",
-      "P-value < 0.001"
+      "0.01 < P-value < 0.025",
+      "P-value < 0.01"
     )
     idx <- findInterval(V, thresholds) + 1
     p.value <- labels[idx]
@@ -500,16 +499,13 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' Watson's test statistic is a rotation-invariant Cramer - von Mises test.
 #' non-parametric, rank-based alternative to one-sample
 #'
-#' @param x numeric vector. Values in degrees
+#' @inheritParams rayleigh_test
 #' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`,
 #' and `0.1`.
 #' This argument may be omitted (`NULL`, the default), in which case, a range
 #' for the p-value will be returned.
-#' @param axial logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-#' (`TRUE`, the default) or circular, i.e. \eqn{2 \pi}-periodical (`FALSE`).
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
 #' circular uniform distribution. `"vonmises"` tests the von Mises distribution.
-#' @param quiet logical. Prints the test's decision.
 #'
 #' @returns list containing the test statistic `statistic`, the significance
 #' level `p.value`, the critical value `critical.value`, whether to `reject` the null hypothesis,
@@ -965,10 +961,10 @@ ar_test_statistic <- function(s1, s2) {
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' ar_test(sa.por$azi.PoR, rvm(100, 135, 10))
 ar_test <- function(x, y, n_perm = 1000L, axial = TRUE) {
-  f <- if (isTRUE(axial)) 2L else 1L
+  f <- if (isTRUE(axial)) 2 else 1
 
-  samp1 <- deg2rad((f * stats::na.omit(x) %% 360))
-  samp2 <- deg2rad((f * stats::na.omit(y) %% 360))
+  samp1 <- deg2rad(((f * stats::na.omit(x)) %% 360))
+  samp2 <- deg2rad(((f * stats::na.omit(y)) %% 360))
 
   n1 <- length(samp1)
   n2 <- length(samp2)

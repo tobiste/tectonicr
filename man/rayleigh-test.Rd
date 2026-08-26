@@ -19,6 +19,9 @@ alternative hypothesis}
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
+\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05}, and \code{0.1}.
+This argument may be omitted (\code{NULL}, the default), in which case, a range for the p-value will be returned.}
+
 \item{quiet}{logical. Prints the test's decision.}
 
 \item{n_perm}{integer. Number of permutations.}

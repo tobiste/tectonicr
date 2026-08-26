@@ -10,7 +10,7 @@
 \usage{
 rwnorm(n, mean = 0, sd = 1)
 
-dwnorm(theta, mean = 0, sd = 1, axial = FALSE, ..., log = FALSE)
+dwnorm(theta, mean = 0, sd = 1, axial = FALSE, log = FALSE)
 
 pwnorm(theta, mean = 0, sd = 1, axial = FALSE, from = NULL, ...)
 
@@ -37,13 +37,13 @@ qwnorm(
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
-\item{...}{optional parameters passed to underlying circular functions:
-\code{\link[circular:wrappednormal]{circular::dwrappednormal()}}, \code{\link[circular:wrappednormal]{circular::pwrappednormal()}}, and \code{\link[circular:wrappednormal]{circular::qwrappednormal()}}}
-
 \item{log}{logical. If \code{TRUE}, probabilities p are given as \eqn{\log(p)}{log(p)}.}
 
 \item{from}{if \code{NULL} is set to \eqn{\mu-\pi}{mu-pi}. This is the value from
 which the \code{pvm} and \code{qvm} are evaluated. in degrees.}
+
+\item{...}{optional parameters passed to underlying circular functions
+\code{\link[circular:wrappednormal]{circular::pwrappednormal()}} and \code{\link[circular:wrappednormal]{circular::qwrappednormal()}}}
 
 \item{p}{numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.}
 

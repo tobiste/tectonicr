@@ -272,8 +272,8 @@ est.kappa <- function(x, w = NULL, p = 2) {
 #'
 #' @inheritParams vonmises
 #' @param sd 	numeric. standard deviation of the (unwrapped) normal distribution in degrees.
-#' @param ... optional parameters passed to underlying circular functions:
-#' [circular::dwrappednormal()], [circular::pwrappednormal()], and [circular::qwrappednormal()]
+#' @param ... optional parameters passed to underlying circular functions
+#' [circular::pwrappednormal()] and [circular::qwrappednormal()]
 #'
 #' @returns `dwnorm` gives the density,
 #' `pwnorm` gives the probability of the wrapped normal distribution function,
@@ -281,7 +281,7 @@ est.kappa <- function(x, w = NULL, p = 2) {
 #' `qwnorm` provides quantiles (in degrees).
 #'
 #' @importFrom stats rnorm runif
-#' @importFrom circular circular dwrappednormal pwrappednormal qwrappednormal
+#' @importFrom circular circular pwrappednormal qwrappednormal
 #' @name wnorm
 #'
 #' @seealso [cunif], [wnorm], [wcauchy], and [vonmises]
@@ -318,42 +318,30 @@ rwnorm <- function(n, mean = 0, sd = 1){
   return(rad2deg(result))
 }
 
+# #' @rdname wnorm
+# #' @export
+# dwnorm <- function(theta, mean = 0, sd = 1, axial = FALSE, ..., log = FALSE){
+#   f <- if(isTRUE(axial)) 2 else 1
+#   two_pi <- 2 * pi
+#   mu <- deg2rad(f * mean) %% two_pi
+#   sd_rad <- deg2rad(f * sd) %% two_pi
+#   x <- deg2rad(f * theta)  %% two_pi
+#
+#   d <- circular::dwrappednormal(circular::circular(x), mu = circular::circular(mu), sd = sd_rad, ...)
+#
+#   if(isTRUE(log)) d <- log(d)
+#   return(f * d)
+# }
+
 #' @rdname wnorm
 #' @export
-dwnorm <- function(theta, mean = 0, sd = 1, axial = FALSE, ..., log = FALSE){
+dwnorm <- function(theta, mean = 0, sd = 1, axial = FALSE, log = FALSE){
   f <- if(isTRUE(axial)) 2 else 1
   two_pi <- 2 * pi
   mu <- deg2rad(f * mean) %% two_pi
   sd_rad <- deg2rad(f * sd) %% two_pi
   x <- deg2rad(f * theta)  %% two_pi
-
-  # var <- sd_rad^2
-  #
-  # if (is.null(K)) {
-  #   range <- abs(mu - x)
-  #   K <- (range + 6 * sqrt(var))%/%(2 * pi) + 1
-  #   K <- max(min.k, K)
-  # }
-  # n <- length(x)
-  # z <- .Fortran("dwrpnorm", as.double(x), as.double(mu), as.double(sd_rad),
-  #               as.integer(n), as.integer(length(mu)), as.integer(K),
-  #               d = mat.or.vec(length(mu), n), PACKAGE = "circular")
-  # d <- t(z$d/sqrt(var * 2 * pi))
-  # if (ncol(d) == 1)
-  #   d <- c(d)
-
-  d <- circular::dwrappednormal(circular::circular(x), mu = circular::circular(mu), sd = sd_rad, ...)
-
-  if(isTRUE(log)) d <- log(d)
-  return(f * d)
-}
-
-dwnorm2 <- function(theta, mean = 0, sd = 1, axial = FALSE, log = FALSE){
-  f <- if(isTRUE(axial)) 2 else 1
-  two_pi <- 2 * pi
-  mu <- deg2rad(f * mean) %% two_pi
-  sd_rad <- deg2rad(f * sd) %% two_pi
-  x <- deg2rad(f * theta)  %% two_pi
+  delta <- x - mu
 
   k <- -8:8
   dens <- Reduce(`+`, lapply(k, function(kk) exp(-(delta + 2 * pi * kk)^2 / (2 * sd_rad^2))))
@@ -528,7 +516,7 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
   i0 <- which.max(vals)
   lo <- grid[max(1, i0 - 2)]
   hi <- grid[min(length(grid), i0 + 2)] + (2 * pi / 720) * 2
-  optimize(function(u) -fn(u), interval = c(lo, hi), tol = 1e-10)$minimum
+  stats::optimize(function(u) -fn(u), interval = c(lo, hi), tol = 1e-10)$minimum
 }
 
 

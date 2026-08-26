@@ -10,7 +10,7 @@ watson_wheeler_test_perm(x, y, axial = TRUE, n_perm = 1000L)
 \item{x, y}{numeric vectors. Angles in degrees}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{n_perm}{integer. Number of permutations}
 }

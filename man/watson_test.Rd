@@ -24,7 +24,7 @@ for the p-value will be returned.}
 circular uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
-(\code{TRUE}, the default) or circular, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
+(\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
 \item{quiet}{logical. Prints the test's decision.}
 }
