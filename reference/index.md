@@ -223,6 +223,8 @@
   [`eulerpole_greatcircles()`](https://tobiste.github.io/tectonicr/reference/stress_paths.md)
   [`eulerpole_loxodromes()`](https://tobiste.github.io/tectonicr/reference/stress_paths.md)
   : Theoretical Plate Tectonic Stress Paths
+- [`striae`](https://tobiste.github.io/tectonicr/reference/striae.md) :
+  Glacial striae from Finland
 - [`superimposed_shmax()`](https://tobiste.github.io/tectonicr/reference/superimposed_shmax.md)
   : SHmax direction resulting from multiple plate boundaries
 - [`superimposed_shmax_PB()`](https://tobiste.github.io/tectonicr/reference/superimposed_shmax_PB.md)
