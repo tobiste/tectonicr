@@ -111,13 +111,6 @@ distance_binned_stats(dat$azi.PoR,
   distance = dat$distance, width.breaks = 1,
   unc = dat$unc, prd = 135
 ) |> head()
-#> Warning: There were 11 warnings in `dplyr::summarise()`.
-#> The first warning was:
-#> ℹ In argument: `mode = ifelse(...)`.
-#> ℹ In group 2: `bins = "(-8.5,-7.5]"`.
-#> Caused by warning in `any()`:
-#> ! coercing argument of type 'double' to logical
-#> ℹ Run `dplyr::last_dplyr_warnings()` to see the 10 remaining warnings.
 #> # A tibble: 6 × 19
 #>   bins      n distance_min distance_median distance_max  mean    sd    var    lq
 #>   <fct> <int>        <dbl>           <dbl>        <dbl> <dbl> <dbl>  <dbl> <dbl>

@@ -40,15 +40,16 @@ PoR_stress2grid_stats(
 
   azi
 
-  :   SHmax in degree
+  :   \\\sigma\_\text{Hmax}\\ in degree
 
   unc
 
-  :   Uncertainties of SHmax in degree
+  :   Uncertainties of \\\sigma\_\text{Hmax}\\ in degree
 
   type
 
-  :   Methods used for the determination of the orientation of SHmax
+  :   Methods used for the determination of the orientation of
+      \\\sigma\_\text{Hmax}\\
 
 - PoR:
 
@@ -100,15 +101,15 @@ PoR_stress2grid_stats(
 
 - azi:
 
-  geographical mean SHmax in degree
+  geographical mean \\\sigma\_\text{Hmax}\\ in degree
 
 - azi.PoR:
 
-  PoR mean SHmax in degree. Only if `remove_PoR=TRUE`
+  PoR mean \\\sigma\_\text{Hmax}\\ in degree. Only if `remove_PoR=TRUE`
 
 - sd:
 
-  Standard deviation of SHmax in degrees
+  Standard deviation of \\\sigma\_\text{Hmax}\\ in degrees
 
 - R:
 

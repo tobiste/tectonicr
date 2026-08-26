@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,14 +79,14 @@
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p><code>sf</code> object containing</p><dl><dt>azi</dt>
-<dd><p>SHmax in degree</p></dd>
+<dd><p>\(\sigma_\text{Hmax}\) in degree</p></dd>
 
 <dt>unc</dt>
 <dd><p>(optional) Uncertainties of SHmax in degree</p></dd>
 
 <dt>type</dt>
 <dd><p>(optional) Methods used for the determination of the direction
-of SHmax</p></dd>
+of \(\sigma_\text{Hmax}\)</p></dd>
 
 
 </dl></dd>
@@ -150,7 +150,8 @@ prediction (in km). Default is <code>seq(50, 1000, 50)</code>. If combined with
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>(optional) arguments to <code><a href="dist_greatcircle.html">dist_greatcircle()</a></code></p></dd>
+<dd><p>arguments passed to <code>stat</code> functions <code><a href="weighted-rayleigh-test.html">weighted_rayleigh()</a></code> or
+<code><a href="dispersion.html">circular_dispersion()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -179,7 +180,7 @@ a more consistent API.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="dispersion.html">circular_dispersion()</a></code>, <code><a href="norm_chisq.html">norm_chisq()</a></code>, <code><a href="rayleigh-test.html">rayleigh_test()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="dispersion.html">circular_dispersion()</a></code>, <code><a href="norm_chisq.html">norm_chisq()</a></code>, <code><a href="weighted-rayleigh-test.html">weighted_rayleigh()</a></code></p></div>
     </div>
 
     <div class="section level2">

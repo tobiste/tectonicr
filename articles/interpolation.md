@@ -147,6 +147,7 @@ direction of tested plate boundary force.
 ## References
 
 Mardia, K. V., and Jupp, P. E. (Eds.). (1999). “Directional Statistics”
+
 Hoboken, NJ, USA: John Wiley & Sons, Inc.  doi: 10.1002/9780470316979.
 
 Ziegler, Moritz O., and Oliver Heidbach. 2017. “Manual of the Matlab

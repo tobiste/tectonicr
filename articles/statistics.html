@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -220,7 +220,6 @@ using the transformed orientations of the PoR reference frame.</p>
 <code><a href="../reference/circular_summary.html">circular_summary()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/circular_summary.html">circular_summary</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="va">w</span>, mode <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in any(x): coercing argument of type 'double' to logical</span></span>
 <span><span class="co">#&gt;            n         mean           sd          var          25% quasi-median </span></span>
 <span><span class="co">#&gt; 1126.0000000  139.7927014   22.4968398    0.2653334  123.5288513  135.6247317 </span></span>
 <span><span class="co">#&gt;          75%       median         mode           CI     skewness     kurtosis </span></span>
@@ -267,7 +266,6 @@ due to the arbitrarily chosen geographic coordinate system.</p>
 <span><span class="op">)</span></span>
 <span><span class="co"># add density corona</span></span>
 <span><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi</span>, kappa <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"#51127CFF"</span>, scale <span class="op">=</span> <span class="fl">1.1</span>, shrink <span class="op">=</span> <span class="fl">2</span>, xpd <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in any(x): coercing argument of type 'double' to logical</span></span>
 <span></span>
 <span><span class="co"># add predicted direction as streight line</span></span>
 <span><span class="fu"><a href="../reference/rose_geom.html">rose_line</a></span><span class="op">(</span><span class="fl">135</span>, radius <span class="op">=</span> <span class="fl">1.1</span>, col <span class="op">=</span> <span class="st">"#FB8861FF"</span><span class="op">)</span></span></code></pre></div>

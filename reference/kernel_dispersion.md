@@ -33,7 +33,7 @@ dispersion_grid(...)
 
   azi
 
-  :   SHmax in degree
+  :   \\\sigma\_\text{Hmax}\\ in degree
 
   unc
 
@@ -42,7 +42,7 @@ dispersion_grid(...)
   type
 
   :   (optional) Methods used for the determination of the direction of
-      SHmax
+      \\\sigma\_\text{Hmax}\\
 
 - stat:
 
@@ -103,8 +103,10 @@ dispersion_grid(...)
 
 - ...:
 
-  (optional) arguments to
-  [`dist_greatcircle()`](https://tobiste.github.io/tectonicr/reference/dist_greatcircle.md)
+  arguments passed to `stat` functions
+  [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+  or
+  [`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md)
 
 ## Value
 
@@ -139,7 +141,7 @@ more consistent API.
 
 [`circular_dispersion()`](https://tobiste.github.io/tectonicr/reference/dispersion.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
-[`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md)
+[`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## Examples
 
