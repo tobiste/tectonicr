@@ -24,12 +24,11 @@ Numeric vector
 \description{
 A quantitative comparison between the predicted and observed directions of
 \eqn{\sigma_\text{Hmax}}{SHmax} is obtained by the calculation of the average
-azimuth and by a normalized \eqn{\chi^2}{chi-squared} test.
+azimuth and by a normalized \eqn{\chi^2}{chi-squared} test (Wdowsinki, 1998)
 }
 \details{
 The normalized \eqn{\chi^2}{chi-squared} test is
-\deqn{ {Norm} \chi^2_i =
- = \frac{
+\deqn{ \text{Norm} \chi^2_i = \frac{
    \sum^M_{i = 1} \left( \frac{\alpha_i - \alpha_{{predict}}}{\sigma_i}
    \right) ^2}
    {\sum^M_{i = 1} \left( \frac{90}{\sigma_i} \right) ^2 }}{
