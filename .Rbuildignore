@@ -23,3 +23,5 @@
 ^tests/HR_interpolation\.R$
 ^man/figures/logo_$
 ^man/figures/Figure_07_san_andreas_data.png$
+^R/utils-tidy-eval\.R$
+^.*\.tex$
