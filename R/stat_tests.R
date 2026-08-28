@@ -127,7 +127,7 @@ norm_chisq <- function(obs, prd, unc) {
 #'  mean resultant differs significantly from zero, and
 #' the angles are not randomly distributed. You have strong evidence that the
 #' data points share a significant preferred or mean direction (unimodal clustering).
-#'  * Large p-value (p ≥ 0.05): Fail to reject the null hypothesis. There is not
+#'  * Large p-value (p \eqn{\ge}{>=} 0.05): Fail to reject the null hypothesis. There is not
 #'  enough evidence to claim a preferred direction, meaning the data looks random or uniform around the circle.
 #'
 #'
@@ -431,10 +431,10 @@ weighted_rayleigh_perm <- function(x, mu = NULL, w = NULL, axial = TRUE, n_perm 
 #' @param quiet logical. Prints the test's decision.
 #'
 #' @details
-#'  The **Null Hypothesis** (\eqn{H_0}{H₀}): The data are distributed completely uniformly
+#'  The **Null Hypothesis** (\eqn{H_0}{H0}): The data are distributed completely uniformly
 #'  (randomly and evenly) around the circle.
 #'
-#'  The **Alternative Hypothesis** (\eqn{H_1}{H₁}): The data are not uniform and
+#'  The **Alternative Hypothesis** (\eqn{H_1}{H1}): The data are not uniform and
 #'  show a preference, clustering, or pattern somewhere on the circle.
 #'
 #'  The Test Statistic (V or \eqn{D^{+} + D^{-}}{D⁺ + D⁻}): It measures the
@@ -443,11 +443,11 @@ weighted_rayleigh_perm <- function(x, mu = NULL, w = NULL, axial = TRUE, n_perm 
 #'
 #' ## Interpreting the Results
 #'
-#' * High Test Statistic / Low p-value (\eqn{p < \alpha}{p < α}, typically 0.05):
+#' * High Test Statistic / Low p-value (\eqn{p < \alpha}{p < alpha}, typically 0.05):
 #' You reject the null hypothesis. This means your data are not uniform; they
 #' have a significant preferred direction, grouping, or non-random pattern on the circle.
 #'
-#' * Low Test Statistic / High p-value (\eqn{p \ge 0.05}{p ≥ 0.05}): You fail to
+#' * Low Test Statistic / High p-value (\eqn{p \ge 0.05}{p >= 0.05}): You fail to
 #' reject the null hypothesis. There is no strong evidence to say the data are
 #' different from a flat, uniform distribution. The points appear random across the circle.
 #'
@@ -556,14 +556,14 @@ kuiper_test <- function(x, alpha = 0, axial = TRUE, quiet = FALSE) {
 #' ## Interpretation
 #' To interpret the output of Watson's \eqn{U^2}{U²}  test, compare your
 #' calculated \eqn{U^2}{U²}  test statistic to the critical value from
-#' Watson's goodness-of-fit/homogeneity tables at your chosen significance level (\eqn{\alpha}{α}, commonly set to 0.05),
+#' Watson's goodness-of-fit/homogeneity tables at your chosen significance level (\eqn{\alpha}{alpha}, commonly set to 0.05),
 #' or check the resulting p-value:
 #'
-#'  * If \eqn{U^2_{\text{calculated}} > U^2_{\text{critical}}} (or p < \eqn{\alpha}{α}):
+#'  * If \eqn{U^2_{\text{calculated}} > U^2_{\text{critical}}} (or p < \eqn{\alpha}{alpha}):
 #'  Reject the null hypothesis (\eqn{H_0}{H0}).
 #'  Conclude that the data significantly deviates from the theoretical distribution.
 #'
-#'  * If \eqn{U^2_{\text{calculated}} \le U^2_{\text{critical}}} (or \eqn{p \ge \alpha}{p ≥ α}):
+#'  * If \eqn{U^2_{\text{calculated}} \le U^2_{\text{critical}}} (or \eqn{p \ge \alpha}{p >= alpha}):
 #'  Fail to reject the null hypothesis (\eqn{H_0}{H0}).
 #'  There is not enough evidence to claim the data deviates from the expected model.
 #'
@@ -739,9 +739,9 @@ watson_test <- function(x, alpha = NULL, dist = c("uniform", "vonmises"), axial 
 #'
 #' ### Making a Decision
 #'
-#' *  Low p-value (\eqn{p \le \alpha}{p ≤ α}, usually 0.05): Reject the null hypothesis. Conclude that
+#' *  Low p-value (\eqn{p \le \alpha}{p <= alpha}, usually 0.05): Reject the null hypothesis. Conclude that
 #' the two groups have significantly different circular distributions.
-#' * High p-value (\eqn{p > \alpha}{p > α}): Fail to reject the null hypothesis. There is not
+#' * High p-value (\eqn{p > \alpha}{p > alpha}): Fail to reject the null hypothesis. There is not
 #' enough evidence to say the two groups are distributed differently around the circle.
 #'
 #' @note Critical values for the test statistic are obtained using the asymptotic
@@ -951,19 +951,20 @@ watson_two_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L, alpha = NUL
 #' @details
 #' ## Hypotheses
 #'
-#' **Null Hypothesis (H₀)** The samples come from identical populations (meaning
+#' **Null Hypothesis (\eqn{H_0}{H0})** The samples come from identical populations (meaning
 #' both the mean direction and the dispersion/variance are homogeneous across groups).
 #'
-#' **Alternative Hypothesis (H₁)**: At least one sample comes from a different
+#' **Alternative Hypothesis (\eqn{H_1}{H1})**: At least one sample comes from a different
 #' population distribution, which can be due to a difference in the mean direction,
 #' a difference in variance/concentration, or both.
 #'
 #' ## Interpretation
 #'
-#' **Test Statistic (W)**: This value follows an approximate chi-squared (\eqn{\Chi^2}{χ²}) distribution.
+#' **Test Statistic (W)**: This value follows an approximate \eqn{\chi^2}{chi-squared} distribution.
 #' Higher values of W indicate larger discrepancies between the angular distributions of your groups.
 #'
-#' * If the p-value is less than your significance level (commonly α = 0.05), you **reject** the null hypothesis.
+#' * If the p-value is less than your significance level (commonly \eqn{\alpha}{alpha} = 0.05),
+#' you **reject** the null hypothesis.
 #' This means you have strong evidence that the groups differ significantly in
 #' their central direction or spread around the circle.
 #' * If the p-value is greater than 0.05, you **fail to reject** the null hypothesis,

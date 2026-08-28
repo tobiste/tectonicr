@@ -18,7 +18,7 @@ point(s) (\code{lat}, \code{lon} columns). \code{x} must contain the direction o
 (column \code{unc}) is optional).}
 
 \item{PoR}{\code{data.frame} or object of class \code{euler.pole} containing the
-geographical coordinates of the Eule pole.}
+geographical coordinates of the Euler pole.}
 
 \item{axial}{logical. Whether the azimuth is axial (0-180°) or directional
 (0-360°).}

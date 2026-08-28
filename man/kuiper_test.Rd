@@ -28,10 +28,10 @@ data points (such as times of day, compass directions, or degrees) are
 spread out evenly around a circle or if they cluster in some way.
 }
 \details{
-The \strong{Null Hypothesis} (\eqn{H_0}{H₀}): The data are distributed completely uniformly
+The \strong{Null Hypothesis} (\eqn{H_0}{H0}): The data are distributed completely uniformly
 (randomly and evenly) around the circle.
 
-The \strong{Alternative Hypothesis} (\eqn{H_1}{H₁}): The data are not uniform and
+The \strong{Alternative Hypothesis} (\eqn{H_1}{H1}): The data are not uniform and
 show a preference, clustering, or pattern somewhere on the circle.
 
 The Test Statistic (V or \eqn{D^{+} + D^{-}}{D⁺ + D⁻}): It measures the
@@ -39,10 +39,10 @@ greatest positive and negative differences between your data's empirical
 cumulative distribution and a theoretical uniform distribution.
 \subsection{Interpreting the Results}{
 \itemize{
-\item High Test Statistic / Low p-value (\eqn{p < \alpha}{p < α}, typically 0.05):
+\item High Test Statistic / Low p-value (\eqn{p < \alpha}{p < alpha}, typically 0.05):
 You reject the null hypothesis. This means your data are not uniform; they
 have a significant preferred direction, grouping, or non-random pattern on the circle.
-\item Low Test Statistic / High p-value (\eqn{p \ge 0.05}{p ≥ 0.05}): You fail to
+\item Low Test Statistic / High p-value (\eqn{p \ge 0.05}{p >= 0.05}): You fail to
 reject the null hypothesis. There is no strong evidence to say the data are
 different from a flat, uniform distribution. The points appear random across the circle.
 }

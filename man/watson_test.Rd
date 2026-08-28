@@ -51,14 +51,14 @@ theoretical distribution (such as a uniform distribution or a specific von Mises
 
 To interpret the output of Watson's \eqn{U^2}{U²}  test, compare your
 calculated \eqn{U^2}{U²}  test statistic to the critical value from
-Watson's goodness-of-fit/homogeneity tables at your chosen significance level (\eqn{\alpha}{α}, commonly set to 0.05),
+Watson's goodness-of-fit/homogeneity tables at your chosen significance level (\eqn{\alpha}{alpha}, commonly set to 0.05),
 or check the resulting p-value:
 \itemize{
-\item If \eqn{U^2_{\text{calculated}} > U^2_{\text{critical}}} (or p < \eqn{\alpha}{α}):
+\item If \eqn{U^2_{\text{calculated}} > U^2_{\text{critical}}} (or p < \eqn{\alpha}{alpha}):
 Reject the null hypothesis (\eqn{H_0}{H0}).
 Conclude that the data significantly deviates from the theoretical distribution.
-\item If \eqn{U^2_{\text{calculated}} \le U^2_{\text{critical}}} (or \eqn{p \ge \alpha}{p ≥ α}):
- Fail to reject the null hypothesis (\eqn{H_0}{H0}).
+\item If \eqn{U^2_{\text{calculated}} \le U^2_{\text{critical}}} (or \eqn{p \ge \alpha}{p >= alpha}):
+Fail to reject the null hypothesis (\eqn{H_0}{H0}).
 There is not enough evidence to claim the data deviates from the expected model.
 }
 }

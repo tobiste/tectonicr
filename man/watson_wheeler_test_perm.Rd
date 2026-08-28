@@ -32,20 +32,21 @@ between the samples can be in either the mean or the variance.
 \details{
 \subsection{Hypotheses}{
 
-\strong{Null Hypothesis (H₀)} The samples come from identical populations (meaning
+\strong{Null Hypothesis (\eqn{H_0}{H0})} The samples come from identical populations (meaning
 both the mean direction and the dispersion/variance are homogeneous across groups).
 
-\strong{Alternative Hypothesis (H₁)}: At least one sample comes from a different
+\strong{Alternative Hypothesis (\eqn{H_1}{H1})}: At least one sample comes from a different
 population distribution, which can be due to a difference in the mean direction,
 a difference in variance/concentration, or both.
 }
 
 \subsection{Interpretation}{
 
-\strong{Test Statistic (W)}: This value follows an approximate chi-squared (\eqn{\Chi^2}{χ²}) distribution.
+\strong{Test Statistic (W)}: This value follows an approximate \eqn{\chi^2}{chi-squared} distribution.
 Higher values of W indicate larger discrepancies between the angular distributions of your groups.
 \itemize{
-\item If the p-value is less than your significance level (commonly α = 0.05), you \strong{reject} the null hypothesis.
+\item If the p-value is less than your significance level (commonly \eqn{\alpha}{alpha} = 0.05),
+you \strong{reject} the null hypothesis.
 This means you have strong evidence that the groups differ significantly in
 their central direction or spread around the circle.
 \item If the p-value is greater than 0.05, you \strong{fail to reject} the null hypothesis,

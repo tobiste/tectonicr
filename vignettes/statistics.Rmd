@@ -35,14 +35,14 @@ are either **directional** or **axial**.
 
 -   **Directional** data are $2\pi$-periodical, the angle $\alpha$ is
     non-symmetrical on a circle. The modulus of the angle is $2\pi$
-    (360°): α = α mod $2\pi$. Directional data usually involve processes
+    (360&deg;): $\alpha = \alpha~\text{mod}~2\pi$. Directional data usually involve processes
     where objects or particles were transported from one known place to
     another. Examples are wind direction, bird vanishing angles, plate
     motion, and fault slip directions.
 -   **Axial** data are $\pi$-periodical, i.e. each direction is
     considered as equivalent to the opposite direction, so that the
     angles $\alpha$ and $\alpha + 180^\circ$ are equivalent. The modulus
-    of the angle is $\pi$ (180°): α = α mod $\pi$. Data usually involves
+    of the angle is $\pi$ (180&deg;): $\alpha = \alpha~\text{mod}~\pi$. Data usually involves
     transport of objects where the origin is unknown or doesn't matter
     as the transport could be extended infinitely. Examples are glacial
     striae, mineral alignments (long-axis of grain or crystal shapes),

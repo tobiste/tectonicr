@@ -61,9 +61,9 @@ is true. It is calculated by shuffling the group labels across your data many
 times to build a reference permutation distribution.
 \subsection{Making a Decision}{
 \itemize{
-\item Low p-value (\eqn{p \le \alpha}{p ≤ α}, usually 0.05): Reject the null hypothesis. Conclude that
+\item Low p-value (\eqn{p \le \alpha}{p <= alpha}, usually 0.05): Reject the null hypothesis. Conclude that
 the two groups have significantly different circular distributions.
-\item High p-value (\eqn{p > \alpha}{p > α}): Fail to reject the null hypothesis. There is not
+\item High p-value (\eqn{p > \alpha}{p > alpha}): Fail to reject the null hypothesis. There is not
 enough evidence to say the two groups are distributed differently around the circle.
 }
 }

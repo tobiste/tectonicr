@@ -1,4 +1,14 @@
-# tectonicr (development version)
+# tectonicr 0.4.9 _2026-08-28_
+
+* NEW: Added additional distribution functions (Circular Uniform, Wrapped Normal, Wrapped Cauchy) 
+for density estimation. The functions are also available for kernel density estimation and calculating the circular mode. 
+* NEW: Statistical tests: Angular Randomisation Test of Homogeneity (`ar_test()`), 
+Watson-Wheeler permutation test (`waton_wheeler_test_perm()`), Watson 2-sample permutation test `watson_two_test_perm()`, 
+and permutation Rayleigh test (`rayleigh_test_perm()`.
+* NEW: Kernel density estimation in circular plot can be plotted as filled polygon through option `fill`
+* NEW: 2 example files datasets (`homing` and `striae`) added for testing directional data
+* Many functions have been optimized and debugged using Claude.AI (including `stress2grid()`, `rayleigh_test()`, `kuiper_test()` and `watson_test()`
+* North label "N" in `circular_plot()` (and thus in `rose()`) now a placed `text` instead of `mtext`.
 
 # tectonicr 0.4.8 _2025-12-11_
 

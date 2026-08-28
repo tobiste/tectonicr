@@ -200,7 +200,7 @@ deviation_shmax <- function(prd, obs) {
 #' \eqn{\sigma_\text{Hmax}}{SHmax} as column `azi`, its standard deviation
 #' (column `unc`) is optional).
 #' @param PoR `data.frame` or object of class `euler.pole` containing the
-#' geographical coordinates of the Eule pole.
+#' geographical coordinates of the Euler pole.
 #' @param type Character. Type of plate boundary (optional). Can be
 #' \code{"out"}, \code{"in"}, \code{"right"}, or
 #' \code{"left"} for outward, inward, right-lateral, or left-lateral

@@ -70,7 +70,7 @@ measures how concentrated the data points are.
 mean resultant differs significantly from zero, and
 the angles are not randomly distributed. You have strong evidence that the
 data points share a significant preferred or mean direction (unimodal clustering).
-\item Large p-value (p ≥ 0.05): Fail to reject the null hypothesis. There is not
+\item Large p-value (p \eqn{\ge}{>=} 0.05): Fail to reject the null hypothesis. There is not
 enough evidence to claim a preferred direction, meaning the data looks random or uniform around the circle.
 }
 }
