@@ -1,3 +1,5 @@
+# tectonicr (development version)
+
 # tectonicr 0.4.9 _2026-08-28_
 
 * NEW: Added additional distribution functions (Circular Uniform, Wrapped Normal, Wrapped Cauchy) 
