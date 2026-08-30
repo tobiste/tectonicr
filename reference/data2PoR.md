@@ -20,7 +20,7 @@ data2PoR(x, PoR)
 - PoR:
 
   `data.frame` or object of class `euler.pole` containing the
-  geographical coordinates of the Eule pole.
+  geographical coordinates of the Euler pole.
 
 ## Value
 

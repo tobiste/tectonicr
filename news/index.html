@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,8 +45,20 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="tectonicr-development-version">tectonicr (development version)<a class="anchor" aria-label="anchor" href="#tectonicr-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.4.9" id="tectonicr-049">tectonicr 0.4.9<a class="anchor" aria-label="anchor" href="#tectonicr-049"></a></h2><p class="text-muted">CRAN release: 2026-08-29</p>
 </div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.9" id="tectonicr-049-2026-08-28">tectonicr 0.4.9 <em>2026-08-28</em>
+<a class="anchor" aria-label="anchor" href="#tectonicr-049-2026-08-28"></a></h2><p class="text-muted">CRAN release: 2026-08-29</p>
+<ul><li>NEW: Added additional distribution functions (Circular Uniform, Wrapped Normal, Wrapped Cauchy) for density estimation. The functions are also available for kernel density estimation and calculating the circular mode.</li>
+<li>NEW: Statistical tests: Angular Randomisation Test of Homogeneity (<code><a href="../reference/ar_test.html">ar_test()</a></code>), Watson-Wheeler permutation test (<code>waton_wheeler_test_perm()</code>), Watson 2-sample permutation test <code><a href="../reference/watson_two_sample.html">watson_two_test_perm()</a></code>, and permutation Rayleigh test (<code><a href="../reference/rayleigh-test.html">rayleigh_test_perm()</a></code>.</li>
+<li>NEW: Kernel density estimation in circular plot can be plotted as filled polygon through option <code>fill</code>
+</li>
+<li>NEW: 2 example files datasets (<code>homing</code> and <code>striae</code>) added for testing directional data</li>
+<li>Many functions have been optimized and debugged using Claude.AI (including <code><a href="../reference/stress2grid.html">stress2grid()</a></code>, <code><a href="../reference/rayleigh-test.html">rayleigh_test()</a></code>, <code><a href="../reference/kuiper_test.html">kuiper_test()</a></code> and <code><a href="../reference/watson_test.html">watson_test()</a></code>
+</li>
+<li>North label “N” in <code><a href="../reference/circular_plot.html">circular_plot()</a></code> (and thus in <code><a href="../reference/rose.html">rose()</a></code>) now a placed <code>text</code> instead of <code>mtext</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.8" id="tectonicr-048-2025-12-11">tectonicr 0.4.8 <em>2025-12-11</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-048-2025-12-11"></a></h2><p class="text-muted">CRAN release: 2025-12-12</p>

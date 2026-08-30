@@ -15,8 +15,8 @@ on your computer:
 
 2.  Once you downloaded and successfully installed R, you can use R in
     your preferred IDE. I recommend installing and using
-    [RStudio](https://posit.co/download/rstudio-desktop/). However,
-    [Positron](https://positron.posit.co/) and
+    [RStudio](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads?ref=rstudio-legacy).
+    However, [Positron](https://positron.posit.co/) and
     [VisualStudio](https://visualstudio.microsoft.com/) are also great
     alternatives. You are also allowed to use R’s native GUI or use R in
     your terminal only.

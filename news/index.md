@@ -1,6 +1,40 @@
 # Changelog
 
-## tectonicr (development version)
+## tectonicr 0.4.9
+
+CRAN release: 2026-08-29
+
+## tectonicr 0.4.9 *2026-08-28*
+
+CRAN release: 2026-08-29
+
+- NEW: Added additional distribution functions (Circular Uniform,
+  Wrapped Normal, Wrapped Cauchy) for density estimation. The functions
+  are also available for kernel density estimation and calculating the
+  circular mode.
+- NEW: Statistical tests: Angular Randomisation Test of Homogeneity
+  ([`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md)),
+  Watson-Wheeler permutation test (`waton_wheeler_test_perm()`), Watson
+  2-sample permutation test
+  [`watson_two_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
+  and permutation Rayleigh test
+  ([`rayleigh_test_perm()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md).
+- NEW: Kernel density estimation in circular plot can be plotted as
+  filled polygon through option `fill`
+- NEW: 2 example files datasets (`homing` and `striae`) added for
+  testing directional data
+- Many functions have been optimized and debugged using Claude.AI
+  (including
+  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
+  [`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
+  [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md)
+  and
+  [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)
+- North label “N” in
+  [`circular_plot()`](https://tobiste.github.io/tectonicr/reference/circular_plot.md)
+  (and thus in
+  [`rose()`](https://tobiste.github.io/tectonicr/reference/rose.md)) now
+  a placed `text` instead of `mtext`.
 
 ## tectonicr 0.4.8 *2025-12-11*
 

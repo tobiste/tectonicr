@@ -13,7 +13,7 @@ between the samples can be in either the mean or the variance."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.8.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,9 +99,9 @@ for the p-value will be returned.</p></dd>
 <h3 id="hypotheses">Hypotheses<a class="anchor" aria-label="anchor" href="#hypotheses"></a></h3>
 
 
-<p><strong>Null Hypothesis (H₀)</strong> The samples come from identical populations (meaning
+<p><strong>Null Hypothesis (\(H_0\))</strong> The samples come from identical populations (meaning
 both the mean direction and the dispersion/variance are homogeneous across groups).</p>
-<p><strong>Alternative Hypothesis (H₁)</strong>: At least one sample comes from a different
+<p><strong>Alternative Hypothesis (\(H_1\))</strong>: At least one sample comes from a different
 population distribution, which can be due to a difference in the mean direction,
 a difference in variance/concentration, or both.</p>
 </div>
@@ -110,8 +110,9 @@ a difference in variance/concentration, or both.</p>
 <h3 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a></h3>
 
 
-<p><strong>Test Statistic (W)</strong>: This value follows an approximate chi-squared (\(\Chi^2\)) distribution.
-Higher values of W indicate larger discrepancies between the angular distributions of your groups.</p><ul><li><p>If the p-value is less than your significance level (commonly α = 0.05), you <strong>reject</strong> the null hypothesis.
+<p><strong>Test Statistic (W)</strong>: This value follows an approximate \(\chi^2\) distribution.
+Higher values of W indicate larger discrepancies between the angular distributions of your groups.</p><ul><li><p>If the p-value is less than your significance level (commonly \(\alpha\) = 0.05),
+you <strong>reject</strong> the null hypothesis.
 This means you have strong evidence that the groups differ significantly in
 their central direction or spread around the circle.</p></li>
 <li><p>If the p-value is greater than 0.05, you <strong>fail to reject</strong> the null hypothesis,

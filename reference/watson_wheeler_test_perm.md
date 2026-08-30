@@ -42,24 +42,24 @@ list
 
 ### Hypotheses
 
-**Null Hypothesis (H₀)** The samples come from identical populations
-(meaning both the mean direction and the dispersion/variance are
-homogeneous across groups).
+**Null Hypothesis (\\H_0\\)** The samples come from identical
+populations (meaning both the mean direction and the dispersion/variance
+are homogeneous across groups).
 
-**Alternative Hypothesis (H₁)**: At least one sample comes from a
+**Alternative Hypothesis (\\H_1\\)**: At least one sample comes from a
 different population distribution, which can be due to a difference in
 the mean direction, a difference in variance/concentration, or both.
 
 ### Interpretation
 
-**Test Statistic (W)**: This value follows an approximate chi-squared
-(\\\Chi^2\\) distribution. Higher values of W indicate larger
-discrepancies between the angular distributions of your groups.
+**Test Statistic (W)**: This value follows an approximate \\\chi^2\\
+distribution. Higher values of W indicate larger discrepancies between
+the angular distributions of your groups.
 
-- If the p-value is less than your significance level (commonly α =
-  0.05), you **reject** the null hypothesis. This means you have strong
-  evidence that the groups differ significantly in their central
-  direction or spread around the circle.
+- If the p-value is less than your significance level (commonly
+  \\\alpha\\ = 0.05), you **reject** the null hypothesis. This means you
+  have strong evidence that the groups differ significantly in their
+  central direction or spread around the circle.
 
 - If the p-value is greater than 0.05, you **fail to reject** the null
   hypothesis, meaning there is no statistically significant evidence of

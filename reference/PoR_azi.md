@@ -27,7 +27,7 @@ PoR_shmax(x, PoR, type = c("none", "in", "out", "right", "left"), axial = TRUE)
 - PoR:
 
   `data.frame` or object of class `euler.pole` containing the
-  geographical coordinates of the Eule pole.
+  geographical coordinates of the Euler pole.
 
 - axial:
 
