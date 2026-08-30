@@ -1,5 +1,7 @@
 # Changelog
 
+## tectonicr (development version)
+
 ## tectonicr 0.4.9
 
 CRAN release: 2026-08-29
