@@ -58,7 +58,7 @@ p. 329). Berlin: Springer.
 \seealso{
 \code{\link[=cunif]{cunif()}}
 
-Other circ-qqplot: 
-\code{\link{vm_qqplot}()}
+Other circ-qqplot:
+\code{\link[=vm_qqplot]{vm_qqplot()}}
 }
 \concept{circ-qqplot}

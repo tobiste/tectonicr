@@ -67,13 +67,13 @@ of a recent method for comparing two circular distributions: an alternative
 to the Watson U2 test. Sci Rep 13, 10007 (2023). https://doi.org/10.1038/s41598-023-36960-1
 }
 \seealso{
-Other Tests: 
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
+Other Tests:
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
 \code{\link{rayleigh-test}},
-\code{\link{watson_test}()},
+\code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
-\code{\link{watson_wheeler_test_perm}()},
+\code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
 \code{\link{weighted-rayleigh-test}}
 }
 \concept{Tests}

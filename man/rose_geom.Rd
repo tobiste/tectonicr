@@ -37,13 +37,12 @@ radius <- c(.7, 1, .2)
 lwd <- c(2, 1, .75)
 col <- c(1, 2, 3)
 rose_line(angles, radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
-
 }
 \seealso{
-Other circular-plot: 
-\code{\link{plot_density}()},
-\code{\link{plot_points}()},
-\code{\link{rose}()},
-\code{\link{rose_stats}()}
+Other circular-plot:
+\code{\link[=plot_density]{plot_density()}},
+\code{\link[=plot_points]{plot_points()}},
+\code{\link[=rose]{rose()}},
+\code{\link[=rose_stats]{rose_stats()}}
 }
 \concept{circular-plot}

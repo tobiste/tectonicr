@@ -126,13 +126,13 @@ University Press.
 \seealso{
 \code{\link[=mean_resultant_length]{mean_resultant_length()}}, \code{\link[=circular_mean]{circular_mean()}}
 
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
-\code{\link{watson_test}()},
+Other Tests:
+\code{\link[=ar_test]{ar_test()}},
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
-\code{\link{watson_wheeler_test_perm}()},
+\code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
 \code{\link{weighted-rayleigh-test}}
 }
 \concept{Tests}

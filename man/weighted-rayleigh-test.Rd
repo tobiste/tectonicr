@@ -72,13 +72,13 @@ weighted_rayleigh_perm(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
 weighted_rayleigh_perm(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
 }
 \seealso{
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
+Other Tests:
+\code{\link[=ar_test]{ar_test()}},
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
 \code{\link{rayleigh-test}},
-\code{\link{watson_test}()},
+\code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
-\code{\link{watson_wheeler_test_perm}()}
+\code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}}
 }
 \concept{Tests}

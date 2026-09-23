@@ -12,7 +12,6 @@ rose(
   axial = TRUE,
   equal_area = TRUE,
   muci = TRUE,
-  round_binwidth = 0,
   origin.text = "N",
   main = NULL,
   sub = NULL,
@@ -30,6 +29,7 @@ rose(
   grid.lines = seq(0, 135, 45),
   grid.circles = seq(0.2, 1, 0.2),
   add = FALSE,
+  rule = c("sturges", "rice"),
   ...
 )
 }
@@ -53,9 +53,6 @@ square-root of the frequencies (\code{equal_area=TRUE}, the default).}
 \item{muci}{logical. Whether the mean and its 95\% CI are added to the plot
 or not.}
 
-\item{round_binwidth}{integer. Number of decimal places of bin width (0 by
-default).}
-
 \item{origin.text}{character. String to be drawn at the top margin of the plot
 (\code{"N"} by default)}
 
@@ -65,12 +62,12 @@ plot. If \code{sub = NULL}, it will show the bin width.}
 \item{at}{Optional vector of angles at which tick marks should be plotted.
 Set \code{at=numeric(0)} to suppress tick marks.}
 
-\item{cborder}{logical. Border of rose plot.}
+\item{cborder}{logical. Whether to plot the primitive of the circular plot (\code{TRUE} by default) or not.}
 
 \item{labels}{Either a logical value indicating whether to plot labels
 next to the tick marks, or a vector of labels for the tick marks.}
 
-\item{col}{fill color of bins}
+\item{col}{fill color of rose petals / fans}
 
 \item{dots}{logical. Whether a circular dot plot should be added
 (\code{FALSE} is the default).}
@@ -84,33 +81,26 @@ is added to \code{scale}. Jitter is ignored when \code{stack==TRUE}).
 If \code{0}, no jitter is added (by default); if negative, the points fall into
 the circle.}
 
-\item{grid}{logical. Whether to add a grid. Default is \code{FALSE}.}
+\item{grid}{logical. Whether to add a grid to the circular plot. Default is \code{FALSE}.}
 
 \item{grid.lines, grid.circles}{numeric. Adds a sequence of straight grid
-lines and circles based on angles and radii, respectively. Ignored when
+lines and circles based on angles (in degrees) and radii, respectively. Ignored when
 \code{grid=FALSE}}
 
-\item{add}{logical.}
+\item{add}{logical. Add to existing plot? (\code{TRUE} by default).}
 
-\item{...}{Additional arguments passed to \code{\link[spatstat.explore:rose]{spatstat.explore::rose()}}.}
+\item{rule}{character. Rule to select optimal bin width, one of "sturges" (the default) or "rice". The optimal number according to Sturges' rule is \eqn{1 + \log2(n)}, while for Rice's rule it is \eqn{2 n^{1/3}} (less conservative for large \code{n}).}
+
+\item{...}{Additional graphical arguments passed to \code{\link[graphics:polygon]{graphics::polygon()}}
+for plotting the rose petals / fans}
 }
 \value{
-A window (class \code{"owin"}) containing the plotted region or a \code{list}
-of the calculated frequencies.
+class of \code{histogram} that is a \code{list} of the calculated frequencies
+parameters including the bin width.
 }
 \description{
 Plots a rose diagram (rose of directions), the analogue of a
 histogram or density plot for angular data.
-}
-\note{
-If \code{bins} and \code{binwidth} are \code{NULL}, an optimal bin width will be
-calculated using Scott (1979):
-\deqn{ w_b = \frac{R}{n^{\frac{1}{3}}}
-}
-with n being the length of \code{x}, and the range R being either 180 or 360
-degree for axial or directional data, respectively.
-
-If \code{"axial" == TRUE}, the binwidth is adjusted to guarantee symmetrical fans.
 }
 \examples{
 x <- rvm(100, mean = 90, k = 5)
@@ -133,10 +123,10 @@ rose(san_andreas$azi,
 )
 }
 \seealso{
-Other circular-plot: 
-\code{\link{plot_density}()},
-\code{\link{plot_points}()},
+Other circular-plot:
+\code{\link[=plot_density]{plot_density()}},
+\code{\link[=plot_points]{plot_points()}},
 \code{\link{rose_geom}},
-\code{\link{rose_stats}()}
+\code{\link[=rose_stats]{rose_stats()}}
 }
 \concept{circular-plot}

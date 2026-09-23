@@ -53,7 +53,7 @@ standard deviation (\code{"sd"}), the Quasi interquartile range on the circle
 
 \item{spread.lwd}{line width of the spread fan's border}
 
-\item{add}{logical.}
+\item{add}{logical. Add to existing plot? (\code{TRUE} by default).}
 
 \item{...}{optional arguments to \code{circular_plot()} if add is \code{FALSE}.}
 }
@@ -75,10 +75,10 @@ rose_stats(san_andreas$azi, weights = 1 / san_andreas$unc, avg = "sample_median"
 \code{\link[=circular_sd]{circular_sd()}}, \code{\link[=circular_IQR]{circular_IQR()}}, \code{\link[=circular_sample_median_deviation]{circular_sample_median_deviation()}}
 for statistical parameters.
 
-Other circular-plot: 
-\code{\link{plot_density}()},
-\code{\link{plot_points}()},
-\code{\link{rose}()},
+Other circular-plot:
+\code{\link[=plot_density]{plot_density()}},
+\code{\link[=plot_points]{plot_points()}},
+\code{\link[=rose]{rose()}},
 \code{\link{rose_geom}}
 }
 \concept{circular-plot}

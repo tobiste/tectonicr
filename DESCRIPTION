@@ -26,8 +26,6 @@ Imports:
     sf,
     smoothr (>= 1.0.1),
     spatstat.explore (>= 3.2.7),
-    spatstat.geom (>= 3.2.9),
-    spatstat.univar (>= 2.0.3),
     spatstat.utils (>= 3.0.4),
     terra,
     tidyr,
@@ -48,4 +46,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.0

@@ -2,27 +2,34 @@
 % Please edit documentation in R/rose.R
 \name{rose_bw}
 \alias{rose_bw}
-\alias{rose_bins}
-\alias{rose_binwidth}
+\alias{optimal_rose_bins}
 \title{Selecting optimal number of bins and width for rose diagrams}
 \usage{
-rose_bins(n, round = FALSE)
-
-rose_binwidth(n, axial = TRUE, ...)
+optimal_rose_bins(
+  n,
+  rule = c("sturges", "rice"),
+  full_circle = TRUE,
+  min_bins = 4L
+)
 }
 \arguments{
 \item{n}{Integer. number of data}
 
-\item{round}{Logical. Whether bin width is round to zero digits
-(\code{round=TRUE}, the default)
-or as is (\code{FALSE}).}
+\item{rule}{character. Rule to select optimal bin width, one of "sturges" (the default) or "rice". The optimal number according to Sturges' rule is \eqn{1 + \log2(n)}, while for Rice's rule it is \eqn{2 n^{1/3}} (less conservative for large \code{n}).}
 
-\item{axial}{Logical. Whether data are uniaxial (\code{axial=FALSE})
-or biaxial (\code{TRUE}, the default).}
+\item{full_circle}{logical. Whether bin width should be calculated for the full (\code{TRUE}, the default) or the half circle (\code{FALSE}).}
 
-\item{...}{Additional arguments passed to \code{\link[=rose_bw]{rose_bw()}}.}
+\item{min_bins}{integer. The minimum number of bins. \code{4} by default.}
 }
 \description{
-Selecting optimal number of bins and width for rose diagrams
+#' @rdname rose_bw
+rose_binwidth <- function(n, axial = TRUE, ...) {
+if (isTRUE(axial)) {
+r <- 180
+} else {
+r <- 360
+}
+r / rose_bins(n)
+}
 }
 \keyword{internal}

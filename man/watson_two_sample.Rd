@@ -99,13 +99,13 @@ watson_two_test(sa.por$azi, 135, alpha = 0.05)
 watson_two_test_perm(sa.por$azi, rvm(100, 135, 10), alpha = 0.05)
 }
 \seealso{
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
+Other Tests:
+\code{\link[=ar_test]{ar_test()}},
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
 \code{\link{rayleigh-test}},
-\code{\link{watson_test}()},
-\code{\link{watson_wheeler_test_perm}()},
+\code{\link[=watson_test]{watson_test()}},
+\code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
 \code{\link{weighted-rayleigh-test}}
 }
 \concept{Tests}

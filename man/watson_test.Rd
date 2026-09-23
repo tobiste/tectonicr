@@ -87,13 +87,13 @@ Sons.
 \seealso{
 \link{vonmises} and \link{cunif}
 
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
+Other Tests:
+\code{\link[=ar_test]{ar_test()}},
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
 \code{\link{rayleigh-test}},
 \code{\link{watson_two_sample}},
-\code{\link{watson_wheeler_test_perm}()},
+\code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
 \code{\link{weighted-rayleigh-test}}
 }
 \concept{Tests}

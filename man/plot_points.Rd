@@ -49,12 +49,11 @@ negative, the points fall into the circle.}
 
 \item{...}{Further graphical parameters may also be supplied as arguments.}
 
-\item{scale}{radius of plotted circle. Default is \code{1.1}.
-Larger values shrink the circle, while smaller values enlarge the circle.}
+\item{scale}{numeric. Scales radius of plotted dots Default is \code{1.1}.}
 
-\item{add}{logical}
+\item{add}{logical. Add to existing plot? (\code{TRUE} by default).}
 
-\item{main}{Character string specifying the title of the plot.}
+\item{main}{a main title for the plot, see also \code{\link[graphics]{title}}.}
 
 \item{labels}{Either a logical value indicating whether to plot labels
 next to the tick marks, or a vector of labels for the tick marks.}
@@ -62,7 +61,7 @@ next to the tick marks, or a vector of labels for the tick marks.}
 \item{at}{Optional vector of angles at which tick marks should be plotted.
 Set \code{at=numeric(0)} to suppress tick marks.}
 
-\item{cborder}{logical. Border of rose plot.}
+\item{cborder}{logical. Whether to plot the primitive of the circular plot (\code{TRUE} by default) or not.}
 }
 \value{
 A list with information on the plot
@@ -71,6 +70,7 @@ A list with information on the plot
 Add points to a plot of circular data points on the current graphics device.
 }
 \examples{
+set.seed(20250511)
 x <- rvm(100, mean = 90, k = 5)
 
 # plot poinit without jitter
@@ -83,10 +83,10 @@ plot_points(x, jitter_factor = .2, add = FALSE)
 plot_points(x, stack = TRUE, binwidth = 3, add = FALSE, xpd = TRUE)
 }
 \seealso{
-Other circular-plot: 
-\code{\link{plot_density}()},
-\code{\link{rose}()},
+Other circular-plot:
+\code{\link[=plot_density]{plot_density()}},
+\code{\link[=rose]{rose()}},
 \code{\link{rose_geom}},
-\code{\link{rose_stats}()}
+\code{\link[=rose_stats]{rose_stats()}}
 }
 \concept{circular-plot}

@@ -2,218 +2,391 @@
 
 #' Circular plot
 #'
-#' @param main Character string specifying the title of the plot.
+#' Polar diagram where angles increase clockwise.
+#'
+#' @inheritParams graphics::plot
 #' @param at Optional vector of angles at which tick marks should be plotted.
 #' Set `at=numeric(0)` to suppress tick marks.
 #' @param labels Either a logical value indicating whether to plot labels
 #' next to the tick marks, or a vector of labels for the tick marks.
-#' @param cborder logical. Border of rose plot.
-#' @param ... optional arguments passed to `plot.default()`
-#' @importFrom spatstat.geom disc plot.owin
-#' @import spatstat.utils
-#' @import spatstat.explore
-#' @importFrom spatstat.univar whist
-#' @importFrom graphics par
-#'
-#' @note Polar diagram where angles increase clockwise.
+#' @param grid logical. Whether to add a grid to the circular plot. Default is `FALSE`.
+#' @param grid.lines,grid.circles numeric. Adds a sequence of straight grid
+#' lines and circles based on angles (in degrees) and radii, respectively. Ignored when
+#' `grid=FALSE`
+#' @param cborder logical. Whether to plot the primitive of the circular plot (`TRUE` by default) or not.
+#' @param origin.text character. String to be drawn at the top margin of the plot
+#' (`"N"` by default)
+#' @param radius numeric. The radius of the circular plot. `1` by default.
+#' @param scale numeric. Increases the radius of the border to have some in-plot clearance. `1.1` by default
+#' @param ... optional parameters passed to [graphics::symbols()] for plotting border of circular plot.
+#' Ignored if `cborder=FALSE`.
 #'
 #' @export
 #'
 #' @return none
 #'
-#' @keywords internal
-circular_plot <- function(main = NULL, labels = TRUE,
-                          at = seq(0, 360 - 45, 45), cborder = TRUE, ...) {
+#' @importFrom spatstat.explore circticks
+#' @importFrom graphics par symbols
+#'
+#' @examples
+#' circular_plot(grid = TRUE)
+circular_plot <- function(main = NULL, sub = NULL, labels = TRUE,
+                          at = c(grid.lines, grid.lines+180),
+                          cborder = TRUE,
+                          radius = 1, scale = 1.1,
+                          grid = FALSE, grid.lines = seq(0, 135, 45), grid.circles = seq(.2, radius, .2),
+                          origin.text = "N",
+                          ...) {
   graphics::par(xpd = TRUE)
   unit <- "degree"
-  ymax <- 1
   insideclearance <- 0.1
-  outsidespace <- if (!is.null(at) && length(at) == 0) {
-    0
-  } else if (identical(labels, FALSE)) {
-    0.1
-  } else {
-    0.25
+  # outsidespace <- if (!is.null(at) && length(at) == 0) {
+  #   0
+  # } else if (identical(labels, FALSE)) {
+  #   0.1
+  # } else {
+  #   0.25
+  # }
+  #R <- (1 + insideclearance) * radius
+  R <- radius * scale
+  # DD <- spatstat.geom::disc(R)
+  # Rout <- (1 + outsidespace) * R
+  # disco <- spatstat.geom::disc(Rout)
+  # spatstat.utils::dont.complain.about(DD, disco)
+  # result <- spatstat.utils::do.call.matched(
+  #   spatstat.geom::plot.owin, spatstat.utils::resolve.defaults(list(
+  #     x = quote(disco),
+  #     main = main, type = "n", border = cborder
+  #   ), list(...))
+  # )
+  # spatstat.utils::do.call.matched(
+  #   spatstat.geom::plot.owin, spatstat.utils::resolve.defaults(
+  #     list(
+  #       x = quote(DD),
+  #       hatch = FALSE, add = TRUE, border = cborder
+  #     ), list(...)
+  #   ),
+  #   extrargs = spatstat.utils::graphicsPars("owin"), skipargs = "col"
+  # )
+
+  graphics::plot(0, 0, type = "n", xlim = c(-R, R) * 1, ylim = c(-R, R) * 1,
+       asp = 1, axes = FALSE, xlab = "", ylab = "", main = main, sub = sub)
+
+
+  if (grid) {
+    rose_grid(angles = grid.lines, radii = grid.circles)
   }
-  R <- (1 + insideclearance) * ymax
-  DD <- spatstat.geom::disc(R)
-  Rout <- (1 + outsidespace) * R
-  disco <- spatstat.geom::disc(Rout)
-  spatstat.utils::dont.complain.about(DD, disco)
-  result <- spatstat.utils::do.call.matched(
-    spatstat.geom::plot.owin, spatstat.utils::resolve.defaults(list(
-      x = quote(disco),
-      main = main, type = "n", border = cborder
-    ), list(...))
-  )
-  spatstat.utils::do.call.matched(
-    spatstat.geom::plot.owin, spatstat.utils::resolve.defaults(
-      list(
-        x = quote(DD),
-        hatch = FALSE, add = TRUE, border = cborder
-      ), list(...)
-    ),
-    extrargs = spatstat.utils::graphicsPars("owin"), skipargs = "col"
-  )
+
+
+  if(isTRUE(cborder)) graphics::symbols(0, 0, circles = R, add = TRUE, inches = FALSE, ...)
+
+
   spatstat.explore::circticks(
     R,
     at = at, unit = unit, start = -90, clockwise = TRUE, labels = labels
   )
-  return(invisible(result))
+
+  graphics::text(0, (radius + ifelse(labels, 0.4, 0.2))*scale, origin.text, font = 2)
+
+  # return(invisible(result))
 }
 
 
 rose_histogram <- function(x, ..., main, labels = TRUE, at = NULL,
-                           cborder = TRUE, axial = FALSE, add = FALSE) {
+                           cborder = TRUE, axial = FALSE, add = FALSE, radius = 1) {
   if (missing(main) || is.null(main)) {
     main <- spatstat.utils::short.deparse(substitute(x))
   }
+
+  ## axial data is plotted on both sides of the circle (0-180 and 180-360)
+  if (axial) {
+    breaks <- c(x$breaks, x$breaks[-1] + 180)
+    counts <- c(x$counts, x$counts)
+    density <- c(x$density, x$density)
+  } else {
+    breaks <- x$breaks
+    counts <- x$counts
+    density <- x$density
+  }
+
 
   bks <- x$mids
   bw <- x$binwidth
   y <- x$density
 
-  if (isFALSE(add)) circular_plot(smain = main, labels, at = at, cborder = cborder)
+  if (isFALSE(add)) circular_plot(main = main, labels, at = at, cborder = cborder)
 
-  for (i in seq_along(y)) {
-    rose_fan(bks[i], d = bw, radius = y[i], axial = axial, add = TRUE, ...)
+  # for (i in seq_along(y)) {
+  #   rose_fan(bks[i], d = bw, radius = y[i], axial = axial, add = TRUE, ...)
+  # }
+
+  # rmax <- max(counts, radius)
+
+
+  to_xy <- function(theta_deg, r) {
+    theta <- deg2rad(theta_deg)
+    cbind(r * sin(theta), r * cos(theta))          # bearing: 0 deg = N, clockwise
   }
+
+  for (i in seq_len(length(breaks) - 1)) {
+    theta_seq <- seq(breaks[i], breaks[i + 1], length.out = 10)
+    pts <- rbind(c(0, 0), to_xy(theta_seq, density[i] * radius), c(0, 0))
+    graphics::polygon(pts, ...)
+  }
+
+  invisible(x)
 }
+
+
 
 graphicsAargh <- c(
   "density", "angle", "col", "border",
   "xlim", "ylim", "xlab", "ylab", "axes"
 )
 
-rose_freq <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
-                      round_binwidth = 0, equal_area = TRUE,
-                      main = NULL, axial = TRUE) {
-  if (missing(main) || is.null(main)) {
+
+# rose_freq_old <- function(x, bins = NULL, ..., weights = NULL, binwidth = NULL,
+#                       round_binwidth = 0, equal_area = TRUE,
+#                       main = NULL, axial = TRUE) {
+#   if (missing(main) || is.null(main)) {
+#     main <- spatstat.utils::short.deparse(substitute(x))
+#   }
+#
+#   stopifnot(is.numeric(x))
+#   if (!is.null(weights)) {
+#     spatstat.utils::check.nvector(weights, length(x),
+#       things = "observations",
+#       vname = "weights"
+#     )
+#   }
+#
+#   if (isTRUE(axial)) {
+#     if (!is.null(bins) && is.null(binwidth)) {
+#       stopifnot(bins > 0)
+#       binwidth <- 180 / bins # bin width
+#     } else if (is.null(bins) && is.null(binwidth)) {
+#       binwidth <- rose_binwidth(length(stats::na.omit(x)), axial = axial)
+#     }
+#
+#     binwidth <- round(binwidth)
+#     stopifnot(binwidth > 0)
+#
+#     binwidth <- symmetric_bw(binwidth)
+#
+#     x <- x %% 180
+#     breaks <- seq(0, 180, binwidth) |> add_end(180)
+#   } else {
+#     if (!is.null(bins) && is.null(binwidth)) {
+#       stopifnot(bins > 0)
+#       binwidth <- 360 / bins # bin width
+#     } else if (is.null(bins) && is.null(binwidth)) {
+#       binwidth <- rose_binwidth(length(stats::na.omit(x)), axial = axial)
+#     }
+#
+#     binwidth <- round(binwidth)
+#     stopifnot(binwidth > 0)
+#
+#     breaks <- seq(0, 360, binwidth) |> add_end(360)
+#   }
+#
+#   h <- spatstat.utils::do.call.matched(graphics::hist.default, list(
+#     x = x, breaks = breaks, ..., plot = FALSE
+#   ),
+#   skipargs = graphicsAargh, sieve = TRUE
+#   )
+#
+#   result <- numeric()
+#   result <- h$result
+#   result$otherargs <- h$otherargs
+#
+#   freqs <- spatstat.univar::whist(
+#     x = x, breaks = breaks, weights = weights
+#   )
+#
+#   result$count <- freqs
+#   result$density <- freqs / binwidth
+#
+#   if (equal_area) {
+#     result$density <- sqrt(result$density)
+#   }
+#   result$xname <- main
+#   result$density <- result$density / max(result$density)
+#   result$binwidth <- binwidth
+#
+#   result
+# }
+
+rose_freq <- function(x, weights = NULL, bins = NULL, binwidth = NULL, rule = c("sturges", "rice"),
+                       axial = TRUE, equal_area = TRUE, main = NULL) {
+  rule <- match.arg(rule)
+  angles <- x %% 360
+  if (isTRUE(axial)) angles <- angles %% 180
+
+  if (is.null(weights)) {
+    weights <- rep(1, length(angles))
+  } else {
+    if (!is.numeric(weights)) stop("`weights` must be numeric.")
+    if (length(weights) != length(angles)) {
+      stop("`weights` must have the same length as `angles` (", length(angles), ").")
+    }
+    if (any(weights < 0, na.rm = TRUE)) stop("`weights` must be non-negative.")
+  }
+
+
+  full_range <- if (axial) 180 else 360
+
+  if(is.null(bins) & is.null(binwidth)){
+    info <- optimal_rose_bins(length(angles), rule = rule, full_circle = !axial)
+    n_bins   <- info$n_bins
+    binwidth <- info$binwidth_deg
+  } else {
+    if(is.null(bins) & !is.null(binwidth)){
+      bins <- full_range / binwidth
+    }
+    n_bins <- 2L * as.integer(ceiling(bins / 2))
+    binwidth <- full_range / n_bins
+  }
+
+  breaks  <- seq(0, full_range, by = binwidth)
+  bin_idx <- cut(angles, breaks = breaks, include.lowest = TRUE, right = FALSE,
+                 labels = FALSE)
+  bin_idx <- factor(bin_idx, levels = seq_len(length(breaks) - 1))
+  counts  <- as.numeric(tapply(weights, bin_idx, sum))
+  counts[is.na(counts)] <- 0   # bins with no observations
+
+
+  if (is.null(main)) {
     main <- spatstat.utils::short.deparse(substitute(x))
   }
 
-  stopifnot(is.numeric(x))
-  if (!is.null(weights)) {
-    spatstat.utils::check.nvector(weights, length(x),
-      things = "observations",
-      vname = "weights"
-    )
-  }
-
-  if (isTRUE(axial)) {
-    if (!is.null(bins) && is.null(binwidth)) {
-      stopifnot(bins > 0)
-      binwidth <- 180 / bins # bin width
-    } else if (is.null(bins) && is.null(binwidth)) {
-      binwidth <- rose_binwidth(length(stats::na.omit(x)), axial = axial)
-    }
-
-    binwidth <- round(binwidth)
-    stopifnot(binwidth > 0)
-
-    binwidth <- symmetric_bw(binwidth)
-
-    x <- x %% 180
-    breaks <- seq(0, 180, binwidth) |> add_end(180)
-  } else {
-    if (!is.null(bins) && is.null(binwidth)) {
-      stopifnot(bins > 0)
-      binwidth <- 360 / bins # bin width
-    } else if (is.null(bins) && is.null(binwidth)) {
-      binwidth <- rose_binwidth(length(stats::na.omit(x)), axial = axial)
-    }
-
-    binwidth <- round(binwidth)
-    stopifnot(binwidth > 0)
-
-    breaks <- seq(0, 360, binwidth) |> add_end(360)
-  }
-
-  h <- spatstat.utils::do.call.matched(graphics::hist.default, list(
-    x = x, breaks = breaks, ..., plot = FALSE
-  ),
-  skipargs = graphicsAargh, sieve = TRUE
-  )
-
-  result <- numeric()
-  result <- h$result
-  result$otherargs <- h$otherargs
-
-  freqs <- spatstat.univar::whist(
-    x = x, breaks = breaks, weights = weights
-  )
-
-  result$count <- freqs
-  result$density <- freqs / binwidth
+  out <- list()
+  out$breaks <- breaks
+  out$counts <- counts
+  out$density <- counts / binwidth
 
   if (equal_area) {
-    result$density <- sqrt(result$density)
+    out$density <- sqrt(out$density)
   }
-  result$xname <- main
-  result$density <- result$density / max(result$density)
-  result$binwidth <- binwidth
 
-  result
+  # normalize densities
+  out$density <- out$density / max(out$density)
+
+
+  nc <- length(breaks)
+  mids <- vapply(seq_len(nc)-1, function(i){
+    mean(c(breaks[i], breaks[i+1]))
+  }, numeric(1))
+
+  out$mids <- mids
+
+  out$xname <- main
+
+  out$equidist <- TRUE
+
+  out$binwidth <- binwidth
+  out$n_bins <- n_bins
+
+  class(out) <- "histogram"
+  out
 }
-
 
 #' @title Selecting optimal number of bins and width for rose diagrams
 #'
 #' @param n Integer. number of data
-#' @param round Logical. Whether bin width is round to zero digits
-#' (`round=TRUE`, the default)
-#' or as is (`FALSE`).
-#' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
-#' or biaxial (`TRUE`, the default).
-#' @param ... Additional arguments passed to [rose_bw()].
+# #' @param round Logical. Whether bin width is round to zero digits
+# #' (`round=TRUE`, the default)
+# #' or as is (`FALSE`).
+# #' @param axial Logical. Whether data are uniaxial (`axial=FALSE`)
+# #' or biaxial (`TRUE`, the default).
+# #' @param ... Additional arguments passed to [rose_bw()].
+#' @param rule character. Rule to select optimal bin width, one of "sturges" (the default) or "rice". The optimal number according to Sturges' rule is \eqn{1 + \log2(n)}, while for Rice's rule it is \eqn{2 n^{1/3}} (less conservative for large `n`).
+#' @param full_circle logical. Whether bin width should be calculated for the full (`TRUE`, the default) or the half circle (`FALSE`).
+#' @param min_bins integer. The minimum number of bins. `4` by default.
 #'
 #' @keywords internal
 #' @name rose_bw
 NULL
 
-#' @rdname rose_bw
-rose_bins <- function(n, round = FALSE) {
-  b <- 2 * n^(1 / 3) # bins
-  if (round) {
-    round(b)
-  } else {
-    b
-  }
-}
+#' #' @rdname rose_bw
+#' rose_bins <- function(n, round = FALSE) {
+#'   b <- 2 * n^(1 / 3) # bins
+#'   if (isTRUE(round)) {
+#'     round(b)
+#'   } else {
+#'     b
+#'   }
+#' }
+#'
+#' #' @rdname rose_bw
+#' rose_binwidth <- function(n, axial = TRUE, ...) {
+#'   if (isTRUE(axial)) {
+#'     r <- 180
+#'   } else {
+#'     r <- 360
+#'   }
+#'   r / rose_bins(n)
+#' }
 
 #' @rdname rose_bw
-rose_binwidth <- function(n, axial = TRUE, ...) {
-  if (isTRUE(axial)) {
-    r <- 180
-  } else {
-    r <- 360
+optimal_rose_bins <- function(n, rule = c("sturges", "rice"),
+                              full_circle = TRUE, min_bins = 4L) {
+  rule <- match.arg(rule)
+
+  if (!is.numeric(n) || length(n) != 1L || is.na(n) || n < 1 ||
+      n != as.integer(n)) {
+    stop("`n` must be a single positive integer (the number of angle observations).")
   }
-  r / rose_bins(n)
-}
-
-is.naturalnumber <- function(x, tol = .Machine$double.eps^0.5) x > tol & abs(x - round(x)) < tol
-
-symmetric_bw <- function(x) {
-  div <- 180 / seq(1, 180, 1)
-  cond <- is.naturalnumber(div) & div < 180
-  allowed <- div[cond]
-  target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
-  min(allowed[target.index])
-}
-
-add_end <- function(x, end) {
-  check <- end %in% x
-  if (check) {
-    x
-  } else {
-    x <- c(x, end)
+  n <- as.integer(n)
+  if (!is.numeric(min_bins) || min_bins < 2 || min_bins %% 2 != 0) {
+    stop("`min_bins` must be a positive even integer.")
   }
+
+  k_raw <- switch(rule,
+                  sturges = 1 + log2(n),
+                  rice    = 2 * n^(1 / 3)
+  )
+
+  ## round UP to the nearest even integer
+  k <- 2L * as.integer(ceiling(k_raw / 2))
+  k <- max(k, as.integer(min_bins))
+
+  full_range <- if (full_circle) 360 else 180
+
+  list(
+    n            = n,
+    rule         = rule,
+    n_bins       = k,
+    binwidth_deg = full_range / k,
+    binwidth_rad = (full_range / k) * pi / 180
+  )
 }
+
+#
+# is.naturalnumber <- function(x, tol = .Machine$double.eps^0.5) x > tol & abs(x - round(x)) < tol
+#
+# symmetric_bw <- function(x) {
+#   div <- 180 / seq(1, 180, 1)
+#   cond <- is.naturalnumber(div) & div < 180
+#   allowed <- div[cond]
+#   target.index <- which(abs(allowed - x) == min(abs(allowed - x)))
+#   min(allowed[target.index])
+# }
+#
+# add_end <- function(x, end) {
+#   check <- end %in% x
+#   if (check) {
+#     x
+#   } else {
+#     x <- c(x, end)
+#   }
+# }
 
 rose_grid <- function(angles, radii, add = TRUE) {
   rose_line(angles, col = "grey80", lty = 2, add = add)
   for (i in radii) {
-    plot(spatstat.geom::disc(i), col = NA, border = "grey80", lty = 2, add = add)
+    #plot(spatstat.geom::disc(i), col = NA, border = "grey80", lty = 2, add = add)
+    graphics::symbols(0, 0, circles = i, add = add, inches = FALSE, fg = "grey80", lty = 2)
+
   }
 }
 
@@ -234,14 +407,14 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' square-root of the frequencies (`equal_area=TRUE`, the default).
 #' @param muci logical. Whether the mean and its 95% CI are added to the plot
 #' or not.
-#' @param round_binwidth integer. Number of decimal places of bin width (0 by
-#' default).
+# #' @param round_binwidth integer. Number of decimal places of bin width (0 by
+# #' default).
 #' @param origin.text character. String to be drawn at the top margin of the plot
 #' (`"N"` by default)
 #' @param main,sub Character string specifying the title and subtitle of the
 #' plot. If `sub = NULL`, it will show the bin width.
 #' @inheritParams circular_plot
-#' @param col fill color of bins
+#' @param col fill color of rose petals / fans
 #' @param dots logical. Whether a circular dot plot should be added
 #' (`FALSE` is the default).
 #' @param jitter_factor Add a small amount of noise to the angles' radius that
@@ -250,26 +423,15 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' the circle.
 #' @param stack logical. Groups and stacks the dots if `TRUE`. Default is `FALSE`.
 #' @param dot_cex,dot_pch,dot_col Plotting arguments for circular dot plot
-#' @param grid logical. Whether to add a grid. Default is `FALSE`.
-#' @param grid.lines,grid.circles numeric. Adds a sequence of straight grid
-#' lines and circles based on angles and radii, respectively. Ignored when
-#' `grid=FALSE`
-#' @param add logical.
-#' @param ... Additional arguments passed to [spatstat.explore::rose()].
+#' @inheritParams circular_plot
+#' @param add logical. Add to existing plot? (`TRUE` by default).
+#' @inheritParams rose_bw
+#' @param ... Additional graphical arguments passed to [graphics::polygon()]
+#' for plotting the rose petals / fans
 #'
-#' @note If `bins` and `binwidth` are `NULL`, an optimal bin width will be
-#' calculated using Scott (1979):
-#' \deqn{ w_b = \frac{R}{n^{\frac{1}{3}}}
-#' }
-#' with n being the length of `x`, and the range R being either 180 or 360
-#' degree for axial or directional data, respectively.
+#' @return class of `histogram` that is a `list` of the calculated frequencies
+#' parameters including the bin width.
 #'
-#' If `"axial" == TRUE`, the binwidth is adjusted to guarantee symmetrical fans.
-#'
-#' @return A window (class `"owin"`) containing the plotted region or a `list`
-#' of the calculated frequencies.
-#'
-#' @importFrom spatstat.explore rose
 #' @importFrom spatstat.utils short.deparse
 #' @importFrom graphics hist title points text
 #' @importFrom stats na.omit
@@ -299,21 +461,19 @@ rose_grid <- function(angles, radii, add = TRUE) {
 #' )
 rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
                  equal_area = TRUE, muci = TRUE,
-                 round_binwidth = 0, origin.text = "N", main = NULL, sub = NULL,
+                 origin.text = "N", main = NULL, sub = NULL,
                  at = seq(0, 360 - 45, 45), cborder = TRUE, labels = TRUE,
                  col = "grey", dots = FALSE, dot_pch = 1, dot_cex = 1,
                  dot_col = "slategrey", stack = FALSE, jitter_factor = 0,
                  grid = FALSE, grid.lines = seq(0, 135, 45), grid.circles = seq(.2, 1, .2),
-                 add = FALSE, ...) {
+                 add = FALSE,
+                 rule = c("sturges", "rice"),
+                 ...) {
   if (isFALSE(add)) {
     if (missing(main) || is.null(main)) {
       main <- spatstat.utils::short.deparse(substitute(x))
     }
-    circular_plot(main = main, labels = labels, at = at, cborder = cborder)
-  }
-
-  if (grid) {
-    rose_grid(angles = grid.lines, radii = grid.circles)
+    circular_plot(main = main, sub = sub, labels = labels, at = at, cborder = cborder, grid = grid, grid.lines = grid.lines, grid.circles = grid.circles, origin.text = origin.text)
   }
 
   f <- if (isTRUE(axial)) 2 else 1
@@ -321,9 +481,10 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 
   freqs <- rose_freq(
     x,
-    bins = bins, ..., weights = weights, binwidth = binwidth,
-    round_binwidth = round_binwidth, equal_area = equal_area,
-    axial = axial
+    bins = bins, weights = weights, binwidth = binwidth,
+    equal_area = equal_area,
+    axial = axial,
+    main = main
   )
 
   rose_histogram(freqs, ...,
@@ -338,11 +499,10 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
     )
   }
 
-  if (is.null(sub)) sub <- paste("Bin width:", freqs$binwidth)
-  graphics::title(main = NULL, sub = sub, ylab = NULL)
-  # graphics::mtext(mtext, font = 2)
-
-  graphics::text(0, 1 + ifelse(labels, 0.5, 0.3), origin.text, font = 2)
+  if (is.null(sub)) {
+    sub <- paste("Bin width:", freqs$binwidth)
+    graphics::title(main = NULL, sub = sub, ylab = NULL)
+  }
 
   if (muci) rose_stats(x, weights = weights, axial = axial)
   invisible(freqs)
@@ -371,7 +531,6 @@ rose <- function(x, weights = NULL, binwidth = NULL, bins = NULL, axial = TRUE,
 #' lwd <- c(2, 1, .75)
 #' col <- c(1, 2, 3)
 #' rose_line(angles, radius = radius, axial = FALSE, add = FALSE, lwd = lwd, col = col)
-#'
 NULL
 
 #' @rdname rose_geom
@@ -412,6 +571,7 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
   }
 }
 
+
 #' Show Average Direction and Spread in Rose Diagram
 #'
 #' Adds the average direction (and its spread) to an existing rose diagram.
@@ -435,7 +595,7 @@ rose_fan <- function(x, d, radius = 1, axial = TRUE, add = TRUE, ...) {
 #' @param spread.border logical. Whether to draw a border of the fan or not.
 #' @param spread.lty line type of the spread fan's border
 #' @param spread.lwd line width of the spread fan's border
-#' @param add logical.
+#' @param add logical. Add to existing plot? (`TRUE` by default).
 #' @param ... optional arguments to `circular_plot()` if add is `FALSE`.
 #' @importFrom ggplot2 alpha
 #'
@@ -493,7 +653,6 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 
 # Dot Plot ---------------------------------------------------------------------
 
-
 #' Add Points to a Circular Plot
 #'
 #' Add points to a plot of circular data points on the current graphics device.
@@ -517,9 +676,8 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' ignored when `stack==TRUE`). If `0`, no jitter is added (by default); if
 #' negative, the points fall into the circle.
 #' @param ... Further graphical parameters may also be supplied as arguments.
-#' @param scale radius of plotted circle. Default is `1.1`.
-#' Larger values shrink the circle, while smaller values enlarge the circle.
-#' @param add logical
+#' @param scale numeric. Scales radius of plotted dots Default is `1.1`.
+#' @param add logical. Add to existing plot? (`TRUE` by default).
 #' @inheritParams circular_plot
 #'
 #' @importFrom graphics points
@@ -530,6 +688,7 @@ rose_stats <- function(x, weights = NULL, axial = TRUE, avg = c("mean", "median"
 #' @export
 #'
 #' @examples
+#' set.seed(20250511)
 #' x <- rvm(100, mean = 90, k = 5)
 #'
 #' # plot poinit without jitter
@@ -686,6 +845,7 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #' @export
 #'
 #' @examples
+#' set.seed(20250411)
 #' # Filled von Mises kernel density curve inside the plot
 #' plot_density(san_andreas$azi,
 #'   kappa = 100,

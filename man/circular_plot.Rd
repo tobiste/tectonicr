@@ -6,14 +6,23 @@
 \usage{
 circular_plot(
   main = NULL,
+  sub = NULL,
   labels = TRUE,
-  at = seq(0, 360 - 45, 45),
+  at = c(grid.lines, grid.lines + 180),
   cborder = TRUE,
+  radius = 1,
+  scale = 1.1,
+  grid = FALSE,
+  grid.lines = seq(0, 135, 45),
+  grid.circles = seq(0.2, radius, 0.2),
+  origin.text = "N",
   ...
 )
 }
 \arguments{
-\item{main}{Character string specifying the title of the plot.}
+\item{main}{a main title for the plot, see also \code{\link[graphics]{title}}.}
+
+\item{sub}{a subtitle for the plot.}
 
 \item{labels}{Either a logical value indicating whether to plot labels
 next to the tick marks, or a vector of labels for the tick marks.}
@@ -21,17 +30,30 @@ next to the tick marks, or a vector of labels for the tick marks.}
 \item{at}{Optional vector of angles at which tick marks should be plotted.
 Set \code{at=numeric(0)} to suppress tick marks.}
 
-\item{cborder}{logical. Border of rose plot.}
+\item{cborder}{logical. Whether to plot the primitive of the circular plot (\code{TRUE} by default) or not.}
 
-\item{...}{optional arguments passed to \code{plot.default()}}
+\item{radius}{numeric. The radius of the circular plot. \code{1} by default.}
+
+\item{scale}{numeric. Increases the radius of the border to have some in-plot clearance. \code{1.1} by default}
+
+\item{grid}{logical. Whether to add a grid to the circular plot. Default is \code{FALSE}.}
+
+\item{grid.lines, grid.circles}{numeric. Adds a sequence of straight grid
+lines and circles based on angles (in degrees) and radii, respectively. Ignored when
+\code{grid=FALSE}}
+
+\item{origin.text}{character. String to be drawn at the top margin of the plot
+(\code{"N"} by default)}
+
+\item{...}{optional parameters passed to \code{\link[graphics:symbols]{graphics::symbols()}} for plotting border of circular plot.
+Ignored if \code{cborder=FALSE}.}
 }
 \value{
 none
 }
 \description{
-Circular plot
-}
-\note{
 Polar diagram where angles increase clockwise.
 }
-\keyword{internal}
+\examples{
+circular_plot(grid = TRUE)
+}

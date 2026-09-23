@@ -68,7 +68,7 @@ function. Default is \code{1}.}
 
 \item{add}{logical. Add to existing plot? (\code{TRUE} by default).}
 
-\item{main}{Character string specifying the title of the plot.}
+\item{main}{a main title for the plot, see also \code{\link[graphics]{title}}.}
 
 \item{labels}{Either a logical value indicating whether to plot labels
 next to the tick marks, or a vector of labels for the tick marks.}
@@ -76,7 +76,7 @@ next to the tick marks, or a vector of labels for the tick marks.}
 \item{at}{Optional vector of angles at which tick marks should be plotted.
 Set \code{at=numeric(0)} to suppress tick marks.}
 
-\item{cborder}{logical. Border of rose plot.}
+\item{cborder}{logical. Whether to plot the primitive of the circular plot (\code{TRUE} by default) or not.}
 
 \item{grid}{logical. Whether a grid should be added.}
 
@@ -90,6 +90,7 @@ Plots multiples of a von Mises, wrapped Cauchy, and wrapped Normal
 density distribution in a circular plot
 }
 \examples{
+set.seed(20250411)
 # Filled von Mises kernel density curve inside the plot
 plot_density(san_andreas$azi,
   kappa = 100,
@@ -131,10 +132,10 @@ plot_density(san_andreas$azi, weights = w,
 \seealso{
 \code{\link[=circular_density]{circular_density()}}
 
-Other circular-plot: 
-\code{\link{plot_points}()},
-\code{\link{rose}()},
+Other circular-plot:
+\code{\link[=plot_points]{plot_points()}},
+\code{\link[=rose]{rose()}},
 \code{\link{rose_geom}},
-\code{\link{rose_stats}()}
+\code{\link[=rose_stats]{rose_stats()}}
 }
 \concept{circular-plot}

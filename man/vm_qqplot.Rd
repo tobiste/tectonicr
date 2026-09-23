@@ -63,7 +63,7 @@ vm_qqplot(x_cunif, pch = 20)
 \seealso{
 \code{\link[=vonmises]{vonmises()}}
 
-Other circ-qqplot: 
-\code{\link{circular_qqplot}()}
+Other circ-qqplot:
+\code{\link[=circular_qqplot]{circular_qqplot()}}
 }
 \concept{circ-qqplot}

@@ -83,12 +83,12 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_wheeler_test_perm(sa.por$azi.PoR, rvm(100, 135, 10))
 }
 \seealso{
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
+Other Tests:
+\code{\link[=ar_test]{ar_test()}},
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
 \code{\link{rayleigh-test}},
-\code{\link{watson_test}()},
+\code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
 \code{\link{weighted-rayleigh-test}}
 }

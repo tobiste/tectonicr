@@ -154,87 +154,101 @@ export(watson_wheeler_test_perm)
 export(weighted_rayleigh)
 export(weighted_rayleigh_perm)
 export(weighting)
-import(spatstat.explore)
-import(spatstat.utils)
 importFrom(RColorBrewer,brewer.pal)
-importFrom(boot,boot)
-importFrom(boot,boot.ci)
-importFrom(circular,circular)
-importFrom(circular,daxialvonmises)
-importFrom(circular,meandeviation)
-importFrom(circular,median.circular)
-importFrom(circular,pvonmises)
-importFrom(circular,pwrappednormal)
-importFrom(circular,qvonmises)
-importFrom(circular,qwrappednormal)
-importFrom(circular,rvonmises)
-importFrom(dplyr,across)
-importFrom(dplyr,arrange)
-importFrom(dplyr,between)
-importFrom(dplyr,bind_cols)
-importFrom(dplyr,case_when)
-importFrom(dplyr,everything)
-importFrom(dplyr,filter)
-importFrom(dplyr,first)
-importFrom(dplyr,group_by)
-importFrom(dplyr,if_else)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,rename)
-importFrom(dplyr,rename_with)
-importFrom(dplyr,select)
-importFrom(dplyr,summarise)
-importFrom(dplyr,tibble)
-importFrom(dplyr,ungroup)
-importFrom(ggplot2,Position)
-importFrom(ggplot2,alpha)
-importFrom(ggplot2,cut_number)
-importFrom(ggplot2,cut_width)
-importFrom(ggplot2,ggproto)
-importFrom(graphics,abline)
-importFrom(graphics,hist)
-importFrom(graphics,lines)
-importFrom(graphics,par)
-importFrom(graphics,plot)
-importFrom(graphics,points)
-importFrom(graphics,polygon)
-importFrom(graphics,segments)
-importFrom(graphics,text)
-importFrom(graphics,title)
+importFrom(boot,
+  boot,
+  boot.ci
+)
+importFrom(circular,
+  circular,
+  daxialvonmises,
+  meandeviation,
+  median.circular,
+  pvonmises,
+  pwrappednormal,
+  qvonmises,
+  qwrappednormal,
+  rvonmises
+)
+importFrom(dplyr,
+  across,
+  arrange,
+  between,
+  bind_cols,
+  case_when,
+  everything,
+  filter,
+  first,
+  group_by,
+  if_else,
+  left_join,
+  mutate,
+  rename,
+  rename_with,
+  select,
+  summarise,
+  tibble,
+  ungroup
+)
+importFrom(ggplot2,
+  Position,
+  alpha,
+  cut_number,
+  cut_width,
+  ggproto
+)
+importFrom(graphics,
+  abline,
+  hist,
+  lines,
+  par,
+  plot,
+  points,
+  polygon,
+  segments,
+  symbols,
+  text,
+  title
+)
 importFrom(lifecycle,deprecated)
 importFrom(methods,extends)
-importFrom(sf,as_Spatial)
-importFrom(sf,st_as_sf)
-importFrom(sf,st_bbox)
-importFrom(sf,st_cast)
-importFrom(sf,st_coordinates)
-importFrom(sf,st_crs)
-importFrom(sf,st_drop_geometry)
-importFrom(sf,st_geometry)
-importFrom(sf,st_make_grid)
-importFrom(sf,st_set_crs)
-importFrom(sf,st_transform)
-importFrom(sf,st_wrap_dateline)
+importFrom(sf,
+  as_Spatial,
+  st_as_sf,
+  st_bbox,
+  st_cast,
+  st_coordinates,
+  st_crs,
+  st_drop_geometry,
+  st_geometry,
+  st_make_grid,
+  st_set_crs,
+  st_transform,
+  st_wrap_dateline
+)
 importFrom(smoothr,densify)
-importFrom(spatstat.explore,rose)
-importFrom(spatstat.geom,disc)
-importFrom(spatstat.geom,plot.owin)
-importFrom(spatstat.univar,whist)
+importFrom(spatstat.explore,circticks)
 importFrom(spatstat.utils,short.deparse)
-importFrom(stats,aggregate)
-importFrom(stats,ecdf)
-importFrom(stats,na.omit)
-importFrom(stats,qnorm)
-importFrom(stats,rcauchy)
-importFrom(stats,rnorm)
-importFrom(stats,runif)
-importFrom(stats,sd)
-importFrom(stats,setNames)
-importFrom(terra,crs)
-importFrom(terra,project)
-importFrom(terra,rast)
+importFrom(stats,
+  aggregate,
+  ecdf,
+  na.omit,
+  qnorm,
+  rcauchy,
+  rnorm,
+  runif,
+  sd,
+  setNames
+)
+importFrom(terra,
+  crs,
+  project,
+  rast
+)
 importFrom(tidyr,drop_na)
-importFrom(utils,download.file)
-importFrom(utils,read.csv)
+importFrom(utils,
+  download.file,
+  read.csv
+)
 importFrom(viridis,viridis)
 importFrom(zoo,rollapply)
