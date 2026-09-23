@@ -157,7 +157,7 @@ rayleigh_test_perm(homing, axial = FALSE)
 #> [1] 0.2228717
 #> 
 #> $p.value
-#> [1] 0.5974026
+#> [1] 0.6233766
 #> 
 
 # Example data from Davis (1986), pp. 316

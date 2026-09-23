@@ -83,7 +83,7 @@ rose_stats(
 
 - add:
 
-  logical.
+  logical. Add to existing plot? (`TRUE` by default).
 
 - ...:
 

@@ -100,7 +100,8 @@ plot_density(
 
 - main:
 
-  Character string specifying the title of the plot.
+  a main title for the plot, see also
+  [`title`](https://rdrr.io/r/graphics/title.html).
 
 - labels:
 
@@ -114,7 +115,8 @@ plot_density(
 
 - cborder:
 
-  logical. Border of rose plot.
+  logical. Whether to plot the primitive of the circular plot (`TRUE` by
+  default) or not.
 
 - grid:
 
@@ -141,6 +143,7 @@ Other circular-plot:
 ## Examples
 
 ``` r
+set.seed(20250411)
 # Filled von Mises kernel density curve inside the plot
 plot_density(san_andreas$azi,
   kappa = 100,

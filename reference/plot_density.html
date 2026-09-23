@@ -9,7 +9,7 @@ density distribution in a circular plot"><meta property="og:image" content="http
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,7 +145,7 @@ function. Default is <code>1</code>.</p></dd>
 
 
 <dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>
-<dd><p>Character string specifying the title of the plot.</p></dd>
+<dd><p>a main title for the plot, see also <code><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></code>.</p></dd>
 
 
 <dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
@@ -159,7 +159,7 @@ Set <code>at=numeric(0)</code> to suppress tick marks.</p></dd>
 
 
 <dt id="arg-cborder">cborder<a class="anchor" aria-label="anchor" href="#arg-cborder"></a></dt>
-<dd><p>logical. Border of rose plot.</p></dd>
+<dd><p>logical. Whether to plot the primitive of the circular plot (<code>TRUE</code> by default) or not.</p></dd>
 
 
 <dt id="arg-grid">grid<a class="anchor" aria-label="anchor" href="#arg-grid"></a></dt>
@@ -186,7 +186,8 @@ Set <code>at=numeric(0)</code> to suppress tick marks.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Filled von Mises kernel density curve inside the plot</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20250411</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Filled von Mises kernel density curve inside the plot</span></span></span>
 <span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">san_andreas</span><span class="op">$</span><span class="va">azi</span>,</span></span>
 <span class="r-in"><span>  kappa <span class="op">=</span> <span class="fl">100</span>,</span></span>
 <span class="r-in"><span>  fill <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"#51127C80"</span>, border <span class="op">=</span> <span class="st">"#51127CFF"</span>,</span></span>

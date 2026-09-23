@@ -14,7 +14,6 @@ rose(
   axial = TRUE,
   equal_area = TRUE,
   muci = TRUE,
-  round_binwidth = 0,
   origin.text = "N",
   main = NULL,
   sub = NULL,
@@ -32,6 +31,7 @@ rose(
   grid.lines = seq(0, 135, 45),
   grid.circles = seq(0.2, 1, 0.2),
   add = FALSE,
+  rule = c("sturges", "rice"),
   ...
 )
 ```
@@ -70,10 +70,6 @@ rose(
 
   logical. Whether the mean and its 95% CI are added to the plot or not.
 
-- round_binwidth:
-
-  integer. Number of decimal places of bin width (0 by default).
-
 - origin.text:
 
   character. String to be drawn at the top margin of the plot (`"N"` by
@@ -91,7 +87,8 @@ rose(
 
 - cborder:
 
-  logical. Border of rose plot.
+  logical. Whether to plot the primitive of the circular plot (`TRUE` by
+  default) or not.
 
 - labels:
 
@@ -100,7 +97,7 @@ rose(
 
 - col:
 
-  fill color of bins
+  fill color of rose petals / fans
 
 - dots:
 
@@ -123,36 +120,35 @@ rose(
 
 - grid:
 
-  logical. Whether to add a grid. Default is `FALSE`.
+  logical. Whether to add a grid to the circular plot. Default is
+  `FALSE`.
 
 - grid.lines, grid.circles:
 
   numeric. Adds a sequence of straight grid lines and circles based on
-  angles and radii, respectively. Ignored when `grid=FALSE`
+  angles (in degrees) and radii, respectively. Ignored when `grid=FALSE`
 
 - add:
 
-  logical.
+  logical. Add to existing plot? (`TRUE` by default).
+
+- rule:
+
+  character. Rule to select optimal bin width, one of "sturges" (the
+  default) or "rice". The optimal number according to Sturges' rule is
+  \\1 + \log2(n)\\, while for Rice's rule it is \\2 n^{1/3}\\ (less
+  conservative for large `n`).
 
 - ...:
 
-  Additional arguments passed to
-  [`spatstat.explore::rose()`](https://rdrr.io/pkg/spatstat.explore/man/rose.html).
+  Additional graphical arguments passed to
+  [`graphics::polygon()`](https://rdrr.io/r/graphics/polygon.html) for
+  plotting the rose petals / fans
 
 ## Value
 
-A window (class `"owin"`) containing the plotted region or a `list` of
-the calculated frequencies.
-
-## Note
-
-If `bins` and `binwidth` are `NULL`, an optimal bin width will be
-calculated using Scott (1979): \$\$ w_b = \frac{R}{n^{\frac{1}{3}}} \$\$
-with n being the length of `x`, and the range R being either 180 or 360
-degree for axial or directional data, respectively.
-
-If `"axial" == TRUE`, the binwidth is adjusted to guarantee symmetrical
-fans.
+class of `histogram` that is a `list` of the calculated frequencies
+parameters including the bin width.
 
 ## See also
 

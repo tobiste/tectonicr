@@ -70,16 +70,16 @@ plot_points(
 
 - scale:
 
-  radius of plotted circle. Default is `1.1`. Larger values shrink the
-  circle, while smaller values enlarge the circle.
+  numeric. Scales radius of plotted dots Default is `1.1`.
 
 - add:
 
-  logical
+  logical. Add to existing plot? (`TRUE` by default).
 
 - main:
 
-  Character string specifying the title of the plot.
+  a main title for the plot, see also
+  [`title`](https://rdrr.io/r/graphics/title.html).
 
 - labels:
 
@@ -93,7 +93,8 @@ plot_points(
 
 - cborder:
 
-  logical. Border of rose plot.
+  logical. Whether to plot the primitive of the circular plot (`TRUE` by
+  default) or not.
 
 ## Value
 
@@ -110,6 +111,7 @@ Other circular-plot:
 ## Examples
 
 ``` r
+set.seed(20250511)
 x <- rvm(100, mean = 90, k = 5)
 
 # plot poinit without jitter

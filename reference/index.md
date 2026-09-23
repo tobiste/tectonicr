@@ -47,6 +47,8 @@
   : Bootstrapped Estimates for Circular Dispersion
 - [`circular_mode()`](https://tobiste.github.io/tectonicr/reference/circular_mode.md)
   : Circular Mode
+- [`circular_plot()`](https://tobiste.github.io/tectonicr/reference/circular_plot.md)
+  : Circular plot
 - [`circular_qqplot()`](https://tobiste.github.io/tectonicr/reference/circular_qqplot.md)
   : Quantile-Quantile Linearised Plot for Circular Distributions
 - [`circular_range()`](https://tobiste.github.io/tectonicr/reference/circular_range.md)

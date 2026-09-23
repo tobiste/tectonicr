@@ -1,15 +1,22 @@
 # Circular plot
 
-Circular plot
+Polar diagram where angles increase clockwise.
 
 ## Usage
 
 ``` r
 circular_plot(
   main = NULL,
+  sub = NULL,
   labels = TRUE,
-  at = seq(0, 360 - 45, 45),
+  at = c(grid.lines, grid.lines + 180),
   cborder = TRUE,
+  radius = 1,
+  scale = 1.1,
+  grid = FALSE,
+  grid.lines = seq(0, 135, 45),
+  grid.circles = seq(0.2, radius, 0.2),
+  origin.text = "N",
   ...
 )
 ```
@@ -18,7 +25,12 @@ circular_plot(
 
 - main:
 
-  Character string specifying the title of the plot.
+  a main title for the plot, see also
+  [`title`](https://rdrr.io/r/graphics/title.html).
+
+- sub:
+
+  a subtitle for the plot.
 
 - labels:
 
@@ -32,17 +44,45 @@ circular_plot(
 
 - cborder:
 
-  logical. Border of rose plot.
+  logical. Whether to plot the primitive of the circular plot (`TRUE` by
+  default) or not.
+
+- radius:
+
+  numeric. The radius of the circular plot. `1` by default.
+
+- scale:
+
+  numeric. Increases the radius of the border to have some in-plot
+  clearance. `1.1` by default
+
+- grid:
+
+  logical. Whether to add a grid to the circular plot. Default is
+  `FALSE`.
+
+- grid.lines, grid.circles:
+
+  numeric. Adds a sequence of straight grid lines and circles based on
+  angles (in degrees) and radii, respectively. Ignored when `grid=FALSE`
+
+- origin.text:
+
+  character. String to be drawn at the top margin of the plot (`"N"` by
+  default)
 
 - ...:
 
-  optional arguments passed to
-  [`plot.default()`](https://rdrr.io/r/graphics/plot.default.html)
+  optional parameters passed to
+  [`graphics::symbols()`](https://rdrr.io/r/graphics/symbols.html) for
+  plotting border of circular plot. Ignored if `cborder=FALSE`.
 
 ## Value
 
 none
 
-## Note
+## Examples
 
-Polar diagram where angles increase clockwise.
+``` r
+circular_plot(grid = TRUE)
+```
