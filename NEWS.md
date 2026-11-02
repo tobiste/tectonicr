@@ -1,6 +1,6 @@
 # tectonicr (development version)
 
-# tectonicr 0.4.9001 _2026-11-02_
+# tectonicr 0.4.9002 _2026-11-02_
 
 ## Breaking changes
 
