@@ -2,7 +2,18 @@
 
 ## tectonicr (development version)
 
-## tectonicr 0.4.9001 *2026-11-02*
+## tectonicr 0.4.9002 *2026-11-02*
+
+### NEW implementations
+
+- added circular tests:
+  [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
+  [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
+  [`watson_williams_test()`](https://tobiste.github.io/tectonicr/reference/watson_williams_test.md),
+  [`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
+  [`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+  and
+  [`walraff_test()`](https://tobiste.github.io/tectonicr/reference/walraff_test.md),
 
 ### Breaking changes
 
@@ -13,8 +24,6 @@
   with `mu = NULL` now performs a weighted Rayleigh test instead of a
   V-test around the estimated mean direction, and gains an `alpha`
   argument.
-- [`walraff_test()`](https://tobiste.github.io/tectonicr/reference/walraff_test.md)
-  now expects `ref` in degrees, like the data.
 - `watson_test(dist = "vonmises")` no longer returns a p-value, because
   only tabulated critical values are available. The p-value range is
   shown in the printed output and returned as `p.range`.
@@ -28,10 +37,6 @@
 
 ### Bug fixes
 
-- [`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md)
-  subtracted the mean resultant length from the sample size instead of
-  the resultant length, which made all concentration estimates and test
-  statistics wrong.
 - [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   used the sample size instead of the effective sample size for unequal
   weights, which made the test anti-conservative. Its decision message
@@ -49,14 +54,6 @@
   and
   [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md)
   did not wrap doubled axial angles because of operator precedence.
-- [`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md)
-  and
-  [`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md)
-  failed because the data name referred to an undefined object. Missing
-  values are now removed.
-- [`watson_williams_test()`](https://tobiste.github.io/tectonicr/reference/watson_williams_test.md)
-  computes the mean directions from the same (doubled) angles as the
-  test statistic.
 - The Wilkie (1983) p-value for the Rayleigh test used the wrong
   resultant length.
 - [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)
