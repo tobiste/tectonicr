@@ -4,29 +4,21 @@
 \alias{equal_kappa_test}
 \title{Equal \eqn{\kappa} Test}
 \usage{
-equal_kappa_test(
-  samples,
-  method = c("f", "bartlett"),
-  alpha = 0.05,
-  axial = TRUE
-)
+equal_kappa_test(samples, method = NULL, alpha = 0.05, axial = TRUE)
 }
 \arguments{
 \item{samples}{list of samples of orientations}
 
 \item{method}{character. One of
 \describe{
-\item{\code{"f"}}{(default for two samples): \eqn{F = ((n_1 - R_1) / nu_1) / ((n_2 - R_2) / nu_2)},
-two-sided, \eqn{F(\nu_1, \nu_2)} (MJ eq. 10.5.3; Watson, 1956).}
+\item{\code{"f"}}{(default for two samples): \eqn{F = ((n_1 - R_1) / \nu_1) / ((n_2 - R_2) / \nu_2)},
+two-sided, \eqn{F(\nu_1, \nu_2)} (Mardia and Jupp, 2000 eq. 10.5.3; Watson, 1956).}
 \item{\code{"bartlett"}}{(default for more samples): Bartlett's test of the
 dispersions \eqn{(n_i - R_i) / \nu_i}, chi-square with \eqn{q - 1} degrees of
-freedom (MJ eq. 10.6.21; McFadden & Lowes, 1981, eq. 64-66).}
+freedom (Mardia and Jupp, 2000 eq. 10.6.21; McFadden & Lowes, 1981, eq. 64-66).}
 }}
 
-\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05},
-and \code{0.1}.
-This argument may be omitted (\code{NULL}, the default), in which case, a range
-for the p-value will be returned.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
@@ -36,9 +28,13 @@ In case of axial data, the angles will be doubled for the test.}
 A list with class \code{"htest"}
 }
 \description{
-Test whether samples of directions share the concentration
+This function tests for the homogeneity of concentration parameters for
+multiple samples of directional data.
 }
 \details{
+The samples are assumed to have been drawn from von Mises populations.
+The null hypothesis tested is that all populations sampled have the same concentration parameter, kappa \eqn{\kappa}.
+
 For concentrated data \eqn{2 \kappa (n_i - R_i)} is approximately chi-square
 with \eqn{\nu_i = (p - 1)(n_i - 1)} degrees of freedom in 2 dimensions.
 }
@@ -52,25 +48,30 @@ x1 <- c(35, 45, 50, 55, 60, 70, 85, 95, 105, 120)
 x2 <- c(75, 80, 90, 100, 110, 130, 135, 140, 150, 160, 165)
 equal_kappa_test(list(x1, x2))
 
-#' # San Andreas Fault Data:
+x1 <- rvm(100, mean = 90, kappa = 20)
+x2 <- rvm(100, mean = 90, kappa = 10)
+x3 <- rvm(100, mean = 90, kappa = 1)
+equal_kappa_test(list(x1, x2, x3))
+
+# San Andreas Fault Data:
 data(san_andreas)
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 equal_kappa_test(list(sa.por$azi.PoR, rvm(100, 135, 10)))
 }
+\references{
+Jammalamadaka, S. Rao and SenGupta, A. (2001). Topics in Circular Statistics, Section 5.3, World Scientific Press, Singapore.
+
+Mardia, K. and Jupp, P. (1999). Directional Statistics, Section 7.4, John Wiley and Sons, England.
+}
 \seealso{
-Other Tests:
+Other Two-Sample-Tests:
 \code{\link[=ar_test]{ar_test()}},
-\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
-\code{\link[=kuiper_test]{kuiper_test()}},
-\code{\link[=norm_chisq]{norm_chisq()}},
-\code{\link[=rao_spacing_test]{rao_spacing_test()}},
-\code{\link{rayleigh-test}},
 \code{\link[=uniform_scores_test]{uniform_scores_test()}},
-\code{\link[=watson_test]{watson_test()}},
+\code{\link[=walraff_test]{walraff_test()}},
 \code{\link{watson_two_sample}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
-\code{\link{weighted-rayleigh-test}}
+\code{\link[=watson_williams_test]{watson_williams_test()}}
 }
-\concept{Tests}
+\concept{Two-Sample-Tests}

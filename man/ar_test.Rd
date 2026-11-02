@@ -76,17 +76,12 @@ to the Watson U2 test. Sci Rep 13, 10007 (2023). https://doi.org/10.1038/s41598-
 }
 }
 \seealso{
-Other Tests:
+Other Two-Sample-Tests:
 \code{\link[=equal_kappa_test]{equal_kappa_test()}},
-\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
-\code{\link[=kuiper_test]{kuiper_test()}},
-\code{\link[=norm_chisq]{norm_chisq()}},
-\code{\link[=rao_spacing_test]{rao_spacing_test()}},
-\code{\link{rayleigh-test}},
 \code{\link[=uniform_scores_test]{uniform_scores_test()}},
-\code{\link[=watson_test]{watson_test()}},
+\code{\link[=walraff_test]{walraff_test()}},
 \code{\link{watson_two_sample}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
-\code{\link{weighted-rayleigh-test}}
+\code{\link[=watson_williams_test]{watson_williams_test()}}
 }
-\concept{Tests}
+\concept{Two-Sample-Tests}

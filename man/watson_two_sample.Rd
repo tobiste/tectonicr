@@ -13,10 +13,7 @@ watson_two_test_perm(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL)
 \arguments{
 \item{x, y}{numeric vectors. Angles in degrees}
 
-\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05},
-and \code{0.1}.
-This argument may be omitted (\code{NULL}, the default), in which case, a range
-for the p-value will be returned.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
@@ -98,17 +95,12 @@ watson_two_test(sa.por$azi, rvm(100, 135, 10), alpha = 0.05)
 watson_two_test_perm(sa.por$azi, rvm(100, 135, 10), alpha = 0.05)
 }
 \seealso{
-Other Tests:
+Other Two-Sample-Tests:
 \code{\link[=ar_test]{ar_test()}},
 \code{\link[=equal_kappa_test]{equal_kappa_test()}},
-\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
-\code{\link[=kuiper_test]{kuiper_test()}},
-\code{\link[=norm_chisq]{norm_chisq()}},
-\code{\link[=rao_spacing_test]{rao_spacing_test()}},
-\code{\link{rayleigh-test}},
 \code{\link[=uniform_scores_test]{uniform_scores_test()}},
-\code{\link[=watson_test]{watson_test()}},
+\code{\link[=walraff_test]{walraff_test()}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
-\code{\link{weighted-rayleigh-test}}
+\code{\link[=watson_williams_test]{watson_williams_test()}}
 }
-\concept{Tests}
+\concept{Two-Sample-Tests}

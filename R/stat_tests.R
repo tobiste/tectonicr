@@ -44,7 +44,7 @@ nchisq_eq <- function(obs, prd, unc) {
 #' high values (\eqn{> 0.7}) indicate a systematic misfit between predicted and
 #' observed \eqn{\sigma_\text{Hmax}}{SHmax} directions.
 #'
-#' @family Tests
+#' @family One-Sample-Tests
 #'
 #' @export
 #'
@@ -100,8 +100,9 @@ norm_chisq <- function(obs, prd, unc) {
 #' alternative hypothesis.
 #' @param quiet logical. Prints the test's decision.
 #' @param n_perm integer. Number of permutations.
-#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`, and `0.1`.
-#' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
+#' @param alpha Significance level of the test ranging between 0 and 1.
+# #' Valid levels are `0.01`, `0.05`, and `0.1`.
+# #' This argument may be omitted (`NULL`, the default), in which case, a range for the p-value will be returned.
 #'
 #' @details
 #' ## Hypotheses
@@ -159,7 +160,7 @@ norm_chisq <- function(obs, prd, unc) {
 #' University Press.
 #'
 #' @seealso [mean_resultant_length()], [circular_mean()]
-#' @family Tests
+#' @family One-Sample-Tests
 #'
 #' @name rayleigh-test
 #'
@@ -372,7 +373,7 @@ rayleigh_test_perm <- function(x, mu = NULL, axial = TRUE, n_perm = 1000L){
 #'  \item{`p.value`}{significance level of the test statistic}
 #' }
 #' @name weighted-rayleigh-test
-#' @family Tests
+#' @family One-Sample-Tests
 #'
 #' @examples
 #' # Load data
@@ -541,7 +542,7 @@ weighted_rayleigh_perm <- function(x, mu = NULL, w = NULL, axial = TRUE, n_perm 
 #' \item{`reject`}{logical. whether to reject the null-hypothesis based on the significance level.}
 #' }
 #'
-#' @family Tests
+#' @family One-Sample-Tests
 #'
 #' @export
 #'
@@ -657,10 +658,10 @@ kuiper_test <- function(x, alpha = 0.05, axial = TRUE, quiet = FALSE) {
 #' a sample fits a specified theoretical distribution
 #'
 #' @inheritParams rayleigh_test
-#' @param alpha Significance level of the test. Valid levels are `0.01`, `0.05`,
-#' and `0.1`.
-#' This argument may be omitted (`NULL`, the default), in which case, a range
-#' for the p-value will be returned.
+#' @param alpha Significance level of the test ranging between 0 and 1.
+# #' Valid levels are `0.01`, `0.05`, and `0.1`.
+# #' This argument may be omitted (`NULL`, the default), in which case, a range
+# #' for the p-value will be returned.
 #' @param dist Distribution to test for. The default, `"uniform"`, is the
 #' circular uniform distribution. `"vonmises"` tests the von Mises distribution.
 #'
@@ -707,7 +708,7 @@ kuiper_test <- function(x, alpha = 0.05, axial = TRUE, quiet = FALSE) {
 #'
 #' @export
 #'
-#' @family Tests
+#' @family One-Sample-Tests
 #' @seealso [vonmises] and [cunif]
 #'
 #' @examples
@@ -898,7 +899,7 @@ watson_test <- function(x, alpha = 0.05, dist = c("uniform", "vonmises"), axial 
 #' \item{`data.name`}{a character string giving the name(s) of the data.}
 #' }
 #'
-#' @family Tests
+#' @family One-Sample-Tests
 #' @export
 #'
 #' @examples
@@ -966,7 +967,7 @@ hodges_ajne_test <- function(x, alpha = 0.05, axial = TRUE) {
 #' \item{`data.name`}{a character string giving the name(s) of the data.}
 #' }
 #'
-#' @family Tests
+#' @family One-Sample-Tests
 #' @export
 #'
 #' @examples
@@ -1071,7 +1072,7 @@ rao_spacing_test <- function(x, alpha = 0.05, n_perm = 9999L, axial = TRUE) {
 #' in Mardia (1972) for instance.
 #'
 #' @name watson_two_sample
-#' @family Tests
+#' @family Two-Sample-Tests
 #'
 #' @returns A list with class `"htest"`
 #'
@@ -1346,7 +1347,7 @@ structure(
 #' * **Sample size requirement**: The chi-squared approximation requires each group
 #' to have a minimum sample size (typically at least 10 elements per group) to remain valid.
 #'
-#' @family Tests
+#' @family Two-Sample-Tests
 #'
 #' @returns A list with class `"htest"`
 #' @export
@@ -1423,6 +1424,120 @@ watson_wheeler_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L, alpha =
   )
 }
 
+.vonmises_kappa_mle <- function(Rbar, tol = .Machine$double.eps^0.75) {
+  # solve A1(kappa) = I1(kappa) / I0(kappa) = Rbar
+  if (Rbar < 1e-12) return(0)
+  if (Rbar >= 1) return(Inf)
+  A1 <- function(k) besselI(k, 1, expon.scaled = TRUE) /
+    besselI(k, 0, expon.scaled = TRUE)
+  stats::uniroot(function(k) A1(k) - Rbar, lower = 0, upper = 1 / (1 - Rbar),
+          extendInt = "upX", tol = tol)$root
+}
+
+#' Watson-Williams Test of Homogeneity of Means
+#'
+#' Performs the Watson-Williams test for homogeneity of means between several
+#' samples of circular data.
+#'
+#' @inheritParams uniform_scores_test
+#'
+#' @details
+#' The Watson-Williams test for the homogeneity of means between two or more
+#' groups is performed and the results are printed. The null hypothesis is that
+#' means are equal across groups.
+#'
+#' The assumptions are that: (1) the samples are drawn from populations with a
+#' von Mises distribution; (2) the parameter of concentration has the same
+#' value in all populations; (3) this parameter is sufficiently large (i.e. > 1).
+#' Assumptions 2 and 3 are checked and a warning is issued if they are not met.
+#'
+#' @family Two-Sample-Tests
+#'
+#' @returns A list with class `"htest"`
+#' @export
+#'
+#' @examples
+#' x1 <- c(35, 45, 50, 55, 60, 70, 85, 95, 105, 120)
+#' x2 <- c(75, 80, 90, 100, 110, 130, 135, 140, 150, 160, 165)
+#' watson_williams_test(list(x1, x2), axial = FALSE)
+#'
+#' data1 <- rvm(n=20, mean = 0, kappa=3)
+#' data2 <- rvm(n=20, mean = 90, kappa=2)
+#' watson_williams_test(list(data1, data2), axial = FALSE)
+#'
+#' # San Andreas Fault Data:
+#' data(san_andreas)
+#' data("nuvel1")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' watson_williams_test(list(sa.por$azi.PoR, rvm(100, 135, 10)))
+watson_williams_test <- function(samples, alpha = 0.05, axial = TRUE) {
+  level <- 1 - alpha
+  if (!is.list(samples) || length(samples) < 2L) {
+    stop("`samples` must be a list of at least two samples")
+  }
+  k  <- length(samples)
+  nm <- names(samples)
+  if (is.null(nm) || any(!nzchar(nm))) nm <- as.character(seq_len(k))
+  nm <- make.unique(nm)
+
+  f <- if (isTRUE(axial)) 2 else 1
+  theta <- lapply(samples, function(x) {
+    x <- as.numeric(x)
+    f * deg2rad(x[is.finite(x)])                       # doubled if axial
+  })
+  n_i <- lengths(theta)
+  if (any(n_i < 2L)) {
+    stop("Each sample needs at least two observations (after removing missing values)")
+  }
+
+  C <- vapply(theta, function(t) sum(cos(t)), numeric(1L))
+  S <- vapply(theta, function(t) sum(sin(t)), numeric(1L))
+  n    <- sum(n_i)
+  sumR <- sum(sqrt(C^2 + S^2))
+  R    <- sqrt(sum(C)^2 + sum(S)^2)
+
+  # pooled concentration and applicability checks
+  kappa <- .vonmises_kappa_mle(sumR / n)
+  if (kappa <= 0) stop("Pooled concentration is zero; the test is not applicable")
+  thresh <- if (k == 2L) 2 else 1
+  if (kappa < thresh) {
+    warning(sprintf("Pooled concentration %.3g < %g; the test is probably not applicable",
+                    kappa, thresh), call. = FALSE)
+  }
+  kt <- equal_kappa_test(samples, alpha = alpha,, axial = axial)
+  kap_i <- if (!is.null(kt$kappa)) kt$kappa else kt$estimate
+  if (kt$p.value < 1 - level) {
+    warning(sprintf("Concentrations (%s) differ between samples (p = %.3g); the test might not be applicable",
+                    paste(format(kap_i, digits = 3), collapse = ", "), kt$p.value),
+            call. = FALSE)
+  }
+
+  F  <- (1 + 3 / (8 * kappa)) * (n - k) * (sumR - R) / ((k - 1) * (n - sumR))
+  df <- c(df1 = k - 1, df2 = n - k)
+
+
+  mu <- lapply(samples, function(x){
+    circular_mean(x, axial = axial)
+  }) |> unlist()
+
+  structure(
+    list(
+      statistic  = c(F = F),
+      parameter  = df,
+      p.value    = stats::pf(F, df[[1L]], df[[2L]], lower.tail = FALSE),
+      estimate   = setNames(mu, paste("mean direction", nm)),
+      method     = paste("Watson-Williams test for homogeneity of",
+                         if (f == 2) "mean axes" else "mean directions"),
+      data.name  = paste(nm, collapse = " and "),
+      kappa      = kappa,
+      kappa_test = kt,
+      level      = level
+    ),
+    class = "htest"
+  )
+}
+
 
 
 #' Uniform scores test
@@ -1439,7 +1554,7 @@ watson_wheeler_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L, alpha =
 #' @inheritParams watson_two_test
 #'
 #' @returns A list with class `"htest"`
-#' @family Tests
+#' @family Two-Sample-Tests
 #' @export
 #'
 #' @examples
@@ -1456,7 +1571,7 @@ watson_wheeler_test_perm <- function(x, y, axial = TRUE, n_perm = 1000L, alpha =
 #' uniform_scores_test(list(sa.por$azi.PoR, rvm(100, 135, 10)))
 uniform_scores_test <- function(samples, alpha = 0.05, axial = TRUE) {
   level <-  1 - alpha
-  dname <- deparse1(substitute(samples))
+  dname <- paste(names(x), collapse = " and ")
 
   f <- if (isTRUE(axial)) 2L else 1L
   theta <- lapply(samples, function(x){
@@ -1500,34 +1615,38 @@ uniform_scores_test <- function(samples, alpha = 0.05, axial = TRUE) {
   )
 }
 
-.resultants <- function(x){
-  lapply(x, )
-}
-
 #' Equal \eqn{\kappa} Test
 #'
-#' Test whether samples of directions share the concentration
+#' This function tests for the homogeneity of concentration parameters for
+#' multiple samples of directional data.
 #'
 #' @inheritParams uniform_scores_test
 #' @param method character. One of
 #' \describe{
-#' \item{`"f"`}{(default for two samples): \eqn{F = ((n_1 - R_1) / nu_1) / ((n_2 - R_2) / nu_2)},
-#' two-sided, \eqn{F(\nu_1, \nu_2)} (MJ eq. 10.5.3; Watson, 1956).}
+#' \item{`"f"`}{(default for two samples): \eqn{F = ((n_1 - R_1) / \nu_1) / ((n_2 - R_2) / \nu_2)},
+#' two-sided, \eqn{F(\nu_1, \nu_2)} (Mardia and Jupp, 2000 eq. 10.5.3; Watson, 1956).}
 #' \item{`"bartlett"`}{(default for more samples): Bartlett's test of the
 #'       dispersions \eqn{(n_i - R_i) / \nu_i}, chi-square with \eqn{q - 1} degrees of
-#'       freedom (MJ eq. 10.6.21; McFadden & Lowes, 1981, eq. 64-66).}
+#'       freedom (Mardia and Jupp, 2000 eq. 10.6.21; McFadden & Lowes, 1981, eq. 64-66).}
 #' }
 #'
 #' @details
+#' The samples are assumed to have been drawn from von Mises populations.
+#' The null hypothesis tested is that all populations sampled have the same concentration parameter, kappa \eqn{\kappa}.
+#'
 #' For concentrated data \eqn{2 \kappa (n_i - R_i)} is approximately chi-square
 #' with \eqn{\nu_i = (p - 1)(n_i - 1)} degrees of freedom in 2 dimensions.
-#'
 #'
 #' @note Both need concentrated data (\eqn{\bar{R} \ge 0.7};
 #' MJ eq. 10.6.24-10.6.27 and 7.3.24-7.3.25 give variance-stabilised tests for dispersed data.
 #'
+#' @references
+#' Jammalamadaka, S. Rao and SenGupta, A. (2001). Topics in Circular Statistics, Section 5.3, World Scientific Press, Singapore.
+#'
+#' Mardia, K. and Jupp, P. (1999). Directional Statistics, Section 7.4, John Wiley and Sons, England.
+#'
 #' @returns A list with class `"htest"`
-#' @family Tests
+#' @family Two-Sample-Tests
 #' @export
 #'
 #' @examples
@@ -1536,15 +1655,20 @@ uniform_scores_test <- function(samples, alpha = 0.05, axial = TRUE) {
 #' x2 <- c(75, 80, 90, 100, 110, 130, 135, 140, 150, 160, 165)
 #' equal_kappa_test(list(x1, x2))
 #'
-#' #' # San Andreas Fault Data:
+#' x1 <- rvm(100, mean = 90, kappa = 20)
+#' x2 <- rvm(100, mean = 90, kappa = 10)
+#' x3 <- rvm(100, mean = 90, kappa = 1)
+#' equal_kappa_test(list(x1, x2, x3))
+#'
+#' # San Andreas Fault Data:
 #' data(san_andreas)
 #' data("nuvel1")
 #' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 #' sa.por <- PoR_shmax(san_andreas, PoR, "right")
 #' equal_kappa_test(list(sa.por$azi.PoR, rvm(100, 135, 10)))
-equal_kappa_test <- function(samples, method = c("f", 'bartlett'), alpha = 0.05, axial = TRUE) {
+equal_kappa_test <- function(samples, method = NULL, alpha = 0.05, axial = TRUE) {
   level <- 1 - alpha
-  dname <- deparse1(substitute(samples))
+  dname <- paste(names(x), collapse = " and ")
 
   f <- if (isTRUE(axial)) 2L else 1L
   samples <- lapply(samples, function(x){
@@ -1565,7 +1689,6 @@ equal_kappa_test <- function(samples, method = c("f", 'bartlett'), alpha = 0.05,
   kappa <- setNames(nu / (2 * dev), paste0("kappa_", seq_len(q)))
 
   if (is.null(method)) method <- if (q == 2L) "f" else "bartlett"
-  method <- match.arg(method)
 
   if (method == "f") {
     if (q != 2L) stop("The F test compares two samples")
@@ -1671,7 +1794,7 @@ ar_test_statistic <- function(s1, s2) {
 #'
 #' @export
 #'
-#' @family Tests
+#' @family Two-Sample-Tests
 #'
 #' @examples
 #' set.seed(20250411)
@@ -1728,4 +1851,100 @@ ar_test <- function(x, y, n_perm = 1000L, axial = FALSE, alpha = NULL) {
     ),
     class = 'htest'
   )
+}
+
+#' Wallraff Test of Angular Distances
+#'
+#' Performs the Wallraff test of angular distances or angular dispersion around the mean.
+#'
+#' @inheritParams equal_kappa_test
+#' @param ref a vector of angles used as reference to compute the angular distances from, in each group.
+#' It should contain as many elements as there are groups, *in the same order*.
+#' The order is the order of the elements of the list `x`.
+#'
+#' If `ref` has less elements than the number of groups (typically one: a common reference for all groups), it is recycled to match the number of groups.
+#'
+#' If `ref` is `NULL` (the default), the mean angle of each group will be used as reference. In this situation, the Wallraff test becomes a comparison of angular dispersion around the mean
+#'
+#' @details
+#' The Wallraff test of angular distances between two or more groups is performed
+#' and the results are printed. The null hypothesis is that distances are equal across groups.
+#'
+#' The test proceeds by computing the angular distances from a reference angle,
+#' in each group. The angular distance between two angles is the circular range.
+#' Then the distances are compared with a usual rank sum test (Kruskal-Wallis, [stats::kruskal.test]).
+#' When there are only two groups,
+#' the Wilcoxon-Mann-Whitney test could be used but [stats::wilcox.test] without continuity
+#' correction for the p-value is equivalent to [stats::kruskal.test] so only [stats::kruskal.test] is used here.
+#'
+#' The Wallraff test is most frequently used to compare angular dispersion
+#' around the mean, between samples. In this case, the reference angle is the
+#' mean angle of each sample. This is the default here, when no reference angles are provided.
+#'
+#'
+#' @inherit circular::wallraff.test return
+#' @inherit circular::wallraff.test references
+#'
+#' @family Two-Sample-Tests
+#' @export
+#'
+#' @examples
+#' set.seed(20250411)
+#' x1 <- c(35, 45, 50, 55, 60, 70, 85, 95, 105, 120)
+#' x2 <- c(75, 80, 90, 100, 110, 130, 135, 140, 150, 160, 165)
+#' walraff_test(list(x1, x2))
+#'
+#' x1 <- rvm(100, mean = 90, kappa = 20)
+#' x2 <- rvm(100, mean = 90, kappa = 10)
+#' x3 <- rvm(100, mean = 90, kappa = 1)
+#' walraff_test(list(x1, x2, x3))
+#'
+#' # San Andreas Fault Data:
+#' data(san_andreas)
+#' data("nuvel1")
+#' PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
+#' sa.por <- PoR_shmax(san_andreas, PoR, "right")
+#' walraff_test(list(sa.por$azi.PoR, rvm(100, 135, 10)))
+walraff_test <- function(samples, ref = NULL, axial = TRUE){
+    if (!is.list(samples) || length(samples) < 2L) {
+      stop("`samples` must be a list of at least two samples")
+    }
+    k  <- length(samples)
+    nm <- names(samples)
+    if (is.null(nm) || any(!nzchar(nm))) nm <- as.character(seq_len(k))
+    nm <- make.unique(nm)
+
+    samples <- lapply(samples, deg2rad)
+    f <- if (isTRUE(axial)) 2 else 1
+    x <- f * unlist(samples, use.names = FALSE)          # radians, doubled if axial
+    g <- rep.int(seq_len(k), lengths(samples))
+    ok <- is.finite(x)
+    x <- x[ok]
+    g <- g[ok]
+
+    if (is.null(ref)) {
+      SC <- rowsum(cbind(sin(x), cos(x)), g)             # k x 2 resultants
+      if (any(rowSums(SC^2) < 1e-12)) {
+        warning("Mean direction undefined for a sample with zero resultant")
+      }
+      centre <- atan2(SC[, 1L], SC[, 2L])
+    } else {
+      if (!length(ref) %in% c(1L, k)) {
+        stop("`ref` must have length 1 or one value per sample")
+      }
+      centre <- rep_len(f * as.numeric(ref), k)
+    }
+
+    # angular distance to the centre, in [0, pi] (doubled) -> [0, pi/2] (axial)
+    d <- abs(x - centre[g]) %% (2 * pi)
+    d <- pmin(d, 2 * pi - d) / f
+
+    res <- stats::kruskal.test(d, factor(g, levels = seq_len(k), labels = nm))
+    res$method <- if (is.null(ref)) {
+      "Wallraff rank sum test of angular distance to the sample mean directions"
+    } else {
+      "Wallraff rank sum test of angular distance to the reference direction"
+    }
+    res$data.name <- paste(nm, collapse = " and ")
+    res
 }

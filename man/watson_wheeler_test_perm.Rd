@@ -15,10 +15,7 @@ In case of axial data, the angles will be doubled for the test.}
 
 \item{n_perm}{integer. Number of permutations}
 
-\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05},
-and \code{0.1}.
-This argument may be omitted (\code{NULL}, the default), in which case, a range
-for the p-value will be returned.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.}
 }
 \value{
 A list with class \code{"htest"}
@@ -83,17 +80,12 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_wheeler_test_perm(sa.por$azi.PoR, rvm(100, 135, 10))
 }
 \seealso{
-Other Tests:
+Other Two-Sample-Tests:
 \code{\link[=ar_test]{ar_test()}},
 \code{\link[=equal_kappa_test]{equal_kappa_test()}},
-\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
-\code{\link[=kuiper_test]{kuiper_test()}},
-\code{\link[=norm_chisq]{norm_chisq()}},
-\code{\link[=rao_spacing_test]{rao_spacing_test()}},
-\code{\link{rayleigh-test}},
 \code{\link[=uniform_scores_test]{uniform_scores_test()}},
-\code{\link[=watson_test]{watson_test()}},
+\code{\link[=walraff_test]{walraff_test()}},
 \code{\link{watson_two_sample}},
-\code{\link{weighted-rayleigh-test}}
+\code{\link[=watson_williams_test]{watson_williams_test()}}
 }
-\concept{Tests}
+\concept{Two-Sample-Tests}
