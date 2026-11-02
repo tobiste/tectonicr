@@ -6,7 +6,7 @@
 \usage{
 watson_test(
   x,
-  alpha = NULL,
+  alpha = 0.05,
   dist = c("uniform", "vonmises"),
   axial = TRUE,
   quiet = FALSE
@@ -30,9 +30,18 @@ In case of axial data, the angles will be doubled for the test.}
 \item{quiet}{logical. Prints the test's decision.}
 }
 \value{
-list containing the test statistic \code{statistic}, the significance
-level \code{p.value}, the critical value \code{critical.value}, whether to \code{reject} the null hypothesis,
-the significance level \code{alpha}, the tested distribution \code{dist}, and the number of data \code{n}
+A list with class \code{"htest"} containing the following components:
+\describe{
+\item{\code{statistic}}{the value of the U2 statistic}
+\item{\code{parameter}}{the number of data}
+\item{\code{p.value}}{the p-value for the test}
+\item{\code{estimate}}{the MLE of the kappa value for the von Mises distribution}
+\item{\code{alternative}}{a character string describing the alternative hypothesis.}
+\item{\code{method}}{a character string indicating what type of Watson test was performed.}
+\item{\code{data.name}}{a character string giving the name(s) of the data.}
+\item{\code{alpha}}{the significance level}
+\item{\code{reject}}{logical. whether to reject the null-hypothesis based on the significance level.}
+}
 }
 \description{
 A non-parametric statistical test used for circular data to determine whether
@@ -81,7 +90,7 @@ watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 }
 \references{
-Mardia and Jupp (1999). Directional Statistics. John Wiley and
+Mardia and Jupp (2000). Directional Statistics. John Wiley and
 Sons.
 }
 \seealso{
@@ -89,9 +98,13 @@ Sons.
 
 Other Tests:
 \code{\link[=ar_test]{ar_test()}},
+\code{\link[=equal_kappa_test]{equal_kappa_test()}},
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
 \code{\link[=kuiper_test]{kuiper_test()}},
 \code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
+\code{\link[=uniform_scores_test]{uniform_scores_test()}},
 \code{\link{watson_two_sample}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
 \code{\link{weighted-rayleigh-test}}

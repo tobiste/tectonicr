@@ -4,7 +4,7 @@
 \alias{kuiper_test}
 \title{Kuiper Test of Circular Uniformity}
 \usage{
-kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
+kuiper_test(x, alpha = 0.05, axial = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
@@ -19,8 +19,18 @@ In case of axial data, the angles will be doubled for the test.}
 \item{quiet}{logical. Prints the test's decision.}
 }
 \value{
-list containing the test statistic \code{statistic} and the significance
-level \code{p.value}.
+A list with class \code{"htest"} containing the following components:
+\describe{
+\item{\code{statistic}}{the value of the D statistic}
+\item{\code{parameter}}{the number of data}
+\item{\code{p.value}}{the p-value for the test}
+\item{\code{estimate}}{the D+ and D- values}
+\item{\code{alternative}}{a character string describing the alternative hypothesis.}
+\item{\code{method}}{a character string indicating what type of Kuiper test was performed.}
+\item{\code{data.name}}{a character string giving the name(s) of the data.}
+\item{\code{alpha}}{the significance level}
+\item{\code{reject}}{logical. whether to reject the null-hypothesis based on the significance level.}
+}
 }
 \description{
 A statistical test used to determine whether a set of angular or circular
@@ -67,8 +77,12 @@ kuiper_test(sa.por$azi.PoR, alpha = .05)
 \seealso{
 Other Tests:
 \code{\link[=ar_test]{ar_test()}},
+\code{\link[=equal_kappa_test]{equal_kappa_test()}},
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
 \code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
+\code{\link[=uniform_scores_test]{uniform_scores_test()}},
 \code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},

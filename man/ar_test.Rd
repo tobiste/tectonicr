@@ -16,12 +16,9 @@ ar_test(x, y, n_perm = 1000L, axial = FALSE, alpha = NULL)
 
 \item{alpha}{(optional) numeric. Significance level of the test (values between 0 and 1).}
 }
-\value{
-list containing the test statistic, the p-value, the significance value \code{alpha} and a logical decision whether to reject the null hypothesis or not.
-}
 \description{
 Performs Angular Randomisation Test for homogeneity on two samples of
-circular data after Ruxton et al. (2023).
+circular data after Ruxton et al. (2023). Test whether samples of directions share the mean direction
 P-values are estimated using permutation.
 }
 \details{
@@ -65,12 +62,28 @@ ar_test(sa.por$azi.PoR, rvm(100, 135, 10), axial = TRUE, alpha = 0.05)
 Ruxton, G.D., Malkemper, E.P. & Landler, L. Evaluating the power
 of a recent method for comparing two circular distributions: an alternative
 to the Watson U2 test. Sci Rep 13, 10007 (2023). https://doi.org/10.1038/s41598-023-36960-1
+
+#' @returns A list with class \code{"htest"} containing the following components:
+\describe{
+\item{\code{statistic}}{the value of the G statistic}
+\item{\code{parameter}}{the number of data in x and y, and the number of permutations}
+\item{\code{p.value}}{the p-value for the test}
+\item{\code{alternative}}{a character string describing the alternative hypothesis.}
+\item{\code{method}}{a character string indicating what type of test was performed.}
+\item{\code{alpha}}{the significance level}
+\item{\code{reject}}{logical. whether to reject the null-hypothesis based on the significance level.}
+\item{\code{data.name}}{a character string giving the name(s) of the data.}
+}
 }
 \seealso{
 Other Tests:
+\code{\link[=equal_kappa_test]{equal_kappa_test()}},
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
 \code{\link[=kuiper_test]{kuiper_test()}},
 \code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
+\code{\link[=uniform_scores_test]{uniform_scores_test()}},
 \code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},

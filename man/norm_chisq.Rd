@@ -62,8 +62,12 @@ tectonics. \emph{Journal of Geophysical Research: Solid Earth}, \strong{103},
 \seealso{
 Other Tests:
 \code{\link[=ar_test]{ar_test()}},
+\code{\link[=equal_kappa_test]{equal_kappa_test()}},
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
 \code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
+\code{\link[=uniform_scores_test]{uniform_scores_test()}},
 \code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},

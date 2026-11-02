@@ -21,7 +21,7 @@ This argument may be omitted (\code{NULL}, the default), in which case, a range
 for the p-value will be returned.}
 }
 \value{
-list
+A list with class \code{"htest"}
 }
 \description{
 A a non-parametric statistical test used to determine whether two or more
@@ -85,9 +85,13 @@ watson_wheeler_test_perm(sa.por$azi.PoR, rvm(100, 135, 10))
 \seealso{
 Other Tests:
 \code{\link[=ar_test]{ar_test()}},
+\code{\link[=equal_kappa_test]{equal_kappa_test()}},
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
 \code{\link[=kuiper_test]{kuiper_test()}},
 \code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
+\code{\link[=uniform_scores_test]{uniform_scores_test()}},
 \code{\link[=watson_test]{watson_test()}},
 \code{\link{watson_two_sample}},
 \code{\link{weighted-rayleigh-test}}

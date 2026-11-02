@@ -6,7 +6,7 @@
 \alias{watson_two_test_perm}
 \title{Watson's Two-Sample Test of Homogeneity}
 \usage{
-watson_two_test(x, y, alpha = NULL, axial = TRUE, quiet = FALSE)
+watson_two_test(x, y, alpha = 0.05, axial = TRUE, quiet = FALSE)
 
 watson_two_test_perm(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL)
 }
@@ -27,14 +27,12 @@ In case of axial data, the angles will be doubled for the test.}
 \item{n_perm}{integer. Number of permutations}
 }
 \value{
-list. Watson's two-sample test of homogeneity is performed, and the
-results are printed. If alpha is specified and non-zero, the test statistic
-is printed along with the critical value and decision. If alpha is omitted,
-the test statistic is printed and a range for the p-value of the test is given.
+A list with class \code{"htest"}
 }
 \description{
 Performs Watson's test for homogeneity on two samples of circular data.
 \code{watson_two_test_perm()} uses permutation to estimate p-values.
+Test whether samples of directions share the mean direction.
 }
 \details{
 A two-sample Watson's \eqn{U^2}{U²} permutation test determines whether two
@@ -96,14 +94,19 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_two_test(sa.por$azi, 135, alpha = 0.05)
+watson_two_test(sa.por$azi, rvm(100, 135, 10), alpha = 0.05)
 watson_two_test_perm(sa.por$azi, rvm(100, 135, 10), alpha = 0.05)
 }
 \seealso{
 Other Tests:
 \code{\link[=ar_test]{ar_test()}},
+\code{\link[=equal_kappa_test]{equal_kappa_test()}},
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
 \code{\link[=kuiper_test]{kuiper_test()}},
 \code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
+\code{\link[=uniform_scores_test]{uniform_scores_test()}},
 \code{\link[=watson_test]{watson_test()}},
 \code{\link[=watson_wheeler_test_perm]{watson_wheeler_test_perm()}},
 \code{\link{weighted-rayleigh-test}}
