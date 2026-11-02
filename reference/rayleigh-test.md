@@ -3,7 +3,8 @@
 A test to determine whether a sample of circular or directional data is
 evenly spread out or clustered around a single specific direction. The
 test assesses the significance of the mean resultant length.
-`rayleight_test_perm()` uses permutation to estimate p-values.
+`rayleigh_test_perm()` estimates p-values by Monte Carlo simulation of
+uniform samples.
 
 ## Usage
 
@@ -32,9 +33,7 @@ rayleigh_test_perm(x, mu = NULL, axial = TRUE, n_perm = 1000L)
 
 - alpha:
 
-  Significance level of the test. Valid levels are `0.01`, `0.05`, and
-  `0.1`. This argument may be omitted (`NULL`, the default), in which
-  case, a range for the p-value will be returned.
+  Significance level of the test ranging between 0 and 1.
 
 - quiet:
 
@@ -42,7 +41,7 @@ rayleigh_test_perm(x, mu = NULL, axial = TRUE, n_perm = 1000L)
 
 - n_perm:
 
-  integer. Number of permutations.
+  integer. Number of simulated uniform samples.
 
 ## Value
 
@@ -50,10 +49,11 @@ a list with the components:
 
 - `R` or `C`:
 
-  mean resultant length or the dispersion (if `mu` is specified). Small
-  values of `R` (large values of `C`) will reject uniformity. Negative
-  values of `C` indicate that vectors point in opposite directions (also
-  lead to rejection).
+  mean resultant length or, if `mu` is specified, the mean cosine of the
+  deviations from `mu`. Large values of `R` (large positive values of
+  `C`) reject uniformity. Negative values of `C` indicate that the
+  vectors point away from `mu`; the one-sided V-test does not reject
+  them.
 
 - `statistic`:
 
@@ -72,8 +72,8 @@ a list with the components:
 
 **Alternative Hypothesis** \\H_1\\: The population is not uniform and
 has a unimodal (single-peaked) concentration in a preferred direction.
-When `mu` is specified), angles are non-uniformly distributed around the
-specified direction.
+When `mu` is specified (V-test), the alternative is a unimodal
+distribution centred on the specified direction; the test is one-sided.
 
 *Mean Resultant Length* (\\\bar{R}\\ or R): A value between 0 and 1 that
 measures how concentrated the data points are.
@@ -100,10 +100,10 @@ under the assumption of uniformity.
 ## Note
 
 Although the Rayleigh test is consistent against (non-uniform) von Mises
-alternatives, it is not consistent against alternatives with `p = 0` (in
-particular, distributions with antipodal symmetry, i.e. axial data).
-Tests of non-uniformity which are consistent against all alternatives
-include Kuiper's test
+alternatives, it is not consistent against alternatives with a mean
+resultant length \\\rho = 0\\ (in particular, distributions with
+antipodal symmetry, i.e. undoubled axial data). Tests of non-uniformity
+which are consistent against all alternatives include Kuiper's test
 ([`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md))
 and Watson's \\U^2\\ test
 ([`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)).
@@ -127,17 +127,12 @@ University Press.
 [`mean_resultant_length()`](https://tobiste.github.io/tectonicr/reference/mean_resultant_length.md),
 [`circular_mean()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md)
 
-Other Tests:
-[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
-[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+Other One-Sample-Tests:
 [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
 [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
-[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
-[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
-[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## Examples
@@ -158,10 +153,11 @@ rayleigh_test(homing, axial = FALSE) # Do not reject null hypothesis.
 # R = 0.22; stat = 0.497, p = 0.62
 rayleigh_test_perm(homing, axial = FALSE)
 #> 
-#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#>  Rayleigh test of uniformity (Monte Carlo p-value based on 1000 uniform
+#>  samples)
 #> 
 #> data:  homing
-#> R = 0.22287, n = 10, df = 2, n_perm = 1000, p-value = 0.6653
+#> Rbar = 0.22287, n = 10, n_perm = 1000, p-value = 0.6653
 #> alternative hypothesis: unimodal distribution
 #> sample estimates:
 #>         R      Rbar 
@@ -182,10 +178,11 @@ rayleigh_test(striae, axial = FALSE) # reject null hypothesis
 #> 
 rayleigh_test_perm(striae, axial = FALSE) # reject null hypothesis
 #> 
-#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#>  Rayleigh test of uniformity (Monte Carlo p-value based on 1000 uniform
+#>  samples)
 #> 
 #> data:  striae
-#> R = 0.80037, n = 51, df = 2, n_perm = 1000, p-value = 0.000999
+#> Rbar = 0.80037, n = 51, n_perm = 1000, p-value = 0.000999
 #> alternative hypothesis: unimodal distribution
 #> sample estimates:
 #>          R       Rbar 
@@ -205,14 +202,12 @@ rayleigh_test(striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> 
 rayleigh_test_perm(striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> 
-#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#>  Rayleigh V-test of uniformity (Monte Carlo p-value based on 1000
+#>  uniform samples)
 #> 
 #> data:  striae
-#> C = 0.73009, n = 51, df = 2, n_perm = 1000, p-value = 0.000999
-#> alternative hypothesis: unimodal distribution
-#> sample estimates:
-#>          R       Rbar 
-#> 37.2345236  0.7300887 
+#> C = 0.73009, n = 51, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution with mean direction 105
 #> 
 
 # Example data from Mardia and Jupp (1999), pp. 99
@@ -261,13 +256,11 @@ rayleigh_test(sa.por$azi.PoR, mu = 135) # reject null hypothesis
 #> 
 rayleigh_test_perm(sa.por$azi.PoR, mu = 135, n_perm = 1e3) # reject null hypothesis
 #> 
-#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#>  Rayleigh V-test of uniformity (Monte Carlo p-value based on 1000
+#>  uniform samples)
 #> 
 #> data:  sa.por$azi.PoR
-#> C = 0.70095, n = 1126, df = 2, n_perm = 1000, p-value = 0.000999
-#> alternative hypothesis: unimodal distribution
-#> sample estimates:
-#>           R        Rbar 
-#> 789.2746557   0.7009544 
+#> C = 0.70095, n = 1126, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution with mean direction 135
 #> 
 ```

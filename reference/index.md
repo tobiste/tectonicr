@@ -251,13 +251,17 @@
   [`pvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md)
   [`qvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md) :
   The von Mises Distribution
+- [`walraff_test()`](https://tobiste.github.io/tectonicr/reference/walraff_test.md)
+  : Wallraff Test of Angular Distances
 - [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)
   : Watson's \\U^2\\ Test for Goodness-of-Fit against known Distribution
 - [`watson_two_test()`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md)
   [`watson_two_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md)
   : Watson's Two-Sample Test of Homogeneity
 - [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md)
-  : Watson-Wheeler Test of Homogeneity of Means
+  : Watson-Wheeler Test of Homogeneity
+- [`watson_williams_test()`](https://tobiste.github.io/tectonicr/reference/watson_williams_test.md)
+  : Watson-Williams Test of Homogeneity of Means
 - [`rwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
   [`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
   [`pwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
@@ -265,6 +269,7 @@
   : The Wrapped Cauchy Distribution
 - [`weighted_rayleigh()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   [`weighted_rayleigh_perm()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+  [`v0_test()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   : Weighted Goodness-of-fit Test for Circular Data
 - [`weighting()`](https://tobiste.github.io/tectonicr/reference/weighting.md)
   : Weighting Factors

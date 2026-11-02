@@ -31,6 +31,43 @@ ar_test(x, y, n_perm = 1000L, axial = FALSE, alpha = NULL)
   (optional) numeric. Significance level of the test (values between 0
   and 1).
 
+## Value
+
+A list with class `"htest"` containing the following components:
+
+- `statistic`:
+
+  the value of the G statistic
+
+- `parameter`:
+
+  the number of data in x and y, and the number of permutations
+
+- `p.value`:
+
+  the p-value for the test
+
+- `alternative`:
+
+  a character string describing the alternative hypothesis.
+
+- `method`:
+
+  a character string indicating what type of test was performed.
+
+- `alpha`:
+
+  the significance level
+
+- `reject`:
+
+  logical. whether to reject the null-hypothesis based on the
+  significance level.
+
+- `data.name`:
+
+  a character string giving the name(s) of the data.
+
 ## Details
 
 **Null Hypothesis** (\\H_0\\): The two circular samples share an
@@ -68,56 +105,15 @@ recent method for comparing two circular distributions: an alternative
 to the Watson U2 test. Sci Rep 13, 10007 (2023).
 https://doi.org/10.1038/s41598-023-36960-1
 
-\#' @returns A list with class `"htest"` containing the following
-components:
-
-- `statistic`:
-
-  the value of the G statistic
-
-- `parameter`:
-
-  the number of data in x and y, and the number of permutations
-
-- `p.value`:
-
-  the p-value for the test
-
-- `alternative`:
-
-  a character string describing the alternative hypothesis.
-
-- `method`:
-
-  a character string indicating what type of test was performed.
-
-- `alpha`:
-
-  the significance level
-
-- `reject`:
-
-  logical. whether to reject the null-hypothesis based on the
-  significance level.
-
-- `data.name`:
-
-  a character string giving the name(s) of the data.
-
 ## See also
 
-Other Tests:
+Other Two-Sample-Tests:
 [`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
-[`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
-[`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
-[`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
-[`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
-[`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
 [`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
-[`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
+[`walraff_test()`](https://tobiste.github.io/tectonicr/reference/walraff_test.md),
 [`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
 [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
-[`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+[`watson_williams_test()`](https://tobiste.github.io/tectonicr/reference/watson_williams_test.md)
 
 ## Examples
 
@@ -144,7 +140,7 @@ ar_test(sa.por$azi.PoR, rvm(100, 135, 10), axial = TRUE, alpha = 0.05)
 #>  Angular Randomisation Test of Homogeneity
 #> 
 #> data:  sa.por$azi.PoR and rvm(100, 135, 10)
-#> G = 92652, nx = 1126, ny = 100, n_perm = 1000, p-value = 0.993
+#> G = 92652, nx = 1126, ny = 100, n_perm = 1000, p-value = 0.988
 #> alternative hypothesis: Samples come from different distributions
 #> 
 ```

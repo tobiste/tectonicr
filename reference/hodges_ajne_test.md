@@ -16,9 +16,7 @@ hodges_ajne_test(x, alpha = 0.05, axial = TRUE)
 
 - alpha:
 
-  Significance level of the test. Valid levels are `0.01`, `0.05`, and
-  `0.1`. This argument may be omitted (`NULL`, the default), in which
-  case, a range for the p-value will be returned.
+  Significance level of the test ranging between 0 and 1.
 
 - axial:
 
@@ -64,17 +62,12 @@ direction.
 
 ## See also
 
-Other Tests:
-[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
-[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+Other One-Sample-Tests:
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
 [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
-[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
-[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
-[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## Examples

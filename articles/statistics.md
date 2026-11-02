@@ -349,10 +349,13 @@ weighted_rayleigh(san_andreas.por$azi.PoR, mu = 135, w = w)
 #> [1] 0.7244095
 #> 
 #> $statistic
-#> [1] 34.37703
+#> [1] 33.59973
 #> 
 #> $p.value
-#> [1] 8.045524e-256
+#> [1] 2.231719e-244
+#> 
+#> $n_eff
+#> [1] 1075.656
 ```
 
 Here, the Null Hypothesis is rejected, and thus, the alternative, i.e.

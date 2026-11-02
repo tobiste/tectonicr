@@ -78,7 +78,8 @@ the return object from <code><a href="model_shmax.html">model_shmax()</a></code>
 
 <dt id="arg-unc">unc<a class="anchor" aria-label="anchor" href="#arg-unc"></a></dt>
 <dd><p>Uncertainty of observed \(\sigma_\text{Hmax}\), either a
-numeric vector or a number</p></dd>
+numeric vector or a number. Observations with missing uncertainty are
+dropped; an uncertainty of 0 is replaced by 1.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -107,17 +108,12 @@ tectonics. <em>Journal of Geophysical Research: Solid Earth</em>, <strong>103</s
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other Tests:
-<code><a href="ar_test.html">ar_test()</a></code>,
-<code><a href="equal_kappa_test.html">equal_kappa_test()</a></code>,
+    <div class="dont-index"><p>Other One-Sample-Tests:
 <code><a href="hodges_ajne_test.html">hodges_ajne_test()</a></code>,
 <code><a href="kuiper_test.html">kuiper_test()</a></code>,
 <code><a href="rao_spacing_test.html">rao_spacing_test()</a></code>,
 <code><a href="rayleigh-test.html">rayleigh-test</a></code>,
-<code><a href="uniform_scores_test.html">uniform_scores_test()</a></code>,
 <code><a href="watson_test.html">watson_test()</a></code>,
-<code><a href="watson_two_sample.html">watson_two_sample</a></code>,
-<code><a href="watson_wheeler_test_perm.html">watson_wheeler_test_perm()</a></code>,
 <code><a href="weighted-rayleigh-test.html">weighted-rayleigh-test</a></code></p></div>
     </div>
 

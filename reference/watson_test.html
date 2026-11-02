@@ -72,10 +72,9 @@ a sample fits a specified theoretical distribution</p>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>Significance level of the test. Valid levels are <code>0.01</code>, <code>0.05</code>,
-and <code>0.1</code>.
-This argument may be omitted (<code>NULL</code>, the default), in which case, a range
-for the p-value will be returned.</p></dd>
+<dd><p>Significance level of the test ranging between 0 and 1.
+For <code>dist = "vonmises"</code> it must be one of <code>0.1</code>, <code>0.05</code>, <code>0.01</code> or <code>0</code> (only
+the tabulated p-value range is returned).</p></dd>
 
 
 <dt id="arg-dist">dist<a class="anchor" aria-label="anchor" href="#arg-dist"></a></dt>
@@ -96,13 +95,16 @@ In case of axial data, the angles will be doubled for the test.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list with class <code>"htest"</code> containing the following components:</p><dl><dt><code>statistic</code></dt>
-<dd><p>the value of the U2 statistic</p></dd>
+<dd><p>the value of the U2 statistic (modified for <code>dist = "uniform"</code>)</p></dd>
 
 <dt><code>parameter</code></dt>
 <dd><p>the number of data</p></dd>
 
 <dt><code>p.value</code></dt>
-<dd><p>the p-value for the test</p></dd>
+<dd><p>the p-value for the test (<code>dist = "uniform"</code> only)</p></dd>
+
+<dt><code>p.range</code></dt>
+<dd><p>the range of the p-value from the tabulated critical values (<code>dist = "vonmises"</code> only)</p></dd>
 
 <dt><code>estimate</code></dt>
 <dd><p>the MLE of the kappa value for the von Mises distribution</p></dd>
@@ -115,6 +117,9 @@ In case of axial data, the angles will be doubled for the test.</p></dd>
 
 <dt><code>data.name</code></dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
+
+<dt><code>critical</code></dt>
+<dd><p>the critical value at the significance level</p></dd>
 
 <dt><code>alpha</code></dt>
 <dd><p>the significance level</p></dd>
@@ -154,8 +159,7 @@ There is not enough evidence to claim the data deviates from the expected model.
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-non-parametric, rank-based alternative to one-sample</p>
+    <p>Watson's test statistic is a rotation-invariant Cramer - von Mises test.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -165,17 +169,12 @@ Sons.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="vonmises.html">vonmises</a> and <a href="cunif.html">cunif</a></p>
-<p>Other Tests:
-<code><a href="ar_test.html">ar_test()</a></code>,
-<code><a href="equal_kappa_test.html">equal_kappa_test()</a></code>,
+<p>Other One-Sample-Tests:
 <code><a href="hodges_ajne_test.html">hodges_ajne_test()</a></code>,
 <code><a href="kuiper_test.html">kuiper_test()</a></code>,
 <code><a href="norm_chisq.html">norm_chisq()</a></code>,
 <code><a href="rao_spacing_test.html">rao_spacing_test()</a></code>,
 <code><a href="rayleigh-test.html">rayleigh-test</a></code>,
-<code><a href="uniform_scores_test.html">uniform_scores_test()</a></code>,
-<code><a href="watson_two_sample.html">watson_two_sample</a></code>,
-<code><a href="watson_wheeler_test_perm.html">watson_wheeler_test_perm()</a></code>,
 <code><a href="weighted-rayleigh-test.html">weighted-rayleigh-test</a></code></p></div>
     </div>
 
@@ -183,11 +182,12 @@ Sons.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example data from Mardia and Jupp (1999), pp. 93</span></span></span>
 <span class="r-in"><span><span class="fu">watson_test</span><span class="op">(</span><span class="va">homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span>, alpha <span class="op">=</span> <span class="fl">.05</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Do Not Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Watson's U2 test against uniformity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  homing</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> U2 = 0.11536, n = 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U2 = 0.11536, n = 10, p-value = 0.2049</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: non-uniform distribution</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
@@ -197,27 +197,18 @@ Sons.</p>
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">watson_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, alpha <span class="op">=</span> <span class="fl">.05</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Watson's U2 test against uniformity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  sa.por$azi.PoR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> U2 = 52.147, n = 1126</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U2 = 31.687, n = 1126, p-value &lt; 2.2e-16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: non-uniform distribution</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">watson_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, alpha <span class="op">=</span> <span class="fl">.05</span>, dist <span class="op">=</span> <span class="st">"vonmises"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	Watson's U2 test against von Mises distribution</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> data:  sa.por$azi.PoR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> U2 = 0.50844, n = 1126</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Sample does not follow a von Mises distribution</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kappa MLE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.184977 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">watson_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, alpha <span class="op">=</span> <span class="fl">.05</span>, dist <span class="op">=</span> <span class="st">"vonmises"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	Watson's U2 test against von Mises distribution</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Watson's U2 test against von Mises distribution (P-value &lt; 0.01)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  sa.por$azi.PoR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> U2 = 0.50844, n = 1126</span>

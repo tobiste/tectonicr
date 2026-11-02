@@ -417,10 +417,13 @@ results$test
 #> [1] 0.8028201
 #> 
 #> $statistic
-#> [1] 38.09802
+#> [1] 24.33999
 #> 
 #> $p.value
-#> [1] 4.600542e-314
+#> [1] 3.946992e-128
+#> 
+#> $n_eff
+#> [1] 459.5941
 ```
 
 … and the associated plots can be displayed by setting `plot = TRUE`:

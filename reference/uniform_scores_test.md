@@ -1,8 +1,8 @@
 # Uniform scores test
 
 q-sample uniform-scores test tests the equality of given distributions,
-ie. whether samples of directions share the mean direction. The test is
-the distribution-free test of Mardia, Watson & Wheeler on the uniform
+i.e., whether samples of directions share the mean direction. The test
+is the distribution-free test of Mardia, Watson & Wheeler on the uniform
 scores \\2 \pi r_i / n\\ of the ranks in the pooled sample.
 
 ## Usage
@@ -19,9 +19,9 @@ uniform_scores_test(samples, alpha = 0.05, axial = TRUE)
 
 - alpha:
 
-  Significance level of the test. Valid levels are `0.01`, `0.05`, and
-  `0.1`. This argument may be omitted (`NULL`, the default), in which
-  case, a range for the p-value will be returned.
+  Significance level of the test ranging between 0 and 1. For
+  `dist = "vonmises"` it must be one of `0.1`, `0.05`, `0.01` or `0`
+  (only the tabulated p-value range is returned).
 
 - axial:
 
@@ -36,22 +36,19 @@ A list with class `"htest"`
 ## Details
 
 \$\$W = 2 \sum\_{i=1}^q R_i^2 / n_i\$\$ with \\2(q - 1)\\ degrees of
-freedom, \\R^\* = 2 (n - 1) R_1^2 / (n_1 n_2)\\ for two samples
+freedom, \\R^\* = 2 (n - 1) R_1^2 / (n_1 n_2)\\ for two samples. Ties
+within a sample get consecutive ranks, ties between samples the average
+rank.
 
 ## See also
 
-Other Tests:
+Other Two-Sample-Tests:
 [`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
 [`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
-[`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
-[`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
-[`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
-[`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
-[`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
-[`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
+[`walraff_test()`](https://tobiste.github.io/tectonicr/reference/walraff_test.md),
 [`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
 [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
-[`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
+[`watson_williams_test()`](https://tobiste.github.io/tectonicr/reference/watson_williams_test.md)
 
 ## Examples
 
@@ -63,12 +60,12 @@ uniform_scores_test(list(x1, x2))
 #> 
 #>  Uniform scores test
 #> 
-#> data:  list(x1, x2)
-#> W = 3.6783, n = 21, p-value = 0.159
+#> data:  1 and 2
+#> W = 3.6783, df = 2, p-value = 0.159
 #> alternative hypothesis: Samples come from different distributions
 #> 
 
-#' # San Andreas Fault Data:
+# San Andreas Fault Data:
 data(san_andreas)
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
@@ -77,8 +74,8 @@ uniform_scores_test(list(sa.por$azi.PoR, rvm(100, 135, 10)))
 #> 
 #>  Uniform scores test
 #> 
-#> data:  list(sa.por$azi.PoR, rvm(100, 135, 10))
-#> W = 0.9193, n = 1226, p-value = 0.6315
+#> data:  1 and 2
+#> W = 0.9193, df = 2, p-value = 0.6315
 #> alternative hypothesis: Samples come from different distributions
 #> 
 ```

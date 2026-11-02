@@ -19,9 +19,7 @@ kuiper_test(x, alpha = 0.05, axial = TRUE, quiet = FALSE)
 
 - alpha:
 
-  Significance level of the test. Valid levels are `0.01`, `0.05`, and
-  `0.1`. This argument may be omitted (`NULL`, the default), in which
-  case, a range for the p-value will be returned.
+  Significance level of the test ranging between 0 and 1.
 
 - axial:
 
@@ -39,7 +37,7 @@ A list with class `"htest"` containing the following components:
 
 - `statistic`:
 
-  the value of the D statistic
+  the value of the modified V statistic
 
 - `parameter`:
 
@@ -64,6 +62,10 @@ A list with class `"htest"` containing the following components:
 - `data.name`:
 
   a character string giving the name(s) of the data.
+
+- `critical`:
+
+  the critical value at the significance level
 
 - `alpha`:
 
@@ -101,22 +103,17 @@ cumulative distribution and a theoretical uniform distribution.
 ## Note
 
 Kuiper's test statistic is a rotation-invariant Kolmogorov-type test
-statistic. The critical values of a modified Kuiper's test statistic are
-used according to the tabulation given in Stephens (1970).
+statistic. The modified statistic of Stephens (1970) is compared with
+the asymptotic Kuiper distribution.
 
 ## See also
 
-Other Tests:
-[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
-[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+Other One-Sample-Tests:
 [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
 [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
-[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
-[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
-[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## Examples
@@ -124,6 +121,7 @@ Other Tests:
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
 kuiper_test(homing, alpha = .05)
+#> Reject Null Hypothesis
 #> 
 #>  Kuiper's test of uniformity
 #> 
@@ -141,6 +139,7 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 kuiper_test(sa.por$azi.PoR, alpha = .05)
+#> Reject Null Hypothesis
 #> 
 #>  Kuiper's test of uniformity
 #> 

@@ -2,14 +2,24 @@
 
 Weighted version of the Rayleigh test (or V0-test) for uniformity
 against a distribution with a priori expected von Mises concentration.
-`weighted_rayleight_test_perm()` uses permutation to estimate p-values.
+`weighted_rayleigh_perm()` estimates p-values by Monte Carlo simulation
+of uniform samples with the same weights.
 
 ## Usage
 
 ``` r
-weighted_rayleigh(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALSE)
+weighted_rayleigh(
+  x,
+  mu = NULL,
+  w = NULL,
+  axial = TRUE,
+  alpha = 0.05,
+  quiet = FALSE
+)
 
 weighted_rayleigh_perm(x, mu = NULL, w = NULL, axial = TRUE, n_perm = 1000L)
+
+v0_test(x, mu, w = NULL, axial = TRUE, n_perm = 1000L)
 ```
 
 ## Arguments
@@ -34,13 +44,17 @@ weighted_rayleigh_perm(x, mu = NULL, w = NULL, axial = TRUE, n_perm = 1000L)
   the default) or directional, i.e. \\2 \pi\\-periodical (`FALSE`). In
   case of axial data, the angles will be doubled for the test.
 
+- alpha:
+
+  Significance level of the test ranging between 0 and 1.
+
 - quiet:
 
   logical. Prints the test's decision.
 
 - n_perm:
 
-  integer. Number of permutations
+  integer. Number of simulated uniform samples.
 
 ## Value
 
@@ -48,10 +62,9 @@ a list with the components:
 
 - `R` or `C`:
 
-  mean resultant length or the dispersion (if `mu` is specified). Small
-  values of `R` (large values of `C`) will reject uniformity. Negative
-  values of `C` indicate that vectors point in opposite directions (also
-  lead to rejection).
+  weighted mean resultant length or, if `mu` is specified, the weighted
+  mean cosine of the deviations from `mu`. Large values reject
+  uniformity.
 
 - `statistic`:
 
@@ -61,28 +74,33 @@ a list with the components:
 
   significance level of the test statistic
 
+- `n_eff`:
+
+  effective sample size
+
+`weighted_rayleigh_perm()` returns a list of class `"htest"`.
+
 ## Details
 
 The Null hypothesis is uniformity (randomness). The alternative is a
-distribution with a (specified) mean direction (`mu`). If
-`statistic >= p.value`, the null hypothesis of randomness is rejected
-and angles derive from a distribution with a (or the specified) mean
-direction.
+unimodal distribution with the specified mean direction `mu` (weighted
+V-test), or with an unknown mean direction if `mu` is `NULL` (weighted
+Rayleigh test). The null hypothesis is rejected if `p.value < alpha`.
+
+Under the null hypothesis the weighted mean cosine has variance \\\sum
+w_i^2 / (2 (\sum w_i)^2)\\, so the asymptotic tests use the effective
+sample size \\n\_\text{eff} = (\sum w_i)^2 / \sum w_i^2\\, which equals
+\\n\\ for equal weights.
 
 ## See also
 
-Other Tests:
-[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
-[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+Other One-Sample-Tests:
 [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
 [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
-[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
-[`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
-[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
-[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md)
+[`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md)
 
 ## Examples
 
@@ -106,10 +124,13 @@ weighted_rayleigh(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc)
 #> [1] 0.5321474
 #> 
 #> $statistic
-#> [1] 25.68679
+#> [1] 16.75814
 #> 
 #> $p.value
-#> [1] 2.004315e-143
+#> [1] 9.206653e-62
+#> 
+#> $n_eff
+#> [1] 495.8583
 #> 
 weighted_rayleigh(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
 #> Reject Null Hypothesis
@@ -117,10 +138,13 @@ weighted_rayleigh(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
 #> [1] 0.3728874
 #> 
 #> $statistic
-#> [1] 11.67322
+#> [1] 7.950463
 #> 
 #> $p.value
-#> [1] 1.826316e-32
+#> [1] 3.500254e-16
+#> 
+#> $n_eff
+#> [1] 227.3
 #> 
 weighted_rayleigh(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
 #> Reject Null Hypothesis
@@ -128,31 +152,40 @@ weighted_rayleigh(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
 #> [1] 0.8042366
 #> 
 #> $statistic
-#> [1] 38.16524
+#> [1] 24.38294
 #> 
 #> $p.value
-#> [1] 3.589557e-315
+#> [1] 1.404208e-128
+#> 
+#> $n_eff
+#> [1] 459.5941
 #> 
 
 weighted_rayleigh_perm(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc)
-#> $statistic
-#> [1] 0.5321474
 #> 
-#> $p.value
-#> [1] 0.000999001
+#>  Weighted Rayleigh V-test of uniformity (Monte Carlo p-value based on
+#>  1000 uniform samples)
+#> 
+#> data:  tibet.por$azi.PoR
+#> C = 0.53215, n = 1165, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution with mean direction 90
 #> 
 weighted_rayleigh_perm(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
-#> $statistic
-#> [1] 0.3728874
 #> 
-#> $p.value
-#> [1] 0.000999001
+#>  Weighted Rayleigh V-test of uniformity (Monte Carlo p-value based on
+#>  1000 uniform samples)
+#> 
+#> data:  ice.por$azi.PoR
+#> C = 0.37289, n = 490, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution with mean direction 0
 #> 
 weighted_rayleigh_perm(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
-#> $statistic
-#> [1] 0.8042366
 #> 
-#> $p.value
-#> [1] 0.000999001
+#>  Weighted Rayleigh V-test of uniformity (Monte Carlo p-value based on
+#>  1000 uniform samples)
+#> 
+#> data:  sa.por$azi.PoR
+#> C = 0.80424, n = 1126, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution with mean direction 135
 #> 
 ```

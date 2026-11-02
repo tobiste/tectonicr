@@ -26,7 +26,8 @@ norm_chisq(obs, prd, unc)
 - unc:
 
   Uncertainty of observed \\\sigma\_\text{Hmax}\\, either a numeric
-  vector or a number
+  vector or a number. Observations with missing uncertainty are dropped;
+  an uncertainty of 0 is replaced by 1.
 
 ## Value
 
@@ -51,17 +52,12 @@ Geophysical Research: Solid Earth*, **103**, 5037-5059, doi:
 
 ## See also
 
-Other Tests:
-[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
-[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+Other One-Sample-Tests:
 [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
-[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
-[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
-[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## Examples

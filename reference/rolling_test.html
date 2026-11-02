@@ -144,7 +144,8 @@ the return object from <code><a href="model_shmax.html">model_shmax()</a></code>
 
 <dt id="arg-unc">unc<a class="anchor" aria-label="anchor" href="#arg-unc"></a></dt>
 <dd><p>Uncertainty of observed \(\sigma_\text{Hmax}\), either a
-numeric vector or a number</p></dd>
+numeric vector or a number. Observations with missing uncertainty are
+dropped; an uncertainty of 0 is replaced by 1.</p></dd>
 
 
 <dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
@@ -228,7 +229,7 @@ distance it is recommended to sort the values first.</p>
 <span class="r-in"><span><span class="fu">roll_normchisq</span><span class="op">(</span><span class="va">dat.PoR</span><span class="op">$</span><span class="va">azi.PoR</span>, <span class="fl">135</span>, <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.07096381 0.06795804 0.06513606 0.06413516 0.06176782 0.07664751</span>
 <span class="r-in"><span><span class="fu">roll_rayleigh</span><span class="op">(</span><span class="va">dat.PoR</span><span class="op">$</span><span class="va">azi.PoR</span>, prd <span class="op">=</span> <span class="fl">135</span>, unc <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.800976 4.022676 4.238056 4.409912 4.606523 4.371441</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.369087 3.586867 3.799326 3.945460 4.141787 3.952537</span>
 <span class="r-in"><span><span class="fu">roll_dispersion</span><span class="op">(</span><span class="va">dat.PoR</span><span class="op">$</span><span class="va">azi.PoR</span>, y <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1640380 0.1550584 0.1468287 0.1423089 0.1358223 0.1627360</span>
 <span class="r-in"><span><span class="fu">roll_confidence</span><span class="op">(</span><span class="va">dat.PoR</span><span class="op">$</span><span class="va">azi.PoR</span>, w <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">dat</span><span class="op">$</span><span class="va">unc</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>

@@ -2368,10 +2368,13 @@ stress_analysis(san_andreas, na_pa, type = "right", plate_boundary, plot = TRUE)
 #> [1] 0.8028201
 #> 
 #> $test$statistic
-#> [1] 38.09802
+#> [1] 24.33999
 #> 
 #> $test$p.value
-#> [1] 4.600542e-314
+#> [1] 3.946992e-128
+#> 
+#> $test$n_eff
+#> [1] 459.5941
 #> 
 #> 
 # }

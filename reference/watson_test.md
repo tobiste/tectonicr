@@ -23,9 +23,9 @@ watson_test(
 
 - alpha:
 
-  Significance level of the test. Valid levels are `0.01`, `0.05`, and
-  `0.1`. This argument may be omitted (`NULL`, the default), in which
-  case, a range for the p-value will be returned.
+  Significance level of the test ranging between 0 and 1. For
+  `dist = "vonmises"` it must be one of `0.1`, `0.05`, `0.01` or `0`
+  (only the tabulated p-value range is returned).
 
 - dist:
 
@@ -48,7 +48,7 @@ A list with class `"htest"` containing the following components:
 
 - `statistic`:
 
-  the value of the U2 statistic
+  the value of the U2 statistic (modified for `dist = "uniform"`)
 
 - `parameter`:
 
@@ -56,7 +56,12 @@ A list with class `"htest"` containing the following components:
 
 - `p.value`:
 
-  the p-value for the test
+  the p-value for the test (`dist = "uniform"` only)
+
+- `p.range`:
+
+  the range of the p-value from the tabulated critical values
+  (`dist = "vonmises"` only)
 
 - `estimate`:
 
@@ -73,6 +78,10 @@ A list with class `"htest"` containing the following components:
 - `data.name`:
 
   a character string giving the name(s) of the data.
+
+- `critical`:
+
+  the critical value at the significance level
 
 - `alpha`:
 
@@ -112,7 +121,6 @@ goodness-of-fit/homogeneity tables at your chosen significance level
 ## Note
 
 Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-non-parametric, rank-based alternative to one-sample
 
 ## References
 
@@ -123,17 +131,12 @@ Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
 [vonmises](https://tobiste.github.io/tectonicr/reference/vonmises.md)
 and [cunif](https://tobiste.github.io/tectonicr/reference/cunif.md)
 
-Other Tests:
-[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
-[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+Other One-Sample-Tests:
 [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
 [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
-[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
-[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
-[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## Examples
@@ -141,11 +144,12 @@ Other Tests:
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
 watson_test(homing, axial = FALSE, alpha = .05)
+#> Do Not Reject Null Hypothesis
 #> 
 #>  Watson's U2 test against uniformity
 #> 
 #> data:  homing
-#> U2 = 0.11536, n = 10
+#> U2 = 0.11536, n = 10, p-value = 0.2049
 #> alternative hypothesis: non-uniform distribution
 #> 
 
@@ -155,27 +159,18 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_test(sa.por$azi.PoR, alpha = .05)
+#> Reject Null Hypothesis
 #> 
 #>  Watson's U2 test against uniformity
 #> 
 #> data:  sa.por$azi.PoR
-#> U2 = 52.147, n = 1126
+#> U2 = 31.687, n = 1126, p-value < 2.2e-16
 #> alternative hypothesis: non-uniform distribution
 #> 
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
+#> Reject Null Hypothesis
 #> 
-#>  Watson's U2 test against von Mises distribution
-#> 
-#> data:  sa.por$azi.PoR
-#> U2 = 0.50844, n = 1126
-#> alternative hypothesis: Sample does not follow a von Mises distribution
-#> sample estimates:
-#> Kappa MLE 
-#>  2.184977 
-#> 
-watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
-#> 
-#>  Watson's U2 test against von Mises distribution
+#>  Watson's U2 test against von Mises distribution (P-value < 0.01)
 #> 
 #> data:  sa.por$azi.PoR
 #> U2 = 0.50844, n = 1126

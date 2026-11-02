@@ -16,13 +16,11 @@ rao_spacing_test(x, alpha = 0.05, n_perm = 9999L, axial = TRUE)
 
 - alpha:
 
-  Significance level of the test. Valid levels are `0.01`, `0.05`, and
-  `0.1`. This argument may be omitted (`NULL`, the default), in which
-  case, a range for the p-value will be returned.
+  Significance level of the test ranging between 0 and 1.
 
 - n_perm:
 
-  integer. Number of permutations.
+  integer. Number of simulated uniform samples.
 
 - axial:
 
@@ -40,7 +38,7 @@ A list with class `"htest"` containing the following components:
 
 - `parameter`:
 
-  the number of data and the number of permutations
+  the number of data and the number of simulations
 
 - `p.value`:
 
@@ -62,22 +60,17 @@ A list with class `"htest"` containing the following components:
 
 Test statistic is \$\$L = 1/2 \sum(\|T_i - 360 / n\|)\$\$ in degrees,
 with the spacings \\T_i\\ between consecutive angles (Mardia & Jupp
-2000, eq. 6.3.45). The p-value is the proportion of `n_perm` uniform
-samples with a larger \\L\\
+2000, eq. 6.3.45). The p-value is the proportion of `n_perm` simulated
+uniform samples with a larger \\L\\
 
 ## See also
 
-Other Tests:
-[`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
-[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+Other One-Sample-Tests:
 [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
-[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
-[`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
-[`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
 
 ## Examples
