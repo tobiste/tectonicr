@@ -11,7 +11,7 @@ rao_spacing_test(x, alpha = 0.05, n_perm = 9999L, axial = TRUE)
 
 \item{alpha}{Significance level of the test ranging between 0 and 1.}
 
-\item{n_perm}{integer. Number of permutations.}
+\item{n_perm}{integer. Number of simulated uniform samples.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
@@ -21,7 +21,7 @@ In case of axial data, the angles will be doubled for the test.}
 A list with class \code{"htest"} containing the following components:
 \describe{
 \item{\code{statistic}}{the value of the L statistic}
-\item{\code{parameter}}{the number of data and the number of permutations}
+\item{\code{parameter}}{the number of data and the number of simulations}
 \item{\code{p.value}}{the p-value for the test}
 \item{\code{alternative}}{a character string describing the alternative hypothesis.}
 \item{\code{method}}{a character string indicating what type of test was performed.}
@@ -35,7 +35,7 @@ Rao's spacing test of uniformity on the circle
 Test statistic is
 \deqn{L = 1/2 \sum(|T_i - 360 / n|)} in degrees, with the spacings \eqn{T_i}
 between consecutive angles (Mardia & Jupp 2000, eq. 6.3.45). The p-value is the proportion
-of \code{n_perm} uniform samples with a larger \eqn{L}
+of \code{n_perm} simulated uniform samples with a larger \eqn{L}
 }
 \examples{
 set.seed(20250411)

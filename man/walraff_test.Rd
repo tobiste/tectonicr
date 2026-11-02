@@ -9,11 +9,11 @@ walraff_test(samples, ref = NULL, axial = TRUE)
 \arguments{
 \item{samples}{list of samples of orientations}
 
-\item{ref}{a vector of angles used as reference to compute the angular distances from, in each group.
-It should contain as many elements as there are groups, \emph{in the same order}.
-The order is the order of the elements of the list \code{x}.
-
-If \code{ref} has less elements than the number of groups (typically one: a common reference for all groups), it is recycled to match the number of groups.
+\item{ref}{a vector of angles (in degrees) used as reference to compute the
+angular distances from, in each group.
+It should contain either one element (a common reference for all groups) or
+as many elements as there are groups, \emph{in the same order} as the elements
+of the list \code{samples}.
 
 If \code{ref} is \code{NULL} (the default), the mean angle of each group will be used as reference. In this situation, the Wallraff test becomes a comparison of angular dispersion around the mean}
 

@@ -9,7 +9,9 @@ watson_williams_test(samples, alpha = 0.05, axial = TRUE)
 \arguments{
 \item{samples}{list of samples of orientations}
 
-\item{alpha}{Significance level of the test ranging between 0 and 1.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.
+For \code{dist = "vonmises"} it must be one of \code{0.1}, \code{0.05}, \code{0.01} or \code{0} (only
+the tabulated p-value range is returned).}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
@@ -29,7 +31,8 @@ means are equal across groups.
 
 The assumptions are that: (1) the samples are drawn from populations with a
 von Mises distribution; (2) the parameter of concentration has the same
-value in all populations; (3) this parameter is sufficiently large (i.e. > 1).
+value in all populations; (3) this parameter is sufficiently large (i.e. > 2
+for two samples, > 1 for more samples).
 Assumptions 2 and 3 are checked and a warning is issued if they are not met.
 }
 \examples{

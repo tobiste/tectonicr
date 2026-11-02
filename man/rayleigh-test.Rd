@@ -24,15 +24,15 @@ In case of axial data, the angles will be doubled for the test.}
 
 \item{quiet}{logical. Prints the test's decision.}
 
-\item{n_perm}{integer. Number of permutations.}
+\item{n_perm}{integer. Number of simulated uniform samples.}
 }
 \value{
 a list with the components:
 \describe{
-\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is
-specified). Small values of \code{R} (large values of \code{C}) will reject
-uniformity. Negative values of \code{C} indicate that vectors point in opposite
-directions (also lead to rejection).}
+\item{\code{R} or \code{C}}{mean resultant length or, if \code{mu} is specified, the mean
+cosine of the deviations from \code{mu}. Large values of \code{R} (large positive
+values of \code{C}) reject uniformity. Negative values of \code{C} indicate that the
+vectors point away from \code{mu}; the one-sided V-test does not reject them.}
 \item{\code{statistic}}{test statistic}
 \item{\code{p.value}}{significance level of the test statistic}
 }
@@ -41,7 +41,8 @@ directions (also lead to rejection).}
 A test to determine whether a sample of circular or directional data is
 evenly spread out or clustered around a single specific direction.
 The test assesses the significance of the mean resultant length.
-\code{rayleight_test_perm()} uses permutation to estimate p-values.
+\code{rayleigh_test_perm()} estimates p-values by Monte Carlo simulation of
+uniform samples.
 }
 \details{
 \subsection{Hypotheses}{
@@ -51,12 +52,13 @@ around the circle with no preferred direction.
 
 \strong{Alternative Hypothesis} \eqn{H_1}{H1}: The population is not uniform and has a
 unimodal (single-peaked) concentration in a preferred direction. When \code{mu}
-is specified), angles are non-uniformly distributed around the specified direction.
+is specified (V-test), the alternative is a unimodal distribution centred on
+the specified direction; the test is one-sided.
 
 \emph{Mean Resultant Length} (\eqn{\bar{R}}{R̄} or R): A value between 0 and 1 that
 measures how concentrated the data points are.
 \itemize{
-\item \eqn{\bar{R}}{R̄̄} = 0: The data is completely spread out around the circle
+\item \eqn{\bar{R}}{R̄} = 0: The data is completely spread out around the circle
 \item \eqn{\bar{R}}{R̄} = 1: All data points point in the exact same direction.
 }
 
@@ -77,10 +79,10 @@ enough evidence to claim a preferred direction, meaning the data looks random or
 \note{
 Although the Rayleigh test is consistent against (non-uniform)
 von Mises alternatives, it is not consistent against alternatives with
-\code{p = 0} (in particular, distributions with antipodal symmetry, i.e. axial
-data). Tests of non-uniformity which are consistent against all alternatives
-include Kuiper's test (\code{\link[=kuiper_test]{kuiper_test()}}) and Watson's \eqn{U^2}{U2} test
-(\code{\link[=watson_test]{watson_test()}}).
+a mean resultant length \eqn{\rho = 0}{rho = 0} (in particular, distributions
+with antipodal symmetry, i.e. undoubled axial data). Tests of non-uniformity
+which are consistent against all alternatives include Kuiper's test
+(\code{\link[=kuiper_test]{kuiper_test()}}) and Watson's \eqn{U^2}{U2} test (\code{\link[=watson_test]{watson_test()}}).
 \subsection{Limitations}{
 \itemize{
 \item The test assumes a unimodal alternative (one main peak).

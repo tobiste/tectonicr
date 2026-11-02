@@ -18,7 +18,9 @@ dispersions \eqn{(n_i - R_i) / \nu_i}, chi-square with \eqn{q - 1} degrees of
 freedom (Mardia and Jupp, 2000 eq. 10.6.21; McFadden & Lowes, 1981, eq. 64-66).}
 }}
 
-\item{alpha}{Significance level of the test ranging between 0 and 1.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.
+For \code{dist = "vonmises"} it must be one of \code{0.1}, \code{0.05}, \code{0.01} or \code{0} (only
+the tabulated p-value range is returned).}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
@@ -36,10 +38,11 @@ The samples are assumed to have been drawn from von Mises populations.
 The null hypothesis tested is that all populations sampled have the same concentration parameter, kappa \eqn{\kappa}.
 
 For concentrated data \eqn{2 \kappa (n_i - R_i)} is approximately chi-square
-with \eqn{\nu_i = (p - 1)(n_i - 1)} degrees of freedom in 2 dimensions.
+with \eqn{\nu_i = n_i - 1} degrees of freedom on the circle, where
+\eqn{R_i} is the resultant length of sample \eqn{i}.
 }
 \note{
-Both need concentrated data (\eqn{\bar{R} \ge 0.7};
+Both need concentrated data (\eqn{\bar{R} \ge 0.7});
 MJ eq. 10.6.24-10.6.27 and 7.3.24-7.3.25 give variance-stabilised tests for dispersed data.
 }
 \examples{

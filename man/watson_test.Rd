@@ -15,7 +15,9 @@ watson_test(
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{alpha}{Significance level of the test ranging between 0 and 1.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.
+For \code{dist = "vonmises"} it must be one of \code{0.1}, \code{0.05}, \code{0.01} or \code{0} (only
+the tabulated p-value range is returned).}
 
 \item{dist}{Distribution to test for. The default, \code{"uniform"}, is the
 circular uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
@@ -29,13 +31,15 @@ In case of axial data, the angles will be doubled for the test.}
 \value{
 A list with class \code{"htest"} containing the following components:
 \describe{
-\item{\code{statistic}}{the value of the U2 statistic}
+\item{\code{statistic}}{the value of the U2 statistic (modified for \code{dist = "uniform"})}
 \item{\code{parameter}}{the number of data}
-\item{\code{p.value}}{the p-value for the test}
+\item{\code{p.value}}{the p-value for the test (\code{dist = "uniform"} only)}
+\item{\code{p.range}}{the range of the p-value from the tabulated critical values (\code{dist = "vonmises"} only)}
 \item{\code{estimate}}{the MLE of the kappa value for the von Mises distribution}
 \item{\code{alternative}}{a character string describing the alternative hypothesis.}
 \item{\code{method}}{a character string indicating what type of Watson test was performed.}
 \item{\code{data.name}}{a character string giving the name(s) of the data.}
+\item{\code{critical}}{the critical value at the significance level}
 \item{\code{alpha}}{the significance level}
 \item{\code{reject}}{logical. whether to reject the null-hypothesis based on the significance level.}
 }
@@ -71,7 +75,6 @@ There is not enough evidence to claim the data deviates from the expected model.
 }
 \note{
 Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-non-parametric, rank-based alternative to one-sample
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
@@ -83,7 +86,6 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_test(sa.por$azi.PoR, alpha = .05)
-watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 }
 \references{

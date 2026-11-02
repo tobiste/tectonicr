@@ -4,11 +4,21 @@
 \alias{weighted-rayleigh-test}
 \alias{weighted_rayleigh}
 \alias{weighted_rayleigh_perm}
+\alias{v0_test}
 \title{Weighted Goodness-of-fit Test for Circular Data}
 \usage{
-weighted_rayleigh(x, mu = NULL, w = NULL, axial = TRUE, quiet = FALSE)
+weighted_rayleigh(
+  x,
+  mu = NULL,
+  w = NULL,
+  axial = TRUE,
+  alpha = 0.05,
+  quiet = FALSE
+)
 
 weighted_rayleigh_perm(x, mu = NULL, w = NULL, axial = TRUE, n_perm = 1000L)
+
+v0_test(x, mu, w = NULL, axial = TRUE, n_perm = 1000L)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
@@ -23,31 +33,40 @@ non-weighted Rayleigh test is performed.}
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
 In case of axial data, the angles will be doubled for the test.}
 
+\item{alpha}{Significance level of the test ranging between 0 and 1.}
+
 \item{quiet}{logical. Prints the test's decision.}
 
-\item{n_perm}{integer. Number of permutations}
+\item{n_perm}{integer. Number of simulated uniform samples.}
 }
 \value{
 a list with the components:
 \describe{
-\item{\code{R} or \code{C}}{mean resultant length or the dispersion (if \code{mu} is
-specified). Small values of \code{R} (large values of \code{C}) will reject
-uniformity. Negative values of \code{C} indicate that vectors point in opposite
-directions (also lead to rejection).}
+\item{\code{R} or \code{C}}{weighted mean resultant length or, if \code{mu} is specified,
+the weighted mean cosine of the deviations from \code{mu}. Large values reject
+uniformity.}
 \item{\code{statistic}}{Test statistic}
 \item{\code{p.value}}{significance level of the test statistic}
+\item{\code{n_eff}}{effective sample size}
 }
+\code{weighted_rayleigh_perm()} returns a list of class \code{"htest"}.
 }
 \description{
 Weighted version of the Rayleigh test (or V0-test) for uniformity against a
 distribution with a priori expected von Mises concentration.
-\code{weighted_rayleight_test_perm()} uses permutation to estimate p-values.
+\code{weighted_rayleigh_perm()} estimates p-values by Monte Carlo simulation of
+uniform samples with the same weights.
 }
 \details{
 The Null hypothesis is uniformity (randomness). The alternative is a
-distribution with a (specified) mean direction (\code{mu}).
-If \code{statistic >= p.value}, the null hypothesis of randomness is rejected and
-angles derive from a distribution with a (or the specified) mean direction.
+unimodal distribution with the specified mean direction \code{mu} (weighted
+V-test), or with an unknown mean direction if \code{mu} is \code{NULL} (weighted
+Rayleigh test). The null hypothesis is rejected if \code{p.value < alpha}.
+
+Under the null hypothesis the weighted mean cosine has variance
+\eqn{\sum w_i^2 / (2 (\sum w_i)^2)}, so the asymptotic tests use the
+effective sample size \eqn{n_\text{eff} = (\sum w_i)^2 / \sum w_i^2}{n_eff = (sum(w))^2 / sum(w^2)},
+which equals \eqn{n} for equal weights.
 }
 \examples{
 # Load data

@@ -20,13 +20,14 @@ In case of axial data, the angles will be doubled for the test.}
 \value{
 A list with class \code{"htest"} containing the following components:
 \describe{
-\item{\code{statistic}}{the value of the D statistic}
+\item{\code{statistic}}{the value of the modified V statistic}
 \item{\code{parameter}}{the number of data}
 \item{\code{p.value}}{the p-value for the test}
 \item{\code{estimate}}{the D+ and D- values}
 \item{\code{alternative}}{a character string describing the alternative hypothesis.}
 \item{\code{method}}{a character string indicating what type of Kuiper test was performed.}
 \item{\code{data.name}}{a character string giving the name(s) of the data.}
+\item{\code{critical}}{the critical value at the significance level}
 \item{\code{alpha}}{the significance level}
 \item{\code{reject}}{logical. whether to reject the null-hypothesis based on the significance level.}
 }
@@ -59,8 +60,8 @@ different from a flat, uniform distribution. The points appear random across the
 }
 \note{
 Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
-The critical values of a modified Kuiper's test statistic are used according
-to the tabulation given in Stephens (1970).
+The modified statistic of Stephens (1970) is compared with the asymptotic
+Kuiper distribution.
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
