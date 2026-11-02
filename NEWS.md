@@ -1,6 +1,68 @@
 # tectonicr (development version)
 
-# tectonicr 0.4.9
+# tectonicr 0.4.9001 _2026-11-02_
+
+## Breaking changes
+
+* `weighted_rayleigh_perm()` now returns an `"htest"` object, like
+  `rayleigh_test_perm()`.
+* `weighted_rayleigh()` with `mu = NULL` now performs a weighted Rayleigh test
+  instead of a V-test around the estimated mean direction, and gains an
+  `alpha` argument.
+* `walraff_test()` now expects `ref` in degrees, like the data.
+* `watson_test(dist = "vonmises")` no longer returns a p-value, because only
+  tabulated critical values are available. The p-value range is shown in the
+  printed output and returned as `p.range`.
+* Test statistics are relabelled: `U2` for `watson_two_test_perm()` (was `G`)
+  and `R*` for `watson_wheeler_test_perm()` (was `G`). `rayleigh_test_perm()`
+  now labels the mean resultant length `Rbar` (was `R`).
+
+## Bug fixes
+
+* `equal_kappa_test()` subtracted the mean resultant length from the sample
+  size instead of the resultant length, which made all concentration
+  estimates and test statistics wrong.
+* `weighted_rayleigh()` used the sample size instead of the effective sample
+  size for unequal weights, which made the test anti-conservative. Its
+  decision message compared the statistic with the p-value.
+* `weighted_rayleigh_perm()` simulated the null distribution without the
+  weights, so it rejected almost always when `mu = NULL`.
+* `watson_test(dist = "uniform")` ignored `axial = TRUE`.
+* `watson_two_test()` and `watson_two_test_perm()` are now corrected for ties,
+  e.g. azimuths rounded to whole degrees. Identical samples previously gave a
+  non-zero U².
+* `watson_two_test_perm()` and `watson_wheeler_test_perm()` did not wrap
+  doubled axial angles because of operator precedence.
+* `uniform_scores_test()` and `equal_kappa_test()` failed because the data
+  name referred to an undefined object. Missing values are now removed.
+* `watson_williams_test()` computes the mean directions from the same
+  (doubled) angles as the test statistic.
+* The Wilkie (1983) p-value for the Rayleigh test used the wrong resultant
+  length.
+* `watson_test()` no longer fails with `alpha = NULL`.
+
+## Improvements
+
+* Permutation and Monte Carlo tests are much faster: `ar_test()`,
+  `watson_two_test_perm()`, `watson_wheeler_test_perm()`,
+  `rayleigh_test_perm()`, `weighted_rayleigh_perm()` and
+  `rao_spacing_test()` are vectorised and run their simulations in chunks
+  to limit memory use.
+* `kuiper_test()` now returns `alpha` and `reject`, as documented.
+* `watson_two_test()` warns for combined sample sizes below 18.
+* `watson_wheeler_test_perm()` gives tied values their average rank, so its
+  result is reproducible.
+* Monte Carlo p-values count simulated values equal to the observed
+  statistic, allowing for floating-point rounding.
+
+## Documentation
+
+* Corrected the interpretation of the Rayleigh test: large values of R̄
+  reject uniformity, and the V-test is one-sided.
+* `rayleigh_test_perm()` and `weighted_rayleigh_perm()` are described as
+  Monte Carlo tests rather than permutation tests.
+* `watson_wheeler_test_perm()` is described as a test of equal distributions,
+  not equal means.
 
 # tectonicr 0.4.9 _2026-08-28_
 
