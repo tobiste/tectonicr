@@ -1,7 +1,6 @@
 # Selecting optimal number of bins and width for rose diagrams
 
-\#' @rdname rose_bw rose_binwidth \<- function(n, axial = TRUE, ...) if
-(isTRUE(axial)) r \<- 180 else r \<- 360r / rose_bins(n)
+Selecting optimal number of bins and width for rose diagrams
 
 ## Usage
 

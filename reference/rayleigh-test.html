@@ -13,7 +13,7 @@ rayleight_test_perm() uses permutation to estimate p-values."><meta property="og
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -169,8 +169,12 @@ University Press.</p>
     <div class="dont-index"><p><code><a href="mean_resultant_length.html">mean_resultant_length()</a></code>, <code><a href="circle_stats.html">circular_mean()</a></code></p>
 <p>Other Tests:
 <code><a href="ar_test.html">ar_test()</a></code>,
+<code><a href="equal_kappa_test.html">equal_kappa_test()</a></code>,
+<code><a href="hodges_ajne_test.html">hodges_ajne_test()</a></code>,
 <code><a href="kuiper_test.html">kuiper_test()</a></code>,
 <code><a href="norm_chisq.html">norm_chisq()</a></code>,
+<code><a href="rao_spacing_test.html">rao_spacing_test()</a></code>,
+<code><a href="uniform_scores_test.html">uniform_scores_test()</a></code>,
 <code><a href="watson_test.html">watson_test()</a></code>,
 <code><a href="watson_two_sample.html">watson_two_sample</a></code>,
 <code><a href="watson_wheeler_test_perm.html">watson_wheeler_test_perm()</a></code>,
@@ -193,11 +197,15 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># R = 0.22; stat = 0.497, p = 0.62</span></span></span>
 <span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">homing</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2228717</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6233766</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rayleigh test of uniformity (p-value from 1000 permutations)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  homing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R = 0.22287, n = 10, df = 2, n_perm = 1000, p-value = 0.6653</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: unimodal distribution</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         R      Rbar </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.2287169 0.2228717 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example data from Davis (1986), pp. 316</span></span></span>
@@ -213,11 +221,15 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.479397e-15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">striae</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8003694</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000999001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rayleigh test of uniformity (p-value from 1000 permutations)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  striae</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R = 0.80037, n = 51, df = 2, n_perm = 1000, p-value = 0.000999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: unimodal distribution</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          R       Rbar </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40.8188388  0.8003694 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">rayleigh_test</span><span class="op">(</span><span class="va">striae</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
@@ -232,11 +244,15 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.130845e-13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">striae</span>, mu <span class="op">=</span> <span class="fl">105</span>, axial <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7300887</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000999001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rayleigh test of uniformity (p-value from 1000 permutations)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  striae</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C = 0.73009, n = 51, df = 2, n_perm = 1000, p-value = 0.000999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: unimodal distribution</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          R       Rbar </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37.2345236  0.7300887 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example data from Mardia and Jupp (1999), pp. 99</span></span></span>
@@ -284,11 +300,15 @@ University Press.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.420092e-239</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">rayleigh_test_perm</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, n_perm <span class="op">=</span> <span class="fl">1e3</span><span class="op">)</span> <span class="co"># reject null hypothesis</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7009544</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000999001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rayleigh test of uniformity (p-value from 1000 permutations)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  sa.por$azi.PoR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C = 0.70095, n = 1126, df = 2, n_perm = 1000, p-value = 0.000999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: unimodal distribution</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           R        Rbar </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 789.2746557   0.7009544 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

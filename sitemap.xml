@@ -55,6 +55,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/distance_mod.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/earth_radius.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/equal_kappa_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/equivalent_rotation.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/estimate-kappa.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/euler_pole.html</loc></url>
@@ -64,6 +65,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/get_distance.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/get_projected_pb_strike.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/get_relrot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/homing.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/import_WSM.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/index.html</loc></url>
@@ -91,6 +93,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/prd_err.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/projected_pb_strike.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/quick_plot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/rao_spacing_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/raster_transformation.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rayleigh-test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/relative_rotation.html</loc></url>
@@ -119,6 +122,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/tectonicr.colors.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/tectonicr.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/trigon.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/uniform_scores_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/vcross.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/vm_qqplot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/vonmises.html</loc></url>

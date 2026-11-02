@@ -84,5 +84,5 @@ none
 ## Examples
 
 ``` r
-circular_plot(grid = TRUE)
+circular_plot(main = "Title", grid = TRUE)
 ```

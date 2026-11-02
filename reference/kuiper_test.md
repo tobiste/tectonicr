@@ -8,7 +8,7 @@ some way.
 ## Usage
 
 ``` r
-kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
+kuiper_test(x, alpha = 0.05, axial = TRUE, quiet = FALSE)
 ```
 
 ## Arguments
@@ -35,8 +35,44 @@ kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
 
 ## Value
 
-list containing the test statistic `statistic` and the significance
-level `p.value`.
+A list with class `"htest"` containing the following components:
+
+- `statistic`:
+
+  the value of the D statistic
+
+- `parameter`:
+
+  the number of data
+
+- `p.value`:
+
+  the p-value for the test
+
+- `estimate`:
+
+  the D+ and D- values
+
+- `alternative`:
+
+  a character string describing the alternative hypothesis.
+
+- `method`:
+
+  a character string indicating what type of Kuiper test was performed.
+
+- `data.name`:
+
+  a character string giving the name(s) of the data.
+
+- `alpha`:
+
+  the significance level
+
+- `reject`:
+
+  logical. whether to reject the null-hypothesis based on the
+  significance level.
 
 ## Details
 
@@ -72,8 +108,12 @@ used according to the tabulation given in Stephens (1970).
 
 Other Tests:
 [`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
+[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+[`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
+[`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
+[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
 [`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
 [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
@@ -84,12 +124,15 @@ Other Tests:
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
 kuiper_test(homing, alpha = .05)
-#> Reject Null Hypothesis
-#> $statistic
-#> [1] 2.262115
 #> 
-#> $p.value
-#> [1] 1.747
+#>  Kuiper's test of uniformity
+#> 
+#> data:  homing
+#> V = 2.2621, n = 10, p-value = 0.001398
+#> alternative hypothesis: non-uniform distribution
+#> sample estimates:
+#>        D+        D- 
+#> 0.3611111 0.3055556 
 #> 
 
 # San Andreas Fault Data:
@@ -98,11 +141,14 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 kuiper_test(sa.por$azi.PoR, alpha = .05)
-#> Reject Null Hypothesis
-#> $statistic
-#> [1] 16.60463
 #> 
-#> $p.value
-#> [1] 1.747
+#>  Kuiper's test of uniformity
+#> 
+#> data:  sa.por$azi.PoR
+#> V = 16.605, n = 1126, p-value < 2.2e-16
+#> alternative hypothesis: non-uniform distribution
+#> sample estimates:
+#>          D+          D- 
+#> 0.007774912 0.484679833 
 #> 
 ```

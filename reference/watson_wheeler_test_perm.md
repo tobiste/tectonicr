@@ -36,7 +36,7 @@ watson_wheeler_test_perm(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL)
 
 ## Value
 
-list
+A list with class `"htest"`
 
 ## Details
 
@@ -82,9 +82,13 @@ Important Considerations & Limitations:
 
 Other Tests:
 [`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
+[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+[`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
+[`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
+[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
 [`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
@@ -96,33 +100,23 @@ set.seed(20250411)
 x1 <- c(35, 45, 50, 55, 60, 70, 85, 95, 105, 120)
 x2 <- c(75, 80, 90, 100, 110, 130, 135, 140, 150, 160, 165)
 watson_wheeler_test_perm(x1, x2, axial = FALSE)
-#> $statistic
-#> [1] 3.67827
 #> 
-#> $p.value
-#> [1] 0.1688312
+#>  Watson-Wheeler Test of Homogeneity of Means based on 1000 permutations
 #> 
-#> $alpha
-#> NULL
-#> 
-#> $reject
-#> NULL
+#> data:  x1 and x2
+#> G = 3.6783, n = 21, n_perm = 1000, p-value = 0.1688
+#> alternative hypothesis: Samples come from different distributions
 #> 
 
 data1 <- rvm(n=20, mean = 0, kappa=3)
 data2 <- rvm(n=20, mean = 90, kappa=2)
 watson_wheeler_test_perm(data1, data2, axial = FALSE)
-#> $statistic
-#> [1] 15.96367
 #> 
-#> $p.value
-#> [1] 0.000999001
+#>  Watson-Wheeler Test of Homogeneity of Means based on 1000 permutations
 #> 
-#> $alpha
-#> NULL
-#> 
-#> $reject
-#> NULL
+#> data:  data1 and data2
+#> G = 15.964, n = 40, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: Samples come from different distributions
 #> 
 
 # San Andreas Fault Data:
@@ -131,16 +125,11 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_wheeler_test_perm(sa.por$azi.PoR, rvm(100, 135, 10))
-#> $statistic
-#> [1] 2.934737
 #> 
-#> $p.value
-#> [1] 0.2547453
+#>  Watson-Wheeler Test of Homogeneity of Means based on 1000 permutations
 #> 
-#> $alpha
-#> NULL
-#> 
-#> $reject
-#> NULL
+#> data:  sa.por$azi.PoR and rvm(100, 135, 10)
+#> G = 2.9347, n = 1226, n_perm = 1000, p-value = 0.2547
+#> alternative hypothesis: Samples come from different distributions
 #> 
 ```

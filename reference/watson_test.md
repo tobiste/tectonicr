@@ -8,7 +8,7 @@ whether a sample fits a specified theoretical distribution
 ``` r
 watson_test(
   x,
-  alpha = NULL,
+  alpha = 0.05,
   dist = c("uniform", "vonmises"),
   axial = TRUE,
   quiet = FALSE
@@ -44,10 +44,44 @@ watson_test(
 
 ## Value
 
-list containing the test statistic `statistic`, the significance level
-`p.value`, the critical value `critical.value`, whether to `reject` the
-null hypothesis, the significance level `alpha`, the tested distribution
-`dist`, and the number of data `n`
+A list with class `"htest"` containing the following components:
+
+- `statistic`:
+
+  the value of the U2 statistic
+
+- `parameter`:
+
+  the number of data
+
+- `p.value`:
+
+  the p-value for the test
+
+- `estimate`:
+
+  the MLE of the kappa value for the von Mises distribution
+
+- `alternative`:
+
+  a character string describing the alternative hypothesis.
+
+- `method`:
+
+  a character string indicating what type of Watson test was performed.
+
+- `data.name`:
+
+  a character string giving the name(s) of the data.
+
+- `alpha`:
+
+  the significance level
+
+- `reject`:
+
+  logical. whether to reject the null-hypothesis based on the
+  significance level.
 
 ## Details
 
@@ -82,7 +116,7 @@ non-parametric, rank-based alternative to one-sample
 
 ## References
 
-Mardia and Jupp (1999). Directional Statistics. John Wiley and Sons.
+Mardia and Jupp (2000). Directional Statistics. John Wiley and Sons.
 
 ## See also
 
@@ -91,9 +125,13 @@ and [cunif](https://tobiste.github.io/tectonicr/reference/cunif.md)
 
 Other Tests:
 [`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
+[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+[`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
+[`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
 [`rayleigh-test`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
+[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
 [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
 [`weighted-rayleigh-test`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
@@ -103,27 +141,12 @@ Other Tests:
 ``` r
 # Example data from Mardia and Jupp (1999), pp. 93
 watson_test(homing, axial = FALSE, alpha = .05)
-#> Do Not Reject Null Hypothesis
-#> $statistic
-#> [1] 0.1153633
 #> 
-#> $p.value
-#> [1] NA
+#>  Watson's U2 test against uniformity
 #> 
-#> $critical.value
-#> [1] 0.187
-#> 
-#> $reject
-#> [1] FALSE
-#> 
-#> $alpha
-#> [1] 0.05
-#> 
-#> $dist
-#> [1] "uniform"
-#> 
-#> $n
-#> [1] 10
+#> data:  homing
+#> U2 = 0.11536, n = 10
+#> alternative hypothesis: non-uniform distribution
 #> 
 
 # San Andreas Fault Data:
@@ -132,72 +155,33 @@ data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_test(sa.por$azi.PoR, alpha = .05)
-#> Reject Null Hypothesis
-#> $statistic
-#> [1] 31.68687
 #> 
-#> $p.value
-#> [1] NA
+#>  Watson's U2 test against uniformity
 #> 
-#> $critical.value
-#> [1] 0.187
-#> 
-#> $reject
-#> [1] TRUE
-#> 
-#> $alpha
-#> [1] 0.05
-#> 
-#> $dist
-#> [1] "uniform"
-#> 
-#> $n
-#> [1] 1126
+#> data:  sa.por$azi.PoR
+#> U2 = 52.147, n = 1126
+#> alternative hypothesis: non-uniform distribution
 #> 
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
-#> Reject Null Hypothesis
-#> $statistic
-#> [1] 0.5084434
 #> 
-#> $p.value
-#> [1] NA
+#>  Watson's U2 test against von Mises distribution
 #> 
-#> $critical.value
-#> [1] 0.101
-#> 
-#> $reject
-#> [1] TRUE
-#> 
-#> $alpha
-#> [1] 0.05
-#> 
-#> $dist
-#> [1] "vonmises"
-#> 
-#> $n
-#> [1] 1126
+#> data:  sa.por$azi.PoR
+#> U2 = 0.50844, n = 1126
+#> alternative hypothesis: Sample does not follow a von Mises distribution
+#> sample estimates:
+#> Kappa MLE 
+#>  2.184977 
 #> 
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
-#> Reject Null Hypothesis
-#> $statistic
-#> [1] 0.5084434
 #> 
-#> $p.value
-#> [1] NA
+#>  Watson's U2 test against von Mises distribution
 #> 
-#> $critical.value
-#> [1] 0.101
-#> 
-#> $reject
-#> [1] TRUE
-#> 
-#> $alpha
-#> [1] 0.05
-#> 
-#> $dist
-#> [1] "vonmises"
-#> 
-#> $n
-#> [1] 1126
+#> data:  sa.por$azi.PoR
+#> U2 = 0.50844, n = 1126
+#> alternative hypothesis: Sample does not follow a von Mises distribution
+#> sample estimates:
+#> Kappa MLE 
+#>  2.184977 
 #> 
 ```

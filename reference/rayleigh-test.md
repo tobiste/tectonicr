@@ -129,8 +129,12 @@ University Press.
 
 Other Tests:
 [`ar_test()`](https://tobiste.github.io/tectonicr/reference/ar_test.md),
+[`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md),
+[`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md),
 [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md),
 [`norm_chisq()`](https://tobiste.github.io/tectonicr/reference/norm_chisq.md),
+[`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md),
+[`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md),
 [`watson_test()`](https://tobiste.github.io/tectonicr/reference/watson_test.md),
 [`watson_two_sample`](https://tobiste.github.io/tectonicr/reference/watson_two_sample.md),
 [`watson_wheeler_test_perm()`](https://tobiste.github.io/tectonicr/reference/watson_wheeler_test_perm.md),
@@ -153,11 +157,15 @@ rayleigh_test(homing, axial = FALSE) # Do not reject null hypothesis.
 #> 
 # R = 0.22; stat = 0.497, p = 0.62
 rayleigh_test_perm(homing, axial = FALSE)
-#> $statistic
-#> [1] 0.2228717
 #> 
-#> $p.value
-#> [1] 0.6233766
+#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#> 
+#> data:  homing
+#> R = 0.22287, n = 10, df = 2, n_perm = 1000, p-value = 0.6653
+#> alternative hypothesis: unimodal distribution
+#> sample estimates:
+#>         R      Rbar 
+#> 2.2287169 0.2228717 
 #> 
 
 # Example data from Davis (1986), pp. 316
@@ -173,11 +181,15 @@ rayleigh_test(striae, axial = FALSE) # reject null hypothesis
 #> [1] 6.479397e-15
 #> 
 rayleigh_test_perm(striae, axial = FALSE) # reject null hypothesis
-#> $statistic
-#> [1] 0.8003694
 #> 
-#> $p.value
-#> [1] 0.000999001
+#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#> 
+#> data:  striae
+#> R = 0.80037, n = 51, df = 2, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution
+#> sample estimates:
+#>          R       Rbar 
+#> 40.8188388  0.8003694 
 #> 
 
 rayleigh_test(striae, mu = 105, axial = FALSE) # reject null hypothesis
@@ -192,11 +204,15 @@ rayleigh_test(striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> [1] 2.130845e-13
 #> 
 rayleigh_test_perm(striae, mu = 105, axial = FALSE) # reject null hypothesis
-#> $statistic
-#> [1] 0.7300887
 #> 
-#> $p.value
-#> [1] 0.000999001
+#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#> 
+#> data:  striae
+#> C = 0.73009, n = 51, df = 2, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution
+#> sample estimates:
+#>          R       Rbar 
+#> 37.2345236  0.7300887 
 #> 
 
 # Example data from Mardia and Jupp (1999), pp. 99
@@ -244,10 +260,14 @@ rayleigh_test(sa.por$azi.PoR, mu = 135) # reject null hypothesis
 #> [1] 1.420092e-239
 #> 
 rayleigh_test_perm(sa.por$azi.PoR, mu = 135, n_perm = 1e3) # reject null hypothesis
-#> $statistic
-#> [1] 0.7009544
 #> 
-#> $p.value
-#> [1] 0.000999001
+#>  Rayleigh test of uniformity (p-value from 1000 permutations)
+#> 
+#> data:  sa.por$azi.PoR
+#> C = 0.70095, n = 1126, df = 2, n_perm = 1000, p-value = 0.000999
+#> alternative hypothesis: unimodal distribution
+#> sample estimates:
+#>           R        Rbar 
+#> 789.2746557   0.7009544 
 #> 
 ```

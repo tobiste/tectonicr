@@ -104,6 +104,8 @@
   : Distance from plate boundary
 - [`earth_radius()`](https://tobiste.github.io/tectonicr/reference/earth_radius.md)
   : Earth's radius in km
+- [`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md)
+  : Equal \\\kappa\\ Test
 - [`equivalent_rotation()`](https://tobiste.github.io/tectonicr/reference/equivalent_rotation.md)
   : Equivalent rotation
 - [`est.kappa.MLE()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
@@ -117,6 +119,8 @@
   : Azimuth + point visualization
 - [`get_azimuth()`](https://tobiste.github.io/tectonicr/reference/get_azimuth.md)
   : Azimuth Between two Points
+- [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md)
+  : Hodges-Ajne Test
 - [`homing`](https://tobiste.github.io/tectonicr/reference/homing.md) :
   Homing directions of Pidgeons
 - [`download_WSM()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)
@@ -169,6 +173,8 @@
   : Strike of the plate boundary projected on data point
 - [`quick_plot()`](https://tobiste.github.io/tectonicr/reference/quick_plot.md)
   : Plotting Stress Analysis Results
+- [`rao_spacing_test()`](https://tobiste.github.io/tectonicr/reference/rao_spacing_test.md)
+  : Rao Spacing Test
 - [`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md)
   [`rayleigh_test_perm()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md)
   : Rayleigh Test of Circular Uniformity
@@ -234,6 +240,8 @@
   distance to plate boundaries
 - [`tectonicr.colors()`](https://tobiste.github.io/tectonicr/reference/tectonicr.colors.md)
   : Colors for input variables
+- [`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md)
+  : Uniform scores test
 - [`vcross()`](https://tobiste.github.io/tectonicr/reference/vcross.md)
   : Vector cross product
 - [`vm_qqplot()`](https://tobiste.github.io/tectonicr/reference/vm_qqplot.md)

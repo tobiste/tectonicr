@@ -11,7 +11,7 @@ spread out evenly around a circle or if they cluster in some way."><meta propert
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,7 @@ spread out evenly around a circle or if they cluster in some way.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">kuiper_test</span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">kuiper_test</span><span class="op">(</span><span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, axial <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -85,9 +85,35 @@ In case of axial data, the angles will be doubled for the test.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>list containing the test statistic <code>statistic</code> and the significance
-level <code>p.value</code>.</p>
-    </div>
+    <p>A list with class <code>"htest"</code> containing the following components:</p><dl><dt><code>statistic</code></dt>
+<dd><p>the value of the D statistic</p></dd>
+
+<dt><code>parameter</code></dt>
+<dd><p>the number of data</p></dd>
+
+<dt><code>p.value</code></dt>
+<dd><p>the p-value for the test</p></dd>
+
+<dt><code>estimate</code></dt>
+<dd><p>the D+ and D- values</p></dd>
+
+<dt><code>alternative</code></dt>
+<dd><p>a character string describing the alternative hypothesis.</p></dd>
+
+<dt><code>method</code></dt>
+<dd><p>a character string indicating what type of Kuiper test was performed.</p></dd>
+
+<dt><code>data.name</code></dt>
+<dd><p>a character string giving the name(s) of the data.</p></dd>
+
+<dt><code>alpha</code></dt>
+<dd><p>the significance level</p></dd>
+
+<dt><code>reject</code></dt>
+<dd><p>logical. whether to reject the null-hypothesis based on the significance level.</p></dd>
+
+
+</dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The <strong>Null Hypothesis</strong> (\(H_0\)): The data are distributed completely uniformly
@@ -118,8 +144,12 @@ to the tabulation given in Stephens (1970).</p>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Tests:
 <code><a href="ar_test.html">ar_test()</a></code>,
+<code><a href="equal_kappa_test.html">equal_kappa_test()</a></code>,
+<code><a href="hodges_ajne_test.html">hodges_ajne_test()</a></code>,
 <code><a href="norm_chisq.html">norm_chisq()</a></code>,
+<code><a href="rao_spacing_test.html">rao_spacing_test()</a></code>,
 <code><a href="rayleigh-test.html">rayleigh-test</a></code>,
+<code><a href="uniform_scores_test.html">uniform_scores_test()</a></code>,
 <code><a href="watson_test.html">watson_test()</a></code>,
 <code><a href="watson_two_sample.html">watson_two_sample</a></code>,
 <code><a href="watson_wheeler_test_perm.html">watson_wheeler_test_perm()</a></code>,
@@ -130,12 +160,15 @@ to the tabulation given in Stephens (1970).</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example data from Mardia and Jupp (1999), pp. 93</span></span></span>
 <span class="r-in"><span><span class="fu">kuiper_test</span><span class="op">(</span><span class="va">homing</span>, alpha <span class="op">=</span> <span class="fl">.05</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.262115</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.747</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Kuiper's test of uniformity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  homing</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V = 2.2621, n = 10, p-value = 0.001398</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: non-uniform distribution</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        D+        D- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.3611111 0.3055556 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># San Andreas Fault Data:</span></span></span>
@@ -144,12 +177,15 @@ to the tabulation given in Stephens (1970).</p>
 <span class="r-in"><span><span class="va">PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">nuvel1</span>, <span class="va">nuvel1</span><span class="op">$</span><span class="va">plate.rot</span> <span class="op">==</span> <span class="st">"na"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sa.por</span> <span class="op">&lt;-</span> <span class="fu"><a href="PoR_azi.html">PoR_shmax</a></span><span class="op">(</span><span class="va">san_andreas</span>, <span class="va">PoR</span>, <span class="st">"right"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">kuiper_test</span><span class="op">(</span><span class="va">sa.por</span><span class="op">$</span><span class="va">azi.PoR</span>, alpha <span class="op">=</span> <span class="fl">.05</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Reject Null Hypothesis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.60463</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.747</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Kuiper's test of uniformity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  sa.por$azi.PoR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V = 16.605, n = 1126, p-value &lt; 2.2e-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: non-uniform distribution</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          D+          D- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.007774912 0.484679833 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
