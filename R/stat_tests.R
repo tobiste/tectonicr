@@ -237,6 +237,8 @@ NULL
 #' @rdname rayleigh-test
 #' @export
 rayleigh_test <- function(x, mu = NULL, axial = TRUE, alpha = 0.05, quiet = FALSE) {
+  dname <- deparse1(substitute(x))
+
   f <- if (isTRUE(axial)) 2 else 1
   x <- x[!is.na(x)]
   n <- length(x)
@@ -245,17 +247,25 @@ rayleigh_test <- function(x, mu = NULL, axial = TRUE, alpha = 0.05, quiet = FALS
     R <- mean_resultant_length(xf, na.rm = FALSE)
     Z <- n * R^2
     p.value <- rayleigh_p_value1(Z, n)
-    result <- list(R = R, statistic = Z, p.value = p.value)
+    result <- list(method = "Rayleigh test of uniformity",
+                   parameter = c(n= n), statistic = c(S=Z), estimate = c(R = R * n, Rbar=R))
+    result$alternative <- "unimodal distribution with an unknown mean direction"
+
   } else {
     C <- sum(cosd(x * f - mu * f)) / n
     s <- sqrt(2 * n) * C
     p.value <- rayleigh_p_value2(s, n)
-    result <- list(C = C, statistic = s, p.value = p.value)
+    result <- list(method = "Rayleigh V-test of uniformity", parameter = c(n = n), statistic = c(S=s), estimate = c(C=C))
+    result$alternative <- paste("unimodal distribution with the specified mean direction", mu)
+
   }
   if (isFALSE(quiet)) {
     message(if (p.value < alpha) "Reject Null Hypothesis\n" else "Do Not Reject Null Hypothesis\n")
   }
-  result
+
+  result$data.name <- dname
+  result$p.value <- p.value
+  structure(result, class = 'htest')
 }
 
 rayleigh_test2 <- function(x, axial = TRUE, alpha = 0.05) {
@@ -434,6 +444,8 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE,
   if (is.null(w)) {
     return(rayleigh_test(x, mu = mu, axial = axial, alpha = alpha, quiet = quiet))
   }
+  dname <- deparse1(substitute(x))
+
   stopifnot(length(w) == length(x))
   keep <- !is.na(x) & !is.na(w)
   x <- x[keep]
@@ -450,18 +462,29 @@ weighted_rayleigh <- function(x, mu = NULL, w = NULL, axial = TRUE,
     R <- sqrt((sum(w * cos(th)) / sw)^2 + (sum(w * sin(th)) / sw)^2)
     Z <- n_eff * R^2
     p.value <- rayleigh_p_value1(Z, n_eff)
-    result <- list(R = R, statistic = Z, p.value = p.value, n_eff = n_eff)
+    result <- list(method = "Rayleigh test of uniformity",
+                   parameter = c(n_eff =n_eff), statistic = c(S=Z), estimate = c(R=R))
+    result$alternative <- "unimodal distribution with an unknown mean direction"
+
   } else {
     # weighted V-test
     C <- sum(w * cos(th - deg2rad(f * mu))) / sw
     s <- sqrt(2 * n_eff) * C
     p.value <- rayleigh_p_value2(s, n_eff)
-    result <- list(C = C, statistic = s, p.value = p.value, n_eff = n_eff)
+    result <- list(method = "Rayleigh V-test of uniformity", parameter = c(n_eff =n_eff), statistic = c(S=s), estimate = c(C=C))
+    result$alternative <- paste("unimodal distribution with the specified mean direction", mu)
+
   }
   if (isFALSE(quiet)) {
     message(if (p.value < alpha) "Reject Null Hypothesis\n" else "Do Not Reject Null Hypothesis\n")
   }
-  result
+
+  result$data.name <- dname
+  result$p.value <- p.value
+
+  structure(
+    result, class = "htest"
+  )
 }
 
 #' @rdname weighted-rayleigh-test
