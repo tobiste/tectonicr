@@ -183,7 +183,8 @@ dat.PoR <- PoR_shmax(san_andreas, PoR, "right")
 roll_normchisq(dat.PoR$azi.PoR, 135, dat$unc) |> head()
 #> [1] 0.07096381 0.06795804 0.06513606 0.06413516 0.06176782 0.07664751
 roll_rayleigh(dat.PoR$azi.PoR, prd = 135, unc = dat$unc) |> head()
-#> [1] 3.369087 3.586867 3.799326 3.945460 4.141787 3.952537
+#>        S        S        S        S        S        S 
+#> 3.369087 3.586867 3.799326 3.945460 4.141787 3.952537 
 roll_dispersion(dat.PoR$azi.PoR, y = 135, w = 1 / dat$unc) |> head()
 #> [1] 0.1640380 0.1550584 0.1468287 0.1423089 0.1358223 0.1627360
 roll_confidence(dat.PoR$azi.PoR, w = 1 / dat$unc) |> head()

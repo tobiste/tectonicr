@@ -299,14 +299,15 @@ can be tested with the <strong>Rayleigh Test</strong>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rayleigh-test.html">rayleigh_test</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
-<span><span class="co">#&gt; $R</span></span>
-<span><span class="co">#&gt; [1] 0.7118209</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 570.5317</span></span>
+<span><span class="co">#&gt;  Rayleigh test of uniformity</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 1.664245e-248</span></span></code></pre></div>
+<span><span class="co">#&gt; data:  san_andreas.por$azi.PoR</span></span>
+<span><span class="co">#&gt; S = 570.53, n = 1126, p-value &lt; 2.2e-16</span></span>
+<span><span class="co">#&gt; alternative hypothesis: unimodal distribution with an unknown mean direction</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt;           R        Rbar </span></span>
+<span><span class="co">#&gt; 801.5102806   0.7118209</span></span></code></pre></div>
 <p>Here, the test rejects the Null Hypothesis
 (<code>statistic &gt; p.value</code>). Thus the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mrow><mi>S</mi><mi>H</mi><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\sigma_{SHmax}</annotation></semantics></math>
@@ -421,17 +422,15 @@ predicted direction of
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/weighted-rayleigh-test.html">weighted_rayleigh</a></span><span class="op">(</span><span class="va">san_andreas.por</span><span class="op">$</span><span class="va">azi.PoR</span>, mu <span class="op">=</span> <span class="fl">135</span>, w <span class="op">=</span> <span class="va">w</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Reject Null Hypothesis</span></span>
-<span><span class="co">#&gt; $C</span></span>
-<span><span class="co">#&gt; [1] 0.7244095</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $statistic</span></span>
-<span><span class="co">#&gt; [1] 33.59973</span></span>
+<span><span class="co">#&gt;  Rayleigh V-test of uniformity</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $p.value</span></span>
-<span><span class="co">#&gt; [1] 2.231719e-244</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $n_eff</span></span>
-<span><span class="co">#&gt; [1] 1075.656</span></span></code></pre></div>
+<span><span class="co">#&gt; data:  san_andreas.por$azi.PoR</span></span>
+<span><span class="co">#&gt; S = 33.6, n_eff = 1075.7, p-value &lt; 2.2e-16</span></span>
+<span><span class="co">#&gt; alternative hypothesis: unimodal distribution with the specified mean direction 135</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt;         C </span></span>
+<span><span class="co">#&gt; 0.7244095</span></span></code></pre></div>
 <p>Here, the Null Hypothesis is rejected, and thus, the alternative,
 i.e. an non-uniform distribution with the predicted direction as the
 mean cannot be excluded.</p>

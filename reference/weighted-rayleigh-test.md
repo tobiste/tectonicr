@@ -120,45 +120,39 @@ tibet.por <- PoR_shmax(tibet, PoR.tib, "in")
 # GOF test:
 weighted_rayleigh(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc)
 #> Reject Null Hypothesis
-#> $C
-#> [1] 0.5321474
 #> 
-#> $statistic
-#> [1] 16.75814
+#>  Rayleigh V-test of uniformity
 #> 
-#> $p.value
-#> [1] 9.206653e-62
-#> 
-#> $n_eff
-#> [1] 495.8583
+#> data:  tibet.por$azi.PoR
+#> S = 16.758, n_eff = 495.86, p-value < 2.2e-16
+#> alternative hypothesis: unimodal distribution with the specified mean direction 90
+#> sample estimates:
+#>         C 
+#> 0.5321474 
 #> 
 weighted_rayleigh(ice.por$azi.PoR, mu = 0, w = 1 / iceland$unc)
 #> Reject Null Hypothesis
-#> $C
-#> [1] 0.3728874
 #> 
-#> $statistic
-#> [1] 7.950463
+#>  Rayleigh V-test of uniformity
 #> 
-#> $p.value
-#> [1] 3.500254e-16
-#> 
-#> $n_eff
-#> [1] 227.3
+#> data:  ice.por$azi.PoR
+#> S = 7.9505, n_eff = 227.3, p-value = 3.5e-16
+#> alternative hypothesis: unimodal distribution with the specified mean direction 0
+#> sample estimates:
+#>         C 
+#> 0.3728874 
 #> 
 weighted_rayleigh(sa.por$azi.PoR, mu = 135, w = 1 / san_andreas$unc)
 #> Reject Null Hypothesis
-#> $C
-#> [1] 0.8042366
 #> 
-#> $statistic
-#> [1] 24.38294
+#>  Rayleigh V-test of uniformity
 #> 
-#> $p.value
-#> [1] 1.404208e-128
-#> 
-#> $n_eff
-#> [1] 459.5941
+#> data:  sa.por$azi.PoR
+#> S = 24.383, n_eff = 459.59, p-value < 2.2e-16
+#> alternative hypothesis: unimodal distribution with the specified mean direction 135
+#> sample estimates:
+#>         C 
+#> 0.8042366 
 #> 
 
 weighted_rayleigh_perm(tibet.por$azi.PoR, mu = 90, w = 1 / tibet$unc)

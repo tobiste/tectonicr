@@ -141,14 +141,15 @@ Other One-Sample-Tests:
 # Example data from Mardia and Jupp (1999), pp. 93
 rayleigh_test(homing, axial = FALSE) # Do not reject null hypothesis.
 #> Do Not Reject Null Hypothesis
-#> $R
-#> [1] 0.2228717
 #> 
-#> $statistic
-#> [1] 0.4967179
+#>  Rayleigh test of uniformity
 #> 
-#> $p.value
-#> [1] 0.6201354
+#> data:  homing
+#> S = 0.49672, n = 10, p-value = 0.6201
+#> alternative hypothesis: unimodal distribution with an unknown mean direction
+#> sample estimates:
+#>         R      Rbar 
+#> 2.2287169 0.2228717 
 #> 
 # R = 0.22; stat = 0.497, p = 0.62
 rayleigh_test_perm(homing, axial = FALSE)
@@ -167,14 +168,15 @@ rayleigh_test_perm(homing, axial = FALSE)
 # Example data from Davis (1986), pp. 316
 rayleigh_test(striae, axial = FALSE) # reject null hypothesis
 #> Reject Null Hypothesis
-#> $R
-#> [1] 0.8003694
 #> 
-#> $statistic
-#> [1] 32.67015
+#>  Rayleigh test of uniformity
 #> 
-#> $p.value
-#> [1] 6.479397e-15
+#> data:  striae
+#> S = 32.67, n = 51, p-value = 6.479e-15
+#> alternative hypothesis: unimodal distribution with an unknown mean direction
+#> sample estimates:
+#>          R       Rbar 
+#> 40.8188388  0.8003694 
 #> 
 rayleigh_test_perm(striae, axial = FALSE) # reject null hypothesis
 #> 
@@ -191,14 +193,15 @@ rayleigh_test_perm(striae, axial = FALSE) # reject null hypothesis
 
 rayleigh_test(striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> Reject Null Hypothesis
-#> $C
-#> [1] 0.7300887
 #> 
-#> $statistic
-#> [1] 7.373534
+#>  Rayleigh V-test of uniformity
 #> 
-#> $p.value
-#> [1] 2.130845e-13
+#> data:  striae
+#> S = 7.3735, n = 51, p-value = 2.131e-13
+#> alternative hypothesis: unimodal distribution with the specified mean direction 105
+#> sample estimates:
+#>         C 
+#> 0.7300887 
 #> 
 rayleigh_test_perm(striae, mu = 105, axial = FALSE) # reject null hypothesis
 #> 
@@ -217,42 +220,45 @@ atomic_weight <- c(
 )
 rayleigh_test(atomic_weight, 0, axial = FALSE) # reject null hypothesis
 #> Reject Null Hypothesis
-#> $C
-#> [1] 0.7237434
 #> 
-#> $statistic
-#> [1] 5.014241
+#>  Rayleigh V-test of uniformity
 #> 
-#> $p.value
-#> [1] 5.348331e-08
+#> data:  atomic_weight
+#> S = 5.0142, n = 24, p-value = 5.348e-08
+#> alternative hypothesis: unimodal distribution with the specified mean direction 0
+#> sample estimates:
+#>         C 
+#> 0.7237434 
 #> 
 
 # San Andreas Fault Data:
 data(san_andreas)
 rayleigh_test(san_andreas$azi) # reject null hypothesis
 #> Reject Null Hypothesis
-#> $R
-#> [1] 0.6822906
 #> 
-#> $statistic
-#> [1] 524.1761
+#>  Rayleigh test of uniformity
 #> 
-#> $p.value
-#> [1] 2.255452e-228
+#> data:  san_andreas$azi
+#> S = 524.18, n = 1126, p-value < 2.2e-16
+#> alternative hypothesis: unimodal distribution with an unknown mean direction
+#> sample estimates:
+#>           R        Rbar 
+#> 768.2592226   0.6822906 
 #> 
 data("nuvel1")
 PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 rayleigh_test(sa.por$azi.PoR, mu = 135) # reject null hypothesis
 #> Reject Null Hypothesis
-#> $C
-#> [1] 0.7009544
 #> 
-#> $statistic
-#> [1] 33.26396
+#>  Rayleigh V-test of uniformity
 #> 
-#> $p.value
-#> [1] 1.420092e-239
+#> data:  sa.por$azi.PoR
+#> S = 33.264, n = 1126, p-value < 2.2e-16
+#> alternative hypothesis: unimodal distribution with the specified mean direction 135
+#> sample estimates:
+#>         C 
+#> 0.7009544 
 #> 
 rayleigh_test_perm(sa.por$azi.PoR, mu = 135, n_perm = 1e3) # reject null hypothesis
 #> 

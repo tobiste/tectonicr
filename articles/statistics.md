@@ -237,14 +237,15 @@ tested with the **Rayleigh Test**:
 
 rayleigh_test(san_andreas.por$azi.PoR)
 #> Reject Null Hypothesis
-#> $R
-#> [1] 0.7118209
 #> 
-#> $statistic
-#> [1] 570.5317
+#>  Rayleigh test of uniformity
 #> 
-#> $p.value
-#> [1] 1.664245e-248
+#> data:  san_andreas.por$azi.PoR
+#> S = 570.53, n = 1126, p-value < 2.2e-16
+#> alternative hypothesis: unimodal distribution with an unknown mean direction
+#> sample estimates:
+#>           R        Rbar 
+#> 801.5102806   0.7118209
 ```
 
 Here, the test rejects the Null Hypothesis (`statistic > p.value`). Thus
@@ -345,17 +346,15 @@ predicted direction of $`135^{\circ}`$):
 
 weighted_rayleigh(san_andreas.por$azi.PoR, mu = 135, w = w)
 #> Reject Null Hypothesis
-#> $C
-#> [1] 0.7244095
 #> 
-#> $statistic
-#> [1] 33.59973
+#>  Rayleigh V-test of uniformity
 #> 
-#> $p.value
-#> [1] 2.231719e-244
-#> 
-#> $n_eff
-#> [1] 1075.656
+#> data:  san_andreas.por$azi.PoR
+#> S = 33.6, n_eff = 1075.7, p-value < 2.2e-16
+#> alternative hypothesis: unimodal distribution with the specified mean direction 135
+#> sample estimates:
+#>         C 
+#> 0.7244095
 ```
 
 Here, the Null Hypothesis is rejected, and thus, the alternative, i.e.
