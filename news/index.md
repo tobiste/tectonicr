@@ -10,10 +10,11 @@ CRAN release: 2026-11-03
 
 - added circular tests: Moore (1980) rank-weighted Rayleigh test:
   [`weighted_rayleigh_moore()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.md),
-  [`weighted_rayleigh_moore_perm()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.md),
-  Hansen & Mount (1990) / Müller et al. (2003) spatial algorithm for
+  [`weighted_rayleigh_moore_perm()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.md)
+- Hansen & Mount (1990) / Müller et al. (2003) spatial algorithm for
   stress field:
   [`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
+- Cardioid distribution added
 
 ## tectonicr 0.4.9002 *2026-11-02*
 

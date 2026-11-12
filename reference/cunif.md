@@ -53,7 +53,9 @@ degrees), and `qcunif` provides quantiles (in degrees).
 ## See also
 
 [wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md),
-[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md), and
+[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md),
+[cardioid](https://tobiste.github.io/tectonicr/reference/cardioid.md),
+and
 [vonmises](https://tobiste.github.io/tectonicr/reference/vonmises.md)
 
 ## Examples

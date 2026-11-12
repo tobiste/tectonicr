@@ -83,7 +83,9 @@ wrapped normal distribution function, `rwnorm` generates random deviates
 ## See also
 
 [cunif](https://tobiste.github.io/tectonicr/reference/cunif.md), wnorm,
-[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md), and
+[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md),
+[cardioid](https://tobiste.github.io/tectonicr/reference/cardioid.md),
+and
 [vonmises](https://tobiste.github.io/tectonicr/reference/vonmises.md)
 
 ## Examples

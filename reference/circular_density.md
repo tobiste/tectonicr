@@ -20,7 +20,7 @@ circular_density(
   rho = NULL,
   sd = NULL,
   c = NULL,
-  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"),
+  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy", "cardioid"),
   adjust = 1,
   subdensity = FALSE
 )
@@ -43,7 +43,7 @@ circular_density(
 
   numeric. Smoothing bandwidth expressed as the concentration parameter
   \\\kappa\\ for the von Mises distribution, \\\rho\\ for the wrapped
-  Cauchy distribution, or \\\sigma\\ for the wrapped normal
+  Cauchy and Cardioid distribution, or \\\sigma\\ for the wrapped normal
   distribution. Small and large values for the von Mises and wrapped
   normal/Cauchy distribution, respectively, gives smooth density lines.
   If not specified, parameter will be estimated using
@@ -84,8 +84,9 @@ circular_density(
 - kernel:
 
   character. The smoothing kernel to be used; one of `"vonmises"` (the
-  default), `"wrappedcauchy"`, `"wrappednormal`, for the von Mises, the
-  wrapped Cauchy, and the wrapped Normal distribution.
+  default), `"wrappedcauchy"`, `"wrappednormal`, and `"cardioid"` for
+  the von Mises, the wrapped Cauchy, the wrapped Normal distribution,
+  and the Cardioid distribution.
 
 - adjust:
 
@@ -109,6 +110,7 @@ Object of class `"density"`
 [`dvm()`](https://tobiste.github.io/tectonicr/reference/vonmises.md),
 [`dwcauchy()`](https://tobiste.github.io/tectonicr/reference/wcauchy.md),
 [`dwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md),
+[`dcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md),
 and
 [`plot_density()`](https://tobiste.github.io/tectonicr/reference/plot_density.md)
 
@@ -178,4 +180,20 @@ circular_density(san_andreas$azi, sd = 5, kernel = "wrappednormal")
 #>  Mean   :180   Mean   :0.0055786  
 #>  3rd Qu.:270   3rd Qu.:0.0092790  
 #>  Max.   :360   Max.   :0.0176174  
+
+# Cardoid distribution
+circular_density(san_andreas$azi, rho = 0.2, kernel = "cardioid")
+#> 
+#> Call:
+#>  circular_density(x = san_andreas$azi, rho = 0.2, kernel = "cardioid")
+#> 
+#> Data: san_andreas$azi (1126 obs.);   Bandwidth 'bw' = 0.2
+#> 
+#>        x             y         
+#>  Min.   :  0   Min.   :0.2314  
+#>  1st Qu.: 90   1st Qu.:0.2571  
+#>  Median :180   Median :0.3186  
+#>  Mean   :180   Mean   :0.3185  
+#>  3rd Qu.:270   3rd Qu.:0.3799  
+#>  Max.   :360   Max.   :0.4052  
 ```

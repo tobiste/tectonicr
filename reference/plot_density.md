@@ -1,7 +1,7 @@
 # Circular Kernel Density Plot
 
-Plots multiples of a von Mises, wrapped Cauchy, and wrapped Normal
-density distribution in a circular plot
+Plots multiples of a von Mises, wrapped Cauchy, wrapped Normal, and
+Cardioid density distribution in a circular plot
 
 ## Usage
 
@@ -9,7 +9,7 @@ density distribution in a circular plot
 plot_density(
   x,
   bw = NULL,
-  kernel = c("vonmises", "wrappedcauchy", "wrappednormal"),
+  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "cardioid"),
   weights = NULL,
   axial = TRUE,
   n = 512L,
@@ -42,7 +42,7 @@ plot_density(
 
   numeric. Smoothing bandwidth expressed as the concentration parameter
   \\\kappa\\ for the von Mises distribution, \\\rho\\ for the wrapped
-  Cauchy distribution, or \\\sigma\\ for the wrapped normal
+  Cauchy and Cardioid distribution, or \\\sigma\\ for the wrapped normal
   distribution. Small and large values for the von Mises and wrapped
   normal/Cauchy distribution, respectively, gives smooth density lines.
   If not specified, parameter will be estimated using
@@ -54,8 +54,9 @@ plot_density(
 - kernel:
 
   character. The smoothing kernel to be used; one of `"vonmises"` (the
-  default), `"wrappedcauchy"`, `"wrappednormal`, for the von Mises, the
-  wrapped Cauchy, and the wrapped Normal distribution.
+  default), `"wrappedcauchy"`, `"wrappednormal`, and `"cardioid"` for
+  the von Mises, the wrapped Cauchy, the wrapped Normal distribution,
+  and the Cardioid distribution.
 
 - weights:
 
@@ -163,6 +164,13 @@ plot_density(san_andreas$azi,
 plot_density(san_andreas$azi,
   sd = 2, kernel = "wrappednormal",
   fill = FALSE, col = "#E65164FF",
+  add = TRUE
+)
+
+# Superimpose a Cardoid kernel density curve on a rose diagram:
+plot_density(san_andreas$azi,
+  rho = 0.5, kernel = "cardioid",
+  fill = FALSE, col = "blue",
   add = TRUE
 )
 

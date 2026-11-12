@@ -31,6 +31,11 @@
   : Angular Randomisation Test of Homogeneity
 - [`axes()`](https://tobiste.github.io/tectonicr/reference/axes.md) :
   Plot axes
+- [`rcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md)
+  [`dcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md)
+  [`pcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md)
+  [`qcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md)
+  : The Cardiod Distribution
 - [`circular_mean_difference()`](https://tobiste.github.io/tectonicr/reference/circle_mean_diff.md)
   [`circular_mean_difference_alt()`](https://tobiste.github.io/tectonicr/reference/circle_mean_diff.md)
   : Circular Mean Difference

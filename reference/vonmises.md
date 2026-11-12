@@ -72,8 +72,9 @@ distribution function, `rvm` generates random deviates (in degrees), and
 ## See also
 
 [cunif](https://tobiste.github.io/tectonicr/reference/cunif.md),
-[wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md), and
-[wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
+[wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md),
+[cardioid](https://tobiste.github.io/tectonicr/reference/cardioid.md),
+and [wcauchy](https://tobiste.github.io/tectonicr/reference/wcauchy.md)
 
 ## Examples
 

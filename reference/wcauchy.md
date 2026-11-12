@@ -87,7 +87,9 @@ deviates (in degrees), and `qrwcauchy` provides quantiles (in degrees).
 ## See also
 
 [cunif](https://tobiste.github.io/tectonicr/reference/cunif.md),
-[wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md), and
+[wnorm](https://tobiste.github.io/tectonicr/reference/wnorm.md),
+[cardioid](https://tobiste.github.io/tectonicr/reference/cardioid.md),
+and
 [vonmises](https://tobiste.github.io/tectonicr/reference/vonmises.md)
 
 ## Examples
