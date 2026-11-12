@@ -132,10 +132,10 @@ plot_density(san_andreas$azi, weights = w,
 \seealso{
 \code{\link[=circular_density]{circular_density()}}
 
-Other circular-plot:
-\code{\link[=plot_points]{plot_points()}},
-\code{\link[=rose]{rose()}},
+Other circular-plot: 
+\code{\link{plot_points}()},
+\code{\link{rose}()},
 \code{\link{rose_geom}},
-\code{\link[=rose_stats]{rose_stats()}}
+\code{\link{rose_stats}()}
 }
 \concept{circular-plot}
