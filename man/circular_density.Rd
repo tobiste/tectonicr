@@ -18,7 +18,7 @@ circular_density(
   rho = NULL,
   sd = NULL,
   c = NULL,
-  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"),
+  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy", "cardioid"),
   adjust = 1,
   subdensity = FALSE
 )
@@ -31,7 +31,7 @@ spaced angles are used according to the parameters \code{from}, \code{to} and \c
 
 \item{bw, kappa, rho, sd, c}{numeric. Smoothing bandwidth expressed as the concentration
 parameter \eqn{\kappa}{k} for the von Mises distribution, \eqn{\rho}{rho} for the
-wrapped Cauchy distribution, or \eqn{\sigma}{sd} for the wrapped normal distribution.
+wrapped Cauchy and Cardioid distribution, or \eqn{\sigma}{sd} for the wrapped normal distribution.
 Small and large values for the von Mises and wrapped normal/Cauchy distribution,
 respectively, gives smooth density lines. If not specified, parameter will be estimated using
 \code{\link[=est.kappa]{est.kappa()}}  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)} and \code{1}
@@ -57,8 +57,8 @@ to be estimated.}
 or biaxial (\code{TRUE}, the default).}
 
 \item{kernel}{character. The smoothing kernel to be used; one of \code{"vonmises"}
-(the default), \code{"wrappedcauchy"}, \verb{"wrappednormal}, for the von Mises,
-the wrapped Cauchy, and the wrapped Normal distribution.}
+(the default), \code{"wrappedcauchy"}, \verb{"wrappednormal}, and \code{"cardioid"} for the von Mises,
+the wrapped Cauchy, the wrapped Normal distribution, and the Cardioid distribution.}
 
 \item{adjust}{the bandwidth used is actually \code{adjust*bw}.
     This makes it easy to specify values like \sQuote{half the default}
@@ -87,7 +87,10 @@ circular_density(san_andreas$azi, rho = 0.9, kernel = "wrappedcauchy")
 
 # wrapped Normal kernel density
 circular_density(san_andreas$azi, sd = 5, kernel = "wrappednormal")
+
+# Cardoid distribution
+circular_density(san_andreas$azi, rho = 0.2, kernel = "cardioid")
 }
 \seealso{
-\code{\link[stats:density]{stats::density()}}, \code{\link[=dvm]{dvm()}}, \code{\link[=dwcauchy]{dwcauchy()}}, \code{\link[=dwnorm]{dwnorm()}}, and \code{\link[=plot_density]{plot_density()}}
+\code{\link[stats:density]{stats::density()}}, \code{\link[=dvm]{dvm()}}, \code{\link[=dwcauchy]{dwcauchy()}}, \code{\link[=dwnorm]{dwnorm()}}, \code{\link[=dcard]{dcard()}}, and \code{\link[=plot_density]{plot_density()}}
 }

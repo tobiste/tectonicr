@@ -70,5 +70,5 @@ pwnorm(x, mean = 90, sd = 5)
 qwnorm(c(.25, .5, .75), mean = 90, sd = 5)
 }
 \seealso{
-\link{cunif}, \link{wnorm}, \link{wcauchy}, and \link{vonmises}
+\link{cunif}, \link{wnorm}, \link{wcauchy}, \link{cardioid}, and \link{vonmises}
 }

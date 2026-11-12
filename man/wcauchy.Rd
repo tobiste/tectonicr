@@ -78,5 +78,5 @@ pwcauchy(x, mean = 90, rho = exp(-1))
 qwcauchy(c(.25, .5, .75), mean = 90, rho = exp(-1))
 }
 \seealso{
-\link{cunif}, \link{wnorm}, and \link{vonmises}
+\link{cunif}, \link{wnorm}, \link{cardioid}, and \link{vonmises}
 }

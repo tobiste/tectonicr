@@ -54,5 +54,5 @@ pcunif(x)
 qcunif(c(.25, .5, .75))
 }
 \seealso{
-\link{wnorm}, \link{wcauchy}, and \link{vonmises}
+\link{wnorm}, \link{wcauchy}, \link{cardioid}, and \link{vonmises}
 }

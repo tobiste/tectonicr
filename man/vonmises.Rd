@@ -61,5 +61,5 @@ pvm(x, mean = 90, kappa = 2)
 qvm(c(.25, .5, .75), mean = 90, kappa = 2)
 }
 \seealso{
-\link{cunif}, \link{wnorm}, and \link{wcauchy}
+\link{cunif}, \link{wnorm}, \link{cardioid}, and \link{wcauchy}
 }

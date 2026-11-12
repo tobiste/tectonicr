@@ -18,7 +18,7 @@
 #' `rcunif` generates random deviates (in degrees), and
 #' `qcunif` provides quantiles (in degrees).
 #'
-#' @seealso [wnorm], [wcauchy], and [vonmises]
+#' @seealso [wnorm], [wcauchy], [cardioid], and [vonmises]
 #'
 #' @name cunif
 #'
@@ -73,6 +73,125 @@ qcunif <- function(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE) {
   p * f * 180
 }
 
+## Cardioid Distribution -------------------------------------------------------
+
+#' The Cardiod Distribution
+#'
+#' Density, probability distribution function, quantiles, and random generation
+#' for the Cardiod distribution with mean \eqn{\mu}{mu} and concentration \eqn{\rho}{rho}.
+#'
+#' @param log,log.p logical; if `TRUE`, probabilities/densities are given as logarithms.
+#' @param rho numeric. The concentration parameter \eqn{\rho}, where \eqn{|\rho | \le \frac{1}{2}}
+#' @inheritParams dwnorm
+#' @inheritParams dvm
+#' @inheritParams stats::pnorm
+#'
+#' @returns `dcard` gives the density,
+#' `pcard` gives the probability of the Cardiod distribution function,
+#' `rcard` generates random deviates (in degrees), and
+#' `qcard` provides quantiles (in degrees).
+#'
+#' @name cardioid
+#' @seealso [wnorm], [wcauchy], [cunif], and [vonmises]
+#'
+#' @references Jeffreys, H., 1948. Theory of Probability, second ed. Oxford University Press, Oxford
+#'
+#' Pewsey, A. (2026). On Jeffreys's cardioid distribution. Computational Statistics and Data Analysis. https://doi.org/10.1016/j.csda.2025.108248
+#'
+#' @examples
+#' set.seed(1)
+#' x <- rcard(5, mean = 90, rho = 0.1)
+#'
+#' dcard(x, mean = 90, rho = 0.2)
+#' dcard(x, mean = 90, rho = 0.2, axial = TRUE)
+#'
+#' pcard(x, mean = 90, rho = 0.2)
+#'
+#' qcard(c(.25, .5, .75), mean = 90, rho = 0.2)
+NULL
+
+# Internal: cardioid CDF (radians) for an unwrapped angle `u`.
+# `mu` is the mean direction in [0, 2*pi). F is anchored at 0 and extended
+# periodically, so F(u + 2*pi) = F(u) + 1.
+.pcard_unwrapped <- function(u, mu, rho) {
+  k <- floor(u / (2 * pi))
+  v <- u - k * (2 * pi)
+  k + (v + 2 * rho * (sin(v - mu) + sin(mu))) / (2 * pi)
+}
+
+#' @rdname cardioid
+#' @export
+rcard <- function(n, mean, rho) {
+  qcard(stats::runif(n), mean = mean, rho = rho)
+}
+
+#' @rdname cardioid
+#' @export
+dcard <- function(theta, mean, rho, axial = FALSE) {
+  stopifnot(abs(rho) <= 0.5)
+  f <- if (axial) 2 else 1
+  d <- (1 + 2 * rho * cos(deg2rad(f * theta) - deg2rad(f * mean))) / (2 * pi)
+  return(f * d)
+}
+
+#' @rdname cardioid
+#' @export
+pcard <- function(theta, mean, rho, lower.tail = TRUE, log.p = FALSE,
+                  axial = FALSE) {
+  stopifnot(abs(rho) <= 0.5)
+  f  <- if (axial) 2 else 1
+  mu <- deg2rad(f * mean) %% (2 * pi)
+  p <- .pcard_unwrapped(deg2rad(f * theta), mu, rho)
+
+  if (lower.tail) {
+    if (log.p) log(p) else p
+  } else {
+    if (log.p) log1p(-p) else 1 - p
+  }
+}
+
+#' @rdname cardioid
+#' @export
+qcard <- function(p, mean, rho, lower.tail = TRUE, log.p = FALSE,
+                  axial = FALSE, tol = .Machine$double.eps^0.6) {
+  stopifnot(abs(rho) <= 0.5)
+
+  if (log.p) {
+    p <- if (lower.tail) exp(p) else -expm1(p)
+  } else if (!lower.tail) {
+    p <- 1 - p
+  }
+
+  if (!length(p) || !length(mean) || !length(rho)) return(numeric(0))
+  L <- max(length(p), length(mean), length(rho))
+  p    <- rep_len(p, L)
+  mean <- rep_len(mean, L)
+  rho  <- rep_len(rho, L)
+
+  ok <- is.finite(p) & p >= 0 & p <= 1 & is.finite(mean)
+  f  <- if (axial) 2 else 1
+  mu     <- deg2rad(f * ifelse(ok, mean, 0)) %% (2 * pi)
+  rho    <- ifelse(ok, rho, 0)
+  target <- ifelse(ok, p, 0)
+
+  # Vectorised bisection on the unwrapped angle, bracket [0, 2*pi*f]
+  lo <- numeric(L)
+  hi <- rep(2 * pi, L)
+  n_iter <- ceiling(log2(2 * pi * f / tol))
+  for (i in seq_len(n_iter)) {
+    mid   <- (lo + hi) / 2
+    below <- .pcard_unwrapped(mid, mu, rho) < target
+    lo[below]  <- mid[below]
+    hi[!below] <- mid[!below]
+  }
+
+  ans <- rad2deg((lo + hi) / (2 * f))
+  ans[ok & p == 0] <- 0
+  ans[ok & p == 1] <- 360 / f
+  ans[!ok] <- NaN
+  ans
+}
+
 ## von Mises -------------------------------------------------------------------
 
 #' The von Mises Distribution
@@ -95,7 +214,7 @@ qcunif <- function(p, axial = FALSE, lower.tail = TRUE, log.p = FALSE) {
 #' `rvm` generates random deviates (in degrees), and
 #' `qvm` provides quantiles (in degrees).
 #'
-#' @seealso [cunif], [wnorm], and [wcauchy]
+#' @seealso [cunif], [wnorm], [cardioid], and [wcauchy]
 #' @name vonmises
 #'
 #' @importFrom circular circular rvonmises pvonmises qvonmises daxialvonmises
@@ -284,7 +403,7 @@ est.kappa <- function(x, w = NULL, p = 2) {
 #' @importFrom circular circular pwrappednormal qwrappednormal
 #' @name wnorm
 #'
-#' @seealso [cunif], [wnorm], [wcauchy], and [vonmises]
+#' @seealso [cunif], [wnorm], [wcauchy], [cardioid], and [vonmises]
 #'
 #' @examples
 #' set.seed(1)
@@ -393,7 +512,7 @@ qwnorm <- function(p, mean = 0, sd = 1, axial = FALSE, from = NULL, tol = .Machi
 #' `qrwcauchy` provides quantiles (in degrees).
 #'
 #' @name wcauchy
-#' @seealso [cunif], [wnorm], and [vonmises]
+#' @seealso [cunif], [wnorm], [cardioid], and [vonmises]
 #'
 #' @importFrom stats rcauchy
 #'
@@ -545,7 +664,7 @@ qwcauchy <- function(p, mean, rho, axial = FALSE, from = NULL, lower.tail = TRUE
 #'
 #' @noRd
 #'
-#' @seealso [cunif], [wnorm], [wcauchy], and [vonmises]
+#' @seealso [cunif], [wnorm], [wcauchy], [cardioid], and [vonmises]
 #'
 #' @examples
 #' \dontrun{
@@ -601,7 +720,7 @@ dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 
 
 # Kernel density ---------------------------------------------------------------
 
-.calc_circular_density <- function(x, z, bw, axial,  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"), weights = NULL) {
+.calc_circular_density <- function(x, z, bw, axial,  kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy", "cardioid"), weights = NULL) {
   kernel <- match.arg(kernel)
   nx <- length(x)
   # if (kernel == "vonmises") {
@@ -636,6 +755,10 @@ dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 
      dens <- Reduce(`+`, lapply(k, function(kk) exp(-(delta + 2 * pi * kk)^2 / (2 * sd_rad^2))))
      f * pi / 180 * dens / (sd_rad * sqrt(2 * pi))
    },
+   "cardioid" = {
+     rho <- bw
+     f * (1 + 2 * rho * cos(delta)) / (2 * pi)
+   },
    "wrappedlevy" = .wrappedlevy_kernel_matrix(delta, bw, f)
   )
 
@@ -654,15 +777,15 @@ dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 
 #' spaced angles are used according to the parameters `from`, `to` and `n`.
 #' @param bw,kappa,rho,sd,c numeric. Smoothing bandwidth expressed as the concentration
 #' parameter \eqn{\kappa}{k} for the von Mises distribution, \eqn{\rho}{rho} for the
-#' wrapped Cauchy distribution, or \eqn{\sigma}{sd} for the wrapped normal distribution.
+#' wrapped Cauchy and Cardioid distribution, or \eqn{\sigma}{sd} for the wrapped normal distribution.
 #' Small and large values for the von Mises and wrapped normal/Cauchy distribution,
 #' respectively, gives smooth density lines. If not specified, parameter will be estimated using
 #' [est.kappa()]  for the von Mises distribution, or set to \eqn{p \exp(-1)}{p exp(-1)} and `1`
 #' for the wrapped Cauchy and wrapped Normal distribution (where \eqn{p = 2}{p=2}
 #' when `axial=TRUE` and 1 otherwise), respectively.
 #' @param kernel character. The smoothing kernel to be used; one of `"vonmises"`
-#' (the default), `"wrappedcauchy"`, `"wrappednormal`, for the von Mises,
-#' the wrapped Cauchy, and the wrapped Normal distribution.
+#' (the default), `"wrappedcauchy"`, `"wrappednormal`, and `"cardioid"` for the von Mises,
+#' the wrapped Cauchy, the wrapped Normal distribution, and the Cardioid distribution.
 #' @param weights numeric. A vector of observation weights, of the same length as `x`,
 #' to give individual observations weight in the density estimate. Should sum to 1;
 #' a warning is issued if it doesn't (unless `subdensity = TRUE`). Defaults to
@@ -677,7 +800,7 @@ dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 
 #' @inheritParams circular_plot
 #' @inheritParams stats::density
 #'
-#' @seealso [stats::density()], [dvm()], [dwcauchy()], [dwnorm()], and [plot_density()]
+#' @seealso [stats::density()], [dvm()], [dwcauchy()], [dwnorm()], [dcard()], and [plot_density()]
 #' @return Object of class `"density"`
 #' @export
 #'
@@ -693,11 +816,14 @@ dwlevy <- function(theta, mean, c, axial = FALSE, tol = 1e-8, P0 = 100, P.max = 
 #'
 #' # wrapped Normal kernel density
 #' circular_density(san_andreas$azi, sd = 5, kernel = "wrappednormal")
+#'
+#' # Cardoid distribution
+#' circular_density(san_andreas$azi, rho = 0.2, kernel = "cardioid")
 circular_density <- function(x, z = NULL, bw = NULL, weights = NULL, na.rm = TRUE,
                              from = 0, to = 360, n = 512L,
                              axial = TRUE,
                              kappa = NULL, rho = NULL, sd = NULL, c = NULL,
-                             kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy"),
+                             kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "wrappedlevy", "cardioid"),
                              adjust = 1, subdensity = FALSE) {
   kernel <- match.arg(kernel)
   f <- if (isTRUE(axial)) 2 else 1
@@ -708,6 +834,8 @@ circular_density <- function(x, z = NULL, bw = NULL, weights = NULL, na.rm = TRU
       ifelse(is.null(rho), exp(-1) * f, rho)
     } else if(kernel == "wrappednormal"){
       ifelse(is.null(sd), 1, sd)
+    }else if(kernel == "cardioid"){
+      ifelse(is.null(rho), 0, rho)
     } else {
       ifelse(is.null(c), 5, c)
       #NULL

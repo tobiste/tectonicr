@@ -822,7 +822,7 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 
 #' Circular Kernel Density Plot
 #'
-#' Plots multiples of a von Mises, wrapped Cauchy, and wrapped Normal
+#' Plots multiples of a von Mises, wrapped Cauchy, wrapped Normal, and Cardioid
 #' density distribution in a circular plot
 #'
 #' @param x Either an object of class `"density"` or a numeric vector of angles
@@ -868,6 +868,13 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'   add = TRUE
 #' )
 #'
+#' # Superimpose a Cardoid kernel density curve on a rose diagram:
+#' plot_density(san_andreas$azi,
+#'   rho = 0.5, kernel = "cardioid",
+#'   fill = FALSE, col = "blue",
+#'   add = TRUE
+#' )
+#'
 #' # Superimpose a von Mises kernel density curve on a rose diagram:
 #' rose(san_andreas$azi, grid = TRUE)
 #' plot_density(san_andreas$azi,
@@ -883,7 +890,7 @@ circular_polygon <- function(x, y, nosort = FALSE, offset = 1.1, shrink = 1, axi
 #'   scale = 1.1, shrink = 3, xpd = NA,
 #'   col = "#51127CFF"
 #' )
-plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy", "wrappednormal"),
+plot_density <- function(x, bw = NULL, kernel = c("vonmises", "wrappedcauchy", "wrappednormal", "cardioid"),
                          weights = NULL,
                          axial = TRUE,
                          n = 512L,
