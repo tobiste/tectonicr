@@ -36,11 +36,11 @@ stress2grid_hansen(
 
   azi
 
-  :   \\\sigma\_\text{Hmax}\\ in degree
+  :   angles in degrees (e.g. orientation of \\\sigma\_\text{Hmax}\\)
 
   unc
 
-  :   (optional) Uncertainties of SHmax in degree
+  :   (optional) Uncertainties of `azi` in degree
 
   type
 
@@ -105,10 +105,7 @@ stress2grid_hansen(
 - min_sq:
 
   numeric. Minimum sum of quality x robustness weights of the
-  contributing observations; grid nodes below are dropped. @param qp
-  numeric. The weighting power of the data quality (the higher the
-  value, the more weight). Default is `1`. When set to `0`, no weighting
-  is applied.
+  contributing observations; grid nodes below are dropped.
 
 - min_dist_threshold:
 
@@ -119,6 +116,12 @@ stress2grid_hansen(
 
   logical. If a quality weighting should be applied: Default is `TRUE`.
   If `FALSE`, overwrites `qp`.
+
+- qp:
+
+  numeric. The weighting power of the data quality (the higher the
+  value, the more weight). Default is `1`. When set to `0`, no weighting
+  is applied.
 
 ## Value
 

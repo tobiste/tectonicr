@@ -66,11 +66,11 @@ stress2grid_stats(
 
   azi
 
-  :   \\\sigma\_\text{Hmax}\\ in degree
+  :   angles in degrees (e.g. orientation of \\\sigma\_\text{Hmax}\\)
 
   unc
 
-  :   (optional) Uncertainties of SHmax in degree
+  :   (optional) Uncertainties of `azi` in degree
 
   type
 

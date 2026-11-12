@@ -86,10 +86,10 @@ nearest neighbours).</p>
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p><code>sf</code> object containing</p><dl><dt>azi</dt>
-<dd><p>\(\sigma_\text{Hmax}\) in degree</p></dd>
+<dd><p>angles in degrees (e.g. orientation of \(\sigma_\text{Hmax}\))</p></dd>
 
 <dt>unc</dt>
-<dd><p>(optional) Uncertainties of SHmax in degree</p></dd>
+<dd><p>(optional) Uncertainties of <code>azi</code> in degree</p></dd>
 
 <dt>type</dt>
 <dd><p>(optional) Methods used for the determination of the direction
@@ -152,9 +152,7 @@ Default is <code>3</code> for <code><a href="stress2grid.html">stress2grid()</a>
 
 <dt id="arg-min-sq">min_sq<a class="anchor" aria-label="anchor" href="#arg-min-sq"></a></dt>
 <dd><p>numeric. Minimum sum of quality x robustness weights of the
-contributing observations; grid nodes below are dropped.
-@param qp numeric. The weighting power of the data quality (the higher the
-value, the more weight). Default is <code>1</code>. When set to <code>0</code>, no weighting is applied.</p></dd>
+contributing observations; grid nodes below are dropped.</p></dd>
 
 
 <dt id="arg-min-dist-threshold">min_dist_threshold<a class="anchor" aria-label="anchor" href="#arg-min-dist-threshold"></a></dt>
@@ -166,6 +164,11 @@ Default is <code>200</code> km.</p></dd>
 <dt id="arg-quality-weighting">quality_weighting<a class="anchor" aria-label="anchor" href="#arg-quality-weighting"></a></dt>
 <dd><p>logical. If a quality weighting should be applied:
 Default is <code>TRUE</code>. If <code>FALSE</code>, overwrites <code>qp</code>.</p></dd>
+
+
+<dt id="arg-qp">qp<a class="anchor" aria-label="anchor" href="#arg-qp"></a></dt>
+<dd><p>numeric. The weighting power of the data quality (the higher the
+value, the more weight). Default is <code>1</code>. When set to <code>0</code>, no weighting is applied.</p></dd>
 
 </dl></div>
     <div class="section level2">
