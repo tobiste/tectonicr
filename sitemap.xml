@@ -31,6 +31,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/circle_stats.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_density.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_dispersion_boot.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/circular_dist.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_mode.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_plot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/circular_qqplot.html</loc></url>
@@ -53,6 +54,11 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/distance_binned_stats.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/distance_from_pb.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/distance_mod.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dot-bandwidth.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dot-group_sum.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dot-hav_km.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dot-hm_fit.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dot-hm_neighbours.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/earth_radius.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/equal_kappa_test.html</loc></url>
@@ -112,6 +118,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/spec_atan.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/spherical_angle.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_analysis.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_colors.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_data.html</loc></url>
@@ -133,6 +140,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/watson_williams_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/wcauchy.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/weighting.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/which.nsmallest.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/wnorm.html</loc></url>

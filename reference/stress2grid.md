@@ -245,12 +245,15 @@ Data Services.
 ## See also
 
 [`dist_greatcircle()`](https://tobiste.github.io/tectonicr/reference/dist_greatcircle.md),
-[`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
 [`compact_grid()`](https://tobiste.github.io/tectonicr/reference/compact-grid.md),
 [`circular_mean()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md),
 [`circular_median()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md),
 [`circular_sd()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md),
 [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)
+
+Other smoothing:
+[`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
+[`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
 
 ## Examples
 

@@ -51,6 +51,7 @@ compact_grid2(x, ..., FUN = min)
 ## See also
 
 [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
+[`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md),
 [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
 [`kernel_dispersion()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md),
 [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),

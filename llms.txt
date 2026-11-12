@@ -180,6 +180,8 @@ GPL-3.0 License
   : Circular Kernel Density Estimation
 - [`circular_dispersion_boot()`](https://tobiste.github.io/tectonicr/reference/circular_dispersion_boot.md)
   : Bootstrapped Estimates for Circular Dispersion
+- [`circular_dist()`](https://tobiste.github.io/tectonicr/reference/circular_dist.md)
+  : Circular Distance Matrix Computation
 - [`circular_mode()`](https://tobiste.github.io/tectonicr/reference/circular_mode.md)
   : Circular Mode
 - [`circular_plot()`](https://tobiste.github.io/tectonicr/reference/circular_plot.md)
@@ -353,6 +355,9 @@ GPL-3.0 License
 - [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
   [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
   : Spatial Interpolation of SHmax
+- [`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
+  : Smoothed SHmax on a grid after Hansen & Mount (1990) / Müller et al.
+  (2003)
 - [`stress_analysis()`](https://tobiste.github.io/tectonicr/reference/stress_analysis.md)
   : Quick analysis of a stress data set
 - [`stress_colors()`](https://tobiste.github.io/tectonicr/reference/stress_colors.md)
@@ -406,6 +411,9 @@ GPL-3.0 License
   [`weighted_rayleigh_perm()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   [`v0_test()`](https://tobiste.github.io/tectonicr/reference/weighted-rayleigh-test.md)
   : Weighted Goodness-of-fit Test for Circular Data
+- [`weighted_rayleigh_moore()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.md)
+  [`weighted_rayleigh_moore_perm()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.md)
+  : Moore (1980) rank-weighted Rayleigh test
 - [`weighting()`](https://tobiste.github.io/tectonicr/reference/weighting.md)
   : Weighting Factors
 - [`rwnorm()`](https://tobiste.github.io/tectonicr/reference/wnorm.md)

@@ -129,8 +129,11 @@ Stress field and wavelength analysis in PoR system and back-transformed
 
 ## See also
 
-[`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
 [`compact_grid()`](https://tobiste.github.io/tectonicr/reference/compact-grid.md)
+
+Other smoothing:
+[`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
+[`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
 
 ## Examples
 
