@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_tests.R
 \name{watson_wheeler_test_perm}
 \alias{watson_wheeler_test_perm}
-\title{Watson-Wheeler Test of Homogeneity of Means}
+\title{Watson-Wheeler Test of Homogeneity}
 \usage{
 watson_wheeler_test_perm(x, y, axial = TRUE, n_perm = 1000L, alpha = NULL)
 }
@@ -15,35 +15,38 @@ In case of axial data, the angles will be doubled for the test.}
 
 \item{n_perm}{integer. Number of permutations}
 
-\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05},
-and \code{0.1}.
-This argument may be omitted (\code{NULL}, the default), in which case, a range
-for the p-value will be returned.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.
+For \code{dist = "vonmises"} it must be one of \code{0.1}, \code{0.05}, \code{0.01} or \code{0} (only
+the tabulated p-value range is returned).}
 }
 \value{
-list
+A list with class \code{"htest"}
 }
 \description{
-A a non-parametric statistical test used to determine whether two or more
+A non-parametric statistical test used to determine whether two
 independent samples of circular data (angles, directions, or periodic times)
 come from the same underlying population distribution. The difference
-between the samples can be in either the mean or the variance.
+between the samples can be in either the mean direction or the dispersion.
+P-values are estimated using permutation.
 }
 \details{
+The statistic is \eqn{R^* = 2 (n - 1) (C_1^2 + S_1^2) / (n_1 n_2)} on the
+uniform scores \eqn{2 \pi r_i / n} of the ranks \eqn{r_i} in the pooled
+sample (Mardia & Jupp, 2000, eq. 8.3.4). Tied values get their average rank.
 \subsection{Hypotheses}{
 
 \strong{Null Hypothesis (\eqn{H_0}{H0})} The samples come from identical populations (meaning
 both the mean direction and the dispersion/variance are homogeneous across groups).
 
-\strong{Alternative Hypothesis (\eqn{H_1}{H1})}: At least one sample comes from a different
-population distribution, which can be due to a difference in the mean direction,
+\strong{Alternative Hypothesis (\eqn{H_1}{H1})}: The samples come from different
+population distributions, which can be due to a difference in the mean direction,
 a difference in variance/concentration, or both.
 }
 
 \subsection{Interpretation}{
 
-\strong{Test Statistic (W)}: This value follows an approximate \eqn{\chi^2}{chi-squared} distribution.
-Higher values of W indicate larger discrepancies between the angular distributions of your groups.
+\strong{Test Statistic}: Higher values indicate larger discrepancies between the
+angular distributions of your groups.
 \itemize{
 \item If the p-value is less than your significance level (commonly \eqn{\alpha}{alpha} = 0.05),
 you \strong{reject} the null hypothesis.
@@ -61,8 +64,8 @@ Important Considerations & Limitations:
 either mean or variance, a significant result does not automatically mean
 the mean angles are different; it could be driven entirely by differences
 in concentration (variance).
-\item \strong{Sample size requirement}: The chi-squared approximation requires each group
-to have a minimum sample size (typically at least 10 elements per group) to remain valid.
+\item For more than two samples, or the asymptotic \eqn{\chi^2}{chi-squared}
+version, see \code{\link[=uniform_scores_test]{uniform_scores_test()}}.
 }
 }
 \examples{
@@ -83,13 +86,12 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_wheeler_test_perm(sa.por$azi.PoR, rvm(100, 135, 10))
 }
 \seealso{
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
-\code{\link{rayleigh-test}},
-\code{\link{watson_test}()},
+Other Two-Sample-Tests:
+\code{\link[=ar_test]{ar_test()}},
+\code{\link[=equal_kappa_test]{equal_kappa_test()}},
+\code{\link[=uniform_scores_test]{uniform_scores_test()}},
+\code{\link[=walraff_test]{walraff_test()}},
 \code{\link{watson_two_sample}},
-\code{\link{weighted-rayleigh-test}}
+\code{\link[=watson_williams_test]{watson_williams_test()}}
 }
-\concept{Tests}
+\concept{Two-Sample-Tests}

@@ -29,7 +29,7 @@
 #' @importFrom graphics par symbols
 #'
 #' @examples
-#' circular_plot(grid = TRUE)
+#' circular_plot(main = "Title", grid = TRUE)
 circular_plot <- function(main = NULL, sub = NULL, labels = TRUE,
                           at = c(grid.lines, grid.lines+180),
                           cborder = TRUE,
@@ -307,25 +307,25 @@ rose_freq <- function(x, weights = NULL, bins = NULL, binwidth = NULL, rule = c(
 #' @name rose_bw
 NULL
 
-#' #' @rdname rose_bw
-#' rose_bins <- function(n, round = FALSE) {
-#'   b <- 2 * n^(1 / 3) # bins
-#'   if (isTRUE(round)) {
-#'     round(b)
-#'   } else {
-#'     b
-#'   }
-#' }
-#'
-#' #' @rdname rose_bw
-#' rose_binwidth <- function(n, axial = TRUE, ...) {
-#'   if (isTRUE(axial)) {
-#'     r <- 180
-#'   } else {
-#'     r <- 360
-#'   }
-#'   r / rose_bins(n)
-#' }
+# #' @rdname rose_bw
+# rose_bins <- function(n, round = FALSE) {
+#   b <- 2 * n^(1 / 3) # bins
+#   if (isTRUE(round)) {
+#     round(b)
+#   } else {
+#     b
+#   }
+# }
+#
+# #' @rdname rose_bw
+# rose_binwidth <- function(n, axial = TRUE, ...) {
+#   if (isTRUE(axial)) {
+#     r <- 180
+#   } else {
+#     r <- 360
+#   }
+#   r / rose_bins(n)
+# }
 
 #' @rdname rose_bw
 optimal_rose_bins <- function(n, rule = c("sturges", "rice"),

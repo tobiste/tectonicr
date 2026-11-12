@@ -16,7 +16,8 @@ same length as \code{prd}}
 the return object from \code{model_shmax()}}
 
 \item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
-numeric vector or a number}
+numeric vector or a number. Observations with missing uncertainty are
+dropped; an uncertainty of 0 is replaced by 1.}
 }
 \value{
 Numeric vector
@@ -60,13 +61,13 @@ tectonics. \emph{Journal of Geophysical Research: Solid Earth}, \strong{103},
 5037-5059, doi: 10.1029/97JB03390.
 }
 \seealso{
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
+Other One-Sample-Tests:
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
-\code{\link{watson_test}()},
-\code{\link{watson_two_sample}},
-\code{\link{watson_wheeler_test_perm}()},
-\code{\link{weighted-rayleigh-test}}
+\code{\link[=watson_test]{watson_test()}},
+\code{\link{weighted-rayleigh-test}},
+\code{\link[=weighted_rayleigh_moore]{weighted_rayleigh_moore()}}
 }
-\concept{Tests}
+\concept{One-Sample-Tests}

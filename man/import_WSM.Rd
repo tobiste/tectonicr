@@ -45,7 +45,7 @@ load_WSM2016(
 )
 }
 \arguments{
-\item{destdir}{where to save files, defaults to \code{\link[base:tempfile]{base::tempdir()}},
+\item{destdir}{where to save files, defaults to \code{\link[base:tempdir]{base::tempdir()}},
 \code{\link[base:getwd]{base::getwd()}} is also possible.}
 
 \item{load}{\code{TRUE} load the dataset into R, \code{FALSE} return the

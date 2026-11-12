@@ -123,10 +123,10 @@ rose(san_andreas$azi,
 )
 }
 \seealso{
-Other circular-plot: 
-\code{\link{plot_density}()},
-\code{\link{plot_points}()},
+Other circular-plot:
+\code{\link[=plot_density]{plot_density()}},
+\code{\link[=plot_points]{plot_points()}},
 \code{\link{rose_geom}},
-\code{\link{rose_stats}()}
+\code{\link[=rose_stats]{rose_stats()}}
 }
 \concept{circular-plot}

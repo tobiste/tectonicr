@@ -44,6 +44,6 @@ compact_grid2(res2, var, FUN = min)
 }
 }
 \seealso{
-\code{\link[=stress2grid]{stress2grid()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=kernel_dispersion]{kernel_dispersion()}},
+\code{\link[=stress2grid]{stress2grid()}}, \code{\link[=stress2grid_hansen]{stress2grid_hansen()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=kernel_dispersion]{kernel_dispersion()}},
 \code{\link[=stress2grid_stats]{stress2grid_stats()}}, \code{\link[dplyr:dplyr_tidy_select]{dplyr::dplyr_tidy_select()}}
 }

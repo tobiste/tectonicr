@@ -4,13 +4,12 @@
 \alias{kuiper_test}
 \title{Kuiper Test of Circular Uniformity}
 \usage{
-kuiper_test(x, alpha = 0, axial = TRUE, quiet = FALSE)
+kuiper_test(x, alpha = 0.05, axial = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05}, and \code{0.1}.
-This argument may be omitted (\code{NULL}, the default), in which case, a range for the p-value will be returned.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.}
 
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}{pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (\code{FALSE}).
@@ -19,8 +18,19 @@ In case of axial data, the angles will be doubled for the test.}
 \item{quiet}{logical. Prints the test's decision.}
 }
 \value{
-list containing the test statistic \code{statistic} and the significance
-level \code{p.value}.
+A list with class \code{"htest"} containing the following components:
+\describe{
+\item{\code{statistic}}{the value of the modified V statistic}
+\item{\code{parameter}}{the number of data}
+\item{\code{p.value}}{the p-value for the test}
+\item{\code{estimate}}{the D+ and D- values}
+\item{\code{alternative}}{a character string describing the alternative hypothesis.}
+\item{\code{method}}{a character string indicating what type of Kuiper test was performed.}
+\item{\code{data.name}}{a character string giving the name(s) of the data.}
+\item{\code{critical}}{the critical value at the significance level}
+\item{\code{alpha}}{the significance level}
+\item{\code{reject}}{logical. whether to reject the null-hypothesis based on the significance level.}
+}
 }
 \description{
 A statistical test used to determine whether a set of angular or circular
@@ -50,8 +60,8 @@ different from a flat, uniform distribution. The points appear random across the
 }
 \note{
 Kuiper's test statistic is a rotation-invariant Kolmogorov-type test statistic.
-The critical values of a modified Kuiper's test statistic are used according
-to the tabulation given in Stephens (1970).
+The modified statistic of Stephens (1970) is compared with the asymptotic
+Kuiper distribution.
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
@@ -65,13 +75,13 @@ sa.por <- PoR_shmax(san_andreas, PoR, "right")
 kuiper_test(sa.por$azi.PoR, alpha = .05)
 }
 \seealso{
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{norm_chisq}()},
+Other One-Sample-Tests:
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
-\code{\link{watson_test}()},
-\code{\link{watson_two_sample}},
-\code{\link{watson_wheeler_test_perm}()},
-\code{\link{weighted-rayleigh-test}}
+\code{\link[=watson_test]{watson_test()}},
+\code{\link{weighted-rayleigh-test}},
+\code{\link[=weighted_rayleigh_moore]{weighted_rayleigh_moore()}}
 }
-\concept{Tests}
+\concept{One-Sample-Tests}

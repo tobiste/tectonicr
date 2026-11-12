@@ -55,5 +55,5 @@ none
 Polar diagram where angles increase clockwise.
 }
 \examples{
-circular_plot(grid = TRUE)
+circular_plot(main = "Title", grid = TRUE)
 }

@@ -10,7 +10,7 @@ shortest_distance_to_line(x, line, ellipsoidal = FALSE)
 \item{x, line}{objects of class \code{sfg}, \code{sfc} or \code{sf}}
 
 \item{ellipsoidal}{Logical. Whether the distance is calculated using
-spherical distances (\code{\link[sf:geos_measures]{sf::st_distance()}}) or
+spherical distances (\code{\link[sf:st_distance]{sf::st_distance()}}) or
 ellipsoidal distances (\code{lwgeom::st_geod_distance()}).}
 }
 \value{

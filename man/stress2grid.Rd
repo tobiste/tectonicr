@@ -185,6 +185,11 @@ Ziegler, M. and Heidbach, O. (2019).
 Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
 }
 \seealso{
-\code{\link[=dist_greatcircle]{dist_greatcircle()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=compact_grid]{compact_grid()}},
+\code{\link[=dist_greatcircle]{dist_greatcircle()}}, \code{\link[=compact_grid]{compact_grid()}},
 \code{\link[=circular_mean]{circular_mean()}}, \code{\link[=circular_median]{circular_median()}}, \code{\link[=circular_sd]{circular_sd()}}, \code{\link[=circular_summary]{circular_summary()}}
+
+Other smoothing:
+\code{\link[=PoR_stress2grid]{PoR_stress2grid()}},
+\code{\link[=stress2grid_hansen]{stress2grid_hansen()}}
 }
+\concept{smoothing}

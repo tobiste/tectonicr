@@ -22,14 +22,6 @@ optimal_rose_bins(
 \item{min_bins}{integer. The minimum number of bins. \code{4} by default.}
 }
 \description{
-#' @rdname rose_bw
-rose_binwidth <- function(n, axial = TRUE, ...) {
-if (isTRUE(axial)) {
-r <- 180
-} else {
-r <- 360
-}
-r / rose_bins(n)
-}
+Selecting optimal number of bins and width for rose diagrams
 }
 \keyword{internal}

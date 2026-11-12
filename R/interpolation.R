@@ -161,8 +161,10 @@ which.nsmallest <- function(x, n) {
 #' algorithm can be applied to type of data. Please adjust the `axial` argument
 #' when applied to different, directional data sets.
 #'
-#' @seealso [dist_greatcircle()], [PoR_stress2grid()], [compact_grid()],
+#' @seealso [dist_greatcircle()], [compact_grid()],
 #' [circular_mean()], [circular_median()], [circular_sd()], [circular_summary()]
+#'
+#' @family smoothing
 #'
 #' @references Ziegler, M. and Heidbach, O. (2019).
 #' Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
@@ -1060,7 +1062,8 @@ stress2grid_stats <- function(x,
 #' \item{N}{Number of data points in search radius}
 #' }
 #'
-#' @seealso [stress2grid()], [compact_grid()]
+#' @seealso [compact_grid()]
+#' @family smoothing
 #'
 #' @name PoR_stress2grid
 #'
@@ -1240,7 +1243,7 @@ PoR_stress2grid_stats <- function(x, PoR, grid = NULL, PoR_grid = TRUE,
 #' @importFrom tidyr drop_na
 #' @importFrom sf st_as_sf
 #' @importFrom stats aggregate
-#' @seealso [stress2grid()], [PoR_stress2grid()], [kernel_dispersion()],
+#' @seealso [stress2grid()], [stress2grid_hansen()], [PoR_stress2grid()], [kernel_dispersion()],
 #' [stress2grid_stats()], [dplyr::dplyr_tidy_select()]
 #'
 #' @name compact-grid
@@ -1617,4 +1620,311 @@ kernel_dispersion <- function(x,
 dispersion_grid <- function(...) {
   lifecycle::deprecate_warn(" 0.2.97", "dispersion_grid()", "kernel_dispersion")
   kernel_dispersion(...)
+}
+
+
+
+
+
+
+
+
+## Smoothing of SHmax orientations after Hansen & Mount (1990) and
+## Müller et al. (2003), implemented in the stress2grid() style.
+##
+## Two stages:
+##   1. .hm_fit():   iteratively estimate a smoothed axis for every observation
+##                   (dominant eigenvector of the 2x2 objective matrix, written
+##                   in doubled-angle form so the 180-degree periodicity is exact)
+##   2. prediction:  weighted circular mean of the fitted axes at each grid node
+##                   (reuses wcmean(), so it matches stat = "mean")
+
+#' Haversine distance in km (vectorised, radians in)
+#' @keywords internal
+.hav_km <- function(lat1, lon1, lat2, lon2) {
+  hd <- sin((lat2 - lat1) / 2)^2
+  hl <- sin((lon2 - lon1) / 2)^2
+  hs <- sin((lat2 + lat1) / 2)^2
+  ahav(hd + (1 - hd - hs) * hl) * earth_radius()
+}
+
+#' Kernel bandwidth. FSR: fixed radius A. FNN: distance to the (R+1)-th
+#' nearest other point (Hansen & Mount 1990, eq. 7).
+#' @keywords internal
+.bandwidth <- function(d, method, R, A) {
+  if (method == "fsr") return(A)
+  if (length(d) > R) sort(d, partial = R + 1)[R + 1] else Inf
+}
+
+#' Sum of `v` per group `g` into a vector of length n (zero where absent)
+#' @keywords internal
+.group_sum <- function(v, g, n) {
+  out <- numeric(n)
+  if (length(v)) {
+    s <- rowsum(v, g, reorder = TRUE)
+    out[as.integer(rownames(s))] <- s[, 1]
+  }
+  out
+}
+
+#' Sparse neighbour triplets (i, j, w) between observations, j != i, with
+#' rows rescaled to sum to one (Müller et al. 2003, eq. 9).
+#' @keywords internal
+.hm_neighbours <- function(lon2r, lat2r, method, R, A) {
+  n <- length(lon2r)
+  ii <- jj <- ww <- vector("list", n)
+  for (i in seq_len(n)) {
+    others <- seq_len(n)[-i]
+    d <- .hav_km(lat2r[i], lon2r[i], lat2r[others], lon2r[others])
+    h <- .bandwidth(d, method, R, A)
+    keep <- which(d < h)
+    ii[[i]] <- rep.int(i, length(keep))
+    jj[[i]] <- others[keep]
+    ww[[i]] <- (1 - (d[keep] / h)^3)^3
+  }
+  nb <- list(i = unlist(ii), j = unlist(jj), w = unlist(ww))
+  G <- .group_sum(nb$w, nb$i, n)
+  nb$w <- nb$w / G[nb$i]
+  nb
+}
+
+#' Iterative fit of smoothed doubled angles at the observation points
+#'
+#' Objective per observation i (Hansen & Mount 1990, eq. 5; Müller et al. 2003,
+#' eq. 3):  M_i = q_i delta_i y_i y_i^T + lambda * sum_j w~_ij delta_j f_j f_j^T.
+#' The identity part of y y^T does not change the dominant eigenvector, so only
+#' the doubled-angle components (cos 2a, sin 2a) are carried.
+#'
+#' @param robust_scale minimum robustness scale in chord units
+#'   (2 * sin(deg / 2)), see stress2grid_hansen().
+#' @keywords internal
+.hm_fit <- function(nb, n, th2, q, lambda, n_iter, tol, robust_scale = 0) {
+  c0 <- cos(th2)
+  s0 <- sin(th2)
+  phi2 <- th2                       # start from the observations
+  delta <- rep(1, n)                # robustness weights
+  for (m in seq_len(n_iter)) {
+    c <- cos(phi2)
+    s <- sin(phi2)
+    C <- q * delta * c0 + lambda * .group_sum(nb$w * (delta * c)[nb$j], nb$i, n)
+    S <- q * delta * s0 + lambda * .group_sum(nb$w * (delta * s)[nb$j], nb$i, n)
+    phi2_new <- atan2(S, C)
+
+    # observations without any weight keep their previous angle
+    zero <- C^2 + S^2 == 0
+    phi2_new[zero] <- phi2[zero]
+
+    # axial misfit between observed and fitted axis, as chord length
+    dif <- atan2(sin(th2 - phi2_new), cos(th2 - phi2_new))
+    r <- 2 * sin(abs(dif) / 4)
+
+    # bisquare robustness weights; the scale is floored so the cutoff cannot
+    # collapse onto the fit (which would remove real local rotations)
+    s_med <- max(stats::median(r), robust_scale)
+    delta <- if (s_med > 1e-6) {
+      ifelse(r < 6 * s_med, (1 - (r / (6 * s_med))^2)^2, 0)
+    } else {
+      rep(1, n)
+    }
+
+    step <- max(abs(atan2(sin(phi2_new - phi2), cos(phi2_new - phi2))))
+    phi2 <- phi2_new
+    if (step < tol) break
+  }
+  list(phi2 = phi2, delta = delta)
+}
+
+#' Smoothed SHmax on a grid after Hansen & Mount (1990) / Müller et al. (2003)
+#'
+#' Spatial smoothing of SHmax orientations with a distance-weighted, robust
+#' smoother. `lambda` balances smoothness against fit to the data. Two kernels
+#' are available: `"fsr"` (fixed search radius) and `"fnn"` (fixed number of
+#' nearest neighbours).
+#'
+#' @inheritParams stress2grid
+#' @param method Kernel type: `"fsr"` (fixed search radius) or `"fnn"`
+#'   (fixed number of nearest neighbours).
+#' @param R_range numeric. For `method = "fsr"`: search radii in km. For
+#'   `method = "fnn"`: number of nearest neighbours. Can also be a vector of different radii.
+#' @param lambda numeric. Smoothness parameter. `lambda > 1` favours
+#'   smoothness; `lambda < 1` favours fidelity to the data.
+#' @param n_iter integer. Maximum number of fitting iterations.
+#' @param tol numeric. Convergence tolerance on the doubled angle (radians).
+#' @param robust_scale_deg numeric. Minimum robustness scale in degrees. The
+#'   robust cutoff is 6 times the larger of this value and the median residual,
+#'   so observations further than about `6 * robust_scale_deg` from the fit are
+#'   downweighted. Protects real local rotations (e.g. along faults) from being
+#'   removed as outliers. Default is `10`.
+#' @param min_sq numeric. Minimum sum of quality x robustness weights of the
+#'   contributing observations; grid nodes below are dropped.
+#'  @param qp numeric. The weighting power of the data quality (the higher the
+#'  value, the more weight). Default is `1`. When set to `0`, no weighting is applied.
+#'
+#' @note  Only axial (180&deg; periodic) data are
+#'   supported.
+#'
+#' @returns `sf` object with columns
+#' \describe{
+#' \item{lon, lat}{longitude and latitude in degrees}
+#' \item{azi}{smoothed direction in degrees (0 to 180)}
+#' \item{sd}{circular standard deviation in degrees}
+#' \item{R}{search radius in km (for FNN, the effective radius at each node)}
+#' \item{mdr}{mean distance / R}
+#' \item{N}{number of contributing observations}
+#' \item{sq}{sum of quality x robustness weights}
+#' }
+#' Attribute `"fit"` is a list (one element per `R_range`) with the
+#' observation-level fit: `lon`, `lat`, `azi_obs`, `azi_fit`, `q` (quality,
+#' scaled so the best observation is 1) and `delta` (robustness weight; low
+#' values mark downweighted outliers).
+#'
+#' @details Based on Hansen & Mount (1990) and
+#' Müller, Wehrle, Hettel, Sperner & Fuchs (2003). The
+#' predicted direction at a grid node is the weighted circular mean of the
+#' fitted observation axes, computed with the same routine as `stat = "mean"`.
+#'
+#' @family smoothing
+#' @seealso [compact_grid()]
+#'
+#' @references
+#' Hansen, K. M., & Mount, V. S. (1990). Smoothing and extrapolation of crustal
+#' stress orientation measurements. Journal of Geophysical Research: Solid Earth,
+#' 95(B2), 1155–1165. https://doi.org/10.1029/JB095iB02p01155
+#'
+#' Müller, B., Wehrle, V., Hettel, S., Sperner, B., & Fuchs, K. (2003). A new
+#' method for smoothing orientated data and its application to stress data.
+#' Geological Society, London, Special Publications, 209(1), 107–126.
+#' https://doi.org/10.1144/GSL.SP.2003.209.01.11
+#'
+#' @examples
+#' \dontrun{
+#' data("san_andreas")
+#' res <- stress2grid_hansen(san_andreas, method = "fsr",
+#'                           R_range = 300, lambda = 0.5)
+#' head(res)
+#' }
+#' @export
+stress2grid_hansen <- function(x,
+                               grid = NULL,
+                               lon_range = NULL,
+                               lat_range = NULL,
+                               gridsize = 2,
+                               method = c("fsr", "fnn"),
+                               R_range = 300,
+                               lambda = 0.5,
+                               n_iter = 20,
+                               tol = 1e-6,
+                               robust_scale_deg = 10,
+                               min_data = 3L,
+                               min_sq = 0,
+                               min_dist_threshold = Inf,
+                               quality_weighting = FALSE,
+                               qp = 1) {
+  stopifnot(
+    inherits(x, "sf"),
+    is.numeric(gridsize) && length(gridsize) == 1,
+    is.numeric(R_range) && length(R_range) >= 1,
+    is.numeric(lambda) && length(lambda) == 1 && lambda >= 0,
+    is.numeric(n_iter) && n_iter >= 1,
+    is.numeric(robust_scale_deg) && robust_scale_deg >= 0,
+    is.numeric(min_dist_threshold) && min_dist_threshold > 0,
+    is.logical(quality_weighting),
+    is.numeric(qp) && length(qp) == 1
+  )
+  # if (!isTRUE(axial)) {
+  #   stop("stress2grid_hansen() requires axial data (`axial = TRUE`).", call. = FALSE)
+  # }
+  method <- match.arg(method)
+  min_data <- as.integer(ceiling(min_data))
+  if (method == "fnn") R_range <- as.integer(round(R_range))
+
+  # robustness scale floor, in chord units (chord = 2 sin(angle / 2))
+  robust_scale <- 2 * sin(deg2rad(robust_scale_deg) / 2)
+
+  # quality weights: weighting() sums to 1 over the data, so rescale to a
+  # maximum of 1 (best observation = 1, Müller et al. A = 1, B = 0.75, C = 0.5)
+  colnames_x <- colnames(x)
+  if (quality_weighting && "unc" %in% colnames_x) {
+    x <- x[!is.na(x$unc), ]
+  }
+  if (isFALSE(quality_weighting)) qp <- 0
+  w_quality <- if ("unc" %in% colnames_x) weighting(x$unc) else rep(1, nrow(x))
+  q <- w_quality^qp
+  q <- q / max(q, na.rm = TRUE)
+
+  x_coords <- sf::st_coordinates(x)
+  lon <- x_coords[, 1]
+  lat <- x_coords[, 2]
+  azi <- x$azi
+  n <- length(azi)
+  if (n < min_data) stop("Not enough observations (fewer than `min_data`).", call. = FALSE)
+
+  lon2r <- deg2rad(lon)
+  lat2r <- deg2rad(lat)
+  th2 <- deg2rad(2 * azi)     # doubled observed angles
+
+  # grid, identical construction to stress2grid()
+  if (is.null(grid)) {
+    if (is.null(lon_range) | is.null(lat_range)) {
+      lon_range <- range(lon, na.rm = TRUE)
+      lat_range <- range(lat, na.rm = TRUE)
+    }
+    grid <- sf::st_bbox(
+      c(xmin = lon_range[1], xmax = lon_range[2], ymin = lat_range[1], ymax = lat_range[2]),
+      crs = sf::st_crs("WGS84")
+    ) |>
+      sf::st_make_grid(cellsize = gridsize, what = "centers", offset = c(lon_range[1], lat_range[1])) |>
+      sf::st_as_sf()
+  }
+  stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
+  G <- unname(sf::st_coordinates(grid))
+  nG <- nrow(G)
+  glon1r <- deg2rad(G[, 1])
+  glat1r <- deg2rad(G[, 2])
+
+  results <- vector("list", length(R_range))
+  fits <- vector("list", length(R_range))
+
+  for (k in seq_along(R_range)) {
+    R_k <- R_range[k]
+    Rn <- if (method == "fnn") R_k else NA_integer_
+    A  <- if (method == "fsr") R_k else NA_real_
+
+    # stage 1: fit smoothed axes at the observation points
+    nb <- .hm_neighbours(lon2r, lat2r, method, R = Rn, A = A)
+    fit <- .hm_fit(nb, n, th2, q, lambda, n_iter, tol, robust_scale)
+    qd <- q * fit$delta                       # weights entering the prediction
+    azi_fit <- rad2deg(fit$phi2 / 2) %% 180
+    fits[[k]] <- data.frame(lon = lon, lat = lat, azi_obs = azi,
+                            azi_fit = azi_fit, q = q, delta = fit$delta)
+
+    # stage 2: predict on the grid (weighted circular mean of fitted axes)
+    mat <- matrix(NA_real_, nrow = nG, ncol = 6,
+                  dimnames = list(NULL, c("azi", "sd", "R", "mdr", "N", "sq")))
+    for (i in seq_len(nG)) {
+      d <- .hav_km(glat1r[i], glon1r[i], lat2r, lon2r)
+      if (min(d) > min_dist_threshold) next
+      h <- .bandwidth(d, method, Rn, A)
+      if (!is.finite(h)) next
+      keep <- which(d < h)
+      N <- length(keep)
+      if (N < min_data) next
+      sq <- sum(qd[keep])
+      if (sq < min_sq) next
+      w <- (1 - (d[keep] / h)^3)^3 * qd[keep]
+      st <- wcmean(azi_fit[keep], w)
+      R_eff <- if (method == "fsr") A else h
+      mat[i, ] <- c(st[1], st[2], R_eff, mean(d[keep]) / R_eff, N, sq)
+    }
+
+    res_k <- data.frame(lon = G[, 1], lat = G[, 2], mat)
+    results[[k]] <- res_k[!is.na(res_k$azi), , drop = FALSE]
+  }
+
+  out <- do.call(rbind, results)
+  out$N <- as.integer(out$N)
+  rownames(out) <- NULL
+  out <- sf::st_as_sf(out, coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
+  attr(out, "fit") <- setNames(fits, paste0("R=", R_range))
+  out
 }

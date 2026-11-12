@@ -1390,3 +1390,46 @@ axial_dispersion <- function(x, w = NULL) {
   oeig <- ot_eigen2d(x, w, scale = TRUE)
   oeig$values[2]
 }
+
+
+#' Circular Distance Matrix Computation
+#'
+#' This function computes and returns the distance matrix computed by using the
+#' circular distance measure to compute the distances between the rows of a data matrix.
+#'
+#' @param x numeric. Angles in degrees.
+#' @inheritParams circular_mean
+#' @inheritParams stats::dist
+#'
+#' @returns returns an object of class `"dist"`.
+#' @export
+#'
+#' @seealso [circular_distance()]
+#'
+#' @examples
+#' # Calculate the distance matrix of the homing data set
+#' data("homing")
+#' homing_dist <- circular_dist(homing, axial = FALSE)
+#' print(homing_dist)
+#'
+#' # Cluster the homing data set based on the distance matrix
+#' homing_cluster <- stats::kmeans(homing_dist, centers = 3)
+#' rose_line(homing, axial = FALSE, col = homing_cluster$cluster, lwd = 2, add = FALSE)
+circular_dist <- function(x, axial = TRUE, diag = FALSE, upper = FALSE){
+  n <- length(x)
+  dist_mat <- matrix(0, n, n)
+
+  for(i in 1:n){
+    for(j in 1:n){
+      dist_mat[i,j] <- circular_distance(x[i], x[j], axial = axial)
+    }
+  }
+
+  return(
+    stats::as.dist(
+      dist_mat,
+      diag = diag,
+      upper = upper
+    )
+  )
+}

@@ -6,7 +6,7 @@
 \usage{
 watson_test(
   x,
-  alpha = NULL,
+  alpha = 0.05,
   dist = c("uniform", "vonmises"),
   axial = TRUE,
   quiet = FALSE
@@ -15,10 +15,9 @@ watson_test(
 \arguments{
 \item{x}{numeric vector. Values in degrees}
 
-\item{alpha}{Significance level of the test. Valid levels are \code{0.01}, \code{0.05},
-and \code{0.1}.
-This argument may be omitted (\code{NULL}, the default), in which case, a range
-for the p-value will be returned.}
+\item{alpha}{Significance level of the test ranging between 0 and 1.
+For \code{dist = "vonmises"} it must be one of \code{0.1}, \code{0.05}, \code{0.01} or \code{0} (only
+the tabulated p-value range is returned).}
 
 \item{dist}{Distribution to test for. The default, \code{"uniform"}, is the
 circular uniform distribution. \code{"vonmises"} tests the von Mises distribution.}
@@ -30,9 +29,20 @@ In case of axial data, the angles will be doubled for the test.}
 \item{quiet}{logical. Prints the test's decision.}
 }
 \value{
-list containing the test statistic \code{statistic}, the significance
-level \code{p.value}, the critical value \code{critical.value}, whether to \code{reject} the null hypothesis,
-the significance level \code{alpha}, the tested distribution \code{dist}, and the number of data \code{n}
+A list with class \code{"htest"} containing the following components:
+\describe{
+\item{\code{statistic}}{the value of the U2 statistic (modified for \code{dist = "uniform"})}
+\item{\code{parameter}}{the number of data}
+\item{\code{p.value}}{the p-value for the test (\code{dist = "uniform"} only)}
+\item{\code{p.range}}{the range of the p-value from the tabulated critical values (\code{dist = "vonmises"} only)}
+\item{\code{estimate}}{the MLE of the kappa value for the von Mises distribution}
+\item{\code{alternative}}{a character string describing the alternative hypothesis.}
+\item{\code{method}}{a character string indicating what type of Watson test was performed.}
+\item{\code{data.name}}{a character string giving the name(s) of the data.}
+\item{\code{critical}}{the critical value at the significance level}
+\item{\code{alpha}}{the significance level}
+\item{\code{reject}}{logical. whether to reject the null-hypothesis based on the significance level.}
+}
 }
 \description{
 A non-parametric statistical test used for circular data to determine whether
@@ -65,7 +75,6 @@ There is not enough evidence to claim the data deviates from the expected model.
 }
 \note{
 Watson's test statistic is a rotation-invariant Cramer - von Mises test.
-non-parametric, rank-based alternative to one-sample
 }
 \examples{
 # Example data from Mardia and Jupp (1999), pp. 93
@@ -78,22 +87,21 @@ PoR <- subset(nuvel1, nuvel1$plate.rot == "na")
 sa.por <- PoR_shmax(san_andreas, PoR, "right")
 watson_test(sa.por$azi.PoR, alpha = .05)
 watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
-watson_test(sa.por$azi.PoR, alpha = .05, dist = "vonmises")
 }
 \references{
-Mardia and Jupp (1999). Directional Statistics. John Wiley and
+Mardia and Jupp (2000). Directional Statistics. John Wiley and
 Sons.
 }
 \seealso{
 \link{vonmises} and \link{cunif}
 
-Other Tests: 
-\code{\link{ar_test}()},
-\code{\link{kuiper_test}()},
-\code{\link{norm_chisq}()},
+Other One-Sample-Tests:
+\code{\link[=hodges_ajne_test]{hodges_ajne_test()}},
+\code{\link[=kuiper_test]{kuiper_test()}},
+\code{\link[=norm_chisq]{norm_chisq()}},
+\code{\link[=rao_spacing_test]{rao_spacing_test()}},
 \code{\link{rayleigh-test}},
-\code{\link{watson_two_sample}},
-\code{\link{watson_wheeler_test_perm}()},
-\code{\link{weighted-rayleigh-test}}
+\code{\link{weighted-rayleigh-test}},
+\code{\link[=weighted_rayleigh_moore]{weighted_rayleigh_moore()}}
 }
-\concept{Tests}
+\concept{One-Sample-Tests}

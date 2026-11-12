@@ -94,7 +94,8 @@ same length as \code{prd}}
 the return object from \code{model_shmax()}}
 
 \item{unc}{Uncertainty of observed \eqn{\sigma_\text{Hmax}}{SHmax}, either a
-numeric vector or a number}
+numeric vector or a number. Observations with missing uncertainty are
+dropped; an uncertainty of 0 is replaced by 1.}
 
 \item{width}{integer specifying the window width (in numbers of observations)
 which is aligned to the original sample according to the \code{align} argument.

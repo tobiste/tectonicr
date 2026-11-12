@@ -43,7 +43,7 @@ qwnorm(
 which the \code{pvm} and \code{qvm} are evaluated. in degrees.}
 
 \item{...}{optional parameters passed to underlying circular functions
-\code{\link[circular:wrappednormal]{circular::pwrappednormal()}} and \code{\link[circular:wrappednormal]{circular::qwrappednormal()}}}
+\code{\link[circular:pwrappednormal]{circular::pwrappednormal()}} and \code{\link[circular:qwrappednormal]{circular::qwrappednormal()}}}
 
 \item{p}{numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.}
 
