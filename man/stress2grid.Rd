@@ -57,8 +57,8 @@ stress2grid_stats(
 \arguments{
 \item{x}{\code{sf} object containing
 \describe{
-\item{azi}{\eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-\item{unc}{(optional) Uncertainties of SHmax in degree}
+\item{azi}{angles in degrees (e.g. orientation of \eqn{\sigma_\text{Hmax}}{SHmax})}
+\item{unc}{(optional) Uncertainties of \code{azi} in degree}
 \item{type}{(optional) Methods used for the determination of the direction
 of \eqn{\sigma_\text{Hmax}}{SHmax}}
 }}

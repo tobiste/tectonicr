@@ -26,8 +26,8 @@ stress2grid_hansen(
 \arguments{
 \item{x}{\code{sf} object containing
 \describe{
-\item{azi}{\eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-\item{unc}{(optional) Uncertainties of SHmax in degree}
+\item{azi}{angles in degrees (e.g. orientation of \eqn{\sigma_\text{Hmax}}{SHmax})}
+\item{unc}{(optional) Uncertainties of \code{azi} in degree}
 \item{type}{(optional) Methods used for the determination of the direction
 of \eqn{\sigma_\text{Hmax}}{SHmax}}
 }}
@@ -64,9 +64,7 @@ removed as outliers. Default is \code{10}.}
 Default is \code{3} for \code{\link[=stress2grid]{stress2grid()}} and \code{4} for \code{\link[=stress2grid_stats]{stress2grid_stats()}}.}
 
 \item{min_sq}{numeric. Minimum sum of quality x robustness weights of the
-contributing observations; grid nodes below are dropped.
-@param qp numeric. The weighting power of the data quality (the higher the
-value, the more weight). Default is \code{1}. When set to \code{0}, no weighting is applied.}
+contributing observations; grid nodes below are dropped.}
 
 \item{min_dist_threshold}{numeric. Distance threshold for smallest distance
 of the prediction location to the next observation location.
@@ -74,6 +72,9 @@ Default is \code{200} km.}
 
 \item{quality_weighting}{logical. If a quality weighting should be applied:
 Default is \code{TRUE}. If \code{FALSE}, overwrites \code{qp}.}
+
+\item{qp}{numeric. The weighting power of the data quality (the higher the
+value, the more weight). Default is \code{1}. When set to \code{0}, no weighting is applied.}
 }
 \value{
 \code{sf} object with columns

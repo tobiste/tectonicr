@@ -2,6 +2,13 @@
 
 # tectonicr 0.4.10
 
+## NEW implementations
+
+* added circular tests: Moore (1980) rank-weighted Rayleigh test: 
+`weighted_rayleigh_moore()`, `weighted_rayleigh_moore_perm()`,
+Hansen & Mount (1990) / Müller et al. (2003) spatial algorithm for stress field: 
+`stress2grid_hansen()`
+
 # tectonicr 0.4.9002 _2026-11-02_
 
 ## NEW implementations

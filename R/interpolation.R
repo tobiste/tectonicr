@@ -80,8 +80,8 @@ which.nsmallest <- function(x, n) {
 #'
 #' @param x `sf` object containing
 #' \describe{
-#' \item{azi}{\eqn{\sigma_\text{Hmax}}{SHmax} in degree}
-#' \item{unc}{(optional) Uncertainties of SHmax in degree}
+#' \item{azi}{angles in degrees (e.g. orientation of \eqn{\sigma_\text{Hmax}}{SHmax})}
+#' \item{unc}{(optional) Uncertainties of `azi` in degree}
 #' \item{type}{(optional) Methods used for the determination of the direction
 #' of \eqn{\sigma_\text{Hmax}}{SHmax}}
 #' }
@@ -1757,7 +1757,7 @@ dispersion_grid <- function(...) {
 #'   removed as outliers. Default is `10`.
 #' @param min_sq numeric. Minimum sum of quality x robustness weights of the
 #'   contributing observations; grid nodes below are dropped.
-#'  @param qp numeric. The weighting power of the data quality (the higher the
+#' @param qp numeric. The weighting power of the data quality (the higher the
 #'  value, the more weight). Default is `1`. When set to `0`, no weighting is applied.
 #'
 #' @note  Only axial (180&deg; periodic) data are
