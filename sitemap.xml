@@ -60,6 +60,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/dot-hav_km.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dot-hm_fit.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dot-hm_neighbours.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/dot-krig_gamma.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/earth_radius.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/equal_kappa_test.html</loc></url>
@@ -120,6 +121,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/spherical_angle.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid_kriging.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_analysis.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_colors.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_data.html</loc></url>
@@ -131,6 +133,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/tectonicr.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/trigon.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/uniform_scores_test.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/variogram_axial.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/vcross.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/vm_qqplot.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/vonmises.html</loc></url>

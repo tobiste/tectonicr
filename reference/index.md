@@ -228,6 +228,9 @@
 - [`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
   : Smoothed SHmax on a grid after Hansen & Mount (1990) / Müller et al.
   (2003)
+- [`stress2grid_kriging()`](https://tobiste.github.io/tectonicr/reference/stress2grid_kriging.md)
+  : Spatial kriging of SHmax axes after van den Boogaart & Schaeben
+  (2002)
 - [`stress_analysis()`](https://tobiste.github.io/tectonicr/reference/stress_analysis.md)
   : Quick analysis of a stress data set
 - [`stress_colors()`](https://tobiste.github.io/tectonicr/reference/stress_colors.md)
@@ -252,6 +255,8 @@
   : Colors for input variables
 - [`uniform_scores_test()`](https://tobiste.github.io/tectonicr/reference/uniform_scores_test.md)
   : Uniform scores test
+- [`variogram_axial()`](https://tobiste.github.io/tectonicr/reference/variogram_axial.md)
+  : Empirical trace variogram of axial data, for choosing the model
 - [`vcross()`](https://tobiste.github.io/tectonicr/reference/vcross.md)
   : Vector cross product
 - [`vm_qqplot()`](https://tobiste.github.io/tectonicr/reference/vm_qqplot.md)
