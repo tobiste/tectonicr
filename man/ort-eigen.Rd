@@ -52,6 +52,7 @@ Eigenvalues and Eigenvectors of the orientation tensor (inertia tensor) are also
 "principle moments of inertia"  and "principle axes of inertia", respectively.
 }
 \examples{
+set.seed(20250411)
 test <- rvm(100, mean = 0, k = 10) / 2
 ot_eigen2d(test)
 

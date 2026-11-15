@@ -2,11 +2,11 @@
 % Please edit documentation in R/interpolation_krige.R
 \name{.krig_gamma}
 \alias{.krig_gamma}
-\title{Variogram model on the doubled-angle scale (sill = 1)}
+\title{Variogram model of the trace variogram (sill = 1)}
 \usage{
-.krig_gamma(h, model, nugget, range_km)
+.krig_gamma(h, model, nugget, range_km, sill = 1)
 }
 \description{
-Variogram model on the doubled-angle scale (sill = 1)
+Variogram model of the trace variogram (sill = 1)
 }
 \keyword{internal}

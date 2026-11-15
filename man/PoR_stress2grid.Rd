@@ -93,6 +93,7 @@ PoR_stress2grid_stats(san_andreas, PoR, mode = TRUE) |> head()
 \code{\link[=compact_grid]{compact_grid()}}
 
 Other smoothing:
+\code{\link{krige}},
 \code{\link[=stress2grid]{stress2grid()}},
 \code{\link[=stress2grid_hansen]{stress2grid_hansen()}}
 }

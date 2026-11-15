@@ -1759,6 +1759,8 @@ dispersion_grid <- function(...) {
 #'   contributing observations; grid nodes below are dropped.
 #' @param qp numeric. The weighting power of the data quality (the higher the
 #'  value, the more weight). Default is `1`. When set to `0`, no weighting is applied.
+#' @param ... Arguments passed to [stress2grid_hansen()]
+#' @inheritParams PoR_stress2grid
 #'
 #' @note  Only axial (180&deg; periodic) data are
 #'   supported.
@@ -1796,13 +1798,19 @@ dispersion_grid <- function(...) {
 #' Geological Society, London, Special Publications, 209(1), 107–126.
 #' https://doi.org/10.1144/GSL.SP.2003.209.01.11
 #'
+#' @name stress2grid_hansen
+#'
 #' @examples
 #' \dontrun{
 #' data("san_andreas")
 #' res <- stress2grid_hansen(san_andreas, method = "fsr",
 #'                           R_range = 300, lambda = 0.5)
 #' head(res)
+#' attributes(res)
 #' }
+NULL
+
+#' @rdname stress2grid_hansen
 #' @export
 stress2grid_hansen <- function(x,
                                grid = NULL,
@@ -1927,4 +1935,70 @@ stress2grid_hansen <- function(x,
   out <- sf::st_as_sf(out, coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
   attr(out, "fit") <- setNames(fits, paste0("R=", R_range))
   out
+}
+
+
+#' @rdname stress2grid_hansen
+#' @export
+PoR_stress2grid_hansen <- function(x, PoR, grid = NULL, PoR_grid = TRUE,
+                            lon_range = NULL, lat_range = NULL, gridsize = 2.5,
+                            remove_PoR = FALSE, ...) {
+  if (!is.null(grid)) {
+    lon_range <- lat_range <- gridsize <- NULL
+    PoR_grid <- FALSE
+  } else {
+    if (isFALSE(PoR_grid)) {
+      if (is.null(lon_range) || is.null(lat_range)) {
+        coords <- sf::st_coordinates(x)
+        lon_range <- range(coords[, 1], na.rm = TRUE)
+        lat_range <- range(coords[, 2], na.rm = TRUE)
+      }
+
+      grid <- sf::st_bbox(
+        c(
+          xmin = lon_range[1],
+          xmax = lon_range[2],
+          ymin = lat_range[1],
+          ymax = lat_range[2]
+        )
+      ) |>
+        sf::st_make_grid(
+          cellsize = gridsize,
+          what = "centers",
+          offset = c(lon_range[1], lat_range[1])
+        )
+    }
+  }
+
+  grid_PoR <- if (isFALSE(PoR_grid)) {
+    sf::st_as_sf(grid, crs = sf::st_crs(x)) |>
+      geographical_to_PoR_sf(PoR)
+  } else {
+    NULL
+  }
+
+  x_PoR <- geographical_to_PoR_sf(x, PoR)
+  x_PoR_coords <- sf::st_coordinates(x_PoR) |>
+    as.data.frame() |>
+    dplyr::rename(lat = Y, lon = X)
+
+  azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric() # pre allocating:
+
+  x_PoR$lat <- x_PoR_coords$lat
+  x_PoR$lon <- x_PoR_coords$lon
+  x_PoR$azi <- PoR_shmax(x, PoR)
+
+  int <- stress2grid_hansen(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
+    dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) |>
+    PoR_to_geographical_sf(PoR)
+  int_coords <- sf::st_coordinates(int) |>
+    as.data.frame() |>
+    dplyr::rename(lat = Y, lon = X)
+  int$lat <- int_coords$lat
+  int$lon <- int_coords$lon
+  int$azi <- PoR2Geo_azimuth(int, PoR)
+
+  if (remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
+
+  return(int)
 }

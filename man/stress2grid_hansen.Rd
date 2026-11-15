@@ -2,6 +2,7 @@
 % Please edit documentation in R/interpolation.R
 \name{stress2grid_hansen}
 \alias{stress2grid_hansen}
+\alias{PoR_stress2grid_hansen}
 \title{Smoothed SHmax on a grid after Hansen & Mount (1990) / Müller et al. (2003)}
 \usage{
 stress2grid_hansen(
@@ -21,6 +22,18 @@ stress2grid_hansen(
   min_dist_threshold = Inf,
   quality_weighting = FALSE,
   qp = 1
+)
+
+PoR_stress2grid_hansen(
+  x,
+  PoR,
+  grid = NULL,
+  PoR_grid = TRUE,
+  lon_range = NULL,
+  lat_range = NULL,
+  gridsize = 2.5,
+  remove_PoR = FALSE,
+  ...
 )
 }
 \arguments{
@@ -75,6 +88,18 @@ Default is \code{TRUE}. If \code{FALSE}, overwrites \code{qp}.}
 
 \item{qp}{numeric. The weighting power of the data quality (the higher the
 value, the more weight). Default is \code{1}. When set to \code{0}, no weighting is applied.}
+
+\item{PoR}{Pole of Rotation. \code{data.frame} or object of class
+\code{"euler.pole"} containing the geographical coordinates of the Euler pole}
+
+\item{PoR_grid}{logical. Whether the grid should be generated based on the
+coordinate range in the PoR (\code{TRUE}, the default) CRS or the geographical CRS
+(\code{FALSE}). Is ignored if \code{grid} is specified.}
+
+\item{remove_PoR}{logical. Whether PoR azimuths and coordinates will be
+removed from final output or not (the default.)}
+
+\item{...}{Arguments passed to \code{\link[=stress2grid_hansen]{stress2grid_hansen()}}}
 }
 \value{
 \code{sf} object with columns
@@ -114,6 +139,7 @@ data("san_andreas")
 res <- stress2grid_hansen(san_andreas, method = "fsr",
                           R_range = 300, lambda = 0.5)
 head(res)
+attributes(res)
 }
 }
 \references{
@@ -131,6 +157,7 @@ https://doi.org/10.1144/GSL.SP.2003.209.01.11
 
 Other smoothing:
 \code{\link[=PoR_stress2grid]{PoR_stress2grid()}},
+\code{\link{krige}},
 \code{\link[=stress2grid]{stress2grid()}}
 }
 \concept{smoothing}

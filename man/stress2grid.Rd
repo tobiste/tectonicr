@@ -190,6 +190,7 @@ Matlab Script Stress2Grid v1.1. GFZ Data Services. \doi{10.5880/wsm.2019.002}
 
 Other smoothing:
 \code{\link[=PoR_stress2grid]{PoR_stress2grid()}},
+\code{\link{krige}},
 \code{\link[=stress2grid_hansen]{stress2grid_hansen()}}
 }
 \concept{smoothing}

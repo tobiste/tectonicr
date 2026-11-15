@@ -1330,6 +1330,7 @@ ortensor2d <- function(x, w = NULL, norm = FALSE) {
 #' "principle moments of inertia"  and "principle axes of inertia", respectively.
 #'
 #' @examples
+#' set.seed(20250411)
 #' test <- rvm(100, mean = 0, k = 10) / 2
 #' ot_eigen2d(test)
 #'
@@ -1360,7 +1361,7 @@ NULL
 #' @export
 ot_eigen2d <- function(x, w = NULL, scale = FALSE) {
   ot <- ortensor2d(x, w)
-  eig <- eigen(ot)
+  eig <- eigen(ot, symmetric = TRUE)
 
   ev <- eig$vectors
   eig$vectors <- atand(ev[2, ] / ev[1, ])

@@ -338,6 +338,60 @@ geom_azimuthpoint <- function(mapping = NULL, data = NULL,
   list(line_layer, point_layer)
 }
 
+# Vertices of one ellipse in map coordinates (x = east, y = north)
+# a     : semi-major axis length (long axis = 2a)
+# R     : aspect ratio a / b  (R >= 1)
+# angle : azimuth of the long axis, degrees clockwise from geographic north
+ellipse_points <- function(x0, y0, a, R, angle, n = 100L) {
+  stopifnot(R >= 1)
+  b   <- a / R
+  phi <- deg2rad(angle)
+  t   <- seq(0, 2 * pi, length.out = n)
+
+  u <- c(sin(phi),  cos(phi))   # unit vector along the long axis (E, N)
+  v <- c(cos(phi), -sin(phi))   # unit vector along the short axis (perpendicular)
+
+  data.frame(
+    x = x0 + a * cos(t) * u[1] + b * sin(t) * v[1],
+    y = y0 + a * cos(t) * u[2] + b * sin(t) * v[2]
+  )
+}
+
+# Stat: turns each (x, y, R, angle[, a]) row into a closed polygon
+StatEllipse <- ggplot2::ggproto("StatEllipse", ggplot2::Stat,
+                       required_aes = c("x", "y", "R", "angle"),
+
+                       compute_panel = function(data, scales, a = 1, n = 100L) {
+                         out <- lapply(seq_len(nrow(data)), function(i) {
+                           row <- data[i, , drop = FALSE]
+                           # use per-ellipse 'a' if mapped in aes(), otherwise the fixed argument
+                           a_i <- if ("a" %in% names(data)) data$a[i] else a
+
+                           pts <- ellipse_points(row$x, row$y, a_i, row$R, row$angle, n)
+                           pts$group <- i                    # one polygon per input row
+
+                           # carry all other aesthetics (fill, colour, ...) along
+                           rest <- row[rep(1L, n), setdiff(names(row), c("x", "y", "group")), drop = FALSE]
+                           cbind(pts, rest, row.names = NULL)
+                         })
+                         do.call(rbind, out)
+                       }
+)
+
+# User-facing constructor
+geom_ellipse2 <- function(mapping = NULL, data = NULL, a = 1, n = 100L,
+                          show.legend = NA, inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat        = StatEllipse,
+    geom        = GeomPolygon,
+    mapping     = mapping,
+    data        = data,
+    position    = "identity",
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params      = list(a = a, n = n, ...)
+  )
+}
 
 
 
