@@ -137,6 +137,10 @@
   : World Stress Map Database (WSM)
 - [`is.euler()`](https://tobiste.github.io/tectonicr/reference/is.euler.md)
   : Check if object is euler.pole
+- [`circular_krige()`](https://tobiste.github.io/tectonicr/reference/krige.md)
+  [`PoR_circular_krige()`](https://tobiste.github.io/tectonicr/reference/krige.md)
+  : Spatial kriging of SHmax axes after van den Boogaart & Schaeben
+  (2002)
 - [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md)
   : Kuiper Test of Circular Uniformity
 - [`line_azimuth()`](https://tobiste.github.io/tectonicr/reference/line_azimuth.md)
@@ -226,11 +230,9 @@
   [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
   : Spatial Interpolation of SHmax
 - [`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
+  [`PoR_stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
   : Smoothed SHmax on a grid after Hansen & Mount (1990) / Müller et al.
   (2003)
-- [`stress2grid_kriging()`](https://tobiste.github.io/tectonicr/reference/stress2grid_kriging.md)
-  : Spatial kriging of SHmax axes after van den Boogaart & Schaeben
-  (2002)
 - [`stress_analysis()`](https://tobiste.github.io/tectonicr/reference/stress_analysis.md)
   : Quick analysis of a stress data set
 - [`stress_colors()`](https://tobiste.github.io/tectonicr/reference/stress_colors.md)

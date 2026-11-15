@@ -67,14 +67,15 @@ inertia", respectively.
 ## Examples
 
 ``` r
+set.seed(20250411)
 test <- rvm(100, mean = 0, k = 10) / 2
 ot_eigen2d(test)
 #> eigen() decomposition
 #> $values
-#> [1] 0.97205748 0.02794252
+#> [1] 0.97441674 0.02558326
 #> 
 #> $vectors
-#> [1]   0.7769357 -89.2230643
+#> [1]   1.225171 -88.774829
 #> 
 
 data("nuvel1")

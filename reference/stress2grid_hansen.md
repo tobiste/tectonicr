@@ -26,6 +26,18 @@ stress2grid_hansen(
   quality_weighting = FALSE,
   qp = 1
 )
+
+PoR_stress2grid_hansen(
+  x,
+  PoR,
+  grid = NULL,
+  PoR_grid = TRUE,
+  lon_range = NULL,
+  lat_range = NULL,
+  gridsize = 2.5,
+  remove_PoR = FALSE,
+  ...
+)
 ```
 
 ## Arguments
@@ -123,6 +135,26 @@ stress2grid_hansen(
   value, the more weight). Default is `1`. When set to `0`, no weighting
   is applied.
 
+- PoR:
+
+  Pole of Rotation. `data.frame` or object of class `"euler.pole"`
+  containing the geographical coordinates of the Euler pole
+
+- PoR_grid:
+
+  logical. Whether the grid should be generated based on the coordinate
+  range in the PoR (`TRUE`, the default) CRS or the geographical CRS
+  (`FALSE`). Is ignored if `grid` is specified.
+
+- remove_PoR:
+
+  logical. Whether PoR azimuths and coordinates will be removed from
+  final output or not (the default.)
+
+- ...:
+
+  Arguments passed to `stress2grid_hansen()`
+
 ## Value
 
 `sf` object with columns
@@ -189,6 +221,7 @@ https://doi.org/10.1144/GSL.SP.2003.209.01.11
 
 Other smoothing:
 [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
+[`krige`](https://tobiste.github.io/tectonicr/reference/krige.md),
 [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
 
 ## Examples
@@ -199,5 +232,6 @@ data("san_andreas")
 res <- stress2grid_hansen(san_andreas, method = "fsr",
                           R_range = 300, lambda = 0.5)
 head(res)
+attributes(res)
 } # }
 ```

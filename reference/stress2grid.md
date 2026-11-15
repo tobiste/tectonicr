@@ -253,6 +253,7 @@ Data Services.
 
 Other smoothing:
 [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
+[`krige`](https://tobiste.github.io/tectonicr/reference/krige.md),
 [`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
 
 ## Examples

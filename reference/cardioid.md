@@ -51,7 +51,7 @@ qcard(
 
 - lower.tail:
 
-  logical; if `TRUE` (default), probabilities are \\P\[X \le x\]\\,
+  logical; if TRUE (default), probabilities are \\P\[X \le x\]\\
   otherwise, \\P\[X \> x\]\\.
 
 - p:

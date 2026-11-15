@@ -79,6 +79,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/index.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/kernel_dispersion.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/krige.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/kuiper_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/line_azimuth.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/mean_SC.html</loc></url>
@@ -121,7 +122,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/spherical_angle.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/stress2grid_kriging.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_analysis.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_colors.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/stress_data.html</loc></url>

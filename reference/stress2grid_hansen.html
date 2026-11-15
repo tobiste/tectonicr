@@ -77,6 +77,18 @@ nearest neighbours).</p>
 <span>  min_dist_threshold <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  quality_weighting <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  qp <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">PoR_stress2grid_hansen</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">PoR</span>,</span>
+<span>  grid <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  PoR_grid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  lon_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lat_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  gridsize <span class="op">=</span> <span class="fl">2.5</span>,</span>
+<span>  remove_PoR <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -170,6 +182,26 @@ Default is <code>TRUE</code>. If <code>FALSE</code>, overwrites <code>qp</code>.
 <dd><p>numeric. The weighting power of the data quality (the higher the
 value, the more weight). Default is <code>1</code>. When set to <code>0</code>, no weighting is applied.</p></dd>
 
+
+<dt id="arg-por">PoR<a class="anchor" aria-label="anchor" href="#arg-por"></a></dt>
+<dd><p>Pole of Rotation. <code>data.frame</code> or object of class
+<code>"euler.pole"</code> containing the geographical coordinates of the Euler pole</p></dd>
+
+
+<dt id="arg-por-grid">PoR_grid<a class="anchor" aria-label="anchor" href="#arg-por-grid"></a></dt>
+<dd><p>logical. Whether the grid should be generated based on the
+coordinate range in the PoR (<code>TRUE</code>, the default) CRS or the geographical CRS
+(<code>FALSE</code>). Is ignored if <code>grid</code> is specified.</p></dd>
+
+
+<dt id="arg-remove-por">remove_PoR<a class="anchor" aria-label="anchor" href="#arg-remove-por"></a></dt>
+<dd><p>logical. Whether PoR azimuths and coordinates will be
+removed from final output or not (the default.)</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Arguments passed to <code>stress2grid_hansen()</code></p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -227,6 +259,7 @@ https://doi.org/10.1144/GSL.SP.2003.209.01.11</p>
     <div class="dont-index"><p><code><a href="compact-grid.html">compact_grid()</a></code></p>
 <p>Other smoothing:
 <code><a href="PoR_stress2grid.html">PoR_stress2grid()</a></code>,
+<code><a href="krige.html">krige</a></code>,
 <code><a href="stress2grid.html">stress2grid()</a></code></p></div>
     </div>
 
@@ -237,6 +270,7 @@ https://doi.org/10.1144/GSL.SP.2003.209.01.11</p>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">stress2grid_hansen</span><span class="op">(</span><span class="va">san_andreas</span>, method <span class="op">=</span> <span class="st">"fsr"</span>,</span></span>
 <span class="r-in"><span>                          R_range <span class="op">=</span> <span class="fl">300</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
