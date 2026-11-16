@@ -39,18 +39,6 @@ PoR_circular_krige(
   remove_PoR = FALSE,
   ...
 )
-
-PoR_circular_krige(
-  x,
-  PoR,
-  grid = NULL,
-  PoR_grid = TRUE,
-  lon_range = NULL,
-  lat_range = NULL,
-  gridsize = 2.5,
-  remove_PoR = FALSE,
-  ...
-)
 ```
 
 ## Arguments
@@ -243,13 +231,45 @@ Other smoothing:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 data("san_andreas")
 v <- variogram_axial(san_andreas)
 res <- circular_krige(san_andreas, R_range = 300,
                            vgm_model = "spherical",
                            nugget = 0.25, range_km = 1000)
 head(res)
-attributes(res)
-} # }
+#> Simple feature collection with 6 features and 11 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -114.82 ymin: 24.08 xmax: -108.82 ymax: 26.08
+#> Geodetic CRS:  WGS 84
+#>       lon   lat        azi sd   R       mdr  N conf      kvar      eig1
+#> 1 -112.82 24.08 135.071737  0 300 0.7787910 17    1 0.4427279  1.073801
+#> 2 -110.82 24.08 138.899239  0 300 0.4965600 50    1 0.2427488  1.145847
+#> 3 -108.82 24.08   5.491198  0 300 0.1915108 50    1 0.2465356  1.188411
+#> 4 -114.82 26.08  47.683645  0 300 0.8111352 22    1 0.1676407 12.948122
+#> 5 -112.82 26.08 150.694353  0 300 0.5630126 50    1 0.3011651  1.091931
+#> 6 -110.82 26.08  96.097099  0 300 0.2681149 50    1 0.4309789  1.046459
+#>           eig2              geometry
+#> 1  -0.07380128 POINT (-112.82 24.08)
+#> 2  -0.14584713 POINT (-110.82 24.08)
+#> 3  -0.18841052 POINT (-108.82 24.08)
+#> 4 -11.94812223 POINT (-114.82 26.08)
+#> 5  -0.09193137 POINT (-112.82 26.08)
+#> 6  -0.04645894 POINT (-110.82 26.08)
+attributes(res)$vgm
+#> $model
+#> [1] "spherical"
+#> 
+#> $nugget
+#> [1] 0.25
+#> 
+#> $range_km
+#> [1] 1000
+#> 
+#> $sill
+#> [1] 0.5344795
+#> 
+#> $max_data
+#> [1] 50
+#> 
 ```

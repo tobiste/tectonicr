@@ -90,18 +90,6 @@ measurement error on the diagonal of the kriging matrix.</p>
 <span>  gridsize <span class="op">=</span> <span class="fl">2.5</span>,</span>
 <span>  remove_PoR <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">PoR_circular_krige</span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  <span class="va">PoR</span>,</span>
-<span>  grid <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  PoR_grid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  lon_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  lat_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  gridsize <span class="op">=</span> <span class="fl">2.5</span>,</span>
-<span>  remove_PoR <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -275,15 +263,47 @@ Mathematical Geology, 34(5), 479-503.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="variogram_axial.html">variogram_axial</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">circular_krige</span><span class="op">(</span><span class="va">san_andreas</span>, R_range <span class="op">=</span> <span class="fl">300</span>,</span></span>
 <span class="r-in"><span>                           vgm_model <span class="op">=</span> <span class="st">"spherical"</span>,</span></span>
 <span class="r-in"><span>                           nugget <span class="op">=</span> <span class="fl">0.25</span>, range_km <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 11 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -114.82 ymin: 24.08 xmax: -108.82 ymax: 26.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       lon   lat        azi sd   R       mdr  N conf      kvar      eig1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -112.82 24.08 135.071737  0 300 0.7787910 17    1 0.4427279  1.073801</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -110.82 24.08 138.899239  0 300 0.4965600 50    1 0.2427488  1.145847</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -108.82 24.08   5.491198  0 300 0.1915108 50    1 0.2465356  1.188411</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -114.82 26.08  47.683645  0 300 0.8111352 22    1 0.1676407 12.948122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -112.82 26.08 150.694353  0 300 0.5630126 50    1 0.3011651  1.091931</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -110.82 26.08  96.097099  0 300 0.2681149 50    1 0.4309789  1.046459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           eig2              geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  -0.07380128 POINT (-112.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  -0.14584713 POINT (-110.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  -0.18841052 POINT (-108.82 24.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -11.94812223 POINT (-114.82 26.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  -0.09193137 POINT (-112.82 26.08)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  -0.04645894 POINT (-110.82 26.08)</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">$</span><span class="va">vgm</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "spherical"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $nugget</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $range_km</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sill</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5344795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $max_data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

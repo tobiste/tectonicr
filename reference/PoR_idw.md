@@ -131,6 +131,12 @@ PoR_circular_idw_stats(
 
 Stress field and wavelength analysis in PoR system and back-transformed
 
+## Note
+
+\#' **\[superseded\]** `PoR_stress2grid()` and `PoR_stress2grid_stats`
+are superseded by `PoR_circular_idw()` and `PoR_circular_idw_stats()`,
+respectively.
+
 ## See also
 
 [`compact_grid()`](https://tobiste.github.io/tectonicr/reference/compact-grid.md)

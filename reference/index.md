@@ -108,7 +108,7 @@
 - [`dist_greatcircle()`](https://tobiste.github.io/tectonicr/reference/dist_greatcircle.md)
   : Distance between points
 - [`distance_binned_stats()`](https://tobiste.github.io/tectonicr/reference/distance_binned_stats.md)
-  **\[experimental\]** : Distance Binned Summary Statistics
+  : Distance Binned Summary Statistics
 - [`distance_from_pb()`](https://tobiste.github.io/tectonicr/reference/distance_from_pb.md)
   : Distance from plate boundary
 - [`earth_radius()`](https://tobiste.github.io/tectonicr/reference/earth_radius.md)
@@ -148,10 +148,14 @@
   : World Stress Map Database (WSM)
 - [`is.euler()`](https://tobiste.github.io/tectonicr/reference/is.euler.md)
   : Check if object is euler.pole
+- [`kernel_dispersion()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md)
+  : Adaptive Kernel Dispersion
 - [`circular_krige()`](https://tobiste.github.io/tectonicr/reference/krige.md)
   [`PoR_circular_krige()`](https://tobiste.github.io/tectonicr/reference/krige.md)
   : Spatial kriging of SHmax axes after van den Boogaart & Schaeben
   (2002)
+- [`krige_gamma()`](https://tobiste.github.io/tectonicr/reference/krige_gamma.md)
+  : Variogram model of the trace variogram
 - [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md)
   : Kuiper Test of Circular Uniformity
 - [`line_azimuth()`](https://tobiste.github.io/tectonicr/reference/line_azimuth.md)
@@ -175,8 +179,7 @@
   : Decomposition of Orientation Tensor in 2D
 - [`ortensor2d()`](https://tobiste.github.io/tectonicr/reference/ortensor2d.md)
   : Orientation Tensor
-- [`parse_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm.md)
-  [`quantise_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm.md)
+- [`parse_wsm_quality()`](https://tobiste.github.io/tectonicr/reference/parse_wsm_quality.md)
   : Numerical values to World Stress Map Quality Ranking
 - [`pb2002`](https://tobiste.github.io/tectonicr/reference/pb2002.md) :
   Global model of current plate motions

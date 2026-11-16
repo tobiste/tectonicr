@@ -60,7 +60,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/dot-hav_km.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dot-hm_fit.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dot-hm_neighbours.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/dot-krig_gamma.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/dummy.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/earth_radius.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/ellipse_points.html</loc></url>
@@ -83,6 +82,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/is.euler.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/kernel_dispersion.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/krige.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/krige_gamma.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/kuiper_test.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/line_azimuth.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/mean_SC.html</loc></url>
@@ -93,7 +93,7 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/nuvel1_plates.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/ort-eigen.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/ortensor2d.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/parse_wsm.html</loc></url>
+<url><loc>https://tobiste.github.io/tectonicr/reference/parse_wsm_quality.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/pb2002.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/plates.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/plot_density.html</loc></url>
@@ -111,7 +111,6 @@
 <url><loc>https://tobiste.github.io/tectonicr/reference/relative_rotation.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/roll_circstats.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rolling_test.html</loc></url>
-<url><loc>https://tobiste.github.io/tectonicr/reference/rolling_test_dist.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rose.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rose_bw.html</loc></url>
 <url><loc>https://tobiste.github.io/tectonicr/reference/rose_geom.html</loc></url>

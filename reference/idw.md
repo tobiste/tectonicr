@@ -8,7 +8,7 @@ nearest-neighbor interpolations (NN).
 ## Usage
 
 ``` r
-stress2grid(..., threshold = deprecated(), arte_thres = deprecated())
+stress2grid(...)
 
 circular_idw(
   x,
@@ -32,7 +32,7 @@ circular_idw(
   axial = TRUE
 )
 
-stress2grid_stats(..., threshold = deprecated(), arte_thres = deprecated())
+stress2grid_stats(...)
 
 circular_idw_stats(
   x,
@@ -65,15 +65,6 @@ circular_idw_stats(
 
   (optional) arguments to
   [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)
-
-- threshold:
-
-  **\[deprecated\]** is no longer supported; use `max_sd` instead.
-
-- arte_thres:
-
-  **\[deprecated\]** is no longer supported; use `min_dist_threshold`
-  instead.
 
 - x:
 
@@ -237,6 +228,9 @@ circular summary statistics (see
 Although specialized for stress fields, this spatial interpolation
 algorithm can be applied to type of data. Please adjust the `axial`
 argument when applied to different, directional data sets.
+
+**\[superseded\]** `stress2grid()` and `stress2grid_stats` are
+superseded by `circular_idw()` and `circular_idw_stats()`, respectively.
 
 ## References
 

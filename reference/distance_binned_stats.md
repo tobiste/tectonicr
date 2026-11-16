@@ -1,7 +1,6 @@
 # Distance Binned Summary Statistics
 
-**\[experimental\]** Circular summary statistics over intervals of
-distances.
+Circular summary statistics over intervals of distances.
 
 ## Usage
 

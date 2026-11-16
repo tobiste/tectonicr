@@ -21,8 +21,6 @@ kernel_dispersion(
   R_range = seq(100, 2000, 100),
   ...
 )
-
-dispersion_grid(...)
 ```
 
 ## Arguments
@@ -135,11 +133,6 @@ dispersion_grid(...)
 - N:
 
   Number of data points in search radius
-
-## Note
-
-`dispersion_grid()` was renamed to `kernel_dispersion()` to create a
-more consistent API.
 
 ## See also
 

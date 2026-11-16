@@ -16,7 +16,7 @@ variogram_axial(x, breaks = seq(0, 500, 50))
 
 - x:
 
-  `sf` object with `azi` (degrees).
+  `sf` object with `azi` (orientation agnles in degrees).
 
 - breaks:
 
@@ -25,6 +25,12 @@ variogram_axial(x, breaks = seq(0, 500, 50))
 ## Value
 
 data.frame with `lag` (km), `gamma` and `n` (pairs per bin).
+
+## See also
+
+[`circular_krige()`](https://tobiste.github.io/tectonicr/reference/krige.md)
+and
+[`krige_gamma()`](https://tobiste.github.io/tectonicr/reference/krige_gamma.md)
 
 ## Examples
 
@@ -38,9 +44,15 @@ plot(v$lag, v$gamma, pch = 16, las = 1,
 abline(h = 1, lty = 2) # sill: trace of a unit tensors
 
 h <- seq(0, 1000, length.out = 300)
-lines(h, tectonicr:::.krig_gamma(h, model = "spherical",
-  nugget = 0.25, range_km = 500),
-  col = "red", lwd = 2)
-legend("bottomright", legend = c("empirical", "spherical model"),
- pch = c(16, NA), lty = c(NA, 1), col = c("black", "red"), bty = "n")
+lines(h, krige_gamma(h, model = "spherical",
+  nugget = 0.25, range_km = 500, sill = 0.6),
+  col = "red", lwd = 2)#'
+lines(h, krige_gamma(h, model = "exponential",
+  nugget = 0.25, range_km = 500, sill = 0.6),
+  col = "blue", lwd = 2)
+lines(h, krige_gamma(h, model = "gaussian",
+  nugget = 0.25, range_km = 500, sill = 0.6),
+  col = "green", lwd = 2)
+legend("bottomright", legend = c("empirical", "spherical model", "exponential", "gaussian"),
+ pch = c(16, NA, NA, NA), lty = c(NA, 1, 1, 1), col = c("black", "red", "blue", "green"), bty = "n")
 ```

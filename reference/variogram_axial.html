@@ -68,7 +68,7 @@ for <code><a href="krige.html">circular_krige()</a></code>.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p><code>sf</code> object with <code>azi</code> (degrees).</p></dd>
+<dd><p><code>sf</code> object with <code>azi</code> (orientation agnles in degrees).</p></dd>
 
 
 <dt id="arg-breaks">breaks<a class="anchor" aria-label="anchor" href="#arg-breaks"></a></dt>
@@ -78,6 +78,10 @@ for <code><a href="krige.html">circular_krige()</a></code>.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>data.frame with <code>lag</code> (km), <code>gamma</code> and <code>n</code> (pairs per bin).</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="krige.html">circular_krige()</a></code> and <code><a href="krige_gamma.html">krige_gamma()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -91,11 +95,17 @@ for <code><a href="krige.html">circular_krige()</a></code>.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">1</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># sill: trace of a unit tensors</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1000</span>, length.out <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">h</span>, <span class="fu">tectonicr</span><span class="fu">:::</span><span class="fu"><a href="dot-krig_gamma.html">.krig_gamma</a></span><span class="op">(</span><span class="va">h</span>, model <span class="op">=</span> <span class="st">"spherical"</span>,</span></span>
-<span class="r-in"><span>  nugget <span class="op">=</span> <span class="fl">0.25</span>, range_km <span class="op">=</span> <span class="fl">500</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"empirical"</span>, <span class="st">"spherical model"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span> pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="cn">NA</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span><span class="op">)</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">h</span>, <span class="fu"><a href="krige_gamma.html">krige_gamma</a></span><span class="op">(</span><span class="va">h</span>, model <span class="op">=</span> <span class="st">"spherical"</span>,</span></span>
+<span class="r-in"><span>  nugget <span class="op">=</span> <span class="fl">0.25</span>, range_km <span class="op">=</span> <span class="fl">500</span>, sill <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="co">#'</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">h</span>, <span class="fu"><a href="krige_gamma.html">krige_gamma</a></span><span class="op">(</span><span class="va">h</span>, model <span class="op">=</span> <span class="st">"exponential"</span>,</span></span>
+<span class="r-in"><span>  nugget <span class="op">=</span> <span class="fl">0.25</span>, range_km <span class="op">=</span> <span class="fl">500</span>, sill <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  col <span class="op">=</span> <span class="st">"blue"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">h</span>, <span class="fu"><a href="krige_gamma.html">krige_gamma</a></span><span class="op">(</span><span class="va">h</span>, model <span class="op">=</span> <span class="st">"gaussian"</span>,</span></span>
+<span class="r-in"><span>  nugget <span class="op">=</span> <span class="fl">0.25</span>, range_km <span class="op">=</span> <span class="fl">500</span>, sill <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  col <span class="op">=</span> <span class="st">"green"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"empirical"</span>, <span class="st">"spherical model"</span>, <span class="st">"exponential"</span>, <span class="st">"gaussian"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="variogram_axial-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

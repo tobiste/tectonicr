@@ -29,8 +29,28 @@
 ### Changes
 
 - [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+  and
+  [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md)
   renamed to
   [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+  and
+  [`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+- [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+  and
+  [`PoR_stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+  renamed to
+  [`PoR_circular_idw()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+  and
+  [`PoR_circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+
+### Superseded
+
+- `dispersion_grid()` was removed (use
+  [`kernel_dispersion()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md)
+  instead)
+- `quantise_wsm_quality()` (use `parse_wm_quality()` instead)
+- `distroll_circstats()`, `distroll_confidence()`,
+  `distroll_dispersion()`, `distroll_dispersion_sde()`
 
 ## tectonicr 0.4.9002 *2026-11-02*
 
@@ -225,9 +245,8 @@ CRAN release: 2025-02-26
 - new function
   [`distance_binned_stats()`](https://tobiste.github.io/tectonicr/reference/distance_binned_stats.md)
   to calculate summary statistics along distance intervals: The function
-  supersedes
-  [`distroll_circstats()`](https://tobiste.github.io/tectonicr/reference/rolling_test_dist.md)
-  and friends because it is faster and more flexible
+  supersedes `distroll_circstats()` and friends because it is faster and
+  more flexible
 - [`PoR_to_geographical()`](https://tobiste.github.io/tectonicr/reference/por_transformation.md)
   and
   [`geographical_to_PoR()`](https://tobiste.github.io/tectonicr/reference/por_transformation.md)
@@ -337,8 +356,7 @@ CRAN release: 2024-05-27
 
 ## tectonicr 0.2.97 *2024-04-07*
 
-- [`dispersion_grid()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md)
-  deprecated and replaced by
+- `dispersion_grid()` deprecated and replaced by
   [`kernel_dispersion()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md)
   (details in vignette E)
 

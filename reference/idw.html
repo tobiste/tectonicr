@@ -60,7 +60,7 @@ nearest-neighbor interpolations (NN).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">stress2grid</span><span class="op">(</span><span class="va">...</span>, threshold <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>, arte_thres <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">stress2grid</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">circular_idw</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
@@ -84,7 +84,7 @@ nearest-neighbor interpolations (NN).</p>
 <span>  axial <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">stress2grid_stats</span><span class="op">(</span><span class="va">...</span>, threshold <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>, arte_thres <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">stress2grid_stats</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">circular_idw_stats</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
@@ -117,16 +117,6 @@ nearest-neighbor interpolations (NN).</p>
 
 <dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>(optional) arguments to <code><a href="circular_summary.html">circular_summary()</a></code></p></dd>
-
-
-<dt id="arg-threshold">threshold<a class="anchor" aria-label="anchor" href="#arg-threshold"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> is no
-longer supported; use <code>max_sd</code> instead.</p></dd>
-
-
-<dt id="arg-arte-thres">arte_thres<a class="anchor" aria-label="anchor" href="#arg-arte-thres"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> is no
-longer supported; use <code>min_dist_threshold</code> instead.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
@@ -277,6 +267,8 @@ summary statistics (see <code><a href="circular_summary.html">circular_summary()
     <p>Although specialized for stress fields, this spatial interpolation
 algorithm can be applied to type of data. Please adjust the <code>axial</code> argument
 when applied to different, directional data sets.</p>
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#superseded" class="external-link"><img src="figures/lifecycle-superseded.svg" alt="[Superseded]"></a> <code>stress2grid()</code> and <code>stress2grid_stats</code>
+are superseded by <code>circular_idw()</code> and <code>circular_idw_stats()</code>, respectively.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

@@ -66,7 +66,20 @@
 <div class="section level3">
 <h3 id="changes-0-4-10-9001">Changes<a class="anchor" aria-label="anchor" href="#changes-0-4-10-9001"></a></h3>
 <ul><li>
-<code><a href="../reference/idw.html">stress2grid()</a></code> renamed to <code><a href="../reference/idw.html">circular_idw()</a></code>
+<code><a href="../reference/idw.html">stress2grid()</a></code> and <code><a href="../reference/idw.html">stress2grid_stats()</a></code> renamed to <code><a href="../reference/idw.html">circular_idw()</a></code> and <code><a href="../reference/idw.html">circular_idw_stats()</a></code>
+</li>
+<li>
+<code><a href="../reference/PoR_idw.html">PoR_stress2grid()</a></code> and <code><a href="../reference/PoR_idw.html">PoR_stress2grid_stats()</a></code> renamed to <code><a href="../reference/PoR_idw.html">PoR_circular_idw()</a></code> and <code><a href="../reference/PoR_idw.html">PoR_circular_idw_stats()</a></code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="superseded-0-4-10-9001">Superseded<a class="anchor" aria-label="anchor" href="#superseded-0-4-10-9001"></a></h3>
+<ul><li>
+<code>dispersion_grid()</code> was removed (use <code><a href="../reference/kernel_dispersion.html">kernel_dispersion()</a></code> instead)</li>
+<li>
+<code>quantise_wsm_quality()</code> (use <code>parse_wm_quality()</code> instead)</li>
+<li>
+<code>distroll_circstats()</code>, <code>distroll_confidence()</code>, <code>distroll_dispersion()</code>, <code>distroll_dispersion_sde()</code>
 </li>
 </ul></div>
 </div>
@@ -177,7 +190,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.5" id="tectonicr-045-2025-02-26">tectonicr 0.4.5 <em>2025-02-26</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-045-2025-02-26"></a></h2><p class="text-muted">CRAN release: 2025-02-26</p>
-<ul><li>new function <code><a href="../reference/distance_binned_stats.html">distance_binned_stats()</a></code> to calculate summary statistics along distance intervals: The function supersedes <code><a href="../reference/rolling_test_dist.html">distroll_circstats()</a></code> and friends because it is faster and more flexible</li>
+<ul><li>new function <code><a href="../reference/distance_binned_stats.html">distance_binned_stats()</a></code> to calculate summary statistics along distance intervals: The function supersedes <code>distroll_circstats()</code> and friends because it is faster and more flexible</li>
 <li>
 <code><a href="../reference/por_transformation.html">PoR_to_geographical()</a></code> and <code><a href="../reference/por_transformation.html">geographical_to_PoR()</a></code> now accept <code>data.frame</code>, <code>sf</code> or raster as input</li>
 <li>new <code><a href="../reference/PoR_azi.html">PoR_azimuth()</a></code> function to transform directions in the PoR coordinate system / doesn’t need to be Shmax data</li>
@@ -277,7 +290,7 @@
 <h2 class="pkg-version" data-toc-text="0.2.97" id="tectonicr-0297-2024-04-07">tectonicr 0.2.97 <em>2024-04-07</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-0297-2024-04-07"></a></h2>
 <ul><li>
-<code><a href="../reference/kernel_dispersion.html">dispersion_grid()</a></code> deprecated and replaced by <code><a href="../reference/kernel_dispersion.html">kernel_dispersion()</a></code> (details in vignette E)</li>
+<code>dispersion_grid()</code> deprecated and replaced by <code><a href="../reference/kernel_dispersion.html">kernel_dispersion()</a></code> (details in vignette E)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.96" id="tectonicr-0296-2023-10-15">tectonicr 0.2.96 <em>2023-10-15</em>
