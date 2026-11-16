@@ -171,7 +171,7 @@ load_WSM <- function(file, quality = c("A", "B", "C", "D", "E", "X"),
 #' @rdname import_WSM
 #' @export
 download_WSM2016 <- function(destdir = tempdir(), load = TRUE, ...) {
-  lifecycle::deprecate_warn("0.4.7", "download_WSM2016()", "download_WSM2016()")
+  # lifecycle::deprecate_warn("0.4.7", "download_WSM2016()", "download_WSM2016()")
 
   stopifnot(is.character(destdir))
 
@@ -198,7 +198,7 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
                          depth_range = c(-Inf, Inf),
                          type = c("BO", "BOC", "BOT", "BS", "DIF", "FMA", "FMF", "FMS", "GFI", "GFM", "GFS", "GVA", "HF", "HFG", "HFM", "HFP", "OC", "PC", "SWB", "SWL", "SWS"),
                          regime = c("N", "NS", "T", "TS", "S", NA)) {
-  lifecycle::deprecate_warn("0.4.7", "load_WSM2016()", "load_WSM()")
+  # lifecycle::deprecate_warn("0.4.7", "load_WSM2016()", "load_WSM()")
 
   stopifnot(
     is.character(quality),
@@ -274,14 +274,10 @@ load_WSM2016 <- function(file, quality = c("A", "B", "C", "D", "E"), lat_range =
 #' indicator. *World Stress Map Technical Report* **16-01**, GFZ German Research
 #' Centre for Geosciences. \doi{10.2312/wsm.2016.001}
 #'
-#' @name parse_wsm
 #' @examples
 #' parse_wsm_quality(c("A", "B", "C", "D", NA, "E", "X"))
 #' data("san_andreas")
 #' head(parse_wsm_quality(san_andreas$quality))
-NULL
-
-#' @rdname parse_wsm
 #' @export
 parse_wsm_quality <- function(x) {
   c(
@@ -295,13 +291,6 @@ parse_wsm_quality <- function(x) {
     "Xne" = 180,
     "Xru" = 180
   )[x]
-}
-
-#' @rdname parse_wsm
-#' @export
-quantise_wsm_quality <- function(x) {
-  lifecycle::deprecate_warn("0.3.7", "quantise_wsm_quality()", "parse_wsm_quality()")
-  as.numeric(sapply(x, FUN = parse_wsm_quality))
 }
 
 

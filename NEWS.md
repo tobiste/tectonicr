@@ -15,7 +15,13 @@
 
 ## Changes
 
-* `stress2grid()` renamed to `circular_idw()`
+* `stress2grid()` and `stress2grid_stats()` renamed to `circular_idw()` and `circular_idw_stats()`
+* `PoR_stress2grid()` and `PoR_stress2grid_stats()` renamed to `PoR_circular_idw()` and `PoR_circular_idw_stats()`
+
+## Superseded
+* `dispersion_grid()` was removed (use `kernel_dispersion()` instead)
+* `quantise_wsm_quality()` (use `parse_wm_quality()` instead)
+* `distroll_circstats()`, `distroll_confidence()`, `distroll_dispersion()`, `distroll_dispersion_sde()`
 
 
 # tectonicr 0.4.9002 _2026-11-02_

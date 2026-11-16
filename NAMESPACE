@@ -63,14 +63,9 @@ export(dcunif)
 export(deg2rad)
 export(deviation_norm)
 export(deviation_shmax)
-export(dispersion_grid)
 export(dist_greatcircle)
 export(distance_binned_stats)
 export(distance_from_pb)
-export(distroll_circstats)
-export(distroll_confidence)
-export(distroll_dispersion)
-export(distroll_dispersion_sde)
 export(download_WSM)
 export(download_WSM2016)
 export(dvm)
@@ -97,6 +92,7 @@ export(get_azimuth)
 export(haversine)
 export(hodges_ajne_test)
 export(kernel_dispersion)
+export(krige_gamma)
 export(kuiper_test)
 export(latitude_modulo)
 export(line_azimuth)
@@ -123,7 +119,6 @@ export(pwcauchy)
 export(pwnorm)
 export(qcard)
 export(qcunif)
-export(quantise_wsm_quality)
 export(quick_plot)
 export(qvm)
 export(qwcauchy)
@@ -204,7 +199,6 @@ importFrom(dplyr,
   case_when,
   everything,
   filter,
-  first,
   group_by,
   if_else,
   left_join,
@@ -239,7 +233,6 @@ importFrom(graphics,
   text,
   title
 )
-importFrom(lifecycle,deprecated)
 importFrom(methods,extends)
 importFrom(sf,
   as_Spatial,

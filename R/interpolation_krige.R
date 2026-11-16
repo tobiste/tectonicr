@@ -16,9 +16,24 @@
 ## The doubling appears only in this variogram, where it is the Frobenius
 ## distance between tensors.
 
-#' Variogram model of the trace variogram (sill = 1)
-#' @keywords internal
-.krig_gamma <- function(h, model, nugget, range_km, sill = 1) {
+#' Variogram model of the trace variogram
+#'
+#' Fit the variogram gamma \eqn{\gamma} values for given distances and variogram models.
+#'
+#' @param h numeric. Distance values (in km) for which the gamma values should be fitted.
+#' @param model Variogram model: `"spherical"` (default), `"exponential"`
+#'   or `"gaussian"`.
+#' @param nugget numeric in \eqn{[0, 1)}. Nugget of the trace variogram.
+#' @param range_km numeric. Range of the variogram model in km.
+#' @param sill numeric in \eqn{(\text{nugget}, 1]}. Sill of the trace variogram.
+#'
+#' @return numeric vector of the fitted gamma \eqn{\gamma} values in the variogram.
+#' Same length as `h`
+#'
+#' @export
+#'
+#' @seealso [circular_krige()] and [variogram_axial()]
+krige_gamma <- function(h, model, nugget, range_km, sill = 1) {
   r <- h / range_km
   g <- switch(model,
               spherical   = ifelse(r < 1, 1.5 * r - 0.5 * r^3, 1),
@@ -37,8 +52,13 @@
 #'
 #' @param x `sf` object with `azi` (degrees).
 #' @param breaks numeric. Distance bin edges in km.
+#'
 #' @returns data.frame with `lag` (km), `gamma` and `n` (pairs per bin).
+#'
+#' @seealso [circular_krige()] and [krige_gamma()]
+#'
 #' @export
+#'
 #' @examples
 #' v <- variogram_axial(san_andreas, breaks = seq(0, 1000, 25))
 #' v <- v[!is.na(v$gamma), ] # drop empty bins
@@ -49,11 +69,17 @@
 #' abline(h = 1, lty = 2) # sill: trace of a unit tensors
 #'
 #' h <- seq(0, 1000, length.out = 300)
-#' lines(h, tectonicr:::.krig_gamma(h, model = "spherical",
-#'   nugget = 0.25, range_km = 500),
-#'   col = "red", lwd = 2)
-#' legend("bottomright", legend = c("empirical", "spherical model"),
-#'  pch = c(16, NA), lty = c(NA, 1), col = c("black", "red"), bty = "n")
+#' lines(h, krige_gamma(h, model = "spherical",
+#'   nugget = 0.25, range_km = 500, sill = 0.6),
+#'   col = "red", lwd = 2)#'
+#' lines(h, krige_gamma(h, model = "exponential",
+#'   nugget = 0.25, range_km = 500, sill = 0.6),
+#'   col = "blue", lwd = 2)
+#' lines(h, krige_gamma(h, model = "gaussian",
+#'   nugget = 0.25, range_km = 500, sill = 0.6),
+#'   col = "green", lwd = 2)
+#' legend("bottomright", legend = c("empirical", "spherical model", "exponential", "gaussian"),
+#'  pch = c(16, NA, NA, NA), lty = c(NA, 1, 1, 1), col = c("black", "red", "blue", "green"), bty = "n")
 variogram_axial <- function(x, breaks = seq(0, 500, 50)) {
   xy <- sf::st_coordinates(x)
   keep <- !is.na(x$azi) & stats::complete.cases(xy)
@@ -150,15 +176,13 @@ variogram_axial <- function(x, breaks = seq(0, 500, 50)) {
 #' @name krige
 #'
 #' @examples
-#' \dontrun{
 #' data("san_andreas")
 #' v <- variogram_axial(san_andreas)
 #' res <- circular_krige(san_andreas, R_range = 300,
 #'                            vgm_model = "spherical",
 #'                            nugget = 0.25, range_km = 1000)
 #' head(res)
-#' attributes(res)
-#' }
+#' attributes(res)$vgm
 NULL
 
 #' @rdname krige
@@ -263,12 +287,12 @@ circular_krige <- function(x,
       # observation-observation variogram matrix with measurement error
       Dm <- matrix(.hav_km(rep(lat2r[ord], k), rep(lon2r[ord], k),
                            rep(lat2r[ord], each = k), rep(lon2r[ord], each = k)), k, k)
-      Gm <- .krig_gamma(Dm, vgm_model, nugget, range_km, sill)
+      Gm <- krige_gamma(Dm, vgm_model, nugget, range_km, sill)
       diag(Gm) <- sig2[ord]
 
       # ordinary kriging system with unbiasedness constraint
       A <- rbind(cbind(Gm, 1), c(rep(1, k), 0))
-      g0 <- c(.krig_gamma(d[ord], vgm_model, nugget, range_km, sill), 1)
+      g0 <- c(krige_gamma(d[ord], vgm_model, nugget, range_km, sill), 1)
       sol <- tryCatch(solve(A, g0), error = function(e) NULL)
       if (is.null(sol)) next
       lam <- sol[seq_len(k)]
@@ -304,71 +328,6 @@ circular_krige <- function(x,
   attr(out, "vgm") <- list(model = vgm_model, nugget = nugget, range_km = range_km,
                            sill = sill, max_data = max_data)
   out
-}
-
-#' @rdname krige
-#' @export
-PoR_circular_krige <- function(x, PoR, grid = NULL, PoR_grid = TRUE,
-                               lon_range = NULL, lat_range = NULL, gridsize = 2.5,
-                               remove_PoR = FALSE, ...) {
-  if (!is.null(grid)) {
-    lon_range <- lat_range <- gridsize <- NULL
-    PoR_grid <- FALSE
-  } else {
-    if (isFALSE(PoR_grid)) {
-      if (is.null(lon_range) || is.null(lat_range)) {
-        coords <- sf::st_coordinates(x)
-        lon_range <- range(coords[, 1], na.rm = TRUE)
-        lat_range <- range(coords[, 2], na.rm = TRUE)
-      }
-
-      grid <- sf::st_bbox(
-        c(
-          xmin = lon_range[1],
-          xmax = lon_range[2],
-          ymin = lat_range[1],
-          ymax = lat_range[2]
-        )
-      ) |>
-        sf::st_make_grid(
-          cellsize = gridsize,
-          what = "centers",
-          offset = c(lon_range[1], lat_range[1])
-        )
-    }
-  }
-
-  grid_PoR <- if (isFALSE(PoR_grid)) {
-    sf::st_as_sf(grid, crs = sf::st_crs(x)) |>
-      geographical_to_PoR_sf(PoR)
-  } else {
-    NULL
-  }
-
-  x_PoR <- geographical_to_PoR_sf(x, PoR)
-  x_PoR_coords <- sf::st_coordinates(x_PoR) |>
-    as.data.frame() |>
-    dplyr::rename(lat = Y, lon = X)
-
-  azi <- lat <- lon <- lat.PoR <- lon.PoR <- X <- Y <- R <- numeric() # pre allocating:
-
-  x_PoR$lat <- x_PoR_coords$lat
-  x_PoR$lon <- x_PoR_coords$lon
-  x_PoR$azi <- PoR_shmax(x, PoR)
-
-  int <- circular_krige(x_PoR, grid = grid_PoR, lon_range = lon_range, lat_range = lat_range, gridsize = gridsize, ...) |>
-    dplyr::rename(azi.PoR = azi, lat.PoR = lat, lon.PoR = lon) |>
-    PoR_to_geographical_sf(PoR)
-  int_coords <- sf::st_coordinates(int) |>
-    as.data.frame() |>
-    dplyr::rename(lat = Y, lon = X)
-  int$lat <- int_coords$lat
-  int$lon <- int_coords$lon
-  int$azi <- PoR2Geo_azimuth(int, PoR)
-
-  if (remove_PoR) int <- dplyr::select(int, !dplyr::ends_with(".PoR"))
-
-  return(int)
 }
 
 #' @rdname krige

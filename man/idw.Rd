@@ -8,7 +8,7 @@
 \alias{circular_idw_stats}
 \title{Spatial Interpolation of SHmax}
 \usage{
-stress2grid(..., threshold = deprecated(), arte_thres = deprecated())
+stress2grid(...)
 
 circular_idw(
   x,
@@ -32,7 +32,7 @@ circular_idw(
   axial = TRUE
 )
 
-stress2grid_stats(..., threshold = deprecated(), arte_thres = deprecated())
+stress2grid_stats(...)
 
 circular_idw_stats(
   x,
@@ -60,12 +60,6 @@ circular_idw_stats(
 }
 \arguments{
 \item{...}{(optional) arguments to \code{\link[=circular_summary]{circular_summary()}}}
-
-\item{threshold}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} is no
-longer supported; use \code{max_sd} instead.}
-
-\item{arte_thres}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} is no
-longer supported; use \code{min_dist_threshold} instead.}
 
 \item{x}{\code{sf} object containing
 \describe{
@@ -168,6 +162,9 @@ summary statistics (see \code{\link[=circular_summary]{circular_summary()}}).
 Although specialized for stress fields, this spatial interpolation
 algorithm can be applied to type of data. Please adjust the \code{axial} argument
 when applied to different, directional data sets.
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} \code{stress2grid()} and \code{stress2grid_stats}
+are superseded by \code{circular_idw()} and \code{circular_idw_stats()}, respectively.
 }
 \examples{
 data("san_andreas")

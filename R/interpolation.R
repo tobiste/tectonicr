@@ -102,13 +102,13 @@ which.nsmallest <- function(x, n) {
 #' spatial locations. Default is `Inf`.
 #' @param max_sd numeric. Threshold for deviation of direction in degrees;
 #' if exceeds, missing values will be generated.
-#' @param threshold `r lifecycle::badge("deprecated")` is no
-#'   longer supported; use `max_sd` instead.
+# #' @param threshold `r lifecycle::badge("deprecated")` is no
+# #'   longer supported; use `max_sd` instead.
 #' @param min_dist_threshold numeric. Distance threshold for smallest distance
 #' of the prediction location to the next observation location.
 #' Default is `200` km.
-#' @param arte_thres `r lifecycle::badge("deprecated")` is no
-#'   longer supported; use `min_dist_threshold` instead.
+# #' @param arte_thres `r lifecycle::badge("deprecated")` is no
+# #'   longer supported; use `min_dist_threshold` instead.
 #' @param dist_weighting Distance weighting method which should be used. One of
 #' `"none"`, `"linear"`, or `"inverse"` (the default).
 #' @param idp,qp,mp numeric. The weighting power of inverse distance, quality
@@ -161,6 +161,9 @@ which.nsmallest <- function(x, n) {
 #' algorithm can be applied to type of data. Please adjust the `axial` argument
 #' when applied to different, directional data sets.
 #'
+#' `r lifecycle::badge("superseded")` `stress2grid()` and `stress2grid_stats`
+#' are superseded by `circular_idw()` and `circular_idw_stats()`, respectively.
+#'
 #' @seealso [dist_greatcircle()], [compact_grid()],
 #' [circular_mean()], [circular_median()], [circular_sd()], [circular_summary()]
 #'
@@ -189,30 +192,29 @@ NULL
 
 #' @rdname idw
 #' @export
-stress2grid <- function(...,
-                        threshold = deprecated(),
-                        arte_thres = deprecated()
+stress2grid <- function(...
+                        #threshold = deprecated(),
+                        #arte_thres = deprecated()
                         ) {
-
-  lifecycle::deprecate_soft(
-    when = "0.4.10.9001",
-    what = "stress2grid()",
-    with = "circular_idw()"
-  )
-
-  if (lifecycle::is_present(arte_thres)) {
-    lifecycle::deprecate_warn(
-      when = "0.4.6.9002", what = "stress2grid(arte_thres)",
-      details = "Ability to specify arte_thres will be dropped in next release."
-    )
-  }
-
-  if (lifecycle::is_present(threshold)) {
-    lifecycle::deprecate_warn(
-      when = "0.4.6.9002", what = "stress2grid(threshold)",
-      details = "Ability to specify threshold will be dropped in next release."
-    )
-  }
+  # lifecycle::signal_superseded(
+  #   when = "0.4.10.9001",
+  #   what = "stress2grid()",
+  #   with = "circular_idw()"
+  # )
+  #
+  # if (lifecycle::is_present(arte_thres)) {
+  #   lifecycle::deprecate_warn(
+  #     when = "0.4.6.9002", what = "stress2grid(arte_thres)",
+  #     details = "Ability to specify arte_thres will be dropped in next release."
+  #   )
+  # }
+  #
+  # if (lifecycle::is_present(threshold)) {
+  #   lifecycle::deprecate_warn(
+  #     when = "0.4.6.9002", what = "stress2grid(threshold)",
+  #     details = "Ability to specify threshold will be dropped in next release."
+  #   )
+  # }
 
   circular_idw(...)
 }
@@ -441,29 +443,29 @@ circular_idw <- function(x,
 
 #' @rdname idw
 #' @export
-stress2grid_stats <- function(...,
-                              threshold = deprecated(),
-                              arte_thres = deprecated()
+stress2grid_stats <- function(...
+                              #threshold = deprecated(),
+                              #arte_thres = deprecated()
                               ){
-  lifecycle::deprecate_soft(
-    when = "0.4.10.9001",
-    what = "stress2grid_stats()",
-    with = "circular_idw_stats()"
-  )
-
-  if (lifecycle::is_present(arte_thres)) {
-    lifecycle::deprecate_warn(
-      when = "0.4.6.9002", what = "stress2grid_stats(arte_thres)",
-      details = "Ability to specify arte_thres will be dropped in next release."
-    )
-  }
-
-  if (lifecycle::is_present(threshold)) {
-    lifecycle::deprecate_warn(
-      when = "0.4.6.9002", what = "stress2grid_stats(threshold)",
-      details = "Ability to specify threshold will be dropped in next release."
-    )
-  }
+  # lifecycle::deprecate_soft(
+  #   when = "0.4.10.9001",
+  #   what = "stress2grid_stats()",
+  #   with = "circular_idw_stats()"
+  # )
+  #
+  # if (lifecycle::is_present(arte_thres)) {
+  #   lifecycle::deprecate_warn(
+  #     when = "0.4.6.9002", what = "stress2grid_stats(arte_thres)",
+  #     details = "Ability to specify arte_thres will be dropped in next release."
+  #   )
+  # }
+  #
+  # if (lifecycle::is_present(threshold)) {
+  #   lifecycle::deprecate_warn(
+  #     when = "0.4.6.9002", what = "stress2grid_stats(threshold)",
+  #     details = "Ability to specify threshold will be dropped in next release."
+  #   )
+  # }
 
   circular_idw_stats(...)
 }
@@ -698,6 +700,11 @@ circular_idw_stats <- function(x,
 #' \item{N}{Number of data points in search radius}
 #' }
 #'
+#' @note
+#' #' `r lifecycle::badge("superseded")` `PoR_stress2grid()` and `PoR_stress2grid_stats`
+#' are superseded by `PoR_circular_idw()` and `PoR_circular_idw_stats()`, respectively.
+#'
+#'
 #' @seealso [compact_grid()]
 #' @family smoothing
 #'
@@ -717,11 +724,11 @@ NULL
 #' @rdname PoR_idw
 #' @export
 PoR_stress2grid <- function(...){
-  lifecycle::deprecate_soft(
-    when = "0.4.10.9001",
-    what = "PoR_stress2grid()",
-    with = "PoR_circular_idw()"
-  )
+  # lifecycle::deprecate_soft(
+  #   when = "0.4.10.9001",
+  #   what = "PoR_stress2grid()",
+  #   with = "PoR_circular_idw()"
+  # )
 
   PoR_circular_idw(...)
 }
@@ -795,11 +802,11 @@ PoR_circular_idw <- function(x, PoR, grid = NULL, PoR_grid = TRUE,
 #' @rdname PoR_idw
 #' @export
 PoR_stress2grid_stats <- function(...){
-  lifecycle::deprecate_soft(
-    when = "0.4.10.9001",
-    what = "PoR_stress2grid_stats()",
-    with = "PoR_circular_idw_stats()"
-  )
+  # lifecycle::deprecate_soft(
+  #   when = "0.4.10.9001",
+  #   what = "PoR_stress2grid_stats()",
+  #   with = "PoR_circular_idw_stats()"
+  # )
 
   PoR_circular_idw_stats(...)
 }
@@ -989,11 +996,7 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' }
 #'
 #' @seealso [circular_dispersion()], [norm_chisq()], [weighted_rayleigh()]
-#'
-#' @note `dispersion_grid()` was renamed to `kernel_dispersion()` to create
-#'  a more consistent API.
-#'
-#' @name kernel_dispersion
+#' @export
 #'
 #' @examples
 #' data("nuvel1")
@@ -1001,138 +1004,6 @@ compact_grid2 <- function(x, ..., FUN = min) {
 #' san_andreas_por <- data2PoR(san_andreas, PoR)
 #' san_andreas_por$prd <- 135
 #' kernel_dispersion(san_andreas_por) |> head()
-NULL
-
-#' @rdname kernel_dispersion
-#' @export
-# kernel_dispersion <- function(x,
-#                               stat = c("dispersion", "nchisq", "rayleigh"),
-#                               grid = NULL,
-#                               lon_range = NULL,
-#                               lat_range = NULL,
-#                               gridsize = 2.5,
-#                               min_data = 3L,
-#                               max_data = Inf,
-#                               min_dist_threshold = 200,
-#                               dist_threshold = 0.1,
-#                               stat_threshold = Inf,
-#                               R_range = seq(100, 2000, 100),
-#                               ...) {
-#   stopifnot(
-#     inherits(x, "sf"), is.numeric(gridsize), is.numeric(min_data), is.numeric(min_dist_threshold),
-#     min_dist_threshold > 0, is.numeric(dist_threshold), is.numeric(R_range),
-#     is.numeric(stat_threshold) | is.infinite(stat_threshold),
-#     max_data >= min_data
-#   )
-#   stat <- match.arg(stat)
-#   min_data <- as.integer(ceiling(min_data))
-#   stat <- match.arg(stat)
-#
-#   N <- md <- R <- numeric()
-#
-#   # pre-allocating
-#   azi <- x$azi
-#   length_azi <- length(azi)
-#   colnames_x <- colnames(x)
-#   unc <- lat <- lon <- prd <- numeric(length_azi)
-#   type <- character(9)
-#
-#   # num_r <- length(R_range)
-#
-#   x_coords <-
-#     sf::st_coordinates(x) |>
-#     as.data.frame()
-#
-#   datas <- cbind(
-#     lon = x_coords$X,
-#     lat = x_coords$Y,
-#     azi = x$azi,
-#     unc = x$unc,
-#     prd = x$prd
-#   )
-#
-#   if (is.null(grid)) {
-#     # Regular grid
-#     if (is.null(lon_range) || is.null(lat_range)) {
-#       lon_range <- range(datas[, "lon"], na.rm = TRUE)
-#       lat_range <- range(datas[, "lat"], na.rm = TRUE)
-#     }
-#
-#     grid <- sf::st_bbox(
-#       c(
-#         xmin = lon_range[1],
-#         xmax = lon_range[2],
-#         ymin = lat_range[1],
-#         ymax = lat_range[2]
-#       ),
-#       crs = sf::st_crs("WGS84")
-#     ) |>
-#       sf::st_make_grid(
-#         cellsize = gridsize,
-#         what = "centers",
-#         offset = c(lon_range[1], lat_range[1])
-#       ) |>
-#       sf::st_as_sf()
-#   }
-#   stopifnot(inherits(grid, "sf"), any(sf::st_is(grid, "POINT")))
-#   G <- unname(sf::st_coordinates(grid))
-#
-#   # R <- N <- numeric(nrow(G))
-#   R_seq <- seq_along(R_range)
-#   # nR <- length(R_seq)
-#
-#   # SH <- matrix(nrow = 0, ncol = 6, dimnames = list(NULL, c("lon", "lat", "stat", "R", "md", "N")))
-#
-#   lapply(seq_along(G[, 1]), function(i) {
-#     # for (i in seq_along(G[, 1])) {
-#     distij <- dist_greatcircle(G[i, 2], G[i, 1], datas[, "lat"], datas[, "lon"], ...)
-#     if (max_data < Inf) distij <- distij[which.nsmallest(distij, max_data)] # select the `max_data` nearest locations
-#
-#     if (min(distij) <= min_dist_threshold) {
-#       t(vapply(R_seq, function(k) {
-#         R_search <- R_range[k]
-#         ids_R <- which(distij <= R_search)
-#         N_in_R <- length(ids_R)
-#
-#         if (N_in_R < min_data) {
-#           # not enough data within search radius
-#           y <- md <- NA
-#         } else if (N_in_R == 1) {
-#           y <- NA
-#           md <- distij[ids_R]
-#         } else {
-#           md <- mean(distij[ids_R], na.rm = TRUE)
-#
-#           if (stat == "nchisq") {
-#             y <- norm_chisq(datas[ids_R, "azi"], prd = datas[ids_R, "prd"], datas[ids_R, "unc"])
-#           } else if (stat == "rayleigh") {
-#             y <- weighted_rayleigh(datas[ids_R, "azi"], mu = datas[ids_R, "prd"], w = weighting(datas[ids_R, "unc"]), ...)$statistic
-#           } else {
-#             y <- circular_dispersion(datas[ids_R, "azi"], y = datas[ids_R, "prd"], w = weighting(datas[ids_R, "unc"]), ...)
-#           }
-#         }
-#
-#         c(
-#           lon = G[i, 1],
-#           lat = G[i, 2],
-#           stat = y,
-#           R = R_search,
-#           md = md,
-#           N = N_in_R
-#         )
-#       }, FUN.VALUE = numeric(6)))
-#     }
-#   }) |>
-#     lapply(as.data.frame) |>
-#     dplyr::bind_rows() |>
-#     dplyr::mutate(
-#       N = as.integer(N),
-#       mdr = md / R,
-#       stat = ifelse(stat >= stat_threshold, NA, stat)
-#     ) |>
-#     dplyr::select(-md) |>
-#     sf::st_as_sf(coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
-# }
 kernel_dispersion <- function(x,
                               stat = c("dispersion", "nchisq", "rayleigh"),
                               grid = NULL,
@@ -1276,15 +1147,6 @@ kernel_dispersion <- function(x,
   out$md <- NULL
   sf::st_as_sf(out, coords = c("lon", "lat"), crs = sf::st_crs(x), remove = FALSE)
 }
-
-#' @rdname kernel_dispersion
-#' @export
-#' @keywords internal
-dispersion_grid <- function(...) {
-  lifecycle::deprecate_warn(" 0.2.97", "dispersion_grid()", "kernel_dispersion")
-  kernel_dispersion(...)
-}
-
 
 
 
@@ -1464,13 +1326,11 @@ dispersion_grid <- function(...) {
 #' @name smooth
 #'
 #' @examples
-#' \dontrun{
 #' data("san_andreas")
 #' res <- circular_smooth(san_andreas, method = "fsr",
 #'                           R_range = 300, lambda = 0.5)
 #' head(res)
-#' attributes(res)
-#' }
+#' attributes(res)$fit
 NULL
 
 #' @rdname smooth

@@ -86,6 +86,10 @@ and azimuths.
 \details{
 Stress field and wavelength analysis in PoR system and back-transformed
 }
+\note{
+#' \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} \code{PoR_stress2grid()} and \code{PoR_stress2grid_stats}
+are superseded by \code{PoR_circular_idw()} and \code{PoR_circular_idw_stats()}, respectively.
+}
 \examples{
 data("san_andreas")
 data("nuvel1")

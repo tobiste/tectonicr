@@ -37,8 +37,8 @@ qcard(
 \item{axial}{logical. Whether the data are axial, i.e. \eqn{\pi}-periodical
 (\code{TRUE}, the default) or directional, i.e. \eqn{2 \pi}-periodical (\code{FALSE}).}
 
-\item{lower.tail}{logical; if TRUE (default), probabilities are
-    \eqn{P[X \le x]} otherwise, \eqn{P[X > x]}.}
+\item{lower.tail}{logical; if \code{TRUE} (default), probabilities are
+    \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
 
 \item{p}{numeric. Vector of probabilities with values in \eqn{[0,1]}{[0,1]}.}
 

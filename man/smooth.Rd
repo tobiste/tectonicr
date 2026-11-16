@@ -135,13 +135,11 @@ Only axial (180° periodic) data are
 supported.
 }
 \examples{
-\dontrun{
 data("san_andreas")
 res <- circular_smooth(san_andreas, method = "fsr",
                           R_range = 300, lambda = 0.5)
 head(res)
-attributes(res)
-}
+attributes(res)$fit
 }
 \references{
 Hansen, K. M., & Mount, V. S. (1990). Smoothing and extrapolation of crustal

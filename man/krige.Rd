@@ -34,18 +34,6 @@ PoR_circular_krige(
   remove_PoR = FALSE,
   ...
 )
-
-PoR_circular_krige(
-  x,
-  PoR,
-  grid = NULL,
-  PoR_grid = TRUE,
-  lon_range = NULL,
-  lat_range = NULL,
-  gridsize = 2.5,
-  remove_PoR = FALSE,
-  ...
-)
 }
 \arguments{
 \item{x}{\code{sf} object containing
@@ -148,15 +136,13 @@ Only axial (180° periodic) data are
 supported.
 }
 \examples{
-\dontrun{
 data("san_andreas")
 v <- variogram_axial(san_andreas)
 res <- circular_krige(san_andreas, R_range = 300,
                            vgm_model = "spherical",
                            nugget = 0.25, range_km = 1000)
 head(res)
-attributes(res)
-}
+attributes(res)$vgm
 }
 \references{
 van den Boogaart, K.G. and Schaeben, H. (2002).

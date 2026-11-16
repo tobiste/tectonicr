@@ -26,7 +26,6 @@
 #' @docType package
 #'
 #' @aliases tectonicr-package
-#' @importFrom lifecycle deprecated
 #'
 #' @keywords internal
 "_PACKAGE"
