@@ -13,6 +13,7 @@ export(PoR_stress2grid_hansen)
 export(PoR_stress2grid_stats)
 export(PoR_to_geographical)
 export(PositionCenterSpoke)
+export(StatEllipseOrient)
 export(abs_vel)
 export(angle_vectors)
 export(ar_test)
@@ -71,6 +72,7 @@ export(dvm)
 export(dwcauchy)
 export(dwnorm)
 export(earth_radius)
+export(ellipse_points)
 export(equal_kappa_test)
 export(equivalent_rotation)
 export(est.kappa)
@@ -85,6 +87,7 @@ export(geographical_to_cartesian)
 export(geographical_to_spherical)
 export(geom_azimuth)
 export(geom_azimuthpoint)
+export(geom_ellipse2)
 export(get_azimuth)
 export(haversine)
 export(hodges_ajne_test)
@@ -210,11 +213,14 @@ importFrom(dplyr,
   ungroup
 )
 importFrom(ggplot2,
+  GeomPolygon,
   Position,
+  Stat,
   alpha,
   cut_number,
   cut_width,
-  ggproto
+  ggproto,
+  layer
 )
 importFrom(graphics,
   abline,

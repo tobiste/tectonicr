@@ -142,20 +142,13 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' is centered using [`PositionCenterSpoke`], so that the given coordinates mark
 #' the middle of the line. The azimuths are given as angles in degrees increasing clockwise from North.
 #'
-#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()].
-#' @param data A data frame. If `NULL`, the default, the data is inherited from
-#'   the plot data as specified in the call to [ggplot2::ggplot()].
-#' @param stat The statistical transformation to use on the data. Defaults to
-#'   `"identity"`.
+#' @inheritParams ggplot2::layer
 #' @param center Logical; if `TRUE` (the default) spokes are centered on (x, y) using
 #'   [`PositionCenterSpoke`]  - useful for axial data. If `FALSE`, behaves like
 #'   [ggplot2::geom_spoke()] (line starts at (x, y)) - useful for directional data
 #'   (especially when in combination with `arrow()`).
 #' @param na.rm If `FALSE`, the default, missing values are removed with a
 #'   warning. If `TRUE`, missing values are silently removed.
-#' @param show.legend Logical. Should this layer be included in the legends?
-#' @param inherit.aes If `FALSE`, overrides the default aesthetics, rather than
-#'   combining with them.
 #' @param ... Other arguments passed on to [ggplot2::layer()]. These are often
 #'   aesthetics (e.g. `colour`, `linetype`, `linewidth`, `alpha`).
 #' @param radius Length of spoke
@@ -165,7 +158,7 @@ PositionCenterSpoke <- ggplot2::ggproto("PositionCenterSpoke", ggplot2::Position
 #' \itemize{
 #'   \item **x**
 #'   \item **y**
-#'   \item angle (in degrees, transformed internally)
+#'   \item angle (in degrees, measured clockwise from North; transformed internally)
 #'   \item radius
 #'   \item colour
 #'   \item alpha
@@ -248,29 +241,15 @@ StatAzimuth <- ggplot2::ggproto("StatAzimuth", ggplot2::Stat,
 #' - `colour`, `alpha` affect both spoke and point
 #' - `size` sets the size of the point only
 #'
-#' @param mapping Set of aesthetic mappings created by [ggplot2::aes()].
-#' @param data A data frame. If `NULL`, the default, the data is inherited from
-#'   the plot data as specified in the call to [ggplot2::ggplot()].
-#' @param stat The statistical transformation to use on the data. Defaults to
-#'   `"identity"`.
-#' @param center Logical; if `TRUE` spokes are centered on (x, y) using
-#'   [`PositionCenterSpoke`]. If `FALSE`, behaves like
-#'   [ggplot2::geom_spoke()] (line starts at (x, y)).
-#' @param na.rm If `FALSE`, the default, missing values are removed with a
-#'   warning. If `TRUE`, missing values are silently removed.
-#' @param show.legend Logical. Should this layer be included in the legends?
-#' @param inherit.aes If `FALSE`, overrides the default aesthetics, rather than
-#'   combining with them.
+#' @inheritParams geom_azimuth
 #' @param size Size of the point marker (default = 2).
-#' @param ... Other arguments passed on to [geom_azimuth()] and
-#'   [ggplot2::geom_point()]. These may include `arrow`, `fill`, etc.
 #'
 #' @section Aesthetics:
 #' `geom_azimuthpoint()` understands the following aesthetics (required aesthetics in **bold**):
 #' \itemize{
 #'   \item **x**
 #'   \item **y**
-#'   \item angle (in degrees, transformed internally; spoke only)
+#'   \item angle (in degrees, measured clockwise from North; transformed internally; spoke only)
 #'   \item radius (spoke only)
 #'   \item colour (shared)
 #'   \item alpha (shared)
@@ -338,18 +317,49 @@ geom_azimuthpoint <- function(mapping = NULL, data = NULL,
   list(line_layer, point_layer)
 }
 
-# Vertices of one ellipse in map coordinates (x = east, y = north)
-# a     : semi-major axis length (long axis = 2a)
-# R     : aspect ratio a / b  (R >= 1)
-# angle : azimuth of the long axis, degrees clockwise from geographic north
-ellipse_points <- function(x0, y0, a, R, angle, n = 100L) {
-  stopifnot(R >= 1)
+#' Vertices of an oriented ellipse
+#'
+#' Computes the outline of an ellipse defined by its centre, the length of its
+#' semi-major axis, its aspect ratio, and the azimuth of its long axis. The
+#' coordinate system is assumed to be map-like: `x` points east and `y` points
+#' north.
+#'
+#' @param x0,y0 Numeric. Coordinates of the ellipse centre.
+#' @param a Numeric. Length of the semi-major axis (the full long axis is `2 * a`).
+#' @param R Numeric. Aspect ratio of the ellipse, \eqn{R = a / b}, where `b` is
+#'   the semi-minor axis. Must be \eqn{\ge 1}.
+#' @param angle Numeric. Azimuth of the long axis in degrees, measured clockwise
+#'   from geographic north (i.e. from the positive `y` axis). Because an axis
+#'   has no direction, `angle` and `angle + 180` describe the same ellipse.
+#' @param n Integer. Number of vertices used to draw the outline.
+#'
+#' @return A `data.frame` with `n` rows and columns `x` and `y`. The first and
+#'   last vertices are the same, so the outline is closed.
+#'
+#' @details
+#' The long-axis unit vector is \eqn{(\sin\phi, \cos\phi)} and the short-axis
+#' unit vector is \eqn{(\cos\phi, -\sin\phi)}, where \eqn{\phi} is `angle` in
+#' radians. The points are
+#' \deqn{\mathbf{p}(t) = \mathbf{c} + a\cos t\,\mathbf{u} + b\sin t\,\mathbf{v},
+#'   \quad t \in [0, 2\pi].}
+#'
+#' @examples
+#' # Long axis N-S: y-range is +/- 1, x-range is +/- 0.5
+#' p <- ellipse_points(0, 0, a = 1, R = 2, angle = 0)
+#' range(p$x); range(p$y)
+#'
+#' # Long axis trending 045
+#' plot(ellipse_points(0, 0, a = 1, R = 3, angle = 45), type = "l", asp = 1)
+#'
+#' @export
+ellipse_points <- function(x0, y0, a, R, angle, n = 100) {
+  stopifnot(R >= 1, a > 0)
   b   <- a / R
-  phi <- deg2rad(angle)
+  phi <- angle * pi / 180
   t   <- seq(0, 2 * pi, length.out = n)
 
-  u <- c(sin(phi),  cos(phi))   # unit vector along the long axis (E, N)
-  v <- c(cos(phi), -sin(phi))   # unit vector along the short axis (perpendicular)
+  u <- c(sin(phi),  cos(phi))   # long axis (E, N)
+  v <- c(cos(phi), -sin(phi))   # short axis (perpendicular)
 
   data.frame(
     x = x0 + a * cos(t) * u[1] + b * sin(t) * v[1],
@@ -357,33 +367,97 @@ ellipse_points <- function(x0, y0, a, R, angle, n = 100L) {
   )
 }
 
-# Stat: turns each (x, y, R, angle[, a]) row into a closed polygon
-StatEllipse <- ggplot2::ggproto("StatEllipse", ggplot2::Stat,
-                       required_aes = c("x", "y", "R", "angle"),
 
-                       compute_panel = function(data, scales, a = 1, n = 100L) {
-                         out <- lapply(seq_len(nrow(data)), function(i) {
-                           row <- data[i, , drop = FALSE]
-                           # use per-ellipse 'a' if mapped in aes(), otherwise the fixed argument
-                           a_i <- if ("a" %in% names(data)) data$a[i] else a
+#' @rdname geom_ellipse2
+#' @format NULL
+#' @usage NULL
+#' @importFrom ggplot2 ggproto Stat
+#' @export
+StatEllipseOrient <- ggplot2::ggproto("StatEllipseOrient", ggplot2::Stat,
+                                      required_aes = c("x", "y", "R", "angle"),
 
-                           pts <- ellipse_points(row$x, row$y, a_i, row$R, row$angle, n)
-                           pts$group <- i                    # one polygon per input row
+                                      compute_panel = function(data, scales, a = 1, n = 100) {
+                                        out <- lapply(seq_len(nrow(data)), function(i) {
+                                          row <- data[i, , drop = FALSE]
+                                          a_i <- if ("a" %in% names(data)) data$a[i] else a
 
-                           # carry all other aesthetics (fill, colour, ...) along
-                           rest <- row[rep(1L, n), setdiff(names(row), c("x", "y", "group")), drop = FALSE]
-                           cbind(pts, rest, row.names = NULL)
-                         })
-                         do.call(rbind, out)
-                       }
+                                          pts <- ellipse_points(row$x, row$y, a_i, row$R, row$angle, n)
+                                          pts$group <- i
+
+                                          rest <- row[rep(1L, n), setdiff(names(row), c("x", "y", "group")), drop = FALSE]
+                                          cbind(pts, rest, row.names = NULL)
+                                        })
+                                        do.call(rbind, out)
+                                      }
 )
 
-# User-facing constructor
-geom_ellipse2 <- function(mapping = NULL, data = NULL, a = 1, n = 100L,
-                          show.legend = NA, inherit.aes = TRUE, ...) {
+
+#' Oriented ellipses
+#'
+#' Draws one ellipse per row of the data. Each ellipse is defined by its centre
+#' (`x`, `y`), its aspect ratio (`R`), and the azimuth of its long axis
+#' (`angle`). Useful for strain ellipses, shape-preferred orientations, clast
+#' fabrics, or any orientation data with an associated axial ratio.
+#'
+#' @inheritParams ggplot2::layer
+#' @param a Numeric. Length of the semi-major axis used for every ellipse
+#'   (default `1`). Ignored if `a` is mapped as an aesthetic. Give half the
+#'   value if you have the full long-axis length.
+#' @param n Integer. Number of vertices per ellipse (default `100`).
+#' @param ... Other arguments passed on to [ggplot2::layer()], usually fixed
+#'   aesthetics such as `colour = "black"`, `fill = NA`, or `linewidth = 0.3`.
+#'
+#' @section Aesthetics:
+#' `geom_ellipse2()` understands the following aesthetics (required ones are in
+#' bold):
+#' \itemize{
+#'   \item \strong{`x`}, \strong{`y`}: centre of the ellipse
+#'   \item \strong{`R`}: aspect ratio \eqn{a/b \ge 1}
+#'   \item \strong{`angle`}: azimuth of the long axis in degrees, clockwise
+#'     from north (`0` = N-S, `90` = E-W)
+#'   \item `a`: semi-major axis length, one value per ellipse (overrides the
+#'     `a` argument)
+#'   \item `colour`, `fill`, `alpha`, `linewidth`, `linetype`, `group`
+#' }
+#'
+#' @details
+#' The ellipses are drawn in data units, so use [ggplot2::coord_fixed()] (or
+#' `coord_sf()` with a projected CRS) to keep their shape. The angle follows
+#' the azimuth convention, measured clockwise from the positive `y` axis. It is
+#' not the mathematical counter-clockwise angle from the `x` axis.
+#'
+#' @return A ggplot2 layer.
+#'
+#' @seealso [ellipse_points()] for the underlying geometry.
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' df <- data.frame(
+#'   x     = c(0, 2, -1.5),
+#'   y     = c(0, 1,  1.5),
+#'   R     = c(2, 3,  1.5),
+#'   angle = c(0, 45, 120)
+#' )
+#'
+#' # Same semi-major axis for all ellipses
+#' ggplot(df, aes(x, y, R = R, angle = angle)) +
+#'   geom_ellipse2(a = 1, fill = NA, colour = "black") +
+#'   coord_fixed()
+#'
+#' # Semi-major axis mapped per ellipse, filled by aspect ratio
+#' df$len <- c(1, 1.5, 0.8)
+#' ggplot(df, aes(x, y, R = R, angle = angle, a = len, fill = R)) +
+#'   geom_ellipse2(alpha = 0.6) +
+#'   coord_fixed()
+#'
+#' @importFrom ggplot2 layer GeomPolygon
+#' @export
+geom_ellipse2 <- function(mapping = NULL, data = NULL, a = 1, n = 100,
+                         show.legend = NA, inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat        = StatEllipse,
-    geom        = GeomPolygon,
+    stat        = StatEllipseOrient,
+    geom        = ggplot2::GeomPolygon,
     mapping     = mapping,
     data        = data,
     position    = "identity",
