@@ -50,7 +50,7 @@ krige_gamma <- function(h, model, nugget, range_km, sill = 1) {
 #' \eqn{\text{mean}(1 - \cos(2  (a_i - a_j)))}. Use it to choose `nugget` and `range_km`
 #' for [circular_krige()].
 #'
-#' @param x `sf` object with `azi` (degrees).
+#' @param x `sf` object with `azi` (orientation agnles in degrees).
 #' @param breaks numeric. Distance bin edges in km.
 #'
 #' @returns data.frame with `lag` (km), `gamma` and `n` (pairs per bin).

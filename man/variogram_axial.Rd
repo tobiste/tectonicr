@@ -7,7 +7,7 @@
 variogram_axial(x, breaks = seq(0, 500, 50))
 }
 \arguments{
-\item{x}{\code{sf} object with \code{azi} (degrees).}
+\item{x}{\code{sf} object with \code{azi} (orientation agnles in degrees).}
 
 \item{breaks}{numeric. Distance bin edges in km.}
 }
