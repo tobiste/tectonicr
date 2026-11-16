@@ -36,10 +36,14 @@ Stephan et al., 2023). The following methods are available:
 - **Average direction and variance of a set of SHmax data** using
   (weighted) statistics and other parameters to statistically estimate
   the distribution parameters of pi-directional data.
-- **Spatial interpolation of of SHmax**:
-  [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md)
+- **Spatial interpolation and smoothing of of SHmax**:
+  [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md)
   uses distance, method, and quality-weighted mean direction of stress
-  data without being affected by angular distortions.
+  data without being affected by angular distortions,
+  [`circular_krige()`](https://tobiste.github.io/tectonicr/reference/krige.md)
+  for ordinary kriging of the axial tensor, with a variogram, and
+  [`circular_smooth()`](https://tobiste.github.io/tectonicr/reference/smooth.md)
+  uses a kernel smoother with a smoothness penalty and robust weights.
 - **Rose plot**
   [`rose()`](https://tobiste.github.io/tectonicr/reference/rose.md)
   shows the frequencies of the orientations in polar coordinates

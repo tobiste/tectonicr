@@ -19,7 +19,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2026-11-15</h4>
+            <h4 data-toc-skip class="date">2026-11-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/interpolation.Rmd" class="external-link"><code>vignettes/interpolation.Rmd</code></a></small>
       <div class="d-none name"><code>interpolation.Rmd</code></div>
@@ -95,17 +95,17 @@ and display the lateral patterns of stress anomalies.</p>
 <p>Spatial interpolation of stress data is based on the weighted
 statistical metrics:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The default settings apply quality and inverse distance weighting of
-the mean, as well as a 25% cut-off for the standard deviation.</p>
+<code class="sourceCode R"><span><span class="va">mean_SH</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/idw.html">circular_idw</a></span><span class="op">(</span><span class="va">san_andreas</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The default settings apply quality and <strong>inverse distance
+weighting</strong> of the mean, as well as a 25% cut-off for the
+standard deviation.</p>
 <blockquote>
 <p>The <code>tectonicr</code> algorithm is a modified version of the
-MATLAB algorithm ‘stress2grid’ by Ziegler and Heidbach (2017) but it is
-faster and provides additional features. See
-<code><a href="../reference/stress2grid.html">help(stress2grid)</a></code> for more details and settings, such as
-different statistics for calculating the orientation average,
-adjustments of the weighting power of the distance, quality or
-method.</p>
+MATLAB algorithm ‘stress2grid’ by Ziegler and Heidbach (2017), providing
+additional features. See <code><a href="../reference/idw.html">help(circular_idw)</a></code> for more
+details and settings, such as different statistics for calculating the
+orientation average, adjustments of the weighting power of the distance,
+quality or method.</p>
 </blockquote>
 <p>The data can now be visualized:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -136,7 +136,7 @@ points. Assuming that the stress field is sourced by the plate boundary
 force, the model-based interpolation allows more reliable results for
 areas close to plate boundaries.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mean_SH_PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mean_SH_PoR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_idw.html">PoR_circular_idw</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mean_SH_PoR</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trajectories</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>

@@ -46,12 +46,12 @@ Geology, 74(5), 786–797.
 Scheidegger, A. E. (1964). The tectonic stress and tectonic motion
 direction in Europe and Western Asia as calculated from earthquake fault
 plane solutions. Bulletin of the Seismological Society of America,
-54(5A), 1519–1528. doi:10.1785/BSSA05405A1519
+54(5A), 1519\<U+2013\>1528. doi:10.1785/BSSA05405A1519
 
 Bachmann, F., Hielscher, R., Jupp, P. E., Pantleon, W., Schaeben, H., &
 Wegert, E. (2010). Inferential statistics of electron backscatter
 diffraction data from within individual crystalline grains. Journal of
-Applied Crystallography, 43(6), 1338–1355.
+Applied Crystallography, 43(6), 1338\<U+2013\>1355.
 https://doi.org/10.1107/S002188981003027X
 
 ## See also

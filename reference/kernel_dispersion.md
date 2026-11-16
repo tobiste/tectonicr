@@ -73,9 +73,9 @@ dispersion_grid(...)
   integer. If the number of observations within distance `R_range` is
   less than `min_data`, a missing value `NA` will be generated. Default
   is `3` for
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+  [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md)
   and `4` for
-  [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md).
+  [`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md).
 
 - max_data:
 

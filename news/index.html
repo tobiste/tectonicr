@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,14 +48,26 @@
 <h2 class="pkg-version" data-toc-text="development version" id="tectonicr-development-version">tectonicr (development version)<a class="anchor" aria-label="anchor" href="#tectonicr-development-version"></a></h2>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.10" id="tectonicr-0410">tectonicr 0.4.10<a class="anchor" aria-label="anchor" href="#tectonicr-0410"></a></h2><p class="text-muted">CRAN release: 2026-11-03</p>
+<h2 class="pkg-version" data-toc-text="0.4.10.9001" id="tectonicr-04109001-2026-11-02">tectonicr 0.4.10.9001 <em>2026-11-02</em>
+<a class="anchor" aria-label="anchor" href="#tectonicr-04109001-2026-11-02"></a></h2>
 <div class="section level3">
-<h3 id="new-implementations-0-4-10">NEW implementations<a class="anchor" aria-label="anchor" href="#new-implementations-0-4-10"></a></h3>
-<ul><li>added circular tests: Moore (1980) rank-weighted Rayleigh test: <code><a href="../reference/weighted_rayleigh_moore.html">weighted_rayleigh_moore()</a></code>, <code><a href="../reference/weighted_rayleigh_moore.html">weighted_rayleigh_moore_perm()</a></code>
+<h3 id="new-implementations-0-4-10-9001">NEW implementations<a class="anchor" aria-label="anchor" href="#new-implementations-0-4-10-9001"></a></h3>
+<ul><li>Moore (1980) rank-weighted Rayleigh test: <code><a href="../reference/weighted_rayleigh_moore.html">weighted_rayleigh_moore()</a></code>, <code><a href="../reference/weighted_rayleigh_moore.html">weighted_rayleigh_moore_perm()</a></code>
 </li>
-<li>Hansen &amp; Mount (1990) / Müller et al. (2003) spatial algorithm for stress field: <code><a href="../reference/stress2grid_hansen.html">stress2grid_hansen()</a></code>
+<li>Hansen &amp; Mount (1990) / Müller et al. (2003) spatial algorithm for stress field: <code><a href="../reference/smooth.html">circular_smooth()</a></code>
 </li>
-<li>Cardioid distribution added</li>
+<li>
+<code>circular_krige</code> function to perform spatial interpolation of circular data using kriging after van den Boogaart, K.G. and Schaeben, H. (2002).</li>
+<li>Cardioid distribution functions: <code><a href="../reference/cardioid.html">dcard()</a></code>, <code><a href="../reference/cardioid.html">pcard()</a></code>, <code><a href="../reference/cardioid.html">qcard()</a></code>, and <code><a href="../reference/cardioid.html">rcard()</a></code>
+</li>
+<li>Plotting oriented ellipses using <code><a href="../reference/ellipse_points.html">ellipse_points()</a></code> and <code><a href="../reference/geom_ellipse2.html">geom_ellipse2()</a></code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-0-4-10-9001">Changes<a class="anchor" aria-label="anchor" href="#changes-0-4-10-9001"></a></h3>
+<ul><li>
+<code><a href="../reference/idw.html">stress2grid()</a></code> renamed to <code><a href="../reference/idw.html">circular_idw()</a></code>
+</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -119,7 +131,7 @@
 <li>NEW: Kernel density estimation in circular plot can be plotted as filled polygon through option <code>fill</code>
 </li>
 <li>NEW: 2 example files datasets (<code>homing</code> and <code>striae</code>) added for testing directional data</li>
-<li>Many functions have been optimized and debugged using Claude.AI (including <code><a href="../reference/stress2grid.html">stress2grid()</a></code>, <code><a href="../reference/rayleigh-test.html">rayleigh_test()</a></code>, <code><a href="../reference/kuiper_test.html">kuiper_test()</a></code> and <code><a href="../reference/watson_test.html">watson_test()</a></code>
+<li>Many functions have been optimized and debugged using Claude.AI (including <code><a href="../reference/idw.html">stress2grid()</a></code>, <code><a href="../reference/rayleigh-test.html">rayleigh_test()</a></code>, <code><a href="../reference/kuiper_test.html">kuiper_test()</a></code> and <code><a href="../reference/watson_test.html">watson_test()</a></code>
 </li>
 <li>North label “N” in <code><a href="../reference/circular_plot.html">circular_plot()</a></code> (and thus in <code><a href="../reference/rose.html">rose()</a></code>) now a placed <code>text</code> instead of <code>mtext</code>.</li>
 </ul></div>
@@ -152,7 +164,7 @@
 <li>NEW: calculate shortest distance to plate boundary (which is not always the best choice! see function description for details.)</li>
 <li>major bug fix in <code><a href="../reference/estimate-kappa.html">est.kappa()</a></code>: converts to directional data by doubling the angles</li>
 <li>calculating circular mode in <code><a href="../reference/circular_summary.html">circular_summary()</a></code> now optional due to performance issues</li>
-<li>some weighting parameters in <code><a href="../reference/stress2grid.html">stress2grid()</a></code> have been renamed to me more alike with {gstat}</li>
+<li>some weighting parameters in <code><a href="../reference/idw.html">stress2grid()</a></code> have been renamed to me more alike with {gstat}</li>
 <li>choice of algorithm to calculate confidence interval now optional in <code><a href="../reference/circular_summary.html">circular_summary()</a></code>
 </li>
 <li>minor bug fixes</li>
@@ -160,7 +172,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.6" id="tectonicr-046-2025-02-27">tectonicr 0.4.6 <em>2025-02-27</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-046-2025-02-27"></a></h2><p class="text-muted">CRAN release: 2025-03-01</p>
-<ul><li>performance boost for <code><a href="../reference/stress2grid.html">stress2grid()</a></code> and friends</li>
+<ul><li>performance boost for <code><a href="../reference/idw.html">stress2grid()</a></code> and friends</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.5" id="tectonicr-045-2025-02-26">tectonicr 0.4.5 <em>2025-02-26</em>
@@ -251,7 +263,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="tectonicr-030-2024-05-14">tectonicr 0.3.0 <em>2024-05-14</em>
 <a class="anchor" aria-label="anchor" href="#tectonicr-030-2024-05-14"></a></h2>
-<ul><li>weighting powers added to spatial interpolation <code><a href="../reference/stress2grid.html">stress2grid()</a></code>
+<ul><li>weighting powers added to spatial interpolation <code><a href="../reference/idw.html">stress2grid()</a></code>
 </li>
 <li>
 <code><a href="../reference/deviation_norm.html">deviation_norm()</a></code> accepts two arguments</li>

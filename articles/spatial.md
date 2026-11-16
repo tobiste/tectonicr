@@ -38,16 +38,16 @@ circular_summary(san_andreas$azi, w = weighting(san_andreas$unc))
 ## Spatial analysis
 
 Spatial analysis and interpolation of stress data using
-[`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+[`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md)
 or
-[`PoR_stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md)
+[`PoR_circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
 (analysis in the PoR coordinate system) uses a moving window with a user
 defined cell-size (im km) and calculates the summary statistics within
 each cell:
 
 ``` r
 
-spatial_stats_R <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = 100)
+spatial_stats_R <- PoR_circular_idw_stats(san_andreas, PoR = por, gridsize = 1, R_range = 100)
 subset(spatial_stats_R, !is.na(mean)) |> head()
 #> Simple feature collection with 6 features and 23 fields
 #> Geometry type: POINT
@@ -88,7 +88,7 @@ One can also specify a range of cell-sizes for a wavelength analysis:
 
 ``` r
 
-spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100), mode = TRUE)
+spatial_stats <- PoR_circular_idw_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100), mode = TRUE)
 ```
 
 The mean azimuth for each grid cell:
@@ -164,9 +164,9 @@ ggplot(spatial_stats_comp) +
 
 ## Heat maps for the spatial statistics
 
-[`PoR_stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md)
+[`PoR_circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
 and
-[`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+[`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md)
 allow to create heatmaps showing the spatial patterns of any desired
 statistical estimate (from
 [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)).

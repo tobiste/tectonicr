@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,7 @@
 <li>
 <strong>Average direction and variance of a set of SHmax data</strong> using (weighted) statistics and other parameters to statistically estimate the distribution parameters of pi-directional data.</li>
 <li>
-<strong>Spatial interpolation of of SHmax</strong>: <code><a href="reference/PoR_stress2grid.html">PoR_stress2grid()</a></code> uses distance, method, and quality-weighted mean direction of stress data without being affected by angular distortions.</li>
+<strong>Spatial interpolation and smoothing of of SHmax</strong>: <code><a href="reference/idw.html">circular_idw()</a></code> uses distance, method, and quality-weighted mean direction of stress data without being affected by angular distortions, <code><a href="reference/krige.html">circular_krige()</a></code> for ordinary kriging of the axial tensor, with a variogram, and <code><a href="reference/smooth.html">circular_smooth()</a></code> uses a kernel smoother with a smoothness penalty and robust weights.</li>
 <li>
 <strong>Rose plot</strong> <code><a href="reference/rose.html">rose()</a></code> shows the frequencies of the orientations in polar coordinates</li>
 <li>
@@ -205,7 +205,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=tectonicr" class="external-link"><img src="https://www.r-pkg.org/badges/version/tectonicr" alt="CRAN status"></a></li>
-<li><a href="https://github.com/tobiste/tectonicr" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.4.9.9001-orange.svg"></a></li>
+<li><a href="https://github.com/tobiste/tectonicr" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.4.10.9002-orange.svg"></a></li>
 <li><a href="https://cran.r-project.org/package=tectonicr" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow"></a></li>
 <li><a href="https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/tobiste/tectonicr" class="external-link"><img src="https://codecov.io/gh/tobiste/tectonicr/graph/badge.svg?token=bY7i7QHdix" alt="codecov"></a></li>

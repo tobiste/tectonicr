@@ -19,7 +19,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
                         <h4 data-toc-skip class="author">Tobias
 Stephan</h4>
             
-            <h4 data-toc-skip class="date">2026-11-15</h4>
+            <h4 data-toc-skip class="date">2026-11-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tobiste/tectonicr/blob/main/vignettes/spatial.Rmd" class="external-link"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="d-none name"><code>spatial.Rmd</code></div>
@@ -102,12 +102,12 @@ i.e. 2nd moment = variance, 3rd = skewness, 4th = kurtosis):</p>
 <h2 id="spatial-analysis">Spatial analysis<a class="anchor" aria-label="anchor" href="#spatial-analysis"></a>
 </h2>
 <p>Spatial analysis and interpolation of stress data using
-<code><a href="../reference/stress2grid.html">stress2grid_stats()</a></code> or <code><a href="../reference/PoR_stress2grid.html">PoR_stress2grid_stats()</a></code>
-(analysis in the PoR coordinate system) uses a moving window with a user
-defined cell-size (im km) and calculates the summary statistics within
-each cell:</p>
+<code><a href="../reference/idw.html">circular_idw_stats()</a></code> or
+<code><a href="../reference/PoR_idw.html">PoR_circular_idw_stats()</a></code> (analysis in the PoR coordinate
+system) uses a moving window with a user defined cell-size (im km) and
+calculates the summary statistics within each cell:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">spatial_stats_R</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid_stats</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">spatial_stats_R</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_idw.html">PoR_circular_idw_stats</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">spatial_stats_R</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Simple feature collection with 6 features and 23 fields</span></span>
 <span><span class="co">#&gt; Geometry type: POINT</span></span>
@@ -145,7 +145,7 @@ each cell:</p>
 <p>One can also specify a range of cell-sizes for a wavelength
 analysis:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">spatial_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_stress2grid.html">PoR_stress2grid_stats</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span>, mode <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">spatial_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PoR_idw.html">PoR_circular_idw_stats</a></span><span class="op">(</span><span class="va">san_andreas</span>, PoR <span class="op">=</span> <span class="va">por</span>, gridsize <span class="op">=</span> <span class="fl">1</span>, R_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">350</span>, <span class="fl">100</span><span class="op">)</span>, mode <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The mean azimuth for each grid cell:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trajectories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stress_paths.html">eulerpole_loxodromes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">por</span>, n <span class="op">=</span> <span class="fl">40</span>, cw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -202,8 +202,8 @@ kurtosis within each search window:</p>
 <div class="section level2">
 <h2 id="heat-maps-for-the-spatial-statistics">Heat maps for the spatial statistics<a class="anchor" aria-label="anchor" href="#heat-maps-for-the-spatial-statistics"></a>
 </h2>
-<p><code><a href="../reference/PoR_stress2grid.html">PoR_stress2grid_stats()</a></code> and
-<code><a href="../reference/stress2grid.html">stress2grid_stats()</a></code> allow to create heatmaps showing the
+<p><code><a href="../reference/PoR_idw.html">PoR_circular_idw_stats()</a></code> and
+<code><a href="../reference/idw.html">circular_idw_stats()</a></code> allow to create heatmaps showing the
 spatial patterns of any desired statistical estimate (from
 <code><a href="../reference/circular_summary.html">circular_summary()</a></code>). Some examples:</p>
 <div class="section level3">

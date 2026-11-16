@@ -45,12 +45,12 @@ list containing objects of class `data.frame`
 
 Altamimi, Z., Métivier, L., Rebischung, P., Collilieux, X., Chanard, K.,
 Barnéoud, J., 2023. ITRF2020 Plate Motion Model. *Geophys. Res. Lett.*
-**50**, 1–7.
+**50**, 1\<U+2013\>7.
 [doi:10.1029/2023GL106373](https://doi.org/10.1029/2023GL106373)
 
 Argus, D.F., Gordon, R.G., 1991. No-net-rotation model of current plate
 velocities incorporating plate motion model NUVEL-1. *Geophys. Res.
-Lett.* **18**, 2039–2042. doi: 10.1029/91GL01532
+Lett.* **18**, 2039\<U+2013\>2042. doi: 10.1029/91GL01532
 
 Argus, D. F., Gordon, R. G., & DeMets, C. (2011). Geologically current
 motion of 56 plates relative to the no-net-rotation reference frame.
@@ -58,14 +58,16 @@ motion of 56 plates relative to the no-net-rotation reference frame.
 10.1029/2011GC003751.
 
 Chase, C.G. (1978). Plate kinematics: The Americas, East Africa, and the
-rest of the world. *Earth Planet. Sci. Lett.* **37**, 355–368. doi:
+rest of the world. *Earth Planet. Sci. Lett.* **37**, 355\<U+2013\>368.
+doi:
 [doi:10.1016/0012-821X(78)90051-1](https://doi.org/10.1016/0012-821X%2878%2990051-1)
 
 Bird, P. (2003), An updated digital model of plate boundaries, *Geochem.
 Geophys. Geosyst.*, **4**, 1027, doi: 10.1029/2001GC000252, 3.
 
 DeMets, C., Gordon, R. G., Argus, D. F., & Stein, S. (1990). Current
-plate motions. *Geophysical Journal International*, **101**(2), 425-478.
+plate motions. *Geophysical Journal International*, **101**(2),
+425\<U+2013\>478.
 [doi:10.1111/j.1365-246X.1990.tb06579.x](https://doi.org/10.1111/j.1365-246X.1990.tb06579.x)
 .
 

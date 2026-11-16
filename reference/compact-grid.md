@@ -18,18 +18,18 @@ compact_grid2(x, ..., FUN = min)
 - x:
 
   output of
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
-  [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
-  [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
+  [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md),
+  [`PoR_circular_idw()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md),
+  [`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md),
   or
   [`kernel_dispersion()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md)
 
 - type:
 
   character. Type of the grid `x`. Either `"stress"` (when input is
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+  [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md)
   or
-  [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md))
+  [`PoR_circular_idw()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md))
   or `"dispersion"` (when input is
   [`kernel_dispersion()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md)).
 
@@ -50,18 +50,18 @@ compact_grid2(x, ..., FUN = min)
 
 ## See also
 
-[`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
-[`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md),
-[`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
+[`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md),
+[`circular_smooth()`](https://tobiste.github.io/tectonicr/reference/smooth.md),
+[`PoR_circular_idw()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md),
 [`kernel_dispersion()`](https://tobiste.github.io/tectonicr/reference/kernel_dispersion.md),
-[`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
+[`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md),
 [`dplyr::dplyr_tidy_select()`](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html)
 
 ## Examples
 
 ``` r
 data("san_andreas")
-res <- stress2grid(san_andreas)
+res <- circular_idw(san_andreas)
 compact_grid(res) |> head()
 #> Simple feature collection with 6 features and 7 fields
 #> Geometry type: POINT
@@ -77,7 +77,7 @@ compact_grid(res) |> head()
 #> 6 150 -108.82 36.08 143.7086285 32.137765  3 0.7654557 POINT (-108.82 36.08)
 
 if (FALSE) { # \dontrun{
-res2 <- stress2grid_stats(san_andreas)
+res2 <- circular_idw_stats(san_andreas)
 compact_grid2(res2, var, FUN = min)
 } # }
 ```

@@ -2,19 +2,35 @@
 
 ## tectonicr (development version)
 
-## tectonicr 0.4.10
-
-CRAN release: 2026-11-03
+## tectonicr 0.4.10.9001 *2026-11-02*
 
 ### NEW implementations
 
-- added circular tests: Moore (1980) rank-weighted Rayleigh test:
+- Moore (1980) rank-weighted Rayleigh test:
   [`weighted_rayleigh_moore()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.md),
   [`weighted_rayleigh_moore_perm()`](https://tobiste.github.io/tectonicr/reference/weighted_rayleigh_moore.md)
 - Hansen & Mount (1990) / Müller et al. (2003) spatial algorithm for
   stress field:
-  [`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
-- Cardioid distribution added
+  [`circular_smooth()`](https://tobiste.github.io/tectonicr/reference/smooth.md)
+- `circular_krige` function to perform spatial interpolation of circular
+  data using kriging after van den Boogaart, K.G. and Schaeben, H.
+  (2002).
+- Cardioid distribution functions:
+  [`dcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md),
+  [`pcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md),
+  [`qcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md),
+  and
+  [`rcard()`](https://tobiste.github.io/tectonicr/reference/cardioid.md)
+- Plotting oriented ellipses using
+  [`ellipse_points()`](https://tobiste.github.io/tectonicr/reference/ellipse_points.md)
+  and
+  [`geom_ellipse2()`](https://tobiste.github.io/tectonicr/reference/geom_ellipse2.md)
+
+### Changes
+
+- [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+  renamed to
+  [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md)
 
 ## tectonicr 0.4.9002 *2026-11-02*
 
@@ -126,7 +142,7 @@ CRAN release: 2026-08-29
   testing directional data
 - Many functions have been optimized and debugged using Claude.AI
   (including
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
+  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/idw.md),
   [`rayleigh_test()`](https://tobiste.github.io/tectonicr/reference/rayleigh-test.md),
   [`kuiper_test()`](https://tobiste.github.io/tectonicr/reference/kuiper_test.md)
   and
@@ -188,7 +204,7 @@ CRAN release: 2025-05-22
   [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)
   now optional due to performance issues
 - some weighting parameters in
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/idw.md)
   have been renamed to me more alike with {gstat}
 - choice of algorithm to calculate confidence interval now optional in
   [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)
@@ -199,7 +215,7 @@ CRAN release: 2025-05-22
 CRAN release: 2025-03-01
 
 - performance boost for
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/idw.md)
   and friends
 
 ## tectonicr 0.4.5 *2025-02-26*
@@ -311,7 +327,7 @@ CRAN release: 2024-05-27
 ## tectonicr 0.3.0 *2024-05-14*
 
 - weighting powers added to spatial interpolation
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/idw.md)
 - [`deviation_norm()`](https://tobiste.github.io/tectonicr/reference/deviation_norm.md)
   accepts two arguments
 

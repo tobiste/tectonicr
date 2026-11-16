@@ -91,7 +91,7 @@ different distributions.
 
 **Concentration Differences**: The test can suffer from markedly lower
 statistical power if the underlying unimodal distributions differ by
-concentration (dispersion/spread) rather than location—especially with
+concentration (dispersion/spread) rather than location, especially with
 small, uneven sample sizes where the smaller sample comes from the more
 concentrated distribution.
 

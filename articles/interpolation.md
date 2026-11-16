@@ -27,16 +27,16 @@ statistical metrics:
 
 ``` r
 
-mean_SH <- stress2grid(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
+mean_SH <- circular_idw(san_andreas, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
-The default settings apply quality and inverse distance weighting of the
-mean, as well as a 25% cut-off for the standard deviation.
+The default settings apply quality and **inverse distance weighting** of
+the mean, as well as a 25% cut-off for the standard deviation.
 
 > The `tectonicr` algorithm is a modified version of the MATLAB
-> algorithm ‘stress2grid’ by Ziegler and Heidbach (2017) but it is
-> faster and provides additional features. See
-> [`help(stress2grid)`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+> algorithm ‘stress2grid’ by Ziegler and Heidbach (2017), providing
+> additional features. See
+> [`help(circular_idw)`](https://tobiste.github.io/tectonicr/reference/idw.md)
 > for more details and settings, such as different statistics for
 > calculating the orientation average, adjustments of the weighting
 > power of the distance, quality or method.
@@ -75,7 +75,7 @@ areas close to plate boundaries.
 
 ``` r
 
-mean_SH_PoR <- PoR_stress2grid(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
+mean_SH_PoR <- PoR_circular_idw(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100))
 ```
 
 ``` r

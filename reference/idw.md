@@ -1,0 +1,313 @@
+# Spatial Interpolation of SHmax
+
+Stress field interpolation and wavelength analysis using a kernel
+(weighted) mean/median and standard deviation/IQR of stress data.
+Parameters can be adjusted to have inverse-distance-weighting (IDW) or
+nearest-neighbor interpolations (NN).
+
+## Usage
+
+``` r
+stress2grid(..., threshold = deprecated(), arte_thres = deprecated())
+
+circular_idw(
+  x,
+  stat = c("mean", "median", "tensor"),
+  grid = NULL,
+  lon_range = NULL,
+  lat_range = NULL,
+  gridsize = 2,
+  min_data = 3L,
+  max_data = Inf,
+  max_sd = Inf,
+  min_dist_threshold = 200,
+  method_weighting = FALSE,
+  quality_weighting = TRUE,
+  dist_weighting = c("inverse", "linear", "none"),
+  idp = 1,
+  qp = 1,
+  mp = 1,
+  dist_threshold = 0.1,
+  R_range = seq(50, 1000, 50),
+  axial = TRUE
+)
+
+stress2grid_stats(..., threshold = deprecated(), arte_thres = deprecated())
+
+circular_idw_stats(
+  x,
+  grid = NULL,
+  lon_range = NULL,
+  lat_range = NULL,
+  gridsize = 2,
+  min_data = 4L,
+  max_data = Inf,
+  max_sd = Inf,
+  min_dist_threshold = 200,
+  method_weighting = FALSE,
+  quality_weighting = TRUE,
+  dist_weighting = c("inverse", "linear", "none"),
+  idp = 1,
+  qp = 1,
+  mp = 1,
+  dist_threshold = 0.1,
+  R_range = seq(50, 1000, 50),
+  mode = FALSE,
+  kappa = 10,
+  axial = TRUE,
+  ...
+)
+```
+
+## Arguments
+
+- ...:
+
+  (optional) arguments to
+  [`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)
+
+- threshold:
+
+  **\[deprecated\]** is no longer supported; use `max_sd` instead.
+
+- arte_thres:
+
+  **\[deprecated\]** is no longer supported; use `min_dist_threshold`
+  instead.
+
+- x:
+
+  `sf` object containing
+
+  azi
+
+  :   angles in degrees (e.g. orientation of \\\sigma\_\text{Hmax}\\)
+
+  unc
+
+  :   (optional) Uncertainties of `azi` in degree
+
+  type
+
+  :   (optional) Methods used for the determination of the direction of
+      \\\sigma\_\text{Hmax}\\
+
+- stat:
+
+  whether the direction of interpolated \\\sigma\_\text{Hmax}\\ is based
+  on the circular mean and standard deviation (`"mean"`, the default),
+  the quasi-circular median and quasi-interquartile range (`"median"`),
+  or the orientation tensor based principal direction and dispersion
+  ("tensor").
+
+- grid:
+
+  (optional) Point object of class `sf`.
+
+- lon_range, lat_range:
+
+  (optional) numeric vector specifying the minimum and maximum
+  longitudes and latitudes (ignored if `grid` is specified).
+
+- gridsize:
+
+  numeric. Target spacing of the regular grid in decimal degree. Default
+  is `2.5`. (is ignored if `grid` is specified)
+
+- min_data:
+
+  integer. If the number of observations within distance `R_range` is
+  less than `min_data`, a missing value `NA` will be generated. Default
+  is `3` for `circular_idw()` and `4` for `circular_idw_stats()`.
+
+- max_data:
+
+  integer. The number of nearest observations that should be used for
+  prediction, where "nearest" is defined in terms of the space of the
+  spatial locations. Default is `Inf`.
+
+- max_sd:
+
+  numeric. Threshold for deviation of direction in degrees; if exceeds,
+  missing values will be generated.
+
+- min_dist_threshold:
+
+  numeric. Distance threshold for smallest distance of the prediction
+  location to the next observation location. Default is `200` km.
+
+- method_weighting:
+
+  logical. If a method weighting should be applied: Default is `FALSE`.
+  If `FALSE`, overwrites `mp`.
+
+- quality_weighting:
+
+  logical. If a quality weighting should be applied: Default is `TRUE`.
+  If `FALSE`, overwrites `qp`.
+
+- dist_weighting:
+
+  Distance weighting method which should be used. One of `"none"`,
+  `"linear"`, or `"inverse"` (the default).
+
+- idp, qp, mp:
+
+  numeric. The weighting power of inverse distance, quality and method
+  (the higher the value, the more weight). Default is `1`. When set to
+  `0`, no weighting is applied. Only effective when
+  `dist_weighting=="inverse"`.
+
+- dist_threshold:
+
+  numeric. Distance weight to prevent overweight of data nearby (0 to
+  1). Default is `0.1`
+
+- R_range:
+
+  numeric value or vector specifying the kernel half-width(s) search
+  radii, i.e. the maximum distance from the prediction location to be
+  used for prediction (in km). Default is `seq(50, 1000, 50)`. If
+  combined with `max_data`, both criteria apply.
+
+- axial:
+
+  Logical. Whether angles in `x$azi` are uniaxial (`FALSE`) or biaxial
+  (`TRUE`, the default).
+
+- mode:
+
+  logical. Should the circular mode be included in the statistical
+  summary (slow)?
+
+- kappa:
+
+  numeric. von Mises distribution concentration parameter used for the
+  circular mode. Will be estimated using
+  [`est.kappa()`](https://tobiste.github.io/tectonicr/reference/estimate-kappa.md)
+  if not provided.
+
+## Value
+
+`sf` object containing
+
+- lon,lat:
+
+  longitude and latitude in degrees
+
+- azi:
+
+  Circular mean od median SHmax in degree
+
+- sd:
+
+  Circular standard deviation or Quasi-IQR on the Circle of
+  \\\sigma\_\text{Hmax}\\ in degrees
+
+- R:
+
+  Search radius in km
+
+- mdr:
+
+  Mean distance between grid point and datapoints per search radius
+
+- N:
+
+  Number of data points in search radius
+
+When `circular_idw_stats()`, `azi` and `sd` are replaced by the output
+of
+[`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md).
+
+## Details
+
+`circular_idw()` is originally based on the MATLAB script "stress2grid"
+by Ziegler and Heidbach (2019):
+<https://github.com/MorZieg/Stress2Grid>. The tectonicr version has been
+significantly modified to provide better performance and more
+flexibility.
+
+`circular_idw_stats()` is based on `circular_idw()` but calculates
+circular summary statistics (see
+[`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)).
+
+## Note
+
+Although specialized for stress fields, this spatial interpolation
+algorithm can be applied to type of data. Please adjust the `axial`
+argument when applied to different, directional data sets.
+
+## References
+
+Ziegler, M. and Heidbach, O. (2019). Matlab Script Stress2Grid v1.1. GFZ
+Data Services.
+[doi:10.5880/wsm.2019.002](https://doi.org/10.5880/wsm.2019.002)
+
+## See also
+
+[`dist_greatcircle()`](https://tobiste.github.io/tectonicr/reference/dist_greatcircle.md),
+[`compact_grid()`](https://tobiste.github.io/tectonicr/reference/compact-grid.md),
+[`circular_mean()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md),
+[`circular_median()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md),
+[`circular_sd()`](https://tobiste.github.io/tectonicr/reference/circle_stats.md),
+[`circular_summary()`](https://tobiste.github.io/tectonicr/reference/circular_summary.md)
+
+Other smoothing:
+[`PoR_idw`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md),
+[`krige`](https://tobiste.github.io/tectonicr/reference/krige.md),
+[`smooth`](https://tobiste.github.io/tectonicr/reference/smooth.md)
+
+## Examples
+
+``` r
+data("san_andreas")
+
+# Inverse Distance Weighting interpolation:
+circular_idw(san_andreas, stat = "median") |> head()
+#> Simple feature collection with 6 features and 7 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -112.82 ymin: 24.08 xmax: -112.82 ymax: 24.08
+#> Geodetic CRS:  WGS 84
+#>       lon   lat      azi sd   R  N       mdr              geometry
+#> 1 -112.82 24.08       NA  0  50  0        NA POINT (-112.82 24.08)
+#> 2 -112.82 24.08       NA  0 100  0        NA POINT (-112.82 24.08)
+#> 3 -112.82 24.08 150.8269  7 150  4 0.8224433 POINT (-112.82 24.08)
+#> 4 -112.82 24.08 150.8269  7 200  4 0.6168325 POINT (-112.82 24.08)
+#> 5 -112.82 24.08 147.0000  7 250  7 0.6785179 POINT (-112.82 24.08)
+#> 6 -112.82 24.08 163.0000  1 300 17 0.7787910 POINT (-112.82 24.08)
+
+circular_idw(san_andreas, stat = "tensor") |> head()
+#> Simple feature collection with 6 features and 7 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -112.82 ymin: 24.08 xmax: -112.82 ymax: 24.08
+#> Geodetic CRS:  WGS 84
+#>       lon   lat       azi         sd   R  N       mdr              geometry
+#> 1 -112.82 24.08        NA 0.00000000  50  0        NA POINT (-112.82 24.08)
+#> 2 -112.82 24.08        NA 0.00000000 100  0        NA POINT (-112.82 24.08)
+#> 3 -112.82 24.08 -10.76635 0.13089882 150  4 0.8224433 POINT (-112.82 24.08)
+#> 4 -112.82 24.08 -10.76635 0.13089882 200  4 0.6168325 POINT (-112.82 24.08)
+#> 5 -112.82 24.08 -16.83535 0.11629943 250  7 0.6785179 POINT (-112.82 24.08)
+#> 6 -112.82 24.08 -14.82624 0.07587942 300 17 0.7787910 POINT (-112.82 24.08)
+
+# Nearest Neighbor interpolation:
+circular_idw(san_andreas, stat = "median", max_data = 5) |> head()
+#> Simple feature collection with 6 features and 7 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -112.82 ymin: 24.08 xmax: -112.82 ymax: 24.08
+#> Geodetic CRS:  WGS 84
+#>       lon   lat      azi sd   R N       mdr              geometry
+#> 1 -112.82 24.08       NA  0  50 0        NA POINT (-112.82 24.08)
+#> 2 -112.82 24.08       NA  0 100 0        NA POINT (-112.82 24.08)
+#> 3 -112.82 24.08 150.8269  7 150 4 0.8224433 POINT (-112.82 24.08)
+#> 4 -112.82 24.08 150.8269  7 200 4 0.6168325 POINT (-112.82 24.08)
+#> 5 -112.82 24.08 147.0000  7 250 5 0.5653079 POINT (-112.82 24.08)
+#> 6 -112.82 24.08 147.0000  7 300 5 0.4710899 POINT (-112.82 24.08)
+
+if (FALSE) { # \dontrun{
+circular_idw_stats(san_andreas, mode = TRUE) |> head()
+} # }
+```

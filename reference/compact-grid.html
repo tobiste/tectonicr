@@ -11,7 +11,7 @@ dispersion (or any statistic) for each coordinate, respectively."><meta property
 
     <a class="navbar-brand me-2" href="../index.html">tectonicr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.10.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,13 +67,13 @@ dispersion (or any statistic) for each coordinate, respectively.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>output of <code><a href="stress2grid.html">stress2grid()</a></code>, <code><a href="PoR_stress2grid.html">PoR_stress2grid()</a></code>,
-<code><a href="stress2grid.html">stress2grid_stats()</a></code>, or <code><a href="kernel_dispersion.html">kernel_dispersion()</a></code></p></dd>
+<dd><p>output of <code><a href="idw.html">circular_idw()</a></code>, <code><a href="PoR_idw.html">PoR_circular_idw()</a></code>,
+<code><a href="idw.html">circular_idw_stats()</a></code>, or <code><a href="kernel_dispersion.html">kernel_dispersion()</a></code></p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>character. Type of the grid <code>x</code>. Either <code>"stress"</code> (when input
-is <code><a href="stress2grid.html">stress2grid()</a></code> or <code><a href="PoR_stress2grid.html">PoR_stress2grid()</a></code>) or <code>"dispersion"</code> (when input
+is <code><a href="idw.html">circular_idw()</a></code> or <code><a href="PoR_idw.html">PoR_circular_idw()</a></code>) or <code>"dispersion"</code> (when input
 is <code><a href="kernel_dispersion.html">kernel_dispersion()</a></code>).</p></dd>
 
 
@@ -94,14 +94,14 @@ frame. Variable must be a column in <code>x</code>.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="stress2grid.html">stress2grid()</a></code>, <code><a href="stress2grid_hansen.html">stress2grid_hansen()</a></code>, <code><a href="PoR_stress2grid.html">PoR_stress2grid()</a></code>, <code><a href="kernel_dispersion.html">kernel_dispersion()</a></code>,
-<code><a href="stress2grid.html">stress2grid_stats()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html" class="external-link">dplyr::dplyr_tidy_select()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="idw.html">circular_idw()</a></code>, <code><a href="smooth.html">circular_smooth()</a></code>, <code><a href="PoR_idw.html">PoR_circular_idw()</a></code>, <code><a href="kernel_dispersion.html">kernel_dispersion()</a></code>,
+<code><a href="idw.html">circular_idw_stats()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html" class="external-link">dplyr::dplyr_tidy_select()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"san_andreas"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="stress2grid.html">stress2grid</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="idw.html">circular_idw</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">compact_grid</span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 7 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
@@ -117,7 +117,7 @@ frame. Variable must be a column in <code>x</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 150 -108.82 36.08 143.7086285 32.137765  3 0.7654557 POINT (-108.82 36.08)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu"><a href="stress2grid.html">stress2grid_stats</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu"><a href="idw.html">circular_idw_stats</a></span><span class="op">(</span><span class="va">san_andreas</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">compact_grid2</span><span class="op">(</span><span class="va">res2</span>, <span class="va">var</span>, FUN <span class="op">=</span> <span class="va">min</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>

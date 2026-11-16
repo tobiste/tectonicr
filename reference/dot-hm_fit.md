@@ -17,4 +17,4 @@ dominant eigenvector, so only the doubled-angle components (cos 2a, sin
 - robust_scale:
 
   minimum robustness scale in chord units (2 \* sin(deg / 2)), see
-  stress2grid_hansen().
+  circular_smooth().

@@ -15,11 +15,13 @@
   : PoR coordinate reference system
 - [`PoR_distance()`](https://tobiste.github.io/tectonicr/reference/PoR_distance.md)
   : Distance to Pole of Rotation
+- [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+  [`PoR_circular_idw()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+  [`PoR_stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+  [`PoR_circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md)
+  : Spatial Interpolation of SHmax in PoR Coordinate Reference System
 - [`PoR_map()`](https://tobiste.github.io/tectonicr/reference/PoR_map.md)
   : Map of data in Pole of Rotation reference frame
-- [`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md)
-  [`PoR_stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md)
-  : Spatial Interpolation of SHmax in PoR Coordinate Reference System
 - [`abs_vel()`](https://tobiste.github.io/tectonicr/reference/abs_vel.md)
   : Absolute Plate Velocity
 - [`rad2deg()`](https://tobiste.github.io/tectonicr/reference/angle-conversion.md)
@@ -111,6 +113,8 @@
   : Distance from plate boundary
 - [`earth_radius()`](https://tobiste.github.io/tectonicr/reference/earth_radius.md)
   : Earth's radius in km
+- [`ellipse_points()`](https://tobiste.github.io/tectonicr/reference/ellipse_points.md)
+  : Vertices of an oriented ellipse
 - [`equal_kappa_test()`](https://tobiste.github.io/tectonicr/reference/equal_kappa_test.md)
   : Equal \\\kappa\\ Test
 - [`equivalent_rotation()`](https://tobiste.github.io/tectonicr/reference/equivalent_rotation.md)
@@ -124,12 +128,19 @@
   : Azimuth visualization
 - [`geom_azimuthpoint()`](https://tobiste.github.io/tectonicr/reference/geom_azimuthpoint.md)
   : Azimuth + point visualization
+- [`geom_ellipse2()`](https://tobiste.github.io/tectonicr/reference/geom_ellipse2.md)
+  : Oriented ellipses
 - [`get_azimuth()`](https://tobiste.github.io/tectonicr/reference/get_azimuth.md)
   : Azimuth Between two Points
 - [`hodges_ajne_test()`](https://tobiste.github.io/tectonicr/reference/hodges_ajne_test.md)
   : Hodges-Ajne Test
 - [`homing`](https://tobiste.github.io/tectonicr/reference/homing.md) :
   Homing directions of Pidgeons
+- [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+  [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+  [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+  [`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md)
+  : Spatial Interpolation of SHmax
 - [`download_WSM()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)
   [`load_WSM()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)
   [`download_WSM2016()`](https://tobiste.github.io/tectonicr/reference/import_WSM.md)
@@ -219,6 +230,10 @@
   : Second Central Momentum
 - [`shortest_distance_to_line()`](https://tobiste.github.io/tectonicr/reference/shortest_distance_to_line.md)
   : Shortest distance between pairs of geometries
+- [`circular_smooth()`](https://tobiste.github.io/tectonicr/reference/smooth.md)
+  [`PoR_circular_smooth()`](https://tobiste.github.io/tectonicr/reference/smooth.md)
+  : Smoothed SHmax on a grid after Hansen & Mount (1990) / Müller et al.
+  (2003)
 - [`atan2_spec()`](https://tobiste.github.io/tectonicr/reference/spec_atan.md)
   [`atan2d_spec()`](https://tobiste.github.io/tectonicr/reference/spec_atan.md)
   : Quadrant-specific inverse of the tangent
@@ -226,13 +241,6 @@
   [`haversine()`](https://tobiste.github.io/tectonicr/reference/spherical_angle.md)
   [`vincenty()`](https://tobiste.github.io/tectonicr/reference/spherical_angle.md)
   : Angle along great circle on spherical surface
-- [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
-  [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
-  : Spatial Interpolation of SHmax
-- [`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
-  [`PoR_stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
-  : Smoothed SHmax on a grid after Hansen & Mount (1990) / Müller et al.
-  (2003)
 - [`stress_analysis()`](https://tobiste.github.io/tectonicr/reference/stress_analysis.md)
   : Quick analysis of a stress data set
 - [`stress_colors()`](https://tobiste.github.io/tectonicr/reference/stress_colors.md)

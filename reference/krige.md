@@ -101,9 +101,9 @@ PoR_circular_krige(
   integer. If the number of observations within distance `R_range` is
   less than `min_data`, a missing value `NA` will be generated. Default
   is `3` for
-  [`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md)
+  [`circular_idw()`](https://tobiste.github.io/tectonicr/reference/idw.md)
   and `4` for
-  [`stress2grid_stats()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md).
+  [`circular_idw_stats()`](https://tobiste.github.io/tectonicr/reference/idw.md).
 
 - min_dist_threshold:
 
@@ -236,9 +236,9 @@ and
 for the orientation tensor and its eigenvalue decomposition.
 
 Other smoothing:
-[`PoR_stress2grid()`](https://tobiste.github.io/tectonicr/reference/PoR_stress2grid.md),
-[`stress2grid()`](https://tobiste.github.io/tectonicr/reference/stress2grid.md),
-[`stress2grid_hansen()`](https://tobiste.github.io/tectonicr/reference/stress2grid_hansen.md)
+[`PoR_idw`](https://tobiste.github.io/tectonicr/reference/PoR_idw.md),
+[`idw`](https://tobiste.github.io/tectonicr/reference/idw.md),
+[`smooth`](https://tobiste.github.io/tectonicr/reference/smooth.md)
 
 ## Examples
 
