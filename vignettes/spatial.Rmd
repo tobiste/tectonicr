@@ -48,13 +48,13 @@ circular_summary(san_andreas$azi, w = weighting(san_andreas$unc))
 
 
 ## Spatial analysis
-Spatial analysis and interpolation of stress data using `stress2grid_stats()` 
-or `PoR_stress2grid_stats()` (analysis in the PoR coordinate system) uses a 
+Spatial analysis and interpolation of stress data using `circular_idw_stats()` 
+or `PoR_circular_idw_stats()` (analysis in the PoR coordinate system) uses a 
 moving window with a user defined cell-size (im km) and calculates the summary 
 statistics within each cell:
 
 ```{r interpolation,message=FALSE,warning=FALSE}
-spatial_stats_R <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = 100)
+spatial_stats_R <- PoR_circular_idw_stats(san_andreas, PoR = por, gridsize = 1, R_range = 100)
 subset(spatial_stats_R, !is.na(mean)) |> head()
 ```
 
@@ -62,7 +62,7 @@ subset(spatial_stats_R, !is.na(mean)) |> head()
 One can also specify a range of cell-sizes for a wavelength analysis:
 
 ```{r interpolation2,message=FALSE,warning=FALSE}
-spatial_stats <- PoR_stress2grid_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100), mode = TRUE)
+spatial_stats <- PoR_circular_idw_stats(san_andreas, PoR = por, gridsize = 1, R_range = seq(50, 350, 100), mode = TRUE)
 ```
 
 The mean azimuth for each grid cell:  
@@ -94,6 +94,7 @@ spatial_stats_comp <- spatial_stats |>
 
 Interpolated median stress field color-coded by the skewness within each search 
 window:
+
 ```{r}
 ggplot(spatial_stats_comp) +
   geom_sf(data = plate_boundary, color = "red") +
@@ -125,7 +126,7 @@ ggplot(spatial_stats_comp) +
 
 ## Heat maps for the spatial statistics
 
-`PoR_stress2grid_stats()` and `stress2grid_stats()` allow to create heatmaps 
+`PoR_circular_idw_stats()` and `circular_idw_stats()` allow to create heatmaps 
 showing the spatial patterns of any desired statistical estimate (from 
 `circular_summary()`). Some examples:
 
