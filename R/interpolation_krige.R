@@ -88,7 +88,7 @@ variogram_axial <- function(x, breaks = seq(0, 500, 50)) {
 #' uncertainty, given as a standard deviation in degrees, is used as
 #' measurement error on the diagonal of the kriging matrix.
 #'
-#' @inheritParams stress2grid_hansen
+#' @inheritParams PoR_circular_smooth
 #' @param R_range numeric value or vector of search radii in km. Only
 #'   observations within the radius are used.
 #' @param max_data integer. The number of nearest observations used for each

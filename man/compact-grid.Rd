@@ -11,11 +11,11 @@ compact_grid(x, type = c("stress", "dispersion"))
 compact_grid2(x, ..., FUN = min)
 }
 \arguments{
-\item{x}{output of \code{\link[=stress2grid]{stress2grid()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}},
-\code{\link[=stress2grid_stats]{stress2grid_stats()}}, or \code{\link[=kernel_dispersion]{kernel_dispersion()}}}
+\item{x}{output of \code{\link[=circular_idw]{circular_idw()}}, \code{\link[=PoR_circular_idw]{PoR_circular_idw()}},
+\code{\link[=circular_idw_stats]{circular_idw_stats()}}, or \code{\link[=kernel_dispersion]{kernel_dispersion()}}}
 
 \item{type}{character. Type of the grid \code{x}. Either \code{"stress"} (when input
-is \code{\link[=stress2grid]{stress2grid()}} or \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}) or \code{"dispersion"} (when input
+is \code{\link[=circular_idw]{circular_idw()}} or \code{\link[=PoR_circular_idw]{PoR_circular_idw()}}) or \code{"dispersion"} (when input
 is \code{\link[=kernel_dispersion]{kernel_dispersion()}}).}
 
 \item{...}{\verb{<tidy-select>} One unquoted expression separated by
@@ -35,15 +35,15 @@ dispersion (or any statistic) for each coordinate, respectively.
 }
 \examples{
 data("san_andreas")
-res <- stress2grid(san_andreas)
+res <- circular_idw(san_andreas)
 compact_grid(res) |> head()
 
 \dontrun{
-res2 <- stress2grid_stats(san_andreas)
+res2 <- circular_idw_stats(san_andreas)
 compact_grid2(res2, var, FUN = min)
 }
 }
 \seealso{
-\code{\link[=stress2grid]{stress2grid()}}, \code{\link[=stress2grid_hansen]{stress2grid_hansen()}}, \code{\link[=PoR_stress2grid]{PoR_stress2grid()}}, \code{\link[=kernel_dispersion]{kernel_dispersion()}},
-\code{\link[=stress2grid_stats]{stress2grid_stats()}}, \code{\link[dplyr:dplyr_tidy_select]{dplyr::dplyr_tidy_select()}}
+\code{\link[=circular_idw]{circular_idw()}}, \code{\link[=circular_smooth]{circular_smooth()}}, \code{\link[=PoR_circular_idw]{PoR_circular_idw()}}, \code{\link[=kernel_dispersion]{kernel_dispersion()}},
+\code{\link[=circular_idw_stats]{circular_idw_stats()}}, \code{\link[dplyr:dplyr_tidy_select]{dplyr::dplyr_tidy_select()}}
 }

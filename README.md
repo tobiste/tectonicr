@@ -4,7 +4,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tectonicr)](https://CRAN.R-project.org/package=tectonicr)
-[![](https://img.shields.io/badge/devel%20version-0.4.9.9001-orange.svg)](https://github.com/tobiste/tectonicr)
+[![](https://img.shields.io/badge/devel%20version-0.4.10.9002-orange.svg)](https://github.com/tobiste/tectonicr)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/tectonicr?color=yellow)](https://cran.r-project.org/package=tectonicr)
 [![R-CMD-check](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tobiste/tectonicr/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/tobiste/tectonicr/graph/badge.svg?token=bY7i7QHdix)](https://app.codecov.io/gh/tobiste/tectonicr)
@@ -40,9 +40,11 @@ Stephan et al., 2023). The following methods are available:
 -   **Average direction and variance of a set of SHmax data** using
     (weighted) statistics and other parameters to statistically estimate
     the distribution parameters of pi-directional data.
--   **Spatial interpolation of of SHmax**: `PoR_stress2grid()` uses
+-   **Spatial interpolation and smoothing of of SHmax**: `circular_idw()` uses
     distance, method, and quality-weighted mean direction of stress data
-    without being affected by angular distortions.
+    without being affected by angular distortions, `circular_krige()` for ordinary 
+    kriging of the axial tensor, with a variogram, and `circular_smooth()` uses a
+    kernel smoother with a smoothness penalty and robust weights.
 -   **Rose plot** `rose()` shows the frequencies of the orientations in
     polar coordinates
 -   **Stress anomaly map**: spatial distribution of the dispersion of

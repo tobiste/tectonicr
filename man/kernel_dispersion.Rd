@@ -48,7 +48,7 @@ degree. Default is \code{2.5}. (is ignored if \code{grid} is specified)}
 
 \item{min_data}{integer. If the number of observations within distance
 \code{R_range} is less than \code{min_data}, a missing value \code{NA} will be generated.
-Default is \code{3} for \code{\link[=stress2grid]{stress2grid()}} and \code{4} for \code{\link[=stress2grid_stats]{stress2grid_stats()}}.}
+Default is \code{3} for \code{\link[=circular_idw]{circular_idw()}} and \code{4} for \code{\link[=circular_idw_stats]{circular_idw_stats()}}.}
 
 \item{max_data}{integer. The number of nearest observations that should be
 used for prediction, where "nearest" is defined in terms of the space of the

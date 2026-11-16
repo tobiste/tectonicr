@@ -8,7 +8,7 @@
 }
 \arguments{
 \item{robust_scale}{minimum robustness scale in chord units
-(2 * sin(deg / 2)), see stress2grid_hansen().}
+(2 * sin(deg / 2)), see circular_smooth().}
 }
 \description{
 Objective per observation i (Hansen & Mount 1990, eq. 5; Müller et al. 2003,

@@ -1830,7 +1830,7 @@ ar_test_statistic <- function(s1, s2) {
 #' (`TRUE`) or directional, i.e. \eqn{2 \pi}{2pi}-periodical (`FALSE`, the default).
 #'
 #' @details
-#' **Null Hypothesis** (\eqn{H_0}{H₀}): The two circular samples share an identical underlying
+#' **Null Hypothesis** (\eqn{H_0}{H0}): The two circular samples share an identical underlying
 #' probability distribution.
 #'
 #' **Alternative Hypothesis** (\eqn{H_{1}}{H1}): The two samples come from different distributions.
@@ -1847,7 +1847,7 @@ ar_test_statistic <- function(s1, s2) {
 #' @note
 #' **Concentration Differences**: The test can suffer from markedly lower statistical
 #' power if the underlying unimodal distributions differ by concentration
-#' (dispersion/spread) rather than location—especially with small, uneven sample
+#' (dispersion/spread) rather than location, especially with small, uneven sample
 #' sizes where the smaller sample comes from the more concentrated distribution.
 #'
 #' **Axial/Multimodal Data**: ART performs poorly and loses power when applied to

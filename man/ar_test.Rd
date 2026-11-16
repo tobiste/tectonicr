@@ -35,7 +35,7 @@ circular data after Ruxton et al. (2023). Test whether samples of directions sha
 P-values are estimated using permutation.
 }
 \details{
-\strong{Null Hypothesis} (\eqn{H_0}{H₀}): The two circular samples share an identical underlying
+\strong{Null Hypothesis} (\eqn{H_0}{H0}): The two circular samples share an identical underlying
 probability distribution.
 
 \strong{Alternative Hypothesis} (\eqn{H_{1}}{H1}): The two samples come from different distributions.
@@ -52,7 +52,7 @@ there is insufficient evidence to claim the two circular samples differ.
 \note{
 \strong{Concentration Differences}: The test can suffer from markedly lower statistical
 power if the underlying unimodal distributions differ by concentration
-(dispersion/spread) rather than location—especially with small, uneven sample
+(dispersion/spread) rather than location, especially with small, uneven sample
 sizes where the smaller sample comes from the more concentrated distribution.
 
 \strong{Axial/Multimodal Data}: ART performs poorly and loses power when applied to

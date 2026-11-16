@@ -72,7 +72,7 @@ prediction. Default is \code{50}.}
 
 \item{min_data}{integer. If the number of observations within distance
 \code{R_range} is less than \code{min_data}, a missing value \code{NA} will be generated.
-Default is \code{3} for \code{\link[=stress2grid]{stress2grid()}} and \code{4} for \code{\link[=stress2grid_stats]{stress2grid_stats()}}.}
+Default is \code{3} for \code{\link[=circular_idw]{circular_idw()}} and \code{4} for \code{\link[=circular_idw_stats]{circular_idw_stats()}}.}
 
 \item{min_dist_threshold}{numeric. Distance threshold for smallest distance
 of the prediction location to the next observation location.
@@ -168,8 +168,8 @@ Mathematical Geology, 34(5), 479-503.
 \code{\link[=ortensor2d]{ortensor2d()}} and \code{\link[=ot_eigen2d]{ot_eigen2d()}} for the orientation tensor and its eigenvalue decomposition.
 
 Other smoothing:
-\code{\link[=PoR_stress2grid]{PoR_stress2grid()}},
-\code{\link[=stress2grid]{stress2grid()}},
-\code{\link[=stress2grid_hansen]{stress2grid_hansen()}}
+\code{\link{PoR_idw}},
+\code{\link{idw}},
+\code{\link{smooth}}
 }
 \concept{smoothing}

@@ -7,11 +7,16 @@
 * Moore (1980) rank-weighted Rayleigh test: 
   `weighted_rayleigh_moore()`, `weighted_rayleigh_moore_perm()`
 * Hansen & Mount (1990) / Müller et al. (2003) spatial algorithm for stress field: 
-`stress2grid_hansen()`
+  `circular_smooth()`
 * `circular_krige` function to perform spatial interpolation of circular data 
   using kriging after van den Boogaart, K.G. and Schaeben, H. (2002).
 * Cardioid distribution functions: `dcard()`, `pcard()`, `qcard()`, and `rcard()`
 * Plotting oriented ellipses using `ellipse_points()` and `geom_ellipse2()`
+
+## Changes
+
+* `stress2grid()` renamed to `circular_idw()`
+
 
 # tectonicr 0.4.9002 _2026-11-02_
 
